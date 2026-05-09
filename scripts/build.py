@@ -85,7 +85,7 @@ def render_ad(label="Advertisement"):
 def render_sources(sources):
     if not sources:
         return ""
-    items = "".join(f'<li><a href="{esc(src["url"])}" rel="nofollow">{esc(src["label"])}</a></li>' for src in sources)
+    items = "".join(f'<li><a href="{esc(src["url"])}">{esc(src["label"])}</a></li>' for src in sources)
     return f'<section class="sources"><h2>Sources</h2><ul>{items}</ul></section>'
 
 

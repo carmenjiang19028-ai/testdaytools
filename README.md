@@ -2,6 +2,10 @@
 
 Unofficial static MVP for AP, SAT, and DMV planning tools.
 
+Planned GitHub Pages URL:
+
+`https://carmenjiang19028-ai.github.io/testdaytools/`
+
 ## Stack
 
 - Plain static HTML, CSS, and JavaScript
@@ -17,6 +21,8 @@ python3 scripts/build.py
 ```
 
 The script regenerates root HTML pages, `sitemap.xml`, and `robots.txt`.
+
+Canonical URLs are generated from the `site.url` value in `content/site_data.json`.
 
 ## Local preview
 

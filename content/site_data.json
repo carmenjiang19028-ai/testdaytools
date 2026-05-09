@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "TestDayTools",
-    "url": "https://testdaytools.com",
+    "url": "https://carmenjiang19028-ai.github.io/testdaytools",
     "description": "Unofficial test day tools, dates, checklists, and practice questions for AP, SAT, and DMV prep.",
     "lastUpdated": "May 9, 2026",
     "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency."
@@ -56,7 +56,7 @@
         {"q": "Should I send scores before seeing them?", "a": "Many students wait until they understand college credit policies. If a deadline applies, confirm it directly with the college."}
       ],
       "sources": [
-        {"label": "College Board AP Students: Scores", "url": "https://apstudents.collegeboard.org/view-scores"},
+        {"label": "College Board AP Students: Score release calendar", "url": "https://apstudents.collegeboard.org/view-scores/calendar"},
         {"label": "College Board AP Students: Sending scores", "url": "https://apstudents.collegeboard.org/sending-scores"}
       ],
       "related": ["2026-ap-exam-schedule", "ap-exam-day-checklist", "sat-score-release-guide"]
@@ -65,26 +65,34 @@
       "slug": "2026-ap-exam-schedule",
       "category": "AP",
       "title": "2026 AP Exam Schedule",
-      "description": "A scan-friendly 2026 AP exam schedule with morning and afternoon testing windows, plus exam day reminders.",
+      "description": "A scan-friendly 2026 AP exam schedule with subject-by-subject morning and afternoon testing windows, plus exam day reminders.",
       "heroKicker": "AP schedule",
-      "summary": "The regular 2026 AP Exams are scheduled for May 4-8 and May 11-15, 2026. Always confirm your exact room, local start time, and late-testing rules with your school.",
+      "summary": "The regular 2026 AP Exams are scheduled for May 4-8 and May 11-15, 2026. Use this subject-by-subject table as a planning aid, then confirm your room, local start time, and late-testing rules with your school.",
       "tables": [
         {
-          "caption": "2026 AP exam weeks",
-          "headers": ["Window", "Dates", "Notes"],
+          "caption": "2026 AP exam schedule by date",
+          "headers": ["Date", "Morning 8 a.m. local time", "Afternoon 12 p.m. local time"],
           "rows": [
-            ["Regular testing week 1", "May 4-8, 2026", "Most subjects run in morning or afternoon sessions."],
-            ["Regular testing week 2", "May 11-15, 2026", "Some portfolio and language deadlines may differ."],
-            ["Late testing", "May 18-22, 2026", "Only available through approved school arrangements."]
+            ["Monday, May 4, 2026", "Biology; Latin", "European History; Microeconomics"],
+            ["Tuesday, May 5, 2026", "Chemistry; Human Geography", "United States Government and Politics"],
+            ["Wednesday, May 6, 2026", "English Literature and Composition", "Comparative Government and Politics; Physics 1: Algebra-Based"],
+            ["Thursday, May 7, 2026", "Physics 2: Algebra-Based; World History: Modern", "African American Studies; Statistics"],
+            ["Friday, May 8, 2026", "Italian Language and Culture; United States History", "Chinese Language and Culture; Macroeconomics"],
+            ["Monday, May 11, 2026", "Calculus AB; Calculus BC", "Music Theory; Seminar"],
+            ["Tuesday, May 12, 2026", "French Language and Culture; Precalculus", "Japanese Language and Culture; Psychology"],
+            ["Wednesday, May 13, 2026", "English Language and Composition; German Language and Culture", "Physics C: Mechanics; Spanish Literature and Culture"],
+            ["Thursday, May 14, 2026", "Art History; Spanish Language and Culture", "Computer Science Principles; Physics C: Electricity and Magnetism"],
+            ["Friday, May 15, 2026", "Environmental Science", "Computer Science A"]
           ]
         },
         {
-          "caption": "Common AP exam day timing",
-          "headers": ["Session", "Typical local start", "Planning note"],
+          "caption": "Important AP timing notes",
+          "headers": ["Item", "Date or time", "Planning note"],
           "rows": [
-            ["Morning", "8:00 AM", "Arrive early enough for check-in and seating."],
-            ["Afternoon", "12:00 PM", "Eat beforehand and bring approved materials."],
-            ["AP Physics C: Electricity and Magnetism", "2:00 PM", "A later start is common for this subject."]
+            ["Morning exams", "8:00-9:00 a.m. local start window", "Arrive early enough for school check-in and seating."],
+            ["Afternoon exams", "12:00-1:00 p.m. local start window", "Eat beforehand and bring approved materials."],
+            ["AP Art and Design portfolio deadline", "May 8, 2026, 8 p.m. ET", "Students submit final portfolio components in the AP Digital Portfolio."],
+            ["Late testing", "May 18-22, 2026", "Available only through approved school arrangements."]
           ]
         }
       ],
@@ -153,7 +161,7 @@
             ["October 3, 2026", "Fall applications", "Check college score deadlines carefully."],
             ["November 7, 2026", "Regular decision planning", "Can work for many January deadlines."],
             ["December 5, 2026", "Final fall attempt", "Confirm whether colleges accept December scores."],
-            ["March 13, 2027", "Junior spring testing", "Common first official SAT for juniors."],
+            ["March 6, 2027", "Junior spring testing", "Common first official SAT for juniors."],
             ["May 1, 2027", "Junior retake", "Consider AP exam overlap."],
             ["June 5, 2027", "Summer planning", "Good for students wanting scores before senior fall."]
           ]
@@ -285,17 +293,37 @@
   "quizzes": {
     "california": [
       {"q": "When approaching a stop sign, what should you do?", "choices": ["Come to a complete stop before the limit line or crosswalk", "Slow down only if another car is present", "Stop after entering the intersection"], "answer": 0, "explanation": "A complete stop before the limit line or crosswalk gives drivers and pedestrians predictable space."},
-      {"q": "If a traffic signal is not working, you should usually treat the intersection as:", "choices": ["A four-way stop", "A green light for the larger road", "A yield sign for every driver"], "answer": 0, "explanation": "When signals fail, drivers should use stop-sign style caution unless directed otherwise by an officer or posted control."},
+      {"q": "If a traffic signal is not working, you should usually treat the intersection as:", "choices": ["A green light for the larger road", "A four-way stop", "A yield sign for every driver"], "answer": 1, "explanation": "When signals fail, drivers should use stop-sign style caution unless directed otherwise by an officer or posted control."},
       {"q": "A solid yellow line on your side of the road generally means:", "choices": ["Passing is not allowed from your lane", "You may pass whenever the road is clear", "The lane is reserved for buses"], "answer": 0, "explanation": "A solid yellow line indicates passing restrictions for traffic on that side."},
       {"q": "What is the safest response when an emergency vehicle approaches with lights and siren?", "choices": ["Pull to the right and stop when safe", "Speed up to stay ahead of it", "Stop immediately in your lane without checking traffic"], "answer": 0, "explanation": "Drivers should yield by moving right and stopping when it can be done safely."},
-      {"q": "Before changing lanes, you should:", "choices": ["Signal, check mirrors, and look over your shoulder", "Signal only after moving", "Rely only on the rearview mirror"], "answer": 0, "explanation": "Mirrors do not cover every blind spot, so a shoulder check is important."}
+      {"q": "Before changing lanes, you should:", "choices": ["Signal, check mirrors, and look over your shoulder", "Signal only after moving", "Rely only on the rearview mirror"], "answer": 0, "explanation": "Mirrors do not cover every blind spot, so a shoulder check is important."},
+      {"q": "When driving in fog, which choice is usually safest?", "choices": ["Use low-beam headlights and slow down", "Use high beams so you can see farther", "Drive close to the vehicle ahead"], "answer": 0, "explanation": "Low beams reduce glare in fog, and slower speed gives you more time to react."},
+      {"q": "A pedestrian is crossing at an unmarked crosswalk at an intersection. You should:", "choices": ["Yield and let the pedestrian cross safely", "Honk so the pedestrian stops", "Drive through if you are below the speed limit"], "answer": 0, "explanation": "Drivers should yield to pedestrians crossing legally at intersections and marked crosswalks."},
+      {"q": "What does a red curb usually mean?", "choices": ["Loading zone for passengers only", "Parking allowed for a short time", "No stopping, standing, or parking"], "answer": 2, "explanation": "Red curb rules generally prohibit stopping, standing, or parking except where official signs say otherwise."},
+      {"q": "If your vehicle begins to hydroplane, what should you do first?", "choices": ["Ease off the accelerator and steer straight", "Brake hard immediately", "Turn sharply toward the shoulder"], "answer": 0, "explanation": "Sudden braking or sharp steering can make a skid worse. Ease off and keep the vehicle pointed where you want to go."},
+      {"q": "At night, you should dim high beams when approaching another vehicle because:", "choices": ["High beams use too much battery power", "Bright lights can blind other drivers", "It makes your car easier to hear"], "answer": 1, "explanation": "High beams can create glare for oncoming drivers and drivers ahead of you."},
+      {"q": "If a school bus ahead has flashing red lights, the safest general response is to:", "choices": ["Stop as required and watch for children", "Pass quickly before children step out", "Move into the left lane and keep driving"], "answer": 0, "explanation": "Flashing red school bus lights mean children may be entering or leaving the roadway."},
+      {"q": "Which choice best describes defensive driving?", "choices": ["Expecting hazards and leaving yourself time to react", "Driving faster than traffic to avoid clusters", "Using the horn whenever traffic slows"], "answer": 0, "explanation": "Defensive driving means scanning ahead, keeping space, and preparing for mistakes by other road users."},
+      {"q": "When parking uphill with a curb, your front wheels should generally be turned:", "choices": ["Toward the curb", "Straight ahead only", "Away from the curb"], "answer": 2, "explanation": "Turning wheels away from the curb helps the curb stop the vehicle if it rolls backward."},
+      {"q": "What should you do if another driver is tailgating you?", "choices": ["Increase your following distance from the car ahead and let the tailgater pass when safe", "Tap your brakes repeatedly", "Speed up until the tailgater disappears"], "answer": 0, "explanation": "Creating more room ahead gives you a gentler braking cushion and can reduce pressure behind you."},
+      {"q": "Before entering a roundabout, you should:", "choices": ["Yield to traffic already in the roundabout", "Stop inside the roundabout to check signs", "Enter quickly because entering traffic has priority"], "answer": 0, "explanation": "Drivers entering a roundabout generally yield to vehicles already circulating."}
     ],
     "newyork": [
       {"q": "At a flashing red traffic light, a driver should:", "choices": ["Stop completely, then proceed when safe", "Continue if no police officer is present", "Treat it like a green light"], "answer": 0, "explanation": "A flashing red light works like a stop sign: stop, yield, then proceed safely."},
-      {"q": "When two vehicles arrive at a four-way stop at the same time, which driver generally has the right of way?", "choices": ["The driver on the right", "The driver turning left", "The driver with the larger vehicle"], "answer": 0, "explanation": "At a same-time arrival, the driver on the right generally goes first."},
+      {"q": "When two vehicles arrive at a four-way stop at the same time, which driver generally has the right of way?", "choices": ["The driver turning left", "The driver on the right", "The driver with the larger vehicle"], "answer": 1, "explanation": "At a same-time arrival, the driver on the right generally goes first."},
       {"q": "What should you do when following a motorcycle?", "choices": ["Leave extra following distance", "Follow closely so cars cannot cut in", "Use high beams during the day"], "answer": 0, "explanation": "Motorcycles can stop quickly and are affected by road conditions, so extra space helps."},
-      {"q": "A yellow diamond-shaped sign usually means:", "choices": ["Warning or caution", "Service area ahead", "Parking regulation"], "answer": 0, "explanation": "Yellow diamond signs warn drivers about road conditions or hazards ahead."},
-      {"q": "If you miss your highway exit, the safest choice is to:", "choices": ["Continue to the next exit", "Back up on the shoulder", "Make a sudden lane change across traffic"], "answer": 0, "explanation": "Continue to the next safe exit. Backing up or swerving is dangerous and illegal in many situations."}
+      {"q": "A yellow diamond-shaped sign usually means:", "choices": ["Service area ahead", "Parking regulation", "Warning or caution"], "answer": 2, "explanation": "Yellow diamond signs warn drivers about road conditions or hazards ahead."},
+      {"q": "If you miss your highway exit, the safest choice is to:", "choices": ["Continue to the next exit", "Back up on the shoulder", "Make a sudden lane change across traffic"], "answer": 0, "explanation": "Continue to the next safe exit. Backing up or swerving is dangerous and illegal in many situations."},
+      {"q": "A steady yellow traffic light usually means:", "choices": ["The light is about to turn red", "Traffic may speed through the intersection", "Only buses must stop"], "answer": 0, "explanation": "A steady yellow light warns that the signal is changing to red, so drivers should stop if they can do so safely."},
+      {"q": "Before backing out of a driveway, you should:", "choices": ["Rely only on the backup camera", "Check behind, move slowly, and watch for pedestrians", "Back quickly to reduce time in the roadway"], "answer": 1, "explanation": "Cameras and mirrors help, but drivers should still check carefully and move slowly."},
+      {"q": "What does a white rectangular regulatory sign usually tell drivers?", "choices": ["A law or rule that must be followed", "A scenic route nearby", "A warning about a curve"], "answer": 0, "explanation": "Regulatory signs commonly use white backgrounds and explain traffic laws or required actions."},
+      {"q": "If an oncoming vehicle crosses into your lane, you should generally:", "choices": ["Slow down, move right if possible, and avoid a head-on crash", "Swerve left into oncoming traffic", "Flash your lights and keep your speed"], "answer": 0, "explanation": "Reducing speed and moving right when safe can create more escape space."},
+      {"q": "When roads are wet, you should increase following distance because:", "choices": ["Stopping takes longer", "Speed limits no longer apply", "Brakes work instantly on wet roads"], "answer": 0, "explanation": "Wet pavement reduces tire grip and increases stopping distance."},
+      {"q": "A blind spot is:", "choices": ["Only the space directly behind your trunk", "A lane reserved for emergency vehicles", "An area around your vehicle that mirrors may not show"], "answer": 2, "explanation": "Blind spots are areas not fully visible in mirrors, so checking over your shoulder matters."},
+      {"q": "If you see a bicyclist ahead, the best approach is to:", "choices": ["Leave safe passing space and watch for sudden movement", "Honk continuously until they move", "Pass closely to stay in your lane"], "answer": 0, "explanation": "Bicyclists may need to avoid debris or road hazards, so extra space is important."},
+      {"q": "When approaching railroad tracks with flashing signals, you should:", "choices": ["Stop before the tracks and wait until it is safe", "Drive around the gate if no train is visible", "Stop on the tracks for a better view"], "answer": 0, "explanation": "Never drive around lowered gates or stop on tracks. Wait until signals clear and the crossing is safe."},
+      {"q": "If you are tired while driving, the safest choice is to:", "choices": ["Pull over safely and rest", "Open a window and keep driving no matter what", "Follow another vehicle closely to stay alert"], "answer": 0, "explanation": "Drowsy driving slows reaction time. Resting is safer than trying to push through fatigue."},
+      {"q": "At an intersection with a yield sign, you should:", "choices": ["Slow down and give right of way to traffic or pedestrians already in the intersection", "Stop only if a police officer is present", "Accelerate so other drivers can merge behind you"], "answer": 0, "explanation": "A yield sign requires drivers to slow and let conflicting traffic or pedestrians proceed before entering."}
     ]
   },
   "trustPages": [
@@ -324,7 +352,7 @@
       "title": "Contact",
       "description": "Contact information and correction requests for TestDayTools.",
       "content": [
-        {"heading": "Corrections", "text": "If you find an outdated date, broken source link, or unclear explanation, send a correction request to hello@testdaytools.com."},
+        {"heading": "Corrections", "text": "If you find an outdated date, broken source link, or unclear explanation, use the public project page at github.com/carmenjiang19028-ai/testdaytools until a dedicated domain email is connected."},
         {"heading": "No official support", "text": "For official AP, SAT, score, registration, permit, or license questions, contact College Board or the relevant DMV directly."}
       ]
     },

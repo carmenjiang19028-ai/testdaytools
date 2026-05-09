@@ -190,19 +190,36 @@ If the whole exam direction underperforms:
 
 ## Current Implementation Status
 
-As of this memory file:
-- A separate code worker agent named "Kuhn" was spawned to build the MVP static site.
-- The worker was asked to implement the pages, reusable templates, data configuration, SEO basics, and ad placeholders.
-- Parent agent should review worker output before finalizing.
+As of 2026-05-09:
+- A separate code worker agent named "Kuhn" built the first static MVP.
+- The parent agent reviewed and improved the MVP before GitHub upload.
+- Local git repository was initialized and the first local commit was created.
+- GitHub repository created by user: https://github.com/carmenjiang19028-ai/testdaytools
+- Planned GitHub Pages URL: https://carmenjiang19028-ai.github.io/testdaytools/
+
+Important review fixes already made:
+- Changed canonical/sitemap URL from `https://testdaytools.com` to the GitHub Pages project URL.
+- Updated SAT spring 2027 date from March 13, 2027 to March 6, 2027 based on College Board's SAT dates page.
+- Changed the AP score source to the College Board score release calendar page.
+- Expanded the 2026 AP schedule page from broad week windows to a subject-by-subject date table.
+- Expanded California and New York DMV quiz pages from 5 questions each to 15 questions each.
+- Mixed answer positions in the DMV quizzes so the first answer is not always correct.
+- Removed `rel="nofollow"` from official source citations.
+- Removed the placeholder domain email from the contact page and marked GitHub as the temporary project contact path until a real domain email exists.
+
+Current assessment:
+- Good enough to publish as a free MVP and start Search Console indexing.
+- Not yet ready to apply for AdSense because there is no real domain/email, no traffic history, and content depth should be improved after initial indexing.
+- Before AdSense, add a real contact email, ideally after buying a domain.
 
 ## Next Actions
 
-1. Let the code worker finish the first implementation.
-2. Review the generated site structure and content.
-3. Run build/check commands.
-4. Open the site locally and visually inspect important pages.
-5. Fix layout, SEO metadata, and content gaps.
-6. Decide domain name.
-7. Publish to GitHub Pages or another static host.
-8. Submit to Google Search Console.
-9. Track 30/60/90-day performance.
+1. Push the current local repository to GitHub.
+2. Enable GitHub Pages from the `main` branch root.
+3. Verify the live URL opens correctly.
+4. Submit the live URL and sitemap to Google Search Console.
+5. Track indexing and query impressions.
+6. Improve whichever page gets early impressions.
+7. Buy/connect a domain only after the MVP is technically live and the direction still looks worth testing.
+8. Add a real contact email before applying for AdSense.
+9. Apply for AdSense only after indexing and initial organic traffic.
