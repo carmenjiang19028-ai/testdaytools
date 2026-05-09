@@ -590,3 +590,39 @@ Do not forget:
 - User cares about real earning potential, not just building pages.
 - Keep decisions and progress in project-memory files instead of relying on chat history.
 - Avoid adding real ad code until indexing/traffic/trust signals are stronger and privacy policy is updated for ads/analytics.
+
+## Checkpoint 2026-05-10
+
+Current status:
+- Site: https://testdaytools.com
+- Repository: https://github.com/carmenjiang19028-ai/testdaytools
+- Local workspace: `/Users/carmen/Documents/New project 3`
+- Current branch: `main`
+- Latest synced commit before this checkpoint: `3925bcf Record Search Console indexing setup`
+- Local and GitHub were aligned before writing this checkpoint:
+  - `git status -sb` showed `## main...origin/main`
+
+Completed today:
+- Confirmed the two memory/checkpoint commits from 2026-05-09 were pushed through GitHub Desktop.
+- Confirmed `origin/main` points to `3925bcf Record Search Console indexing setup`.
+- Reconfirmed that Search Console is the first traffic-analysis source for now.
+- Discussed GA4 tracking:
+  - GA4 is acceptable later.
+  - Decision: do not install GA4 yet.
+  - Reason: the site is freshly submitted for indexing and likely has little or no traffic; installing GA4 now adds code/privacy maintenance before it provides much value.
+
+Current operating plan:
+- Wait for Google indexing and first Search Console signals.
+- Check Search Console after 24-72 hours for:
+  - Indexed/not indexed page movement.
+  - Impressions.
+  - Query terms.
+  - Pages receiving impressions.
+- Use real Search Console data to decide the next expansion instead of guessing.
+- Install GA4 only after there is measurable traffic or a clear need to analyze user behavior beyond Search Console.
+
+Next practical tasks:
+- Review Search Console Pages and Performance reports.
+- If priority pages remain unindexed, inspect reasons before adding more content.
+- If impressions appear, expand the DMV cluster around the exact queries and states that Google starts testing.
+- Keep AdSense postponed until the site has more trust signals, more content depth, and at least early organic traction.
