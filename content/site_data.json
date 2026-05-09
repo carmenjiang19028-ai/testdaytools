@@ -39,21 +39,52 @@
       "heroKicker": "AP dates",
       "summary": "2026 AP scores are scheduled to be available starting Monday, July 6, 2026. Use the countdown and quick checklist below to get ready before release day.",
       "countdown": {"label": "AP score release begins", "date": "2026-07-06T08:00:00-04:00"},
+      "tables": [
+        {
+          "caption": "AP score release day plan",
+          "headers": ["When", "What to do", "Why it matters"],
+          "rows": [
+            ["Before July 6", "Make sure you can sign in to your College Board account and recover your password if needed.", "Most score-day stress comes from account access problems, not from the scores themselves."],
+            ["Morning of July 6", "Check scores from a private device and avoid repeated rapid refreshes if the site is busy.", "Scores can roll out during the day, and heavy traffic can make the official site slower."],
+            ["After scores appear", "Save a private copy for your own records, then check each college's AP credit policy before making schedule decisions.", "A score can mean different credit or placement outcomes at different colleges."],
+            ["If a score is missing", "Confirm your exam, account, and school details, then use official College Board support channels.", "Missing or delayed scores usually need official account-level help."]
+          ]
+        },
+        {
+          "caption": "After AP scores arrive",
+          "headers": ["Score situation", "Useful next step", "What not to assume"],
+          "rows": [
+            ["Score may earn credit", "Look up the exact college, department, and course placement policy.", "Do not assume every college treats the same AP score the same way."],
+            ["Score is lower than expected", "Wait before changing plans, then compare options with your school counselor or college advisor.", "Do not assume one score determines admission or your whole schedule."],
+            ["You need to send scores", "Use the official score-sending tools and check deadlines.", "Do not rely on screenshots as official score reports."],
+            ["You are still in high school", "Use the result to decide future course load and exam planning.", "Do not overload next year only because one exam went well."]
+          ]
+        }
+      ],
       "body": [
         {"heading": "What to know", "text": "AP scores usually roll out through the student's online College Board account. Release timing can vary during the day, so refresh gently and keep your sign-in information ready."},
-        {"heading": "Before scores arrive", "text": "Confirm that your College Board account uses the same name and identifying details you used for AP exams. If you are sending scores to a college, review your recipient choices before making changes."}
+        {"heading": "Before scores arrive", "text": "Confirm that your College Board account uses the same name and identifying details you used for AP exams. If you are sending scores to a college, review your recipient choices before making changes."},
+        {"heading": "How to check your AP scores", "text": "Start from the official AP score page and sign in directly. Avoid links from random messages or social posts on score day. If the site is slow, wait a short while and try again instead of creating a second account."},
+        {"heading": "Why a score can be delayed", "text": "A delayed or missing score can happen for account matching, late testing, make-up testing, or processing review. This page cannot access private score data, so any score-specific problem should be handled through official College Board support."},
+        {"heading": "Use scores carefully", "text": "AP scores can help with placement and credit, but each college sets its own policy. Before dropping a class, changing a schedule, or sending a report, compare the score with the exact policy for that school and program."}
       ],
       "checklist": [
         "Confirm your College Board username and password.",
         "Check that your email address and profile details are current.",
         "Write down the colleges or programs that may need your scores.",
         "Avoid sharing screenshots with personal information visible.",
-        "Review each college's credit policy before making course decisions."
+        "Review each college's credit policy before making course decisions.",
+        "Keep your AP number or school information handy in case support asks for matching details.",
+        "Decide whether you need an official score send or only a personal record.",
+        "Make a short list of follow-up questions for your counselor or college advisor."
       ],
       "faq": [
         {"q": "Are all 2026 AP scores released at the exact same minute?", "a": "No. Scores are scheduled to become available starting July 6, 2026, but individual access can vary during the day."},
         {"q": "Can this site show my AP score?", "a": "No. This page is only an unofficial planning tool. Always sign in through the official College Board website to view scores."},
-        {"q": "Should I send scores before seeing them?", "a": "Many students wait until they understand college credit policies. If a deadline applies, confirm it directly with the college."}
+        {"q": "Should I send scores before seeing them?", "a": "Many students wait until they understand college credit policies. If a deadline applies, confirm it directly with the college."},
+        {"q": "What should I do if one AP score is missing?", "a": "Check whether the exam was late-tested or processed separately, then use official College Board support if the score still does not appear."},
+        {"q": "Do colleges automatically receive my AP scores?", "a": "Not always. Score sending depends on the choices you made and the official score-send process. Check your College Board account and the college's instructions."},
+        {"q": "Can I use a screenshot as proof of my AP score?", "a": "A screenshot may help you remember your score, but colleges and programs usually require official score reporting for credit or placement."}
       ],
       "sources": [
         {"label": "College Board AP Students: Score release calendar", "url": "https://apstudents.collegeboard.org/view-scores/calendar"},
@@ -98,7 +129,9 @@
       ],
       "body": [
         {"heading": "How to use this schedule", "text": "Use this page as a planning overview, then confirm the exact subject-by-subject schedule with your school or the official AP exam calendar."},
-        {"heading": "Avoid schedule mistakes", "text": "Students taking multiple AP exams should check for same-day exams, transportation timing, lunch plans, calculator rules, and any school-specific check-in instructions."}
+        {"heading": "Avoid schedule mistakes", "text": "Students taking multiple AP exams should check for same-day exams, transportation timing, lunch plans, calculator rules, and any school-specific check-in instructions."},
+        {"heading": "If two exams feel too close together", "text": "Back-to-back exam days can be tiring even when they do not conflict. Write down travel, meals, sleep, calculator charging, and review time for each exam instead of treating the week as one long study block."},
+        {"heading": "Late testing is not a backup plan for convenience", "text": "Late testing is handled through schools and approved situations. If you think you need late testing, contact your AP coordinator early and use official school instructions."}
       ],
       "faq": [
         {"q": "Is this the official AP exam calendar?", "a": "No. This is an unofficial planning page that summarizes key windows. Use College Board and your school for official details."},
@@ -126,16 +159,45 @@
         "Extra batteries or backup calculator if allowed.",
         "Watch without internet, alarms, or recording features if permitted.",
         "Water and snack for breaks, following school rules.",
-        "Layered clothing for cold or warm testing rooms."
+        "Layered clothing for cold or warm testing rooms.",
+        "Printed or saved room/check-in instructions from your school.",
+        "A simple lunch plan if you have morning and afternoon exams on the same day."
+      ],
+      "tables": [
+        {
+          "caption": "AP exam day packing guide",
+          "headers": ["Item", "Bring it when", "Check first"],
+          "rows": [
+            ["Photo ID", "Your school or test site requires identification.", "Ask your AP coordinator what ID is accepted."],
+            ["Calculator", "Your exam allows or requires an approved calculator.", "Confirm the official calculator policy for that subject."],
+            ["Pens and pencils", "Most written exams require approved writing tools.", "Pack extras the night before."],
+            ["Phone or smartwatch", "Only if your school allows storage away from the testing area.", "Do not keep devices on your body during testing unless official instructions allow it."],
+            ["Snack and water", "You have a break or a long testing day.", "Follow school rules for where food and drinks can be stored."]
+          ]
+        },
+        {
+          "caption": "Night-before and morning timeline",
+          "headers": ["Time", "Action", "Reason"],
+          "rows": [
+            ["Night before", "Pack approved materials and check calculator batteries.", "You do not want to troubleshoot during check-in."],
+            ["Before leaving", "Eat something steady and check transportation time.", "A rushed morning makes small mistakes more likely."],
+            ["At school", "Follow check-in instructions and store restricted items.", "Testing rooms usually have strict device and materials rules."],
+            ["After the exam", "Write down anything you need to ask your teacher or counselor later.", "Do not discuss secure exam content online or in public posts."]
+          ]
+        }
       ],
       "body": [
         {"heading": "Pack the night before", "text": "Put approved items in one bag and remove anything you do not need. Phones, smartwatches, notes, and unapproved devices can create serious problems in a testing room."},
-        {"heading": "Morning routine", "text": "Leave earlier than usual, eat something steady, and arrive with enough time for check-in. If something goes wrong, contact your school immediately instead of guessing."}
+        {"heading": "Morning routine", "text": "Leave earlier than usual, eat something steady, and arrive with enough time for check-in. If something goes wrong, contact your school immediately instead of guessing."},
+        {"heading": "Plan for the room, not the perfect room", "text": "Testing rooms can be cold, warm, quiet, crowded, or farther from your normal classroom than expected. A simple clothing layer, extra pencils, and clear arrival plan solve many avoidable problems."},
+        {"heading": "Keep exam security simple", "text": "If an item is not clearly allowed, leave it outside the testing area or ask before check-in. Unapproved notes, devices, and recording tools can create bigger problems than forgetting a snack."}
       ],
       "faq": [
         {"q": "Can I bring my phone to an AP exam?", "a": "Schools usually require phones to be powered off and stored away. Follow your school's instructions and official AP rules."},
         {"q": "Do I need a calculator for every AP exam?", "a": "No. Calculator rules depend on the subject. Check the official calculator policy before exam day."},
-        {"q": "Should I bring notes for last-minute review?", "a": "You can review before check-in if your school allows it, but notes should not enter the testing area unless explicitly permitted."}
+        {"q": "Should I bring notes for last-minute review?", "a": "You can review before check-in if your school allows it, but notes should not enter the testing area unless explicitly permitted."},
+        {"q": "What should I do if I wake up sick on AP exam day?", "a": "Contact your school or AP coordinator as early as possible. Do not assume you can simply arrive late or choose a later date on your own."},
+        {"q": "Can I leave when I finish early?", "a": "Testing rooms follow official timing and school procedures. Expect to stay until the proctor releases students."}
       ],
       "sources": [
         {"label": "College Board AP Students: Exam policies", "url": "https://apstudents.collegeboard.org/exam-policies-guidelines"},
@@ -165,16 +227,42 @@
             ["May 1, 2027", "Junior retake", "Consider AP exam overlap."],
             ["June 5, 2027", "Summer planning", "Good for students wanting scores before senior fall."]
           ]
+        },
+        {
+          "caption": "Which SAT date should you choose?",
+          "headers": ["Student situation", "Good date pattern", "Watch out for"],
+          "rows": [
+            ["Rising senior applying early", "August or September with October as a backup.", "Score deadlines and test center availability."],
+            ["Senior applying regular decision", "October, November, or December depending on college deadlines.", "Whether each college accepts scores from that administration."],
+            ["Junior taking a first SAT", "March or May after steady practice.", "AP exam overlap in May."],
+            ["Junior wanting a retake before summer", "May or June after reviewing the first score.", "Burnout if AP exams and finals are already heavy."],
+            ["Student needing accommodations", "Choose earlier and confirm requirements well before registration.", "Approval and test-center logistics can take time."]
+          ]
+        },
+        {
+          "caption": "Simple SAT planning timeline",
+          "headers": ["Weeks before test", "Planning task", "Why it helps"],
+          "rows": [
+            ["8-10 weeks", "Pick a realistic test date and backup date.", "You can build practice around a real deadline."],
+            ["6-8 weeks", "Register, confirm test center, and start weekly practice.", "Popular centers may fill before you expect."],
+            ["2-4 weeks", "Take one full practice test and review weak areas.", "Review matters more than collecting raw practice hours."],
+            ["Final week", "Check admission ticket, ID, device, calculator, route, and sleep schedule.", "Most test-day problems are logistics problems."]
+          ]
         }
       ],
       "body": [
         {"heading": "Build a simple SAT plan", "text": "Most students should avoid choosing a test date in isolation. Work backward from application deadlines, school activities, AP exams, travel, and how much practice time you realistically have."},
-        {"heading": "Registration reminders", "text": "Registration windows, test center availability, fees, and accommodations deadlines can change. Confirm details in your official College Board account before making plans."}
+        {"heading": "Registration reminders", "text": "Registration windows, test center availability, fees, and accommodations deadlines can change. Confirm details in your official College Board account before making plans."},
+        {"heading": "Choose a date with a backup plan", "text": "A good SAT plan usually includes one primary date and one possible retake date. That gives you room for illness, technical issues, a lower-than-expected score, or a schedule conflict."},
+        {"heading": "Do not ignore school workload", "text": "The best date on paper may be a poor date if it lands beside AP exams, finals, major travel, or a heavy activity season. A slightly later test with better preparation can be smarter than a rushed early test."}
       ],
       "faq": [
         {"q": "Are these dates guaranteed?", "a": "No. They are based on College Board's listed SAT weekend schedule and should be confirmed before registration."},
         {"q": "How many SAT dates should I plan for?", "a": "Many students plan one main test date and one backup retake date. Your timeline depends on deadlines and prep progress."},
-        {"q": "Should juniors test in March or May?", "a": "March gives more retake room. May may fit students who need more prep time, but it can overlap with AP exams."}
+        {"q": "Should juniors test in March or May?", "a": "March gives more retake room. May may fit students who need more prep time, but it can overlap with AP exams."},
+        {"q": "Is August too early for seniors?", "a": "Not necessarily. August can be useful for seniors who prepared over the summer and want scores before fall deadlines."},
+        {"q": "Should I register before I feel fully ready?", "a": "A deadline can help your practice plan, but do not choose a date so soon that you cannot complete meaningful review."},
+        {"q": "How should I choose between October and November?", "a": "Check college deadlines first. October leaves more room for early deadlines, while November may fit regular decision plans for many students."}
       ],
       "sources": [
         {"label": "College Board SAT: Dates and deadlines", "url": "https://satsuite.collegeboard.org/sat/registration/dates-deadlines"},
@@ -197,16 +285,45 @@
         "Charge your device fully and bring the power cord.",
         "Bring an approved calculator or use the built-in calculator.",
         "Pack pencils or pens for scratch work if your center provides paper.",
-        "Know your test center route, parking, and arrival time."
+        "Know your test center route, parking, and arrival time.",
+        "Restart your device the day before so updates are less likely to interrupt testing.",
+        "Turn off unnecessary notifications before arriving at the test center.",
+        "Bring a quiet backup plan for transportation if someone else is driving you."
+      ],
+      "tables": [
+        {
+          "caption": "Digital SAT setup timeline",
+          "headers": ["When", "What to check", "Why it matters"],
+          "rows": [
+            ["1-2 weeks before", "Install or update Bluebook and confirm your device meets requirements.", "Last-minute device problems are harder to solve."],
+            ["Several days before", "Complete exam setup when available and confirm your test center details.", "You want login and setup issues solved before test morning."],
+            ["Night before", "Charge your device, pack the charger, ID, admission ticket, and calculator.", "A complete bag reduces morning decisions."],
+            ["Test morning", "Arrive early, follow staff instructions, and keep restricted items stored away.", "Most test centers run on a strict check-in process."]
+          ]
+        },
+        {
+          "caption": "Digital SAT troubleshooting guide",
+          "headers": ["Problem", "What to try first", "Who to ask"],
+          "rows": [
+            ["Bluebook will not open", "Restart the device and check whether the app is updated.", "Official Bluebook support or test center staff."],
+            ["Device battery is low", "Use your charger before check-in if allowed.", "Test center staff for outlet or seating instructions."],
+            ["You forgot your admission ticket", "Check whether you can access or print the required information before check-in.", "Test center staff and your College Board account."],
+            ["Calculator concern", "Use an approved calculator or the built-in calculator if allowed for that section.", "College Board calculator guidance and test center staff."]
+          ]
+        }
       ],
       "body": [
         {"heading": "Device readiness matters", "text": "Do not wait until the morning of the test to open Bluebook. Run through setup, check your operating system, and make sure you know your device password."},
-        {"heading": "What not to bring", "text": "Avoid bringing notes, separate timers, recording devices, or other items that could violate test rules. When in doubt, follow College Board and test center instructions."}
+        {"heading": "What not to bring", "text": "Avoid bringing notes, separate timers, recording devices, or other items that could violate test rules. When in doubt, follow College Board and test center instructions."},
+        {"heading": "Treat the device like a test material", "text": "Your device is part of the test-day setup, not just a laptop you happen to bring. Keep it charged, updated, and easy to unlock without needing another device."},
+        {"heading": "Reduce notification risk", "text": "Before arriving, close unrelated apps and silence avoidable notifications. Follow official instructions for device settings at the test center."}
       ],
       "faq": [
         {"q": "Can I take the digital SAT on any laptop?", "a": "No. Device requirements apply. Check official Bluebook and SAT device guidance before test day."},
         {"q": "What happens if my device battery dies?", "a": "Bring your charger and follow test center instructions. A fully charged device is one of the easiest problems to prevent."},
-        {"q": "Is this checklist official?", "a": "No. It is an unofficial planning checklist that points you back to official SAT rules."}
+        {"q": "Is this checklist official?", "a": "No. It is an unofficial planning checklist that points you back to official SAT rules."},
+        {"q": "Should I update my operating system right before the SAT?", "a": "Avoid unnecessary last-minute changes. Check official device guidance, and complete updates early enough to test Bluebook afterward."},
+        {"q": "Do I need a separate calculator?", "a": "Some students bring an approved calculator even when a built-in calculator is available. Check official calculator rules and bring only allowed devices."}
       ],
       "sources": [
         {"label": "College Board Bluebook", "url": "https://bluebook.collegeboard.org/"},
@@ -223,19 +340,50 @@
       "summary": "SAT score release timing depends on the administration. This unofficial guide helps you prepare your account, college list, and next-step decisions before scores post.",
       "body": [
         {"heading": "Where scores appear", "text": "SAT scores appear in the student's College Board account after processing. Some scores may take longer if additional review or matching is needed."},
-        {"heading": "After scores post", "text": "Compare your score with college testing policies, scholarship requirements, and your own retake plan. If you send scores, use official College Board score sending tools."}
+        {"heading": "After scores post", "text": "Compare your score with college testing policies, scholarship requirements, and your own retake plan. If you send scores, use official College Board score sending tools."},
+        {"heading": "Read the score before reacting", "text": "Look at the total score, section scores, and your original goal. A score that feels disappointing may still be useful for some colleges, scholarships, or a superscore strategy."},
+        {"heading": "Use deadlines to decide on sending", "text": "Before sending any score, check each college's current testing policy, deadline, and score choice rules. Some colleges accept self-reported scores at first, while others require official reports."},
+        {"heading": "Plan retakes with evidence", "text": "A retake is most useful when you know what you will change. Use your score report and practice history to pick a focused improvement plan instead of simply registering again."}
       ],
       "checklist": [
         "Confirm your College Board sign-in works.",
         "Save your test date and registration details.",
         "Make a short list of colleges that may need official scores.",
         "Check each college's test policy and deadline.",
-        "Decide whether a retake date still fits your timeline."
+        "Decide whether a retake date still fits your timeline.",
+        "Compare your score with each college's published middle-range or testing policy if available.",
+        "Check whether a college uses superscoring or score choice.",
+        "Make a small retake plan before registering again."
+      ],
+      "tables": [
+        {
+          "caption": "SAT score release next steps",
+          "headers": ["Your situation", "Best next step", "Avoid"],
+          "rows": [
+            ["Score meets your target", "Check college reporting rules and decide whether official sending is needed.", "Sending scores blindly without checking each policy."],
+            ["One section is weaker", "Plan focused practice for that section before a retake.", "Repeating the same broad study routine."],
+            ["Score is delayed", "Check your account and official support guidance.", "Creating another account or relying on unofficial score rumors."],
+            ["Deadline is close", "Confirm whether the college accepts that test date and when scores must arrive.", "Assuming every school has the same deadline."],
+            ["You may superscore", "Check whether each college combines section scores from different dates.", "Assuming superscoring is universal."]
+          ]
+        },
+        {
+          "caption": "Retake decision guide",
+          "headers": ["Question", "If yes", "If no"],
+          "rows": [
+            ["Do you have at least several weeks to improve?", "Choose a retake date with a focused plan.", "Retaking immediately may not change much."],
+            ["Did one section hold back your total?", "Target that section first.", "A full review plan may be better."],
+            ["Will colleges accept the later score?", "Register if the timeline works.", "Do not spend money on a score that arrives too late."],
+            ["Can you manage the workload?", "Build practice into your weekly schedule.", "Protect grades, applications, and sleep first."]
+          ]
+        }
       ],
       "faq": [
         {"q": "Does TestDayTools know my SAT score release time?", "a": "No. This is an unofficial guide. Use your College Board account for actual scores and official updates."},
         {"q": "Why are some SAT scores delayed?", "a": "Scores can be delayed for matching issues, make-up testing, or additional review. Contact College Board for official help."},
-        {"q": "Should I send all SAT scores?", "a": "Policies vary by college. Check whether each college accepts score choice, superscores, or requires all scores."}
+        {"q": "Should I send all SAT scores?", "a": "Policies vary by college. Check whether each college accepts score choice, superscores, or requires all scores."},
+        {"q": "Should I retake the SAT if my score improved only a little?", "a": "Maybe. Compare the score with your college list, deadlines, practice time, and whether one section has clear room for improvement."},
+        {"q": "What is superscoring?", "a": "Superscoring means a college may combine your best section scores from different test dates. Policies vary, so check each college."}
       ],
       "sources": [
         {"label": "College Board SAT: Getting scores", "url": "https://satsuite.collegeboard.org/sat/scores"},

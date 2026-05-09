@@ -79,7 +79,7 @@ def render_last_updated():
 
 
 def render_ad(label="Advertisement"):
-    return f'<aside class="ad-slot" aria-label="{esc(label)}"><span>{esc(label)} placeholder</span></aside>'
+    return f"<!-- Reserved future {esc(label).lower()} slot. Real ads are intentionally disabled for the MVP. -->"
 
 
 def render_sources(sources):
