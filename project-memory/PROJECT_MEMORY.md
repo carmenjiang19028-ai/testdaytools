@@ -371,3 +371,43 @@ Validation passed locally:
 - 22 HTML pages pass desktop and mobile viewport overflow checks.
 - Internal link check found no missing local targets.
 - DMV interaction check passed for New York signs mode: 20 image questions, disabled next before answer, weak-area feedback after a missed answer, and correct next-question advance.
+
+## DMV State Expansion Pass
+
+As of 2026-05-09, the DMV cluster was expanded from 2 state paths to 7 state paths.
+
+Why this was done:
+- State-specific DMV searches are the most natural long-tail pattern for this site.
+- More state pages create more organic entry points without adding a complex backend.
+- The maintenance model stays simple because pages are generated from `content/site_data.json`.
+
+New state coverage:
+- Texas DMV Permit Practice Test and Texas DMV Road Signs Practice.
+- Florida DMV Permit Practice Test and Florida DMV Road Signs Practice.
+- Illinois DMV Permit Practice Test and Illinois DMV Road Signs Practice.
+- Pennsylvania DMV Permit Practice Test and Pennsylvania DMV Road Signs Practice.
+- New Jersey MVC Permit Practice Test and New Jersey MVC Road Signs Practice.
+
+Product structure per new state:
+- 15-question quick practice.
+- 20-question road-sign image quiz.
+- 40-question mock exam.
+- Official exam snapshot with source, format, pass rule, and high-risk topics.
+- Categorized road-sign library using original SVG sign illustrations.
+- Score interpretation table, weak-area table, FAQ, source links, and related-tool links.
+
+Homepage and hub changes:
+- Homepage and DMV hub now show 7 state paths live.
+- Sitemap includes all new DMV pages.
+- DMV launcher stats now show 140 road-sign image prompts and 3 modes per state.
+
+Validation passed locally:
+- Static build succeeds.
+- `content/site_data.json` parses.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- All 32 HTML pages passed mobile and desktop overflow checks.
+- Internal link check found no missing local targets.
+- Texas signs mode interaction passed: signs tab activates, image prompt exists, answer gating works, and next question advances.
+- Screenshot checks were reviewed for the expanded homepage, Texas mobile permit page, and Florida mobile road-sign page.

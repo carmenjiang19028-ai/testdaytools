@@ -531,7 +531,7 @@ def render_home():
   <div>
     <p class="eyebrow">DMV-first practice tools</p>
     <h1>DMV practice tests with road-sign images and instant feedback.</h1>
-    <p class="lede">Start with California or New York permit practice, switch into image-based road signs, then use a longer mock exam to find weak areas before rereading the official manual.</p>
+    <p class="lede">Pick a state, switch into image-based road signs, then use a longer mock exam to find weak areas before rereading the official manual.</p>
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
