@@ -537,8 +537,10 @@ Important live verification after push:
   - `LearningResource`
 
 Current technical status:
-- Local branch is aligned with `origin/main`.
-- `git status -sb` shows `## main...origin/main`.
+- Latest pushed commit: `e2fb02c Upgrade DMV tool experience v2`.
+- Latest local checkpoint commit: `7e213e7 Record end of day project checkpoint`.
+- Local branch is ahead of `origin/main` because the checkpoint memory commit has not been pushed yet.
+- `git status -sb` showed `## main...origin/main [ahead 1]` before the Search Console update.
 - Build source remains `content/site_data.json` plus `scripts/build.py`.
 - Generated HTML pages are committed because GitHub Pages publishes the static root.
 - Command-line `git push` still fails due to missing GitHub credentials:
@@ -561,19 +563,27 @@ Strategic status:
 - The near-term monetization path is still AdSense, but do not apply yet.
 - First priority is indexing and Search Console data, then content/UX refinement based on real impressions.
 
-Next step:
-- Set up Google Search Console.
-- Use URL prefix property: `https://testdaytools.com/`.
-- Verify ownership by HTML file upload or HTML tag.
-- After verification, submit sitemap:
+Search Console setup completed:
+- Domain property `testdaytools.com` was verified with DNS TXT:
+  - `google-site-verification=4tktvcmqutPVXoEsU8E1SCivL131QuQRmdf2eg3UnGI`
+- Sitemap already appears submitted successfully:
   - `https://testdaytools.com/sitemap.xml`
-- Priority URLs to inspect/request indexing:
+- Search Console showed 32 discovered pages in the sitemap.
+- The following priority URLs were inspected and requested for indexing:
   - `https://testdaytools.com/`
   - `https://testdaytools.com/dmv-practice.html`
   - `https://testdaytools.com/florida-dmv-permit-practice-test.html`
   - `https://testdaytools.com/florida-dmv-road-signs-practice.html`
   - `https://testdaytools.com/texas-dmv-permit-practice-test.html`
   - `https://testdaytools.com/california-dmv-permit-practice-test.html`
+
+Next step:
+- Wait for Google to crawl/index the priority pages.
+- Check Search Console over the next 24-72 hours:
+  - Pages report for indexed/not indexed changes.
+  - Performance report for impressions and query terms.
+- After early impressions appear, decide the next content expansion by real query data instead of guessing.
+- Add analytics/traffic tracking only after deciding whether to use GA4, Plausible, or another lightweight option.
 
 Do not forget:
 - User wants low-maintenance, ad-friendly, English static site.
