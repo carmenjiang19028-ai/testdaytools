@@ -7,15 +7,19 @@
     "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency."
   },
   "navigation": [
-    {"label": "AP", "href": "/ap-score-release-date-2026.html"},
-    {"label": "SAT", "href": "/sat-test-dates-2026-2027.html"},
-    {"label": "DMV", "href": "/california-dmv-permit-practice-test.html"},
+    {"label": "DMV", "href": "/dmv-practice.html"},
+    {"label": "AP", "href": "/ap-tools.html"},
+    {"label": "SAT", "href": "/sat-tools.html"},
     {"label": "About", "href": "/about.html"}
   ],
   "home": {
-    "title": "TestDayTools: AP, SAT, and DMV date tools",
-    "description": "Quick, unofficial tools for AP score dates, AP exam schedules, SAT test dates, test day checklists, and DMV permit practice.",
+    "title": "TestDayTools: DMV practice, AP dates, and SAT checklists",
+    "description": "Fast unofficial DMV practice questions, AP score and exam planning tools, and SAT date and digital test-day checklists.",
     "sections": [
+      {
+        "heading": "DMV practice",
+        "links": ["california-dmv-permit-practice-test", "california-dmv-road-signs-practice", "new-york-dmv-permit-practice-test", "new-york-dmv-road-signs-practice"]
+      },
       {
         "heading": "AP tools",
         "links": ["ap-score-release-date-2026", "ap-scores-delayed-missing-2026", "ap-credit-after-scores-guide", "2026-ap-exam-schedule", "ap-exam-day-checklist"]
@@ -23,28 +27,85 @@
       {
         "heading": "SAT tools",
         "links": ["sat-test-dates-2026-2027", "sat-august-22-2026-planning", "digital-sat-bluebook-checklist", "digital-sat-checklist", "sat-score-release-guide"]
-      },
-      {
-        "heading": "DMV practice",
-        "links": ["california-dmv-permit-practice-test", "california-dmv-road-signs-practice", "new-york-dmv-permit-practice-test", "new-york-dmv-road-signs-practice"]
       }
     ],
     "startHere": [
-      {"label": "Today", "title": "AP score release or missing score?", "text": "Start with the AP score date page, then use the delayed-score checklist if one exam is missing.", "href": "ap-score-release-date-2026.html"},
-      {"label": "This week", "title": "Planning August SAT?", "text": "Use the SAT dates page and the August 22 planning page to choose a realistic prep timeline.", "href": "sat-august-22-2026-planning.html"},
-      {"label": "Practice", "title": "Need road signs practice?", "text": "Use the DMV road signs pages for quick original sign and signal questions before returning to the manual.", "href": "california-dmv-road-signs-practice.html"}
+      {"label": "Practice engine", "title": "DMV permit practice", "text": "Start with California or New York questions, get weak-area feedback, then go back to the official manual.", "href": "dmv-practice.html"},
+      {"label": "Score season", "title": "AP scores and exam day", "text": "Check score release timing, missing-score steps, credit decisions, and AP exam-day planning.", "href": "ap-tools.html"},
+      {"label": "Digital testing", "title": "SAT dates and checklists", "text": "Compare confirmed SAT dates, plan August testing, and check Bluebook/device readiness.", "href": "sat-tools.html"}
     ],
     "popular": [
+      {"label": "CA DMV", "title": "California DMV Permit Practice Test", "text": "15 original practice questions with category feedback", "href": "california-dmv-permit-practice-test.html"},
+      {"label": "NY DMV", "title": "New York DMV Permit Practice Test", "text": "15 original road-rule and permit questions", "href": "new-york-dmv-permit-practice-test.html"},
+      {"label": "CA DMV", "title": "California DMV Road Signs Practice", "text": "Original signs and signals quiz with category feedback", "href": "california-dmv-road-signs-practice.html"},
       {"label": "AP", "title": "AP Score Release Date 2026", "text": "Countdown, July 6 release plan, score-send decisions", "href": "ap-score-release-date-2026.html"},
       {"label": "AP", "title": "AP Scores Delayed or Missing 2026", "text": "August 15 checkpoint, account matching, support checklist", "href": "ap-scores-delayed-missing-2026.html"},
-      {"label": "AP", "title": "AP Credit After Scores", "text": "Credit policy search, placement questions, college follow-up", "href": "ap-credit-after-scores-guide.html"},
       {"label": "SAT", "title": "SAT Test Dates 2026-2027", "text": "Confirmed dates, retake planning, registration timeline", "href": "sat-test-dates-2026-2027.html"},
-      {"label": "SAT", "title": "SAT August 22, 2026 Planning", "text": "Senior fall timeline, backup dates, prep checkpoints", "href": "sat-august-22-2026-planning.html"},
-      {"label": "SAT", "title": "Digital SAT Bluebook Checklist", "text": "Device rules, setup timing, power and admission checks", "href": "digital-sat-bluebook-checklist.html"},
-      {"label": "CA DMV", "title": "California DMV Road Signs Practice", "text": "Original signs and signals quiz with category feedback", "href": "california-dmv-road-signs-practice.html"},
-      {"label": "NY DMV", "title": "New York DMV Road Signs Practice", "text": "Warning, regulatory, signal, and crossing questions", "href": "new-york-dmv-road-signs-practice.html"}
+      {"label": "SAT", "title": "Digital SAT Bluebook Checklist", "text": "Device rules, setup timing, power and admission checks", "href": "digital-sat-bluebook-checklist.html"}
     ]
   },
+  "hubs": [
+    {
+      "slug": "dmv-practice",
+      "title": "DMV Permit Practice Tools",
+      "description": "Choose a California or New York DMV permit practice quiz, review road signs, and use weak-area feedback before returning to the official manual.",
+      "heroKicker": "DMV practice hub",
+      "summary": "Start with practice questions, then use your missed categories to decide what to reread in the official driver manual.",
+      "primaryActions": [
+        {"label": "California", "title": "California permit practice", "text": "15 original questions covering signs, right of way, safe driving, alcohol, and road conditions.", "href": "california-dmv-permit-practice-test.html"},
+        {"label": "New York", "title": "New York permit practice", "text": "15 original questions for common permit-test topics in New York.", "href": "new-york-dmv-permit-practice-test.html"},
+        {"label": "Road signs", "title": "Practice signs first", "text": "Use short road-sign quizzes when you want a fast warm-up before deeper manual review.", "href": "california-dmv-road-signs-practice.html"}
+      ],
+      "sections": [
+        {"heading": "Permit practice tests", "links": ["california-dmv-permit-practice-test", "new-york-dmv-permit-practice-test"]},
+        {"heading": "Road signs practice", "links": ["california-dmv-road-signs-practice", "new-york-dmv-road-signs-practice"]}
+      ],
+      "body": [
+        {"heading": "Use practice as a diagnostic", "text": "A short quiz cannot replace the official manual, but it can show which rule categories need another pass before test day."},
+        {"heading": "Best next step after a miss", "text": "Do not only memorize the correct option. Read the explanation, note the category, then review that section in the state manual."}
+      ]
+    },
+    {
+      "slug": "ap-tools",
+      "title": "AP Score and Exam Day Tools",
+      "description": "AP score release timing, missing-score help, AP credit decisions, exam schedule, and exam-day checklist tools for 2026.",
+      "heroKicker": "AP tools hub",
+      "summary": "Use AP tools when you need a date, a decision checklist, or a next step after scores arrive.",
+      "primaryActions": [
+        {"label": "Score release", "title": "AP Score Release Date 2026", "text": "Countdown, score-day plan, and first steps after scores appear.", "href": "ap-score-release-date-2026.html"},
+        {"label": "Missing score", "title": "AP Scores Delayed or Missing", "text": "Account checks, August 15 support checkpoint, and information to gather.", "href": "ap-scores-delayed-missing-2026.html"},
+        {"label": "Exam day", "title": "AP Exam Day Checklist", "text": "Packing, calculator, room, and morning logistics in one checklist.", "href": "ap-exam-day-checklist.html"}
+      ],
+      "sections": [
+        {"heading": "Scores and credit", "links": ["ap-score-release-date-2026", "ap-scores-delayed-missing-2026", "ap-credit-after-scores-guide"]},
+        {"heading": "Exam planning", "links": ["2026-ap-exam-schedule", "ap-exam-day-checklist"]}
+      ],
+      "body": [
+        {"heading": "Why this hub exists", "text": "AP search intent changes quickly around exam season and score release. This hub keeps the date-driven pages connected to practical next steps."},
+        {"heading": "Official source still wins", "text": "Use these pages for planning and scanning, then confirm final rules with College Board or your school."}
+      ]
+    },
+    {
+      "slug": "sat-tools",
+      "title": "SAT Dates and Digital Test-Day Tools",
+      "description": "SAT test dates, August 2026 planning, Bluebook readiness, digital SAT checklist, and SAT score release decision tools.",
+      "heroKicker": "SAT tools hub",
+      "summary": "Use SAT tools to choose a test date, protect device readiness, and plan what to do after scores arrive.",
+      "primaryActions": [
+        {"label": "Dates", "title": "SAT Test Dates 2026-2027", "text": "Confirmed weekend dates with planning notes and retake logic.", "href": "sat-test-dates-2026-2027.html"},
+        {"label": "August", "title": "SAT August 22, 2026 Planning", "text": "Senior fall timeline, backup dates, and prep checkpoints.", "href": "sat-august-22-2026-planning.html"},
+        {"label": "Bluebook", "title": "Digital SAT Bluebook Checklist", "text": "Device approval, setup timing, battery, and test-day technical checks.", "href": "digital-sat-bluebook-checklist.html"}
+      ],
+      "sections": [
+        {"heading": "Dates and planning", "links": ["sat-test-dates-2026-2027", "sat-august-22-2026-planning", "sat-score-release-guide"]},
+        {"heading": "Digital SAT readiness", "links": ["digital-sat-bluebook-checklist", "digital-sat-checklist"]}
+      ],
+      "body": [
+        {"heading": "Pick a date with a backup", "text": "A good SAT plan usually has one main test date and one realistic retake option."},
+        {"heading": "Treat device setup as test prep", "text": "For the digital SAT, Bluebook and device readiness are part of the test-day plan, not a last-minute detail."}
+      ]
+    }
+  ],
   "tools": [
     {
       "slug": "ap-score-release-date-2026",

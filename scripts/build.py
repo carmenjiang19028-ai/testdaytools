@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / "content" / "site_data.json").read_text())
 SITE = DATA["site"]
 TOOL_BY_SLUG = {tool["slug"]: tool for tool in DATA["tools"]}
+HUBS = DATA.get("hubs", [])
 
 
 def esc(value):
@@ -117,6 +118,16 @@ def render_card_groups(groups):
     return "".join(output)
 
 
+def render_tool_links(slugs):
+    links = []
+    for slug in slugs:
+        tool = TOOL_BY_SLUG[slug]
+        links.append(
+            f'<a href="{esc(slug)}.html"><strong>{esc(tool["title"])}</strong><span>{esc(tool["description"])}</span></a>'
+        )
+    return "".join(links)
+
+
 def render_sources(sources):
     if not sources:
         return ""
@@ -187,7 +198,15 @@ def render_quiz(quiz_key):
   <div class="choices">{choices}</div>
   <p class="feedback" aria-live="polite"></p>
 </article>""")
-    return f'<section class="quiz tool-block" data-quiz><h2>Practice questions</h2><p class="section-intro">Answer in order, then use the score note to decide what to review next. Your answers stay in this browser session.</p>{"".join(cards)}<p class="quiz-score" aria-live="polite">Score: 0 of 0 answered</p></section>'
+    total = len(questions)
+    summary = f"""<div class="quiz-summary" aria-live="polite">
+  <div>
+    <strong data-quiz-result>Score: 0 of 0 answered</strong>
+    <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
+  </div>
+  <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
+</div>"""
+    return f'<section class="quiz tool-block" data-quiz data-total="{total}"><h2>Practice questions</h2><p class="section-intro">Start here before reading the rest of the page. Your answers stay in this browser session, and the result will point you to weak areas.</p>{summary}{"".join(cards)}</section>'
 
 
 def render_related(slugs):
@@ -202,6 +221,8 @@ def render_related(slugs):
 
 
 def render_tool(tool):
+    quiz = render_quiz(tool.get("quiz"))
+    dmv_quiz_first = tool.get("category") == "DMV" and quiz
     body_sections = "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
         for section in tool.get("body", [])
@@ -216,13 +237,14 @@ def render_tool(tool):
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
 {render_quick_facts(tool.get("quickFacts"))}
+{quiz if dmv_quiz_first else ""}
 {render_countdown(tool.get("countdown"))}
 {render_timeline(tool.get("timeline"))}
 {render_tables(tool.get("tables"))}
 {body_sections}
 {render_card_groups(tool.get("cardGroups"))}
 {render_checklist(tool.get("checklist"))}
-{render_quiz(tool.get("quiz"))}
+{"" if dmv_quiz_first else quiz}
 {render_ad()}
 {render_faq(tool.get("faq"))}
 {render_sources(tool.get("sources"))}
@@ -230,29 +252,57 @@ def render_tool(tool):
     return page_shell(tool["title"], tool["description"], f'/{tool["slug"]}.html', body, "tool-page")
 
 
+def render_hub(hub):
+    primary = "".join(
+        f'<a class="hub-action" href="{esc(action["href"])}"><span>{esc(action["label"])}</span><strong>{esc(action["title"])}</strong><p>{esc(action["text"])}</p></a>'
+        for action in hub.get("primaryActions", [])
+    )
+    primary_section = f'<section class="hub-primary"><h2>Start with one clear next step</h2><div class="hub-action-grid">{primary}</div></section>' if primary else ""
+    body_sections = "".join(
+        f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
+        for section in hub.get("body", [])
+    )
+    collections = []
+    for section in hub.get("sections", []):
+        intro = f'<p class="section-intro">{esc(section["intro"])}</p>' if section.get("intro") else ""
+        links = render_tool_links(section.get("links", []))
+        collections.append(f'<section class="hub-section"><h2>{esc(section["heading"])}</h2>{intro}<div class="tool-grid">{links}</div></section>')
+    body = f"""<section class="hero hub-hero">
+  <div>
+    <p class="eyebrow">{esc(hub["heroKicker"])}</p>
+    <h1>{esc(hub["title"])}</h1>
+    <p class="lede">{esc(hub["summary"])}</p>
+    {render_last_updated()}
+  </div>
+</section>
+<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{primary_section}
+{''.join(collections)}
+{body_sections}
+{render_ad("Future ad")}"""
+    return page_shell(hub["title"], hub["description"], f'/{hub["slug"]}.html', body, "hub-page")
+
+
 def render_home():
     start_items = "".join(
         f'<a class="start-card" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></a>'
         for item in DATA["home"].get("startHere", [])
     )
-    start_section = f'<section class="home-start"><h2>Start here</h2><div class="start-grid">{start_items}</div></section>' if start_items else ""
+    start_section = f'<section class="home-start"><h2>Choose your test</h2><p class="section-intro">Most visitors should start from one of these three paths, then jump into the specific tool they need.</p><div class="start-grid">{start_items}</div></section>' if start_items else ""
     popular_items = "".join(
         f'<a class="popular-row" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><em>{esc(item["text"])}</em></a>'
         for item in DATA["home"].get("popular", [])
     )
-    popular_section = f'<section class="home-popular"><h2>What to use today</h2><div class="popular-list">{popular_items}</div></section>' if popular_items else ""
+    popular_section = f'<section class="home-popular"><h2>High-value tools</h2><div class="popular-list">{popular_items}</div></section>' if popular_items else ""
     cards = []
     for section in DATA["home"]["sections"]:
-        links = "".join(
-            f'<a href="{esc(slug)}.html"><strong>{esc(TOOL_BY_SLUG[slug]["title"])}</strong><span>{esc(TOOL_BY_SLUG[slug]["description"])}</span></a>'
-            for slug in section["links"]
-        )
+        links = render_tool_links(section["links"])
         cards.append(f'<section class="home-group"><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
     body = f"""<section class="hero home-hero">
   <div>
     <p class="eyebrow">Unofficial test planning tools</p>
-    <h1>AP, SAT, and DMV tools without the clutter.</h1>
-    <p class="lede">Scan dates, pack smarter, and practice common permit-test concepts. No accounts, no official logos, no personal data collection.</p>
+    <h1>Practice, plan, and check test-day details faster.</h1>
+    <p class="lede">Start with DMV permit practice, AP score tools, or SAT date planning. No account, no official logos, and no personal data collection.</p>
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
@@ -293,12 +343,14 @@ def write(path, content):
 
 def build():
     write("index.html", render_home())
+    for hub in HUBS:
+        write(f'{hub["slug"]}.html', render_hub(hub))
     for tool in DATA["tools"]:
         write(f'{tool["slug"]}.html', render_tool(tool))
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")

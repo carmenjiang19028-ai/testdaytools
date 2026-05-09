@@ -172,6 +172,8 @@ h3 {
 .home-group,
 .home-start,
 .home-popular,
+.hub-primary,
+.hub-section,
 .tool-block,
 .content-section,
 .fact-section,
@@ -187,6 +189,7 @@ h3 {
 }
 
 .home-start,
+.hub-primary,
 .timeline-section,
 .card-group {
   background: var(--soft);
@@ -195,6 +198,7 @@ h3 {
 .tool-grid,
 .related-grid,
 .start-grid,
+.hub-action-grid,
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -204,6 +208,7 @@ h3 {
 .tool-grid a,
 .related-card,
 .start-card,
+.hub-action,
 .info-card {
   min-height: 132px;
   display: flex;
@@ -220,15 +225,27 @@ h3 {
 .tool-grid a span,
 .related-card span,
 .start-card span,
+.hub-action span,
 .info-card span {
   color: var(--muted);
   font-size: 0.92rem;
 }
 
 .start-card p,
+.hub-action p,
 .info-card p {
   margin: 0;
   color: var(--muted);
+}
+
+.start-card:first-child,
+.hub-action:first-child {
+  border-color: #aacbe5;
+  background: #f1f7fc;
+}
+
+.hub-action strong {
+  font-size: 1.05rem;
 }
 
 .popular-list {
@@ -407,6 +424,46 @@ tr:last-child td {
   background: var(--soft);
 }
 
+.quiz-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  gap: 18px;
+  align-items: center;
+  margin: 0 0 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--blue);
+  border-radius: 8px;
+  background: white;
+}
+
+.quiz-summary strong {
+  display: block;
+  font-size: 1.08rem;
+}
+
+.quiz-summary span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.quiz-meter {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8ef;
+}
+
+.quiz-meter span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+  transition: width 180ms ease;
+}
+
 .question {
   margin-bottom: 14px;
   padding: 16px;
@@ -430,12 +487,14 @@ tr:last-child td {
 
 button {
   min-height: 46px;
+  padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: white;
   color: var(--ink);
   font: inherit;
   font-weight: 650;
+  text-align: left;
   cursor: pointer;
 }
 
@@ -452,6 +511,11 @@ button.is-correct {
 button.is-wrong {
   border-color: var(--red);
   background: #fff0ef;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .feedback,
@@ -522,6 +586,7 @@ button.is-wrong {
   .tool-grid,
   .related-grid,
   .start-grid,
+  .hub-action-grid,
   .card-grid,
   .fact-grid,
   .timeline,
@@ -536,5 +601,9 @@ button.is-wrong {
 
   .countdown {
     display: block;
+  }
+
+  .quiz-summary {
+    grid-template-columns: 1fr;
   }
 }

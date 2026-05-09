@@ -238,6 +238,31 @@ UX/product improvements added locally:
 - Pages now support quick facts, timelines, card groups, checklists, tables, quizzes, FAQs, sources, and related links.
 - DMV quizzes include category labels and weak-area feedback.
 - The contact page includes a public GitHub project link until a domain email is available.
+
+## Product Restructure: Hub-First Site
+
+As of 2026-05-09, after reviewing the live site from a user and monetization perspective, the product direction was tightened.
+
+Problem found:
+- The site was technically live and useful, but it still felt like a collection of simple pages instead of a focused tool site.
+- AP/SAT/DMV were not clearly unified for a first-time visitor.
+- DMV practice, the most evergreen traffic engine, was not prominent enough.
+
+Fix implemented:
+- Homepage now sends visitors into three clear paths: DMV practice, AP tools, and SAT tools.
+- Added three hub pages:
+  1. `/dmv-practice.html`
+  2. `/ap-tools.html`
+  3. `/sat-tools.html`
+- Navigation now points to the hub pages instead of individual deep pages.
+- DMV quiz pages now show practice questions immediately after quick facts, before long explanatory content.
+- DMV quizzes now have a visible score panel, progress bar, completion feedback, and weak-area guidance.
+- Sitemap now includes the hub pages.
+
+Current product assessment:
+- The site is no longer just a thin MVP. It now has a clearer user journey and stronger internal structure.
+- It is still not guaranteed to earn traffic or ad revenue quickly; the next priority is Search Console setup and indexing checks.
+- Do not apply to AdSense until indexing and basic traffic signals are visible, unless the user explicitly wants to test early.
 - Real ad code remains disabled; there are no visible ad placeholders.
 
 Validation already passed locally:
