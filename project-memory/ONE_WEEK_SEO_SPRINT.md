@@ -3,10 +3,10 @@
 Last updated: 2026-05-09
 
 Live site:
-https://carmenjiang19028-ai.github.io/testdaytools/
+https://testdaytools.com/
 
 Sitemap:
-https://carmenjiang19028-ai.github.io/testdaytools/sitemap.xml
+https://testdaytools.com/sitemap.xml
 
 ## Sprint Goal
 

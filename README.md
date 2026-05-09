@@ -4,7 +4,7 @@ Unofficial static MVP for AP, SAT, and DMV planning tools.
 
 Planned GitHub Pages URL:
 
-`https://carmenjiang19028-ai.github.io/testdaytools/`
+`https://testdaytools.com/`
 
 ## Stack
 

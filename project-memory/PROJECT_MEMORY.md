@@ -195,14 +195,14 @@ As of 2026-05-09:
 - The parent agent reviewed and improved the MVP before GitHub upload.
 - Local git repository was initialized and the first local commit was created.
 - GitHub repository created by user: https://github.com/carmenjiang19028-ai/testdaytools
-- Planned GitHub Pages URL: https://carmenjiang19028-ai.github.io/testdaytools/
-- GitHub Pages is live and returns HTTP 200:
-  https://carmenjiang19028-ai.github.io/testdaytools/
-- Sitemap is live and returns HTTP 200:
-  https://carmenjiang19028-ai.github.io/testdaytools/sitemap.xml
+- GitHub Pages project URL: https://carmenjiang19028-ai.github.io/testdaytools/
+- Custom domain purchased and DNS configured: https://testdaytools.com/
+- Canonical production URL after domain setup: https://testdaytools.com/
+- Sitemap after domain setup: https://testdaytools.com/sitemap.xml
 
 Important review fixes already made:
-- Changed canonical/sitemap URL from `https://testdaytools.com` to the GitHub Pages project URL.
+- Initially changed canonical/sitemap URL from `https://testdaytools.com` to the GitHub Pages project URL for first launch.
+- After purchasing `testdaytools.com`, changed canonical/sitemap URL back to the custom domain and added a root `CNAME` file for GitHub Pages.
 - Updated SAT spring 2027 date from March 13, 2027 to March 6, 2027 based on College Board's SAT dates page.
 - Changed the AP score source to the College Board score release calendar page.
 - Expanded the 2026 AP schedule page from broad week windows to a subject-by-subject date table.
