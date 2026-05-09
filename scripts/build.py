@@ -9,6 +9,29 @@ SITE = DATA["site"]
 TOOL_BY_SLUG = {tool["slug"]: tool for tool in DATA["tools"]}
 HUBS = DATA.get("hubs", [])
 
+SIGN_SVGS = {
+    "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
+    "yield": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,148 202,18 18,18" fill="#fff" stroke="#c7312f" stroke-width="12"/><text x="110" y="76" text-anchor="middle" fill="#c7312f" font-size="28" font-weight="900" font-family="Arial, sans-serif">YIELD</text></svg>',
+    "do-not-enter": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="62" fill="#c7312f"/><rect x="54" y="66" width="112" height="28" rx="3" fill="#fff"/><text x="110" y="128" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">DO NOT ENTER</text></svg>',
+    "wrong-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="40" y="42" width="140" height="76" rx="5" fill="#c7312f" stroke="#981f1d" stroke-width="5"/><text x="110" y="74" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WRONG</text><text x="110" y="104" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WAY</text></svg>',
+    "no-u-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M90 116 V58 a25 25 0 0 1 50 0 v14" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M124 72 h32 l-16 24z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="121" x2="151" y2="39" stroke="#c7312f" stroke-width="11"/></svg>',
+    "one-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="28" y="46" width="164" height="68" rx="6" fill="#111827"/><path d="M58 80 h78" stroke="#fff" stroke-width="12" stroke-linecap="round"/><path d="M126 50 170 80 126 110z" fill="#fff"/><text x="78" y="105" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ONE WAY</text></svg>',
+    "speed-limit": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="66" y="16" width="88" height="128" rx="4" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="48" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">SPEED</text><text x="110" y="68" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">LIMIT</text><text x="110" y="118" text-anchor="middle" fill="#111" font-size="48" font-weight="900" font-family="Arial, sans-serif">35</text></svg>',
+    "school-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,12 190,54 172,142 48,142 30,54" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="84" cy="55" r="9" fill="#111"/><circle cx="130" cy="53" r="9" fill="#111"/><path d="M82 68 l-18 38 M82 68 l24 18 M130 66 l-18 42 M130 66 l26 18" stroke="#111" stroke-width="8" stroke-linecap="round"/><path d="M92 108 h56" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
+    "pedestrian-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="112" cy="50" r="10" fill="#111"/><path d="M108 65 l-20 32 M109 66 l28 22 M92 98 l-18 24 M100 96 l34 28" stroke="#111" stroke-width="9" stroke-linecap="round"/></svg>',
+    "merge": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M84 126 V38" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M136 126 C136 94 118 88 96 78" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M70 48 84 28 98 48z" fill="#111"/></svg>',
+    "lane-ends": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M82 126 V40 M138 126 C124 96 116 74 110 42" stroke="#111" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M68 50 82 30 96 50z" fill="#111"/></svg>',
+    "slippery": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M74 54 h72 v28 H74z" fill="#111"/><circle cx="90" cy="90" r="9" fill="#111"/><circle cx="132" cy="90" r="9" fill="#111"/><path d="M68 116 c18-18 38 18 56 0s36 16 52 0" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round"/></svg>',
+    "railroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="64" fill="#fff" stroke="#222" stroke-width="5"/><text x="110" y="52" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">RAILROAD</text><text x="110" y="76" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">CROSSING</text><path d="M68 106 h84 M82 92 l56 28 M138 92 l-56 28" stroke="#111" stroke-width="6" stroke-linecap="round"/></svg>',
+    "work-zone": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f59e2e" stroke="#222" stroke-width="5"/><circle cx="104" cy="47" r="8" fill="#111"/><path d="M100 58 l-20 35 M101 60 l32 22 M85 94 h62 M76 118 h78" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
+    "signal-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><rect x="88" y="36" width="44" height="88" rx="8" fill="#222"/><circle cx="110" cy="58" r="11" fill="#e53935"/><circle cx="110" cy="82" r="11" fill="#f4c430"/><circle cx="110" cy="106" r="11" fill="#22a35a"/></svg>',
+    "divided-highway": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M86 126 C86 98 102 86 102 58" stroke="#111" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M134 126 C134 98 118 86 118 58" stroke="#111" stroke-width="10" fill="none" stroke-linecap="round"/><rect x="102" y="62" width="16" height="42" fill="#111"/></svg>',
+    "no-passing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="64,18 156,18 198,80 156,142 64,142 22,80" fill="#fff" stroke="#c7312f" stroke-width="8"/><text x="110" y="65" text-anchor="middle" fill="#111" font-size="20" font-weight="900" font-family="Arial, sans-serif">DO NOT</text><text x="110" y="94" text-anchor="middle" fill="#111" font-size="20" font-weight="900" font-family="Arial, sans-serif">PASS</text></svg>',
+    "roundabout": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M83 63 a36 36 0 0 1 58 5 M146 89 a36 36 0 0 1-57 12 M93 57 l-20 2 10-18 M151 88 l-4 20 20-8" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    "hospital": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="48" y="26" width="124" height="108" rx="8" fill="#0f5fa8"/><text x="110" y="108" text-anchor="middle" fill="#fff" font-size="76" font-weight="900" font-family="Arial, sans-serif">H</text></svg>',
+    "deer-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M78 106 l22-42 25 14 22-18 M100 64 l-12-20 M107 66 l8-24 M125 78 l20 30 M112 82 l-4 34" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/><circle cx="143" cy="58" r="7" fill="#111"/></svg>',
+}
+
 
 def esc(value):
     return html.escape(str(value), quote=True)
@@ -181,24 +204,47 @@ def render_countdown(countdown):
 </section>"""
 
 
-def render_quiz(quiz_key):
+def render_sign_visual(question):
+    key = question.get("image")
+    if not key:
+        return ""
+    svg = SIGN_SVGS.get(key)
+    if not svg:
+        return ""
+    label = question.get("imageAlt", "Road sign illustration")
+    return f"""<figure class="question-visual">
+  <div class="sign-art" role="img" aria-label="{esc(label)}">{svg}</div>
+  <figcaption>Look at the sign, then choose the safest meaning or driver action.</figcaption>
+</figure>"""
+
+
+def render_quiz(quiz_key, options=None):
     if not quiz_key:
         return ""
+    options = options or {}
     questions = DATA["quizzes"][quiz_key]
     cards = []
     for index, q in enumerate(questions):
         category = q.get("category", "Permit basics")
+        visual = render_sign_visual(q)
+        visual_block = f"\n  {visual}" if visual else ""
         choices = "".join(
             f'<button type="button" data-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(q["choices"])
         )
         cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}" data-explanation="{esc(q["explanation"])}">
-  <p class="question-meta">Category: {esc(category)}</p>
+  <p class="question-meta">Category: {esc(category)}</p>{visual_block}
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
   <p class="feedback" aria-live="polite"></p>
 </article>""")
     total = len(questions)
+    pass_score = options.get("passScore") or options.get("pass_score") or max(total - 2, 1)
+    title = options.get("title", "Practice questions")
+    intro = options.get("description", "Answer one question at a time. Your result stays in this browser session and points you to weak areas.")
+    kicker = options.get("kicker", "Interactive practice")
+    quiz_label = options.get("label", title)
+    mode_id = options.get("id", quiz_key)
     summary = f"""<aside class="quiz-summary" aria-live="polite">
   <p class="quiz-kicker">Practice status</p>
   <div>
@@ -206,16 +252,18 @@ def render_quiz(quiz_key):
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
   <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
+  <div class="quiz-breakdown" data-quiz-breakdown></div>
+  <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>"""
     controls = """<div class="quiz-controls">
   <button type="button" class="quiz-nav-button" data-quiz-prev>Previous</button>
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>"""
-    return f"""<section class="quiz tool-block" data-quiz data-total="{total}">
+    return f"""<section class="quiz tool-block" data-quiz data-total="{total}" data-pass-score="{esc(pass_score)}" data-quiz-label="{esc(quiz_label)}" data-mode-id="{esc(mode_id)}">
   <div class="tool-section-head">
-    <span class="eyebrow">Interactive practice</span>
-    <h2>Practice questions</h2>
-    <p class="section-intro">Answer one question at a time. Your result stays in this browser session and points you to weak areas.</p>
+    <span class="eyebrow">{esc(kicker)}</span>
+    <h2>{esc(title)}</h2>
+    <p class="section-intro">{esc(intro)}</p>
   </div>
   <div class="quiz-shell">
     <div class="quiz-workspace">
@@ -231,6 +279,38 @@ def render_quiz(quiz_key):
 </section>"""
 
 
+def render_dmv_mode_tool(tool):
+    modes = tool.get("quizModes")
+    if not modes:
+        return render_quiz(tool.get("quiz"))
+    if len(modes) == 1:
+        return render_quiz(modes[0]["quiz"], modes[0])
+    tabs = []
+    panels = []
+    for index, mode in enumerate(modes):
+        active = index == 0
+        selected = "true" if active else "false"
+        active_class = " is-active" if active else ""
+        hidden = "false" if active else "true"
+        tabs.append(f'<button type="button" class="mode-tab{active_class}" data-mode-button="{esc(mode["id"])}" aria-selected="{selected}"><span>{esc(mode["label"])}</span><strong>{esc(mode.get("short", mode["title"]))}</strong></button>')
+        quiz = render_quiz(mode["quiz"], mode)
+        panels.append(f'<div class="mode-panel{active_class}" data-mode-panel="{esc(mode["id"])}" aria-hidden="{hidden}">{quiz}</div>')
+    overview_items = "".join(
+        f'<li><strong>{esc(mode["label"])}</strong><span>{esc(mode.get("description", ""))}</span></li>'
+        for mode in modes
+    )
+    return f"""<section class="dmv-mode-tool" data-mode-tool>
+  <div class="tool-section-head">
+    <span class="eyebrow">DMV practice engine</span>
+    <h2>Choose a practice mode</h2>
+    <p class="section-intro">Start with a short quiz, switch to image-based road signs, or run a longer mock exam when you want a realistic score check.</p>
+  </div>
+  <div class="mode-tabs" role="tablist" aria-label="Practice modes">{"".join(tabs)}</div>
+  <ul class="mode-overview">{overview_items}</ul>
+  <div class="mode-panels">{"".join(panels)}</div>
+</section>"""
+
+
 def render_related(slugs):
     cards = []
     for slug in slugs or []:
@@ -243,7 +323,7 @@ def render_related(slugs):
 
 
 def render_tool(tool):
-    quiz = render_quiz(tool.get("quiz"))
+    quiz = render_dmv_mode_tool(tool) if tool.get("category") == "DMV" else render_quiz(tool.get("quiz"))
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
     body_sections = "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
@@ -275,6 +355,8 @@ def render_tool(tool):
 
 
 def render_hub(hub):
+    if hub.get("slug") == "dmv-practice":
+        return render_dmv_hub(hub)
     primary = "".join(
         f'<a class="hub-action" href="{esc(action["href"])}"><span>{esc(action["label"])}</span><strong>{esc(action["title"])}</strong><p>{esc(action["text"])}</p></a>'
         for action in hub.get("primaryActions", [])
@@ -305,6 +387,62 @@ def render_hub(hub):
     return page_shell(hub["title"], hub["description"], f'/{hub["slug"]}.html', body, "hub-page")
 
 
+def render_dmv_launcher(heading="Choose a DMV practice path"):
+    launch = DATA["home"].get("dmvLaunch", {})
+    states = launch.get("states", [])
+    stats = launch.get("stats", [])
+    modes = launch.get("modes", [])
+    state_cards = "".join(
+        f'<a class="state-card" href="{esc(state["href"])}"><span>{esc(state["label"])}</span><strong>{esc(state["title"])}</strong><p>{esc(state["text"])}</p><em>{esc(state["cta"])}</em></a>'
+        for state in states
+    )
+    stat_cards = "".join(
+        f'<div><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span></div>'
+        for item in stats
+    )
+    mode_cards = "".join(
+        f'<article><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></article>'
+        for item in modes
+    )
+    return f"""<section class="dmv-launch">
+  <div class="section-head-row">
+    <div>
+      <p class="eyebrow">DMV practice engine</p>
+      <h2>{esc(heading)}</h2>
+      <p class="section-intro">{esc(launch.get("intro", "Pick a state, then practice road rules, image signs, and mock exam questions with instant feedback."))}</p>
+    </div>
+    <div class="launch-stats">{stat_cards}</div>
+  </div>
+  <div class="state-grid">{state_cards}</div>
+  <div class="mode-card-grid">{mode_cards}</div>
+</section>"""
+
+
+def render_dmv_hub(hub):
+    collections = []
+    for section in hub.get("sections", []):
+        links = render_tool_links(section.get("links", []))
+        collections.append(f'<section class="hub-section"><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
+    body_sections = "".join(
+        f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
+        for section in hub.get("body", [])
+    )
+    body = f"""<section class="hero hub-hero dmv-hub-hero">
+  <div>
+    <p class="eyebrow">{esc(hub["heroKicker"])}</p>
+    <h1>{esc(hub["title"])}</h1>
+    <p class="lede">{esc(hub["summary"])}</p>
+    {render_last_updated()}
+  </div>
+</section>
+<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{render_dmv_launcher("Start with your state")}
+{''.join(collections)}
+{body_sections}
+{render_ad("Future ad")}"""
+    return page_shell(hub["title"], hub["description"], f'/{hub["slug"]}.html', body, "hub-page dmv-hub-page")
+
+
 def render_home():
     start_items = "".join(
         f'<a class="start-card" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></a>'
@@ -320,14 +458,15 @@ def render_home():
     for section in DATA["home"]["sections"]:
         links = render_tool_links(section["links"])
         cards.append(f'<section class="home-group"><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
-    body = f"""<section class="hero home-hero">
+    body = f"""<section class="hero home-hero dmv-home-hero">
   <div>
-    <p class="eyebrow">Unofficial test planning tools</p>
-    <h1>Practice, plan, and check test-day details faster.</h1>
-    <p class="lede">Start with DMV permit practice, AP score tools, or SAT date planning. No account, no official logos, and no personal data collection.</p>
+    <p class="eyebrow">DMV-first practice tools</p>
+    <h1>DMV practice tests with road-sign images and instant feedback.</h1>
+    <p class="lede">Start with California or New York permit practice, switch into image-based road signs, then use a longer mock exam to find weak areas before rereading the official manual.</p>
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{render_dmv_launcher()}
 {start_section}
 {popular_section}
 {''.join(cards)}

@@ -313,3 +313,36 @@ Supporting sprint docs:
 4. Improve whichever page gets early impressions.
 5. Add a real contact email before applying for AdSense.
 6. Apply for AdSense only after indexing and initial organic traffic.
+
+## DMV Practice Engine V2
+
+As of 2026-05-09, the DMV side was upgraded from a simple quiz page into the main product experience.
+
+User concern:
+- The site looked too simple and did not yet feel like a real, useful tool site.
+- DMV road-sign questions needed visual prompts, not only text.
+- The work should be done as a full product pass, not tiny incremental tweaks.
+
+Fix implemented:
+- Homepage and `/dmv-practice.html` now lead with a DMV-first practice launcher.
+- California and New York permit pages now have three modes:
+  1. Quick Practice: 15 questions.
+  2. Road Signs: 20 original image-based SVG sign questions.
+  3. Mock Exam: 40 mixed questions with a pass threshold.
+- California and New York road-sign pages now open directly into a 20-question image quiz.
+- Quiz UX now supports mode switching, one-question-at-a-time flow, disabled next button until answering, instant explanation, weak-area chips, progress meter, result status, and restart.
+- Road-sign visuals are original inline SVG illustrations for common sign types such as stop, yield, do not enter, one way, school crossing, railroad, slippery road, merge, work zone, and signal ahead.
+
+Validation passed locally:
+- Static build succeeds.
+- `assets/app.js` syntax check passes.
+- `scripts/build.py` compiles.
+- `content/site_data.json` parses.
+- DMV mode interaction test passed: quick mode has 15 questions, signs mode has 20 image questions, mock mode has 40 questions, answer gating works, weak-area feedback appears, and restart resets the quiz.
+- All 22 HTML pages passed desktop and mobile viewport checks with no layout overflow outside intentional table scroll areas.
+- Internal link check found no missing local targets.
+
+Current product assessment:
+- DMV now feels like the strongest traffic and monetization entry point.
+- This still does not guarantee fast ranking or ad revenue; traffic must be validated with Search Console after deployment.
+- Next high-leverage improvements are more DMV state coverage, analytics/search-console setup, and improving whichever page gets early impressions.
