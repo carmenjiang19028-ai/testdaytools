@@ -411,3 +411,42 @@ Validation passed locally:
 - Internal link check found no missing local targets.
 - Texas signs mode interaction passed: signs tab activates, image prompt exists, answer gating works, and next question advances.
 - Screenshot checks were reviewed for the expanded homepage, Texas mobile permit page, and Florida mobile road-sign page.
+
+## DMV SERP Gap Optimization Pass
+
+As of 2026-05-09, after reviewing Google results for DMV permit practice and road-sign searches, a second DMV content-depth pass was added.
+
+SERP gap observed:
+- Ranking pages do not only show quizzes; they usually show exam format, pass rule, test-day process, official source, topic groups, and road-sign study patterns.
+- Strong pages create a sense of scale with topic modules and a complete study path.
+- Road-sign pages teach shapes, colors, markings, and driver actions, not only multiple-choice answers.
+- Permit pages need above-the-fold actions so the user can start practicing without scrolling through all explanatory content.
+
+Fix implemented:
+- Added hero quick actions on DMV tool pages:
+  - Start practice.
+  - Official test facts.
+  - Study by topic or shape/color guide.
+- Added `examDetails` modules for DMV pages with state-specific official facts.
+- Added `practiceTopics` modules on permit pages with 8 topic cards:
+  - Road signs and traffic controls.
+  - Right of way.
+  - Speed and following distance.
+  - Intersections and turns.
+  - Parking and curbs.
+  - Bad weather and night driving.
+  - Pedestrians, school buses, and cyclists.
+  - Alcohol, drugs, and distractions.
+- Added `signStudy` modules to teach signs by shape, color, and markings.
+- Added state-specific checklist content for permit pages and road-sign pages.
+- Adjusted page order so permit pages show exam snapshot, then practice, then deeper official facts and topic study content. Road-sign pages still open directly into the image quiz.
+
+Validation passed locally:
+- Static build succeeds.
+- JSON parses.
+- Python generator compiles.
+- JavaScript syntax check passes.
+- `git diff --check` passes.
+- All 32 HTML pages passed desktop and mobile overflow checks.
+- Florida DMV permit page sample showed 3 hero actions, 4 official fact cards, 8 topic cards, and a working `#practice` anchor.
+- Florida signs interaction remained intact: signs mode has 20 image questions, answers record correctly, and next-question advance works.

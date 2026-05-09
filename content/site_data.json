@@ -2510,6 +2510,10 @@
       ],
       "body": [
         {
+          "heading": "Why California practice should start with the official source",
+          "text": "Private practice tests help you find weak areas, but the California Driver Handbook and California DMV pages are the final source for wording, documents, fees, and eligibility."
+        },
+        {
           "heading": "How to study",
           "text": "Start with the official California Driver Handbook, then use practice questions to check whether you can apply the rules in plain language."
         },
@@ -2777,7 +2781,137 @@
             ]
           }
         ]
-      }
+      },
+      "examDetails": {
+        "kicker": "Real test details",
+        "heading": "California permit test facts people look for first",
+        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "items": [
+          {
+            "label": "Common format",
+            "value": "36 questions / 30 correct",
+            "text": "Many Class C applicants see a 36-question knowledge test; check your DMV account for your exact requirement."
+          },
+          {
+            "label": "Official source",
+            "value": "California Driver Handbook",
+            "text": "Use the handbook and DMV sample tests for final wording."
+          },
+          {
+            "label": "Where to start",
+            "value": "DMV application and account",
+            "text": "California offers online services for many applicants, but eligibility can vary."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "Aim above the minimum before scheduling or visiting DMV."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "California signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Practice by topic",
+        "heading": "California permit topics to study after each quiz",
+        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "items": [
+          {
+            "label": "Topic 1",
+            "title": "Road signs and traffic controls",
+            "text": "California: Recognize signs by shape, color, and driver action before memorizing answer choices.",
+            "review": "Review sign library"
+          },
+          {
+            "label": "Topic 2",
+            "title": "Right of way",
+            "text": "California: Practice who yields at four-way stops, left turns, pedestrians, emergency vehicles, and roundabouts.",
+            "review": "Review missed yield questions"
+          },
+          {
+            "label": "Topic 3",
+            "title": "Speed and following distance",
+            "text": "California: Connect posted limits with weather, visibility, school zones, and stopping distance.",
+            "review": "Review speed questions"
+          },
+          {
+            "label": "Topic 4",
+            "title": "Intersections and turns",
+            "text": "California: Study signals, turn lanes, yellow lights, protected turns, and lane positioning.",
+            "review": "Review signal questions"
+          },
+          {
+            "label": "Topic 5",
+            "title": "Parking and curbs",
+            "text": "California: Check curb colors, hills, no-parking zones, and safe door-opening habits.",
+            "review": "Review parking table"
+          },
+          {
+            "label": "Topic 6",
+            "title": "Bad weather and night driving",
+            "text": "California: Practice fog, rain, hydroplaning, icy roads, skids, and headlight choices.",
+            "review": "Review road conditions"
+          },
+          {
+            "label": "Topic 7",
+            "title": "Pedestrians, school buses, and cyclists",
+            "text": "California: Watch for vulnerable road users and rules that require slowing or stopping.",
+            "review": "Review sharing the road"
+          },
+          {
+            "label": "Topic 8",
+            "title": "Alcohol, drugs, and distractions",
+            "text": "California: Know why impairment and distraction affect judgment, reaction time, and legal risk.",
+            "review": "Review safety rules"
+          }
+        ]
+      },
+      "checklist": [
+        "Confirm whether your California knowledge test can be taken online or must be completed at DMV.",
+        "Bring the identification and residency documents required for your application type.",
+        "Read the California Driver Handbook sections on signs, lanes, speed, parking, and alcohol rules.",
+        "Practice road signs until you can answer without reading all choices slowly.",
+        "Use the mock exam only after reviewing missed explanations.",
+        "If you fail, check DMV retest rules before booking another attempt."
+      ]
     },
     {
       "slug": "california-dmv-road-signs-practice",
@@ -3112,7 +3246,82 @@
             ]
           }
         ]
-      }
+      },
+      "examDetails": {
+        "kicker": "California test context",
+        "heading": "California road signs in the real permit-test context",
+        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "items": [
+          {
+            "label": "Common format",
+            "value": "36 questions / 30 correct",
+            "text": "Many Class C applicants see a 36-question knowledge test; check your DMV account for your exact requirement."
+          },
+          {
+            "label": "Official source",
+            "value": "California Driver Handbook",
+            "text": "Use the handbook and DMV sample tests for final wording."
+          },
+          {
+            "label": "Where to start",
+            "value": "DMV application and account",
+            "text": "California offers online services for many applicants, but eligibility can vary."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "Aim above the minimum before scheduling or visiting DMV."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "California signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": null,
+      "checklist": [
+        "Review California sign shapes before the image quiz.",
+        "Say the driver action out loud before looking at answer choices.",
+        "After a miss, review the matching shape/color group below.",
+        "Retake the road-sign round later instead of immediately guessing again.",
+        "Confirm final wording in the California Driver Handbook."
+      ]
     },
     {
       "slug": "new-york-dmv-permit-practice-test",
@@ -3203,6 +3412,10 @@
         }
       ],
       "body": [
+        {
+          "heading": "Why New York practice should start with the official source",
+          "text": "Private practice tests help you find weak areas, but the New York Driver Manual and New York DMV pages are the final source for wording, documents, fees, and eligibility."
+        },
         {
           "heading": "Study flow",
           "text": "Read the official New York driver's manual first, then use practice questions to catch weak spots. Revisit the manual after each missed question."
@@ -3471,7 +3684,137 @@
             ]
           }
         ]
-      }
+      },
+      "examDetails": {
+        "kicker": "Real test details",
+        "heading": "New York permit test facts people look for first",
+        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "items": [
+          {
+            "label": "Official format",
+            "value": "20 questions",
+            "text": "New York describes the learner permit test as a 20-question multiple-choice test."
+          },
+          {
+            "label": "Pass rule",
+            "value": "14 correct plus 2 road signs",
+            "text": "You need at least 14 correct overall and at least 2 of the 4 road-sign questions."
+          },
+          {
+            "label": "Where to test",
+            "value": "Online or DMV office",
+            "text": "New York offers an online permit test for eligible applicants and DMV office testing."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "The longer mock mode gives extra review beyond the official length."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "New York signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Practice by topic",
+        "heading": "New York permit topics to study after each quiz",
+        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "items": [
+          {
+            "label": "Topic 1",
+            "title": "Road signs and traffic controls",
+            "text": "New York: Recognize signs by shape, color, and driver action before memorizing answer choices.",
+            "review": "Review sign library"
+          },
+          {
+            "label": "Topic 2",
+            "title": "Right of way",
+            "text": "New York: Practice who yields at four-way stops, left turns, pedestrians, emergency vehicles, and roundabouts.",
+            "review": "Review missed yield questions"
+          },
+          {
+            "label": "Topic 3",
+            "title": "Speed and following distance",
+            "text": "New York: Connect posted limits with weather, visibility, school zones, and stopping distance.",
+            "review": "Review speed questions"
+          },
+          {
+            "label": "Topic 4",
+            "title": "Intersections and turns",
+            "text": "New York: Study signals, turn lanes, yellow lights, protected turns, and lane positioning.",
+            "review": "Review signal questions"
+          },
+          {
+            "label": "Topic 5",
+            "title": "Parking and curbs",
+            "text": "New York: Check curb colors, hills, no-parking zones, and safe door-opening habits.",
+            "review": "Review parking table"
+          },
+          {
+            "label": "Topic 6",
+            "title": "Bad weather and night driving",
+            "text": "New York: Practice fog, rain, hydroplaning, icy roads, skids, and headlight choices.",
+            "review": "Review road conditions"
+          },
+          {
+            "label": "Topic 7",
+            "title": "Pedestrians, school buses, and cyclists",
+            "text": "New York: Watch for vulnerable road users and rules that require slowing or stopping.",
+            "review": "Review sharing the road"
+          },
+          {
+            "label": "Topic 8",
+            "title": "Alcohol, drugs, and distractions",
+            "text": "New York: Know why impairment and distraction affect judgment, reaction time, and legal risk.",
+            "review": "Review safety rules"
+          }
+        ]
+      },
+      "checklist": [
+        "Read the New York Driver Manual before treating practice questions as enough.",
+        "Know the 14-correct overall rule and the separate road-sign requirement.",
+        "Confirm whether you are eligible for the online permit test or need an office visit.",
+        "Prepare identity documents before booking or visiting DMV.",
+        "Review signs slowly; missing sign questions can matter even with a good total score.",
+        "After a low score, reread the exact category shown in the weak-area chips."
+      ]
     },
     {
       "slug": "new-york-dmv-road-signs-practice",
@@ -3806,7 +4149,82 @@
             ]
           }
         ]
-      }
+      },
+      "examDetails": {
+        "kicker": "New York test context",
+        "heading": "New York road signs in the real permit-test context",
+        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "items": [
+          {
+            "label": "Official format",
+            "value": "20 questions",
+            "text": "New York describes the learner permit test as a 20-question multiple-choice test."
+          },
+          {
+            "label": "Pass rule",
+            "value": "14 correct plus 2 road signs",
+            "text": "You need at least 14 correct overall and at least 2 of the 4 road-sign questions."
+          },
+          {
+            "label": "Where to test",
+            "value": "Online or DMV office",
+            "text": "New York offers an online permit test for eligible applicants and DMV office testing."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "The longer mock mode gives extra review beyond the official length."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "New York signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": null,
+      "checklist": [
+        "Review New York sign shapes before the image quiz.",
+        "Say the driver action out loud before looking at answer choices.",
+        "After a miss, review the matching shape/color group below.",
+        "Retake the road-sign round later instead of immediately guessing again.",
+        "Confirm final wording in the New York Driver Manual."
+      ]
     },
     {
       "slug": "texas-dmv-permit-practice-test",
@@ -4096,6 +4514,10 @@
       ],
       "body": [
         {
+          "heading": "Why Texas practice should start with the official source",
+          "text": "Private practice tests help you find weak areas, but the Texas Driver Handbook and Texas DPS pages are the final source for wording, documents, fees, and eligibility."
+        },
+        {
           "heading": "How to use this Texas permit practice test",
           "text": "Read the exam snapshot first, then start with quick practice. Move to road signs if visual recognition feels weak, and use the mock exam only after reviewing missed explanations."
         },
@@ -4162,6 +4584,136 @@
           "label": "Texas DPS: Apply for a Learner License as a Teen",
           "url": "https://www.dps.texas.gov/section/service/apply-learners-license-teen"
         }
+      ],
+      "examDetails": {
+        "kicker": "Real test details",
+        "heading": "Texas permit test facts people look for first",
+        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "items": [
+          {
+            "label": "Official source",
+            "value": "Texas Driver Handbook",
+            "text": "Use the DPS handbook for final rules, signs, and learner-license process details."
+          },
+          {
+            "label": "Learner driving",
+            "value": "Adult 21+ in front seat",
+            "text": "Texas DPS says learner license driving requires a licensed adult age 21 or older in the front passenger seat."
+          },
+          {
+            "label": "Teen hold period",
+            "value": "At least 6 months",
+            "text": "Teen learner license holders generally keep the learner license for six months unless they turn 18."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "Use this target as a confidence check before the real knowledge exam."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Texas signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Practice by topic",
+        "heading": "Texas permit topics to study after each quiz",
+        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "items": [
+          {
+            "label": "Topic 1",
+            "title": "Road signs and traffic controls",
+            "text": "Texas: Recognize signs by shape, color, and driver action before memorizing answer choices.",
+            "review": "Review sign library"
+          },
+          {
+            "label": "Topic 2",
+            "title": "Right of way",
+            "text": "Texas: Practice who yields at four-way stops, left turns, pedestrians, emergency vehicles, and roundabouts.",
+            "review": "Review missed yield questions"
+          },
+          {
+            "label": "Topic 3",
+            "title": "Speed and following distance",
+            "text": "Texas: Connect posted limits with weather, visibility, school zones, and stopping distance.",
+            "review": "Review speed questions"
+          },
+          {
+            "label": "Topic 4",
+            "title": "Intersections and turns",
+            "text": "Texas: Study signals, turn lanes, yellow lights, protected turns, and lane positioning.",
+            "review": "Review signal questions"
+          },
+          {
+            "label": "Topic 5",
+            "title": "Parking and curbs",
+            "text": "Texas: Check curb colors, hills, no-parking zones, and safe door-opening habits.",
+            "review": "Review parking table"
+          },
+          {
+            "label": "Topic 6",
+            "title": "Bad weather and night driving",
+            "text": "Texas: Practice fog, rain, hydroplaning, icy roads, skids, and headlight choices.",
+            "review": "Review road conditions"
+          },
+          {
+            "label": "Topic 7",
+            "title": "Pedestrians, school buses, and cyclists",
+            "text": "Texas: Watch for vulnerable road users and rules that require slowing or stopping.",
+            "review": "Review sharing the road"
+          },
+          {
+            "label": "Topic 8",
+            "title": "Alcohol, drugs, and distractions",
+            "text": "Texas: Know why impairment and distraction affect judgment, reaction time, and legal risk.",
+            "review": "Review safety rules"
+          }
+        ]
+      },
+      "checklist": [
+        "Read the Texas Driver Handbook sections on signs, right of way, speed, alcohol, and lane use.",
+        "If you are a teen applicant, confirm learner-license holding-period and supervised-driving rules.",
+        "Bring DPS-required identity, residency, and school or course documents for your application path.",
+        "Practice with a licensed adult age 21 or older as required for learner driving.",
+        "Use road-sign image practice until sign meaning is automatic.",
+        "Check DPS appointment and office instructions before test day."
       ]
     },
     {
@@ -4462,6 +5014,81 @@
           "label": "Texas DPS: Apply for a Learner License as a Teen",
           "url": "https://www.dps.texas.gov/section/service/apply-learners-license-teen"
         }
+      ],
+      "examDetails": {
+        "kicker": "Texas test context",
+        "heading": "Texas road signs in the real permit-test context",
+        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "items": [
+          {
+            "label": "Official source",
+            "value": "Texas Driver Handbook",
+            "text": "Use the DPS handbook for final rules, signs, and learner-license process details."
+          },
+          {
+            "label": "Learner driving",
+            "value": "Adult 21+ in front seat",
+            "text": "Texas DPS says learner license driving requires a licensed adult age 21 or older in the front passenger seat."
+          },
+          {
+            "label": "Teen hold period",
+            "value": "At least 6 months",
+            "text": "Teen learner license holders generally keep the learner license for six months unless they turn 18."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "Use this target as a confidence check before the real knowledge exam."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Texas signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": null,
+      "checklist": [
+        "Review Texas sign shapes before the image quiz.",
+        "Say the driver action out loud before looking at answer choices.",
+        "After a miss, review the matching shape/color group below.",
+        "Retake the road-sign round later instead of immediately guessing again.",
+        "Confirm final wording in the Texas Driver Handbook."
       ]
     },
     {
@@ -4752,6 +5379,10 @@
       ],
       "body": [
         {
+          "heading": "Why Florida practice should start with the official source",
+          "text": "Private practice tests help you find weak areas, but the Official Florida Driver License Handbook and FLHSMV pages are the final source for wording, documents, fees, and eligibility."
+        },
+        {
           "heading": "How to use this Florida permit practice test",
           "text": "Read the exam snapshot first, then start with quick practice. Move to road signs if visual recognition feels weak, and use the mock exam only after reviewing missed explanations."
         },
@@ -4818,6 +5449,136 @@
           "label": "FLHSMV: Handbooks and Manuals",
           "url": "https://www.flhsmv.gov/resources/handbooks-manuals/"
         }
+      ],
+      "examDetails": {
+        "kicker": "Real test details",
+        "heading": "Florida permit test facts people look for first",
+        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "items": [
+          {
+            "label": "Official format",
+            "value": "50 questions",
+            "text": "Florida Class E Knowledge Exam has 50 multiple-choice questions."
+          },
+          {
+            "label": "Pass rule",
+            "value": "40 correct / 80%",
+            "text": "FLHSMV lists 40 correct answers, or 80 percent, as the passing score."
+          },
+          {
+            "label": "What it covers",
+            "value": "Laws, safe driving, traffic controls",
+            "text": "The official exam covers traffic laws, safe driving practices, and identifying traffic controls."
+          },
+          {
+            "label": "First-time step",
+            "value": "TLSAE may be required",
+            "text": "First-time Florida applicants may need Traffic Law and Substance Abuse Education before licensing."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Florida signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Practice by topic",
+        "heading": "Florida permit topics to study after each quiz",
+        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "items": [
+          {
+            "label": "Topic 1",
+            "title": "Road signs and traffic controls",
+            "text": "Florida: Recognize signs by shape, color, and driver action before memorizing answer choices.",
+            "review": "Review sign library"
+          },
+          {
+            "label": "Topic 2",
+            "title": "Right of way",
+            "text": "Florida: Practice who yields at four-way stops, left turns, pedestrians, emergency vehicles, and roundabouts.",
+            "review": "Review missed yield questions"
+          },
+          {
+            "label": "Topic 3",
+            "title": "Speed and following distance",
+            "text": "Florida: Connect posted limits with weather, visibility, school zones, and stopping distance.",
+            "review": "Review speed questions"
+          },
+          {
+            "label": "Topic 4",
+            "title": "Intersections and turns",
+            "text": "Florida: Study signals, turn lanes, yellow lights, protected turns, and lane positioning.",
+            "review": "Review signal questions"
+          },
+          {
+            "label": "Topic 5",
+            "title": "Parking and curbs",
+            "text": "Florida: Check curb colors, hills, no-parking zones, and safe door-opening habits.",
+            "review": "Review parking table"
+          },
+          {
+            "label": "Topic 6",
+            "title": "Bad weather and night driving",
+            "text": "Florida: Practice fog, rain, hydroplaning, icy roads, skids, and headlight choices.",
+            "review": "Review road conditions"
+          },
+          {
+            "label": "Topic 7",
+            "title": "Pedestrians, school buses, and cyclists",
+            "text": "Florida: Watch for vulnerable road users and rules that require slowing or stopping.",
+            "review": "Review sharing the road"
+          },
+          {
+            "label": "Topic 8",
+            "title": "Alcohol, drugs, and distractions",
+            "text": "Florida: Know why impairment and distraction affect judgment, reaction time, and legal risk.",
+            "review": "Review safety rules"
+          }
+        ]
+      },
+      "checklist": [
+        "Complete any required TLSAE step before expecting to finish the license process.",
+        "Read the Florida handbook sections on traffic controls, right of way, speed, crashes, and impaired driving.",
+        "Practice until 40 of 50 feels realistic, not lucky.",
+        "Bring the identification and parental-consent documents required for your age and application type.",
+        "If testing online through an approved provider, confirm age eligibility and proctoring rules.",
+        "Retake the weak-area categories before trying another full mock exam."
       ]
     },
     {
@@ -5118,6 +5879,81 @@
           "label": "FLHSMV: Handbooks and Manuals",
           "url": "https://www.flhsmv.gov/resources/handbooks-manuals/"
         }
+      ],
+      "examDetails": {
+        "kicker": "Florida test context",
+        "heading": "Florida road signs in the real permit-test context",
+        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "items": [
+          {
+            "label": "Official format",
+            "value": "50 questions",
+            "text": "Florida Class E Knowledge Exam has 50 multiple-choice questions."
+          },
+          {
+            "label": "Pass rule",
+            "value": "40 correct / 80%",
+            "text": "FLHSMV lists 40 correct answers, or 80 percent, as the passing score."
+          },
+          {
+            "label": "What it covers",
+            "value": "Laws, safe driving, traffic controls",
+            "text": "The official exam covers traffic laws, safe driving practices, and identifying traffic controls."
+          },
+          {
+            "label": "First-time step",
+            "value": "TLSAE may be required",
+            "text": "First-time Florida applicants may need Traffic Law and Substance Abuse Education before licensing."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Florida signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": null,
+      "checklist": [
+        "Review Florida sign shapes before the image quiz.",
+        "Say the driver action out loud before looking at answer choices.",
+        "After a miss, review the matching shape/color group below.",
+        "Retake the road-sign round later instead of immediately guessing again.",
+        "Confirm final wording in the Official Florida Driver License Handbook."
       ]
     },
     {
@@ -5408,6 +6244,10 @@
       ],
       "body": [
         {
+          "heading": "Why Illinois practice should start with the official source",
+          "text": "Private practice tests help you find weak areas, but the Illinois Rules of the Road and Illinois Secretary of State pages are the final source for wording, documents, fees, and eligibility."
+        },
+        {
           "heading": "How to use this Illinois permit practice test",
           "text": "Read the exam snapshot first, then start with quick practice. Move to road signs if visual recognition feels weak, and use the mock exam only after reviewing missed explanations."
         },
@@ -5474,6 +6314,136 @@
           "label": "Illinois Secretary of State: Driver Services",
           "url": "https://www.ilsos.gov/departments/drivers/"
         }
+      ],
+      "examDetails": {
+        "kicker": "Real test details",
+        "heading": "Illinois permit test facts people look for first",
+        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "items": [
+          {
+            "label": "Official agency",
+            "value": "Secretary of State",
+            "text": "Illinois licensing is handled by Secretary of State Driver Services, even though many people search DMV."
+          },
+          {
+            "label": "Class D format",
+            "value": "At least 35 questions",
+            "text": "Illinois rules describe a Class D written test with a minimum of 35 questions."
+          },
+          {
+            "label": "Pass rule",
+            "value": "80% correct",
+            "text": "The official rule uses an 80 percent passing requirement."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "This site uses a long mixed round to make the 80 percent target visible."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Illinois signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Practice by topic",
+        "heading": "Illinois permit topics to study after each quiz",
+        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "items": [
+          {
+            "label": "Topic 1",
+            "title": "Road signs and traffic controls",
+            "text": "Illinois: Recognize signs by shape, color, and driver action before memorizing answer choices.",
+            "review": "Review sign library"
+          },
+          {
+            "label": "Topic 2",
+            "title": "Right of way",
+            "text": "Illinois: Practice who yields at four-way stops, left turns, pedestrians, emergency vehicles, and roundabouts.",
+            "review": "Review missed yield questions"
+          },
+          {
+            "label": "Topic 3",
+            "title": "Speed and following distance",
+            "text": "Illinois: Connect posted limits with weather, visibility, school zones, and stopping distance.",
+            "review": "Review speed questions"
+          },
+          {
+            "label": "Topic 4",
+            "title": "Intersections and turns",
+            "text": "Illinois: Study signals, turn lanes, yellow lights, protected turns, and lane positioning.",
+            "review": "Review signal questions"
+          },
+          {
+            "label": "Topic 5",
+            "title": "Parking and curbs",
+            "text": "Illinois: Check curb colors, hills, no-parking zones, and safe door-opening habits.",
+            "review": "Review parking table"
+          },
+          {
+            "label": "Topic 6",
+            "title": "Bad weather and night driving",
+            "text": "Illinois: Practice fog, rain, hydroplaning, icy roads, skids, and headlight choices.",
+            "review": "Review road conditions"
+          },
+          {
+            "label": "Topic 7",
+            "title": "Pedestrians, school buses, and cyclists",
+            "text": "Illinois: Watch for vulnerable road users and rules that require slowing or stopping.",
+            "review": "Review sharing the road"
+          },
+          {
+            "label": "Topic 8",
+            "title": "Alcohol, drugs, and distractions",
+            "text": "Illinois: Know why impairment and distraction affect judgment, reaction time, and legal risk.",
+            "review": "Review safety rules"
+          }
+        ]
+      },
+      "checklist": [
+        "Study Illinois Rules of the Road before relying on practice memory.",
+        "Pay special attention to road signs, right of way, parking, GDL rules, and impaired driving.",
+        "Bring required identity documents for the Secretary of State facility visit.",
+        "Use road-sign images because Illinois exams include sign recognition and traffic-law understanding.",
+        "Aim for 80 percent or better in more than one practice round.",
+        "If you miss a category twice, reread that handbook section before more clicking."
       ]
     },
     {
@@ -5774,6 +6744,81 @@
           "label": "Illinois Secretary of State: Driver Services",
           "url": "https://www.ilsos.gov/departments/drivers/"
         }
+      ],
+      "examDetails": {
+        "kicker": "Illinois test context",
+        "heading": "Illinois road signs in the real permit-test context",
+        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "items": [
+          {
+            "label": "Official agency",
+            "value": "Secretary of State",
+            "text": "Illinois licensing is handled by Secretary of State Driver Services, even though many people search DMV."
+          },
+          {
+            "label": "Class D format",
+            "value": "At least 35 questions",
+            "text": "Illinois rules describe a Class D written test with a minimum of 35 questions."
+          },
+          {
+            "label": "Pass rule",
+            "value": "80% correct",
+            "text": "The official rule uses an 80 percent passing requirement."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "This site uses a long mixed round to make the 80 percent target visible."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Illinois signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": null,
+      "checklist": [
+        "Review Illinois sign shapes before the image quiz.",
+        "Say the driver action out loud before looking at answer choices.",
+        "After a miss, review the matching shape/color group below.",
+        "Retake the road-sign round later instead of immediately guessing again.",
+        "Confirm final wording in the Illinois Rules of the Road."
       ]
     },
     {
@@ -6064,6 +7109,10 @@
       ],
       "body": [
         {
+          "heading": "Why Pennsylvania practice should start with the official source",
+          "text": "Private practice tests help you find weak areas, but the Pennsylvania Driver Manual and PennDOT pages are the final source for wording, documents, fees, and eligibility."
+        },
+        {
           "heading": "How to use this Pennsylvania permit practice test",
           "text": "Read the exam snapshot first, then start with quick practice. Move to road signs if visual recognition feels weak, and use the mock exam only after reviewing missed explanations."
         },
@@ -6130,6 +7179,136 @@
           "label": "PennDOT: Driver and Vehicle Services",
           "url": "https://www.pa.gov/agencies/dmv.html"
         }
+      ],
+      "examDetails": {
+        "kicker": "Real test details",
+        "heading": "Pennsylvania permit test facts people look for first",
+        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "items": [
+          {
+            "label": "Official format",
+            "value": "18 questions",
+            "text": "PennDOT says the knowledge test has 18 multiple-choice questions."
+          },
+          {
+            "label": "Pass rule",
+            "value": "15 correct",
+            "text": "You must answer 15 questions correctly to pass the Pennsylvania knowledge test."
+          },
+          {
+            "label": "What it covers",
+            "value": "Signs, laws, safe driving",
+            "text": "PennDOT describes traffic signs, Pennsylvania driving laws, and safe-driving practices as test areas."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "The longer mock mode gives extra repetition before the shorter official test."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Pennsylvania signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Practice by topic",
+        "heading": "Pennsylvania permit topics to study after each quiz",
+        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "items": [
+          {
+            "label": "Topic 1",
+            "title": "Road signs and traffic controls",
+            "text": "Pennsylvania: Recognize signs by shape, color, and driver action before memorizing answer choices.",
+            "review": "Review sign library"
+          },
+          {
+            "label": "Topic 2",
+            "title": "Right of way",
+            "text": "Pennsylvania: Practice who yields at four-way stops, left turns, pedestrians, emergency vehicles, and roundabouts.",
+            "review": "Review missed yield questions"
+          },
+          {
+            "label": "Topic 3",
+            "title": "Speed and following distance",
+            "text": "Pennsylvania: Connect posted limits with weather, visibility, school zones, and stopping distance.",
+            "review": "Review speed questions"
+          },
+          {
+            "label": "Topic 4",
+            "title": "Intersections and turns",
+            "text": "Pennsylvania: Study signals, turn lanes, yellow lights, protected turns, and lane positioning.",
+            "review": "Review signal questions"
+          },
+          {
+            "label": "Topic 5",
+            "title": "Parking and curbs",
+            "text": "Pennsylvania: Check curb colors, hills, no-parking zones, and safe door-opening habits.",
+            "review": "Review parking table"
+          },
+          {
+            "label": "Topic 6",
+            "title": "Bad weather and night driving",
+            "text": "Pennsylvania: Practice fog, rain, hydroplaning, icy roads, skids, and headlight choices.",
+            "review": "Review road conditions"
+          },
+          {
+            "label": "Topic 7",
+            "title": "Pedestrians, school buses, and cyclists",
+            "text": "Pennsylvania: Watch for vulnerable road users and rules that require slowing or stopping.",
+            "review": "Review sharing the road"
+          },
+          {
+            "label": "Topic 8",
+            "title": "Alcohol, drugs, and distractions",
+            "text": "Pennsylvania: Know why impairment and distraction affect judgment, reaction time, and legal risk.",
+            "review": "Review safety rules"
+          }
+        ]
+      },
+      "checklist": [
+        "Read the Pennsylvania Driver Manual section on testing and signs.",
+        "Know that the real knowledge test is shorter than this site's mock exam, so careless misses matter.",
+        "Bring required permit application documents and fee/payment method.",
+        "Review traffic signs and safe-driving practices before scheduling.",
+        "Use the 15-question quick round to decide which topic to reread.",
+        "If you score below 80 percent here, slow down and study before retaking."
       ]
     },
     {
@@ -6430,6 +7609,81 @@
           "label": "PennDOT: Driver and Vehicle Services",
           "url": "https://www.pa.gov/agencies/dmv.html"
         }
+      ],
+      "examDetails": {
+        "kicker": "Pennsylvania test context",
+        "heading": "Pennsylvania road signs in the real permit-test context",
+        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "items": [
+          {
+            "label": "Official format",
+            "value": "18 questions",
+            "text": "PennDOT says the knowledge test has 18 multiple-choice questions."
+          },
+          {
+            "label": "Pass rule",
+            "value": "15 correct",
+            "text": "You must answer 15 questions correctly to pass the Pennsylvania knowledge test."
+          },
+          {
+            "label": "What it covers",
+            "value": "Signs, laws, safe driving",
+            "text": "PennDOT describes traffic signs, Pennsylvania driving laws, and safe-driving practices as test areas."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "The longer mock mode gives extra repetition before the shorter official test."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "Pennsylvania signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": null,
+      "checklist": [
+        "Review Pennsylvania sign shapes before the image quiz.",
+        "Say the driver action out loud before looking at answer choices.",
+        "After a miss, review the matching shape/color group below.",
+        "Retake the road-sign round later instead of immediately guessing again.",
+        "Confirm final wording in the Pennsylvania Driver Manual."
       ]
     },
     {
@@ -6720,6 +7974,10 @@
       ],
       "body": [
         {
+          "heading": "Why New Jersey practice should start with the official source",
+          "text": "Private practice tests help you find weak areas, but the New Jersey Driver Manual and New Jersey MVC pages are the final source for wording, documents, fees, and eligibility."
+        },
+        {
           "heading": "How to use this New Jersey permit practice test",
           "text": "Read the exam snapshot first, then start with quick practice. Move to road signs if visual recognition feels weak, and use the mock exam only after reviewing missed explanations."
         },
@@ -6786,6 +8044,136 @@
           "label": "NJ MVC: Driver Manual PDF",
           "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
         }
+      ],
+      "examDetails": {
+        "kicker": "Real test details",
+        "heading": "New Jersey permit test facts people look for first",
+        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "items": [
+          {
+            "label": "Official source",
+            "value": "New Jersey Driver Manual",
+            "text": "NJ MVC tells applicants to prepare by reading the driver manual."
+          },
+          {
+            "label": "Before testing",
+            "value": "6 Points of ID",
+            "text": "NJ MVC says applicants visit a driver testing center with 6 Points of ID and purchase an examination permit."
+          },
+          {
+            "label": "Scheduling step",
+            "value": "Appointment after permit",
+            "text": "MVC directs applicants to schedule the knowledge test after buying an examination permit."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "Use the mock exam as a diagnostic before the MVC knowledge test."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "New Jersey signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Practice by topic",
+        "heading": "New Jersey permit topics to study after each quiz",
+        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "items": [
+          {
+            "label": "Topic 1",
+            "title": "Road signs and traffic controls",
+            "text": "New Jersey: Recognize signs by shape, color, and driver action before memorizing answer choices.",
+            "review": "Review sign library"
+          },
+          {
+            "label": "Topic 2",
+            "title": "Right of way",
+            "text": "New Jersey: Practice who yields at four-way stops, left turns, pedestrians, emergency vehicles, and roundabouts.",
+            "review": "Review missed yield questions"
+          },
+          {
+            "label": "Topic 3",
+            "title": "Speed and following distance",
+            "text": "New Jersey: Connect posted limits with weather, visibility, school zones, and stopping distance.",
+            "review": "Review speed questions"
+          },
+          {
+            "label": "Topic 4",
+            "title": "Intersections and turns",
+            "text": "New Jersey: Study signals, turn lanes, yellow lights, protected turns, and lane positioning.",
+            "review": "Review signal questions"
+          },
+          {
+            "label": "Topic 5",
+            "title": "Parking and curbs",
+            "text": "New Jersey: Check curb colors, hills, no-parking zones, and safe door-opening habits.",
+            "review": "Review parking table"
+          },
+          {
+            "label": "Topic 6",
+            "title": "Bad weather and night driving",
+            "text": "New Jersey: Practice fog, rain, hydroplaning, icy roads, skids, and headlight choices.",
+            "review": "Review road conditions"
+          },
+          {
+            "label": "Topic 7",
+            "title": "Pedestrians, school buses, and cyclists",
+            "text": "New Jersey: Watch for vulnerable road users and rules that require slowing or stopping.",
+            "review": "Review sharing the road"
+          },
+          {
+            "label": "Topic 8",
+            "title": "Alcohol, drugs, and distractions",
+            "text": "New Jersey: Know why impairment and distraction affect judgment, reaction time, and legal risk.",
+            "review": "Review safety rules"
+          }
+        ]
+      },
+      "checklist": [
+        "Read the New Jersey Driver Manual before the knowledge test appointment.",
+        "Prepare 6 Points of ID and any documents required for your age and license path.",
+        "Purchase or confirm the examination permit step before scheduling the knowledge test.",
+        "Review signs, signals, GDL rules, right of way, and impaired-driving rules.",
+        "Use road-sign image practice until you can identify shape and color quickly.",
+        "After a missed mock question, reread the exact category instead of immediately retaking."
       ]
     },
     {
@@ -7086,6 +8474,81 @@
           "label": "NJ MVC: Driver Manual PDF",
           "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
         }
+      ],
+      "examDetails": {
+        "kicker": "New Jersey test context",
+        "heading": "New Jersey road signs in the real permit-test context",
+        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "items": [
+          {
+            "label": "Official source",
+            "value": "New Jersey Driver Manual",
+            "text": "NJ MVC tells applicants to prepare by reading the driver manual."
+          },
+          {
+            "label": "Before testing",
+            "value": "6 Points of ID",
+            "text": "NJ MVC says applicants visit a driver testing center with 6 Points of ID and purchase an examination permit."
+          },
+          {
+            "label": "Scheduling step",
+            "value": "Appointment after permit",
+            "text": "MVC directs applicants to schedule the knowledge test after buying an examination permit."
+          },
+          {
+            "label": "Practice target here",
+            "value": "32 of 40 on mock exam",
+            "text": "Use the mock exam as a diagnostic before the MVC knowledge test."
+          }
+        ]
+      },
+      "signStudy": {
+        "kicker": "Road sign study guide",
+        "heading": "New Jersey signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "groups": [
+          {
+            "label": "Shapes",
+            "title": "Shape gives the first clue",
+            "text": "Shape often tells you the urgency before you read the words.",
+            "items": [
+              "Octagon: stop completely.",
+              "Triangle: yield and give right of way.",
+              "Diamond: warning or changing road condition.",
+              "Pentagon: school zone or school crossing."
+            ]
+          },
+          {
+            "label": "Colors",
+            "title": "Color tells the type of action",
+            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
+            "items": [
+              "Red: stop, yield, do not enter, or prohibited action.",
+              "Yellow: general warning or caution.",
+              "Orange: work zone or temporary traffic control.",
+              "Blue/green: services, routes, or guide information."
+            ]
+          },
+          {
+            "label": "Markings",
+            "title": "Lines and signals are test material too",
+            "text": "Permit questions often mix signs with lane markings and traffic signals.",
+            "items": [
+              "Solid yellow on your side usually means no passing.",
+              "Flashing red works like a stop sign.",
+              "Flashing yellow means proceed carefully.",
+              "Crosswalk markings require pedestrian awareness."
+            ]
+          }
+        ]
+      },
+      "practiceTopics": null,
+      "checklist": [
+        "Review New Jersey sign shapes before the image quiz.",
+        "Say the driver action out loud before looking at answer choices.",
+        "After a miss, review the matching shape/color group below.",
+        "Retake the road-sign round later instead of immediately guessing again.",
+        "Confirm final wording in the New Jersey Driver Manual."
       ]
     }
   ],

@@ -169,6 +169,33 @@ h3 {
   font-size: 0.92rem;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.hero-actions a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 800;
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-actions a:first-child {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
 .notice {
   padding-top: 16px;
   padding-bottom: 16px;
@@ -183,6 +210,9 @@ h3 {
 .dmv-launch,
 .dmv-mode-tool,
 .exam-brief,
+.exam-details,
+.practice-topics,
+.sign-study,
 .sign-library,
 .hub-primary,
 .hub-section,
@@ -323,6 +353,11 @@ h3 {
   border-bottom: 1px solid var(--line);
 }
 
+.exam-details,
+.sign-study {
+  background: var(--paper);
+}
+
 .exam-brief-head {
   max-width: 820px;
 }
@@ -363,6 +398,81 @@ h3 {
 
 .exam-stat-grid p {
   margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.exam-detail-grid,
+.topic-grid,
+.sign-study-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.exam-detail-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.topic-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.sign-study-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.exam-detail-grid article,
+.topic-grid article,
+.sign-study-grid article {
+  min-height: 148px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+  box-shadow: var(--shadow-soft);
+}
+
+.topic-grid article {
+  background: var(--paper);
+}
+
+.exam-detail-grid span,
+.topic-grid span,
+.sign-study-grid span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.exam-detail-grid strong,
+.topic-grid strong,
+.sign-study-grid strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.02rem;
+}
+
+.exam-detail-grid p,
+.topic-grid p,
+.sign-study-grid p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.topic-grid em {
+  display: block;
+  margin-top: 10px;
+  color: var(--blue);
+  font-style: normal;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.sign-study-grid ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
   color: var(--muted);
   font-size: 0.92rem;
 }
@@ -1178,6 +1288,9 @@ button:disabled {
   .card-grid,
   .fact-grid,
   .exam-stat-grid,
+  .exam-detail-grid,
+  .topic-grid,
+  .sign-study-grid,
   .study-path-grid,
   .sign-group,
   .sign-mini-grid,

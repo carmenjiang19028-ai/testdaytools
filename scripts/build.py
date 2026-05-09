@@ -106,6 +106,26 @@ def render_ad(label="future ad"):
     return f"<!-- Reserved {esc(label).lower()} slot. Real ads are intentionally disabled for the static launch. -->"
 
 
+def render_tool_actions(tool):
+    if tool.get("category") != "DMV":
+        return ""
+    is_sign_page = "road-signs" in tool.get("slug", "")
+    if is_sign_page:
+        actions = [
+            ("Start image quiz", "#practice"),
+            ("Shape and color guide", "#sign-study"),
+            ("Sign library", "#sign-library"),
+        ]
+    else:
+        actions = [
+            ("Start practice", "#practice"),
+            ("Official test facts", "#official-details"),
+            ("Study by topic", "#practice-topics"),
+        ]
+    links = "".join(f'<a href="{esc(href)}">{esc(label)}</a>' for label, href in actions)
+    return f'\n    <div class="hero-actions">{links}</div>'
+
+
 def render_quick_facts(facts):
     if not facts:
         return ""
@@ -161,13 +181,72 @@ def render_sign_library(tool):
   </div>
   <div class="sign-mini-grid">{"".join(signs)}</div>
 </article>""")
-    return f"""<section class="sign-library">
+    return f"""<section class="sign-library" id="sign-library">
   <div class="tool-section-head">
     <span class="eyebrow">{esc(library.get("kicker", "Road sign library"))}</span>
     <h2>{esc(library["heading"])}</h2>
     <p class="section-intro">{esc(library.get("intro", ""))}</p>
   </div>
   <div class="sign-library-grid">{"".join(groups)}</div>
+</section>"""
+
+
+def render_exam_details(tool):
+    details = tool.get("examDetails")
+    if not details:
+        return ""
+    cards = "".join(
+        f'<article><span>{esc(item["label"])}</span><strong>{esc(item["value"])}</strong><p>{esc(item.get("text", ""))}</p></article>'
+        for item in details.get("items", [])
+    )
+    return f"""<section class="exam-details" id="official-details">
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(details.get("kicker", "Real test details"))}</span>
+    <h2>{esc(details["heading"])}</h2>
+    <p class="section-intro">{esc(details.get("intro", ""))}</p>
+  </div>
+  <div class="exam-detail-grid">{cards}</div>
+</section>"""
+
+
+def render_topic_cards(tool):
+    topics = tool.get("practiceTopics")
+    if not topics:
+        return ""
+    cards = "".join(
+        f'<article><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p><em>{esc(item.get("review", ""))}</em></article>'
+        for item in topics.get("items", [])
+    )
+    return f"""<section class="practice-topics" id="practice-topics">
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(topics.get("kicker", "Practice by topic"))}</span>
+    <h2>{esc(topics["heading"])}</h2>
+    <p class="section-intro">{esc(topics.get("intro", ""))}</p>
+  </div>
+  <div class="topic-grid">{cards}</div>
+</section>"""
+
+
+def render_sign_study(tool):
+    study = tool.get("signStudy")
+    if not study:
+        return ""
+    groups = []
+    for group in study.get("groups", []):
+        items = "".join(f'<li>{esc(item)}</li>' for item in group.get("items", []))
+        groups.append(f"""<article>
+  <span>{esc(group["label"])}</span>
+  <strong>{esc(group["title"])}</strong>
+  <p>{esc(group.get("text", ""))}</p>
+  <ul>{items}</ul>
+</article>""")
+    return f"""<section class="sign-study" id="sign-study">
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(study.get("kicker", "Sign study guide"))}</span>
+    <h2>{esc(study["heading"])}</h2>
+    <p class="section-intro">{esc(study.get("intro", ""))}</p>
+  </div>
+  <div class="sign-study-grid">{"".join(groups)}</div>
 </section>"""
 
 
@@ -300,6 +379,7 @@ def render_quiz(quiz_key, options=None):
     kicker = options.get("kicker", "Interactive practice")
     quiz_label = options.get("label", title)
     mode_id = options.get("id", quiz_key)
+    section_id = f' id="{esc(options["sectionId"])}"' if options.get("sectionId") else ""
     summary = f"""<aside class="quiz-summary" aria-live="polite">
   <p class="quiz-kicker">Practice status</p>
   <div>
@@ -314,7 +394,7 @@ def render_quiz(quiz_key, options=None):
   <button type="button" class="quiz-nav-button" data-quiz-prev>Previous</button>
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>"""
-    return f"""<section class="quiz tool-block" data-quiz data-total="{total}" data-pass-score="{esc(pass_score)}" data-quiz-label="{esc(quiz_label)}" data-mode-id="{esc(mode_id)}">
+    return f"""<section class="quiz tool-block"{section_id} data-quiz data-total="{total}" data-pass-score="{esc(pass_score)}" data-quiz-label="{esc(quiz_label)}" data-mode-id="{esc(mode_id)}">
   <div class="tool-section-head">
     <span class="eyebrow">{esc(kicker)}</span>
     <h2>{esc(title)}</h2>
@@ -339,7 +419,7 @@ def render_dmv_mode_tool(tool):
     if not modes:
         return render_quiz(tool.get("quiz"))
     if len(modes) == 1:
-        return render_quiz(modes[0]["quiz"], modes[0])
+        return render_quiz(modes[0]["quiz"], {**modes[0], "sectionId": "practice"})
     tabs = []
     panels = []
     for index, mode in enumerate(modes):
@@ -354,7 +434,7 @@ def render_dmv_mode_tool(tool):
         f'<li><strong>{esc(mode["label"])}</strong><span>{esc(mode.get("description", ""))}</span></li>'
         for mode in modes
     )
-    return f"""<section class="dmv-mode-tool" data-mode-tool>
+    return f"""<section class="dmv-mode-tool" id="practice" data-mode-tool>
   <div class="tool-section-head">
     <span class="eyebrow">DMV practice engine</span>
     <h2>Choose a practice mode</h2>
@@ -382,6 +462,9 @@ def render_tool(tool):
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
     dmv_single_mode = tool.get("category") == "DMV" and len(tool.get("quizModes", [])) == 1
     exam_brief = render_exam_brief(tool)
+    exam_details = render_exam_details(tool)
+    practice_topics = render_topic_cards(tool)
+    sign_study = render_sign_study(tool)
     sign_library = render_sign_library(tool)
     body_sections = "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
@@ -390,11 +473,11 @@ def render_tool(tool):
     dmv_sections = []
     if dmv_quiz_first:
         if dmv_single_mode:
-            dmv_sections.extend([quiz, sign_library, exam_brief])
+            dmv_sections.extend([quiz, sign_study, sign_library, exam_details, exam_brief])
         else:
-            dmv_sections.extend([exam_brief, quiz, sign_library])
+            dmv_sections.extend([exam_brief, quiz, exam_details, practice_topics, sign_study, sign_library])
     else:
-        dmv_sections.extend([exam_brief, sign_library])
+        dmv_sections.extend([exam_brief, exam_details, practice_topics, sign_study, sign_library])
     lower_sections = [
         render_quick_facts(tool.get("quickFacts")),
         render_countdown(tool.get("countdown")),
@@ -415,7 +498,7 @@ def render_tool(tool):
     <p class="eyebrow">{esc(tool["heroKicker"])}</p>
     <h1>{esc(tool["title"])}</h1>
     <p class="lede">{esc(tool["summary"])}</p>
-    {render_last_updated()}
+    {render_last_updated()}{render_tool_actions(tool)}
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
