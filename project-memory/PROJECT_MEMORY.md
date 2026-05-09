@@ -199,6 +199,10 @@ As of 2026-05-09:
 - Custom domain purchased and DNS configured: https://testdaytools.com/
 - Canonical production URL after domain setup: https://testdaytools.com/
 - Sitemap after domain setup: https://testdaytools.com/sitemap.xml
+- Custom domain verification from local checks:
+  - `https://testdaytools.com/` returns HTTP 200 from GitHub Pages.
+  - `https://www.testdaytools.com/` redirects to `https://testdaytools.com/`.
+  - `https://testdaytools.com/sitemap.xml` returns the custom-domain sitemap.
 
 Important review fixes already made:
 - Initially changed canonical/sitemap URL from `https://testdaytools.com` to the GitHub Pages project URL for first launch.
@@ -213,8 +217,9 @@ Important review fixes already made:
 
 Current assessment:
 - Good enough to publish as a free MVP and start Search Console indexing.
-- Not yet ready to apply for AdSense because there is no real domain/email, no traffic history, and content depth should be improved after initial indexing.
-- Before AdSense, add a real contact email, ideally after buying a domain.
+- The site now has a real `.com` domain, which improves trust and avoids a later domain migration.
+- Not yet ready to apply for AdSense because there is no real domain email, no traffic history, and content depth should be improved after initial indexing.
+- Before AdSense, add a real contact email on the domain or another credible contact method.
 
 ## One-Week SEO Sprint Status
 
@@ -260,6 +265,5 @@ Supporting sprint docs:
 2. Track indexing and query impressions.
 3. Improve the thin AP/SAT pages before applying for AdSense.
 4. Improve whichever page gets early impressions.
-5. Buy/connect a domain only after the MVP has early validation or before AdSense application.
-6. Add a real contact email before applying for AdSense.
-7. Apply for AdSense only after indexing and initial organic traffic.
+5. Add a real contact email before applying for AdSense.
+6. Apply for AdSense only after indexing and initial organic traffic.
