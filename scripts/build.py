@@ -192,21 +192,43 @@ def render_quiz(quiz_key):
             f'<button type="button" data-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(q["choices"])
         )
-        cards.append(f"""<article class="question" data-answer="{q["answer"]}" data-category="{esc(category)}" data-explanation="{esc(q["explanation"])}">
+        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
   <p class="feedback" aria-live="polite"></p>
 </article>""")
     total = len(questions)
-    summary = f"""<div class="quiz-summary" aria-live="polite">
+    summary = f"""<aside class="quiz-summary" aria-live="polite">
+  <p class="quiz-kicker">Practice status</p>
   <div>
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
   <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
+</aside>"""
+    controls = """<div class="quiz-controls">
+  <button type="button" class="quiz-nav-button" data-quiz-prev>Previous</button>
+  <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>"""
-    return f'<section class="quiz tool-block" data-quiz data-total="{total}"><h2>Practice questions</h2><p class="section-intro">Start here before reading the rest of the page. Your answers stay in this browser session, and the result will point you to weak areas.</p>{summary}{"".join(cards)}</section>'
+    return f"""<section class="quiz tool-block" data-quiz data-total="{total}">
+  <div class="tool-section-head">
+    <span class="eyebrow">Interactive practice</span>
+    <h2>Practice questions</h2>
+    <p class="section-intro">Answer one question at a time. Your result stays in this browser session and points you to weak areas.</p>
+  </div>
+  <div class="quiz-shell">
+    <div class="quiz-workspace">
+      <div class="quiz-topbar">
+        <span data-quiz-position>Question 1 of {total}</span>
+        <span data-quiz-answered>0 answered</span>
+      </div>
+      <div class="quiz-stage">{"".join(cards)}</div>
+      {controls}
+    </div>
+    {summary}
+  </div>
+</section>"""
 
 
 def render_related(slugs):
@@ -236,8 +258,8 @@ def render_tool(tool):
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
-{render_quick_facts(tool.get("quickFacts"))}
 {quiz if dmv_quiz_first else ""}
+{render_quick_facts(tool.get("quickFacts"))}
 {render_countdown(tool.get("countdown"))}
 {render_timeline(tool.get("timeline"))}
 {render_tables(tool.get("tables"))}

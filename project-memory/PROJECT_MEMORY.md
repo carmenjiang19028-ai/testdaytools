@@ -263,6 +263,27 @@ Current product assessment:
 - The site is no longer just a thin MVP. It now has a clearer user journey and stronger internal structure.
 - It is still not guaranteed to earn traffic or ad revenue quickly; the next priority is Search Console setup and indexing checks.
 - Do not apply to AdSense until indexing and basic traffic signals are visible, unless the user explicitly wants to test early.
+
+## UI/Product Quality Pass
+
+As of 2026-05-09, the user reviewed the live DMV page and correctly identified that the site still did not feel like a useful tool site.
+
+Problems found:
+- Long DMV quizzes were displayed as a full list of questions, which made the page feel like raw content instead of an interactive tool.
+- On wide desktop screens, content sections could collapse into vertical letter-by-letter text because `max-width` was applied to the full section while the section also had large responsive side padding.
+- The primary DMV user action was not high enough on the page.
+
+Fix implemented:
+- DMV quiz pages now put the interactive practice tool immediately after the unofficial notice, before quick facts and explanatory content.
+- Quiz UI is now one-question-at-a-time with progress, answered count, result panel, weak-area feedback, disabled next button until the user answers, and previous/next controls.
+- Answer choices are now stacked and labeled A/B/C for readability instead of being squeezed into three columns.
+- The result/status panel uses a right-side desktop layout and single-column mobile layout.
+- The content-section layout bug was fixed by keeping sections full-width and limiting only the inner text width.
+- Full-page overflow checks passed for 22 HTML pages on desktop width 1440 and mobile width 390.
+
+Current product assessment:
+- DMV pages now feel substantially more like a real tool.
+- The next product gap is visual differentiation and richer task-specific utilities for AP/SAT, not more generic text pages.
 - Real ad code remains disabled; there are no visible ad placeholders.
 
 Validation already passed locally:

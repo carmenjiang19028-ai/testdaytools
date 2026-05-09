@@ -27,9 +27,34 @@ function initQuizzes() {
     const result = quiz.querySelector("[data-quiz-result]");
     const next = quiz.querySelector("[data-quiz-next]");
     const meter = quiz.querySelector("[data-quiz-meter]");
+    const position = quiz.querySelector("[data-quiz-position]");
+    const answeredLabel = quiz.querySelector("[data-quiz-answered]");
+    const prevButton = quiz.querySelector("[data-quiz-prev]");
+    const forwardButton = quiz.querySelector("[data-quiz-forward]");
     const answered = new Set();
     const missedCategories = {};
+    let activeIndex = 0;
     let correct = 0;
+
+    const renderActiveQuestion = () => {
+      questions.forEach((question, index) => {
+        const isActive = index === activeIndex;
+        question.classList.toggle("is-active", isActive);
+        question.setAttribute("aria-hidden", isActive ? "false" : "true");
+      });
+
+      if (position) position.textContent = `Question ${activeIndex + 1} of ${questions.length}`;
+      if (prevButton) prevButton.disabled = activeIndex === 0;
+      if (forwardButton) {
+        const activeAnswered = answered.has(activeIndex);
+        forwardButton.disabled = !activeAnswered;
+        if (activeIndex === questions.length - 1) {
+          forwardButton.textContent = activeAnswered ? "Review result" : "Answer to finish";
+        } else {
+          forwardButton.textContent = activeAnswered ? "Next question" : "Answer to continue";
+        }
+      }
+    };
 
     const renderScore = () => {
       const answeredCount = answered.size;
@@ -42,6 +67,7 @@ function initQuizzes() {
       if (score) score.textContent = resultText;
       if (result) result.textContent = resultText;
       if (meter) meter.style.width = `${total ? Math.round((answeredCount / total) * 100) : 0}%`;
+      if (answeredLabel) answeredLabel.textContent = `${answeredCount} of ${total} answered`;
 
       const missed = Object.entries(missedCategories)
         .sort((a, b) => b[1] - a[1])
@@ -68,7 +94,30 @@ function initQuizzes() {
       }
     };
 
+    if (questions.length) {
+      quiz.classList.add("is-enhanced");
+      renderActiveQuestion();
+    }
     renderScore();
+
+    if (prevButton) {
+      prevButton.addEventListener("click", () => {
+        activeIndex = Math.max(0, activeIndex - 1);
+        renderActiveQuestion();
+      });
+    }
+
+    if (forwardButton) {
+      forwardButton.addEventListener("click", () => {
+        if (activeIndex < questions.length - 1) {
+          activeIndex += 1;
+          renderActiveQuestion();
+          return;
+        }
+        const summary = quiz.querySelector(".quiz-summary");
+        if (summary) summary.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
 
     questions.forEach((question, index) => {
       question.querySelectorAll("button").forEach((button) => {
@@ -93,6 +142,7 @@ function initQuizzes() {
           const feedback = question.querySelector(".feedback");
           feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.explanation}`;
           renderScore();
+          renderActiveQuestion();
         });
       });
     });
