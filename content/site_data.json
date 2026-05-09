@@ -1,0 +1,342 @@
+{
+  "site": {
+    "name": "TestDayTools",
+    "url": "https://testdaytools.com",
+    "description": "Unofficial test day tools, dates, checklists, and practice questions for AP, SAT, and DMV prep.",
+    "lastUpdated": "May 9, 2026",
+    "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency."
+  },
+  "navigation": [
+    {"label": "AP", "href": "/ap-score-release-date-2026.html"},
+    {"label": "SAT", "href": "/sat-test-dates-2026-2027.html"},
+    {"label": "DMV", "href": "/california-dmv-permit-practice-test.html"},
+    {"label": "About", "href": "/about.html"}
+  ],
+  "home": {
+    "title": "TestDayTools: AP, SAT, and DMV date tools",
+    "description": "Quick, unofficial tools for AP score dates, AP exam schedules, SAT test dates, test day checklists, and DMV permit practice.",
+    "sections": [
+      {
+        "heading": "AP tools",
+        "links": ["ap-score-release-date-2026", "2026-ap-exam-schedule", "ap-exam-day-checklist"]
+      },
+      {
+        "heading": "SAT tools",
+        "links": ["sat-test-dates-2026-2027", "digital-sat-checklist", "sat-score-release-guide"]
+      },
+      {
+        "heading": "DMV practice",
+        "links": ["california-dmv-permit-practice-test", "new-york-dmv-permit-practice-test"]
+      }
+    ]
+  },
+  "tools": [
+    {
+      "slug": "ap-score-release-date-2026",
+      "category": "AP",
+      "title": "AP Score Release Date 2026",
+      "description": "Track the 2026 AP score release date, see what to do before scores arrive, and understand how to send AP scores after release.",
+      "heroKicker": "AP dates",
+      "summary": "2026 AP scores are scheduled to be available starting Monday, July 6, 2026. Use the countdown and quick checklist below to get ready before release day.",
+      "countdown": {"label": "AP score release begins", "date": "2026-07-06T08:00:00-04:00"},
+      "body": [
+        {"heading": "What to know", "text": "AP scores usually roll out through the student's online College Board account. Release timing can vary during the day, so refresh gently and keep your sign-in information ready."},
+        {"heading": "Before scores arrive", "text": "Confirm that your College Board account uses the same name and identifying details you used for AP exams. If you are sending scores to a college, review your recipient choices before making changes."}
+      ],
+      "checklist": [
+        "Confirm your College Board username and password.",
+        "Check that your email address and profile details are current.",
+        "Write down the colleges or programs that may need your scores.",
+        "Avoid sharing screenshots with personal information visible.",
+        "Review each college's credit policy before making course decisions."
+      ],
+      "faq": [
+        {"q": "Are all 2026 AP scores released at the exact same minute?", "a": "No. Scores are scheduled to become available starting July 6, 2026, but individual access can vary during the day."},
+        {"q": "Can this site show my AP score?", "a": "No. This page is only an unofficial planning tool. Always sign in through the official College Board website to view scores."},
+        {"q": "Should I send scores before seeing them?", "a": "Many students wait until they understand college credit policies. If a deadline applies, confirm it directly with the college."}
+      ],
+      "sources": [
+        {"label": "College Board AP Students: Scores", "url": "https://apstudents.collegeboard.org/view-scores"},
+        {"label": "College Board AP Students: Sending scores", "url": "https://apstudents.collegeboard.org/sending-scores"}
+      ],
+      "related": ["2026-ap-exam-schedule", "ap-exam-day-checklist", "sat-score-release-guide"]
+    },
+    {
+      "slug": "2026-ap-exam-schedule",
+      "category": "AP",
+      "title": "2026 AP Exam Schedule",
+      "description": "A scan-friendly 2026 AP exam schedule with morning and afternoon testing windows, plus exam day reminders.",
+      "heroKicker": "AP schedule",
+      "summary": "The regular 2026 AP Exams are scheduled for May 4-8 and May 11-15, 2026. Always confirm your exact room, local start time, and late-testing rules with your school.",
+      "tables": [
+        {
+          "caption": "2026 AP exam weeks",
+          "headers": ["Window", "Dates", "Notes"],
+          "rows": [
+            ["Regular testing week 1", "May 4-8, 2026", "Most subjects run in morning or afternoon sessions."],
+            ["Regular testing week 2", "May 11-15, 2026", "Some portfolio and language deadlines may differ."],
+            ["Late testing", "May 18-22, 2026", "Only available through approved school arrangements."]
+          ]
+        },
+        {
+          "caption": "Common AP exam day timing",
+          "headers": ["Session", "Typical local start", "Planning note"],
+          "rows": [
+            ["Morning", "8:00 AM", "Arrive early enough for check-in and seating."],
+            ["Afternoon", "12:00 PM", "Eat beforehand and bring approved materials."],
+            ["AP Physics C: Electricity and Magnetism", "2:00 PM", "A later start is common for this subject."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "How to use this schedule", "text": "Use this page as a planning overview, then confirm the exact subject-by-subject schedule with your school or the official AP exam calendar."},
+        {"heading": "Avoid schedule mistakes", "text": "Students taking multiple AP exams should check for same-day exams, transportation timing, lunch plans, calculator rules, and any school-specific check-in instructions."}
+      ],
+      "faq": [
+        {"q": "Is this the official AP exam calendar?", "a": "No. This is an unofficial planning page that summarizes key windows. Use College Board and your school for official details."},
+        {"q": "Can my school change my start time?", "a": "Schools manage local logistics, rooms, and check-in procedures. Confirm exact arrival instructions with your AP coordinator."},
+        {"q": "What if I miss an AP exam?", "a": "Ask your AP coordinator immediately. Late testing depends on approved reasons and school arrangements."}
+      ],
+      "sources": [
+        {"label": "College Board AP Students: Exam dates", "url": "https://apstudents.collegeboard.org/exam-dates"},
+        {"label": "College Board AP Central: Late-testing schedule", "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates/late-testing-dates"}
+      ],
+      "related": ["ap-exam-day-checklist", "ap-score-release-date-2026", "sat-test-dates-2026-2027"]
+    },
+    {
+      "slug": "ap-exam-day-checklist",
+      "category": "AP",
+      "title": "AP Exam Day Checklist",
+      "description": "A practical AP exam day checklist covering what to bring, what to avoid, and how to prepare the night before.",
+      "heroKicker": "AP checklist",
+      "summary": "Use this unofficial AP exam day checklist to pack the basics, reduce morning stress, and avoid preventable testing-day issues.",
+      "checklist": [
+        "Photo ID if your school requires it.",
+        "Several No. 2 pencils with erasers.",
+        "Black or dark blue pens for written responses if required.",
+        "Approved calculator for exams that allow one.",
+        "Extra batteries or backup calculator if allowed.",
+        "Watch without internet, alarms, or recording features if permitted.",
+        "Water and snack for breaks, following school rules.",
+        "Layered clothing for cold or warm testing rooms."
+      ],
+      "body": [
+        {"heading": "Pack the night before", "text": "Put approved items in one bag and remove anything you do not need. Phones, smartwatches, notes, and unapproved devices can create serious problems in a testing room."},
+        {"heading": "Morning routine", "text": "Leave earlier than usual, eat something steady, and arrive with enough time for check-in. If something goes wrong, contact your school immediately instead of guessing."}
+      ],
+      "faq": [
+        {"q": "Can I bring my phone to an AP exam?", "a": "Schools usually require phones to be powered off and stored away. Follow your school's instructions and official AP rules."},
+        {"q": "Do I need a calculator for every AP exam?", "a": "No. Calculator rules depend on the subject. Check the official calculator policy before exam day."},
+        {"q": "Should I bring notes for last-minute review?", "a": "You can review before check-in if your school allows it, but notes should not enter the testing area unless explicitly permitted."}
+      ],
+      "sources": [
+        {"label": "College Board AP Students: Exam policies", "url": "https://apstudents.collegeboard.org/exam-policies-guidelines"},
+        {"label": "College Board AP Students: Calculator policies", "url": "https://apstudents.collegeboard.org/exam-policies-guidelines/calculator-policies"}
+      ],
+      "related": ["2026-ap-exam-schedule", "ap-score-release-date-2026", "digital-sat-checklist"]
+    },
+    {
+      "slug": "sat-test-dates-2026-2027",
+      "category": "SAT",
+      "title": "SAT Test Dates 2026-2027",
+      "description": "Plan around 2026-2027 SAT weekend test dates, registration reminders, and score timing considerations.",
+      "heroKicker": "SAT dates",
+      "summary": "College Board lists anticipated SAT weekend dates for the 2026-2027 school year. Use this page to compare likely test months and build a simple registration plan.",
+      "countdown": {"label": "Next listed SAT weekend date", "date": "2026-08-22T07:45:00-04:00"},
+      "tables": [
+        {
+          "caption": "Anticipated SAT weekend dates for 2026-2027",
+          "headers": ["Test date", "Best for", "Planning note"],
+          "rows": [
+            ["August 22, 2026", "Early senior testing", "Useful before fall application deadlines."],
+            ["September 12, 2026", "Retake buffer", "Leaves time before October deadlines."],
+            ["October 3, 2026", "Fall applications", "Check college score deadlines carefully."],
+            ["November 7, 2026", "Regular decision planning", "Can work for many January deadlines."],
+            ["December 5, 2026", "Final fall attempt", "Confirm whether colleges accept December scores."],
+            ["March 13, 2027", "Junior spring testing", "Common first official SAT for juniors."],
+            ["May 1, 2027", "Junior retake", "Consider AP exam overlap."],
+            ["June 5, 2027", "Summer planning", "Good for students wanting scores before senior fall."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "Build a simple SAT plan", "text": "Most students should avoid choosing a test date in isolation. Work backward from application deadlines, school activities, AP exams, travel, and how much practice time you realistically have."},
+        {"heading": "Registration reminders", "text": "Registration windows, test center availability, fees, and accommodations deadlines can change. Confirm details in your official College Board account before making plans."}
+      ],
+      "faq": [
+        {"q": "Are these dates guaranteed?", "a": "No. They are based on College Board's listed SAT weekend schedule and should be confirmed before registration."},
+        {"q": "How many SAT dates should I plan for?", "a": "Many students plan one main test date and one backup retake date. Your timeline depends on deadlines and prep progress."},
+        {"q": "Should juniors test in March or May?", "a": "March gives more retake room. May may fit students who need more prep time, but it can overlap with AP exams."}
+      ],
+      "sources": [
+        {"label": "College Board SAT: Dates and deadlines", "url": "https://satsuite.collegeboard.org/sat/registration/dates-deadlines"},
+        {"label": "College Board SAT: Weekend administrations", "url": "https://satsuite.collegeboard.org/sat/registration/dates-deadlines"}
+      ],
+      "related": ["digital-sat-checklist", "sat-score-release-guide", "ap-exam-day-checklist"]
+    },
+    {
+      "slug": "digital-sat-checklist",
+      "category": "SAT",
+      "title": "Digital SAT Checklist",
+      "description": "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics.",
+      "heroKicker": "SAT checklist",
+      "summary": "The digital SAT depends on both preparation and device readiness. Use this checklist before test day so you are not troubleshooting at the door.",
+      "checklist": [
+        "Install or update Bluebook on your approved device.",
+        "Complete exam setup when it becomes available.",
+        "Bring an acceptable photo ID.",
+        "Bring your admission ticket if required by your test center.",
+        "Charge your device fully and bring the power cord.",
+        "Bring an approved calculator or use the built-in calculator.",
+        "Pack pencils or pens for scratch work if your center provides paper.",
+        "Know your test center route, parking, and arrival time."
+      ],
+      "body": [
+        {"heading": "Device readiness matters", "text": "Do not wait until the morning of the test to open Bluebook. Run through setup, check your operating system, and make sure you know your device password."},
+        {"heading": "What not to bring", "text": "Avoid bringing notes, separate timers, recording devices, or other items that could violate test rules. When in doubt, follow College Board and test center instructions."}
+      ],
+      "faq": [
+        {"q": "Can I take the digital SAT on any laptop?", "a": "No. Device requirements apply. Check official Bluebook and SAT device guidance before test day."},
+        {"q": "What happens if my device battery dies?", "a": "Bring your charger and follow test center instructions. A fully charged device is one of the easiest problems to prevent."},
+        {"q": "Is this checklist official?", "a": "No. It is an unofficial planning checklist that points you back to official SAT rules."}
+      ],
+      "sources": [
+        {"label": "College Board Bluebook", "url": "https://bluebook.collegeboard.org/"},
+        {"label": "College Board SAT: What to bring and do", "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"}
+      ],
+      "related": ["sat-test-dates-2026-2027", "sat-score-release-guide", "ap-exam-day-checklist"]
+    },
+    {
+      "slug": "sat-score-release-guide",
+      "category": "SAT",
+      "title": "SAT Score Release Guide",
+      "description": "Understand how SAT score release usually works, what to check before scores arrive, and how to think about sending scores.",
+      "heroKicker": "SAT scores",
+      "summary": "SAT score release timing depends on the administration. This unofficial guide helps you prepare your account, college list, and next-step decisions before scores post.",
+      "body": [
+        {"heading": "Where scores appear", "text": "SAT scores appear in the student's College Board account after processing. Some scores may take longer if additional review or matching is needed."},
+        {"heading": "After scores post", "text": "Compare your score with college testing policies, scholarship requirements, and your own retake plan. If you send scores, use official College Board score sending tools."}
+      ],
+      "checklist": [
+        "Confirm your College Board sign-in works.",
+        "Save your test date and registration details.",
+        "Make a short list of colleges that may need official scores.",
+        "Check each college's test policy and deadline.",
+        "Decide whether a retake date still fits your timeline."
+      ],
+      "faq": [
+        {"q": "Does TestDayTools know my SAT score release time?", "a": "No. This is an unofficial guide. Use your College Board account for actual scores and official updates."},
+        {"q": "Why are some SAT scores delayed?", "a": "Scores can be delayed for matching issues, make-up testing, or additional review. Contact College Board for official help."},
+        {"q": "Should I send all SAT scores?", "a": "Policies vary by college. Check whether each college accepts score choice, superscores, or requires all scores."}
+      ],
+      "sources": [
+        {"label": "College Board SAT: Getting scores", "url": "https://satsuite.collegeboard.org/sat/scores"},
+        {"label": "College Board SAT: Sending scores", "url": "https://satsuite.collegeboard.org/sat/scores/send-scores-to-colleges"}
+      ],
+      "related": ["sat-test-dates-2026-2027", "digital-sat-checklist", "ap-score-release-date-2026"]
+    },
+    {
+      "slug": "california-dmv-permit-practice-test",
+      "category": "DMV",
+      "title": "California DMV Permit Practice Test",
+      "description": "Practice original California permit-style questions covering speed, signs, right of way, alcohol, and safe driving basics.",
+      "heroKicker": "California DMV",
+      "summary": "Try these original, unofficial California permit practice questions. They are designed for study support and do not copy official DMV exam questions.",
+      "quiz": "california",
+      "body": [
+        {"heading": "How to study", "text": "Start with the official California Driver Handbook, then use practice questions to check whether you can apply the rules in plain language."},
+        {"heading": "What this quiz covers", "text": "The questions focus on general safe-driving knowledge: right of way, signs, lane use, alcohol rules, speed, and defensive driving."}
+      ],
+      "faq": [
+        {"q": "Are these official California DMV questions?", "a": "No. They are original practice questions made for study. Always use the California DMV handbook for official rules."},
+        {"q": "Can this quiz guarantee I pass?", "a": "No. It is a practice aid, not a guarantee. Read the handbook and follow official DMV instructions."},
+        {"q": "Does this page collect my answers?", "a": "No. The quiz runs in your browser and does not collect personal information."}
+      ],
+      "sources": [
+        {"label": "California DMV: Driver handbooks", "url": "https://www.dmv.ca.gov/portal/handbook/"},
+        {"label": "California DMV: Driver education and safety", "url": "https://www.dmv.ca.gov/portal/driver-education-and-safety/"}
+      ],
+      "related": ["new-york-dmv-permit-practice-test", "digital-sat-checklist", "ap-exam-day-checklist"]
+    },
+    {
+      "slug": "new-york-dmv-permit-practice-test",
+      "category": "DMV",
+      "title": "New York DMV Permit Practice Test",
+      "description": "Practice original New York permit-style questions about traffic signs, road rules, alcohol, intersections, and safe driving.",
+      "heroKicker": "New York DMV",
+      "summary": "Use these original, unofficial New York permit practice questions to review common road rules before studying the official manual again.",
+      "quiz": "newyork",
+      "body": [
+        {"heading": "Study flow", "text": "Read the official New York driver's manual first, then use practice questions to catch weak spots. Revisit the manual after each missed question."},
+        {"heading": "Question style", "text": "These questions are written in a general permit-test style and cover safe choices drivers should understand before driving alone."}
+      ],
+      "faq": [
+        {"q": "Are these real New York DMV test questions?", "a": "No. These are original practice questions and are not copied from the official exam."},
+        {"q": "Is this affiliated with the New York DMV?", "a": "No. TestDayTools is independent and unofficial."},
+        {"q": "Where should I verify a rule?", "a": "Use the official New York driver's manual or contact the DMV for official guidance."}
+      ],
+      "sources": [
+        {"label": "New York DMV: Driver's manual", "url": "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests"},
+        {"label": "New York DMV: Learner permits", "url": "https://dmv.ny.gov/driver-license/get-learner-permit"}
+      ],
+      "related": ["california-dmv-permit-practice-test", "digital-sat-checklist", "sat-test-dates-2026-2027"]
+    }
+  ],
+  "quizzes": {
+    "california": [
+      {"q": "When approaching a stop sign, what should you do?", "choices": ["Come to a complete stop before the limit line or crosswalk", "Slow down only if another car is present", "Stop after entering the intersection"], "answer": 0, "explanation": "A complete stop before the limit line or crosswalk gives drivers and pedestrians predictable space."},
+      {"q": "If a traffic signal is not working, you should usually treat the intersection as:", "choices": ["A four-way stop", "A green light for the larger road", "A yield sign for every driver"], "answer": 0, "explanation": "When signals fail, drivers should use stop-sign style caution unless directed otherwise by an officer or posted control."},
+      {"q": "A solid yellow line on your side of the road generally means:", "choices": ["Passing is not allowed from your lane", "You may pass whenever the road is clear", "The lane is reserved for buses"], "answer": 0, "explanation": "A solid yellow line indicates passing restrictions for traffic on that side."},
+      {"q": "What is the safest response when an emergency vehicle approaches with lights and siren?", "choices": ["Pull to the right and stop when safe", "Speed up to stay ahead of it", "Stop immediately in your lane without checking traffic"], "answer": 0, "explanation": "Drivers should yield by moving right and stopping when it can be done safely."},
+      {"q": "Before changing lanes, you should:", "choices": ["Signal, check mirrors, and look over your shoulder", "Signal only after moving", "Rely only on the rearview mirror"], "answer": 0, "explanation": "Mirrors do not cover every blind spot, so a shoulder check is important."}
+    ],
+    "newyork": [
+      {"q": "At a flashing red traffic light, a driver should:", "choices": ["Stop completely, then proceed when safe", "Continue if no police officer is present", "Treat it like a green light"], "answer": 0, "explanation": "A flashing red light works like a stop sign: stop, yield, then proceed safely."},
+      {"q": "When two vehicles arrive at a four-way stop at the same time, which driver generally has the right of way?", "choices": ["The driver on the right", "The driver turning left", "The driver with the larger vehicle"], "answer": 0, "explanation": "At a same-time arrival, the driver on the right generally goes first."},
+      {"q": "What should you do when following a motorcycle?", "choices": ["Leave extra following distance", "Follow closely so cars cannot cut in", "Use high beams during the day"], "answer": 0, "explanation": "Motorcycles can stop quickly and are affected by road conditions, so extra space helps."},
+      {"q": "A yellow diamond-shaped sign usually means:", "choices": ["Warning or caution", "Service area ahead", "Parking regulation"], "answer": 0, "explanation": "Yellow diamond signs warn drivers about road conditions or hazards ahead."},
+      {"q": "If you miss your highway exit, the safest choice is to:", "choices": ["Continue to the next exit", "Back up on the shoulder", "Make a sudden lane change across traffic"], "answer": 0, "explanation": "Continue to the next safe exit. Backing up or swerving is dangerous and illegal in many situations."}
+    ]
+  },
+  "trustPages": [
+    {
+      "slug": "about",
+      "title": "About TestDayTools",
+      "description": "Learn what TestDayTools is, how the site is maintained, and why all tools are unofficial.",
+      "content": [
+        {"heading": "What we make", "text": "TestDayTools is a small, independent website that turns test logistics into quick tools: dates, checklists, score guides, and practice pages."},
+        {"heading": "How we work", "text": "Pages are built from simple data files so dates, FAQs, checklists, and practice questions can be updated without redesigning the site."},
+        {"heading": "Affiliation", "text": "We are not affiliated with College Board, AP, SAT, any DMV, or any government agency. Names are used only to describe the exams and public services students are researching."}
+      ]
+    },
+    {
+      "slug": "privacy",
+      "title": "Privacy Policy",
+      "description": "Privacy policy for TestDayTools. The MVP does not collect personal information or store quiz answers.",
+      "content": [
+        {"heading": "Personal information", "text": "This MVP does not ask for names, emails, account numbers, scores, driver's license numbers, or other personal information."},
+        {"heading": "Quiz answers", "text": "Practice quiz answers are checked in your browser. They are not submitted to a server by this static site."},
+        {"heading": "Future ads and analytics", "text": "The site may later use privacy-conscious analytics or advertising services. If that happens, this policy should be updated before launch."}
+      ]
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "description": "Contact information and correction requests for TestDayTools.",
+      "content": [
+        {"heading": "Corrections", "text": "If you find an outdated date, broken source link, or unclear explanation, send a correction request to hello@testdaytools.com."},
+        {"heading": "No official support", "text": "For official AP, SAT, score, registration, permit, or license questions, contact College Board or the relevant DMV directly."}
+      ]
+    },
+    {
+      "slug": "disclaimer",
+      "title": "Disclaimer",
+      "description": "Important unofficial-site disclaimer for TestDayTools AP, SAT, and DMV study pages.",
+      "content": [
+        {"heading": "Unofficial site", "text": "TestDayTools is fan-made and unofficial. It is not affiliated with College Board, AP, SAT, any DMV, or any government agency."},
+        {"heading": "No guarantees", "text": "Dates, policies, and rules can change. Use official sources for final decisions about exam registration, score sending, credit, permits, and licensing."},
+        {"heading": "Practice questions", "text": "DMV practice questions on this site are original study questions. They are not copied from official permit tests and cannot guarantee a passing score."}
+      ]
+    }
+  ]
+}
