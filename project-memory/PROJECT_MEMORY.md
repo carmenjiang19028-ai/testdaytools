@@ -245,9 +245,14 @@ Validation already passed locally:
 - Official source links returned HTTP 200 in the worker check.
 
 Current strategic target:
-- Do not promise one-week ranking.
-- Use a 7-day sprint to force fast discovery, sitemap submission, manual URL inspection, and early Search Console data.
-- The practical goal is first indexing/query signals, then improve the pages Google reacts to first.
+- Do not promise one-week or three-day ranking.
+- Use a 3-day content completion sprint to finish a useful, indexable, ad-friendly base quickly.
+- After the content base is live, submit sitemap and priority URLs, then wait for Search Console data.
+- The practical goal is not "traffic by a fixed date"; it is "content done quickly, then let Google produce real signals."
+
+Supporting sprint docs:
+- `project-memory/THREE_DAY_CONTENT_SPRINT.md`
+- `project-memory/ONE_WEEK_SEO_SPRINT.md`
 
 ## Next Actions
 
