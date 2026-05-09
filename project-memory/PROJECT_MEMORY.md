@@ -346,3 +346,28 @@ Current product assessment:
 - DMV now feels like the strongest traffic and monetization entry point.
 - This still does not guarantee fast ranking or ad revenue; traffic must be validated with Search Console after deployment.
 - Next high-leverage improvements are more DMV state coverage, analytics/search-console setup, and improving whichever page gets early impressions.
+
+## DMV Competitor-Informed Content Pass
+
+As of 2026-05-09, after the user said the site still did not feel strong enough, a competitor-informed DMV pass was added.
+
+Reference patterns observed:
+- Strong DMV practice pages make the state exam context visible before or near the quiz.
+- Road-sign pages feel more useful when they include a visual sign library, not only multiple-choice questions.
+- Permit pages need a clear practice sequence: handbook, quick round, sign drill, mock exam.
+- Trust signals matter: official source link, no copied official questions, no account required, and browser-only scoring.
+
+Fix implemented:
+- DMV permit pages now include an exam snapshot section before the mode selector.
+- DMV road-sign pages open directly into the image quiz, then show a categorized road-sign library.
+- The road-sign library groups original SVG signs into regulatory/control, warning, and school/rail/work-zone categories.
+- DMV hub copy was tightened to describe the new state snapshot, image-sign, and mock-exam flow.
+
+Validation passed locally:
+- Static build succeeds.
+- JavaScript syntax check passes.
+- Python generator compiles.
+- JSON parses.
+- 22 HTML pages pass desktop and mobile viewport overflow checks.
+- Internal link check found no missing local targets.
+- DMV interaction check passed for New York signs mode: 20 image questions, disabled next before answer, weak-area feedback after a missed answer, and correct next-question advance.

@@ -116,6 +116,61 @@ def render_quick_facts(facts):
     return f'<section class="fact-section"><h2>Quick facts</h2><dl class="fact-grid">{items}</dl></section>'
 
 
+def render_exam_brief(tool):
+    brief = tool.get("examBrief")
+    if not brief:
+        return ""
+    facts = "".join(
+        f'<article><span>{esc(item["label"])}</span><strong>{esc(item["value"])}</strong><p>{esc(item.get("note", ""))}</p></article>'
+        for item in brief.get("facts", [])
+    )
+    path = "".join(
+        f'<li><span>{esc(item["step"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></li>'
+        for item in brief.get("path", [])
+    )
+    return f"""<section class="exam-brief">
+  <div class="exam-brief-head">
+    <p class="eyebrow">{esc(brief.get("kicker", "Exam snapshot"))}</p>
+    <h2>{esc(brief["heading"])}</h2>
+    <p class="section-intro">{esc(brief.get("intro", ""))}</p>
+  </div>
+  <div class="exam-stat-grid">{facts}</div>
+  <ol class="study-path-grid">{path}</ol>
+</section>"""
+
+
+def render_sign_library(tool):
+    library = tool.get("signLibrary")
+    if not library:
+        return ""
+    groups = []
+    for group in library.get("groups", []):
+        signs = []
+        for item in group.get("signs", []):
+            svg = SIGN_SVGS.get(item["image"], "")
+            if not svg:
+                continue
+            signs.append(f"""<article class="sign-tile">
+  <div class="sign-thumb" role="img" aria-label="{esc(item["title"])}">{svg}</div>
+  <div><strong>{esc(item["title"])}</strong><p>{esc(item["meaning"])}</p></div>
+</article>""")
+        groups.append(f"""<article class="sign-group">
+  <div class="sign-group-head">
+    <span>{esc(group["label"])}</span>
+    <p>{esc(group["text"])}</p>
+  </div>
+  <div class="sign-mini-grid">{"".join(signs)}</div>
+</article>""")
+    return f"""<section class="sign-library">
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(library.get("kicker", "Road sign library"))}</span>
+    <h2>{esc(library["heading"])}</h2>
+    <p class="section-intro">{esc(library.get("intro", ""))}</p>
+  </div>
+  <div class="sign-library-grid">{"".join(groups)}</div>
+</section>"""
+
+
 def render_timeline(timeline):
     if not timeline:
         return ""
@@ -325,10 +380,36 @@ def render_related(slugs):
 def render_tool(tool):
     quiz = render_dmv_mode_tool(tool) if tool.get("category") == "DMV" else render_quiz(tool.get("quiz"))
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
+    dmv_single_mode = tool.get("category") == "DMV" and len(tool.get("quizModes", [])) == 1
+    exam_brief = render_exam_brief(tool)
+    sign_library = render_sign_library(tool)
     body_sections = "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
         for section in tool.get("body", [])
     )
+    dmv_sections = []
+    if dmv_quiz_first:
+        if dmv_single_mode:
+            dmv_sections.extend([quiz, sign_library, exam_brief])
+        else:
+            dmv_sections.extend([exam_brief, quiz, sign_library])
+    else:
+        dmv_sections.extend([exam_brief, sign_library])
+    lower_sections = [
+        render_quick_facts(tool.get("quickFacts")),
+        render_countdown(tool.get("countdown")),
+        render_timeline(tool.get("timeline")),
+        render_tables(tool.get("tables")),
+        body_sections,
+        render_card_groups(tool.get("cardGroups")),
+        render_checklist(tool.get("checklist")),
+        "" if dmv_quiz_first else quiz,
+        render_ad(),
+        render_faq(tool.get("faq")),
+        render_sources(tool.get("sources")),
+        render_related(tool.get("related")),
+    ]
+    page_sections = "".join(section for section in dmv_sections + lower_sections if section)
     body = f"""<section class="hero tool-hero">
   <div>
     <p class="eyebrow">{esc(tool["heroKicker"])}</p>
@@ -338,19 +419,7 @@ def render_tool(tool):
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
-{quiz if dmv_quiz_first else ""}
-{render_quick_facts(tool.get("quickFacts"))}
-{render_countdown(tool.get("countdown"))}
-{render_timeline(tool.get("timeline"))}
-{render_tables(tool.get("tables"))}
-{body_sections}
-{render_card_groups(tool.get("cardGroups"))}
-{render_checklist(tool.get("checklist"))}
-{"" if dmv_quiz_first else quiz}
-{render_ad()}
-{render_faq(tool.get("faq"))}
-{render_sources(tool.get("sources"))}
-{render_related(tool.get("related"))}"""
+{page_sections}"""
     return page_shell(tool["title"], tool["description"], f'/{tool["slug"]}.html', body, "tool-page")
 
 

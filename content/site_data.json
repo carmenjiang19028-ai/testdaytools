@@ -180,7 +180,7 @@
       "title": "DMV Practice Tests and Road Sign Tools",
       "description": "Choose California or New York DMV practice, use image-based road sign questions, and run longer mock exams with instant weak-area feedback.",
       "heroKicker": "DMV practice hub",
-      "summary": "Pick a state, practice road rules and image signs, then use the longer mock exam to decide what to reread in the official manual.",
+      "summary": "Start with a state, see the official exam context, practice image road signs, then use a longer mock exam to choose what to reread.",
       "primaryActions": [
         {
           "label": "California",
@@ -219,12 +219,12 @@
       ],
       "body": [
         {
-          "heading": "Why DMV is the main traffic engine",
-          "text": "DMV permit searches are evergreen and task-driven. A visitor can immediately practice, see missed categories, and return later for another mode."
+          "heading": "What a useful DMV practice page needs",
+          "text": "A good practice page should show the state exam context, make the practice mode obvious, include visual road-sign review, and explain what to study after a missed answer."
         },
         {
-          "heading": "How to use the practice modes",
-          "text": "Start with Quick Practice, switch to Road Signs if visual recognition feels weak, then run the Mock Exam after rereading the official manual."
+          "heading": "How to use these pages",
+          "text": "Choose a state, read the snapshot, start with quick practice, drill image signs, then use the longer mock exam to decide what to reread in the official manual."
         }
       ]
     },
@@ -2376,25 +2376,25 @@
       "slug": "california-dmv-permit-practice-test",
       "category": "DMV",
       "title": "California DMV Permit Practice Test",
-      "description": "Use quick practice, image road signs, and a mock exam with original California permit-style questions covering speed, signs, right of way, alcohol, and safe driving basics.",
+      "description": "California DMV permit practice with quick questions, original road-sign images, a 40-question mock exam, official handbook links, and weak-area feedback.",
       "heroKicker": "California DMV",
-      "summary": "Try these original, unofficial California permit practice questions. They are designed for study support and do not copy official DMV exam questions.",
+      "summary": "Practice California DMV permit questions with three modes: quick review, image-based road signs, and a 40-question mock exam with weak-area feedback.",
       "quickFacts": [
         {
           "label": "Practice modes",
-          "value": "Quick, image signs, and mock exam"
+          "value": "Quick, road signs, and mock exam"
         },
         {
-          "label": "Question volume",
-          "value": "75 mode questions across this page"
+          "label": "Practice target",
+          "value": "32 of 40 on the mock exam"
         },
         {
           "label": "Road sign images",
           "value": "20 original SVG sign prompts"
         },
         {
-          "label": "Privacy",
-          "value": "Answers stay in your browser"
+          "label": "Official source",
+          "value": "California Driver's Handbook"
         }
       ],
       "quiz": "california",
@@ -2565,15 +2565,179 @@
           "quiz": "californiaMock",
           "passScore": 32
         }
-      ]
+      ],
+      "examBrief": {
+        "kicker": "California exam snapshot",
+        "heading": "California permit practice that matches the way people study",
+        "intro": "Before you start, use this snapshot to confirm the handbook source, the practice target, and the best order for using each mode.",
+        "facts": [
+          {
+            "label": "Official source",
+            "value": "California Driver's Handbook",
+            "note": "Use the handbook for exact state rules and final wording."
+          },
+          {
+            "label": "Practice target",
+            "value": "32 of 40 on mock exam",
+            "note": "This site uses an 80% practice benchmark for the full mock mode."
+          },
+          {
+            "label": "High-risk topics",
+            "value": "Signs, right of way, lane rules",
+            "note": "Missed categories tell you which handbook section to reread."
+          },
+          {
+            "label": "No account needed",
+            "value": "Browser-only scoring",
+            "note": "Answers are not sent to a server or saved to a profile."
+          }
+        ],
+        "path": [
+          {
+            "step": "1",
+            "title": "Scan the handbook",
+            "text": "Read signs, right of way, lane markings, speed, parking, and alcohol rules first."
+          },
+          {
+            "step": "2",
+            "title": "Run quick practice",
+            "text": "Use the 15-question mode to find obvious gaps without spending too long."
+          },
+          {
+            "step": "3",
+            "title": "Drill image signs",
+            "text": "Switch to Road Signs when visual recognition feels slow or uncertain."
+          },
+          {
+            "step": "4",
+            "title": "Finish with mock exam",
+            "text": "Use the 40-question mode only after reading explanations from missed questions."
+          }
+        ]
+      },
+      "signLibrary": {
+        "kicker": "Road sign library",
+        "heading": "Road signs to recognize before test day",
+        "intro": "Use this as a mini sign manual before or after the image quiz. The drawings are original study illustrations, not copied official test images.",
+        "groups": [
+          {
+            "label": "Regulatory and control",
+            "text": "These signs tell you what you must do or what is prohibited.",
+            "signs": [
+              {
+                "image": "stop",
+                "title": "Stop",
+                "meaning": "Come to a complete stop before the line, crosswalk, or intersection."
+              },
+              {
+                "image": "yield",
+                "title": "Yield",
+                "meaning": "Slow and let traffic or pedestrians with the right of way go first."
+              },
+              {
+                "image": "do-not-enter",
+                "title": "Do Not Enter",
+                "meaning": "Do not drive into that road, ramp, or lane."
+              },
+              {
+                "image": "wrong-way",
+                "title": "Wrong Way",
+                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+              },
+              {
+                "image": "one-way",
+                "title": "One Way",
+                "meaning": "Traffic flows only in the arrow direction."
+              },
+              {
+                "image": "no-u-turn",
+                "title": "No U-Turn",
+                "meaning": "Do not turn around at this location."
+              }
+            ]
+          },
+          {
+            "label": "Warning signs",
+            "text": "Yellow warning signs give advance notice so you can slow or change position before the hazard.",
+            "signs": [
+              {
+                "image": "pedestrian-crossing",
+                "title": "Pedestrian Crossing",
+                "meaning": "Watch for people crossing and be ready to stop."
+              },
+              {
+                "image": "merge",
+                "title": "Merge",
+                "meaning": "Traffic streams join; adjust speed and spacing."
+              },
+              {
+                "image": "lane-ends",
+                "title": "Lane Ends",
+                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+              },
+              {
+                "image": "slippery",
+                "title": "Slippery When Wet",
+                "meaning": "Reduce speed and avoid hard braking or sharp steering."
+              },
+              {
+                "image": "signal-ahead",
+                "title": "Signal Ahead",
+                "meaning": "A traffic signal is ahead; prepare to stop."
+              },
+              {
+                "image": "divided-highway",
+                "title": "Divided Highway",
+                "meaning": "A divided roadway begins or changes ahead."
+              }
+            ]
+          },
+          {
+            "label": "School, rail, and work zones",
+            "text": "These signs often require extra scanning because children, workers, tracks, or temporary lane changes may be nearby.",
+            "signs": [
+              {
+                "image": "school-crossing",
+                "title": "School Crossing",
+                "meaning": "Look for children and obey school-zone speed or stop rules."
+              },
+              {
+                "image": "railroad",
+                "title": "Railroad Crossing",
+                "meaning": "Never stop on tracks; obey gates, lights, and crossbucks."
+              },
+              {
+                "image": "work-zone",
+                "title": "Work Zone",
+                "meaning": "Expect workers, cones, flaggers, lane shifts, and slower traffic."
+              },
+              {
+                "image": "roundabout",
+                "title": "Roundabout",
+                "meaning": "Yield before entering and follow the circular traffic flow."
+              },
+              {
+                "image": "deer-crossing",
+                "title": "Animal Crossing",
+                "meaning": "Scan the roadside and slow when animals may enter the road."
+              },
+              {
+                "image": "hospital",
+                "title": "Hospital",
+                "meaning": "A hospital or emergency medical facility is nearby."
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "california-dmv-road-signs-practice",
       "category": "DMV",
       "title": "California DMV Road Signs Practice",
-      "description": "Practice image-based original California road signs and signals questions covering red curbs, stop signs, warning signs, school buses, and railroad crossings.",
+      "description": "California DMV road signs practice with 20 original image questions, sign categories, instant explanations, and handbook review guidance.",
       "heroKicker": "California road signs",
-      "summary": "Use this short, original California road signs practice page to review the signals, colors, and warning signs that new drivers commonly mix up.",
+      "summary": "Practice California DMV road signs with original image prompts, instant explanations, and a sign library grouped by meaning.",
       "quickFacts": [
         {
           "label": "Question count",
@@ -2736,31 +2900,195 @@
           "quiz": "californiaSigns",
           "passScore": 16
         }
-      ]
+      ],
+      "examBrief": {
+        "kicker": "California sign practice",
+        "heading": "California road signs, shapes, and driver actions",
+        "intro": "Start with the image quiz, then use the sign library below to review any category that feels slow or confusing.",
+        "facts": [
+          {
+            "label": "Official source",
+            "value": "California Driver's Handbook",
+            "note": "Use the handbook for exact state rules and final wording."
+          },
+          {
+            "label": "Practice target",
+            "value": "32 of 40 on mock exam",
+            "note": "This site uses an 80% practice benchmark for the full mock mode."
+          },
+          {
+            "label": "High-risk topics",
+            "value": "Signs, right of way, lane rules",
+            "note": "Missed categories tell you which handbook section to reread."
+          },
+          {
+            "label": "No account needed",
+            "value": "Browser-only scoring",
+            "note": "Answers are not sent to a server or saved to a profile."
+          }
+        ],
+        "path": [
+          {
+            "step": "1",
+            "title": "Scan the handbook",
+            "text": "Read signs, right of way, lane markings, speed, parking, and alcohol rules first."
+          },
+          {
+            "step": "2",
+            "title": "Run quick practice",
+            "text": "Use the 15-question mode to find obvious gaps without spending too long."
+          },
+          {
+            "step": "3",
+            "title": "Drill image signs",
+            "text": "Switch to Road Signs when visual recognition feels slow or uncertain."
+          },
+          {
+            "step": "4",
+            "title": "Finish with mock exam",
+            "text": "Use the 40-question mode only after reading explanations from missed questions."
+          }
+        ]
+      },
+      "signLibrary": {
+        "kicker": "Road sign library",
+        "heading": "Road signs to recognize before test day",
+        "intro": "Use this as a mini sign manual before or after the image quiz. The drawings are original study illustrations, not copied official test images.",
+        "groups": [
+          {
+            "label": "Regulatory and control",
+            "text": "These signs tell you what you must do or what is prohibited.",
+            "signs": [
+              {
+                "image": "stop",
+                "title": "Stop",
+                "meaning": "Come to a complete stop before the line, crosswalk, or intersection."
+              },
+              {
+                "image": "yield",
+                "title": "Yield",
+                "meaning": "Slow and let traffic or pedestrians with the right of way go first."
+              },
+              {
+                "image": "do-not-enter",
+                "title": "Do Not Enter",
+                "meaning": "Do not drive into that road, ramp, or lane."
+              },
+              {
+                "image": "wrong-way",
+                "title": "Wrong Way",
+                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+              },
+              {
+                "image": "one-way",
+                "title": "One Way",
+                "meaning": "Traffic flows only in the arrow direction."
+              },
+              {
+                "image": "no-u-turn",
+                "title": "No U-Turn",
+                "meaning": "Do not turn around at this location."
+              }
+            ]
+          },
+          {
+            "label": "Warning signs",
+            "text": "Yellow warning signs give advance notice so you can slow or change position before the hazard.",
+            "signs": [
+              {
+                "image": "pedestrian-crossing",
+                "title": "Pedestrian Crossing",
+                "meaning": "Watch for people crossing and be ready to stop."
+              },
+              {
+                "image": "merge",
+                "title": "Merge",
+                "meaning": "Traffic streams join; adjust speed and spacing."
+              },
+              {
+                "image": "lane-ends",
+                "title": "Lane Ends",
+                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+              },
+              {
+                "image": "slippery",
+                "title": "Slippery When Wet",
+                "meaning": "Reduce speed and avoid hard braking or sharp steering."
+              },
+              {
+                "image": "signal-ahead",
+                "title": "Signal Ahead",
+                "meaning": "A traffic signal is ahead; prepare to stop."
+              },
+              {
+                "image": "divided-highway",
+                "title": "Divided Highway",
+                "meaning": "A divided roadway begins or changes ahead."
+              }
+            ]
+          },
+          {
+            "label": "School, rail, and work zones",
+            "text": "These signs often require extra scanning because children, workers, tracks, or temporary lane changes may be nearby.",
+            "signs": [
+              {
+                "image": "school-crossing",
+                "title": "School Crossing",
+                "meaning": "Look for children and obey school-zone speed or stop rules."
+              },
+              {
+                "image": "railroad",
+                "title": "Railroad Crossing",
+                "meaning": "Never stop on tracks; obey gates, lights, and crossbucks."
+              },
+              {
+                "image": "work-zone",
+                "title": "Work Zone",
+                "meaning": "Expect workers, cones, flaggers, lane shifts, and slower traffic."
+              },
+              {
+                "image": "roundabout",
+                "title": "Roundabout",
+                "meaning": "Yield before entering and follow the circular traffic flow."
+              },
+              {
+                "image": "deer-crossing",
+                "title": "Animal Crossing",
+                "meaning": "Scan the roadside and slow when animals may enter the road."
+              },
+              {
+                "image": "hospital",
+                "title": "Hospital",
+                "meaning": "A hospital or emergency medical facility is nearby."
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "new-york-dmv-permit-practice-test",
       "category": "DMV",
       "title": "New York DMV Permit Practice Test",
-      "description": "Use quick practice, image road signs, and a mock exam with original New York permit-style questions about traffic signs, road rules, alcohol, intersections, and safe driving.",
+      "description": "New York DMV permit practice with official pass-rule context, quick questions, original road-sign images, a 40-question mock exam, and weak-area feedback.",
       "heroKicker": "New York DMV",
-      "summary": "Use these original, unofficial New York permit practice questions to review common road rules before studying the official manual again.",
+      "summary": "Practice New York DMV permit questions with quick review, image-based road signs, and a 40-question mock exam that keeps the official pass rule visible.",
       "quickFacts": [
         {
-          "label": "Practice modes",
-          "value": "Quick, image signs, and mock exam"
+          "label": "Official test",
+          "value": "20 questions"
         },
         {
-          "label": "Question volume",
-          "value": "75 mode questions across this page"
+          "label": "Official pass rule",
+          "value": "14 correct and 2 sign questions"
+        },
+        {
+          "label": "Practice target",
+          "value": "32 of 40 on the mock exam"
         },
         {
           "label": "Road sign images",
           "value": "20 original SVG sign prompts"
-        },
-        {
-          "label": "Privacy",
-          "value": "Answers stay in your browser"
         }
       ],
       "quiz": "newyork",
@@ -2931,15 +3259,179 @@
           "quiz": "newyorkMock",
           "passScore": 32
         }
-      ]
+      ],
+      "examBrief": {
+        "kicker": "New York exam snapshot",
+        "heading": "New York permit practice with official pass rules in view",
+        "intro": "Before you start, use this snapshot to keep the New York test format, pass rule, and best practice order in view.",
+        "facts": [
+          {
+            "label": "Official format",
+            "value": "20 permit questions",
+            "note": "The New York learner permit test is a 20-question multiple-choice test."
+          },
+          {
+            "label": "Official pass rule",
+            "value": "14 correct plus 2 sign questions",
+            "note": "You need at least 14 correct overall and at least 2 of the 4 road-sign questions."
+          },
+          {
+            "label": "Practice target",
+            "value": "32 of 40 on mock exam",
+            "note": "This site's mock mode doubles the official length for extra review."
+          },
+          {
+            "label": "No account needed",
+            "value": "Browser-only scoring",
+            "note": "Answers stay in your browser and are not saved to a profile."
+          }
+        ],
+        "path": [
+          {
+            "step": "1",
+            "title": "Read rules first",
+            "text": "Start with signs, right of way, signals, safe driving, and alcohol/drug rules."
+          },
+          {
+            "step": "2",
+            "title": "Run quick practice",
+            "text": "Use the 15-question round to find categories you need to reread."
+          },
+          {
+            "step": "3",
+            "title": "Drill road signs",
+            "text": "Because road signs have a separate pass requirement, do the image mode slowly."
+          },
+          {
+            "step": "4",
+            "title": "Take mock exam",
+            "text": "Use the 40-question mixed mode to check stamina and weak areas before test day."
+          }
+        ]
+      },
+      "signLibrary": {
+        "kicker": "Road sign library",
+        "heading": "Road signs to recognize before test day",
+        "intro": "Use this as a mini sign manual before or after the image quiz. The drawings are original study illustrations, not copied official test images.",
+        "groups": [
+          {
+            "label": "Regulatory and control",
+            "text": "These signs tell you what you must do or what is prohibited.",
+            "signs": [
+              {
+                "image": "stop",
+                "title": "Stop",
+                "meaning": "Come to a complete stop before the line, crosswalk, or intersection."
+              },
+              {
+                "image": "yield",
+                "title": "Yield",
+                "meaning": "Slow and let traffic or pedestrians with the right of way go first."
+              },
+              {
+                "image": "do-not-enter",
+                "title": "Do Not Enter",
+                "meaning": "Do not drive into that road, ramp, or lane."
+              },
+              {
+                "image": "wrong-way",
+                "title": "Wrong Way",
+                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+              },
+              {
+                "image": "one-way",
+                "title": "One Way",
+                "meaning": "Traffic flows only in the arrow direction."
+              },
+              {
+                "image": "no-u-turn",
+                "title": "No U-Turn",
+                "meaning": "Do not turn around at this location."
+              }
+            ]
+          },
+          {
+            "label": "Warning signs",
+            "text": "Yellow warning signs give advance notice so you can slow or change position before the hazard.",
+            "signs": [
+              {
+                "image": "pedestrian-crossing",
+                "title": "Pedestrian Crossing",
+                "meaning": "Watch for people crossing and be ready to stop."
+              },
+              {
+                "image": "merge",
+                "title": "Merge",
+                "meaning": "Traffic streams join; adjust speed and spacing."
+              },
+              {
+                "image": "lane-ends",
+                "title": "Lane Ends",
+                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+              },
+              {
+                "image": "slippery",
+                "title": "Slippery When Wet",
+                "meaning": "Reduce speed and avoid hard braking or sharp steering."
+              },
+              {
+                "image": "signal-ahead",
+                "title": "Signal Ahead",
+                "meaning": "A traffic signal is ahead; prepare to stop."
+              },
+              {
+                "image": "divided-highway",
+                "title": "Divided Highway",
+                "meaning": "A divided roadway begins or changes ahead."
+              }
+            ]
+          },
+          {
+            "label": "School, rail, and work zones",
+            "text": "These signs often require extra scanning because children, workers, tracks, or temporary lane changes may be nearby.",
+            "signs": [
+              {
+                "image": "school-crossing",
+                "title": "School Crossing",
+                "meaning": "Look for children and obey school-zone speed or stop rules."
+              },
+              {
+                "image": "railroad",
+                "title": "Railroad Crossing",
+                "meaning": "Never stop on tracks; obey gates, lights, and crossbucks."
+              },
+              {
+                "image": "work-zone",
+                "title": "Work Zone",
+                "meaning": "Expect workers, cones, flaggers, lane shifts, and slower traffic."
+              },
+              {
+                "image": "roundabout",
+                "title": "Roundabout",
+                "meaning": "Yield before entering and follow the circular traffic flow."
+              },
+              {
+                "image": "deer-crossing",
+                "title": "Animal Crossing",
+                "meaning": "Scan the roadside and slow when animals may enter the road."
+              },
+              {
+                "image": "hospital",
+                "title": "Hospital",
+                "meaning": "A hospital or emergency medical facility is nearby."
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "new-york-dmv-road-signs-practice",
       "category": "DMV",
       "title": "New York DMV Road Signs Practice",
-      "description": "Practice image-based original New York road signs and signals questions covering warning signs, regulatory signs, railroad crossings, yield signs, and school zones.",
+      "description": "New York DMV road signs practice with 20 original image questions, official pass-rule context, sign categories, and instant explanations.",
       "heroKicker": "New York road signs",
-      "summary": "Use this unofficial New York road signs practice page to review signs, signals, and crossing rules before returning to the official driver's manual.",
+      "summary": "Practice New York DMV road signs with original image prompts, instant explanations, and a sign library grouped by category.",
       "quickFacts": [
         {
           "label": "Question count",
@@ -3102,7 +3594,171 @@
           "quiz": "newyorkSigns",
           "passScore": 16
         }
-      ]
+      ],
+      "examBrief": {
+        "kicker": "New York sign practice",
+        "heading": "New York road signs with the pass rule in mind",
+        "intro": "Start with the image quiz, then review the sign library by category before retaking the road-sign round.",
+        "facts": [
+          {
+            "label": "Official format",
+            "value": "20 permit questions",
+            "note": "The New York learner permit test is a 20-question multiple-choice test."
+          },
+          {
+            "label": "Official pass rule",
+            "value": "14 correct plus 2 sign questions",
+            "note": "You need at least 14 correct overall and at least 2 of the 4 road-sign questions."
+          },
+          {
+            "label": "Practice target",
+            "value": "32 of 40 on mock exam",
+            "note": "This site's mock mode doubles the official length for extra review."
+          },
+          {
+            "label": "No account needed",
+            "value": "Browser-only scoring",
+            "note": "Answers stay in your browser and are not saved to a profile."
+          }
+        ],
+        "path": [
+          {
+            "step": "1",
+            "title": "Read rules first",
+            "text": "Start with signs, right of way, signals, safe driving, and alcohol/drug rules."
+          },
+          {
+            "step": "2",
+            "title": "Run quick practice",
+            "text": "Use the 15-question round to find categories you need to reread."
+          },
+          {
+            "step": "3",
+            "title": "Drill road signs",
+            "text": "Because road signs have a separate pass requirement, do the image mode slowly."
+          },
+          {
+            "step": "4",
+            "title": "Take mock exam",
+            "text": "Use the 40-question mixed mode to check stamina and weak areas before test day."
+          }
+        ]
+      },
+      "signLibrary": {
+        "kicker": "Road sign library",
+        "heading": "Road signs to recognize before test day",
+        "intro": "Use this as a mini sign manual before or after the image quiz. The drawings are original study illustrations, not copied official test images.",
+        "groups": [
+          {
+            "label": "Regulatory and control",
+            "text": "These signs tell you what you must do or what is prohibited.",
+            "signs": [
+              {
+                "image": "stop",
+                "title": "Stop",
+                "meaning": "Come to a complete stop before the line, crosswalk, or intersection."
+              },
+              {
+                "image": "yield",
+                "title": "Yield",
+                "meaning": "Slow and let traffic or pedestrians with the right of way go first."
+              },
+              {
+                "image": "do-not-enter",
+                "title": "Do Not Enter",
+                "meaning": "Do not drive into that road, ramp, or lane."
+              },
+              {
+                "image": "wrong-way",
+                "title": "Wrong Way",
+                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+              },
+              {
+                "image": "one-way",
+                "title": "One Way",
+                "meaning": "Traffic flows only in the arrow direction."
+              },
+              {
+                "image": "no-u-turn",
+                "title": "No U-Turn",
+                "meaning": "Do not turn around at this location."
+              }
+            ]
+          },
+          {
+            "label": "Warning signs",
+            "text": "Yellow warning signs give advance notice so you can slow or change position before the hazard.",
+            "signs": [
+              {
+                "image": "pedestrian-crossing",
+                "title": "Pedestrian Crossing",
+                "meaning": "Watch for people crossing and be ready to stop."
+              },
+              {
+                "image": "merge",
+                "title": "Merge",
+                "meaning": "Traffic streams join; adjust speed and spacing."
+              },
+              {
+                "image": "lane-ends",
+                "title": "Lane Ends",
+                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+              },
+              {
+                "image": "slippery",
+                "title": "Slippery When Wet",
+                "meaning": "Reduce speed and avoid hard braking or sharp steering."
+              },
+              {
+                "image": "signal-ahead",
+                "title": "Signal Ahead",
+                "meaning": "A traffic signal is ahead; prepare to stop."
+              },
+              {
+                "image": "divided-highway",
+                "title": "Divided Highway",
+                "meaning": "A divided roadway begins or changes ahead."
+              }
+            ]
+          },
+          {
+            "label": "School, rail, and work zones",
+            "text": "These signs often require extra scanning because children, workers, tracks, or temporary lane changes may be nearby.",
+            "signs": [
+              {
+                "image": "school-crossing",
+                "title": "School Crossing",
+                "meaning": "Look for children and obey school-zone speed or stop rules."
+              },
+              {
+                "image": "railroad",
+                "title": "Railroad Crossing",
+                "meaning": "Never stop on tracks; obey gates, lights, and crossbucks."
+              },
+              {
+                "image": "work-zone",
+                "title": "Work Zone",
+                "meaning": "Expect workers, cones, flaggers, lane shifts, and slower traffic."
+              },
+              {
+                "image": "roundabout",
+                "title": "Roundabout",
+                "meaning": "Yield before entering and follow the circular traffic flow."
+              },
+              {
+                "image": "deer-crossing",
+                "title": "Animal Crossing",
+                "meaning": "Scan the roadside and slow when animals may enter the road."
+              },
+              {
+                "image": "hospital",
+                "title": "Hospital",
+                "meaning": "A hospital or emergency medical facility is nearby."
+              }
+            ]
+          }
+        ]
+      }
     }
   ],
   "quizzes": {
