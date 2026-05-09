@@ -492,3 +492,91 @@ Validation passed locally:
   - Florida permit page desktop.
   - Florida permit page mobile.
   - Florida practice section desktop.
+
+## End-of-Day Checkpoint 2026-05-09
+
+Current live project:
+- Site: https://testdaytools.com
+- GitHub repo: https://github.com/carmenjiang19028-ai/testdaytools
+- Local workspace: `/Users/carmen/Documents/New project 3`
+- Publishing: GitHub Pages from `main` branch root, with custom domain `testdaytools.com`.
+- Latest pushed commit: `e2fb02c Upgrade DMV tool experience v2`.
+
+What was completed today:
+- Bought/connected the custom domain `testdaytools.com`.
+- Configured DNS records for GitHub Pages:
+  - `www` CNAME to `carmenjiang19028-ai.github.io`.
+  - Root `@` A records to GitHub Pages IPs.
+- Confirmed the site is accessible on the custom domain.
+- Expanded the DMV cluster from California/New York to 7 state paths:
+  - California, New York, Texas, Florida, Illinois, Pennsylvania, New Jersey.
+- Added permit practice and road-sign practice pages for those state paths.
+- Added 3 practice modes for permit pages:
+  - Quick practice.
+  - Road signs image practice.
+  - Mock exam.
+- Added original SVG road-sign illustrations and image-based sign questions.
+- Performed a SERP/content gap pass after reviewing DMV competitor patterns.
+- Performed a V2 product/UI upgrade so the site now behaves more like a practice tool.
+- Pushed all changes to GitHub and verified the live site contains the V2 content.
+
+Important live verification after push:
+- `https://testdaytools.com/?deploy=e2fb02c` showed:
+  - `Practice lab`
+  - `Start a free DMV round`
+  - `DMV practice tests with road-sign images`
+- `https://testdaytools.com/florida-dmv-permit-practice-test.html?deploy=e2fb02c` showed:
+  - `Saved mistakes`
+  - `Practice status`
+  - `Answers stay in this browser`
+  - `LearningResource`
+- `https://testdaytools.com/florida-dmv-road-signs-practice.html?deploy=e2fb02c` showed:
+  - `Image practice engine`
+  - `Saved mistakes`
+  - `single-mode-tool`
+  - `LearningResource`
+
+Current technical status:
+- Local branch is aligned with `origin/main`.
+- `git status -sb` shows `## main...origin/main`.
+- Build source remains `content/site_data.json` plus `scripts/build.py`.
+- Generated HTML pages are committed because GitHub Pages publishes the static root.
+- Command-line `git push` still fails due to missing GitHub credentials:
+  - `fatal: could not read Username for 'https://github.com': Device not configured`
+- GitHub Desktop is the working push path. Use it or set up a GitHub token/credential helper later.
+
+Validation completed today:
+- Static build succeeds.
+- JSON parses.
+- Python generator compiles.
+- JavaScript syntax check passes.
+- `git diff --check` passes.
+- Local links and same-page anchors were checked.
+- Representative pages passed mobile and desktop overflow checks.
+- A browser interaction test confirmed wrong answers update score, missed count, saved mistakes, local storage, and explanation text.
+
+Strategic status:
+- The project is now a DMV-first practice tool site, not a broad AP/SAT/DMV directory.
+- AP and SAT pages still exist, but short-term SEO and monetization focus is DMV permit practice and road signs.
+- The near-term monetization path is still AdSense, but do not apply yet.
+- First priority is indexing and Search Console data, then content/UX refinement based on real impressions.
+
+Next step:
+- Set up Google Search Console.
+- Use URL prefix property: `https://testdaytools.com/`.
+- Verify ownership by HTML file upload or HTML tag.
+- After verification, submit sitemap:
+  - `https://testdaytools.com/sitemap.xml`
+- Priority URLs to inspect/request indexing:
+  - `https://testdaytools.com/`
+  - `https://testdaytools.com/dmv-practice.html`
+  - `https://testdaytools.com/florida-dmv-permit-practice-test.html`
+  - `https://testdaytools.com/florida-dmv-road-signs-practice.html`
+  - `https://testdaytools.com/texas-dmv-permit-practice-test.html`
+  - `https://testdaytools.com/california-dmv-permit-practice-test.html`
+
+Do not forget:
+- User wants low-maintenance, ad-friendly, English static site.
+- User cares about real earning potential, not just building pages.
+- Keep decisions and progress in project-memory files instead of relying on chat history.
+- Avoid adding real ad code until indexing/traffic/trust signals are stronger and privacy policy is updated for ads/analytics.
