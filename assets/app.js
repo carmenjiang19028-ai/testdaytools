@@ -25,6 +25,7 @@ function initQuizzes() {
     const questions = Array.from(quiz.querySelectorAll(".question"));
     const score = quiz.querySelector(".quiz-score");
     const answered = new Set();
+    const missedCategories = {};
     let correct = 0;
 
     questions.forEach((question, index) => {
@@ -36,6 +37,10 @@ function initQuizzes() {
           const isCorrect = Number(button.dataset.choice) === Number(question.dataset.answer);
           button.classList.add(isCorrect ? "is-correct" : "is-wrong");
           if (isCorrect) correct += 1;
+          if (!isCorrect) {
+            const category = question.dataset.category || "this topic";
+            missedCategories[category] = (missedCategories[category] || 0) + 1;
+          }
 
           const correctButton = question.querySelector(`[data-choice="${question.dataset.answer}"]`);
           correctButton.classList.add("is-correct");
@@ -45,7 +50,13 @@ function initQuizzes() {
 
           const feedback = question.querySelector(".feedback");
           feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.explanation}`;
-          score.textContent = `Score: ${correct} of ${answered.size} answered`;
+          const missed = Object.entries(missedCategories)
+            .sort((a, b) => b[1] - a[1])
+            .map(([category]) => category)
+            .slice(0, 3);
+          const review = missed.length ? ` Review next: ${missed.join(", ")}.` : "";
+          const complete = answered.size === questions.length ? " Practice complete." : "";
+          score.textContent = `Score: ${correct} of ${answered.size} answered.${review}${complete}`;
         });
       });
     });

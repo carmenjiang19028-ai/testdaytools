@@ -18,16 +18,31 @@
     "sections": [
       {
         "heading": "AP tools",
-        "links": ["ap-score-release-date-2026", "2026-ap-exam-schedule", "ap-exam-day-checklist"]
+        "links": ["ap-score-release-date-2026", "ap-scores-delayed-missing-2026", "ap-credit-after-scores-guide", "2026-ap-exam-schedule", "ap-exam-day-checklist"]
       },
       {
         "heading": "SAT tools",
-        "links": ["sat-test-dates-2026-2027", "digital-sat-checklist", "sat-score-release-guide"]
+        "links": ["sat-test-dates-2026-2027", "sat-august-22-2026-planning", "digital-sat-bluebook-checklist", "digital-sat-checklist", "sat-score-release-guide"]
       },
       {
         "heading": "DMV practice",
-        "links": ["california-dmv-permit-practice-test", "new-york-dmv-permit-practice-test"]
+        "links": ["california-dmv-permit-practice-test", "california-dmv-road-signs-practice", "new-york-dmv-permit-practice-test", "new-york-dmv-road-signs-practice"]
       }
+    ],
+    "startHere": [
+      {"label": "Today", "title": "AP score release or missing score?", "text": "Start with the AP score date page, then use the delayed-score checklist if one exam is missing.", "href": "ap-score-release-date-2026.html"},
+      {"label": "This week", "title": "Planning August SAT?", "text": "Use the SAT dates page and the August 22 planning page to choose a realistic prep timeline.", "href": "sat-august-22-2026-planning.html"},
+      {"label": "Practice", "title": "Need road signs practice?", "text": "Use the DMV road signs pages for quick original sign and signal questions before returning to the manual.", "href": "california-dmv-road-signs-practice.html"}
+    ],
+    "popular": [
+      {"label": "AP", "title": "AP Score Release Date 2026", "text": "Countdown, July 6 release plan, score-send decisions", "href": "ap-score-release-date-2026.html"},
+      {"label": "AP", "title": "AP Scores Delayed or Missing 2026", "text": "August 15 checkpoint, account matching, support checklist", "href": "ap-scores-delayed-missing-2026.html"},
+      {"label": "AP", "title": "AP Credit After Scores", "text": "Credit policy search, placement questions, college follow-up", "href": "ap-credit-after-scores-guide.html"},
+      {"label": "SAT", "title": "SAT Test Dates 2026-2027", "text": "Confirmed dates, retake planning, registration timeline", "href": "sat-test-dates-2026-2027.html"},
+      {"label": "SAT", "title": "SAT August 22, 2026 Planning", "text": "Senior fall timeline, backup dates, prep checkpoints", "href": "sat-august-22-2026-planning.html"},
+      {"label": "SAT", "title": "Digital SAT Bluebook Checklist", "text": "Device rules, setup timing, power and admission checks", "href": "digital-sat-bluebook-checklist.html"},
+      {"label": "CA DMV", "title": "California DMV Road Signs Practice", "text": "Original signs and signals quiz with category feedback", "href": "california-dmv-road-signs-practice.html"},
+      {"label": "NY DMV", "title": "New York DMV Road Signs Practice", "text": "Warning, regulatory, signal, and crossing questions", "href": "new-york-dmv-road-signs-practice.html"}
     ]
   },
   "tools": [
@@ -38,7 +53,22 @@
       "description": "Track the 2026 AP score release date, see what to do before scores arrive, and understand how to send AP scores after release.",
       "heroKicker": "AP dates",
       "summary": "2026 AP scores are scheduled to be available starting Monday, July 6, 2026. Use the countdown and quick checklist below to get ready before release day.",
+      "quickFacts": [
+        {"label": "Release starts", "value": "Monday, July 6, 2026"},
+        {"label": "Where to check", "value": "Official College Board AP score account"},
+        {"label": "Best prep task", "value": "Confirm sign-in before release day"},
+        {"label": "If delayed", "value": "Wait for official updates before contacting support"}
+      ],
       "countdown": {"label": "AP score release begins", "date": "2026-07-06T08:00:00-04:00"},
+      "timeline": {
+        "heading": "AP score release timeline",
+        "items": [
+          {"label": "Now", "title": "Clean up account access", "text": "Sign in once, update email if needed, and avoid creating duplicate accounts."},
+          {"label": "Release morning", "title": "Check privately", "text": "Use a private device, keep personal information off screenshots, and expect traffic delays."},
+          {"label": "Same week", "title": "Compare credit policies", "text": "Look up the exact college and department policy before changing a schedule."},
+          {"label": "After August 15", "title": "Escalate missing scores", "text": "If a current-year score still has not appeared, use official support guidance."}
+        ]
+      },
       "tables": [
         {
           "caption": "AP score release day plan",
@@ -68,6 +98,25 @@
         {"heading": "Why a score can be delayed", "text": "A delayed or missing score can happen for account matching, late testing, make-up testing, or processing review. This page cannot access private score data, so any score-specific problem should be handled through official College Board support."},
         {"heading": "Use scores carefully", "text": "AP scores can help with placement and credit, but each college sets its own policy. Before dropping a class, changing a schedule, or sending a report, compare the score with the exact policy for that school and program."}
       ],
+      "cardGroups": [
+        {
+          "heading": "Common score-day mistakes",
+          "intro": "Most AP score-day problems are not dramatic. They are small account, privacy, or planning issues that are easy to prevent.",
+          "items": [
+            {"label": "Account", "title": "Creating a second account", "text": "Duplicate accounts can make score matching harder. Recover the account you already used for AP instead."},
+            {"label": "Privacy", "title": "Sharing a full score screenshot", "text": "If you share anything, crop out your name, account details, school, and other personal information."},
+            {"label": "Planning", "title": "Treating credit as automatic", "text": "A 4 or 5 may help at one college and do nothing at another. Always check the exact policy."}
+          ]
+        },
+        {
+          "heading": "After-score next steps",
+          "items": [
+            {"label": "Students", "title": "Save a private record", "text": "Download or record scores for your own planning, but use official score sending when a college requires it."},
+            {"label": "Parents", "title": "Ask about the goal first", "text": "A score matters most when connected to placement, credit, scholarships, or next year's course choices."},
+            {"label": "Seniors", "title": "Check orientation deadlines", "text": "Some colleges use AP scores for placement before classes begin, so timing can matter after admission."}
+          ]
+        }
+      ],
       "checklist": [
         "Confirm your College Board username and password.",
         "Check that your email address and profile details are current.",
@@ -90,7 +139,166 @@
         {"label": "College Board AP Students: Score release calendar", "url": "https://apstudents.collegeboard.org/view-scores/calendar"},
         {"label": "College Board AP Students: Sending scores", "url": "https://apstudents.collegeboard.org/sending-scores"}
       ],
-      "related": ["2026-ap-exam-schedule", "ap-exam-day-checklist", "sat-score-release-guide"]
+      "related": ["ap-scores-delayed-missing-2026", "ap-credit-after-scores-guide", "2026-ap-exam-schedule"]
+    },
+    {
+      "slug": "ap-scores-delayed-missing-2026",
+      "category": "AP",
+      "title": "AP Scores Delayed or Missing 2026",
+      "description": "Use this unofficial checklist if a 2026 AP score is delayed, missing, or not yet visible in your College Board account.",
+      "heroKicker": "AP score help",
+      "summary": "If one 2026 AP score is missing, do not create a new account or panic-refresh. Some scores take longer to process, and College Board points students to AP Services if current-year scores are not received by August 15.",
+      "quickFacts": [
+        {"label": "First check", "value": "Same College Board account used for AP"},
+        {"label": "Common cause", "value": "Late testing or account matching"},
+        {"label": "Key date", "value": "August 15 support checkpoint"},
+        {"label": "Do not do", "value": "Create a duplicate account"}
+      ],
+      "timeline": {
+        "heading": "Missing AP score action timeline",
+        "items": [
+          {"label": "Release day", "title": "Check calmly", "text": "Confirm whether all exams are missing or only one score is not yet visible."},
+          {"label": "Same week", "title": "Verify account details", "text": "Check email, name, school, and whether you used the same account for AP enrollment."},
+          {"label": "Before Aug. 15", "title": "Watch for updates", "text": "Some current-year scores can arrive later because of testing or processing circumstances."},
+          {"label": "After Aug. 15", "title": "Contact official support", "text": "Use AP Services for Students if a current-year score still has not arrived."}
+        ]
+      },
+      "tables": [
+        {
+          "caption": "Why an AP score may be delayed",
+          "headers": ["Situation", "What it can mean", "Best next step"],
+          "rows": [
+            ["Only one exam is missing", "That subject may have a separate processing or matching issue.", "Wait for official updates and keep exam details handy."],
+            ["All AP scores are missing", "You may be in the wrong account or have an account access issue.", "Recover the original account before creating anything new."],
+            ["You late-tested", "Late testing can affect when a score becomes available.", "Check whether classmates from the same late test are also waiting."],
+            ["Older scores are missing", "Older scores may involve archived records or multiple accounts.", "Use official AP support or archived-score guidance."]
+          ]
+        },
+        {
+          "caption": "Information to gather before contacting AP Services",
+          "headers": ["Item", "Why it helps", "Privacy note"],
+          "rows": [
+            ["College Board account email", "Support needs to match your record.", "Do not post it publicly."],
+            ["School name and AP coordinator context", "Testing records are tied to school administration.", "Share only through official support channels."],
+            ["Exam name and date", "Helps separate regular testing from late testing.", "Keep a private note for your call or form."],
+            ["Score recipient choices", "Helps you understand what may have been sent already.", "Colleges need official reports, not screenshots."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "Do the simple checks first", "text": "Most students should start by confirming they are in the same College Board account used for AP registration and class enrollment. A duplicate account can make matching slower, not faster."},
+        {"heading": "Know the difference between delayed and missing", "text": "A delayed score may still be processing. A missing score after the official support checkpoint needs direct help from AP Services. This site cannot see private score records."},
+        {"heading": "If a college is waiting", "text": "Check whether the college needs official AP scores right away or whether placement can be updated later. Contact the college directly for deadline-specific instructions."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes when a score is missing",
+          "items": [
+            {"label": "Account", "title": "Creating a duplicate account", "text": "This can make the matching problem worse. Recover the existing account first."},
+            {"label": "Timing", "title": "Assuming one missing score is lost", "text": "Some scores arrive later because of late testing or processing review."},
+            {"label": "College", "title": "Relying on a screenshot", "text": "If a college requires official scores, use the official score-send process."}
+          ]
+        }
+      ],
+      "checklist": [
+        "Confirm you are signed in to the original College Board account.",
+        "Check whether all scores are missing or only one exam is delayed.",
+        "Look for emails or account messages about score updates.",
+        "Write down the exact exam name and testing situation.",
+        "Avoid posting personal score or account screenshots online.",
+        "Contact AP Services after the official checkpoint if the score still has not appeared."
+      ],
+      "faq": [
+        {"q": "Why is one AP score missing but the others are visible?", "a": "One score can take longer because of late testing, processing, or record matching. College Board says some scores may take longer and that students will be emailed when a score is added."},
+        {"q": "Should I make a new College Board account?", "a": "No. College Board warns that duplicate accounts can delay AP scores. Try to recover the account you already used."},
+        {"q": "What happens after August 15?", "a": "If you do not receive current-year AP scores by August 15, College Board directs students to contact AP Services for Students."},
+        {"q": "Will delayed scores still be sent to colleges?", "a": "College Board says delayed current-year scores may be sent automatically to designated current-year recipients when they become available, but you should verify your own situation officially."}
+      ],
+      "sources": [
+        {"label": "College Board AP Students: View your scores", "url": "https://apstudents.collegeboard.org/view-scores/calendar"},
+        {"label": "College Board AP Students: Sending scores", "url": "https://apstudents.collegeboard.org/sending-scores"}
+      ],
+      "related": ["ap-score-release-date-2026", "ap-credit-after-scores-guide", "sat-score-release-guide"]
+    },
+    {
+      "slug": "ap-credit-after-scores-guide",
+      "category": "AP",
+      "title": "AP Credit After Scores Guide",
+      "description": "Use this unofficial guide after AP scores arrive to compare college credit policies, placement rules, and score-sending decisions.",
+      "heroKicker": "AP credit",
+      "summary": "An AP score is only the start of the decision. Colleges set their own credit and placement policies, so the same score can have different outcomes at different schools.",
+      "quickFacts": [
+        {"label": "Main tool", "value": "AP Credit Policy Search"},
+        {"label": "Compare", "value": "College, subject, score, and department"},
+        {"label": "Ask", "value": "Credit, placement, or both?"},
+        {"label": "Avoid", "value": "Dropping a course before verification"}
+      ],
+      "timeline": {
+        "heading": "After AP scores arrive",
+        "items": [
+          {"label": "Day 1", "title": "Record scores privately", "text": "Save a personal copy and list which colleges may need official reporting."},
+          {"label": "Day 2", "title": "Search credit policies", "text": "Check each college and subject, not just the score number."},
+          {"label": "This week", "title": "Ask placement questions", "text": "Contact advising if credit affects a first-semester schedule."},
+          {"label": "Before deadline", "title": "Send official scores if needed", "text": "Use official score sending when a college or scholarship program requires it."}
+        ]
+      },
+      "tables": [
+        {
+          "caption": "AP credit decision table",
+          "headers": ["Question", "Why it matters", "Where to verify"],
+          "rows": [
+            ["Does the college award credit for this subject?", "Some schools give placement without credit, or no credit for certain exams.", "College AP credit policy page or AP Credit Policy Search."],
+            ["What score is required?", "A 3, 4, or 5 can mean different things by school and department.", "The exact subject row in the college policy."],
+            ["Does credit apply to your major?", "General credit may not satisfy a major requirement.", "Department or academic advisor."],
+            ["Will placement change your schedule?", "Skipping a course can affect sequencing, prerequisites, and confidence.", "Advisor, orientation materials, or registrar."],
+            ["Does the college need official scores?", "Screenshots are usually not official reports.", "College admissions, registrar, or testing policy."]
+          ]
+        },
+        {
+          "caption": "Credit vs. placement",
+          "headers": ["Outcome", "Plain meaning", "Student action"],
+          "rows": [
+            ["Credit", "The college may give units or course credit.", "Check whether it counts toward graduation or only elective credit."],
+            ["Placement", "The college may let you start in a higher-level course.", "Ask whether skipping the lower course is recommended for your major."],
+            ["No credit", "The score may not change your transcript.", "The exam can still show preparation, but do not plan schedule changes from it."],
+            ["Department review", "A department may have extra rules.", "Confirm before changing math, science, language, or writing placement."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "Do not stop at the score number", "text": "The useful question is not only whether a score is good. It is whether that score changes credit, placement, prerequisites, tuition, or your first-year schedule."},
+        {"heading": "Compare all colleges separately", "text": "If you are choosing between colleges or preparing for orientation, check each policy separately. A score that earns credit at one school may only place you at another."},
+        {"heading": "When to ask an advisor", "text": "Ask before skipping a course that is important for your major, graduate-school prerequisites, or a sequence such as calculus, chemistry, writing, or language."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common AP credit mistakes",
+          "items": [
+            {"label": "Policy", "title": "Using an old screenshot", "text": "Credit policies can change. Use the current college page or official search tool."},
+            {"label": "Major", "title": "Ignoring department rules", "text": "A college-wide credit chart may not answer major-specific placement questions."},
+            {"label": "Schedule", "title": "Skipping too aggressively", "text": "Credit can be useful, but skipping a foundation course is not always the best academic choice."}
+          ]
+        }
+      ],
+      "checklist": [
+        "List every college or program that may use the AP score.",
+        "Check the exact exam subject and score threshold.",
+        "Note whether the policy gives credit, placement, or both.",
+        "Ask whether credit applies to your intended major.",
+        "Confirm whether an official score report is required.",
+        "Save links or screenshots of college policy pages for advising conversations."
+      ],
+      "faq": [
+        {"q": "Does every college give AP credit for the same score?", "a": "No. Colleges set their own policies, and rules can vary by subject and department."},
+        {"q": "Is AP placement the same as AP credit?", "a": "No. Credit may add units or course credit. Placement may let you start in a higher course without necessarily giving the same credit."},
+        {"q": "Should I skip a class if AP credit allows it?", "a": "Maybe. Ask an advisor if the class is foundational for your major or future graduate-school requirements."},
+        {"q": "Can I send AP scores after orientation?", "a": "Policies and deadlines vary. Check the college's official instructions and score-reporting deadlines."}
+      ],
+      "sources": [
+        {"label": "College Board AP Credit Policy Search", "url": "https://apstudents.collegeboard.org/getting-credit-placement/search-policies"},
+        {"label": "College Board AP Students: Sending scores", "url": "https://apstudents.collegeboard.org/sending-scores"}
+      ],
+      "related": ["ap-score-release-date-2026", "ap-scores-delayed-missing-2026", "sat-score-release-guide"]
     },
     {
       "slug": "2026-ap-exam-schedule",
@@ -122,6 +330,7 @@
           "rows": [
             ["Morning exams", "8:00-9:00 a.m. local start window", "Arrive early enough for school check-in and seating."],
             ["Afternoon exams", "12:00-1:00 p.m. local start window", "Eat beforehand and bring approved materials."],
+            ["AP Seminar and AP Computer Science Principles deadline", "April 30, 2026, 11:59 p.m. ET", "Students submit final performance tasks in the AP Digital Portfolio."],
             ["AP Art and Design portfolio deadline", "May 8, 2026, 8 p.m. ET", "Students submit final portfolio components in the AP Digital Portfolio."],
             ["Late testing", "May 18-22, 2026", "Available only through approved school arrangements."]
           ]
@@ -211,11 +420,26 @@
       "title": "SAT Test Dates 2026-2027",
       "description": "Plan around 2026-2027 SAT weekend test dates, registration reminders, and score timing considerations.",
       "heroKicker": "SAT dates",
-      "summary": "College Board lists anticipated SAT weekend dates for the 2026-2027 school year. Use this page to compare likely test months and build a simple registration plan.",
+      "summary": "College Board lists confirmed SAT weekend dates for the 2026-2027 school year. Use this page to compare test months and build a simple registration plan.",
+      "quickFacts": [
+        {"label": "Next listed date", "value": "August 22, 2026"},
+        {"label": "Best senior buffer", "value": "August or September plus October backup"},
+        {"label": "Best junior start", "value": "March or May 2027"},
+        {"label": "Always verify", "value": "Registration deadline and test center availability"}
+      ],
       "countdown": {"label": "Next listed SAT weekend date", "date": "2026-08-22T07:45:00-04:00"},
+      "timeline": {
+        "heading": "SAT registration planning timeline",
+        "items": [
+          {"label": "10 weeks out", "title": "Pick the date and backup", "text": "Choose one main administration and one realistic retake window."},
+          {"label": "8 weeks out", "title": "Register and confirm center", "text": "Test center seats and device needs are easier to solve early."},
+          {"label": "4 weeks out", "title": "Review practice evidence", "text": "Use practice test results to decide what to study, not just how long to study."},
+          {"label": "Final week", "title": "Switch to logistics", "text": "Protect sleep, check ID, device, route, calculator, and admission details."}
+        ]
+      },
       "tables": [
         {
-          "caption": "Anticipated SAT weekend dates for 2026-2027",
+          "caption": "Confirmed SAT weekend dates for 2026-2027",
           "headers": ["Test date", "Best for", "Planning note"],
           "rows": [
             ["August 22, 2026", "Early senior testing", "Useful before fall application deadlines."],
@@ -256,8 +480,27 @@
         {"heading": "Choose a date with a backup plan", "text": "A good SAT plan usually includes one primary date and one possible retake date. That gives you room for illness, technical issues, a lower-than-expected score, or a schedule conflict."},
         {"heading": "Do not ignore school workload", "text": "The best date on paper may be a poor date if it lands beside AP exams, finals, major travel, or a heavy activity season. A slightly later test with better preparation can be smarter than a rushed early test."}
       ],
+      "cardGroups": [
+        {
+          "heading": "Common SAT date mistakes",
+          "items": [
+            {"label": "Deadlines", "title": "Picking a date before checking colleges", "text": "Start with application and scholarship deadlines, then decide which test dates still work."},
+            {"label": "Retakes", "title": "Leaving no second chance", "text": "If the first score matters, leave room for illness, test-center issues, or a focused retake."},
+            {"label": "Workload", "title": "Ignoring AP and finals season", "text": "May can be useful, but it can also collide with AP exams, projects, and end-of-year pressure."}
+          ]
+        },
+        {
+          "heading": "Which date fits today?",
+          "intro": "Use this as a quick decision aid before going to the official registration page.",
+          "items": [
+            {"label": "Rising senior", "title": "Use August if summer prep is real", "text": "August is strongest when practice has already happened, not when it is only a good intention."},
+            {"label": "Senior fall", "title": "Use October when early deadlines matter", "text": "October often leaves more room than November for early action and early decision timelines."},
+            {"label": "Junior spring", "title": "Use March for more retake room", "text": "March gives time to review results before May or June, especially if AP exams are part of the year."}
+          ]
+        }
+      ],
       "faq": [
-        {"q": "Are these dates guaranteed?", "a": "No. They are based on College Board's listed SAT weekend schedule and should be confirmed before registration."},
+        {"q": "Are these dates guaranteed?", "a": "They are based on College Board's confirmed SAT weekend schedule as of the last page update, but registration details, test centers, and deadlines should still be confirmed before you register."},
         {"q": "How many SAT dates should I plan for?", "a": "Many students plan one main test date and one backup retake date. Your timeline depends on deadlines and prep progress."},
         {"q": "Should juniors test in March or May?", "a": "March gives more retake room. May may fit students who need more prep time, but it can overlap with AP exams."},
         {"q": "Is August too early for seniors?", "a": "Not necessarily. August can be useful for seniors who prepared over the summer and want scores before fall deadlines."},
@@ -265,10 +508,91 @@
         {"q": "How should I choose between October and November?", "a": "Check college deadlines first. October leaves more room for early deadlines, while November may fit regular decision plans for many students."}
       ],
       "sources": [
-        {"label": "College Board SAT: Dates and deadlines", "url": "https://satsuite.collegeboard.org/sat/registration/dates-deadlines"},
-        {"label": "College Board SAT: Weekend administrations", "url": "https://satsuite.collegeboard.org/sat/registration/dates-deadlines"}
+        {"label": "College Board SAT: Dates and deadlines", "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"},
+        {"label": "College Board SAT: Weekend administrations", "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"}
       ],
-      "related": ["digital-sat-checklist", "sat-score-release-guide", "ap-exam-day-checklist"]
+      "related": ["sat-august-22-2026-planning", "digital-sat-bluebook-checklist", "sat-score-release-guide"]
+    },
+    {
+      "slug": "sat-august-22-2026-planning",
+      "category": "SAT",
+      "title": "SAT August 22, 2026 Planning Guide",
+      "description": "Plan for the August 22, 2026 SAT with a senior-year timeline, backup dates, registration checklist, and week-by-week prep plan.",
+      "heroKicker": "SAT August 2026",
+      "summary": "The August 22, 2026 SAT is a high-value date for rising seniors who want scores before fall deadlines. Use this page to decide whether it fits your prep, travel, and retake timeline.",
+      "quickFacts": [
+        {"label": "Test date", "value": "Saturday, August 22, 2026"},
+        {"label": "Best fit", "value": "Rising seniors with summer prep"},
+        {"label": "Backup dates", "value": "September 12 or October 3, 2026"},
+        {"label": "Main risk", "value": "Registering without a real summer plan"}
+      ],
+      "countdown": {"label": "August SAT test day", "date": "2026-08-22T07:45:00-04:00"},
+      "timeline": {
+        "heading": "August 22 SAT sprint timeline",
+        "items": [
+          {"label": "8 weeks out", "title": "Take a baseline test", "text": "Decide whether August is realistic or whether September gives better preparation time."},
+          {"label": "6 weeks out", "title": "Register and set a routine", "text": "Use a steady weekly plan instead of waiting for one big study week."},
+          {"label": "3 weeks out", "title": "Practice under timing", "text": "Switch from topic review to timed sections and full practice review."},
+          {"label": "Final week", "title": "Protect logistics", "text": "Check Bluebook setup, ID, ticket details, route, sleep, and backup transportation."}
+        ]
+      },
+      "tables": [
+        {
+          "caption": "Should you take the August 22, 2026 SAT?",
+          "headers": ["If this describes you", "August may be", "Why"],
+          "rows": [
+            ["You practiced during June and July", "A strong choice", "You can enter senior fall with scores already in progress."],
+            ["You are starting from zero in August", "Risky", "A September or October date may allow more meaningful improvement."],
+            ["You are applying early action or early decision", "Useful", "August creates more time before fall score deadlines."],
+            ["You have heavy August travel or work", "Possibly stressful", "A test date only works if practice and test-day logistics are realistic."],
+            ["You need accommodations or a borrowed device", "Plan early", "Extra logistics can require earlier action than standard registration."]
+          ]
+        },
+        {
+          "caption": "August SAT backup plan",
+          "headers": ["Plan", "Use when", "Next step"],
+          "rows": [
+            ["August primary, September backup", "You are close to target but want a quick retake option.", "Register or monitor September availability early."],
+            ["August primary, October backup", "You need more time between attempts.", "Check early application score deadlines before relying on October."],
+            ["Skip August, take September", "Summer prep was inconsistent.", "Use August for practice tests and targeted review."],
+            ["Skip fall, take spring 2027", "You are a junior or not applying soon.", "Build a longer prep runway with school workload in mind."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "Why August matters", "text": "August is often attractive because it lands before the busiest senior-year application period. That timing only helps if you have actually prepared before the test."},
+        {"heading": "Use a backup date", "text": "A backup date protects against illness, a technical issue, a surprise low score, or a need to improve one section for superscoring."},
+        {"heading": "Do not forget Bluebook", "text": "Because the SAT is digital, registration planning and device readiness belong in the same checklist. A good practice plan still needs a working device and test-day setup."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common August SAT mistakes",
+          "items": [
+            {"label": "Prep", "title": "Counting planned study as completed study", "text": "August is good for students who used the summer, not students hoping one week will fix everything."},
+            {"label": "Deadlines", "title": "Assuming October works for every college", "text": "Some early programs may need scores sooner. Check each college before choosing a backup."},
+            {"label": "Logistics", "title": "Forgetting travel and move-in", "text": "Late summer can include vacations, school orientation, jobs, and family travel."}
+          ]
+        }
+      ],
+      "checklist": [
+        "Check whether August 22 fits your application timeline.",
+        "Take a baseline practice test before committing.",
+        "Choose a September or October backup date.",
+        "Confirm registration and test center availability in your College Board account.",
+        "Make a week-by-week study plan with timed practice.",
+        "Complete Bluebook and device checks before the final week."
+      ],
+      "faq": [
+        {"q": "Is August 22, 2026 a confirmed SAT date?", "a": "College Board lists August 22, 2026 under confirmed 2026-27 SAT test dates. Always verify in your registration account before making plans."},
+        {"q": "Who should take the August SAT?", "a": "It is often best for rising seniors who practiced over the summer and want scores before fall deadlines."},
+        {"q": "Is September 12, 2026 a good backup?", "a": "It can be a useful backup because it is close enough for a quick retake, but test center availability and deadlines still matter."},
+        {"q": "Should juniors take the August 2026 SAT?", "a": "Most juniors do not need to rush unless they have a specific reason. March, May, or June 2027 may fit a junior timeline better."}
+      ],
+      "sources": [
+        {"label": "College Board SAT: Dates and deadlines", "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"},
+        {"label": "College Board SAT: What to bring and do", "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"}
+      ],
+      "related": ["sat-test-dates-2026-2027", "digital-sat-bluebook-checklist", "digital-sat-checklist"]
     },
     {
       "slug": "digital-sat-checklist",
@@ -277,6 +601,12 @@
       "description": "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics.",
       "heroKicker": "SAT checklist",
       "summary": "The digital SAT depends on both preparation and device readiness. Use this checklist before test day so you are not troubleshooting at the door.",
+      "quickFacts": [
+        {"label": "Core task", "value": "Set up Bluebook before test day"},
+        {"label": "Bring", "value": "ID, device, charger, admission details"},
+        {"label": "Avoid", "value": "Last-minute system updates"},
+        {"label": "Best habit", "value": "Treat logistics as part of studying"}
+      ],
       "checklist": [
         "Install or update Bluebook on your approved device.",
         "Complete exam setup when it becomes available.",
@@ -312,11 +642,38 @@
           ]
         }
       ],
+      "timeline": {
+        "heading": "Digital SAT readiness timeline",
+        "items": [
+          {"label": "2 weeks", "title": "Confirm device and Bluebook", "text": "Make sure the device is allowed, updated early, and able to open Bluebook."},
+          {"label": "3-5 days", "title": "Complete exam setup", "text": "Resolve sign-in, admission, and test-center details before the final night."},
+          {"label": "Night before", "title": "Pack power and ID", "text": "Charge the device and put the charger, ID, ticket details, and calculator in one bag."},
+          {"label": "Morning", "title": "Arrive with margin", "text": "Give yourself time for check-in, room assignment, device instructions, and nerves."}
+        ]
+      },
       "body": [
         {"heading": "Device readiness matters", "text": "Do not wait until the morning of the test to open Bluebook. Run through setup, check your operating system, and make sure you know your device password."},
         {"heading": "What not to bring", "text": "Avoid bringing notes, separate timers, recording devices, or other items that could violate test rules. When in doubt, follow College Board and test center instructions."},
         {"heading": "Treat the device like a test material", "text": "Your device is part of the test-day setup, not just a laptop you happen to bring. Keep it charged, updated, and easy to unlock without needing another device."},
         {"heading": "Reduce notification risk", "text": "Before arriving, close unrelated apps and silence avoidable notifications. Follow official instructions for device settings at the test center."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common digital SAT mistakes",
+          "items": [
+            {"label": "Device", "title": "Updating the night before", "text": "A late update can change settings or cause login surprises. Finish required updates earlier, then test Bluebook."},
+            {"label": "Power", "title": "Bringing a device without a charger", "text": "A full battery is good, but a charger is still part of the test-day kit."},
+            {"label": "Access", "title": "Forgetting the device password", "text": "You should be able to unlock the device quickly without relying on a phone or another account."}
+          ]
+        },
+        {
+          "heading": "What to check after setup",
+          "items": [
+            {"label": "Route", "title": "Test center timing", "text": "Check travel time, parking, drop-off rules, and whether weekend traffic changes your route."},
+            {"label": "Rules", "title": "Restricted items", "text": "Phones, watches, notes, and extra devices should be handled exactly as the test center instructs."},
+            {"label": "Backup", "title": "Transportation plan", "text": "If someone else is driving, confirm pickup time and a backup contact before test morning."}
+          ]
+        }
       ],
       "faq": [
         {"q": "Can I take the digital SAT on any laptop?", "a": "No. Device requirements apply. Check official Bluebook and SAT device guidance before test day."},
@@ -329,7 +686,89 @@
         {"label": "College Board Bluebook", "url": "https://bluebook.collegeboard.org/"},
         {"label": "College Board SAT: What to bring and do", "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"}
       ],
-      "related": ["sat-test-dates-2026-2027", "sat-score-release-guide", "ap-exam-day-checklist"]
+      "related": ["digital-sat-bluebook-checklist", "sat-august-22-2026-planning", "sat-test-dates-2026-2027"]
+    },
+    {
+      "slug": "digital-sat-bluebook-checklist",
+      "category": "SAT",
+      "title": "Digital SAT Bluebook Checklist",
+      "description": "A Bluebook-focused digital SAT checklist for approved devices, setup timing, battery life, admission ticket, and test-day troubleshooting.",
+      "heroKicker": "Bluebook checklist",
+      "summary": "Bluebook is part of the SAT test-day workflow. This checklist focuses on device approval, setup timing, battery planning, and the small technical issues that can derail a test morning.",
+      "quickFacts": [
+        {"label": "App", "value": "Bluebook"},
+        {"label": "Setup window", "value": "Complete exam setup before test day"},
+        {"label": "Battery target", "value": "Enough charge for 3-4 hours"},
+        {"label": "Not allowed", "value": "Personal Chromebook or phone"}
+      ],
+      "timeline": {
+        "heading": "Bluebook setup timeline",
+        "items": [
+          {"label": "2 weeks out", "title": "Confirm approved device", "text": "Check whether your device type and operating system can run Bluebook."},
+          {"label": "1 week out", "title": "Open Bluebook", "text": "Sign in, check app access, and resolve password or update issues."},
+          {"label": "1-5 days", "title": "Complete exam setup", "text": "Use Bluebook to complete setup and handle admission ticket instructions."},
+          {"label": "Test day", "title": "Bring power", "text": "Arrive with the device charged and pack the power cord or permitted charger."}
+        ]
+      },
+      "tables": [
+        {
+          "caption": "Bluebook device readiness table",
+          "headers": ["Device question", "What to check", "Why it matters"],
+          "rows": [
+            ["Is your device allowed?", "Confirm it is a supported Windows or Mac device, iPad, or school-managed Chromebook.", "Personal Chromebooks and phones are not supported for Bluebook testing."],
+            ["Can it hold a charge?", "Plan for 3-4 hours and bring a power cord or portable charger if allowed.", "You may not have easy outlet access at the test center."],
+            ["Did you update too late?", "Avoid unnecessary last-minute operating system changes.", "Late updates can create compatibility or login surprises."],
+            ["Do you know the password?", "Make sure you can unlock the device without another device.", "Test morning is not the time to reset a laptop password."],
+            ["Is there enough storage?", "Check available space based on your device type.", "Low storage can cause technical problems before launch."]
+          ]
+        },
+        {
+          "caption": "Bluebook issue triage",
+          "headers": ["Issue", "First move", "Escalate to"],
+          "rows": [
+            ["Bluebook will not open", "Restart device and confirm the app is installed or updated.", "Official Bluebook help or test center staff."],
+            ["Forgot College Board password", "Recover it before test day if possible.", "College Board account support."],
+            ["Battery concern", "Charge fully and bring power accessories allowed by rules.", "Test center staff for seating or outlet instructions."],
+            ["Admission ticket question", "Complete setup in Bluebook and follow official ticket instructions.", "College Board or test center staff."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "Bluebook is not just a download", "text": "The app, your account, your device password, battery, Wi-Fi expectations, and admission ticket flow all matter. Treat setup as a test material."},
+        {"heading": "Approved devices matter", "text": "College Board says Bluebook can run on Windows or Mac devices, iPads, and school-managed Chromebooks, but not personal Chromebooks or mobile phones."},
+        {"heading": "Battery planning is part of readiness", "text": "Official device guidance says devices must hold a charge for 3-4 hours and recommends bringing a power cord or portable charger, though outlet access may not be guaranteed."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "Bluebook mistakes to avoid",
+          "items": [
+            {"label": "Device", "title": "Borrowing a device too late", "text": "If you need a device, check official borrowing timelines early instead of waiting until test week."},
+            {"label": "Ticket", "title": "Skipping exam setup", "text": "Admission ticket instructions are tied to setup, so do not wait until test morning."},
+            {"label": "Updates", "title": "Changing the system at the last minute", "text": "A new operating system version can create avoidable uncertainty before the SAT."}
+          ]
+        }
+      ],
+      "checklist": [
+        "Confirm your device type is supported for Bluebook.",
+        "Install or update Bluebook well before test day.",
+        "Sign in with your College Board account before the final night.",
+        "Complete exam setup when it becomes available.",
+        "Charge the device fully and pack the charger.",
+        "Confirm you can unlock the device without another device.",
+        "Print, save, or email the admission ticket if official instructions require it.",
+        "Close distracting apps and follow test center device instructions."
+      ],
+      "faq": [
+        {"q": "Can I use a phone for the digital SAT?", "a": "No. College Board's Bluebook approved-device guidance says Bluebook cannot run on a mobile phone."},
+        {"q": "Can I use a personal Chromebook?", "a": "No. College Board says Bluebook can run on a school-managed Chromebook, but not a personal Chromebook."},
+        {"q": "How long should my battery last?", "a": "College Board's approved-device guidance says a device must hold a charge for 3-4 hours and recommends bringing power."},
+        {"q": "When do I print my SAT admission ticket?", "a": "College Board says students registered for an upcoming SAT can complete exam setup in Bluebook 1-5 days before test day and then print or email the admission ticket."}
+      ],
+      "sources": [
+        {"label": "Bluebook: Approved devices", "url": "https://bluebook.collegeboard.org/students/approved-devices"},
+        {"label": "College Board SAT: What to bring and do", "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"}
+      ],
+      "related": ["digital-sat-checklist", "sat-august-22-2026-planning", "sat-test-dates-2026-2027"]
     },
     {
       "slug": "sat-score-release-guide",
@@ -338,12 +777,45 @@
       "description": "Understand how SAT score release usually works, what to check before scores arrive, and how to think about sending scores.",
       "heroKicker": "SAT scores",
       "summary": "SAT score release timing depends on the administration. This unofficial guide helps you prepare your account, college list, and next-step decisions before scores post.",
+      "quickFacts": [
+        {"label": "Where scores post", "value": "College Board student account"},
+        {"label": "Best pre-release task", "value": "Check college score policies"},
+        {"label": "Retake rule", "value": "Register only with a focused plan"},
+        {"label": "Privacy note", "value": "Do not share full score screenshots"}
+      ],
+      "timeline": {
+        "heading": "SAT score release decision timeline",
+        "items": [
+          {"label": "Before release", "title": "List score policies", "text": "Mark which colleges require official scores, self-reporting, or no scores."},
+          {"label": "Release day", "title": "Read the full report", "text": "Look at total score, section scores, and how they compare with your target."},
+          {"label": "Next 48 hours", "title": "Decide send or hold", "text": "Use deadlines and policies, not panic, to decide which scores to send."},
+          {"label": "After that", "title": "Plan a retake only if useful", "text": "A retake should have a date, a weak area, and enough time to improve."}
+        ]
+      },
       "body": [
         {"heading": "Where scores appear", "text": "SAT scores appear in the student's College Board account after processing. Some scores may take longer if additional review or matching is needed."},
         {"heading": "After scores post", "text": "Compare your score with college testing policies, scholarship requirements, and your own retake plan. If you send scores, use official College Board score sending tools."},
         {"heading": "Read the score before reacting", "text": "Look at the total score, section scores, and your original goal. A score that feels disappointing may still be useful for some colleges, scholarships, or a superscore strategy."},
         {"heading": "Use deadlines to decide on sending", "text": "Before sending any score, check each college's current testing policy, deadline, and score choice rules. Some colleges accept self-reported scores at first, while others require official reports."},
         {"heading": "Plan retakes with evidence", "text": "A retake is most useful when you know what you will change. Use your score report and practice history to pick a focused improvement plan instead of simply registering again."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common SAT score mistakes",
+          "items": [
+            {"label": "Sending", "title": "Sending before checking policy", "text": "Some colleges are test optional, some superscore, and some want official reports. Check first."},
+            {"label": "Retake", "title": "Registering again with no new plan", "text": "A retake is more useful when it targets a section, content area, or timing issue."},
+            {"label": "Stress", "title": "Comparing screenshots with friends", "text": "Use your goals and college list. Another student's score does not decide your next step."}
+          ]
+        },
+        {
+          "heading": "How to interpret your score",
+          "items": [
+            {"label": "Meets target", "title": "Move to reporting decisions", "text": "Check which colleges need the official score and whether scholarships have separate rules."},
+            {"label": "Close to target", "title": "Look for superscore value", "text": "If one section is strong, a later test may help only if colleges on your list superscore."},
+            {"label": "Below target", "title": "Find the reason before retesting", "text": "Separate content gaps, timing issues, test-day problems, and unrealistic practice conditions."}
+          ]
+        }
       ],
       "checklist": [
         "Confirm your College Board sign-in works.",
@@ -398,21 +870,126 @@
       "description": "Practice original California permit-style questions covering speed, signs, right of way, alcohol, and safe driving basics.",
       "heroKicker": "California DMV",
       "summary": "Try these original, unofficial California permit practice questions. They are designed for study support and do not copy official DMV exam questions.",
+      "quickFacts": [
+        {"label": "Question count", "value": "15 original practice questions"},
+        {"label": "Best first step", "value": "Read the California Driver Handbook"},
+        {"label": "Weak-area feedback", "value": "Review categories after missed answers"},
+        {"label": "Privacy", "value": "No answers are collected"}
+      ],
       "quiz": "california",
+      "tables": [
+        {
+          "caption": "California practice score interpretation",
+          "headers": ["Practice result", "What it means", "Next study move"],
+          "rows": [
+            ["13-15 correct", "Strong practice result for this short quiz.", "Review any missed category, then reread the handbook sections you guessed on."],
+            ["10-12 correct", "Good start, but a few rule areas need reinforcement.", "Repeat the quiz later and focus on signs, right of way, and safe following distance."],
+            ["7-9 correct", "You know some basics but may be relying on intuition.", "Read the handbook again before taking more practice questions."],
+            ["0-6 correct", "Treat this as a diagnostic, not a failure.", "Start with signs, signals, lane rules, and pedestrian safety before retesting."]
+          ]
+        },
+        {
+          "caption": "Weak-area categories to review",
+          "headers": ["Category", "What to review", "Why it matters"],
+          "rows": [
+            ["Signs and signals", "Stop signs, flashing lights, curbs, school buses, and signal failures.", "These questions test quick recognition and legal response."],
+            ["Right of way", "Pedestrians, intersections, roundabouts, and emergency vehicles.", "Many permit questions ask who should wait or yield."],
+            ["Road conditions", "Fog, rain, hydroplaning, night driving, and following distance.", "Safe speed changes with weather and visibility."],
+            ["Vehicle control", "Lane changes, parking on hills, blind spots, and defensive driving.", "These topics connect rules with daily driving choices."]
+          ]
+        }
+      ],
       "body": [
         {"heading": "How to study", "text": "Start with the official California Driver Handbook, then use practice questions to check whether you can apply the rules in plain language."},
-        {"heading": "What this quiz covers", "text": "The questions focus on general safe-driving knowledge: right of way, signs, lane use, alcohol rules, speed, and defensive driving."}
+        {"heading": "What this quiz covers", "text": "The questions focus on general safe-driving knowledge: right of way, signs, lane use, alcohol rules, speed, and defensive driving."},
+        {"heading": "Use misses as a map", "text": "A missed question is most useful when you connect it to a category. If you miss two sign questions, reread the sign and signal sections instead of taking random quizzes for another hour."},
+        {"heading": "Practice in short rounds", "text": "Do one round, read every explanation, then take a short break. Repeating questions immediately can make answers feel familiar without proving you understand the rule."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "California study tips",
+          "items": [
+            {"label": "Manual first", "title": "Do not skip the handbook", "text": "Practice questions work best after you have seen the official rule language at least once."},
+            {"label": "Explanations", "title": "Read the reason, not just the answer", "text": "Permit tests often change wording. Understanding the reason helps more than memorizing a choice."},
+            {"label": "Retake wisely", "title": "Wait before repeating the same quiz", "text": "Review missed categories first, then return to the quiz to check whether the idea stuck."}
+          ]
+        }
       ],
       "faq": [
         {"q": "Are these official California DMV questions?", "a": "No. They are original practice questions made for study. Always use the California DMV handbook for official rules."},
         {"q": "Can this quiz guarantee I pass?", "a": "No. It is a practice aid, not a guarantee. Read the handbook and follow official DMV instructions."},
-        {"q": "Does this page collect my answers?", "a": "No. The quiz runs in your browser and does not collect personal information."}
+        {"q": "Does this page collect my answers?", "a": "No. The quiz runs in your browser and does not collect personal information."},
+        {"q": "What should I review if I miss several questions?", "a": "Use the category label above each question. Start with the category you missed most, then reread that part of the handbook."},
+        {"q": "Are these questions enough by themselves?", "a": "No. They are a short practice set. The official handbook should be your main source for California rules."}
       ],
       "sources": [
-        {"label": "California DMV: Driver handbooks", "url": "https://www.dmv.ca.gov/portal/handbook/"},
+        {"label": "California DMV: California Driver's Handbook", "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/"},
         {"label": "California DMV: Driver education and safety", "url": "https://www.dmv.ca.gov/portal/driver-education-and-safety/"}
       ],
-      "related": ["new-york-dmv-permit-practice-test", "digital-sat-checklist", "ap-exam-day-checklist"]
+      "related": ["california-dmv-road-signs-practice", "new-york-dmv-permit-practice-test", "new-york-dmv-road-signs-practice"]
+    },
+    {
+      "slug": "california-dmv-road-signs-practice",
+      "category": "DMV",
+      "title": "California DMV Road Signs Practice",
+      "description": "Practice original California road signs and signals questions covering red curbs, stop signs, warning signs, school buses, and railroad crossings.",
+      "heroKicker": "California road signs",
+      "summary": "Use this short, original California road signs practice page to review the signals, colors, and warning signs that new drivers commonly mix up.",
+      "quickFacts": [
+        {"label": "Question count", "value": "10 original road-sign questions"},
+        {"label": "Focus", "value": "Signs, signals, curbs, crossings"},
+        {"label": "Best use", "value": "Quick review before handbook rereading"},
+        {"label": "Unofficial", "value": "Not copied from the DMV exam"}
+      ],
+      "quiz": "californiaSigns",
+      "tables": [
+        {
+          "caption": "California sign colors quick guide",
+          "headers": ["Color or shape", "Common meaning", "Study note"],
+          "rows": [
+            ["Red", "Stop, yield, or prohibited action.", "Red signs and curbs usually mean a rule you must obey immediately."],
+            ["Yellow diamond", "Warning about conditions ahead.", "Slow down and prepare before the hazard, not after you reach it."],
+            ["White rectangle", "Regulatory instruction.", "These signs often explain speed, lane, parking, or turn rules."],
+            ["Orange", "Work zone or temporary traffic control.", "Expect workers, cones, lane shifts, and slower traffic."],
+            ["Pentagon school sign", "School zone or school crossing.", "Look for children and be ready to stop."],
+            ["Railroad crossbuck", "Railroad crossing.", "Never stop on tracks and obey flashing signals or gates."]
+          ]
+        },
+        {
+          "caption": "Road signs study plan",
+          "headers": ["Round", "Task", "Goal"],
+          "rows": [
+            ["1", "Answer the 10 questions without notes.", "Find which sign types you confuse."],
+            ["2", "Read explanations and the sign-color table.", "Connect each answer to a rule."],
+            ["3", "Reread the official handbook sign sections.", "Verify exact California wording."],
+            ["4", "Retake later, not immediately.", "Check understanding instead of short-term memory."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "Why road signs deserve their own practice", "text": "Road signs are fast-recognition questions. You often need to know the color, shape, and driver action before reading a long explanation."},
+        {"heading": "Use this with the handbook", "text": "This quiz is original and unofficial. Treat it as a study filter, then use the official California handbook for exact sign meanings and state-specific rules."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "California road sign mistakes",
+          "items": [
+            {"label": "Curbs", "title": "Mixing curb colors with sign colors", "text": "A red curb is a stopping or parking rule, not a general warning sign."},
+            {"label": "Warnings", "title": "Treating yellow signs as suggestions", "text": "Warning signs tell you to adjust speed or position before the hazard."},
+            {"label": "Crossings", "title": "Stopping on tracks or crosswalks", "text": "Leave space before railroad tracks and crosswalks so you are not trapped in a danger area."}
+          ]
+        }
+      ],
+      "faq": [
+        {"q": "Are these official California DMV sign questions?", "a": "No. They are original practice questions and are not copied from the official exam."},
+        {"q": "What should I review if I miss sign-color questions?", "a": "Review sign colors and shapes in the California Driver Handbook, then retake after a break."},
+        {"q": "Do road sign questions guarantee permit test success?", "a": "No. Road signs are only one part of permit knowledge. You should also study right of way, speed, lane use, and safe driving."}
+      ],
+      "sources": [
+        {"label": "California DMV: California Driver's Handbook", "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/"},
+        {"label": "California DMV: Driver education and safety", "url": "https://www.dmv.ca.gov/portal/driver-education-and-safety/"}
+      ],
+      "related": ["california-dmv-permit-practice-test", "new-york-dmv-road-signs-practice", "new-york-dmv-permit-practice-test"]
     },
     {
       "slug": "new-york-dmv-permit-practice-test",
@@ -421,57 +998,186 @@
       "description": "Practice original New York permit-style questions about traffic signs, road rules, alcohol, intersections, and safe driving.",
       "heroKicker": "New York DMV",
       "summary": "Use these original, unofficial New York permit practice questions to review common road rules before studying the official manual again.",
+      "quickFacts": [
+        {"label": "Question count", "value": "15 original practice questions"},
+        {"label": "Best first step", "value": "Read the New York driver's manual"},
+        {"label": "Weak-area feedback", "value": "Review missed categories after the quiz"},
+        {"label": "Privacy", "value": "No answers are collected"}
+      ],
       "quiz": "newyork",
+      "tables": [
+        {
+          "caption": "New York practice score interpretation",
+          "headers": ["Practice result", "What it means", "Next study move"],
+          "rows": [
+            ["13-15 correct", "Strong result for this short review.", "Study any missed topic, then switch to the official manual or a new practice set."],
+            ["10-12 correct", "You understand many basics but still have weak spots.", "Review signs, intersections, and safe driving conditions."],
+            ["7-9 correct", "You may recognize some rules but need more handbook time.", "Read the manual again and retake after a break."],
+            ["0-6 correct", "Use this as a starting diagnostic.", "Focus on signs, right of way, road conditions, and railroad/school-zone safety first."]
+          ]
+        },
+        {
+          "caption": "Weak-area categories to review",
+          "headers": ["Category", "What to review", "Why it matters"],
+          "rows": [
+            ["Signs and signals", "Flashing lights, warning signs, regulatory signs, railroad crossings, and yield signs.", "These rules require fast recognition and correct action."],
+            ["Right of way", "Four-way stops, intersections, pedestrians, and merging situations.", "Permit questions often test who should go first."],
+            ["Vulnerable road users", "Motorcycles, bicyclists, pedestrians, and school buses.", "New drivers need extra space and patience around smaller or unpredictable road users."],
+            ["Road conditions", "Wet roads, drowsy driving, blind spots, and emergency avoidance.", "Safe choices change when visibility, traction, or attention changes."]
+          ]
+        }
+      ],
       "body": [
         {"heading": "Study flow", "text": "Read the official New York driver's manual first, then use practice questions to catch weak spots. Revisit the manual after each missed question."},
-        {"heading": "Question style", "text": "These questions are written in a general permit-test style and cover safe choices drivers should understand before driving alone."}
+        {"heading": "Question style", "text": "These questions are written in a general permit-test style and cover safe choices drivers should understand before driving alone."},
+        {"heading": "Review by topic", "text": "After the quiz, do not only look at the final score. If missed answers cluster around signs, intersections, or road conditions, study that topic before taking another practice set."},
+        {"heading": "Use plain-language explanations", "text": "Each explanation is short on purpose. The goal is to connect the answer to a rule you can remember while driving, then verify the exact rule in the official manual."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "New York study tips",
+          "items": [
+            {"label": "Read", "title": "Start with the manual", "text": "The manual is the official source. Practice questions should help you find what to reread."},
+            {"label": "Sort", "title": "Group missed answers", "text": "Two missed sign questions tell you more than a single final score."},
+            {"label": "Reset", "title": "Retake after review", "text": "Give yourself time to study before repeating the quiz so you test understanding, not memory."}
+          ]
+        }
       ],
       "faq": [
         {"q": "Are these real New York DMV test questions?", "a": "No. These are original practice questions and are not copied from the official exam."},
         {"q": "Is this affiliated with the New York DMV?", "a": "No. TestDayTools is independent and unofficial."},
-        {"q": "Where should I verify a rule?", "a": "Use the official New York driver's manual or contact the DMV for official guidance."}
+        {"q": "Where should I verify a rule?", "a": "Use the official New York driver's manual or contact the DMV for official guidance."},
+        {"q": "What score means I am ready?", "a": "A high practice score is encouraging, but it is not a guarantee. You should also understand the manual and official test rules."},
+        {"q": "Does the quiz save my results?", "a": "No. It runs in your browser and does not send your answers to TestDayTools."}
       ],
       "sources": [
         {"label": "New York DMV: Driver's manual", "url": "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests"},
         {"label": "New York DMV: Learner permits", "url": "https://dmv.ny.gov/driver-license/get-learner-permit"}
       ],
-      "related": ["california-dmv-permit-practice-test", "digital-sat-checklist", "sat-test-dates-2026-2027"]
+      "related": ["new-york-dmv-road-signs-practice", "california-dmv-permit-practice-test", "california-dmv-road-signs-practice"]
+    },
+    {
+      "slug": "new-york-dmv-road-signs-practice",
+      "category": "DMV",
+      "title": "New York DMV Road Signs Practice",
+      "description": "Practice original New York road signs and signals questions covering warning signs, regulatory signs, railroad crossings, yield signs, and school zones.",
+      "heroKicker": "New York road signs",
+      "summary": "Use this unofficial New York road signs practice page to review signs, signals, and crossing rules before returning to the official driver's manual.",
+      "quickFacts": [
+        {"label": "Question count", "value": "10 original road-sign questions"},
+        {"label": "Focus", "value": "Warning, regulatory, yield, crossings"},
+        {"label": "Best use", "value": "Find weak sign categories"},
+        {"label": "Privacy", "value": "No answers are collected"}
+      ],
+      "quiz": "newyorkSigns",
+      "tables": [
+        {
+          "caption": "New York road signs quick guide",
+          "headers": ["Sign type", "What it usually means", "Driving response"],
+          "rows": [
+            ["Regulatory sign", "A traffic law or required action.", "Follow the posted instruction."],
+            ["Warning sign", "A hazard or condition ahead.", "Slow down and prepare early."],
+            ["Yield sign", "Give right of way before entering.", "Slow or stop if needed before proceeding."],
+            ["School sign", "Children may be nearby.", "Reduce speed and watch crosswalks."],
+            ["Railroad signal", "Train crossing control.", "Stop when lights or gates require it and never go around gates."],
+            ["Work zone sign", "Temporary road work or lane changes.", "Expect workers, equipment, and changed traffic patterns."]
+          ]
+        },
+        {
+          "caption": "What your missed sign questions mean",
+          "headers": ["Missed pattern", "Likely weak area", "Review next"],
+          "rows": [
+            ["Mostly warning signs", "Color and shape recognition.", "Yellow diamond signs and hazard response."],
+            ["Mostly regulatory signs", "Law vs. warning distinction.", "White rectangular signs and posted restrictions."],
+            ["Crossing questions", "Railroad, school, and pedestrian safety.", "Where to stop and when to wait."],
+            ["Yield/right-of-way signs", "Decision timing at intersections.", "Yield rules and safe gap judgment."]
+          ]
+        }
+      ],
+      "body": [
+        {"heading": "Why signs are a useful quick win", "text": "Road sign questions are concrete and searchable. If you can quickly connect a shape or color with the right action, you remove one source of permit-test uncertainty."},
+        {"heading": "Study the action, not only the image", "text": "A sign matters because it tells you what to do: stop, yield, slow, watch, merge, or avoid a movement. Practice should always connect the sign to the action."}
+      ],
+      "cardGroups": [
+        {
+          "heading": "New York road sign mistakes",
+          "items": [
+            {"label": "Shape", "title": "Ignoring sign shape", "text": "Shape can help you identify a sign even before you can read every word."},
+            {"label": "Yield", "title": "Treating yield like merge-at-any-speed", "text": "A yield sign may require slowing or stopping until the way is clear."},
+            {"label": "Railroad", "title": "Driving around gates", "text": "Never go around lowered gates or stop on the tracks."}
+          ]
+        }
+      ],
+      "faq": [
+        {"q": "Are these official New York DMV sign questions?", "a": "No. They are original practice questions written for study support."},
+        {"q": "Should I memorize every sign image?", "a": "You should understand common colors, shapes, and actions, then verify details in the official manual."},
+        {"q": "Does this quiz cover the whole permit test?", "a": "No. It only focuses on signs and signals. Use the full New York DMV permit practice page and the official manual for broader review."}
+      ],
+      "sources": [
+        {"label": "New York DMV: Driver's manual and practice tests", "url": "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests"},
+        {"label": "New York DMV: Learner permits", "url": "https://dmv.ny.gov/driver-license/get-learner-permit"}
+      ],
+      "related": ["new-york-dmv-permit-practice-test", "california-dmv-road-signs-practice", "california-dmv-permit-practice-test"]
     }
   ],
   "quizzes": {
     "california": [
-      {"q": "When approaching a stop sign, what should you do?", "choices": ["Come to a complete stop before the limit line or crosswalk", "Slow down only if another car is present", "Stop after entering the intersection"], "answer": 0, "explanation": "A complete stop before the limit line or crosswalk gives drivers and pedestrians predictable space."},
-      {"q": "If a traffic signal is not working, you should usually treat the intersection as:", "choices": ["A green light for the larger road", "A four-way stop", "A yield sign for every driver"], "answer": 1, "explanation": "When signals fail, drivers should use stop-sign style caution unless directed otherwise by an officer or posted control."},
-      {"q": "A solid yellow line on your side of the road generally means:", "choices": ["Passing is not allowed from your lane", "You may pass whenever the road is clear", "The lane is reserved for buses"], "answer": 0, "explanation": "A solid yellow line indicates passing restrictions for traffic on that side."},
-      {"q": "What is the safest response when an emergency vehicle approaches with lights and siren?", "choices": ["Pull to the right and stop when safe", "Speed up to stay ahead of it", "Stop immediately in your lane without checking traffic"], "answer": 0, "explanation": "Drivers should yield by moving right and stopping when it can be done safely."},
-      {"q": "Before changing lanes, you should:", "choices": ["Signal, check mirrors, and look over your shoulder", "Signal only after moving", "Rely only on the rearview mirror"], "answer": 0, "explanation": "Mirrors do not cover every blind spot, so a shoulder check is important."},
-      {"q": "When driving in fog, which choice is usually safest?", "choices": ["Use low-beam headlights and slow down", "Use high beams so you can see farther", "Drive close to the vehicle ahead"], "answer": 0, "explanation": "Low beams reduce glare in fog, and slower speed gives you more time to react."},
-      {"q": "A pedestrian is crossing at an unmarked crosswalk at an intersection. You should:", "choices": ["Yield and let the pedestrian cross safely", "Honk so the pedestrian stops", "Drive through if you are below the speed limit"], "answer": 0, "explanation": "Drivers should yield to pedestrians crossing legally at intersections and marked crosswalks."},
-      {"q": "What does a red curb usually mean?", "choices": ["Loading zone for passengers only", "Parking allowed for a short time", "No stopping, standing, or parking"], "answer": 2, "explanation": "Red curb rules generally prohibit stopping, standing, or parking except where official signs say otherwise."},
-      {"q": "If your vehicle begins to hydroplane, what should you do first?", "choices": ["Ease off the accelerator and steer straight", "Brake hard immediately", "Turn sharply toward the shoulder"], "answer": 0, "explanation": "Sudden braking or sharp steering can make a skid worse. Ease off and keep the vehicle pointed where you want to go."},
-      {"q": "At night, you should dim high beams when approaching another vehicle because:", "choices": ["High beams use too much battery power", "Bright lights can blind other drivers", "It makes your car easier to hear"], "answer": 1, "explanation": "High beams can create glare for oncoming drivers and drivers ahead of you."},
-      {"q": "If a school bus ahead has flashing red lights, the safest general response is to:", "choices": ["Stop as required and watch for children", "Pass quickly before children step out", "Move into the left lane and keep driving"], "answer": 0, "explanation": "Flashing red school bus lights mean children may be entering or leaving the roadway."},
-      {"q": "Which choice best describes defensive driving?", "choices": ["Expecting hazards and leaving yourself time to react", "Driving faster than traffic to avoid clusters", "Using the horn whenever traffic slows"], "answer": 0, "explanation": "Defensive driving means scanning ahead, keeping space, and preparing for mistakes by other road users."},
-      {"q": "When parking uphill with a curb, your front wheels should generally be turned:", "choices": ["Toward the curb", "Straight ahead only", "Away from the curb"], "answer": 2, "explanation": "Turning wheels away from the curb helps the curb stop the vehicle if it rolls backward."},
-      {"q": "What should you do if another driver is tailgating you?", "choices": ["Increase your following distance from the car ahead and let the tailgater pass when safe", "Tap your brakes repeatedly", "Speed up until the tailgater disappears"], "answer": 0, "explanation": "Creating more room ahead gives you a gentler braking cushion and can reduce pressure behind you."},
-      {"q": "Before entering a roundabout, you should:", "choices": ["Yield to traffic already in the roundabout", "Stop inside the roundabout to check signs", "Enter quickly because entering traffic has priority"], "answer": 0, "explanation": "Drivers entering a roundabout generally yield to vehicles already circulating."}
+      {"q": "When approaching a stop sign, what should you do?", "choices": ["Come to a complete stop before the limit line or crosswalk", "Slow down only if another car is present", "Stop after entering the intersection"], "answer": 0, "category": "Signs and signals", "explanation": "A complete stop before the limit line or crosswalk gives drivers and pedestrians predictable space."},
+      {"q": "If a traffic signal is not working, you should usually treat the intersection as:", "choices": ["A green light for the larger road", "A four-way stop", "A yield sign for every driver"], "answer": 1, "category": "Signs and signals", "explanation": "When signals fail, drivers should use stop-sign style caution unless directed otherwise by an officer or posted control."},
+      {"q": "A solid yellow line on your side of the road generally means:", "choices": ["Passing is not allowed from your lane", "You may pass whenever the road is clear", "The lane is reserved for buses"], "answer": 0, "category": "Lane rules", "explanation": "A solid yellow line indicates passing restrictions for traffic on that side."},
+      {"q": "What is the safest response when an emergency vehicle approaches with lights and siren?", "choices": ["Pull to the right and stop when safe", "Speed up to stay ahead of it", "Stop immediately in your lane without checking traffic"], "answer": 0, "category": "Right of way", "explanation": "Drivers should yield by moving right and stopping when it can be done safely."},
+      {"q": "Before changing lanes, you should:", "choices": ["Signal, check mirrors, and look over your shoulder", "Signal only after moving", "Rely only on the rearview mirror"], "answer": 0, "category": "Vehicle control", "explanation": "Mirrors do not cover every blind spot, so a shoulder check is important."},
+      {"q": "When driving in fog, which choice is usually safest?", "choices": ["Use low-beam headlights and slow down", "Use high beams so you can see farther", "Drive close to the vehicle ahead"], "answer": 0, "category": "Road conditions", "explanation": "Low beams reduce glare in fog, and slower speed gives you more time to react."},
+      {"q": "A pedestrian is crossing at an unmarked crosswalk at an intersection. You should:", "choices": ["Yield and let the pedestrian cross safely", "Honk so the pedestrian stops", "Drive through if you are below the speed limit"], "answer": 0, "category": "Right of way", "explanation": "Drivers should yield to pedestrians crossing legally at intersections and marked crosswalks."},
+      {"q": "What does a red curb usually mean?", "choices": ["Loading zone for passengers only", "Parking allowed for a short time", "No stopping, standing, or parking"], "answer": 2, "category": "Signs and signals", "explanation": "Red curb rules generally prohibit stopping, standing, or parking except where official signs say otherwise."},
+      {"q": "If your vehicle begins to hydroplane, what should you do first?", "choices": ["Ease off the accelerator and steer straight", "Brake hard immediately", "Turn sharply toward the shoulder"], "answer": 0, "category": "Road conditions", "explanation": "Sudden braking or sharp steering can make a skid worse. Ease off and keep the vehicle pointed where you want to go."},
+      {"q": "At night, you should dim high beams when approaching another vehicle because:", "choices": ["High beams use too much battery power", "Bright lights can blind other drivers", "It makes your car easier to hear"], "answer": 1, "category": "Road conditions", "explanation": "High beams can create glare for oncoming drivers and drivers ahead of you."},
+      {"q": "If a school bus ahead has flashing red lights, the safest general response is to:", "choices": ["Stop as required and watch for children", "Pass quickly before children step out", "Move into the left lane and keep driving"], "answer": 0, "category": "Signs and signals", "explanation": "Flashing red school bus lights mean children may be entering or leaving the roadway."},
+      {"q": "Which choice best describes defensive driving?", "choices": ["Expecting hazards and leaving yourself time to react", "Driving faster than traffic to avoid clusters", "Using the horn whenever traffic slows"], "answer": 0, "category": "Defensive driving", "explanation": "Defensive driving means scanning ahead, keeping space, and preparing for mistakes by other road users."},
+      {"q": "When parking uphill with a curb, your front wheels should generally be turned:", "choices": ["Toward the curb", "Straight ahead only", "Away from the curb"], "answer": 2, "category": "Vehicle control", "explanation": "Turning wheels away from the curb helps the curb stop the vehicle if it rolls backward."},
+      {"q": "What should you do if another driver is tailgating you?", "choices": ["Increase your following distance from the car ahead and let the tailgater pass when safe", "Tap your brakes repeatedly", "Speed up until the tailgater disappears"], "answer": 0, "category": "Defensive driving", "explanation": "Creating more room ahead gives you a gentler braking cushion and can reduce pressure behind you."},
+      {"q": "Before entering a roundabout, you should:", "choices": ["Yield to traffic already in the roundabout", "Stop inside the roundabout to check signs", "Enter quickly because entering traffic has priority"], "answer": 0, "category": "Right of way", "explanation": "Drivers entering a roundabout generally yield to vehicles already circulating."}
+    ],
+    "californiaSigns": [
+      {"q": "A red octagon sign means:", "choices": ["Stop completely", "Railroad crossing ahead", "Road work zone"], "answer": 0, "category": "Sign shape", "explanation": "A red octagon is used for stop signs. Stop before the limit line, crosswalk, or intersection."},
+      {"q": "A yellow diamond sign usually tells you:", "choices": ["A service is nearby", "A warning or hazard is ahead", "Parking is allowed"], "answer": 1, "category": "Warning signs", "explanation": "Yellow diamond signs warn drivers about conditions such as curves, crossings, or merging traffic."},
+      {"q": "A red curb usually means:", "choices": ["Short-term parking only", "No stopping, standing, or parking", "Passenger loading zone"], "answer": 1, "category": "Curb rules", "explanation": "Red curbs generally prohibit stopping, standing, or parking unless official signs say otherwise."},
+      {"q": "A school crossing sign means you should:", "choices": ["Speed up before the zone", "Watch for children and be ready to stop", "Use the horn at every crosswalk"], "answer": 1, "category": "School zones", "explanation": "School crossing signs warn drivers to slow down and watch carefully for children."},
+      {"q": "Flashing red lights at a railroad crossing mean:", "choices": ["Stop and wait until it is safe", "Proceed if you do not see a train", "Stop only if the gate is lowered"], "answer": 0, "category": "Railroad crossings", "explanation": "Flashing railroad signals require drivers to stop and wait until the crossing is clear and safe."},
+      {"q": "An orange road sign usually means:", "choices": ["Construction or road work", "Hospital nearby", "School bus stop"], "answer": 0, "category": "Work zones", "explanation": "Orange signs are commonly used for construction, maintenance, or temporary traffic control."},
+      {"q": "A white rectangular sign is often used for:", "choices": ["Traffic laws or regulations", "Scenic routes only", "Weather forecasts"], "answer": 0, "category": "Regulatory signs", "explanation": "White rectangular signs often explain enforceable traffic rules such as speed, turn, or lane restrictions."},
+      {"q": "A yield sign tells you to:", "choices": ["Enter without slowing", "Give right of way when needed", "Stop for exactly five seconds"], "answer": 1, "category": "Right of way signs", "explanation": "Yield means slow down and let other traffic or pedestrians go first when they have priority."},
+      {"q": "A sign showing a curved arrow ahead usually warns of:", "choices": ["A change in road direction", "A required U-turn", "A gas station exit"], "answer": 0, "category": "Warning signs", "explanation": "Curve signs warn you to adjust speed before the road direction changes."},
+      {"q": "If a sign says 'No Turn on Red,' you should:", "choices": ["Turn only if no car is coming", "Wait for a green signal before turning", "Turn after honking"], "answer": 1, "category": "Regulatory signs", "explanation": "A no-turn-on-red sign prohibits turning during the red signal, even after stopping."}
     ],
     "newyork": [
-      {"q": "At a flashing red traffic light, a driver should:", "choices": ["Stop completely, then proceed when safe", "Continue if no police officer is present", "Treat it like a green light"], "answer": 0, "explanation": "A flashing red light works like a stop sign: stop, yield, then proceed safely."},
-      {"q": "When two vehicles arrive at a four-way stop at the same time, which driver generally has the right of way?", "choices": ["The driver turning left", "The driver on the right", "The driver with the larger vehicle"], "answer": 1, "explanation": "At a same-time arrival, the driver on the right generally goes first."},
-      {"q": "What should you do when following a motorcycle?", "choices": ["Leave extra following distance", "Follow closely so cars cannot cut in", "Use high beams during the day"], "answer": 0, "explanation": "Motorcycles can stop quickly and are affected by road conditions, so extra space helps."},
-      {"q": "A yellow diamond-shaped sign usually means:", "choices": ["Service area ahead", "Parking regulation", "Warning or caution"], "answer": 2, "explanation": "Yellow diamond signs warn drivers about road conditions or hazards ahead."},
-      {"q": "If you miss your highway exit, the safest choice is to:", "choices": ["Continue to the next exit", "Back up on the shoulder", "Make a sudden lane change across traffic"], "answer": 0, "explanation": "Continue to the next safe exit. Backing up or swerving is dangerous and illegal in many situations."},
-      {"q": "A steady yellow traffic light usually means:", "choices": ["The light is about to turn red", "Traffic may speed through the intersection", "Only buses must stop"], "answer": 0, "explanation": "A steady yellow light warns that the signal is changing to red, so drivers should stop if they can do so safely."},
-      {"q": "Before backing out of a driveway, you should:", "choices": ["Rely only on the backup camera", "Check behind, move slowly, and watch for pedestrians", "Back quickly to reduce time in the roadway"], "answer": 1, "explanation": "Cameras and mirrors help, but drivers should still check carefully and move slowly."},
-      {"q": "What does a white rectangular regulatory sign usually tell drivers?", "choices": ["A law or rule that must be followed", "A scenic route nearby", "A warning about a curve"], "answer": 0, "explanation": "Regulatory signs commonly use white backgrounds and explain traffic laws or required actions."},
-      {"q": "If an oncoming vehicle crosses into your lane, you should generally:", "choices": ["Slow down, move right if possible, and avoid a head-on crash", "Swerve left into oncoming traffic", "Flash your lights and keep your speed"], "answer": 0, "explanation": "Reducing speed and moving right when safe can create more escape space."},
-      {"q": "When roads are wet, you should increase following distance because:", "choices": ["Stopping takes longer", "Speed limits no longer apply", "Brakes work instantly on wet roads"], "answer": 0, "explanation": "Wet pavement reduces tire grip and increases stopping distance."},
-      {"q": "A blind spot is:", "choices": ["Only the space directly behind your trunk", "A lane reserved for emergency vehicles", "An area around your vehicle that mirrors may not show"], "answer": 2, "explanation": "Blind spots are areas not fully visible in mirrors, so checking over your shoulder matters."},
-      {"q": "If you see a bicyclist ahead, the best approach is to:", "choices": ["Leave safe passing space and watch for sudden movement", "Honk continuously until they move", "Pass closely to stay in your lane"], "answer": 0, "explanation": "Bicyclists may need to avoid debris or road hazards, so extra space is important."},
-      {"q": "When approaching railroad tracks with flashing signals, you should:", "choices": ["Stop before the tracks and wait until it is safe", "Drive around the gate if no train is visible", "Stop on the tracks for a better view"], "answer": 0, "explanation": "Never drive around lowered gates or stop on tracks. Wait until signals clear and the crossing is safe."},
-      {"q": "If you are tired while driving, the safest choice is to:", "choices": ["Pull over safely and rest", "Open a window and keep driving no matter what", "Follow another vehicle closely to stay alert"], "answer": 0, "explanation": "Drowsy driving slows reaction time. Resting is safer than trying to push through fatigue."},
-      {"q": "At an intersection with a yield sign, you should:", "choices": ["Slow down and give right of way to traffic or pedestrians already in the intersection", "Stop only if a police officer is present", "Accelerate so other drivers can merge behind you"], "answer": 0, "explanation": "A yield sign requires drivers to slow and let conflicting traffic or pedestrians proceed before entering."}
+      {"q": "At a flashing red traffic light, a driver should:", "choices": ["Stop completely, then proceed when safe", "Continue if no police officer is present", "Treat it like a green light"], "answer": 0, "category": "Signs and signals", "explanation": "A flashing red light works like a stop sign: stop, yield, then proceed safely."},
+      {"q": "When two vehicles arrive at a four-way stop at the same time, which driver generally has the right of way?", "choices": ["The driver turning left", "The driver on the right", "The driver with the larger vehicle"], "answer": 1, "category": "Right of way", "explanation": "At a same-time arrival, the driver on the right generally goes first."},
+      {"q": "What should you do when following a motorcycle?", "choices": ["Leave extra following distance", "Follow closely so cars cannot cut in", "Use high beams during the day"], "answer": 0, "category": "Vulnerable road users", "explanation": "Motorcycles can stop quickly and are affected by road conditions, so extra space helps."},
+      {"q": "A yellow diamond-shaped sign usually means:", "choices": ["Service area ahead", "Parking regulation", "Warning or caution"], "answer": 2, "category": "Signs and signals", "explanation": "Yellow diamond signs warn drivers about road conditions or hazards ahead."},
+      {"q": "If you miss your highway exit, the safest choice is to:", "choices": ["Continue to the next exit", "Back up on the shoulder", "Make a sudden lane change across traffic"], "answer": 0, "category": "Defensive driving", "explanation": "Continue to the next safe exit. Backing up or swerving is dangerous and illegal in many situations."},
+      {"q": "A steady yellow traffic light usually means:", "choices": ["The light is about to turn red", "Traffic may speed through the intersection", "Only buses must stop"], "answer": 0, "category": "Signs and signals", "explanation": "A steady yellow light warns that the signal is changing to red, so drivers should stop if they can do so safely."},
+      {"q": "Before backing out of a driveway, you should:", "choices": ["Rely only on the backup camera", "Check behind, move slowly, and watch for pedestrians", "Back quickly to reduce time in the roadway"], "answer": 1, "category": "Vehicle control", "explanation": "Cameras and mirrors help, but drivers should still check carefully and move slowly."},
+      {"q": "What does a white rectangular regulatory sign usually tell drivers?", "choices": ["A law or rule that must be followed", "A scenic route nearby", "A warning about a curve"], "answer": 0, "category": "Signs and signals", "explanation": "Regulatory signs commonly use white backgrounds and explain traffic laws or required actions."},
+      {"q": "If an oncoming vehicle crosses into your lane, you should generally:", "choices": ["Slow down, move right if possible, and avoid a head-on crash", "Swerve left into oncoming traffic", "Flash your lights and keep your speed"], "answer": 0, "category": "Defensive driving", "explanation": "Reducing speed and moving right when safe can create more escape space."},
+      {"q": "When roads are wet, you should increase following distance because:", "choices": ["Stopping takes longer", "Speed limits no longer apply", "Brakes work instantly on wet roads"], "answer": 0, "category": "Road conditions", "explanation": "Wet pavement reduces tire grip and increases stopping distance."},
+      {"q": "A blind spot is:", "choices": ["Only the space directly behind your trunk", "A lane reserved for emergency vehicles", "An area around your vehicle that mirrors may not show"], "answer": 2, "category": "Vehicle control", "explanation": "Blind spots are areas not fully visible in mirrors, so checking over your shoulder matters."},
+      {"q": "If you see a bicyclist ahead, the best approach is to:", "choices": ["Leave safe passing space and watch for sudden movement", "Honk continuously until they move", "Pass closely to stay in your lane"], "answer": 0, "category": "Vulnerable road users", "explanation": "Bicyclists may need to avoid debris or road hazards, so extra space is important."},
+      {"q": "When approaching railroad tracks with flashing signals, you should:", "choices": ["Stop before the tracks and wait until it is safe", "Drive around the gate if no train is visible", "Stop on the tracks for a better view"], "answer": 0, "category": "Signs and signals", "explanation": "Never drive around lowered gates or stop on tracks. Wait until signals clear and the crossing is safe."},
+      {"q": "If you are tired while driving, the safest choice is to:", "choices": ["Pull over safely and rest", "Open a window and keep driving no matter what", "Follow another vehicle closely to stay alert"], "answer": 0, "category": "Road conditions", "explanation": "Drowsy driving slows reaction time. Resting is safer than trying to push through fatigue."},
+      {"q": "At an intersection with a yield sign, you should:", "choices": ["Slow down and give right of way to traffic or pedestrians already in the intersection", "Stop only if a police officer is present", "Accelerate so other drivers can merge behind you"], "answer": 0, "category": "Right of way", "explanation": "A yield sign requires drivers to slow and let conflicting traffic or pedestrians proceed before entering."}
+    ],
+    "newyorkSigns": [
+      {"q": "A flashing red traffic signal should be treated like:", "choices": ["A stop sign", "A green light", "A warning to speed up"], "answer": 0, "category": "Signals", "explanation": "A flashing red signal requires a complete stop, then you may proceed when safe."},
+      {"q": "A yellow diamond sign usually means:", "choices": ["Warning or caution", "Parking area", "Food or lodging nearby"], "answer": 0, "category": "Warning signs", "explanation": "Yellow diamond signs warn about conditions or hazards ahead."},
+      {"q": "A white rectangular sign usually gives:", "choices": ["A weather update", "A traffic regulation", "A scenic-route suggestion"], "answer": 1, "category": "Regulatory signs", "explanation": "White rectangular signs often communicate traffic laws or required actions."},
+      {"q": "A yield sign means you should:", "choices": ["Slow down and give right of way when needed", "Always stop for 30 seconds", "Enter the intersection before other traffic"], "answer": 0, "category": "Yield signs", "explanation": "Yield means slow or stop if necessary and let conflicting traffic or pedestrians proceed first."},
+      {"q": "At a railroad crossing with flashing lights, you should:", "choices": ["Stop before the tracks and wait", "Drive around the gate if the train is far away", "Stop on the tracks for a better view"], "answer": 0, "category": "Railroad crossings", "explanation": "Stop before the tracks and never drive around lowered gates or stop on the crossing."},
+      {"q": "A pentagon-shaped school sign warns that:", "choices": ["A school zone or school crossing is nearby", "The road is closed to trucks", "A hospital entrance is ahead"], "answer": 0, "category": "School zones", "explanation": "Pentagon signs are commonly used for school zones and school crossings."},
+      {"q": "An orange sign on the road usually means:", "choices": ["A temporary work zone or construction area", "A permanent rest area", "A scenic overlook"], "answer": 0, "category": "Work zones", "explanation": "Orange signs warn about construction, maintenance, or temporary traffic patterns."},
+      {"q": "A sign that says 'Do Not Enter' means:", "choices": ["You may enter if the road is empty", "The road or lane is closed to traffic from your direction", "Only new drivers must stop"], "answer": 1, "category": "Regulatory signs", "explanation": "Do Not Enter signs warn that traffic should not enter from that direction."},
+      {"q": "A merge sign warns drivers to:", "choices": ["Prepare for traffic streams to join", "Stop immediately", "Use the shoulder as a lane"], "answer": 0, "category": "Warning signs", "explanation": "Merge signs tell drivers to adjust speed and spacing because traffic will join together."},
+      {"q": "A pedestrian crossing sign means you should:", "choices": ["Watch for people crossing and be ready to yield", "Speed up before the crosswalk", "Stop only if another car stops"], "answer": 0, "category": "Pedestrian signs", "explanation": "Pedestrian crossing signs warn drivers to look carefully and yield when required."}
     ]
   },
   "trustPages": [
@@ -482,17 +1188,21 @@
       "content": [
         {"heading": "What we make", "text": "TestDayTools is a small, independent website that turns test logistics into quick tools: dates, checklists, score guides, and practice pages."},
         {"heading": "How we work", "text": "Pages are built from simple data files so dates, FAQs, checklists, and practice questions can be updated without redesigning the site."},
+        {"heading": "Editorial approach", "text": "The site favors practical planning details: what to check, what to bring, what to verify, and which official source should make the final call."},
+        {"heading": "Corrections and updates", "text": "Dates and policies can change. When a page depends on official timing, the source link is included so readers can verify the latest rule before acting."},
         {"heading": "Affiliation", "text": "We are not affiliated with College Board, AP, SAT, any DMV, or any government agency. Names are used only to describe the exams and public services students are researching."}
       ]
     },
     {
       "slug": "privacy",
       "title": "Privacy Policy",
-      "description": "Privacy policy for TestDayTools. The MVP does not collect personal information or store quiz answers.",
+      "description": "Privacy policy for TestDayTools. The site does not collect personal information or store quiz answers.",
       "content": [
-        {"heading": "Personal information", "text": "This MVP does not ask for names, emails, account numbers, scores, driver's license numbers, or other personal information."},
+        {"heading": "Personal information", "text": "This site does not ask for names, emails, account numbers, scores, driver's license numbers, or other personal information."},
         {"heading": "Quiz answers", "text": "Practice quiz answers are checked in your browser. They are not submitted to a server by this static site."},
-        {"heading": "Future ads and analytics", "text": "The site may later use privacy-conscious analytics or advertising services. If that happens, this policy should be updated before launch."}
+        {"heading": "Server logs", "text": "Because the site is hosted as static pages, the hosting provider may process basic technical logs such as page requests, device information, or IP-derived region for security and delivery."},
+        {"heading": "Future ads and analytics", "text": "The site may later use privacy-conscious analytics or advertising services. If that happens, this policy should be updated before launch and before any real ad code is added."},
+        {"heading": "Children and students", "text": "The site is informational and does not ask students to create accounts, submit scores, or provide school records."}
       ]
     },
     {
@@ -500,8 +1210,13 @@
       "title": "Contact",
       "description": "Contact information and correction requests for TestDayTools.",
       "content": [
-        {"heading": "Corrections", "text": "If you find an outdated date, broken source link, or unclear explanation, use the public project page at github.com/carmenjiang19028-ai/testdaytools until a dedicated domain email is connected."},
-        {"heading": "No official support", "text": "For official AP, SAT, score, registration, permit, or license questions, contact College Board or the relevant DMV directly."}
+        {"heading": "Corrections", "text": "If you find an outdated date, broken source link, or unclear explanation, use the public project page until a dedicated domain email is connected."},
+        {"heading": "What to include", "text": "For a correction request, include the page URL, the line or section that seems wrong, and the official source you believe should be used."},
+        {"heading": "No official support", "text": "For official AP, SAT, score, registration, permit, or license questions, contact College Board or the relevant DMV directly."},
+        {"heading": "Advertising and privacy", "text": "Real advertising is not installed yet. Any future advertising setup should be reflected in the Privacy Policy before it goes live."}
+      ],
+      "links": [
+        {"label": "GitHub project page", "url": "https://github.com/carmenjiang19028-ai/testdaytools"}
       ]
     },
     {
@@ -511,7 +1226,9 @@
       "content": [
         {"heading": "Unofficial site", "text": "TestDayTools is fan-made and unofficial. It is not affiliated with College Board, AP, SAT, any DMV, or any government agency."},
         {"heading": "No guarantees", "text": "Dates, policies, and rules can change. Use official sources for final decisions about exam registration, score sending, credit, permits, and licensing."},
-        {"heading": "Practice questions", "text": "DMV practice questions on this site are original study questions. They are not copied from official permit tests and cannot guarantee a passing score."}
+        {"heading": "Practice questions", "text": "DMV practice questions on this site are original study questions. They are not copied from official permit tests and cannot guarantee a passing score."},
+        {"heading": "Not legal or academic advice", "text": "The site provides general planning information only. A school, college, testing organization, or DMV should make the final decision for your situation."},
+        {"heading": "Source priority", "text": "If TestDayTools conflicts with an official source, treat the official source as correct and send a correction request so the page can be reviewed."}
       ]
     }
   ]

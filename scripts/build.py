@@ -78,8 +78,43 @@ def render_last_updated():
     return f'<p class="last-updated">Last updated: <time>{esc(SITE["lastUpdated"])}</time></p>'
 
 
-def render_ad(label="Advertisement"):
-    return f"<!-- Reserved future {esc(label).lower()} slot. Real ads are intentionally disabled for the MVP. -->"
+def render_ad(label="future ad"):
+    return f"<!-- Reserved {esc(label).lower()} slot. Real ads are intentionally disabled for the static launch. -->"
+
+
+def render_quick_facts(facts):
+    if not facts:
+        return ""
+    items = "".join(
+        f'<div><dt>{esc(item["label"])}</dt><dd>{esc(item["value"])}</dd></div>'
+        for item in facts
+    )
+    return f'<section class="fact-section"><h2>Quick facts</h2><dl class="fact-grid">{items}</dl></section>'
+
+
+def render_timeline(timeline):
+    if not timeline:
+        return ""
+    heading = timeline.get("heading", "Planning timeline")
+    items = "".join(
+        f'<li><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></li>'
+        for item in timeline.get("items", [])
+    )
+    return f'<section class="timeline-section"><h2>{esc(heading)}</h2><ol class="timeline">{items}</ol></section>'
+
+
+def render_card_groups(groups):
+    if not groups:
+        return ""
+    output = []
+    for group in groups:
+        intro = f'<p class="section-intro">{esc(group["intro"])}</p>' if group.get("intro") else ""
+        cards = "".join(
+            f'<article class="info-card"><span>{esc(item.get("label", ""))}</span><h3>{esc(item["title"])}</h3><p>{esc(item["text"])}</p></article>'
+            for item in group.get("items", [])
+        )
+        output.append(f'<section class="card-group"><h2>{esc(group["heading"])}</h2>{intro}<div class="card-grid">{cards}</div></section>')
+    return "".join(output)
 
 
 def render_sources(sources):
@@ -141,16 +176,18 @@ def render_quiz(quiz_key):
     questions = DATA["quizzes"][quiz_key]
     cards = []
     for index, q in enumerate(questions):
+        category = q.get("category", "Permit basics")
         choices = "".join(
             f'<button type="button" data-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(q["choices"])
         )
-        cards.append(f"""<article class="question" data-answer="{q["answer"]}" data-explanation="{esc(q["explanation"])}">
+        cards.append(f"""<article class="question" data-answer="{q["answer"]}" data-category="{esc(category)}" data-explanation="{esc(q["explanation"])}">
+  <p class="question-meta">Category: {esc(category)}</p>
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
   <p class="feedback" aria-live="polite"></p>
 </article>""")
-    return f'<section class="quiz tool-block" data-quiz><h2>Practice questions</h2>{"".join(cards)}<p class="quiz-score" aria-live="polite"></p></section>'
+    return f'<section class="quiz tool-block" data-quiz><h2>Practice questions</h2><p class="section-intro">Answer in order, then use the score note to decide what to review next. Your answers stay in this browser session.</p>{"".join(cards)}<p class="quiz-score" aria-live="polite">Score: 0 of 0 answered</p></section>'
 
 
 def render_related(slugs):
@@ -178,9 +215,12 @@ def render_tool(tool):
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
+{render_quick_facts(tool.get("quickFacts"))}
 {render_countdown(tool.get("countdown"))}
+{render_timeline(tool.get("timeline"))}
 {render_tables(tool.get("tables"))}
 {body_sections}
+{render_card_groups(tool.get("cardGroups"))}
 {render_checklist(tool.get("checklist"))}
 {render_quiz(tool.get("quiz"))}
 {render_ad()}
@@ -191,6 +231,16 @@ def render_tool(tool):
 
 
 def render_home():
+    start_items = "".join(
+        f'<a class="start-card" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></a>'
+        for item in DATA["home"].get("startHere", [])
+    )
+    start_section = f'<section class="home-start"><h2>Start here</h2><div class="start-grid">{start_items}</div></section>' if start_items else ""
+    popular_items = "".join(
+        f'<a class="popular-row" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><em>{esc(item["text"])}</em></a>'
+        for item in DATA["home"].get("popular", [])
+    )
+    popular_section = f'<section class="home-popular"><h2>What to use today</h2><div class="popular-list">{popular_items}</div></section>' if popular_items else ""
     cards = []
     for section in DATA["home"]["sections"]:
         links = "".join(
@@ -206,6 +256,8 @@ def render_home():
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{start_section}
+{popular_section}
 {''.join(cards)}
 {render_ad("Future ad")}"""
     return page_shell(DATA["home"]["title"], DATA["home"]["description"], "/", body, "home-page")
@@ -216,6 +268,10 @@ def render_trust(page):
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
         for section in page["content"]
     )
+    links = ""
+    if page.get("links"):
+        items = "".join(f'<li><a href="{esc(link["url"])}">{esc(link["label"])}</a></li>' for link in page["links"])
+        links = f'<section class="sources"><h2>Useful links</h2><ul>{items}</ul></section>'
     body = f"""<section class="hero slim-hero">
   <div>
     <p class="eyebrow">TestDayTools</p>
@@ -224,7 +280,8 @@ def render_trust(page):
     {render_last_updated()}
   </div>
 </section>
-{content}"""
+{content}
+{links}"""
     return page_shell(page["title"], page["description"], f'/{page["slug"]}.html', body, "trust-page")
 
 
