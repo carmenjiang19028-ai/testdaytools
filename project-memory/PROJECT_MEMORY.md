@@ -196,6 +196,10 @@ As of 2026-05-09:
 - Local git repository was initialized and the first local commit was created.
 - GitHub repository created by user: https://github.com/carmenjiang19028-ai/testdaytools
 - Planned GitHub Pages URL: https://carmenjiang19028-ai.github.io/testdaytools/
+- GitHub Pages is live and returns HTTP 200:
+  https://carmenjiang19028-ai.github.io/testdaytools/
+- Sitemap is live and returns HTTP 200:
+  https://carmenjiang19028-ai.github.io/testdaytools/sitemap.xml
 
 Important review fixes already made:
 - Changed canonical/sitemap URL from `https://testdaytools.com` to the GitHub Pages project URL.
@@ -214,12 +218,10 @@ Current assessment:
 
 ## Next Actions
 
-1. Push the current local repository to GitHub.
-2. Enable GitHub Pages from the `main` branch root.
-3. Verify the live URL opens correctly.
-4. Submit the live URL and sitemap to Google Search Console.
-5. Track indexing and query impressions.
-6. Improve whichever page gets early impressions.
-7. Buy/connect a domain only after the MVP is technically live and the direction still looks worth testing.
-8. Add a real contact email before applying for AdSense.
-9. Apply for AdSense only after indexing and initial organic traffic.
+1. Submit the live URL and sitemap to Google Search Console.
+2. Track indexing and query impressions.
+3. Improve the thin AP/SAT pages before applying for AdSense.
+4. Improve whichever page gets early impressions.
+5. Buy/connect a domain only after the MVP has early validation or before AdSense application.
+6. Add a real contact email before applying for AdSense.
+7. Apply for AdSense only after indexing and initial organic traffic.

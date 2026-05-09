@@ -23,6 +23,10 @@ https://github.com/carmenjiang19028-ai/testdaytools
 Planned GitHub Pages URL:
 https://carmenjiang19028-ai.github.io/testdaytools/
 
+Live status:
+- Homepage returns HTTP 200.
+- Sitemap returns HTTP 200.
+
 Local workspace:
 /Users/carmen/Documents/New project 3
 
@@ -166,18 +170,15 @@ The project is worth launching as a low-cost validation test, and the remaining 
 
 ## Current Blockers
 
-1. GitHub authentication/push needs to be completed by the user.
-2. GitHub Pages needs to be enabled after the push.
-3. Search Console needs to be set up after the site is live.
-4. A real domain and contact email should be added before AdSense application.
+1. Search Console needs to be set up now that the site is live.
+2. AP/SAT content should be strengthened before AdSense application.
+3. A real domain and contact email should be added before AdSense application.
 
 ## Next Recommended Actions
 
-1. Push local repo to GitHub.
-2. Enable GitHub Pages from `main` branch root.
-3. Verify live URL and all core pages.
-4. Submit sitemap to Google Search Console:
+1. Submit sitemap to Google Search Console:
    `https://carmenjiang19028-ai.github.io/testdaytools/sitemap.xml`
-5. Wait for indexing.
-6. Improve whichever page first gets impressions.
-7. Apply for AdSense only after indexing and some organic traffic.
+2. Wait for indexing.
+3. Improve AP Score, SAT Dates, Digital SAT Checklist, and SAT Score Guide to reduce thin-page risk.
+4. Improve whichever page first gets impressions.
+5. Apply for AdSense only after indexing and some organic traffic.
