@@ -47,12 +47,17 @@ def href_for(path):
     return path.lstrip("/")
 
 
-def page_shell(title, description, path, body, extra_class=""):
+def page_shell(title, description, path, body, extra_class="", structured_data=None):
     nav = "".join(
         f'<a href="{esc(href_for(item["href"]))}">{esc(item["label"])}</a>'
         for item in DATA["navigation"]
     )
     canonical = url_for(path)
+    schemas = structured_data or page_schema(title, description, canonical)
+    schema_scripts = "\n  ".join(
+        f'<script type="application/ld+json">{json.dumps(item, separators=(",", ":"))}</script>'
+        for item in schemas
+    )
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -63,7 +68,7 @@ def page_shell(title, description, path, body, extra_class=""):
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="stylesheet" href="assets/styles.css">
   <script src="assets/app.js" defer></script>
-  <script type="application/ld+json">{json.dumps(schema(title, description, canonical), separators=(",", ":"))}</script>
+  {schema_scripts}
 </head>
 <body class="{esc(extra_class)}">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -86,16 +91,36 @@ def page_shell(title, description, path, body, extra_class=""):
 """
 
 
-def schema(title, description, canonical):
-    return {
+def schema(title, description, canonical, page_type="WebPage"):
+    base = {
         "@context": "https://schema.org",
-        "@type": "WebPage",
+        "@type": page_type,
         "name": title,
         "description": description,
         "url": canonical,
         "publisher": {"@type": "Organization", "name": SITE["name"]},
         "isAccessibleForFree": True
     }
+    if page_type == "LearningResource":
+        base["learningResourceType"] = "Practice test"
+        base["educationalUse"] = "Practice"
+        base["audience"] = {"@type": "EducationalAudience", "educationalRole": "student"}
+    return base
+
+
+def breadcrumb_schema(title, canonical):
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": SITE["name"], "item": url_for("/")},
+            {"@type": "ListItem", "position": 2, "name": title, "item": canonical},
+        ],
+    }
+
+
+def page_schema(title, description, canonical, page_type="WebPage"):
+    return [schema(title, description, canonical, page_type), breadcrumb_schema(title, canonical)]
 
 
 def render_last_updated():
@@ -124,6 +149,71 @@ def render_tool_actions(tool):
         ]
     links = "".join(f'<a href="{esc(href)}">{esc(label)}</a>' for label, href in actions)
     return f'\n    <div class="hero-actions">{links}</div>'
+
+
+def render_home_practice_panel():
+    launch = DATA["home"].get("dmvLaunch", {})
+    states = launch.get("states", [])[:5]
+    state_links = "".join(
+        f'<a href="{esc(state["href"])}"><span>{esc(state["label"])}</span><strong>{esc(state["cta"])}</strong></a>'
+        for state in states
+    )
+    state_links += '<a href="dmv-practice.html"><span>All states</span><strong>Browse DMV hub</strong></a>'
+    stats = "".join(
+        f'<div><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span></div>'
+        for item in launch.get("stats", [])[:3]
+    )
+    return f"""<aside class="hero-lab-card" aria-label="DMV practice launcher">
+  <div class="lab-card-head">
+    <span>Practice lab</span>
+    <strong>No signup</strong>
+  </div>
+  <h2>Start a free DMV round</h2>
+  <p>Choose a state, then switch between quick practice, image road signs, and a longer mock exam.</p>
+  <div class="hero-state-list">{state_links}</div>
+  <div class="hero-stat-strip">{stats}</div>
+</aside>"""
+
+
+def render_tool_hero_panel(tool):
+    if tool.get("category") != "DMV":
+        return ""
+    facts = tool.get("quickFacts", [])
+    primary = facts[:3]
+    fact_rows = "".join(
+        f'<div><span>{esc(item["label"])}</span><strong>{esc(item["value"])}</strong></div>'
+        for item in primary
+    )
+    modes = tool.get("quizModes", [])
+    mode_rows = "".join(
+        f'<li><span>{esc(mode["label"])}</span><strong>{len(DATA["quizzes"].get(mode["quiz"], []))} questions</strong></li>'
+        for mode in modes[:3]
+    )
+    if not mode_rows and tool.get("quiz"):
+        mode_rows = f'<li><span>Practice</span><strong>{len(DATA["quizzes"].get(tool["quiz"], []))} questions</strong></li>'
+    source = next((item["value"] for item in facts if item["label"].lower() == "official source"), "Official driver handbook")
+    return f"""<aside class="tool-hero-panel" aria-label="Practice summary">
+  <div class="panel-status"><span>Free practice</span><strong>Instant feedback</strong></div>
+  <div class="panel-facts">{fact_rows}</div>
+  <ol class="panel-mode-list">{mode_rows}</ol>
+  <p class="panel-source">Use with: {esc(source)}</p>
+</aside>"""
+
+
+def render_trust_strip(tool):
+    if tool.get("category") != "DMV":
+        return ""
+    official = "Official handbook"
+    for fact in tool.get("quickFacts", []):
+        if fact.get("label", "").lower() == "official source":
+            official = fact.get("value", official)
+            break
+    return f"""<section class="trust-strip" aria-label="Practice trust notes">
+  <div><span>Source context</span><strong>{esc(official)}</strong></div>
+  <div><span>Privacy</span><strong>Answers stay in this browser</strong></div>
+  <div><span>Quality check</span><strong>Original practice questions</strong></div>
+  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+</section>"""
 
 
 def render_quick_facts(facts):
@@ -366,7 +456,7 @@ def render_quiz(quiz_key, options=None):
             f'<button type="button" data-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(q["choices"])
         )
-        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}" data-explanation="{esc(q["explanation"])}">
+        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}" data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>{visual_block}
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
@@ -386,8 +476,20 @@ def render_quiz(quiz_key, options=None):
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
+  <div class="quiz-stat-grid">
+    <div><span>Correct</span><strong data-quiz-correct>0</strong></div>
+    <div><span>Missed</span><strong data-quiz-missed>0</strong></div>
+    <div><span>Left</span><strong data-quiz-left>{total}</strong></div>
+  </div>
   <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
   <div class="quiz-breakdown" data-quiz-breakdown></div>
+  <div class="mistake-bank">
+    <div class="mistake-bank-head">
+      <strong>Saved mistakes</strong>
+      <button type="button" data-quiz-clear-mistakes>Clear</button>
+    </div>
+    <div class="mistake-list" data-quiz-mistakes><span>No saved mistakes yet.</span></div>
+  </div>
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>"""
     controls = """<div class="quiz-controls">
@@ -405,6 +507,7 @@ def render_quiz(quiz_key, options=None):
       <div class="quiz-topbar">
         <span data-quiz-position>Question 1 of {total}</span>
         <span data-quiz-answered>0 answered</span>
+        <span class="quiz-topbar-score"><strong data-quiz-correct>0</strong> correct</span>
       </div>
       <div class="quiz-stage">{"".join(cards)}</div>
       {controls}
@@ -419,7 +522,22 @@ def render_dmv_mode_tool(tool):
     if not modes:
         return render_quiz(tool.get("quiz"))
     if len(modes) == 1:
-        return render_quiz(modes[0]["quiz"], {**modes[0], "sectionId": "practice"})
+        only = modes[0]
+        quiz = render_quiz(only["quiz"], only)
+        return f"""<section class="dmv-mode-tool single-mode-tool" id="practice">
+  <div class="tool-section-head">
+    <span class="eyebrow">Image practice engine</span>
+    <h2>{esc(only["title"])}</h2>
+    <p class="section-intro">{esc(only.get("description", "Answer one image question at a time, then use saved mistakes to review the signs that slowed you down."))}</p>
+  </div>
+  <div class="practice-flow">
+    <span>1. Identify sign</span>
+    <span>2. Read meaning</span>
+    <span>3. Save misses</span>
+    <span>4. Review library</span>
+  </div>
+  {quiz}
+</section>"""
     tabs = []
     panels = []
     for index, mode in enumerate(modes):
@@ -438,7 +556,13 @@ def render_dmv_mode_tool(tool):
   <div class="tool-section-head">
     <span class="eyebrow">DMV practice engine</span>
     <h2>Choose a practice mode</h2>
-    <p class="section-intro">Start with a short quiz, switch to image-based road signs, or run a longer mock exam when you want a realistic score check.</p>
+    <p class="section-intro">Start with a short diagnostic, switch to image-based signs, or run a longer mock exam when you want a realistic score check. Missed questions are saved on this device so the next step is obvious.</p>
+  </div>
+  <div class="practice-flow">
+    <span>1. Answer</span>
+    <span>2. Read explanation</span>
+    <span>3. Review saved mistakes</span>
+    <span>4. Retake weak topics</span>
   </div>
   <div class="mode-tabs" role="tablist" aria-label="Practice modes">{"".join(tabs)}</div>
   <ul class="mode-overview">{overview_items}</ul>
@@ -493,17 +617,32 @@ def render_tool(tool):
         render_related(tool.get("related")),
     ]
     page_sections = "".join(section for section in dmv_sections + lower_sections if section)
+    hero_panel = render_tool_hero_panel(tool)
+    hero_inner_class = ' class="tool-hero-grid"' if hero_panel else ""
+    hero_panel_block = f"\n    {hero_panel}" if hero_panel else ""
     body = f"""<section class="hero tool-hero">
-  <div>
+  <div{hero_inner_class}>
+    <div>
     <p class="eyebrow">{esc(tool["heroKicker"])}</p>
     <h1>{esc(tool["title"])}</h1>
     <p class="lede">{esc(tool["summary"])}</p>
     {render_last_updated()}{render_tool_actions(tool)}
+    </div>{hero_panel_block}
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
+{render_trust_strip(tool)}
 {page_sections}"""
-    return page_shell(tool["title"], tool["description"], f'/{tool["slug"]}.html', body, "tool-page")
+    page_type = "LearningResource" if tool.get("category") == "DMV" else "WebPage"
+    canonical = url_for(f'/{tool["slug"]}.html')
+    return page_shell(
+        tool["title"],
+        tool["description"],
+        f'/{tool["slug"]}.html',
+        body,
+        "tool-page",
+        page_schema(tool["title"], tool["description"], canonical, page_type),
+    )
 
 
 def render_hub(hub):
@@ -556,7 +695,7 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
         f'<article><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></article>'
         for item in modes
     )
-    return f"""<section class="dmv-launch">
+    return f"""<section class="dmv-launch" id="state-paths">
   <div class="section-head-row">
     <div>
       <p class="eyebrow">DMV practice engine</p>
@@ -574,17 +713,28 @@ def render_dmv_hub(hub):
     collections = []
     for section in hub.get("sections", []):
         links = render_tool_links(section.get("links", []))
-        collections.append(f'<section class="hub-section"><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
+        heading = section["heading"].lower()
+        anchor = "permit-tests" if "permit" in heading else "road-signs" if "sign" in heading else ""
+        section_id = f' id="{anchor}"' if anchor else ""
+        collections.append(f'<section class="hub-section"{section_id}><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
     body_sections = "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
         for section in hub.get("body", [])
     )
     body = f"""<section class="hero hub-hero dmv-hub-hero">
-  <div>
-    <p class="eyebrow">{esc(hub["heroKicker"])}</p>
-    <h1>{esc(hub["title"])}</h1>
-    <p class="lede">{esc(hub["summary"])}</p>
-    {render_last_updated()}
+  <div class="home-hero-grid">
+    <div>
+      <p class="eyebrow">{esc(hub["heroKicker"])}</p>
+      <h1>{esc(hub["title"])}</h1>
+      <p class="lede">{esc(hub["summary"])}</p>
+      {render_last_updated()}
+      <div class="hero-actions">
+        <a href="#state-paths">Choose state</a>
+        <a href="#permit-tests">Permit tests</a>
+        <a href="#road-signs">Road signs</a>
+      </div>
+    </div>
+    {render_home_practice_panel()}
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
@@ -611,10 +761,18 @@ def render_home():
         links = render_tool_links(section["links"])
         cards.append(f'<section class="home-group"><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
     body = f"""<section class="hero home-hero dmv-home-hero">
-  <div>
-    <p class="eyebrow">DMV-first practice tools</p>
-    <h1>DMV practice tests with road-sign images and instant feedback.</h1>
-    <p class="lede">Pick a state, switch into image-based road signs, then use a longer mock exam to find weak areas before rereading the official manual.</p>
+  <div class="home-hero-grid">
+    <div>
+      <p class="eyebrow">DMV-first practice tools</p>
+      <h1>DMV practice tests with road-sign images and instant feedback.</h1>
+      <p class="lede">Pick a state, switch into image-based road signs, then use a longer mock exam to find weak areas before rereading the official manual.</p>
+      <div class="hero-actions">
+        <a href="dmv-practice.html">Start DMV practice</a>
+        <a href="florida-dmv-road-signs-practice.html">Try road signs</a>
+        <a href="california-dmv-permit-practice-test.html">California test</a>
+      </div>
+    </div>
+    {render_home_practice_panel()}
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>

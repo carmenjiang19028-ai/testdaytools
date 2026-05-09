@@ -450,3 +450,45 @@ Validation passed locally:
 - All 32 HTML pages passed desktop and mobile overflow checks.
 - Florida DMV permit page sample showed 3 hero actions, 4 official fact cards, 8 topic cards, and a working `#practice` anchor.
 - Florida signs interaction remained intact: signs mode has 20 image questions, answers record correctly, and next-question advance works.
+
+## DMV Tool Site V2 Product/UI Upgrade
+
+As of 2026-05-09, the DMV pages were upgraded from content-heavy practice pages into a more product-like DMV practice tool experience.
+
+Why this was done:
+- The site needed to feel like a useful tool, not a simple article list.
+- Competitor-style DMV pages win by getting users into a practice loop quickly, then showing progress, explanations, saved mistakes, and official-source context.
+- The monetization goal depends on longer sessions and more related page views, not only one quick visit.
+
+Implemented:
+- Homepage now has a DMV-first practice-lab hero with state launch links, no-signup messaging, and live coverage stats.
+- DMV hub now has a stronger state/mode launcher and anchored sections for permit tests and road-sign pages.
+- DMV tool pages now have a split hero with a practice summary panel, quick actions, official-source facts, and visible practice-mode counts.
+- DMV pages now include a trust strip for source context, local-browser privacy, original questions, and last-updated date.
+- Practice sections now show a four-step practice flow before the quiz.
+- Road-sign-only pages now use the same practice-engine framing instead of dropping straight into a plain quiz.
+- Quiz summaries now show Correct, Missed, and Left counters.
+- Missed questions are saved to local browser storage by page and mode, displayed as a small mistake bank, and can be cleared by the user.
+- Correctly answering a previously saved question removes it from the saved mistake bank.
+- Added LearningResource structured data for DMV tool pages and BreadcrumbList structured data for generated pages.
+- Added scroll-margin support so hero action anchors do not hide section headings behind the sticky header.
+
+Validation passed locally:
+- Static build succeeds.
+- `content/site_data.json` parses.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- Internal local-link and anchor check found no missing targets.
+- Representative pages passed desktop and mobile overflow checks at 1440px and 390px:
+  - Homepage.
+  - DMV hub.
+  - Florida permit page.
+  - Florida road-sign page.
+  - AP score release page.
+- CDP interaction test confirmed a wrong Florida quick-practice answer updates the score, records a missed count, writes a saved mistake to local storage, and shows the explanation.
+- Screenshots reviewed:
+  - Homepage desktop.
+  - Florida permit page desktop.
+  - Florida permit page mobile.
+  - Florida practice section desktop.

@@ -30,6 +30,11 @@ function initQuizzes() {
     const breakdown = quiz.querySelector("[data-quiz-breakdown]");
     const position = quiz.querySelector("[data-quiz-position]");
     const answeredLabel = quiz.querySelector("[data-quiz-answered]");
+    const correctLabels = Array.from(quiz.querySelectorAll("[data-quiz-correct]"));
+    const missedLabels = Array.from(quiz.querySelectorAll("[data-quiz-missed]"));
+    const leftLabels = Array.from(quiz.querySelectorAll("[data-quiz-left]"));
+    const mistakesBox = quiz.querySelector("[data-quiz-mistakes]");
+    const clearMistakesButton = quiz.querySelector("[data-quiz-clear-mistakes]");
     const prevButton = quiz.querySelector("[data-quiz-prev]");
     const forwardButton = quiz.querySelector("[data-quiz-forward]");
     const resetButton = quiz.querySelector("[data-quiz-reset]");
@@ -37,6 +42,8 @@ function initQuizzes() {
     const quizLabel = quiz.dataset.quizLabel || "practice round";
     const answered = new Set();
     const missedCategories = {};
+    const storageKey = `tdt-mistakes:${window.location.pathname}:${quiz.dataset.modeId || quizLabel}`;
+    let savedMistakes = [];
     let activeIndex = 0;
     let correct = 0;
 
@@ -48,6 +55,56 @@ function initQuizzes() {
         '"': "&quot;",
         "'": "&#039;",
       })[char]);
+
+    const loadMistakes = () => {
+      try {
+        const stored = window.localStorage.getItem(storageKey);
+        savedMistakes = stored ? JSON.parse(stored) : [];
+        if (!Array.isArray(savedMistakes)) savedMistakes = [];
+      } catch (error) {
+        savedMistakes = [];
+      }
+    };
+
+    const saveMistakes = () => {
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(savedMistakes.slice(0, 12)));
+      } catch (error) {
+        // Browser storage can be unavailable in private modes; the quiz still works without it.
+      }
+    };
+
+    const renderMistakes = () => {
+      if (!mistakesBox) return;
+      if (!savedMistakes.length) {
+        mistakesBox.innerHTML = "<span>No saved mistakes yet.</span>";
+        if (clearMistakesButton) clearMistakesButton.disabled = true;
+        return;
+      }
+      if (clearMistakesButton) clearMistakesButton.disabled = false;
+      mistakesBox.innerHTML = savedMistakes
+        .slice(0, 5)
+        .map((item) => `<article><strong>${escapeHtml(item.category)}</strong><span>${escapeHtml(item.prompt)}</span></article>`)
+        .join("");
+    };
+
+    const rememberMistake = (question) => {
+      const prompt = question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
+      const category = question.dataset.category || "Review topic";
+      savedMistakes = savedMistakes.filter((item) => item.prompt !== prompt);
+      savedMistakes.unshift({ prompt, category, savedAt: Date.now() });
+      saveMistakes();
+      renderMistakes();
+    };
+
+    const resolveMistake = (question) => {
+      const prompt = question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
+      const nextMistakes = savedMistakes.filter((item) => item.prompt !== prompt);
+      if (nextMistakes.length === savedMistakes.length) return;
+      savedMistakes = nextMistakes;
+      saveMistakes();
+      renderMistakes();
+    };
 
     const renderActiveQuestion = () => {
       questions.forEach((question, index) => {
@@ -72,6 +129,8 @@ function initQuizzes() {
     const renderScore = () => {
       const answeredCount = answered.size;
       const total = questions.length;
+      const missedCount = answeredCount - correct;
+      const leftCount = Math.max(total - answeredCount, 0);
       const percent = answeredCount ? Math.round((correct / answeredCount) * 100) : 0;
       const complete = answeredCount === total;
       const resultText = complete
@@ -84,6 +143,15 @@ function initQuizzes() {
       if (result) result.textContent = resultText;
       if (meter) meter.style.width = `${total ? Math.round((answeredCount / total) * 100) : 0}%`;
       if (answeredLabel) answeredLabel.textContent = `${answeredCount} of ${total} answered`;
+      correctLabels.forEach((label) => {
+        label.textContent = String(correct);
+      });
+      missedLabels.forEach((label) => {
+        label.textContent = String(missedCount);
+      });
+      leftLabels.forEach((label) => {
+        label.textContent = String(leftCount);
+      });
       quiz.classList.toggle("is-complete", complete);
 
       const missed = Object.entries(missedCategories)
@@ -117,7 +185,7 @@ function initQuizzes() {
           ? `Use this as a diagnostic. Review these categories first: ${missed.join(", ")}.`
           : "Use this as a diagnostic, then retake after reading the manual.";
       } else if (missed.length) {
-        next.textContent = `Keep going. Current weak areas: ${missed.join(", ")}.`;
+        next.textContent = `Keep going. Saved mistakes now point to: ${missed.join(", ")}.`;
       } else {
         next.textContent = "So far, no weak area. Keep going.";
       }
@@ -169,6 +237,14 @@ function initQuizzes() {
       resetButton.addEventListener("click", resetQuiz);
     }
 
+    if (clearMistakesButton) {
+      clearMistakesButton.addEventListener("click", () => {
+        savedMistakes = [];
+        saveMistakes();
+        renderMistakes();
+      });
+    }
+
     questions.forEach((question, index) => {
       question.querySelectorAll("button").forEach((button) => {
         button.addEventListener("click", () => {
@@ -178,9 +254,11 @@ function initQuizzes() {
           const isCorrect = Number(button.dataset.choice) === Number(question.dataset.answer);
           button.classList.add(isCorrect ? "is-correct" : "is-wrong");
           if (isCorrect) correct += 1;
+          if (isCorrect) resolveMistake(question);
           if (!isCorrect) {
             const category = question.dataset.category || "this topic";
             missedCategories[category] = (missedCategories[category] || 0) + 1;
+            rememberMistake(question);
           }
 
           const correctButton = question.querySelector(`[data-choice="${question.dataset.answer}"]`);
@@ -196,6 +274,8 @@ function initQuizzes() {
         });
       });
     });
+    loadMistakes();
+    renderMistakes();
   });
 }
 
