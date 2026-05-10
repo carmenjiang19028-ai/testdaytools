@@ -1112,6 +1112,128 @@ h3 {
   font-weight: 800;
 }
 
+.sat-widget {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f6f9fc 100%);
+}
+
+.sat-widget-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.65fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.sat-input-panel,
+.sat-result-panel {
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+}
+
+.sat-input-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px;
+}
+
+.sat-input-panel label {
+  display: grid;
+  gap: 6px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.sat-input-panel label span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.sat-input-panel input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 750;
+}
+
+.sat-input-panel input:focus {
+  outline: 2px solid rgba(21, 94, 159, 0.18);
+  border-color: var(--blue);
+}
+
+.sat-input-panel button {
+  grid-column: 1 / -1;
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+  text-align: center;
+}
+
+.sat-result-panel {
+  padding: 18px;
+}
+
+.sat-result-panel > span,
+.sat-band-grid span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.sat-result-panel > strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--blue-deep);
+  font-size: 2.35rem;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.sat-result-panel [data-goal-headline] {
+  font-size: 1.8rem;
+  line-height: 1.12;
+}
+
+.sat-result-panel p {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+.sat-band-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sat-band-grid div {
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.sat-band-grid strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 1.05rem;
+}
+
+.sat-widget-note {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+
 .table-wrap {
   max-width: 100%;
   overflow-x: auto;
@@ -1838,6 +1960,9 @@ button:disabled {
 
   .section-head-row,
   .launch-stats,
+  .sat-widget-grid,
+  .sat-input-panel,
+  .sat-band-grid,
   .state-filter {
     grid-template-columns: 1fr;
   }

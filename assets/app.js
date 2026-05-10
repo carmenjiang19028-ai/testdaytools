@@ -330,7 +330,113 @@ function initStateFilters() {
   });
 }
 
+function initSatScoreEstimators() {
+  document.querySelectorAll("[data-sat-estimator]").forEach((widget) => {
+    const rwInput = widget.querySelector("[data-sat-rw]");
+    const mathInput = widget.querySelector("[data-sat-math]");
+    const targetInput = widget.querySelector("[data-sat-target]");
+    const totalBand = widget.querySelector("[data-sat-total-band]");
+    const rwBand = widget.querySelector("[data-sat-rw-band]");
+    const mathBand = widget.querySelector("[data-sat-math-band]");
+    const gap = widget.querySelector("[data-sat-gap]");
+    const nextStep = widget.querySelector("[data-sat-next-step]");
+    const button = widget.querySelector("[data-sat-estimate-button]");
+
+    const clamp = (value, min, max) => Math.min(Math.max(Number(value) || 0, min), max);
+    const roundTen = (value) => Math.round(value / 10) * 10;
+    const sectionBand = (correct, total) => {
+      const percent = clamp(correct, 0, total) / total;
+      const center = 200 + (percent * 600);
+      const uncertainty = percent > 0.84 || percent < 0.25 ? 40 : 30;
+      return {
+        low: clamp(roundTen(center - uncertainty), 200, 800),
+        high: clamp(roundTen(center + uncertainty), 200, 800),
+        center: clamp(roundTen(center), 200, 800),
+      };
+    };
+    const formatBand = (band) => `${band.low}-${band.high}`;
+
+    const render = () => {
+      const rw = sectionBand(clamp(rwInput?.value, 0, 54), 54);
+      const math = sectionBand(clamp(mathInput?.value, 0, 44), 44);
+      const totalLow = rw.low + math.low;
+      const totalHigh = rw.high + math.high;
+      const target = clamp(targetInput?.value, 400, 1600);
+      const estimatedCenter = rw.center + math.center;
+      const targetGap = Math.max(target - estimatedCenter, 0);
+
+      if (totalBand) totalBand.textContent = `${totalLow}-${totalHigh}`;
+      if (rwBand) rwBand.textContent = formatBand(rw);
+      if (mathBand) mathBand.textContent = formatBand(math);
+      if (gap) gap.textContent = targetGap ? `${targetGap}+ points` : "On pace";
+      if (nextStep) {
+        if (!targetGap) {
+          nextStep.textContent = "Your practice inputs are near or above the target range. Protect timing, accuracy, and test-day logistics.";
+        } else if (targetGap <= 80) {
+          nextStep.textContent = "Close gap. Focus on the weaker section and review every missed practice question before adding new drills.";
+        } else {
+          nextStep.textContent = "Large gap. Use a longer runway, official practice tests, and section-specific review before choosing a test date.";
+        }
+      }
+    };
+
+    [rwInput, mathInput, targetInput].forEach((input) => input?.addEventListener("input", render));
+    button?.addEventListener("click", render);
+    render();
+  });
+}
+
+function initSatGoalPlanners() {
+  document.querySelectorAll("[data-sat-goal-planner]").forEach((widget) => {
+    const currentInput = widget.querySelector("[data-goal-current]");
+    const targetInput = widget.querySelector("[data-goal-target]");
+    const weeksInput = widget.querySelector("[data-goal-weeks]");
+    const hoursInput = widget.querySelector("[data-goal-hours]");
+    const headline = widget.querySelector("[data-goal-headline]");
+    const gap = widget.querySelector("[data-goal-gap]");
+    const weekly = widget.querySelector("[data-goal-weekly]");
+    const totalHours = widget.querySelector("[data-goal-total-hours]");
+    const nextStep = widget.querySelector("[data-goal-next-step]");
+    const button = widget.querySelector("[data-goal-button]");
+    const clamp = (value, min, max) => Math.min(Math.max(Number(value) || 0, min), max);
+
+    const render = () => {
+      const current = clamp(currentInput?.value, 400, 1600);
+      const target = clamp(targetInput?.value, 400, 1600);
+      const weeks = clamp(weeksInput?.value, 1, 24);
+      const hours = clamp(hoursInput?.value, 1, 30);
+      const scoreGap = Math.max(target - current, 0);
+      const perWeek = Math.ceil(scoreGap / weeks / 10) * 10;
+      const total = weeks * hours;
+
+      if (headline) {
+        headline.textContent = scoreGap ? `${scoreGap} points over ${weeks} weeks` : "Target already reached";
+      }
+      if (gap) gap.textContent = scoreGap ? `${scoreGap} points` : "0 points";
+      if (weekly) weekly.textContent = scoreGap ? `${perWeek} points` : "Maintain";
+      if (totalHours) totalHours.textContent = `${total} hours`;
+      if (nextStep) {
+        if (!scoreGap) {
+          nextStep.textContent = "Use practice to maintain accuracy and avoid test-day logistics mistakes.";
+        } else if (perWeek <= 20 && hours >= 4) {
+          nextStep.textContent = "Reasonable sprint. Keep a weekly review loop and retest under timing.";
+        } else if (perWeek <= 40) {
+          nextStep.textContent = "Aggressive but possible for some students. Narrow the plan to the section with the clearest missed-question pattern.";
+        } else {
+          nextStep.textContent = "High-pressure target. Consider a later test date, a smaller target, or more weekly practice time.";
+        }
+      }
+    };
+
+    [currentInput, targetInput, weeksInput, hoursInput].forEach((input) => input?.addEventListener("input", render));
+    button?.addEventListener("click", render);
+    render();
+  });
+}
+
 initCountdowns();
 initQuizzes();
 initModeTools();
 initStateFilters();
+initSatScoreEstimators();
+initSatGoalPlanners();

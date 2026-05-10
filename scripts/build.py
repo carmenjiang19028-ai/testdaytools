@@ -273,6 +273,69 @@ def render_quick_facts(facts):
     return f'<section class="fact-section"><h2>Quick facts</h2><dl class="fact-grid">{items}</dl></section>'
 
 
+def render_tool_widget(tool):
+    widget = tool.get("toolWidget")
+    if not widget:
+        return ""
+    kind = widget.get("type")
+    if kind == "satScoreEstimator":
+        return f"""<section class="tool-block sat-widget" data-sat-estimator>
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(widget.get("kicker", "SAT score tool"))}</span>
+    <h2>{esc(widget.get("heading", "Digital SAT score planning estimator"))}</h2>
+    <p class="section-intro">{esc(widget.get("intro", "Enter section-level practice results to estimate a planning score band. This is not an official SAT score conversion."))}</p>
+  </div>
+  <div class="sat-widget-grid">
+    <div class="sat-input-panel">
+      <label>Reading and Writing correct <span>out of 54</span><input type="number" min="0" max="54" value="40" data-sat-rw></label>
+      <label>Math correct <span>out of 44</span><input type="number" min="0" max="44" value="32" data-sat-math></label>
+      <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1300" data-sat-target></label>
+      <button type="button" data-sat-estimate-button>Update estimate</button>
+    </div>
+    <aside class="sat-result-panel" aria-live="polite">
+      <span>Unofficial planning band</span>
+      <strong data-sat-total-band>Loading...</strong>
+      <p data-sat-next-step>Use this as a planning range, then confirm progress with official Bluebook practice scores.</p>
+      <div class="sat-band-grid">
+        <div><span>Reading & Writing</span><strong data-sat-rw-band>--</strong></div>
+        <div><span>Math</span><strong data-sat-math-band>--</strong></div>
+        <div><span>Target gap</span><strong data-sat-gap>--</strong></div>
+      </div>
+      <p class="sat-widget-note">Digital SAT scoring is adaptive and scale-based, so raw correct counts cannot reproduce an official score.</p>
+    </aside>
+  </div>
+</section>"""
+    if kind == "satGoalPlanner":
+        return f"""<section class="tool-block sat-widget" data-sat-goal-planner>
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(widget.get("kicker", "SAT planning tool"))}</span>
+    <h2>{esc(widget.get("heading", "SAT score goal planner"))}</h2>
+    <p class="section-intro">{esc(widget.get("intro", "Compare your current score, target score, and timeline to decide whether the goal needs a maintenance plan, focused sprint, or a longer runway."))}</p>
+  </div>
+  <div class="sat-widget-grid">
+    <div class="sat-input-panel">
+      <label>Current total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1180" data-goal-current></label>
+      <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1350" data-goal-target></label>
+      <label>Weeks until test day <span>1 to 24</span><input type="number" min="1" max="24" value="8" data-goal-weeks></label>
+      <label>Study hours per week <span>1 to 30</span><input type="number" min="1" max="30" value="6" data-goal-hours></label>
+      <button type="button" data-goal-button>Update plan</button>
+    </div>
+    <aside class="sat-result-panel" aria-live="polite">
+      <span>Planning readout</span>
+      <strong data-goal-headline>Loading...</strong>
+      <p data-goal-next-step>Use the weekly target to decide whether the date, target score, or study plan needs to change.</p>
+      <div class="sat-band-grid">
+        <div><span>Score gap</span><strong data-goal-gap>--</strong></div>
+        <div><span>Points / week</span><strong data-goal-weekly>--</strong></div>
+        <div><span>Total hours</span><strong data-goal-total-hours>--</strong></div>
+      </div>
+      <p class="sat-widget-note">This planner is a study workload tool, not a prediction or guarantee.</p>
+    </aside>
+  </div>
+</section>"""
+    return ""
+
+
 def render_exam_brief(tool):
     brief = tool.get("examBrief")
     if not brief:
@@ -652,6 +715,7 @@ def render_tool(tool):
         dmv_sections.extend([exam_brief, exam_details, practice_topics, sign_study, sign_library])
     lower_sections = [
         render_quick_facts(tool.get("quickFacts")),
+        render_tool_widget(tool),
         render_countdown(tool.get("countdown")),
         render_timeline(tool.get("timeline")),
         render_tables(tool.get("tables")),
@@ -682,7 +746,7 @@ def render_tool(tool):
 {render_trust_strip(tool)}
 {practice_console}
 {page_sections}"""
-    page_type = "LearningResource" if tool.get("category") == "DMV" else "WebPage"
+    page_type = "LearningResource" if tool.get("category") in ("DMV", "SAT", "AP") else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')
     return page_shell(
         tool["title"],

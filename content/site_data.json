@@ -60,10 +60,11 @@
       {
         "heading": "SAT tools",
         "links": [
+          "digital-sat-score-calculator",
+          "sat-score-goal-planner",
+          "digital-sat-scoring-explained",
           "sat-test-dates-2026-2027",
-          "sat-august-22-2026-planning",
           "digital-sat-bluebook-checklist",
-          "digital-sat-checklist",
           "sat-score-release-guide"
         ]
       }
@@ -83,8 +84,8 @@
       },
       {
         "label": "Digital testing",
-        "title": "SAT dates and checklists",
-        "text": "Compare confirmed SAT dates, plan August testing, and check Bluebook/device readiness.",
+        "title": "SAT score tools and checklists",
+        "text": "Estimate a Digital SAT score band, plan a target, check dates, and prepare Bluebook/device logistics.",
         "href": "sat-tools.html"
       }
     ],
@@ -332,55 +333,70 @@
     },
     {
       "slug": "sat-tools",
-      "title": "SAT Dates and Digital Test-Day Tools",
-      "description": "SAT test dates, August 2026 planning, Bluebook readiness, digital SAT checklist, and SAT score release decision tools.",
+      "title": "Digital SAT Tools, Score Guides, and Test-Day Checklists",
+      "description": "Digital SAT score tools, scoring explainers, score goal planners, study guides, Bluebook checklists, and 2026-2027 SAT date planning.",
       "heroKicker": "SAT tools hub",
-      "summary": "Use SAT tools to choose a test date, protect device readiness, and plan what to do after scores arrive.",
+      "summary": "Start with a score estimate or goal planner, then use the study guides and test-day checklists to turn SAT prep into a clear next action.",
       "primaryActions": [
         {
-          "label": "Dates",
-          "title": "SAT Test Dates 2026-2027",
-          "text": "Confirmed weekend dates with planning notes and retake logic.",
-          "href": "sat-test-dates-2026-2027.html"
+          "label": "Score tool",
+          "title": "Digital SAT Score Calculator",
+          "text": "Estimate a planning score band from practice correct counts.",
+          "href": "digital-sat-score-calculator.html"
         },
         {
-          "label": "August",
-          "title": "SAT August 22, 2026 Planning",
-          "text": "Senior fall timeline, backup dates, and prep checkpoints.",
-          "href": "sat-august-22-2026-planning.html"
+          "label": "Goal plan",
+          "title": "SAT Score Goal Planner",
+          "text": "Compare current score, target score, weeks, and study hours.",
+          "href": "sat-score-goal-planner.html"
         },
         {
           "label": "Bluebook",
           "title": "Digital SAT Bluebook Checklist",
-          "text": "Device approval, setup timing, battery, and test-day technical checks.",
+          "text": "Device, setup, battery, and admission-ticket readiness.",
           "href": "digital-sat-bluebook-checklist.html"
         }
       ],
       "sections": [
         {
-          "heading": "Dates and planning",
+          "heading": "Score tools and scoring guides",
           "links": [
-            "sat-test-dates-2026-2027",
-            "sat-august-22-2026-planning",
-            "sat-score-release-guide"
+            "digital-sat-score-calculator",
+            "digital-sat-scoring-explained",
+            "sat-score-goal-planner",
+            "sat-score-release-guide",
+            "sat-superscore-guide"
           ]
         },
         {
-          "heading": "Digital SAT readiness",
+          "heading": "Study planning guides",
           "links": [
+            "sat-reading-writing-score-guide",
+            "sat-math-score-guide",
+            "sat-practice-test-review-template",
+            "sat-study-plan-by-score-gap"
+          ]
+        },
+        {
+          "heading": "Dates and test-day readiness",
+          "links": [
+            "sat-test-dates-2026-2027",
+            "sat-august-22-2026-planning",
+            "sat-test-day-timing-guide",
             "digital-sat-bluebook-checklist",
-            "digital-sat-checklist"
+            "digital-sat-checklist",
+            "sat-device-troubleshooting-guide"
           ]
         }
       ],
       "body": [
         {
-          "heading": "Pick a date with a backup",
-          "text": "A good SAT plan usually has one main test date and one realistic retake option."
+          "heading": "Why the SAT hub now has more depth",
+          "text": "The hub is organized around the full SAT workflow: estimate a practice score, understand scoring, choose a goal, review weak sections, confirm dates, and protect digital test-day logistics."
         },
         {
-          "heading": "Treat device setup as test prep",
-          "text": "For the digital SAT, Bluebook and device readiness are part of the test-day plan, not a last-minute detail."
+          "heading": "Use official sources for final decisions",
+          "text": "These tools are unofficial planning aids. Use College Board, Bluebook, and each college's admissions policy for official registration, scoring, and score-send decisions."
         }
       ]
     }
@@ -2418,6 +2434,2197 @@
         "sat-test-dates-2026-2027",
         "digital-sat-checklist",
         "ap-score-release-date-2026"
+      ]
+    },
+    {
+      "slug": "digital-sat-score-calculator",
+      "category": "SAT",
+      "title": "Digital SAT Score Calculator and Planning Estimator",
+      "description": "Use an unofficial Digital SAT score calculator to turn practice correct counts into a planning score band, then learn why official SAT scoring is adaptive and scaled.",
+      "heroKicker": "SAT score tool",
+      "summary": "Enter practice results for Reading and Writing and Math to estimate a rough planning score band. Then use the guide below to understand why official Digital SAT scores cannot be recreated from raw correct counts alone.",
+      "quickFacts": [
+        {
+          "label": "Tool type",
+          "value": "Unofficial planning estimator"
+        },
+        {
+          "label": "Best use",
+          "value": "Practice review and target setting"
+        },
+        {
+          "label": "Not official",
+          "value": "Does not reproduce College Board scoring"
+        },
+        {
+          "label": "Next step",
+          "value": "Confirm with Bluebook practice scores"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Why this calculator uses a score band",
+          "text": "Digital SAT scoring depends on scaled scoring and adaptive modules, so two students with the same raw correct count may not receive the same official score. A planning band is more honest than a fake exact conversion."
+        },
+        {
+          "heading": "How to use the estimate",
+          "text": "Use the band to decide whether your current practice is far below target, close to target, or already in a maintenance zone. Then review the exact questions you missed instead of chasing a single number."
+        },
+        {
+          "heading": "What the calculator cannot know",
+          "text": "It cannot know module difficulty, item parameters, equating, test form details, or your official score report. Treat it as a study planning aid, not as a prediction."
+        },
+        {
+          "heading": "Best workflow after estimating",
+          "text": "Write down the weaker section, review missed questions by category, take another timed practice set, and compare the official Bluebook practice score when available."
+        },
+        {
+          "heading": "How to read a large range without panicking",
+          "text": "A wide planning band usually means the next decision should be about diagnosis, not registration. Look at which section produced the lower band, then split that section into missed question types. A student who misses ten grammar questions needs a different plan from a student who misses ten evidence or inference questions, even if the total band looks similar."
+        },
+        {
+          "heading": "Use the calculator before and after official practice",
+          "text": "Before an official Bluebook practice test, the estimator helps set a realistic expectation and choose a target. After the practice test, compare the official score with your inputs. If the official score is lower than the estimate, timing, adaptive module difficulty, or careless errors may be hiding the real issue."
+        },
+        {
+          "heading": "When the estimate is close to a target score",
+          "text": "If the planning band overlaps the target, avoid random extra practice. Students in this zone usually gain more from consistency: finishing sections on time, checking repeated error types, and practicing the exact device setup that will be used on test day. A near-target student can lose points through fatigue, rushed second modules, or late Bluebook setup."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "Digital SAT score estimator rules",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Can this estimate my exact score?",
+              "No. It returns a planning band, not an official score.",
+              "Exact digital SAT scoring is not a simple raw-score table."
+            ],
+            [
+              "Should I enter official practice results?",
+              "Yes, if you have them. Use section-level correct counts or close estimates.",
+              "Better inputs make the planning band more useful."
+            ],
+            [
+              "What if the gap is large?",
+              "Move from test-date planning to skill repair.",
+              "A large gap usually needs more than repeated full tests."
+            ],
+            [
+              "What if the band is already near target?",
+              "Protect timing, accuracy, and test-day setup.",
+              "Students near target often lose points through pacing or logistics."
+            ],
+            [
+              "Should I register based on this tool only?",
+              "No. Combine this estimate with official practice tests, deadlines, and readiness.",
+              "Registration costs money and creates pressure."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Accuracy",
+              "title": "Treating a band like an exact score",
+              "text": "An exact-looking unofficial number can create false confidence. Use ranges and official practice tests."
+            },
+            {
+              "label": "Review",
+              "title": "Ignoring the missed questions",
+              "text": "The useful data is not only the score. It is which question types you missed and why."
+            },
+            {
+              "label": "Timing",
+              "title": "Estimating without timed practice",
+              "text": "Untimed accuracy may overstate readiness for the real digital SAT."
+            }
+          ]
+        },
+        {
+          "heading": "Score-band action plan",
+          "intro": "Turn the range into one practical next move instead of treating it as a final verdict.",
+          "items": [
+            {
+              "label": "Below target",
+              "title": "Fix the weakest section first",
+              "text": "Choose one section and one error family for the next study block. A broad plan is slower than repairing the clearest recurring miss."
+            },
+            {
+              "label": "Near target",
+              "title": "Protect accuracy under timing",
+              "text": "Run shorter timed sets, then review every missed question before taking another full practice test."
+            },
+            {
+              "label": "Above target",
+              "title": "Move into maintenance",
+              "text": "Keep one weekly practice check and focus on sleep, device readiness, and avoiding preventable test-day mistakes."
+            }
+          ]
+        },
+        {
+          "heading": "Inputs that make the estimate more useful",
+          "items": [
+            {
+              "label": "Recent",
+              "title": "Use fresh practice data",
+              "text": "A result from last month may not represent your current score if you have changed topics or timing habits."
+            },
+            {
+              "label": "Timed",
+              "title": "Prefer timed sections",
+              "text": "Untimed work is useful for learning, but it can inflate readiness if pacing is still unstable."
+            },
+            {
+              "label": "Separate",
+              "title": "Enter sections separately",
+              "text": "A strong Math score can hide Reading and Writing weakness, and the reverse is also true."
+            }
+          ]
+        }
+      ],
+      "checklist": [
+        "Enter recent timed practice results.",
+        "Compare the planning band with your target.",
+        "Write down the weaker section.",
+        "Review every missed question before taking another full practice test.",
+        "Use official Bluebook practice scores for final readiness checks."
+      ],
+      "faq": [
+        {
+          "q": "Is this Digital SAT score calculator official?",
+          "a": "No. It is an unofficial planning estimator for study decisions. Use College Board and Bluebook for official scores."
+        },
+        {
+          "q": "Why does the Digital SAT not have a simple raw-score conversion chart?",
+          "a": "The digital test is adaptive and scaled, so raw correct counts alone cannot reproduce the official score."
+        },
+        {
+          "q": "What should I do if my estimate is below target?",
+          "a": "Identify the weaker section, review missed question types, and use a focused study plan before taking another full practice test."
+        },
+        {
+          "q": "Can I use this before choosing an SAT date?",
+          "a": "Yes, as one input. Also check deadlines, practice history, test center availability, and device readiness."
+        },
+        {
+          "q": "What score should I target?",
+          "a": "Use your college list, scholarship goals, and prior practice results. A realistic target should include enough weeks to improve."
+        },
+        {
+          "q": "Why does this tool show a score range instead of one number?",
+          "a": "A range is more honest because official Digital SAT scoring depends on scaled scoring and adaptive module performance, not only raw correct counts."
+        },
+        {
+          "q": "How often should I recalculate my estimate?",
+          "a": "Use it after meaningful timed practice, not after every short drill. Weekly or biweekly checks usually create better decisions than daily score watching."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        },
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        },
+        {
+          "label": "College Board SAT practice tests",
+          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+        }
+      ],
+      "related": [
+        "digital-sat-scoring-explained",
+        "sat-score-goal-planner",
+        "sat-practice-test-review-template"
+      ],
+      "toolWidget": {
+        "type": "satScoreEstimator",
+        "kicker": "Interactive SAT tool",
+        "heading": "Digital SAT score planning estimator",
+        "intro": "Enter section-level practice results to estimate a planning score band. Because official Digital SAT scoring is adaptive and scaled, this tool gives a range instead of a fake exact score."
+      }
+    },
+    {
+      "slug": "digital-sat-scoring-explained",
+      "category": "SAT",
+      "title": "How Digital SAT Scoring Works",
+      "description": "A clear explanation of Digital SAT scoring, adaptive modules, scaled scores, section scores, and why raw correct counts do not map perfectly to official results.",
+      "heroKicker": "SAT scoring guide",
+      "summary": "Digital SAT scoring can feel confusing because the test is shorter, adaptive, and scale-based. This guide explains the useful parts without pretending to reverse-engineer College Board scoring.",
+      "quickFacts": [
+        {
+          "label": "Total range",
+          "value": "400-1600"
+        },
+        {
+          "label": "Section range",
+          "value": "200-800 each"
+        },
+        {
+          "label": "Key idea",
+          "value": "Scaled, not raw"
+        },
+        {
+          "label": "Study use",
+          "value": "Find weak sections and timing problems"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Scaled scores are not raw scores",
+          "text": "The SAT reports scaled scores so results from different forms can be compared. That means the number of correct answers is only part of the story."
+        },
+        {
+          "heading": "Adaptive modules change the meaning of performance",
+          "text": "The digital SAT uses module-level adaptation. Your performance in an earlier module can affect the later module you see, which is one reason raw conversion tables are limited."
+        },
+        {
+          "heading": "Section scores matter more than guesses",
+          "text": "Reading and Writing and Math each report a 200-800 score. Study decisions should start with the weaker section and then move to question type patterns."
+        },
+        {
+          "heading": "Use official practice for final checks",
+          "text": "Unofficial calculators can help planning, but official Bluebook practice gives the most relevant score experience before test day."
+        },
+        {
+          "heading": "Why raw-score charts can mislead digital SAT students",
+          "text": "Older paper-test habits make students search for a single conversion chart. The digital test is different because section performance interacts with scaled scoring and adaptive modules. A raw count can still be useful for practice review, but it should not be treated as a public official score table."
+        },
+        {
+          "heading": "What to track instead of only the final number",
+          "text": "Track section score, missed question type, timing pressure, and whether the miss came from knowledge, reading, or execution. These fields explain what to do next. A final score tells you where you are; the error pattern tells you how to move."
+        },
+        {
+          "heading": "How score release should change your plan",
+          "text": "When official scores arrive, compare them with your college list, scholarship goals, and upcoming registration deadlines. If the score is usable, the next step may be sending scores or building a superscore plan. If it is not usable, the next step is a narrower practice plan before choosing another date."
+        },
+        {
+          "heading": "How this guide connects to planning tools",
+          "text": "After reading the scoring explanation, use the score calculator as a rough planning range and the goal planner as a timeline check. The explanation keeps the tools honest: they are meant to guide study choices, not replace official score reports or College Board practice results."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "Digital SAT scoring concepts",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "What is a scaled score?",
+              "A reported score adjusted onto the SAT scale.",
+              "It lets scores from different forms remain comparable."
+            ],
+            [
+              "Does every correct answer count the same?",
+              "Not in a way students can convert perfectly at home.",
+              "Adaptive testing and scaling make exact raw-score math unavailable."
+            ],
+            [
+              "What is the total score?",
+              "The two section scores added together.",
+              "A 650 Reading and Writing plus 680 Math becomes 1330."
+            ],
+            [
+              "What should students review first?",
+              "The weaker section and repeated missed question types.",
+              "A score without error analysis does not create a study plan."
+            ],
+            [
+              "How often should students take full tests?",
+              "Often enough to check timing, but not so often that review gets skipped.",
+              "Full tests are diagnostic tools, not the whole study plan."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Conversion",
+              "title": "Trusting random exact charts",
+              "text": "A chart that claims exact digital scoring may oversimplify adaptive scoring."
+            },
+            {
+              "label": "Study",
+              "title": "Taking tests without review",
+              "text": "A full practice test only helps if you study the missed questions afterward."
+            },
+            {
+              "label": "Strategy",
+              "title": "Ignoring section imbalance",
+              "text": "A 60-point gap in one section may be easier to improve than a broad total-score target."
+            }
+          ]
+        },
+        {
+          "heading": "Scoring terms students confuse",
+          "intro": "Understanding these terms prevents bad study decisions.",
+          "items": [
+            {
+              "label": "Raw",
+              "title": "Correct-count data",
+              "text": "Useful for review, but incomplete for official digital scoring decisions."
+            },
+            {
+              "label": "Scaled",
+              "title": "The reported score",
+              "text": "The 400-1600 total and 200-800 section scores are scaled, not simple percentages."
+            },
+            {
+              "label": "Adaptive",
+              "title": "Module difficulty matters",
+              "text": "Performance in one module can affect the difficulty path and the meaning of later questions."
+            }
+          ]
+        },
+        {
+          "heading": "Healthy score-review routine",
+          "items": [
+            {
+              "label": "Step 1",
+              "title": "Record official section scores",
+              "text": "Keep Reading and Writing separate from Math so the stronger section does not hide the weaker one."
+            },
+            {
+              "label": "Step 2",
+              "title": "Tag misses by cause",
+              "text": "Use causes such as rule gap, evidence miss, setup error, pacing, or careless execution."
+            },
+            {
+              "label": "Step 3",
+              "title": "Choose one repair block",
+              "text": "A repair block should be small enough to complete before the next full timed practice."
+            }
+          ]
+        }
+      ],
+      "checklist": [],
+      "faq": [
+        {
+          "q": "Is the Digital SAT scored out of 1600?",
+          "a": "Yes. The total score is reported on the 400-1600 scale from two section scores."
+        },
+        {
+          "q": "Can I calculate my official score from correct answers?",
+          "a": "No, not exactly. Raw correct counts do not fully determine the official scaled score."
+        },
+        {
+          "q": "Do adaptive modules make the test unfair?",
+          "a": "Adaptive testing is part of the test design. Students should focus on accuracy, pacing, and official practice."
+        },
+        {
+          "q": "Should I study the section with the lower score first?",
+          "a": "Usually yes, especially if that section has a clear pattern of missed question types."
+        },
+        {
+          "q": "Is a 75 percent correct rate always the same SAT score?",
+          "a": "No. Percent correct alone does not capture scaled scoring, adaptive modules, or the difficulty of questions answered."
+        },
+        {
+          "q": "Should I compare my digital score to old paper SAT raw charts?",
+          "a": "Use old charts only as rough historical context. They are not official Digital SAT scoring tables."
+        },
+        {
+          "q": "Can a study site know the exact adaptive scoring formula?",
+          "a": "No. Public tools can explain the practical scoring logic and help with planning, but they cannot reproduce the official adaptive scoring process."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        },
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        },
+        {
+          "label": "College Board SAT: What is on the test",
+          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test"
+        },
+        {
+          "label": "College Board SAT practice tests",
+          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+        }
+      ],
+      "related": [
+        "digital-sat-score-calculator",
+        "sat-reading-writing-score-guide",
+        "sat-math-score-guide"
+      ]
+    },
+    {
+      "slug": "sat-score-goal-planner",
+      "category": "SAT",
+      "title": "SAT Score Goal Planner",
+      "description": "Plan an SAT score target by comparing current score, target score, weeks until test day, and realistic weekly study hours.",
+      "heroKicker": "SAT planning tool",
+      "summary": "Use this planner to decide whether your target score fits the time you have. The output is a workload guide, not a guarantee.",
+      "quickFacts": [
+        {
+          "label": "Tool type",
+          "value": "Score gap planner"
+        },
+        {
+          "label": "Best input",
+          "value": "Recent timed practice score"
+        },
+        {
+          "label": "Main output",
+          "value": "Points per week"
+        },
+        {
+          "label": "Best next step",
+          "value": "Pick one weak section"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Start from evidence",
+          "text": "A useful score goal starts with a recent timed practice score, not a wish. Use a real baseline so the gap and weekly workload are visible."
+        },
+        {
+          "heading": "Separate ambition from timeline",
+          "text": "A large score jump may be possible over a long runway, but the same jump can be unrealistic in two weeks. Adjust the date, target, or study hours."
+        },
+        {
+          "heading": "Use weekly targets carefully",
+          "text": "Points per week is a planning signal. It does not mean every week will improve evenly, but it can show when a plan is too compressed."
+        },
+        {
+          "heading": "Make the next action concrete",
+          "text": "After setting the goal, decide the next practice block: grammar, algebra, data analysis, pacing, vocabulary-in-context, or full test review."
+        },
+        {
+          "heading": "How to choose a target that does not waste time",
+          "text": "A useful target is tied to a college list, scholarship cutoff, or personal benchmark. If the target is only a round number, it may create unnecessary pressure. Start with the score range that would actually change an application decision, then work backward from the next available test dates."
+        },
+        {
+          "heading": "How to judge whether a goal is realistic",
+          "text": "The planner divides the score gap by weeks, but the important question is whether your study hours can repair the weak section. A 100-point gap with a clear grammar problem is different from a 100-point gap caused by both sections, poor timing, and no recent practice history."
+        },
+        {
+          "heading": "When to change the test date",
+          "text": "If the weekly target feels extreme, do not simply add more full tests. Consider a later test date, a smaller interim target, or a focused section plan. Registering too early can turn a fixable score gap into a rushed test-day result."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "SAT score goal planning table",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "What is a realistic goal?",
+              "A goal connected to a baseline, deadline, and college list.",
+              "Unanchored goals can waste study time."
+            ],
+            [
+              "What if the gap is under 80 points?",
+              "Focus on accuracy, timing, and repeat mistakes.",
+              "Small gaps often come from avoidable errors."
+            ],
+            [
+              "What if the gap is 150+ points?",
+              "Use a longer plan or narrow the target first.",
+              "Large jumps usually require skill rebuilding."
+            ],
+            [
+              "How many hours should I study?",
+              "Enough to review deeply, not just take tests.",
+              "Review quality matters more than raw hours."
+            ],
+            [
+              "When should I move the test date?",
+              "When the weekly gap is high and deadlines allow it.",
+              "A later date can improve both score and stress."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Baseline",
+              "title": "Planning without a practice score",
+              "text": "Without a baseline, the goal planner is only guessing."
+            },
+            {
+              "label": "Hours",
+              "title": "Counting passive time",
+              "text": "Watching videos is not the same as solving, reviewing, and correcting mistakes."
+            },
+            {
+              "label": "Deadline",
+              "title": "Choosing a date colleges will not accept",
+              "text": "A perfect retake is not useful if scores arrive after a hard deadline."
+            }
+          ]
+        },
+        {
+          "heading": "Goal-planning scenarios",
+          "intro": "Use the readout to choose a realistic plan, not to force motivation.",
+          "items": [
+            {
+              "label": "Small gap",
+              "title": "Maintenance plus targeted review",
+              "text": "Keep accuracy high and remove the one or two repeated errors that still cost points."
+            },
+            {
+              "label": "Medium gap",
+              "title": "One section becomes the priority",
+              "text": "Put most weekly hours into the section with the clearest path to improvement."
+            },
+            {
+              "label": "Large gap",
+              "title": "Date and target need adjustment",
+              "text": "A larger gap usually needs more weeks, more hours, or a staged target."
+            }
+          ]
+        },
+        {
+          "heading": "What to update each week",
+          "items": [
+            {
+              "label": "Score",
+              "title": "Use a recent timed result",
+              "text": "Replace old practice scores when you have better evidence."
+            },
+            {
+              "label": "Hours",
+              "title": "Record real study time",
+              "text": "Planned hours and actual hours are often different. Use the real number."
+            },
+            {
+              "label": "Pattern",
+              "title": "Name the repeated misses",
+              "text": "The goal is not just more work; it is fewer repeated errors."
+            }
+          ]
+        }
+      ],
+      "checklist": [
+        "Use a recent timed practice score.",
+        "Set a target tied to colleges or scholarships.",
+        "Enter a realistic number of study hours.",
+        "Review the points-per-week pressure.",
+        "Adjust date, target, or study plan before registering."
+      ],
+      "faq": [
+        {
+          "q": "How high should my SAT target score be?",
+          "a": "Use your college list, scholarship goals, current score, and available weeks. A target should be ambitious but connected to time."
+        },
+        {
+          "q": "Is a 200-point improvement possible?",
+          "a": "Sometimes, but it usually needs a longer timeline and a clear weakness pattern. Do not assume it will happen in a short sprint."
+        },
+        {
+          "q": "Should I retake if I am close to target?",
+          "a": "Maybe. Check deadlines, superscoring policies, and whether one section has a clear improvement path."
+        },
+        {
+          "q": "What if I have only two weeks?",
+          "a": "Prioritize the most common missed question types and test-day logistics rather than rebuilding the whole curriculum."
+        },
+        {
+          "q": "What is a realistic SAT score improvement timeline?",
+          "a": "It depends on the starting score, score gap, available weeks, practice quality, and whether the weak areas are easy to identify."
+        },
+        {
+          "q": "Should I raise my target if I improve quickly?",
+          "a": "Only if the higher target has a real application or scholarship purpose. Otherwise protect consistency and test-day execution."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: Dates and deadlines",
+          "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
+        },
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        },
+        {
+          "label": "College Board SAT practice tests",
+          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+        },
+        {
+          "label": "College Board SAT: What is on the test",
+          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test"
+        }
+      ],
+      "related": [
+        "digital-sat-score-calculator",
+        "sat-study-plan-by-score-gap",
+        "sat-test-dates-2026-2027"
+      ],
+      "toolWidget": {
+        "type": "satGoalPlanner",
+        "kicker": "Interactive SAT planner",
+        "heading": "SAT score goal planner",
+        "intro": "Compare your current score, target score, weeks until test day, and realistic weekly study hours. Use the result to decide whether the plan needs focus, more time, or a different test date."
+      }
+    },
+    {
+      "slug": "sat-reading-writing-score-guide",
+      "category": "SAT",
+      "title": "SAT Reading and Writing Score Guide",
+      "description": "Learn how to review SAT Reading and Writing practice results, identify missed question patterns, and turn grammar and reading errors into a study plan.",
+      "heroKicker": "SAT Reading and Writing",
+      "summary": "Reading and Writing improvement usually comes from pattern recognition: grammar rules, transitions, evidence, main ideas, and pacing. This guide turns missed questions into a review loop.",
+      "quickFacts": [
+        {
+          "label": "Section",
+          "value": "Reading and Writing"
+        },
+        {
+          "label": "Main risk",
+          "value": "Repeating missed patterns"
+        },
+        {
+          "label": "Review unit",
+          "value": "Question type"
+        },
+        {
+          "label": "Best habit",
+          "value": "Write a rule for each miss"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Sort misses by reason",
+          "text": "Do not label every miss as careless. Separate grammar rule gaps, passage misunderstanding, vocabulary-in-context confusion, transition logic, and time pressure."
+        },
+        {
+          "heading": "Turn grammar misses into rules",
+          "text": "For conventions questions, write the exact rule you missed: punctuation, subject-verb agreement, modifiers, transitions, or sentence boundaries."
+        },
+        {
+          "heading": "Treat reading misses as evidence problems",
+          "text": "For reading questions, write which sentence or phrase supports the answer. If you cannot point to evidence, the review is incomplete."
+        },
+        {
+          "heading": "Use short drills between full tests",
+          "text": "Full tests reveal problems. Short targeted drills repair them. Balance both so practice becomes more than score checking."
+        },
+        {
+          "heading": "Why Reading and Writing improvement can feel uneven",
+          "text": "This section mixes short reading, grammar, transitions, evidence, and expression of ideas. A student may feel strong overall but still lose points to one repeated question family. Progress often appears after the student stops reviewing every miss the same way and starts naming the exact rule or reasoning failure."
+        },
+        {
+          "heading": "How to review a miss in two minutes",
+          "text": "For each missed question, write the question type, the wrong-answer trap, the evidence or rule, and the reason your original choice was attractive. This short record prevents the same mistake from appearing again under a different passage."
+        },
+        {
+          "heading": "When to slow down during practice",
+          "text": "If you keep missing the same category, slow practice is not a step backward. It lets you see the rule or evidence clearly. Once accuracy returns, reintroduce timing in short sets before attempting a full section again."
+        },
+        {
+          "heading": "How to know the section is improving",
+          "text": "Do not judge improvement only by whether one practice set feels easier. Look for fewer repeated grammar misses, faster evidence selection, cleaner transition choices, and a more stable pace across the module. If the same question family keeps appearing in the review log, the plan should stay focused there before moving to a new topic."
+        },
+        {
+          "heading": "How this guide fits the full SAT workflow",
+          "text": "Use this page after an official practice test or after the score calculator shows Reading and Writing as the weaker section. Pair the review map with the practice test template, then return to the score goal planner only after the repeated misses have changed. That sequence keeps the plan tied to evidence instead of mood."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "Reading and Writing review map",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Grammar miss",
+              "Write the rule and solve five similar questions.",
+              "Rules repeat across forms."
+            ],
+            [
+              "Vocabulary miss",
+              "Record context clues, not just the word.",
+              "The test usually rewards meaning in context."
+            ],
+            [
+              "Transition miss",
+              "Identify the relationship between ideas.",
+              "Many choices sound fluent but change logic."
+            ],
+            [
+              "Evidence miss",
+              "Underline the sentence that proves the answer.",
+              "Text support beats memory."
+            ],
+            [
+              "Timing miss",
+              "Practice shorter timed sets.",
+              "Pacing improves with controlled repetition."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Review",
+              "title": "Only reading the correct answer",
+              "text": "You need to know why your chosen answer failed."
+            },
+            {
+              "label": "Grammar",
+              "title": "Memorizing without application",
+              "text": "A rule matters only when you can spot it in a real sentence."
+            },
+            {
+              "label": "Pacing",
+              "title": "Going full speed all the time",
+              "text": "Rushing can hide whether the issue is skill, attention, or timing."
+            }
+          ]
+        },
+        {
+          "heading": "High-value review categories",
+          "intro": "These categories turn a messy score report into a study plan.",
+          "items": [
+            {
+              "label": "Conventions",
+              "title": "Grammar and punctuation rules",
+              "text": "Track comma use, sentence boundaries, modifiers, agreement, and verb tense as separate patterns."
+            },
+            {
+              "label": "Logic",
+              "title": "Transitions and relationships",
+              "text": "Name whether the sentence needs contrast, continuation, cause, example, or conclusion."
+            },
+            {
+              "label": "Evidence",
+              "title": "Reading support",
+              "text": "Point to the words that prove the answer. If you cannot, your review is unfinished."
+            }
+          ]
+        },
+        {
+          "heading": "Weekly Reading and Writing loop",
+          "items": [
+            {
+              "label": "Day 1",
+              "title": "Analyze old misses",
+              "text": "Start with previous mistakes before adding new questions."
+            },
+            {
+              "label": "Day 2-4",
+              "title": "Drill one category",
+              "text": "Use short sets focused on the question family that repeats most often."
+            },
+            {
+              "label": "Day 5",
+              "title": "Timed mixed set",
+              "text": "Check whether the fixed pattern survives when topics are mixed again."
+            }
+          ]
+        }
+      ],
+      "checklist": [],
+      "faq": [
+        {
+          "q": "How do I raise my SAT Reading and Writing score?",
+          "a": "Review missed questions by type, write the rule or evidence for each miss, and drill the repeated patterns."
+        },
+        {
+          "q": "Should I memorize grammar rules?",
+          "a": "Yes, but connect each rule to real SAT-style sentences. Rules without application do not move scores much."
+        },
+        {
+          "q": "What should I do after a vocabulary miss?",
+          "a": "Study the sentence context and clue words. Do not only memorize the answer word."
+        },
+        {
+          "q": "How often should I take full Reading and Writing sections?",
+          "a": "Use full sections for timing checks, then use shorter drills to fix the patterns you find."
+        },
+        {
+          "q": "Why do I miss Reading and Writing questions after understanding the passage?",
+          "a": "Many misses come from answer traps, transition logic, or grammar details rather than general comprehension."
+        },
+        {
+          "q": "Is it better to read explanations or redo missed questions?",
+          "a": "Do both. Read enough to understand the rule or evidence, then redo the question without looking at the answer."
+        },
+        {
+          "q": "What is the fastest Reading and Writing topic to improve?",
+          "a": "For many students, conventions and transitions improve faster than broad reading comprehension because the rules and logic patterns are easier to isolate and drill."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        },
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        },
+        {
+          "label": "College Board SAT: What is on the test",
+          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test"
+        },
+        {
+          "label": "College Board SAT practice tests",
+          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+        }
+      ],
+      "related": [
+        "digital-sat-scoring-explained",
+        "sat-practice-test-review-template",
+        "sat-study-plan-by-score-gap"
+      ]
+    },
+    {
+      "slug": "sat-math-score-guide",
+      "category": "SAT",
+      "title": "SAT Math Score Guide",
+      "description": "Use SAT Math practice results to identify algebra, advanced math, problem-solving, geometry, calculator, and pacing weaknesses.",
+      "heroKicker": "SAT Math guide",
+      "summary": "SAT Math improvement is easier when every missed question gets a reason: concept gap, setup error, arithmetic slip, calculator issue, or timing pressure.",
+      "quickFacts": [
+        {
+          "label": "Section",
+          "value": "Math"
+        },
+        {
+          "label": "Review unit",
+          "value": "Miss reason"
+        },
+        {
+          "label": "Common gap",
+          "value": "Algebra setup"
+        },
+        {
+          "label": "Best habit",
+          "value": "Redo misses without notes"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Identify the first wrong step",
+          "text": "For every missed math problem, find where the solution went wrong: reading the question, choosing the setup, manipulating algebra, calculating, or checking units."
+        },
+        {
+          "heading": "Do not hide behind careless errors",
+          "text": "A careless error still has a cause. Track whether slips come from signs, distribution, calculator entry, copying, or rushing."
+        },
+        {
+          "heading": "Redo without the explanation",
+          "text": "After reading a solution, close it and solve the problem again from scratch. If you cannot reproduce the method, the concept is not repaired yet."
+        },
+        {
+          "heading": "Use calculator strategy intentionally",
+          "text": "The built-in calculator can help, but it does not replace setup. Decide when graphing, substitution, or algebra is faster."
+        },
+        {
+          "heading": "Why Math improvement starts with error labels",
+          "text": "A wrong Math answer is not always a content problem. It may be setup, algebra manipulation, calculator choice, graph reading, or timing. Labeling the miss correctly keeps you from relearning a topic you already know while ignoring the habit that actually cost points."
+        },
+        {
+          "heading": "How to use Desmos without depending on it blindly",
+          "text": "The digital SAT includes access to a graphing calculator, but the calculator is a tool, not a substitute for setup. Learn when to graph, when to solve algebraically, and when a quick substitution is faster. The best Math practice includes both calculator and no-calculator thinking."
+        },
+        {
+          "heading": "When a full Math section is less useful than a drill",
+          "text": "If missed questions cluster around functions, systems, geometry, or data analysis, a full section may only confirm the same problem. A targeted drill is usually better until the repeated error is repaired."
+        },
+        {
+          "heading": "How to know Math practice is transferring",
+          "text": "A topic is not fully fixed when you can solve it immediately after a lesson. It is fixed when you recognize it later in a mixed timed set. Use mixed review to test transfer, because the real SAT will not announce whether a question is about functions, ratios, systems, or data analysis."
+        },
+        {
+          "heading": "How this guide fits the full SAT workflow",
+          "text": "Use this page when Math is the weaker section or when the score goal planner shows a gap that Math can realistically close. Start with error labels, repair one topic, then confirm the improvement in mixed timed work. After that, update the goal planner with the newer score evidence."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "SAT Math review map",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Concept gap",
+              "Study the topic, then solve a small set.",
+              "One concept can affect many questions."
+            ],
+            [
+              "Setup error",
+              "Translate the question into equations or relationships.",
+              "Most hard problems are setup problems."
+            ],
+            [
+              "Arithmetic slip",
+              "Track the exact slip type.",
+              "Repeated slips need a prevention habit."
+            ],
+            [
+              "Calculator issue",
+              "Practice the calculator action separately.",
+              "Tools help only when you know when to use them."
+            ],
+            [
+              "Timing issue",
+              "Use mixed timed sets after concept review.",
+              "Timing practice before concept repair creates stress."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Review",
+              "title": "Reading solutions too passively",
+              "text": "A solution feels obvious after you see it. Re-solving proves whether you learned it."
+            },
+            {
+              "label": "Topics",
+              "title": "Studying everything equally",
+              "text": "Your missed questions should choose the next topic, not a random checklist."
+            },
+            {
+              "label": "Calculator",
+              "title": "Using tools without a plan",
+              "text": "Calculator use should be faster or safer than hand solving, not automatic."
+            }
+          ]
+        },
+        {
+          "heading": "Math error categories",
+          "intro": "Use these labels while reviewing every missed or guessed question.",
+          "items": [
+            {
+              "label": "Concept",
+              "title": "You did not know the rule",
+              "text": "This needs a lesson, examples, and repeated practice."
+            },
+            {
+              "label": "Setup",
+              "title": "You knew the topic but modeled it wrong",
+              "text": "Rewrite the problem in your own words before solving."
+            },
+            {
+              "label": "Execution",
+              "title": "You made an avoidable operation error",
+              "text": "Slow down the line where signs, exponents, or units changed."
+            }
+          ]
+        },
+        {
+          "heading": "Math practice rhythm",
+          "items": [
+            {
+              "label": "Learn",
+              "title": "Review one topic briefly",
+              "text": "Keep topic review short and tied to questions you actually missed."
+            },
+            {
+              "label": "Drill",
+              "title": "Solve several similar problems",
+              "text": "Repetition builds recognition so test-day setup is faster."
+            },
+            {
+              "label": "Mix",
+              "title": "Return to mixed timed sets",
+              "text": "A skill is ready when you can spot it without being told the topic."
+            }
+          ]
+        }
+      ],
+      "checklist": [],
+      "faq": [
+        {
+          "q": "How do I improve my SAT Math score?",
+          "a": "Sort misses by reason, repair one topic at a time, and redo missed problems without looking at the solution."
+        },
+        {
+          "q": "Are careless errors worth tracking?",
+          "a": "Yes. A repeated careless error is a pattern and needs a prevention habit."
+        },
+        {
+          "q": "Should I use the calculator for every problem?",
+          "a": "No. Use it when it saves time or reduces risk. Some questions are faster with algebra or estimation."
+        },
+        {
+          "q": "What should I do if I run out of time?",
+          "a": "Check whether timing problems come from concept gaps, slow setup, or overusing one method."
+        },
+        {
+          "q": "Should I use the calculator on every SAT Math question?",
+          "a": "No. Use it when it saves time or reduces risk. Some questions are faster with algebra, estimation, or substitution."
+        },
+        {
+          "q": "How do I stop making careless Math mistakes?",
+          "a": "Track the exact step where the error happens. Careless mistakes often repeat in the same operation or setup habit."
+        },
+        {
+          "q": "Should I memorize SAT Math formulas?",
+          "a": "Know the common formulas and when to use them, but also practice setup. Many SAT Math misses happen before the formula choice is even clear."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        },
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        },
+        {
+          "label": "College Board SAT: What is on the test",
+          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test"
+        },
+        {
+          "label": "College Board SAT practice tests",
+          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+        }
+      ],
+      "related": [
+        "digital-sat-scoring-explained",
+        "sat-practice-test-review-template",
+        "sat-study-plan-by-score-gap"
+      ]
+    },
+    {
+      "slug": "sat-superscore-guide",
+      "category": "SAT",
+      "title": "SAT Superscore and Score Choice Guide",
+      "description": "Understand SAT superscoring, score choice, official score sending, and how to decide whether a retake is useful for your college list.",
+      "heroKicker": "SAT score sending",
+      "summary": "A retake is most valuable when it can improve the section a college will actually use. This guide helps you think through superscoring and score sending without guessing policies.",
+      "quickFacts": [
+        {
+          "label": "Main concept",
+          "value": "Policies vary by college"
+        },
+        {
+          "label": "Best use",
+          "value": "Retake and score-send decisions"
+        },
+        {
+          "label": "Check first",
+          "value": "Official college policy"
+        },
+        {
+          "label": "Risk",
+          "value": "Assuming all schools superscore"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Superscoring is college-specific",
+          "text": "Some colleges combine best section scores across test dates, while others may use different rules. Check each college rather than assuming one universal policy."
+        },
+        {
+          "heading": "Score Choice is not the same as strategy",
+          "text": "Being able to choose scores does not mean every score should be sent. Start with the college's policy and deadline."
+        },
+        {
+          "heading": "Retake only with a section plan",
+          "text": "If one section is clearly holding back your superscore, a targeted retake can make sense. If both sections are flat, broader review may be needed."
+        },
+        {
+          "heading": "Keep a score-send checklist",
+          "text": "For each college, record whether scores are required, optional, self-reported, superscored, or due by a specific date."
+        },
+        {
+          "heading": "Why superscoring changes retake strategy",
+          "text": "If a college superscores, a retake can be valuable even when only one section is likely to improve. The decision becomes less about beating the entire previous total and more about raising the section that would strengthen the combined best score."
+        },
+        {
+          "heading": "What to verify before relying on superscore strategy",
+          "text": "Policies vary by college and can change. Confirm whether the school accepts superscores, whether self-reported scores are allowed, and whether all scores or selected scores are required. A strong strategy starts with each college policy, not a generic assumption."
+        },
+        {
+          "heading": "How to decide whether to send a score",
+          "text": "Compare the score with the college profile, program expectations, scholarship rules, and application timeline. Sending is not always the same decision as retaking. Some students should send a usable score while still preparing for one more attempt."
+        },
+        {
+          "heading": "How to avoid overtesting",
+          "text": "Superscoring can make retakes useful, but it can also tempt students into testing repeatedly without a new plan. Before each retake, name the section score you are trying to improve, the evidence that improvement is possible, and the application deadline that makes the retake worthwhile."
+        },
+        {
+          "heading": "How this guide fits the full SAT workflow",
+          "text": "Use this guide after you have official scores, not only practice scores. Compare each section score with your college list, then use the score goal planner to decide whether another test date has a specific purpose. A retake is stronger when it is aimed at one section and one deadline."
+        },
+        {
+          "heading": "What to do after a superscore decision",
+          "text": "Once the decision is clear, make the next action concrete: send a score, register for a retake, or stop testing and shift time to applications. A superscore plan is only useful when it reduces uncertainty and protects time for essays, recommendation requests, schoolwork, and other application tasks."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "Superscore decision table",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "College superscores",
+              "Target the weaker section if deadlines allow.",
+              "A section gain may raise the reported total."
+            ],
+            [
+              "College does not superscore",
+              "Focus on best full sitting.",
+              "A single strong section may not help as much."
+            ],
+            [
+              "Policy is unclear",
+              "Confirm on the official admissions site.",
+              "Unofficial summaries can be outdated."
+            ],
+            [
+              "Deadline is near",
+              "Check whether later scores arrive in time.",
+              "A retake that arrives late may not matter."
+            ],
+            [
+              "Test optional",
+              "Decide whether score strengthens the application.",
+              "Optional does not mean always send or never send."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Policy",
+              "title": "Using one rule for every college",
+              "text": "SAT reporting policies vary across schools and can change."
+            },
+            {
+              "label": "Retake",
+              "title": "Retaking without a section target",
+              "text": "A superscore strategy works best when you know which section needs improvement."
+            },
+            {
+              "label": "Deadline",
+              "title": "Ignoring score arrival timing",
+              "text": "A later score is useful only if the school accepts it in time."
+            }
+          ]
+        },
+        {
+          "heading": "Superscore decision map",
+          "intro": "Use this before paying for another test date or score send.",
+          "items": [
+            {
+              "label": "One weak section",
+              "title": "Retake may be efficient",
+              "text": "Focus the plan around the section that would improve the superscore."
+            },
+            {
+              "label": "Both weak sections",
+              "title": "Use a broader repair plan",
+              "text": "A retake is still possible, but the study plan needs more than one section target."
+            },
+            {
+              "label": "Policy unclear",
+              "title": "Verify directly",
+              "text": "Check the college admissions page before making score-send decisions."
+            }
+          ]
+        },
+        {
+          "heading": "Information to save",
+          "items": [
+            {
+              "label": "Date",
+              "title": "Test dates and section scores",
+              "text": "Keep a simple record of each official test and practice milestone."
+            },
+            {
+              "label": "Policy",
+              "title": "College-specific score rules",
+              "text": "Record whether the college superscores and whether it requires all scores."
+            },
+            {
+              "label": "Deadline",
+              "title": "Application timing",
+              "text": "A later score only helps if it arrives before the relevant deadline."
+            }
+          ]
+        }
+      ],
+      "checklist": [],
+      "faq": [
+        {
+          "q": "What is SAT superscoring?",
+          "a": "Superscoring usually means a college combines your best section scores from different test dates, but each college sets its own policy."
+        },
+        {
+          "q": "Does every college superscore the SAT?",
+          "a": "No. Policies vary, so verify each college's admissions or testing policy."
+        },
+        {
+          "q": "Should I send all SAT scores?",
+          "a": "Not automatically. Check each college's rules for score choice, all scores, self-reporting, and official reports."
+        },
+        {
+          "q": "Can superscoring make a retake worth it?",
+          "a": "Yes, if one section has clear room to improve and the college uses superscoring."
+        },
+        {
+          "q": "Do all colleges superscore the SAT?",
+          "a": "No. Many do, but policies differ. Always confirm with each college before relying on a superscore plan."
+        },
+        {
+          "q": "Should I retake if only one SAT section is weak?",
+          "a": "Possibly. If your target colleges superscore, improving one section can raise the combined best score."
+        },
+        {
+          "q": "Can superscoring make a lower total score useful?",
+          "a": "Yes. If one section improves, that test date may still help at colleges that combine the best section scores across dates."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: Sending scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores/send-scores-to-colleges"
+        },
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        }
+      ],
+      "related": [
+        "sat-score-release-guide",
+        "sat-score-goal-planner",
+        "sat-test-dates-2026-2027"
+      ]
+    },
+    {
+      "slug": "sat-practice-test-review-template",
+      "category": "SAT",
+      "title": "SAT Practice Test Review Template",
+      "description": "Use this SAT practice test review template to turn a practice score into missed-question categories, timing notes, and a focused next study block.",
+      "heroKicker": "SAT review template",
+      "summary": "The biggest mistake after a practice test is starting another one too soon. Use this template to extract the score, section gap, missed question types, and next study action.",
+      "quickFacts": [
+        {
+          "label": "Best time",
+          "value": "Right after a practice test"
+        },
+        {
+          "label": "Core output",
+          "value": "Missed-question map"
+        },
+        {
+          "label": "Review length",
+          "value": "60-90 minutes"
+        },
+        {
+          "label": "Next step",
+          "value": "Targeted drill set"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Review before retesting",
+          "text": "A second practice test is less useful if the first one has not been reviewed. Spend enough time to understand why each miss happened."
+        },
+        {
+          "heading": "Use categories, not blame",
+          "text": "Sort mistakes into content gap, misread, timing, calculation, grammar rule, evidence, or guess. Categories make the next study block obvious."
+        },
+        {
+          "heading": "Track timing separately",
+          "text": "A correct answer that took too long still matters. Record where time disappeared so pacing practice has a target."
+        },
+        {
+          "heading": "Choose one next block",
+          "text": "End review by choosing a specific 30-60 minute block: algebra setup, transitions, function questions, punctuation, data analysis, or timed passage sets."
+        },
+        {
+          "heading": "Why review matters more than the next test",
+          "text": "Taking a practice test creates data. Reviewing the test turns that data into improvement. Students who jump immediately to another full test often repeat the same mistakes and only collect more scores without changing the pattern."
+        },
+        {
+          "heading": "How to build a review log",
+          "text": "For each missed or guessed question, record the section, question type, cause, correct rule or evidence, and the next drill. Keep the wording short enough that you will actually use the log. The goal is not a beautiful spreadsheet; it is a repeatable study habit."
+        },
+        {
+          "heading": "When to retest",
+          "text": "Retest after you have repaired the top patterns from the previous test. If the same categories dominate the log, more full tests are probably not the answer yet. Use targeted work until the miss pattern changes."
+        },
+        {
+          "heading": "How to keep review from becoming busywork",
+          "text": "A review log should change the next study session. If a note does not tell you what to practice next, it is probably too vague. Replace broad labels like careless with precise labels such as missed transition clue, sign error, weak evidence, or ran out of time after question 18."
+        },
+        {
+          "heading": "How this template fits the full SAT workflow",
+          "text": "Use the template immediately after a full practice test, before looking for new drills. The review log should tell you whether to open the Reading and Writing guide, Math guide, score calculator, or goal planner next. That makes the site behave like a study system instead of a pile of disconnected pages."
+        },
+        {
+          "heading": "What to do when scores stop moving",
+          "text": "A flat practice score usually means the review loop is too broad or too passive. Recheck the log for repeated causes, reduce the next week to one or two patterns, and use shorter timed sets. If accuracy improves in drills but not full tests, the remaining problem is probably pacing or stamina."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "Practice test review template",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Total score",
+              "Record total and section scores.",
+              "Section imbalance guides the next block."
+            ],
+            [
+              "Missed question type",
+              "Group misses by skill or format.",
+              "Repeated patterns are easier to fix."
+            ],
+            [
+              "Wrong-answer reason",
+              "Write why your choice failed.",
+              "This prevents shallow review."
+            ],
+            [
+              "Timing note",
+              "Mark rushed, stuck, or overchecked questions.",
+              "Pacing is part of score growth."
+            ],
+            [
+              "Next drill",
+              "Pick one targeted practice set.",
+              "Specific action beats vague motivation."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Retesting",
+              "title": "Taking another full test immediately",
+              "text": "More testing without review often repeats the same mistakes."
+            },
+            {
+              "label": "Notes",
+              "title": "Writing only the correct answer",
+              "text": "Write why the wrong answer was tempting and why it failed."
+            },
+            {
+              "label": "Scope",
+              "title": "Choosing too many next steps",
+              "text": "A small specific block is easier to complete and measure."
+            }
+          ]
+        },
+        {
+          "heading": "Review-log fields",
+          "intro": "These fields are enough for most students and easy to maintain.",
+          "items": [
+            {
+              "label": "Cause",
+              "title": "Why the miss happened",
+              "text": "Use labels such as concept, evidence, rule, setup, timing, or attention."
+            },
+            {
+              "label": "Trap",
+              "title": "Why the wrong answer looked tempting",
+              "text": "This prevents the same trap from working again."
+            },
+            {
+              "label": "Next drill",
+              "title": "What you will practice next",
+              "text": "Every reviewed miss should point to one small repair action."
+            }
+          ]
+        },
+        {
+          "heading": "After-review actions",
+          "items": [
+            {
+              "label": "Top 3",
+              "title": "Choose three repeated patterns",
+              "text": "Do not try to fix every issue at once."
+            },
+            {
+              "label": "Drill",
+              "title": "Practice related questions",
+              "text": "Use short targeted sets before another full section."
+            },
+            {
+              "label": "Confirm",
+              "title": "Check with timed practice",
+              "text": "A fix counts when it survives timing and mixed topics."
+            }
+          ]
+        }
+      ],
+      "checklist": [
+        "Record total and section scores.",
+        "List every missed or guessed question.",
+        "Assign a reason category to each miss.",
+        "Mark slow questions even if correct.",
+        "Choose one next drill set before taking another full test."
+      ],
+      "faq": [
+        {
+          "q": "How long should SAT practice test review take?",
+          "a": "Often 60-90 minutes or more, depending on the number of missed and slow questions."
+        },
+        {
+          "q": "Should I review questions I got right?",
+          "a": "Yes, review slow guesses and any question you were unsure about, even if it was correct."
+        },
+        {
+          "q": "What should I write for each missed question?",
+          "a": "Record the category, why your answer was wrong, why the correct answer works, and what to practice next."
+        },
+        {
+          "q": "How many full practice tests should I take?",
+          "a": "Use full tests as checkpoints. Between them, do targeted review based on the template."
+        },
+        {
+          "q": "Should I review questions I guessed correctly?",
+          "a": "Yes. A lucky correct answer can hide the same weakness as a missed question."
+        },
+        {
+          "q": "What should I do if my review log has too many categories?",
+          "a": "Choose the three categories costing the most points or repeating most often. Fix those first, then rebuild the plan after the next timed check."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        },
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        },
+        {
+          "label": "College Board SAT practice tests",
+          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+        }
+      ],
+      "related": [
+        "digital-sat-score-calculator",
+        "sat-reading-writing-score-guide",
+        "sat-math-score-guide"
+      ]
+    },
+    {
+      "slug": "sat-study-plan-by-score-gap",
+      "category": "SAT",
+      "title": "SAT Study Plan by Score Gap",
+      "description": "Choose an SAT study plan based on whether your target score gap is small, medium, or large, with different tactics for each timeline.",
+      "heroKicker": "SAT study plan",
+      "summary": "A 40-point gap and a 200-point gap need different plans. Use this guide to match your current score gap with a realistic study approach.",
+      "quickFacts": [
+        {
+          "label": "Small gap",
+          "value": "0-80 points"
+        },
+        {
+          "label": "Medium gap",
+          "value": "90-160 points"
+        },
+        {
+          "label": "Large gap",
+          "value": "170+ points"
+        },
+        {
+          "label": "Key move",
+          "value": "Match plan to timeline"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Small gaps need precision",
+          "text": "If you are close to target, focus on repeat mistakes, pacing, test-day setup, and avoiding unnecessary risk."
+        },
+        {
+          "heading": "Medium gaps need section focus",
+          "text": "A medium gap usually needs clear section priorities. Choose the section or question type with the most repeated errors."
+        },
+        {
+          "heading": "Large gaps need skill repair",
+          "text": "A large gap usually cannot be solved by taking full tests repeatedly. Rebuild core grammar, algebra, reading evidence, or problem setup skills."
+        },
+        {
+          "heading": "Timeline decides intensity",
+          "text": "The same score gap is easier over twelve weeks than over two. Adjust the test date or target if the weekly pressure is too high."
+        },
+        {
+          "heading": "Why score gap matters more than motivation",
+          "text": "A study plan should match the gap between your current score and the score you need. Motivation is useful, but a 40-point gap and a 250-point gap require different timelines, practice intensity, and expectations. Matching the plan to the gap makes progress easier to measure."
+        },
+        {
+          "heading": "How to handle a small gap",
+          "text": "A small gap often means the fundamentals are close. Focus on accuracy, pacing, and repeated mistake categories. Avoid dramatic changes to study materials unless the current approach is clearly failing."
+        },
+        {
+          "heading": "How to handle a large gap",
+          "text": "A large gap needs staged targets. Start by making the weakest section more stable, then retest, then choose the next target. Trying to reach the final score immediately can lead to rushed practice and disappointment."
+        },
+        {
+          "heading": "How to keep the plan realistic",
+          "text": "The best plan is the one you will actually follow. A schedule with ten perfect study hours may fail if school, work, sports, or family time make it unrealistic. Start with the hours you can protect, then choose the score target and test date that match those hours."
+        },
+        {
+          "heading": "How this guide fits the full SAT workflow",
+          "text": "Use this page after the score calculator or an official practice test gives you a current score estimate. The gap determines whether you need maintenance, focused repair, or a longer runway. Then use section guides and the review template to decide exactly what each study week should contain."
+        },
+        {
+          "heading": "What to do when the calendar is tight",
+          "text": "When only a few weeks remain, protect the highest-return tasks. Review the most repeated misses, practice timing, confirm device setup, and avoid starting a brand-new content universe. A tight calendar rewards focus. It punishes scattered practice that looks productive but does not change test behavior."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "Study plan by score gap",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "0-80 points",
+              "Precision review and timed sets.",
+              "You may be near target but losing avoidable points."
+            ],
+            [
+              "90-160 points",
+              "Section-specific study blocks.",
+              "One weaker section may be holding back the total."
+            ],
+            [
+              "170+ points",
+              "Longer runway and skill rebuilding.",
+              "Large jumps need foundational work."
+            ],
+            [
+              "Less than 3 weeks",
+              "Narrow scope and protect logistics.",
+              "There is limited time for broad improvement."
+            ],
+            [
+              "8+ weeks",
+              "Use weekly cycles of learn, drill, test, review.",
+              "Longer timelines reward consistency."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Plan",
+              "title": "Using the same plan for every gap",
+              "text": "The right plan changes when the gap and timeline change."
+            },
+            {
+              "label": "Testing",
+              "title": "Overusing full practice tests",
+              "text": "Full tests diagnose. Targeted practice repairs."
+            },
+            {
+              "label": "Timeline",
+              "title": "Ignoring weekly pressure",
+              "text": "A plan that requires unrealistic weekly gains needs adjustment."
+            }
+          ]
+        },
+        {
+          "heading": "Score-gap planning bands",
+          "intro": "Use bands to decide how much structure the plan needs.",
+          "items": [
+            {
+              "label": "0-80",
+              "title": "Fine-tuning band",
+              "text": "Use timed sets, review logs, and test-day readiness checks."
+            },
+            {
+              "label": "90-180",
+              "title": "Focused repair band",
+              "text": "Choose one section priority and build weekly drills around it."
+            },
+            {
+              "label": "190+",
+              "title": "Longer runway band",
+              "text": "Use staged targets, official practice, and more time before the next test."
+            }
+          ]
+        },
+        {
+          "heading": "Weekly structure",
+          "items": [
+            {
+              "label": "Diagnose",
+              "title": "Start with prior misses",
+              "text": "Use old tests to decide the first study block."
+            },
+            {
+              "label": "Repair",
+              "title": "Drill repeated weaknesses",
+              "text": "A repair block should be narrow enough to complete in a week."
+            },
+            {
+              "label": "Measure",
+              "title": "Retest under timing",
+              "text": "Progress only counts if it appears in timed mixed work."
+            }
+          ]
+        }
+      ],
+      "checklist": [],
+      "faq": [
+        {
+          "q": "How do I make an SAT study plan?",
+          "a": "Start with your score gap, timeline, weak section, and weekly hours. Then choose targeted blocks and periodic full tests."
+        },
+        {
+          "q": "What if I only need 50 more points?",
+          "a": "Focus on repeated mistakes, timing, and avoidable errors instead of rebuilding everything."
+        },
+        {
+          "q": "What if I need 200 more points?",
+          "a": "Use a longer runway, foundational skill review, and section-specific work before relying on full tests."
+        },
+        {
+          "q": "How often should I change the plan?",
+          "a": "Recheck after each full practice test or after a week of targeted drills."
+        },
+        {
+          "q": "Can I improve my SAT score quickly?",
+          "a": "Some students can improve quickly when the weak area is clear and practice is focused. Larger gaps usually need more weeks."
+        },
+        {
+          "q": "Should I study both sections equally?",
+          "a": "Not always. Give more time to the section or question type with the clearest point opportunity."
+        },
+        {
+          "q": "Is it better to study every day or in longer blocks?",
+          "a": "Short frequent review helps memory, while longer blocks help full-section stamina. Most students need a mix of both."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: Dates and deadlines",
+          "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
+        },
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        },
+        {
+          "label": "College Board SAT practice tests",
+          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+        },
+        {
+          "label": "College Board SAT: Scores",
+          "url": "https://satsuite.collegeboard.org/sat/scores"
+        },
+        {
+          "label": "College Board SAT: What is on the test",
+          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test"
+        }
+      ],
+      "related": [
+        "sat-score-goal-planner",
+        "sat-practice-test-review-template",
+        "sat-test-dates-2026-2027"
+      ]
+    },
+    {
+      "slug": "sat-test-day-timing-guide",
+      "category": "SAT",
+      "title": "SAT Test Day Timing Guide",
+      "description": "Plan SAT test morning timing, arrival margin, check-in, breaks, device setup, pacing, and post-test next steps.",
+      "heroKicker": "SAT test day",
+      "summary": "SAT test day is not only about content. Timing, arrival, device setup, breaks, and pacing all affect how calmly you can use what you studied.",
+      "quickFacts": [
+        {
+          "label": "Main task",
+          "value": "Arrive with margin"
+        },
+        {
+          "label": "Digital risk",
+          "value": "Device or setup delay"
+        },
+        {
+          "label": "Pacing cue",
+          "value": "Do not overcheck early"
+        },
+        {
+          "label": "Best prep",
+          "value": "Run logistics the night before"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Build a morning timeline",
+          "text": "Work backward from arrival time. Include wake-up, breakfast, travel, parking or drop-off, check-in, device setup, and a buffer."
+        },
+        {
+          "heading": "Protect device setup time",
+          "text": "A digital test needs a charged device, power cord, Bluebook readiness, and the ability to follow staff instructions without rushing."
+        },
+        {
+          "heading": "Pacing starts early",
+          "text": "Many students lose time by overchecking early questions. Use practice to decide when to move on and when to return."
+        },
+        {
+          "heading": "Breaks are part of performance",
+          "text": "Use breaks to reset, not to panic-review. Know what items are allowed and follow test center instructions."
+        },
+        {
+          "heading": "Why timing practice belongs before test week",
+          "text": "Timing is a skill, not a last-minute reminder. Students should know how long they can spend on early questions, when to mark and move, and how to recover from a difficult item without losing the rest of the module."
+        },
+        {
+          "heading": "How to practice recovery after a hard question",
+          "text": "During timed sets, intentionally mark hard questions and continue. Review later whether skipping protected the section score. The goal is to prevent one difficult problem from stealing time from several easier ones."
+        },
+        {
+          "heading": "How test-day logistics affect timing",
+          "text": "Device charging, Bluebook setup, admission documents, approved calculator habits, and break routines all affect mental bandwidth. A student who arrives prepared has more attention left for pacing and accuracy."
+        },
+        {
+          "heading": "How to use practice results to set pacing rules",
+          "text": "After each timed module, record where time pressure began. If the issue starts early, simplify your first-pass strategy. If it appears late, rehearse marking hard questions sooner. Timing rules should come from your own practice data, not from a generic minute-per-question target alone."
+        },
+        {
+          "heading": "How this guide fits the full SAT workflow",
+          "text": "Use this guide after content review is already underway. Timing work turns knowledge into usable test performance, especially near the target score. Pair it with the device troubleshooting guide in the final week so pacing, login, battery, and arrival plans are all settled before test morning."
+        },
+        {
+          "heading": "What to do during the final practice test",
+          "text": "Treat the final full practice as a rehearsal, not a cram session. Use the same device, calculator habits, break routine, pacing checkpoints, and marking strategy that you expect to use on test day. Afterward, adjust only small details so the real exam does not become an experiment."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "SAT test day timing table",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Night before",
+              "Pack ID, device, charger, calculator, ticket details, and snacks if allowed.",
+              "Morning decisions create stress."
+            ],
+            [
+              "Morning",
+              "Wake with enough time for food and travel.",
+              "Rushing can affect focus before the first question."
+            ],
+            [
+              "Arrival",
+              "Arrive early and follow check-in instructions.",
+              "Late arrival can create avoidable problems."
+            ],
+            [
+              "During sections",
+              "Use pacing checkpoints from practice.",
+              "The digital format rewards steady attention."
+            ],
+            [
+              "After test",
+              "Write down what felt hard before memory fades.",
+              "This helps if a retake becomes necessary."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Arrival",
+              "title": "Planning to arrive exactly on time",
+              "text": "A small delay can become a major stressor. Build margin."
+            },
+            {
+              "label": "Device",
+              "title": "Charging only to almost full",
+              "text": "A full charge and charger are part of the test-day kit."
+            },
+            {
+              "label": "Pacing",
+              "title": "Spending too long on one early question",
+              "text": "A hard early item should not consume time needed for later questions."
+            }
+          ]
+        },
+        {
+          "heading": "Timing risks to rehearse",
+          "intro": "Practice these before the real exam so they feel normal.",
+          "items": [
+            {
+              "label": "Stuck",
+              "title": "One question takes too long",
+              "text": "Mark it, move on, and return only if time remains."
+            },
+            {
+              "label": "Rushed",
+              "title": "End-of-module guessing",
+              "text": "Practice checkpoints so you notice pacing trouble earlier."
+            },
+            {
+              "label": "Fatigue",
+              "title": "Accuracy drops late",
+              "text": "Use full-length practice occasionally to rehearse energy and focus."
+            }
+          ]
+        },
+        {
+          "heading": "Final-week checks",
+          "items": [
+            {
+              "label": "Device",
+              "title": "Run Bluebook and charge fully",
+              "text": "Do this before test morning, not in the check-in line."
+            },
+            {
+              "label": "Route",
+              "title": "Confirm arrival plan",
+              "text": "Travel uncertainty creates timing stress before the exam begins."
+            },
+            {
+              "label": "Break",
+              "title": "Plan food and water",
+              "text": "Small logistics choices can affect focus in later modules."
+            }
+          ]
+        }
+      ],
+      "checklist": [
+        "Pack approved materials the night before.",
+        "Charge device and pack charger.",
+        "Confirm route and arrival time.",
+        "Bring acceptable ID.",
+        "Use pacing checkpoints from timed practice."
+      ],
+      "faq": [
+        {
+          "q": "What time should I arrive for the SAT?",
+          "a": "Follow your admission and test center instructions, and give yourself extra travel margin."
+        },
+        {
+          "q": "What should I pack the night before?",
+          "a": "ID, device, charger, admission details, calculator if allowed, and other permitted items from official guidance."
+        },
+        {
+          "q": "Should I study on test morning?",
+          "a": "Keep it light. Protect calm, logistics, and arrival rather than cramming new material."
+        },
+        {
+          "q": "What should I do after the test?",
+          "a": "Write down timing and content issues while fresh, then wait for official scores before making major decisions."
+        },
+        {
+          "q": "Should I skip hard SAT questions?",
+          "a": "Temporarily skipping can be smart if a question is taking too long. Mark it and return if time remains."
+        },
+        {
+          "q": "How do I avoid rushing at the end of a module?",
+          "a": "Practice pacing checkpoints in timed sets so you know earlier when to speed up or move on."
+        },
+        {
+          "q": "Should I change pacing strategy on test day?",
+          "a": "Avoid major test-day changes. Use the pacing strategy you have practiced, then make small adjustments only when the module demands it."
+        }
+      ],
+      "sources": [
+        {
+          "label": "College Board SAT: What to bring and do",
+          "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"
+        },
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        },
+        {
+          "label": "Bluebook approved devices",
+          "url": "https://bluebook.collegeboard.org/students/approved-devices"
+        }
+      ],
+      "related": [
+        "digital-sat-checklist",
+        "digital-sat-bluebook-checklist",
+        "sat-score-release-guide"
+      ]
+    },
+    {
+      "slug": "sat-device-troubleshooting-guide",
+      "category": "SAT",
+      "title": "Digital SAT Device Troubleshooting Guide",
+      "description": "Troubleshoot common Digital SAT device issues before test day, including Bluebook access, battery, approved devices, passwords, updates, and admission ticket setup.",
+      "heroKicker": "SAT device help",
+      "summary": "Most device problems are easier to prevent than fix on test morning. Use this guide before the final week so Bluebook, battery, password, and admission setup are ready.",
+      "quickFacts": [
+        {
+          "label": "Best time",
+          "value": "1-2 weeks before test"
+        },
+        {
+          "label": "Core app",
+          "value": "Bluebook"
+        },
+        {
+          "label": "Common issue",
+          "value": "Password or update surprise"
+        },
+        {
+          "label": "Do not use",
+          "value": "Phone or unsupported device"
+        }
+      ],
+      "body": [
+        {
+          "heading": "Start with approved-device rules",
+          "text": "Before troubleshooting, confirm that your device type is allowed for Bluebook. Unsupported devices cannot be fixed by last-minute settings changes."
+        },
+        {
+          "heading": "Open Bluebook before the final night",
+          "text": "Make sure the app launches, your account works, and the device can be unlocked without another device."
+        },
+        {
+          "heading": "Avoid last-minute system changes",
+          "text": "Operating system updates, storage cleanup, and password resets should happen early enough to test Bluebook afterward."
+        },
+        {
+          "heading": "Make a backup conversation early",
+          "text": "If you need a borrowed device or school-managed Chromebook, ask early. Test morning is too late to solve hardware access."
+        },
+        {
+          "heading": "Why device preparation is part of score preparation",
+          "text": "The Digital SAT depends on a working approved device, Bluebook access, battery life, and a stable test setup. A student can know the content and still lose focus if the device plan is uncertain. Treat setup checks as part of studying, not as paperwork."
+        },
+        {
+          "heading": "What to test before exam week",
+          "text": "Open Bluebook on the exact device you plan to use, confirm updates, check storage and battery behavior, and make sure you know the login. If you use an external keyboard, mouse, or charger, verify that the setup is allowed and practical for the test center."
+        },
+        {
+          "heading": "What to do if something changes",
+          "text": "If your device breaks, school loaner rules change, or Bluebook does not open, do not wait until test morning. Check official device guidance, contact your school or test coordinator when relevant, and make a backup plan early enough to avoid panic."
+        },
+        {
+          "heading": "How to build a calm backup plan",
+          "text": "A backup plan does not mean expecting failure. It means knowing who to contact, which device you can use, what charger you need, and when Bluebook must be checked. Clear logistics reduce stress so the exam feels like practice rather than a technical surprise."
+        },
+        {
+          "heading": "How this guide fits the full SAT workflow",
+          "text": "Use this page early in the planning process and again during the final week. Device readiness is separate from score readiness, but both affect the result. Pair it with the timing guide so the student enters test day with a practiced pacing plan and a stable Bluebook setup."
+        }
+      ],
+      "tables": [
+        {
+          "caption": "Digital SAT device troubleshooting table",
+          "headers": [
+            "Question",
+            "Practical answer",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Bluebook will not open",
+              "Restart, update early, and check official Bluebook guidance.",
+              "You need the app working before test day."
+            ],
+            [
+              "Forgot password",
+              "Recover the account or device password before setup closes.",
+              "You may need both account and device access."
+            ],
+            [
+              "Battery concern",
+              "Charge fully and pack power accessories allowed by rules.",
+              "Outlet access may not be guaranteed."
+            ],
+            [
+              "Unsupported device",
+              "Arrange an approved device early.",
+              "Phones and unsupported devices cannot be used."
+            ],
+            [
+              "Storage or update issue",
+              "Resolve it days before and reopen Bluebook.",
+              "Last-minute changes create new risk."
+            ]
+          ]
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Common mistakes to avoid",
+          "items": [
+            {
+              "label": "Timing",
+              "title": "Waiting until the night before",
+              "text": "Device problems need time, especially if you must borrow equipment."
+            },
+            {
+              "label": "Access",
+              "title": "Relying on a phone for passwords",
+              "text": "You should be able to unlock and use the test device directly."
+            },
+            {
+              "label": "Updates",
+              "title": "Changing the system after setup",
+              "text": "Unnecessary late updates can change permissions or app behavior."
+            }
+          ]
+        },
+        {
+          "heading": "Device-readiness checklist",
+          "intro": "These checks reduce avoidable stress before test day.",
+          "items": [
+            {
+              "label": "Approved",
+              "title": "Confirm the device is allowed",
+              "text": "Use official Bluebook device guidance before relying on a laptop or tablet."
+            },
+            {
+              "label": "Working",
+              "title": "Open Bluebook successfully",
+              "text": "Do a real app check, not just a memory of using it before."
+            },
+            {
+              "label": "Charged",
+              "title": "Plan battery and charger",
+              "text": "Know how the device behaves during a long session."
+            }
+          ]
+        },
+        {
+          "heading": "Backup planning",
+          "items": [
+            {
+              "label": "Login",
+              "title": "Know account access",
+              "text": "Account issues are easier to solve before test morning."
+            },
+            {
+              "label": "Loaner",
+              "title": "Ask early if you need a device",
+              "text": "Borrowing or school support usually requires lead time."
+            },
+            {
+              "label": "Updates",
+              "title": "Avoid last-minute changes",
+              "text": "Unexpected system updates can interrupt an otherwise ready setup."
+            }
+          ]
+        }
+      ],
+      "checklist": [
+        "Confirm device is supported.",
+        "Open Bluebook before test week.",
+        "Confirm account and device passwords.",
+        "Charge battery and pack charger.",
+        "Avoid unnecessary updates after setup.",
+        "Arrange an approved backup device early if needed."
+      ],
+      "faq": [
+        {
+          "q": "Can I use my phone for the Digital SAT?",
+          "a": "No. Official Bluebook approved-device guidance says mobile phones are not supported."
+        },
+        {
+          "q": "Can I use a personal Chromebook?",
+          "a": "Official guidance says personal Chromebooks are not supported; school-managed Chromebooks may be supported."
+        },
+        {
+          "q": "What if my battery is weak?",
+          "a": "Bring power according to official rules and talk to the test center if you have concerns."
+        },
+        {
+          "q": "When should I complete device setup?",
+          "a": "Do it before test day when official setup becomes available, then avoid unnecessary changes."
+        },
+        {
+          "q": "Should I install Bluebook right before the SAT?",
+          "a": "No. Install and open it early so you have time to fix device, login, or update problems."
+        },
+        {
+          "q": "What if my device is not approved for the Digital SAT?",
+          "a": "Use official Bluebook guidance and arrange an approved device or support option before test day."
+        },
+        {
+          "q": "Can device stress affect SAT performance?",
+          "a": "Yes. Worrying about login, battery, or setup can use attention that should be going to reading, math, and pacing."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Bluebook: Approved devices",
+          "url": "https://bluebook.collegeboard.org/students/approved-devices"
+        },
+        {
+          "label": "College Board SAT: What to bring and do",
+          "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"
+        },
+        {
+          "label": "Bluebook",
+          "url": "https://bluebook.collegeboard.org/"
+        }
+      ],
+      "related": [
+        "digital-sat-bluebook-checklist",
+        "digital-sat-checklist",
+        "sat-test-day-timing-guide"
       ]
     },
     {

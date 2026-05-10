@@ -667,3 +667,51 @@ Current state:
 - Changes are local and not yet committed or pushed.
 - The local preview server was used on `127.0.0.1:8017`.
 - Next step is to review final diff, commit, and push when ready.
+
+## Checkpoint 2026-05-10 SAT Growth Sprint Foundation
+
+User direction:
+- Execute the attached "TestDayTools Strategic Growth Plan" for the current TestDayTools site.
+- Focus first on site-controlled work: more useful SAT content, reusable tools, SEO structure, and technical checks.
+- Do not start AdSense submission, community seeding, or GA4 unless the user confirms those account/platform actions.
+
+Implemented locally:
+- Added 10 SAT support pages:
+  - `digital-sat-score-calculator.html`
+  - `digital-sat-scoring-explained.html`
+  - `sat-score-goal-planner.html`
+  - `sat-reading-writing-score-guide.html`
+  - `sat-math-score-guide.html`
+  - `sat-superscore-guide.html`
+  - `sat-practice-test-review-template.html`
+  - `sat-study-plan-by-score-gap.html`
+  - `sat-test-day-timing-guide.html`
+  - `sat-device-troubleshooting-guide.html`
+- Added two reusable static SAT widgets:
+  - Digital SAT score planning estimator.
+  - SAT score goal planner.
+- Expanded each new SAT page to substantial guide depth with quick facts, tables, action sections, FAQ, official-source links, and related internal links.
+- Updated the SAT hub to prioritize the calculator, goal planner, scoring guides, study guides, and test-day readiness pages.
+- Updated the homepage SAT section so the new SAT tools are easier to discover.
+- Regenerated `sitemap.xml` and all affected static pages.
+
+Validation completed:
+- Static generator builds successfully.
+- JSON parses.
+- Python generator compiles.
+- JavaScript syntax check passes.
+- `git diff --check` passes.
+- Internal link and JSON-LD validation passes across all 42 generated HTML pages.
+- Local browser checks passed on desktop and mobile widths for:
+  - `index.html`
+  - `sat-tools.html`
+  - `digital-sat-score-calculator.html`
+  - `sat-score-goal-planner.html`
+  - `sat-reading-writing-score-guide.html`
+- SAT calculator interaction test passed.
+- SAT goal planner interaction test passed.
+
+Not done yet:
+- No GA4 tracking installed. User previously decided to wait until there is traffic.
+- No AdSense application submitted. The site still needs indexing and early traffic signals first.
+- No Reddit/Quora/Discord community seeding performed. This needs user/account confirmation.
