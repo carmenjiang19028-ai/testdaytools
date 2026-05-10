@@ -302,6 +302,35 @@ function initModeTools() {
   });
 }
 
+function initStateFilters() {
+  document.querySelectorAll("[data-state-filter]").forEach((input) => {
+    const scope = input.closest("[data-state-filter-scope]");
+    if (!scope) return;
+
+    const cards = Array.from(scope.querySelectorAll("[data-state-card]"));
+    const empty = scope.querySelector("[data-state-empty]");
+
+    const filterCards = () => {
+      const query = input.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const label = (card.dataset.stateName || card.textContent || "").toLowerCase();
+        const visible = !query || label.includes(query);
+        card.hidden = !visible;
+        card.classList.toggle("is-hidden-by-filter", !visible);
+        if (visible) visibleCount += 1;
+      });
+
+      if (empty) empty.hidden = visibleCount !== 0;
+    };
+
+    input.addEventListener("input", filterCards);
+    filterCards();
+  });
+}
+
 initCountdowns();
 initQuizzes();
 initModeTools();
+initStateFilters();

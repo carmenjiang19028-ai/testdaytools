@@ -131,6 +131,15 @@ def render_ad(label="future ad"):
     return f"<!-- Reserved {esc(label).lower()} slot. Real ads are intentionally disabled for the static launch. -->"
 
 
+def render_sign_preview_strip():
+    signs = []
+    for key, label in [("stop", "Stop"), ("yield", "Yield"), ("merge", "Merge")]:
+        svg = SIGN_SVGS.get(key, "")
+        if svg:
+            signs.append(f'<div class="preview-sign" role="img" aria-label="{esc(label)} road sign">{svg}</div>')
+    return f'<div class="hero-sign-strip" aria-label="Road sign practice preview">{"".join(signs)}</div>'
+
+
 def render_tool_actions(tool):
     if tool.get("category") != "DMV":
         return ""
@@ -168,6 +177,7 @@ def render_home_practice_panel():
     <span>Practice lab</span>
     <strong>No signup</strong>
   </div>
+  {render_sign_preview_strip()}
   <h2>Start a free DMV round</h2>
   <p>Choose a state, then switch between quick practice, image road signs, and a longer mock exam.</p>
   <div class="hero-state-list">{state_links}</div>
@@ -194,10 +204,47 @@ def render_tool_hero_panel(tool):
     source = next((item["value"] for item in facts if item["label"].lower() == "official source"), "Official driver handbook")
     return f"""<aside class="tool-hero-panel" aria-label="Practice summary">
   <div class="panel-status"><span>Free practice</span><strong>Instant feedback</strong></div>
+  {render_sign_preview_strip()}
   <div class="panel-facts">{fact_rows}</div>
   <ol class="panel-mode-list">{mode_rows}</ol>
   <p class="panel-source">Use with: {esc(source)}</p>
 </aside>"""
+
+
+def render_practice_console(tool):
+    if tool.get("category") != "DMV":
+        return ""
+    is_sign_page = "road-signs" in tool.get("slug", "")
+    if is_sign_page:
+        items = [
+            ("Step 1", "Identify the sign", "Use the image first, then read the choices."),
+            ("Step 2", "Check shape and color", "Connect the sign to the study guide below."),
+            ("Step 3", "Save missed signs", "Wrong answers stay in your browser for quick review."),
+            ("Step 4", "Review the sign library", "Retake the round after the meaning feels obvious."),
+        ]
+        heading = "Road sign lab built for visual practice"
+        intro = "Road-sign pages should feel like a small image tool, not a plain article. Start the quiz, review misses, then use the sign guide without leaving the page."
+    else:
+        items = [
+            ("Mode", "Choose a round", "Quick practice, road signs, or a longer mock exam."),
+            ("Answer", "One question at a time", "Instant feedback keeps the page from becoming a wall of text."),
+            ("Review", "Use weak-area chips", "Missed categories point to the next handbook section."),
+            ("Source", "Confirm official rules", "Use the state handbook for exact wording and requirements."),
+        ]
+        heading = "Practice console for this state"
+        intro = "This page is organized around the real study flow: pick a mode, answer questions, review weak areas, then confirm details with the official state source."
+    cards = "".join(
+        f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
+        for label, title, text in items
+    )
+    return f"""<section class="task-console" aria-label="Practice console">
+  <div class="tool-section-head">
+    <span class="eyebrow">Start here</span>
+    <h2>{esc(heading)}</h2>
+    <p class="section-intro">{esc(intro)}</p>
+  </div>
+  <div class="task-console-grid">{cards}</div>
+</section>"""
 
 
 def render_trust_strip(tool):
@@ -590,6 +637,7 @@ def render_tool(tool):
     practice_topics = render_topic_cards(tool)
     sign_study = render_sign_study(tool)
     sign_library = render_sign_library(tool)
+    practice_console = render_practice_console(tool)
     body_sections = "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
         for section in tool.get("body", [])
@@ -626,12 +674,13 @@ def render_tool(tool):
     <p class="eyebrow">{esc(tool["heroKicker"])}</p>
     <h1>{esc(tool["title"])}</h1>
     <p class="lede">{esc(tool["summary"])}</p>
-    {render_last_updated()}{render_tool_actions(tool)}
+{render_last_updated()}{render_tool_actions(tool)}
     </div>{hero_panel_block}
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
 {render_trust_strip(tool)}
+{practice_console}
 {page_sections}"""
     page_type = "LearningResource" if tool.get("category") == "DMV" else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')
@@ -684,7 +733,7 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
     stats = launch.get("stats", [])
     modes = launch.get("modes", [])
     state_cards = "".join(
-        f'<a class="state-card" href="{esc(state["href"])}"><span>{esc(state["label"])}</span><strong>{esc(state["title"])}</strong><p>{esc(state["text"])}</p><em>{esc(state["cta"])}</em></a>'
+        f'<a class="state-card" href="{esc(state["href"])}" data-state-card data-state-name="{esc(state["label"] + " " + state["title"])}"><span>{esc(state["label"])}</span><strong>{esc(state["title"])}</strong><p>{esc(state["text"])}</p><em>{esc(state["cta"])}</em></a>'
         for state in states
     )
     stat_cards = "".join(
@@ -695,7 +744,7 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
         f'<article><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></article>'
         for item in modes
     )
-    return f"""<section class="dmv-launch" id="state-paths">
+    return f"""<section class="dmv-launch" id="state-paths" data-state-filter-scope>
   <div class="section-head-row">
     <div>
       <p class="eyebrow">DMV practice engine</p>
@@ -704,7 +753,13 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
     </div>
     <div class="launch-stats">{stat_cards}</div>
   </div>
+  <div class="state-filter">
+    <label for="state-filter-input">Find your state</label>
+    <input id="state-filter-input" type="search" placeholder="Type California, Texas, Florida..." data-state-filter>
+    <a href="dmv-practice.html">View all DMV tools</a>
+  </div>
   <div class="state-grid">{state_cards}</div>
+  <p class="state-filter-empty" data-state-empty hidden>No matching state yet. Try California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey.</p>
   <div class="mode-card-grid">{mode_cards}</div>
 </section>"""
 
@@ -764,8 +819,9 @@ def render_home():
   <div class="home-hero-grid">
     <div>
       <p class="eyebrow">DMV-first practice tools</p>
-      <h1>DMV practice tests with road-sign images and instant feedback.</h1>
-      <p class="lede">Pick a state, switch into image-based road signs, then use a longer mock exam to find weak areas before rereading the official manual.</p>
+      <h1>Free DMV permit practice by state.</h1>
+      <p class="lede">Pick a state, answer one question at a time, drill road-sign images, and use saved mistakes to decide what to review next.</p>
+      {render_last_updated()}
       <div class="hero-actions">
         <a href="dmv-practice.html">Start DMV practice</a>
         <a href="florida-dmv-road-signs-practice.html">Try road signs</a>

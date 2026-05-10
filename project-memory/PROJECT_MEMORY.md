@@ -626,3 +626,44 @@ Next practical tasks:
 - If priority pages remain unindexed, inspect reasons before adding more content.
 - If impressions appear, expand the DMV cluster around the exact queries and states that Google starts testing.
 - Keep AdSense postponed until the site has more trust signals, more content depth, and at least early organic traction.
+
+## Checkpoint 2026-05-10 V3 UI Upgrade
+
+User direction:
+- User said to keep working silently unless blocked or a clear milestone is complete.
+- User had low confidence in the old UI because it looked too simple and not like a useful tool site.
+- The goal of this pass was to make the DMV cluster feel more like a real usable practice tool, while keeping the site static and low-maintenance.
+
+Implemented locally:
+- Added a stronger DMV-first hero on the homepage.
+- Added road-sign preview art to the homepage, DMV hub, and DMV tool hero panels.
+- Added a state finder/filter on the homepage and DMV hub so users can quickly locate California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey.
+- Added a "Practice console" section to DMV permit pages that explains the user's task flow: choose a round, answer one at a time, review weak-area chips, confirm official rules.
+- Added a "Road sign lab" console to road-sign pages so those pages feel like visual practice tools instead of plain content pages.
+- Tightened tool UI styling: cleaner header, utility-style cards, stronger quiz shell, better sign image treatment, more restrained public-service/exam-tool visual language.
+- Updated site last-updated date to May 10, 2026.
+
+Validation completed:
+- Static generator builds successfully.
+- JSON parses.
+- Python generator compiles.
+- JavaScript syntax check passes.
+- `git diff --check` passes.
+- Link and anchor check passes.
+- CDP browser layout checks passed for desktop and mobile on:
+  - `index.html`
+  - `dmv-practice.html`
+  - `california-dmv-permit-practice-test.html`
+  - `california-dmv-road-signs-practice.html`
+- Mobile overflow check passed: document scroll width equals viewport width at 390px.
+- Homepage state filter interaction passed: typing `tex` leaves only Texas visible.
+- Quiz interaction test passed:
+  - Wrong answer shows explanation.
+  - Missed count updates.
+  - Road Signs mode tab activates.
+  - Road-sign visual prompt appears.
+
+Current state:
+- Changes are local and not yet committed or pushed.
+- The local preview server was used on `127.0.0.1:8017`.
+- Next step is to review final diff, commit, and push when ready.
