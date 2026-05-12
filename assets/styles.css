@@ -294,7 +294,8 @@ h3 {
 }
 
 .hero-lab-card,
-.tool-hero-panel {
+.tool-hero-panel,
+.practice-workbench {
   border: 1px solid #c9d9e8;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.96);
@@ -305,8 +306,16 @@ h3 {
   padding: 20px;
 }
 
+.practice-workbench {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
 .lab-card-head,
-.panel-status {
+.panel-status,
+.workbench-head,
+.mini-drill-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -315,7 +324,9 @@ h3 {
 }
 
 .lab-card-head span,
-.panel-status span {
+.panel-status span,
+.workbench-head span,
+.mini-drill-head span {
   color: var(--green);
   font-size: 0.78rem;
   font-weight: 850;
@@ -323,12 +334,187 @@ h3 {
 }
 
 .lab-card-head strong,
-.panel-status strong {
+.panel-status strong,
+.workbench-head strong,
+.mini-drill-head strong {
   padding: 4px 8px;
   border-radius: 6px;
   background: #eaf7f0;
   color: var(--green);
   font-size: 0.78rem;
+}
+
+.workbench-head {
+  margin: 0;
+}
+
+.workbench-head > div {
+  display: grid;
+  gap: 5px;
+}
+
+.workbench-head a,
+.mini-drill-actions a,
+.workbench-route-actions a,
+.workbench-mode-links a {
+  color: var(--blue);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.mini-sign-drill {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.mini-question-stage {
+  min-height: 214px;
+}
+
+.mini-question {
+  display: none;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.mini-question.is-active {
+  display: grid;
+}
+
+.mini-sign {
+  display: grid;
+  place-items: center;
+  min-height: 112px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f4f7fb;
+}
+
+.mini-sign svg {
+  display: block;
+  width: 100%;
+  max-width: 112px;
+  height: auto;
+}
+
+.mini-question span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.mini-question strong {
+  display: block;
+  margin-top: 4px;
+  line-height: 1.25;
+}
+
+.mini-choices {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mini-choices button {
+  min-height: 40px;
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.mini-drill-feedback {
+  min-height: 44px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.mini-drill-actions,
+.workbench-route-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.mini-drill-actions button,
+.mini-drill-actions a,
+.workbench-route-actions a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfdff;
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+.mini-drill-actions button {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.workbench-router {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.workbench-router label {
+  color: var(--blue-deep);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.workbench-router select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: white;
+  font: inherit;
+  font-weight: 750;
+}
+
+.workbench-mode-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--line);
+}
+
+.workbench-mode-links a {
+  min-height: 76px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  padding: 11px;
+  background: #fbfdff;
+}
+
+.workbench-mode-links span {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.workbench-mode-links strong {
+  color: var(--blue-deep);
+  font-size: 0.9rem;
+  line-height: 1.2;
 }
 
 .hero-sign-strip {
@@ -1928,6 +2114,10 @@ button:disabled {
   .tool-grid,
   .related-grid,
   .start-grid,
+  .mini-question,
+  .mini-drill-actions,
+  .workbench-route-actions,
+  .workbench-mode-links,
   .task-console-grid,
   .state-grid,
   .mode-card-grid,

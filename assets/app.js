@@ -330,6 +330,89 @@ function initStateFilters() {
   });
 }
 
+function initPracticeWorkbenches() {
+  document.querySelectorAll("[data-practice-workbench]").forEach((workbench) => {
+    const stateSelect = workbench.querySelector("[data-workbench-state]");
+    const primary = workbench.querySelector("[data-workbench-primary]");
+    const secondary = workbench.querySelector("[data-workbench-secondary]");
+
+    const updateStateLinks = () => {
+      const selected = stateSelect?.selectedOptions?.[0];
+      if (!selected) return;
+      if (primary) primary.href = selected.dataset.practiceUrl || primary.href;
+      if (secondary) secondary.href = selected.dataset.signUrl || secondary.href;
+    };
+
+    stateSelect?.addEventListener("change", updateStateLinks);
+    updateStateLinks();
+  });
+}
+
+function initMiniSignDrills() {
+  document.querySelectorAll("[data-mini-sign-drill]").forEach((drill) => {
+    const questions = Array.from(drill.querySelectorAll("[data-mini-question]"));
+    const scoreLabel = drill.querySelector("[data-mini-drill-score]");
+    const feedback = drill.querySelector("[data-mini-drill-feedback]");
+    const nextButton = drill.querySelector("[data-mini-drill-next]");
+    let activeIndex = 0;
+    let correct = 0;
+    let answered = 0;
+
+    const showQuestion = () => {
+      questions.forEach((question, index) => {
+        const active = index === activeIndex;
+        question.classList.toggle("is-active", active);
+        question.setAttribute("aria-hidden", active ? "false" : "true");
+      });
+      if (nextButton) {
+        nextButton.textContent = activeIndex === questions.length - 1 ? "Review path" : "Next sign";
+      }
+    };
+
+    const updateScore = () => {
+      if (scoreLabel) scoreLabel.textContent = `${correct}/${questions.length}`;
+    };
+
+    questions.forEach((question) => {
+      question.querySelectorAll("[data-mini-choice]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (question.dataset.answered === "true") return;
+          question.dataset.answered = "true";
+          answered += 1;
+          const isCorrect = Number(button.dataset.miniChoice) === Number(question.dataset.miniAnswer);
+          if (isCorrect) correct += 1;
+          button.classList.add(isCorrect ? "is-correct" : "is-wrong");
+          const correctButton = question.querySelector(`[data-mini-choice="${question.dataset.miniAnswer}"]`);
+          correctButton?.classList.add("is-correct");
+          question.querySelectorAll("[data-mini-choice]").forEach((choice) => {
+            choice.disabled = true;
+          });
+          if (feedback) {
+            feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.miniExplanation}`;
+          }
+          updateScore();
+        });
+      });
+    });
+
+    nextButton?.addEventListener("click", () => {
+      if (activeIndex < questions.length - 1) {
+        activeIndex += 1;
+        showQuestion();
+        return;
+      }
+      if (feedback) {
+        feedback.textContent = answered
+          ? `Mini diagnostic complete: ${correct} of ${questions.length}. Open the full practice test or pick a state below.`
+          : "Answer the mini diagnostic first, then choose a full practice path.";
+      }
+    });
+
+    updateScore();
+    showQuestion();
+  });
+}
+
 function initSatScoreEstimators() {
   document.querySelectorAll("[data-sat-estimator]").forEach((widget) => {
     const rwInput = widget.querySelector("[data-sat-rw]");
@@ -438,5 +521,7 @@ initCountdowns();
 initQuizzes();
 initModeTools();
 initStateFilters();
+initPracticeWorkbenches();
+initMiniSignDrills();
 initSatScoreEstimators();
 initSatGoalPlanners();

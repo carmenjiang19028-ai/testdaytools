@@ -813,3 +813,28 @@ Strategic note:
   - `/florida-dmv-road-signs-practice.html`
   - state DMV road-sign pages
 - AP and SAT remain as support sections, but DMV/road signs should be the primary growth path until Search Console proves another direction.
+
+## Checkpoint 2026-05-12 Practice Workspace Refactor
+
+Goal:
+- Respond to the product critique that the site still looked like an SEO page collection, not a real useful tool site.
+- Make the first screen behave like a DMV practice workspace with immediate user action.
+
+Implemented locally:
+- Replaced the homepage and DMV hub hero-side launcher with a practice workspace.
+- Added a four-question road-sign diagnostic directly in the first viewport.
+- Added a state selector that routes users to the selected state's permit practice and road-sign practice pages.
+- Added direct mode links for road signs, regulatory signs, and state practice paths.
+- Added JavaScript for mini-diagnostic scoring, answer feedback, and dynamic state route links.
+- Added responsive styling for the new workspace, choices, controls, and route cards.
+
+Validation completed:
+- Static generator builds successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata, JSON-LD, sitemap count, and local-link validation passes across all 44 HTML files.
+
+Strategic note:
+- This is a usability refactor, not just more content.
+- Next meaningful product step is to expand the first-viewport diagnostic into a reusable adaptive practice component that can power state pages, road-sign pages, and weak-area review without requiring high maintenance.

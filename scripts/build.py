@@ -140,6 +140,80 @@ def render_sign_preview_strip():
     return f'<div class="hero-sign-strip" aria-label="Road sign practice preview">{"".join(signs)}</div>'
 
 
+def render_mini_sign_drill():
+    items = [
+        {
+            "image": "stop",
+            "alt": "Stop sign",
+            "prompt": "What is the required action?",
+            "choices": ["Slow and continue", "Stop completely, then yield", "Only stop for trucks"],
+            "answer": 1,
+            "explanation": "Stop signs require a complete stop before you yield and move when safe.",
+        },
+        {
+            "image": "yield",
+            "alt": "Yield sign",
+            "prompt": "What does this sign ask you to do?",
+            "choices": ["Give right of way when needed", "Stop every time", "Speed up to merge"],
+            "answer": 0,
+            "explanation": "Yield means slow down and let traffic or pedestrians go first when they have priority.",
+        },
+        {
+            "image": "do-not-enter",
+            "alt": "Do not enter sign",
+            "prompt": "What should you avoid?",
+            "choices": ["Changing lanes", "Entering this road or ramp", "Parking near a curb"],
+            "answer": 1,
+            "explanation": "Do Not Enter tells you not to drive into that roadway, ramp, or direction.",
+        },
+        {
+            "image": "speed-limit",
+            "alt": "Speed limit sign",
+            "prompt": "What does this sign set?",
+            "choices": ["Suggested speed", "Legal maximum speed", "Minimum passing speed"],
+            "answer": 1,
+            "explanation": "A speed limit sign states the legal maximum speed under normal conditions.",
+        },
+    ]
+    cards = []
+    for index, item in enumerate(items):
+        svg = SIGN_SVGS.get(item["image"], "")
+        choices = "".join(
+            f'<button type="button" data-mini-choice="{choice_index}">{esc(choice)}</button>'
+            for choice_index, choice in enumerate(item["choices"])
+        )
+        cards.append(f"""<article class="mini-question" data-mini-question data-mini-answer="{item["answer"]}" data-mini-explanation="{esc(item["explanation"])}">
+  <div class="mini-sign" role="img" aria-label="{esc(item["alt"])}">{svg}</div>
+  <div>
+    <span>Question {index + 1} of {len(items)}</span>
+    <strong>{esc(item["prompt"])}</strong>
+    <div class="mini-choices">{choices}</div>
+  </div>
+</article>""")
+    return f"""<div class="mini-sign-drill" data-mini-sign-drill>
+  <div class="mini-drill-head">
+    <span>Quick diagnostic</span>
+    <strong data-mini-drill-score>0/{len(items)}</strong>
+  </div>
+  <div class="mini-question-stage">{"".join(cards)}</div>
+  <p class="mini-drill-feedback" data-mini-drill-feedback>Answer four signs, then jump into the full practice path.</p>
+  <div class="mini-drill-actions">
+    <button type="button" data-mini-drill-next>Next sign</button>
+    <a href="road-signs-practice-test.html">Full road signs test</a>
+  </div>
+</div>"""
+
+
+def find_state_sign_href(state_label):
+    state_key = state_label.lower()
+    for tool in DATA["tools"]:
+        title = tool.get("title", "").lower()
+        slug = tool.get("slug", "")
+        if state_key in title and "road-signs-practice" in slug:
+            return f"{slug}.html"
+    return "road-signs-practice-test.html"
+
+
 def render_tool_actions(tool):
     if tool.get("category") != "DMV":
         return ""
@@ -163,26 +237,38 @@ def render_tool_actions(tool):
 
 def render_home_practice_panel():
     launch = DATA["home"].get("dmvLaunch", {})
-    states = launch.get("states", [])[:5]
-    state_links = "".join(
-        f'<a href="{esc(state["href"])}"><span>{esc(state["label"])}</span><strong>{esc(state["cta"])}</strong></a>'
+    states = launch.get("states", [])
+    default_state = next((state for state in states if state["label"] == "Florida"), states[0] if states else {"label": "Florida", "href": "florida-dmv-permit-practice-test.html"})
+    state_options = "".join(
+        f'<option value="{esc(state["label"])}" data-practice-url="{esc(state["href"])}" data-sign-url="{esc(find_state_sign_href(state["label"]))}" {"selected" if state["label"] == default_state["label"] else ""}>{esc(state["label"])}</option>'
         for state in states
     )
-    state_links = '<a href="road-signs-practice-test.html"><span>Road signs</span><strong>Start sign quiz</strong></a>' + state_links
-    state_links += '<a href="dmv-practice.html"><span>All states</span><strong>Browse DMV hub</strong></a>'
     stats = "".join(
         f'<div><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span></div>'
         for item in launch.get("stats", [])[:3]
     )
-    return f"""<aside class="hero-lab-card" aria-label="DMV practice launcher">
-  <div class="lab-card-head">
-    <span>Practice lab</span>
-    <strong>No signup</strong>
+    return f"""<aside class="practice-workbench" data-practice-workbench aria-label="DMV practice workspace">
+  <div class="workbench-head">
+    <div>
+      <span>Practice workspace</span>
+      <strong>Start in 30 seconds</strong>
+    </div>
+    <a href="dmv-practice.html">All tools</a>
   </div>
-  {render_sign_preview_strip()}
-  <h2>Start a free DMV round</h2>
-  <p>Choose a state, then switch between quick practice, image road signs, and a longer mock exam.</p>
-  <div class="hero-state-list">{state_links}</div>
+  {render_mini_sign_drill()}
+  <div class="workbench-router">
+    <label for="workbench-state">Choose state</label>
+    <select id="workbench-state" data-workbench-state>{state_options}</select>
+    <div class="workbench-route-actions">
+      <a href="{esc(default_state["href"])}" data-workbench-primary>Permit practice</a>
+      <a href="{esc(find_state_sign_href(default_state["label"]))}" data-workbench-secondary>State signs</a>
+    </div>
+  </div>
+  <div class="workbench-mode-links">
+    <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
+    <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
+    <a href="dmv-practice.html#state-paths"><span>States</span><strong>7 practice paths</strong></a>
+  </div>
   <div class="hero-stat-strip">{stats}</div>
 </aside>"""
 
