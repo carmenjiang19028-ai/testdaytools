@@ -981,3 +981,28 @@ Validation completed:
 Strategic note:
 - This strengthens the highest-intent DMV page before adding more states or ads.
 - The next useful step is to inspect the live page after push and then decide whether to add a small homepage/document-check CTA or wait for Search Console recrawl.
+
+## Checkpoint 2026-05-13 DMV State Path Router
+
+Goal:
+- Make the homepage and DMV hub state chooser behave more like a useful routing tool instead of a single-link card list.
+- Reduce friction from any state-level visitor by offering direct choices for permit practice, road-sign practice, and the state-preselected checklist.
+
+Implemented locally:
+- Converted DMV state cards in the shared launcher from single destination cards into compact state routers.
+- Each supported state card now exposes three direct actions: `Permit practice`, `Road signs`, and `Checklist`.
+- Checklist links use the state query parameter, such as `dmv-test-day-checklist.html?state=florida#dmv-checklist`, so the checklist opens with the correct state selected.
+- Updated launcher copy to mention checklist planning as part of the DMV practice path.
+
+Validation completed:
+- Static generator builds successfully.
+- `content/site_data.json` parses successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata, JSON-LD, and local-link validation passes across all 45 HTML files.
+- Headless DOM verification confirmed the generated state cards include direct Florida checklist, permit-practice, and road-sign links.
+
+Strategic note:
+- This is a small product-quality improvement with SEO benefits: homepage and DMV hub now circulate users into the strongest DMV surfaces faster.
+- Keep the next steps focused on high-intent DMV utility and Search Console signals, not broad content expansion or ad code.

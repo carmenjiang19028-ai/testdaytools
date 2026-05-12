@@ -897,7 +897,6 @@ h3 {
   border-radius: 8px;
   background: var(--paper);
   color: var(--ink);
-  text-decoration: none;
   box-shadow: var(--shadow);
   transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
@@ -908,7 +907,7 @@ h3 {
 }
 
 .state-card:hover,
-.state-card:focus {
+.state-card:focus-within {
   border-color: var(--blue);
   box-shadow: 0 18px 34px rgba(23, 62, 104, 0.13);
   transform: translateY(-1px);
@@ -937,6 +936,37 @@ h3 {
   color: var(--blue);
   font-style: normal;
   font-weight: 850;
+}
+
+.state-card-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: auto;
+}
+
+.state-card-actions a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfdff;
+  color: var(--blue);
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
+}
+
+.state-card-actions a:hover,
+.state-card-actions a:focus {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
 }
 
 .mode-card-grid {

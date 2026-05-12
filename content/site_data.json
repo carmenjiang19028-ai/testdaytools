@@ -151,7 +151,7 @@
       }
     ],
     "dmvLaunch": {
-      "intro": "Start with road signs or regulatory traffic signs, then pick a state for permit questions, image signs, and a longer mock exam. The quizzes use original questions and do not collect answers.",
+      "intro": "Start with road signs or regulatory traffic signs, then pick a state for permit questions, image signs, checklist planning, and a longer mock exam. The quizzes use original questions and do not collect answers.",
       "stats": [
         {
           "value": "2",
@@ -170,49 +170,49 @@
         {
           "label": "California",
           "title": "California DMV practice",
-          "text": "Quick practice, 20 image road signs, and a 40-question mock exam.",
+          "text": "Quick practice, 20 image road signs, test-day checklist, and a 40-question mock exam.",
           "href": "california-dmv-permit-practice-test.html",
           "cta": "Start California"
         },
         {
           "label": "New York",
           "title": "New York DMV practice",
-          "text": "Quick practice, official NY pass-rule context, and image signs.",
+          "text": "Quick practice, official NY pass-rule context, image signs, and checklist planning.",
           "href": "new-york-dmv-permit-practice-test.html",
           "cta": "Start New York"
         },
         {
           "label": "Texas",
           "title": "Texas Permit Practice Test",
-          "text": "Texas DPS source links, image signs, and a 40-question mock exam.",
+          "text": "Texas DPS source links, image signs, checklist planning, and a 40-question mock exam.",
           "href": "texas-dmv-permit-practice-test.html",
           "cta": "Start Texas"
         },
         {
           "label": "Florida",
           "title": "Florida Permit Practice Test",
-          "text": "FLHSMV source links, image signs, and a 40-question mock exam.",
+          "text": "FLHSMV source links, image signs, checklist planning, and a 40-question mock exam.",
           "href": "florida-dmv-permit-practice-test.html",
           "cta": "Start Florida"
         },
         {
           "label": "Illinois",
           "title": "Illinois Permit Practice Test",
-          "text": "Illinois Secretary of State source links, image signs, and a 40-question mock exam.",
+          "text": "Illinois Secretary of State source links, image signs, checklist planning, and a 40-question mock exam.",
           "href": "illinois-dmv-permit-practice-test.html",
           "cta": "Start Illinois"
         },
         {
           "label": "Pennsylvania",
           "title": "Pennsylvania Permit Practice Test",
-          "text": "PennDOT source links, image signs, and a 40-question mock exam.",
+          "text": "PennDOT source links, image signs, checklist planning, and a 40-question mock exam.",
           "href": "pennsylvania-dmv-permit-practice-test.html",
           "cta": "Start Pennsylvania"
         },
         {
           "label": "New Jersey",
           "title": "New Jersey Permit Practice Test",
-          "text": "New Jersey MVC source links, image signs, and a 40-question mock exam.",
+          "text": "New Jersey MVC source links, image signs, checklist planning, and a 40-question mock exam.",
           "href": "new-jersey-mvc-permit-practice-test.html",
           "cta": "Start New Jersey"
         }

@@ -223,6 +223,14 @@ def get_dmv_checklist_states():
     return checklist.get("toolWidget", {}).get("states", [])
 
 
+def find_dmv_state_by_label(state_label):
+    state_key = state_label.lower()
+    for state in get_dmv_checklist_states():
+        if state.get("label", "").lower() == state_key:
+            return state
+    return None
+
+
 def find_dmv_state_for_tool(tool):
     if tool.get("category") != "DMV" or tool.get("slug") == "dmv-test-day-checklist":
         return None
@@ -1068,10 +1076,24 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
     states = launch.get("states", [])
     stats = launch.get("stats", [])
     modes = launch.get("modes", [])
-    state_cards = "".join(
-        f'<a class="state-card" href="{esc(state["href"])}" data-state-card data-state-name="{esc(state["label"] + " " + state["title"])}"><span>{esc(state["label"])}</span><strong>{esc(state["title"])}</strong><p>{esc(state["text"])}</p><em>{esc(state["cta"])}</em></a>'
-        for state in states
-    )
+    state_cards = []
+    for state in states:
+        checklist_state = find_dmv_state_by_label(state["label"])
+        sign_href = find_state_sign_href(state["label"])
+        actions = "".join(
+            f'<a href="{esc(href)}">{esc(label)}</a>'
+            for label, href in [
+                ("Permit practice", state["href"]),
+                ("Road signs", sign_href),
+                ("Checklist", checklist_href_for_state(checklist_state)),
+            ]
+        )
+        state_cards.append(
+            f'<article class="state-card" data-state-card data-state-name="{esc(state["label"] + " " + state["title"] + " " + state["text"])}">'
+            f'<span>{esc(state["label"])}</span><strong>{esc(state["title"])}</strong><p>{esc(state["text"])}</p>'
+            f'<div class="state-card-actions">{actions}</div></article>'
+        )
+    state_cards_html = "".join(state_cards)
     stat_cards = "".join(
         f'<div><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span></div>'
         for item in stats
@@ -1094,7 +1116,7 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
     <input id="state-filter-input" type="search" placeholder="Type California, Texas, Florida..." data-state-filter>
     <a href="dmv-practice.html">View all DMV tools</a>
   </div>
-  <div class="state-grid">{state_cards}</div>
+  <div class="state-grid">{state_cards_html}</div>
   <p class="state-filter-empty" data-state-empty hidden>No matching state yet. Try California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey.</p>
   <div class="mode-card-grid">{mode_cards}</div>
 </section>"""

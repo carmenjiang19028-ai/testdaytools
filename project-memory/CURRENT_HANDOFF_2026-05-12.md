@@ -309,6 +309,13 @@ Recommended implementation:
 - Added long-tail sections and FAQ coverage for what to bring, proof of residency, glasses/contacts, retake rules, and official-source dependency.
 - Browser validation confirmed Florida preselection, `FLHSMV` agency hint, TLSAE document guidance, 11 checklist items, 18% readiness after two checked items, and document-map rendering.
 
+2026-05-13 state-router update:
+
+- Homepage and DMV hub state cards were converted from single-link cards into small routers.
+- Each supported state now exposes direct `Permit practice`, `Road signs`, and state-preselected `Checklist` links.
+- Example generated checklist link: `dmv-test-day-checklist.html?state=florida#dmv-checklist`.
+- This improves user routing from broad DMV entry pages into the highest-value tool surfaces without adding new maintenance-heavy content.
+
 Lower priority:
 
 - More AP/SAT pages.
