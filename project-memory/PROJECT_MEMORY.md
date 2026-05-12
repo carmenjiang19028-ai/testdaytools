@@ -838,3 +838,30 @@ Validation completed:
 Strategic note:
 - This is a usability refactor, not just more content.
 - Next meaningful product step is to expand the first-viewport diagnostic into a reusable adaptive practice component that can power state pages, road-sign pages, and weak-area review without requiring high maintenance.
+
+## Checkpoint 2026-05-12 Practice Function Expansion
+
+Goal:
+- Expand real functionality so TestDayTools feels more like a usable DMV practice tool and less like static SEO content.
+- Improve repeat use, session depth, and weak-area review without creating high-maintenance one-off features.
+
+Implemented locally:
+- Added a practice control toolbox to every generated quiz.
+- Added focus-area filtering by question category.
+- Added a saved-mistakes review mode that loads only questions missed on the current device.
+- Added shuffle for the active focus area.
+- Added a 10-minute practice timer.
+- Added a question navigator with answered, correct, wrong, and active states.
+- Updated quiz scoring so filtered rounds show progress for the current focus area.
+
+Validation completed:
+- Static generator builds successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata, JSON-LD, sitemap count, and local-link validation passes across all 44 HTML files.
+- Browser interaction test on `road-signs-practice-test.html` verified filter options, question navigation, shuffle, timer start, answer feedback, wrong-answer state, and saved-mistakes review mode.
+
+Strategic note:
+- This feature set should raise engagement across all DMV pages because it upgrades the shared practice engine instead of one page at a time.
+- Next useful step is to make the homepage mini diagnostic hand off into a pre-filtered practice round, then add a lightweight progress summary on return visits.

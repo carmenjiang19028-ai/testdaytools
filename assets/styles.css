@@ -1741,6 +1741,107 @@ tr:last-child td {
   margin-top: 14px;
 }
 
+.quiz-toolbox {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.quiz-toolbox label {
+  display: grid;
+  gap: 6px;
+}
+
+.quiz-toolbox label span {
+  margin: 0;
+  color: var(--blue-deep);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.quiz-toolbox select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 750;
+}
+
+.quiz-toolbox-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.quiz-toolbox-actions button {
+  min-height: 38px;
+  padding: 7px 8px;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.quiz-session-timer {
+  margin-top: 10px;
+  padding: 9px 10px;
+  border: 1px solid #cfe0ee;
+  border-radius: 6px;
+  background: #f7fbff;
+  color: var(--blue-deep);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.question-jump-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.question-jump-list > span {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.question-jump {
+  min-height: 32px;
+  padding: 4px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-align: center;
+}
+
+.question-jump.is-active {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.question-jump.is-correct {
+  border-color: #b8deca;
+  background: #eaf7f0;
+  color: var(--green);
+}
+
+.question-jump.is-wrong {
+  border-color: #f0c4c1;
+  background: #fff0ef;
+  color: var(--red);
+}
+
+.question-jump.is-answered {
+  background: #edf2f7;
+}
+
 .quiz-stat-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2119,6 +2220,7 @@ button:disabled {
   .mini-drill-actions,
   .workbench-route-actions,
   .workbench-mode-links,
+  .quiz-toolbox-actions,
   .task-console-grid,
   .state-grid,
   .mode-card-grid,
@@ -2233,6 +2335,10 @@ button:disabled {
 
   .quiz-nav-button {
     width: 100%;
+  }
+
+  .question-jump-list {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 

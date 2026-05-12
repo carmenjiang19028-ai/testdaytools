@@ -38,14 +38,26 @@ function initQuizzes() {
     const prevButton = quiz.querySelector("[data-quiz-prev]");
     const forwardButton = quiz.querySelector("[data-quiz-forward]");
     const resetButton = quiz.querySelector("[data-quiz-reset]");
+    const filterSelect = quiz.querySelector("[data-quiz-filter]");
+    const shuffleButton = quiz.querySelector("[data-quiz-shuffle]");
+    const reviewMistakesButton = quiz.querySelector("[data-quiz-review-mistakes]");
+    const timerButton = quiz.querySelector("[data-quiz-timer]");
+    const timerLabel = quiz.querySelector("[data-quiz-timer-label]");
+    const jumpList = quiz.querySelector("[data-quiz-jump-list]");
     const passScore = Number(quiz.dataset.passScore) || questions.length;
     const quizLabel = quiz.dataset.quizLabel || "practice round";
     const answered = new Set();
+    const correctAnswers = new Set();
+    const wrongAnswers = new Set();
     const missedCategories = {};
     const storageKey = `tdt-mistakes:${window.location.pathname}:${quiz.dataset.modeId || quizLabel}`;
     let savedMistakes = [];
-    let activeIndex = 0;
-    let correct = 0;
+    let activeSequence = questions.map((_, index) => index);
+    let activePosition = 0;
+    let toolMessage = "";
+    let timerId = 0;
+    let timerRemaining = 10 * 60;
+    let timerComplete = false;
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -55,6 +67,11 @@ function initQuizzes() {
         '"': "&quot;",
         "'": "&#039;",
       })[char]);
+
+    const questionPrompt = (question) =>
+      question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
+
+    const getActiveQuestionIndex = () => activeSequence[activePosition];
 
     const loadMistakes = () => {
       try {
@@ -89,7 +106,7 @@ function initQuizzes() {
     };
 
     const rememberMistake = (question) => {
-      const prompt = question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
+      const prompt = questionPrompt(question);
       const category = question.dataset.category || "Review topic";
       savedMistakes = savedMistakes.filter((item) => item.prompt !== prompt);
       savedMistakes.unshift({ prompt, category, savedAt: Date.now() });
@@ -98,7 +115,7 @@ function initQuizzes() {
     };
 
     const resolveMistake = (question) => {
-      const prompt = question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
+      const prompt = questionPrompt(question);
       const nextMistakes = savedMistakes.filter((item) => item.prompt !== prompt);
       if (nextMistakes.length === savedMistakes.length) return;
       savedMistakes = nextMistakes;
@@ -106,45 +123,99 @@ function initQuizzes() {
       renderMistakes();
     };
 
+    const renderQuestionNavigator = () => {
+      if (!jumpList) return;
+      if (!activeSequence.length) {
+        jumpList.innerHTML = '<span>No questions in this focus area yet.</span>';
+        return;
+      }
+
+      jumpList.innerHTML = activeSequence
+        .map((questionIndex, positionIndex) => {
+          const statusClass = correctAnswers.has(questionIndex)
+            ? " is-correct"
+            : wrongAnswers.has(questionIndex)
+            ? " is-wrong"
+            : answered.has(questionIndex)
+            ? " is-answered"
+            : "";
+          const activeClass = positionIndex === activePosition ? " is-active" : "";
+          return `<button type="button" class="question-jump${statusClass}${activeClass}" data-quiz-jump="${positionIndex}" aria-label="Go to question ${positionIndex + 1}">${positionIndex + 1}</button>`;
+        })
+        .join("");
+
+      jumpList.querySelectorAll("[data-quiz-jump]").forEach((button) => {
+        button.addEventListener("click", () => {
+          activePosition = Number(button.dataset.quizJump) || 0;
+          renderActiveQuestion();
+        });
+      });
+    };
+
+    const setActiveSequence = (indexes, message = "") => {
+      activeSequence = indexes;
+      activePosition = 0;
+      toolMessage = message;
+      renderScore();
+      renderActiveQuestion();
+    };
+
     const renderActiveQuestion = () => {
+      const activeQuestionIndex = getActiveQuestionIndex();
       questions.forEach((question, index) => {
-        const isActive = index === activeIndex;
+        const isActive = index === activeQuestionIndex;
         question.classList.toggle("is-active", isActive);
         question.setAttribute("aria-hidden", isActive ? "false" : "true");
       });
 
-      if (position) position.textContent = `Question ${activeIndex + 1} of ${questions.length}`;
-      if (prevButton) prevButton.disabled = activeIndex === 0;
+      if (!activeSequence.length) {
+        if (position) position.textContent = "No questions in this focus area";
+        if (prevButton) prevButton.disabled = true;
+        if (forwardButton) {
+          forwardButton.disabled = true;
+          forwardButton.textContent = "Choose another focus";
+        }
+        renderQuestionNavigator();
+        return;
+      }
+
+      if (position) position.textContent = `Question ${activePosition + 1} of ${activeSequence.length}`;
+      if (prevButton) prevButton.disabled = activePosition === 0;
       if (forwardButton) {
-        const activeAnswered = answered.has(activeIndex);
+        const activeAnswered = answered.has(activeQuestionIndex);
         forwardButton.disabled = !activeAnswered;
-        if (activeIndex === questions.length - 1) {
+        if (activePosition === activeSequence.length - 1) {
           forwardButton.textContent = activeAnswered ? "Review result" : "Answer to finish";
         } else {
           forwardButton.textContent = activeAnswered ? "Next question" : "Answer to continue";
         }
       }
+      renderQuestionNavigator();
     };
 
     const renderScore = () => {
-      const answeredCount = answered.size;
-      const total = questions.length;
-      const missedCount = answeredCount - correct;
-      const leftCount = Math.max(total - answeredCount, 0);
-      const percent = answeredCount ? Math.round((correct / answeredCount) * 100) : 0;
-      const complete = answeredCount === total;
-      const resultText = complete
-        ? `${correct} of ${total} correct · ${percent}%`
+      const activeTotal = activeSequence.length;
+      const answeredCount = activeSequence.filter((index) => answered.has(index)).length;
+      const correctCount = activeSequence.filter((index) => correctAnswers.has(index)).length;
+      const missedCount = activeSequence.filter((index) => wrongAnswers.has(index)).length;
+      const leftCount = Math.max(activeTotal - answeredCount, 0);
+      const percent = answeredCount ? Math.round((correctCount / answeredCount) * 100) : 0;
+      const complete = activeTotal > 0 && answeredCount === activeTotal;
+      const effectivePassScore = Math.min(passScore, Math.max(activeTotal - 1, 1));
+      const resultText = !activeTotal
+        ? "No questions selected"
+        : complete
+        ? `${correctCount} of ${activeTotal} correct · ${percent}%`
         : answeredCount
-        ? `Score: ${correct} of ${answeredCount} answered · ${percent}% correct`
+        ? `Score: ${correctCount} of ${answeredCount} answered · ${percent}% correct`
         : "Score: 0 of 0 answered";
 
       if (score) score.textContent = resultText;
       if (result) result.textContent = resultText;
-      if (meter) meter.style.width = `${total ? Math.round((answeredCount / total) * 100) : 0}%`;
-      if (answeredLabel) answeredLabel.textContent = `${answeredCount} of ${total} answered`;
+      if (meter) meter.style.width = `${activeTotal ? Math.round((answeredCount / activeTotal) * 100) : 0}%`;
+      if (answeredLabel) answeredLabel.textContent = activeTotal ? `${answeredCount} of ${activeTotal} answered` : "0 answered";
       correctLabels.forEach((label) => {
-        label.textContent = String(correct);
+        label.textContent = String(correctCount);
       });
       missedLabels.forEach((label) => {
         label.textContent = String(missedCount);
@@ -172,11 +243,15 @@ function initQuizzes() {
       }
 
       if (!next) return;
-      if (!answeredCount) {
+      if (toolMessage) {
+        next.textContent = toolMessage;
+      } else if (!activeTotal) {
+        next.textContent = "Choose all categories or answer questions first, then review saved mistakes.";
+      } else if (!answeredCount) {
         next.textContent = `Answer ${quizLabel} questions first, then review weak areas.`;
-      } else if (complete && correct >= passScore) {
+      } else if (complete && correctCount >= effectivePassScore) {
         next.textContent = `Practice pass for this mode. Review explanations, then confirm rules in the official manual.`;
-      } else if (complete && correct >= Math.max(passScore - 4, 1)) {
+      } else if (complete && correctCount >= Math.max(effectivePassScore - 3, 1)) {
         next.textContent = missed.length
           ? `Close result. Review next: ${missed.join(", ")}.`
           : "Close result. Reread explanations once before test day.";
@@ -193,9 +268,11 @@ function initQuizzes() {
 
     const resetQuiz = () => {
       answered.clear();
+      correctAnswers.clear();
+      wrongAnswers.clear();
       Object.keys(missedCategories).forEach((key) => delete missedCategories[key]);
-      correct = 0;
-      activeIndex = 0;
+      activePosition = 0;
+      toolMessage = "";
       questions.forEach((question) => {
         question.querySelectorAll("button").forEach((button) => {
           button.disabled = false;
@@ -208,6 +285,95 @@ function initQuizzes() {
       renderActiveQuestion();
     };
 
+    const allQuestionIndexes = () => questions.map((_, index) => index);
+
+    const populateFilterOptions = () => {
+      if (!filterSelect) return;
+      const categories = [...new Set(questions.map((question) => question.dataset.category || "Permit basics"))].sort();
+      filterSelect.replaceChildren();
+      [
+        ["all", "All categories"],
+        ["saved", "Saved mistakes"],
+        ...categories.map((category) => [category, category]),
+      ].forEach(([value, label]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        filterSelect.append(option);
+      });
+    };
+
+    const applyFocusFilter = (value) => {
+      toolMessage = "";
+      if (value === "saved") {
+        loadMistakes();
+        const prompts = new Set(savedMistakes.map((item) => item.prompt));
+        const savedIndexes = allQuestionIndexes().filter((index) => prompts.has(questionPrompt(questions[index])));
+        setActiveSequence(
+          savedIndexes,
+          savedIndexes.length
+            ? "Saved mistakes loaded. Re-answer these questions, then clear the mistake bank when they feel easy."
+            : "No saved mistakes for this mode yet. Answer questions first or switch back to all categories."
+        );
+        return;
+      }
+      const nextSequence = value === "all"
+        ? allQuestionIndexes()
+        : allQuestionIndexes().filter((index) => (questions[index].dataset.category || "Permit basics") === value);
+      setActiveSequence(nextSequence);
+    };
+
+    const shuffleActiveSequence = () => {
+      const shuffled = [...activeSequence];
+      for (let index = shuffled.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+      }
+      setActiveSequence(shuffled, shuffled.length ? "Question order shuffled for this focus area." : "");
+    };
+
+    const renderTimer = () => {
+      if (!timerLabel) return;
+      if (timerComplete) {
+        timerLabel.textContent = "Time is up. Finish the current question, then review.";
+        return;
+      }
+      if (!timerId && timerRemaining === 10 * 60) {
+        timerLabel.textContent = "Untimed practice";
+        return;
+      }
+      const minutes = Math.floor(timerRemaining / 60);
+      const seconds = String(timerRemaining % 60).padStart(2, "0");
+      timerLabel.textContent = `${minutes}:${seconds} left in this round`;
+    };
+
+    const toggleTimer = () => {
+      if (!timerButton) return;
+      if (timerComplete) {
+        timerComplete = false;
+        timerRemaining = 10 * 60;
+      }
+      if (timerId) {
+        window.clearInterval(timerId);
+        timerId = 0;
+        timerButton.textContent = "Resume timer";
+        renderTimer();
+        return;
+      }
+      timerButton.textContent = "Pause timer";
+      timerId = window.setInterval(() => {
+        timerRemaining = Math.max(timerRemaining - 1, 0);
+        if (timerRemaining === 0) {
+          window.clearInterval(timerId);
+          timerId = 0;
+          timerComplete = true;
+          timerButton.textContent = "Restart timer";
+        }
+        renderTimer();
+      }, 1000);
+      renderTimer();
+    };
+
     if (questions.length) {
       quiz.classList.add("is-enhanced");
       renderActiveQuestion();
@@ -216,15 +382,15 @@ function initQuizzes() {
 
     if (prevButton) {
       prevButton.addEventListener("click", () => {
-        activeIndex = Math.max(0, activeIndex - 1);
+        activePosition = Math.max(0, activePosition - 1);
         renderActiveQuestion();
       });
     }
 
     if (forwardButton) {
       forwardButton.addEventListener("click", () => {
-        if (activeIndex < questions.length - 1) {
-          activeIndex += 1;
+        if (activePosition < activeSequence.length - 1) {
+          activePosition += 1;
           renderActiveQuestion();
           return;
         }
@@ -242,7 +408,27 @@ function initQuizzes() {
         savedMistakes = [];
         saveMistakes();
         renderMistakes();
+        if (filterSelect?.value === "saved") applyFocusFilter("saved");
       });
+    }
+
+    if (filterSelect) {
+      filterSelect.addEventListener("change", () => applyFocusFilter(filterSelect.value));
+    }
+
+    if (shuffleButton) {
+      shuffleButton.addEventListener("click", shuffleActiveSequence);
+    }
+
+    if (reviewMistakesButton) {
+      reviewMistakesButton.addEventListener("click", () => {
+        if (filterSelect) filterSelect.value = "saved";
+        applyFocusFilter("saved");
+      });
+    }
+
+    if (timerButton) {
+      timerButton.addEventListener("click", toggleTimer);
     }
 
     questions.forEach((question, index) => {
@@ -250,12 +436,16 @@ function initQuizzes() {
         button.addEventListener("click", () => {
           if (answered.has(index)) return;
           answered.add(index);
+          toolMessage = "";
 
           const isCorrect = Number(button.dataset.choice) === Number(question.dataset.answer);
           button.classList.add(isCorrect ? "is-correct" : "is-wrong");
-          if (isCorrect) correct += 1;
-          if (isCorrect) resolveMistake(question);
+          if (isCorrect) {
+            correctAnswers.add(index);
+            resolveMistake(question);
+          }
           if (!isCorrect) {
+            wrongAnswers.add(index);
             const category = question.dataset.category || "this topic";
             missedCategories[category] = (missedCategories[category] || 0) + 1;
             rememberMistake(question);
@@ -275,7 +465,9 @@ function initQuizzes() {
       });
     });
     loadMistakes();
+    populateFilterOptions();
     renderMistakes();
+    renderTimer();
   });
 }
 
