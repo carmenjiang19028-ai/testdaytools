@@ -316,6 +316,13 @@ Recommended implementation:
 - Example generated checklist link: `dmv-test-day-checklist.html?state=florida#dmv-checklist`.
 - This improves user routing from broad DMV entry pages into the highest-value tool surfaces without adding new maintenance-heavy content.
 
+2026-05-13 DMV hub source-matrix update:
+
+- `/dmv-practice.html` now includes a `State DMV source finder and practice links` matrix.
+- The matrix lists state, agency, official source/manual, permit-practice link, road-sign link, and state-preselected checklist link for all seven supported states.
+- The DMV hub hero includes an `Official sources` jump link to this matrix.
+- This makes the DMV hub more credible and useful without expanding to additional states.
+
 Lower priority:
 
 - More AP/SAT pages.

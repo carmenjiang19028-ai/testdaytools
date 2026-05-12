@@ -1122,6 +1122,39 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
 </section>"""
 
 
+def render_dmv_source_matrix():
+    launch_states = {
+        state.get("label", ""): state
+        for state in DATA["home"].get("dmvLaunch", {}).get("states", [])
+    }
+    rows = []
+    for state in get_dmv_checklist_states():
+        launch_state = launch_states.get(state.get("label", ""), {})
+        rows.append(f"""<tr>
+  <th scope="row">{esc(state.get("label", ""))}</th>
+  <td>{esc(state.get("agency", "State agency"))}</td>
+  <td><a href="{esc(state.get("manualUrl", "#"))}" target="_blank" rel="noopener">{esc(state.get("manualLabel", "Official source"))}</a></td>
+  <td><a href="{esc(launch_state.get("href", state.get("permitUrl", "dmv-practice.html")))}">Permit</a></td>
+  <td><a href="{esc(state.get("signUrl", find_state_sign_href(state.get("label", ""))))}">Signs</a></td>
+  <td><a href="{esc(checklist_href_for_state(state))}">Checklist</a></td>
+</tr>""")
+    if not rows:
+        return ""
+    return f"""<section class="source-matrix" id="official-sources">
+  <div class="tool-section-head">
+    <span class="eyebrow">Official sources</span>
+    <h2>State DMV source finder and practice links</h2>
+    <p class="section-intro">Use the official agency source for final rules, then jump into practice, road signs, or the state-preselected checklist.</p>
+  </div>
+  <div class="source-matrix-scroll">
+    <table>
+      <thead><tr><th>State</th><th>Agency</th><th>Official source</th><th>Permit</th><th>Signs</th><th>Checklist</th></tr></thead>
+      <tbody>{"".join(rows)}</tbody>
+    </table>
+  </div>
+</section>"""
+
+
 def render_dmv_hub(hub):
     collections = []
     for section in hub.get("sections", []):
@@ -1144,6 +1177,7 @@ def render_dmv_hub(hub):
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
         <a href="#permit-tests">Permit tests</a>
+        <a href="#official-sources">Official sources</a>
         <a href="dmv-test-day-checklist.html">Checklist</a>
       </div>
     </div>
@@ -1152,6 +1186,7 @@ def render_dmv_hub(hub):
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
 {render_dmv_launcher("Start with your state")}
+{render_dmv_source_matrix()}
 {''.join(collections)}
 {body_sections}
 {render_ad("Future ad")}"""

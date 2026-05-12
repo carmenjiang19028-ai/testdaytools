@@ -235,6 +235,7 @@ h3 {
 .sign-library,
 .hub-primary,
 .hub-section,
+.source-matrix,
 .tool-block,
 .content-section,
 .fact-section,
@@ -252,6 +253,7 @@ h3 {
 .home-start,
 .task-console,
 .dmv-launch,
+.source-matrix,
 .exam-brief,
 .hub-primary,
 .timeline-section,
@@ -986,6 +988,40 @@ h3 {
 .mode-card-grid strong {
   display: block;
   margin: 5px 0 6px;
+}
+
+.source-matrix {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.source-matrix-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #c9d9e8;
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+}
+
+.source-matrix table {
+  min-width: 860px;
+}
+
+.source-matrix th {
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.source-matrix td a {
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.source-matrix td a:hover,
+.source-matrix td a:focus {
+  text-decoration: underline;
 }
 
 .exam-brief {

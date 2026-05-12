@@ -1006,3 +1006,27 @@ Validation completed:
 Strategic note:
 - This is a small product-quality improvement with SEO benefits: homepage and DMV hub now circulate users into the strongest DMV surfaces faster.
 - Keep the next steps focused on high-intent DMV utility and Search Console signals, not broad content expansion or ad code.
+
+## Checkpoint 2026-05-13 DMV Official Source Matrix
+
+Goal:
+- Make `/dmv-practice.html` more useful as a DMV hub by exposing official state sources and practical next-step links in one scan-friendly tool section.
+- Strengthen trust and internal routing without adding maintenance-heavy new state pages.
+
+Implemented locally:
+- Added a `State DMV source finder and practice links` matrix to the DMV hub.
+- The matrix lists each supported state, agency, official source/manual, permit-practice link, road-sign link, and state-preselected checklist link.
+- Added a hero action to jump directly to `#official-sources`.
+- Styled the matrix as a responsive horizontal table with visible official-source links.
+
+Validation completed:
+- Static generator builds successfully.
+- `content/site_data.json` parses successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata, JSON-LD, and local-link validation passes across all 45 HTML files.
+- Local generated HTML check confirmed the DMV hub includes the official source matrix, FLHSMV row, California handbook link, and Florida checklist link.
+
+Strategic note:
+- This improves perceived usefulness and trust on the central DMV hub. It also gives crawlers a clearer hub-and-spoke structure from official-source context to state practice and checklist tools.
