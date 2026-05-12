@@ -547,7 +547,7 @@ function initStateFilters() {
     const scope = input.closest("[data-state-filter-scope]");
     if (!scope) return;
 
-    const cards = Array.from(scope.querySelectorAll("[data-state-card], [data-requirements-row]"));
+    const cards = Array.from(scope.querySelectorAll("[data-state-card], [data-requirements-row], [data-score-row]"));
     const empty = scope.querySelector("[data-state-empty]");
 
     const filterCards = () => {
@@ -822,6 +822,119 @@ function initDmvRequirementsFinders() {
     setStateFromQuery();
     stateSelect?.addEventListener("change", render);
     render();
+  });
+}
+
+function initDmvScoreCalculators() {
+  document.querySelectorAll("[data-dmv-score-calculator]").forEach((widget) => {
+    const stateSelect = widget.querySelector("[data-score-state]");
+    const agency = widget.querySelector("[data-score-agency]");
+    const rule = widget.querySelector("[data-score-rule]");
+    const note = widget.querySelector("[data-score-note]");
+    const source = widget.querySelector("[data-score-source]");
+    const practice = widget.querySelector("[data-score-practice]");
+    const checklist = widget.querySelector("[data-score-checklist]");
+    const questions = widget.querySelector("[data-score-questions]");
+    const correctNeeded = widget.querySelector("[data-score-correct]");
+    const miss = widget.querySelector("[data-score-miss]");
+    const correctInput = widget.querySelector("[data-score-input-correct]");
+    const totalInput = widget.querySelector("[data-score-input-total]");
+    const useOfficial = widget.querySelector("[data-score-use-official]");
+    const percent = widget.querySelector("[data-score-percent]");
+    const status = widget.querySelector("[data-score-status]");
+    const message = widget.querySelector("[data-score-message]");
+
+    const currentOption = () => stateSelect?.selectedOptions?.[0];
+
+    const setStateFromQuery = () => {
+      if (!stateSelect) return;
+      let requested = "";
+      try {
+        requested = new URLSearchParams(window.location.search).get("state") || "";
+      } catch (error) {
+        requested = "";
+      }
+      if (!requested) return;
+      const normalized = requested.trim().toLowerCase().replace(/\s+/g, "-");
+      const match = Array.from(stateSelect.options).find((option) => {
+        const label = option.textContent.trim().toLowerCase().replace(/\s+/g, "-");
+        return option.value === normalized || label === normalized;
+      });
+      if (match) stateSelect.value = match.value;
+    };
+
+    const thresholdFor = (option, total) => {
+      const officialQuestions = Number(option?.dataset.questions) || 0;
+      const officialCorrect = Number(option?.dataset.correct) || 0;
+      const requiredPercent = Number(option?.dataset.percent) || 0;
+      if (officialQuestions && officialCorrect && total === officialQuestions) return officialCorrect;
+      if (requiredPercent) return Math.ceil((total * requiredPercent) / 100);
+      if (officialCorrect) return officialCorrect;
+      return total;
+    };
+
+    const renderScore = () => {
+      const option = currentOption();
+      if (!option) return;
+      const total = Math.max(1, Math.min(100, Number(totalInput?.value) || 1));
+      const correct = Math.max(0, Math.min(total, Number(correctInput?.value) || 0));
+      if (correctInput && Number(correctInput.value) !== correct) correctInput.value = String(correct);
+      if (totalInput && Number(totalInput.value) !== total) totalInput.value = String(total);
+
+      const needed = thresholdFor(option, total);
+      const pct = Math.round((correct / total) * 100);
+      const gap = Math.max(0, needed - correct);
+      if (percent) percent.textContent = `${pct}%`;
+      if (status) status.textContent = gap ? `${gap} more correct answer${gap === 1 ? "" : "s"} needed` : "Above the selected state target";
+      if (message) {
+        const stateName = option.dataset.state || option.textContent.trim();
+        const ruleText = option.dataset.rule || "the official passing rule";
+        if (gap) {
+          message.textContent = `${stateName} target: ${ruleText}. For a ${total}-question practice round, aim for at least ${needed} correct.`;
+        } else {
+          const cushion = correct - needed;
+          message.textContent = `${stateName} target met for this practice length. Cushion: ${cushion} question${cushion === 1 ? "" : "s"} above the target.`;
+        }
+      }
+    };
+
+    const renderState = () => {
+      const option = currentOption();
+      if (!option) return;
+      const officialQuestions = option.dataset.questions || "";
+      const officialCorrect = option.dataset.correct || "";
+      if (agency) agency.textContent = option.dataset.agency || "State agency";
+      if (rule) rule.textContent = option.dataset.rule || "Confirm with official source";
+      if (note) note.textContent = option.dataset.note || "Use the official source for the final passing rule.";
+      if (questions) questions.textContent = officialQuestions || "Use source";
+      if (correctNeeded) correctNeeded.textContent = officialCorrect || (option.dataset.rule || "Use source");
+      if (miss) miss.textContent = option.dataset.miss || "Confirm with official source";
+      if (source) {
+        source.href = option.dataset.sourceUrl || "#";
+        source.textContent = option.dataset.sourceLabel || "Official source";
+      }
+      if (practice) practice.href = option.dataset.practiceUrl || practice.href;
+      if (checklist) checklist.href = option.dataset.checklistUrl || checklist.href;
+      const targetTotal = Number(officialQuestions) || 40;
+      const targetCorrect = Number(officialCorrect) || thresholdFor(option, targetTotal);
+      if (totalInput) totalInput.value = String(targetTotal);
+      if (correctInput) correctInput.value = String(targetCorrect);
+      renderScore();
+    };
+
+    stateSelect?.addEventListener("change", renderState);
+    correctInput?.addEventListener("input", renderScore);
+    totalInput?.addEventListener("input", renderScore);
+    useOfficial?.addEventListener("click", () => {
+      const option = currentOption();
+      const officialQuestions = Number(option?.dataset.questions) || 0;
+      const officialCorrect = Number(option?.dataset.correct) || 0;
+      if (officialQuestions && totalInput) totalInput.value = String(officialQuestions);
+      if (officialCorrect && correctInput) correctInput.value = String(officialCorrect);
+      renderScore();
+    });
+    setStateFromQuery();
+    renderState();
   });
 }
 
@@ -1236,6 +1349,7 @@ initMiniSignDrills();
 initSignLookups();
 initRecentPracticeCards();
 initDmvRequirementsFinders();
+initDmvScoreCalculators();
 initDmvChecklists();
 initSatScoreEstimators();
 initSatGoalPlanners();

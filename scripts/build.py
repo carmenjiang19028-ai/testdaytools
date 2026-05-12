@@ -17,6 +17,14 @@ DMV_REQUIREMENTS_PAGE = {
     "description": "Compare DMV permit test format, passing score, official source, documents, road signs, and practice links by state.",
 }
 TOOL_BY_SLUG[DMV_REQUIREMENTS_SLUG] = DMV_REQUIREMENTS_PAGE
+DMV_SCORE_SLUG = "dmv-permit-test-passing-score-calculator"
+DMV_SCORE_PAGE = {
+    "slug": DMV_SCORE_SLUG,
+    "category": "DMV",
+    "title": "DMV Permit Test Passing Score Calculator",
+    "description": "Calculate how many DMV permit test questions you can miss by state, compare passing scores, and check a practice score against the state target.",
+}
+TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 
 SIGN_SVGS = {
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
@@ -307,6 +315,85 @@ def dmv_requirement_records():
             "documents": state.get("documents", ""),
             "focus": state.get("focus", ""),
             "practiceTarget": practice_target.get("value", "32 of 40 on mock exam"),
+        })
+    return records
+
+
+def dmv_score_records():
+    score_facts = {
+        "california": {
+            "questions": 36,
+            "correct": 30,
+            "percent": 83.4,
+            "rule": "30 correct out of 36 questions",
+            "miss": "6",
+            "note": "California applicants commonly see a 36-question knowledge test; use the DMV source for your exact path.",
+        },
+        "new-york": {
+            "questions": 20,
+            "correct": 14,
+            "percent": 70,
+            "rule": "14 correct out of 20, including at least 2 road-sign questions",
+            "miss": "6 overall",
+            "note": "New York has a separate road-sign condition: at least 2 of the 4 sign questions must be correct.",
+        },
+        "texas": {
+            "questions": "",
+            "correct": "",
+            "percent": 70,
+            "rule": "70% or better",
+            "miss": "Depends on test length",
+            "note": "Texas DPS publishes the passing percentage. Enter your test length to calculate the needed correct answers.",
+        },
+        "florida": {
+            "questions": 50,
+            "correct": 40,
+            "percent": 80,
+            "rule": "40 correct out of 50 questions",
+            "miss": "10",
+            "note": "Florida lists 50 multiple-choice questions and 40 correct answers as the passing score.",
+        },
+        "illinois": {
+            "questions": 35,
+            "correct": 28,
+            "percent": 80,
+            "rule": "80% correct; at least 35 questions",
+            "miss": "7 if the test has 35 questions",
+            "note": "Illinois describes a minimum of 35 questions, so use this as a minimum-length estimate.",
+        },
+        "pennsylvania": {
+            "questions": 18,
+            "correct": 15,
+            "percent": 83.4,
+            "rule": "15 correct out of 18 questions",
+            "miss": "3",
+            "note": "PennDOT states that 15 correct answers are required on the 18-question knowledge test.",
+        },
+        "new-jersey": {
+            "questions": 50,
+            "correct": 40,
+            "percent": 80,
+            "rule": "40 correct out of 50 questions",
+            "miss": "10",
+            "note": "New Jersey MVC describes a 50-question knowledge test with an 80% passing standard.",
+        },
+    }
+    records = []
+    for requirement in dmv_requirement_records():
+        fact = score_facts.get(requirement["value"], {})
+        questions = fact.get("questions", "")
+        correct = fact.get("correct", "")
+        percent = fact.get("percent", "")
+        can_miss = questions - correct if isinstance(questions, int) and isinstance(correct, int) else ""
+        records.append({
+            **requirement,
+            "questions": questions,
+            "correct": correct,
+            "percent": percent,
+            "rule": fact.get("rule", requirement["passRule"]),
+            "miss": fact.get("miss", str(can_miss) if can_miss != "" else "Confirm with official source"),
+            "canMiss": can_miss,
+            "scoreNote": fact.get("note", requirement["passText"]),
         })
     return records
 
@@ -1560,6 +1647,7 @@ def render_dmv_requirements_page():
     <div class="hero-actions">
       <a href="#requirements-finder">Choose state</a>
       <a href="#compare-states">Compare table</a>
+      <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
       <a href="dmv-test-day-checklist.html">Document checklist</a>
       <a href="road-signs-practice-test.html">Road signs</a>
     </div>
@@ -1586,13 +1674,176 @@ def render_dmv_requirements_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
+{render_related(["dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
     return page_shell(
         DMV_REQUIREMENTS_PAGE["title"],
         DMV_REQUIREMENTS_PAGE["description"],
         f"/{DMV_REQUIREMENTS_SLUG}.html",
         body,
         "tool-page requirements-page",
+    )
+
+
+def render_dmv_score_calculator():
+    records = dmv_score_records()
+    if not records:
+        return ""
+    options = "".join(
+        f'<option value="{esc(item["value"])}" '
+        f'data-state="{esc(item["label"])}" '
+        f'data-agency="{esc(item["agency"])}" '
+        f'data-questions="{esc(item["questions"])}" '
+        f'data-correct="{esc(item["correct"])}" '
+        f'data-percent="{esc(item["percent"])}" '
+        f'data-rule="{esc(item["rule"])}" '
+        f'data-miss="{esc(item["miss"])}" '
+        f'data-note="{esc(item["scoreNote"])}" '
+        f'data-source-url="{esc(item["manualUrl"])}" '
+        f'data-source-label="{esc(item["manualLabel"])}" '
+        f'data-practice-url="{esc(item["permitUrl"])}" '
+        f'data-checklist-url="{esc(item["checklistUrl"])}">{esc(item["label"])}</option>'
+        for item in records
+    )
+    default = records[0]
+    rows = []
+    for item in records:
+        official_format = f'{item["questions"]} questions' if item["questions"] else item["format"]
+        required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
+        rows.append(f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"] + " " + item["miss"]).lower())}">
+  <th scope="row">{esc(item["label"])}</th>
+  <td>{esc(official_format)}</td>
+  <td><strong>{esc(required)}</strong><span>{esc(item["rule"])}</span></td>
+  <td>{esc(item["miss"])}</td>
+  <td><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["manualLabel"])}</a></td>
+</tr>""")
+    return f"""<section class="score-calculator tool-block" id="score-calculator" data-dmv-score-calculator>
+  <div class="tool-section-head">
+    <span class="eyebrow">Score calculator</span>
+    <h2>How many questions can you miss on the DMV permit test?</h2>
+    <p class="section-intro">Choose a state, see the known official passing rule, then enter a practice result to check whether it is above the state target.</p>
+  </div>
+  <div class="score-grid">
+    <aside class="score-control">
+      <label>Choose state <select data-score-state>{options}</select></label>
+      <div class="score-official">
+        <span data-score-agency>{esc(default["agency"])}</span>
+        <strong data-score-rule>{esc(default["rule"])}</strong>
+        <p data-score-note>{esc(default["scoreNote"])}</p>
+      </div>
+      <div class="score-actions">
+        <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-score-source>Official source</a>
+        <a href="{esc(default["permitUrl"])}" data-score-practice>Practice test</a>
+        <a href="{esc(default["checklistUrl"])}" data-score-checklist>Checklist</a>
+      </div>
+    </aside>
+    <div class="score-panel">
+      <div class="score-stat-row">
+        <article><span>Official length</span><strong data-score-questions>{esc(default["questions"] or "Use source")}</strong><p>Questions on the state knowledge test when the source gives a fixed number.</p></article>
+        <article><span>Need correct</span><strong data-score-correct>{esc(default["correct"] or default["rule"])}</strong><p>Minimum correct answers or percentage rule.</p></article>
+        <article><span>Can miss</span><strong data-score-miss>{esc(default["miss"])}</strong><p>Exact when the question count and pass mark are fixed.</p></article>
+      </div>
+      <div class="practice-score-check">
+        <div>
+          <label for="score-correct">Practice correct</label>
+          <input id="score-correct" type="number" min="0" max="100" value="{esc(default["correct"] or 28)}" data-score-input-correct>
+        </div>
+        <div>
+          <label for="score-total">Practice total</label>
+          <input id="score-total" type="number" min="1" max="100" value="{esc(default["questions"] or 40)}" data-score-input-total>
+        </div>
+        <button type="button" data-score-use-official>Use official length</button>
+      </div>
+      <div class="score-result" aria-live="polite">
+        <span data-score-percent>0%</span>
+        <strong data-score-status>Enter a practice score.</strong>
+        <p data-score-message></p>
+      </div>
+    </div>
+  </div>
+  <div class="source-matrix requirements-table" id="score-table" data-state-filter-scope>
+    <div class="section-head-row">
+      <div>
+        <span class="eyebrow">Compare passing scores</span>
+        <h3>DMV permit test passing score by state</h3>
+      </div>
+      <div class="state-filter compact-filter">
+        <label for="score-filter">Filter table</label>
+        <input id="score-filter" type="search" placeholder="Type Florida, 40 correct, 80%..." data-state-filter>
+      </div>
+    </div>
+    <div class="source-matrix-scroll">
+      <table>
+        <thead><tr><th>State</th><th>Format</th><th>Passing score</th><th>Can miss</th><th>Source</th></tr></thead>
+        <tbody>{"".join(rows)}</tbody>
+      </table>
+    </div>
+    <p class="state-filter-empty" data-state-empty hidden>No matching score rule yet.</p>
+  </div>
+</section>"""
+
+
+def render_dmv_score_page():
+    records = dmv_score_records()
+    source_links = "".join(
+        f'<li><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["manualLabel"])}</a></li>'
+        for item in records
+    )
+    faq = render_faq([
+        {
+            "q": "How many questions can I miss on the DMV permit test?",
+            "a": "It depends on the state. For example, Florida and New Jersey use 40 correct out of 50, so the basic miss count is 10. Pennsylvania uses 15 correct out of 18, so the basic miss count is 3.",
+        },
+        {
+            "q": "Why does New York mention road-sign questions separately?",
+            "a": "New York's learner permit rule includes both an overall score and a road-sign condition. You need at least 14 correct overall and at least 2 of the 4 road-sign questions.",
+        },
+        {
+            "q": "Can a practice score guarantee I will pass?",
+            "a": "No. A practice score is a readiness signal, not an official result. Use the state source for final rules and retake one weak-area round before test day.",
+        },
+    ])
+    body = f"""<section class="hero tool-hero">
+  <div>
+    <p class="eyebrow">DMV passing score calculator</p>
+    <h1>DMV permit test passing score calculator.</h1>
+    <p class="lede">Choose a state to estimate how many questions you can miss, compare passing scores, and check whether a practice result is above the state target.</p>
+    {render_last_updated()}
+    <div class="hero-actions">
+      <a href="#score-calculator">Use calculator</a>
+      <a href="#score-table">Compare scores</a>
+      <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
+      <a href="road-signs-practice-test.html">Road signs</a>
+    </div>
+  </div>
+</section>
+<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="trust-strip">
+  <div><span>States</span><strong>{len(records)} score paths</strong></div>
+  <div><span>Primary use</span><strong>Can-miss math</strong></div>
+  <div><span>Calculator</span><strong>Practice score check</strong></div>
+  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+</section>
+{render_dmv_score_calculator()}
+<section class="content-section">
+  <h2>Use the calculator before a full practice round</h2>
+  <p>Start with the official pass rule, then compare your latest practice result. If the calculator says you are barely above the target, review missed signs and right-of-way rules before taking another full round.</p>
+</section>
+<section class="content-section">
+  <h2>Why the miss count is not enough by itself</h2>
+  <p>A state may have a separate sign rule, a minimum question count, or a different process by applicant type. Treat the miss count as planning math, then open the state source before making test-day decisions.</p>
+</section>
+<section class="sources">
+  <h2>Official state sources</h2>
+  <ul>{source_links}</ul>
+</section>
+{faq}
+{render_related(["dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
+    return page_shell(
+        DMV_SCORE_PAGE["title"],
+        DMV_SCORE_PAGE["description"],
+        f"/{DMV_SCORE_SLUG}.html",
+        body,
+        "tool-page score-page",
     )
 
 
@@ -1617,6 +1868,7 @@ def render_dmv_hub(hub):
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
+        <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
         <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
         <a href="#permit-tests">Permit tests</a>
@@ -1660,6 +1912,7 @@ def render_home():
       {render_last_updated()}
       <div class="hero-actions">
         <a href="road-signs-practice-test.html">Start road signs</a>
+        <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
         <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
@@ -1710,13 +1963,14 @@ def build():
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
+    write(f"{DMV_SCORE_SLUG}.html", render_dmv_score_page())
     write(f"{DMV_REQUIREMENTS_SLUG}.html", render_dmv_requirements_page())
     for tool in DATA["tools"]:
         write(f'{tool["slug"]}.html', render_tool(tool))
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")

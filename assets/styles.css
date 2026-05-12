@@ -1180,6 +1180,156 @@ h3 {
   font-size: 1.15rem;
 }
 
+.score-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.58fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.score-control,
+.score-panel,
+.score-stat-row article {
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+}
+
+.score-control,
+.score-panel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.score-control label,
+.practice-score-check label {
+  display: grid;
+  gap: 7px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.score-control select,
+.practice-score-check input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: white;
+  font: inherit;
+  font-weight: 750;
+}
+
+.score-official {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.score-official span,
+.score-stat-row span {
+  display: block;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.score-official strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--blue-deep);
+  font-size: 1.05rem;
+}
+
+.score-official p,
+.score-stat-row p,
+.score-result p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.score-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.score-actions a,
+.practice-score-check button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--blue);
+  background: #fbfdff;
+  font-size: 0.86rem;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.score-actions a:first-child,
+.practice-score-check button {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.score-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.score-stat-row article {
+  min-height: 136px;
+  padding: 15px;
+  background: #fbfdff;
+}
+
+.score-stat-row strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--blue-deep);
+  font-size: 1.2rem;
+}
+
+.practice-score-check {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(150px, 0.72fr);
+  gap: 10px;
+  align-items: end;
+}
+
+.score-result {
+  padding: 16px;
+  border: 1px solid rgba(23, 107, 81, 0.26);
+  border-radius: 8px;
+  background: #eef8f3;
+}
+
+.score-result span {
+  color: var(--green);
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.score-result strong {
+  display: block;
+  color: var(--blue-deep);
+  font-size: 1.12rem;
+}
+
 .compact-filter {
   align-self: end;
 }
@@ -3050,6 +3200,9 @@ button:disabled {
   .sign-lookup-card,
   .requirements-grid,
   .requirements-snapshot,
+  .score-grid,
+  .score-stat-row,
+  .practice-score-check,
   .sign-study-grid,
   .study-path-grid,
   .sign-group,
@@ -3076,6 +3229,7 @@ button:disabled {
   .dmv-checklist-grid,
   .dmv-state-actions,
   .requirements-actions,
+  .score-actions,
   .dmv-checklist-footer,
   .state-filter {
     grid-template-columns: 1fr;

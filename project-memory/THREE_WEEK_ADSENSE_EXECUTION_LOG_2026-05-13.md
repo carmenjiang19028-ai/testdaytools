@@ -163,6 +163,32 @@ Notes:
 - No real ad code was added.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
 
+### 2026-05-13 07:56 CST
+
+Ninth local refinement block completed:
+
+- Added `dmv-permit-test-passing-score-calculator.html` as a DMV passing-score and can-miss calculator.
+- The calculator covers California, New York, Texas, Florida, Illinois, Pennsylvania, and New Jersey with state-specific pass rules, official-source links, practice links, checklist links, and road-sign links.
+- Added live practice-score feedback so visitors can enter correct answers and total questions, see pass/fail status, and see how many more correct answers are needed.
+- Added a filterable state comparison table for high-intent queries such as passing score, how many questions can I miss, and DMV written test percentage.
+- Wired the score calculator into main navigation, homepage start cards, homepage popular rows, DMV hub hero/actions, DMV requirements page related links, sitemap, and generated HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `python3 -m json.tool content/site_data.json` passed.
+- `python3 scripts/build.py` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 48 HTML files, 135 JSON-LD blocks, 48 sitemap URLs, local links OK.
+- Local Chrome review confirmed the score page renders, Florida selector updates official facts and links, the practice result changes from target-met to needs-more-correct when entering 35/50, and the Florida practice link opens the correct local page.
+
+Notes:
+
+- The in-app browser automation setup timed out again, so local UI review was completed in Chrome.
+- No real ad code was added.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
 ### 2026-05-13 07:19 CST
 
 Seventh local refinement block completed:

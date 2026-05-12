@@ -24,6 +24,10 @@
       "href": "/dmv-permit-test-requirements-by-state.html"
     },
     {
+      "label": "Score",
+      "href": "/dmv-permit-test-passing-score-calculator.html"
+    },
+    {
       "label": "AP",
       "href": "/ap-tools.html"
     },
@@ -45,6 +49,7 @@
         "links": [
           "dmv-test-day-checklist",
           "dmv-permit-test-requirements-by-state",
+          "dmv-permit-test-passing-score-calculator",
           "regulatory-traffic-signs-practice-test",
           "road-signs-practice-test",
           "california-dmv-permit-practice-test",
@@ -111,6 +116,12 @@
         "href": "dmv-permit-test-requirements-by-state.html"
       },
       {
+        "label": "Passing score",
+        "title": "DMV Permit Test Passing Score Calculator",
+        "text": "Estimate how many questions you can miss and check a practice score against the state target.",
+        "href": "dmv-permit-test-passing-score-calculator.html"
+      },
+      {
         "label": "State DMV",
         "title": "Permit practice by state",
         "text": "Pick California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey for permit questions and mock exams.",
@@ -141,6 +152,12 @@
         "title": "DMV Permit Test Requirements by State",
         "text": "Format, pass rule, official source, documents, and practice links",
         "href": "dmv-permit-test-requirements-by-state.html"
+      },
+      {
+        "label": "Score",
+        "title": "DMV Permit Test Passing Score Calculator",
+        "text": "Can-miss math and practice score check by state",
+        "href": "dmv-permit-test-passing-score-calculator.html"
       },
       {
         "label": "FL signs",
@@ -274,6 +291,12 @@
           "href": "dmv-permit-test-requirements-by-state.html"
         },
         {
+          "label": "Score",
+          "title": "DMV Passing Score Calculator",
+          "text": "Check can-miss math, practice score status, and official passing rule by state.",
+          "href": "dmv-permit-test-passing-score-calculator.html"
+        },
+        {
           "label": "Road signs",
           "title": "Road Signs Practice Test",
           "text": "Regulatory, warning, guide, school, and work-zone sign images in one quiz.",
@@ -298,6 +321,7 @@
           "links": [
             "dmv-test-day-checklist",
             "dmv-permit-test-requirements-by-state",
+            "dmv-permit-test-passing-score-calculator",
             "california-dmv-permit-practice-test",
             "new-york-dmv-permit-practice-test",
             "texas-dmv-permit-practice-test",
