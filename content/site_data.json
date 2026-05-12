@@ -8809,6 +8809,37 @@
           "passScore": 16
         }
       ],
+      "focusShortcuts": {
+        "kicker": "Weak-area shortcuts",
+        "heading": "Practice Florida regulatory signs by weak area",
+        "intro": "Choose the sign category that feels slow, then the quiz opens with that focus selected.",
+        "items": [
+          {
+            "label": "Regulatory first",
+            "title": "Stop, yield, wrong way, one way",
+            "text": "Start here for the core Florida regulatory traffic signs that tell drivers what to do or not do.",
+            "focus": "Regulatory signs"
+          },
+          {
+            "label": "Speed and passing",
+            "title": "Speed limit and do-not-pass signs",
+            "text": "Use this when speed, passing, and posted-limit questions are the weak spot.",
+            "focus": "Speed signs"
+          },
+          {
+            "label": "Turns and direction",
+            "title": "No U-turn, one way, and lane direction",
+            "text": "Practice signs that control movement before you mix them with warning signs.",
+            "focus": "Turn signs"
+          },
+          {
+            "label": "Compare warnings",
+            "title": "Warning signs after regulatory signs",
+            "text": "Switch here when the hard part is telling a rule sign from a caution sign.",
+            "focus": "Warning signs"
+          }
+        ]
+      },
       "examBrief": {
         "kicker": "Florida sign practice",
         "heading": "Florida regulatory traffic signs, shapes, and driver actions",
@@ -9035,9 +9066,9 @@
               "text": "Shape and color often reveal the action before you read the words."
             },
             {
-              "label": "Mock exam",
-              "title": "Use the long round late",
-              "text": "The 40-question mode is best after you have already fixed obvious misses."
+              "label": "Retake",
+              "title": "Retake only the missed category",
+              "text": "Use the focus-area selector or weak-area shortcuts before running another full sign round."
             }
           ]
         }

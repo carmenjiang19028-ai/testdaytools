@@ -87,3 +87,29 @@ Validation:
 - `node --check assets/app.js` passed.
 - `git diff --check` passed.
 - Local generated-site validator passed: 45 HTML files, 127 JSON-LD blocks, local links OK.
+
+### 2026-05-13 06:54 CST
+
+Third local refinement block completed:
+
+- Strengthened the Florida regulatory traffic signs path that already showed a Search Console impression.
+- Added a reusable sign-focus shortcut component for DMV sign pages.
+- Added Florida weak-area shortcuts that open the quiz with a selected focus:
+  - regulatory signs
+  - speed signs
+  - turn signs
+  - warning signs
+- Fixed a Florida road-sign page card that incorrectly referenced a mock exam flow.
+- Regenerated static HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 45 HTML files, 127 JSON-LD blocks, local links OK.
+
+Notes:
+
+- Playwright is not installed in this checkout, so this block used static HTML/link/schema validation rather than a browser screenshot pass.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.

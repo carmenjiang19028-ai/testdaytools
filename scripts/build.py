@@ -2,6 +2,7 @@
 import html
 import json
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / "content" / "site_data.json").read_text())
@@ -268,9 +269,11 @@ def render_tool_actions(tool):
     elif is_sign_page:
         actions = [
             ("Start image quiz", "#practice"),
+            ("Focus paths", "#sign-focus") if tool.get("focusShortcuts") else None,
             ("Shape and color guide", "#sign-study"),
             ("Sign library", "#sign-library"),
         ]
+        actions = [action for action in actions if action]
         if state:
             actions.append(("Test-day checklist", checklist_href_for_state(state)))
     else:
@@ -715,6 +718,35 @@ def render_sign_study(tool):
 </section>"""
 
 
+def render_sign_focus_shortcuts(tool):
+    shortcuts = tool.get("focusShortcuts")
+    if not shortcuts:
+        return ""
+    slug = tool.get("slug", "")
+    cards = []
+    for item in shortcuts.get("items", []):
+        focus = item.get("focus", "")
+        if item.get("href"):
+            href = item["href"]
+        elif focus:
+            href = f'{slug}.html?focus={quote(focus)}#practice'
+        else:
+            href = f"{slug}.html#practice"
+        cards.append(f"""<a href="{esc(href)}">
+  <span>{esc(item.get("label", "Focus"))}</span>
+  <strong>{esc(item["title"])}</strong>
+  <p>{esc(item.get("text", ""))}</p>
+</a>""")
+    return f"""<section class="sign-focus" id="sign-focus">
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(shortcuts.get("kicker", "Focus practice"))}</span>
+    <h2>{esc(shortcuts["heading"])}</h2>
+    <p class="section-intro">{esc(shortcuts.get("intro", ""))}</p>
+  </div>
+  <div class="sign-focus-grid">{"".join(cards)}</div>
+</section>"""
+
+
 def render_timeline(timeline):
     if not timeline:
         return ""
@@ -1002,6 +1034,7 @@ def render_tool(tool):
     exam_details = render_exam_details(tool)
     practice_topics = render_topic_cards(tool)
     sign_study = render_sign_study(tool)
+    sign_focus = render_sign_focus_shortcuts(tool)
     sign_library = render_sign_library(tool)
     practice_console = render_practice_console(tool)
     body_sections = "".join(
@@ -1011,11 +1044,11 @@ def render_tool(tool):
     dmv_sections = []
     if dmv_quiz_first:
         if dmv_single_mode:
-            dmv_sections.extend([quiz, sign_study, sign_library, exam_details, exam_brief])
+            dmv_sections.extend([sign_focus, quiz, sign_study, sign_library, exam_details, exam_brief])
         else:
-            dmv_sections.extend([exam_brief, quiz, exam_details, practice_topics, sign_study, sign_library])
+            dmv_sections.extend([exam_brief, sign_focus, quiz, exam_details, practice_topics, sign_study, sign_library])
     else:
-        dmv_sections.extend([exam_brief, exam_details, practice_topics, sign_study, sign_library])
+        dmv_sections.extend([exam_brief, sign_focus, exam_details, practice_topics, sign_study, sign_library])
     lower_sections = [
         render_quick_facts(tool.get("quickFacts")),
         render_tool_widget(tool),

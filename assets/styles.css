@@ -231,6 +231,7 @@ h3 {
 .exam-brief,
 .exam-details,
 .practice-topics,
+.sign-focus,
 .sign-study,
 .sign-library,
 .hub-primary,
@@ -1060,6 +1061,7 @@ h3 {
 }
 
 .exam-details,
+.sign-focus,
 .sign-study {
   background: var(--paper);
 }
@@ -1110,6 +1112,7 @@ h3 {
 
 .exam-detail-grid,
 .topic-grid,
+.sign-focus-grid,
 .sign-study-grid {
   display: grid;
   gap: 12px;
@@ -1123,12 +1126,17 @@ h3 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.sign-focus-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .sign-study-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .exam-detail-grid article,
 .topic-grid article,
+.sign-focus-grid a,
 .sign-study-grid article {
   min-height: 148px;
   padding: 16px;
@@ -1142,8 +1150,25 @@ h3 {
   background: var(--paper);
 }
 
+.sign-focus-grid a {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.sign-focus-grid a:hover,
+.sign-focus-grid a:focus {
+  border-color: #b9c8d8;
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
 .exam-detail-grid span,
 .topic-grid span,
+.sign-focus-grid span,
 .sign-study-grid span {
   color: var(--green);
   font-size: 0.78rem;
@@ -1153,6 +1178,7 @@ h3 {
 
 .exam-detail-grid strong,
 .topic-grid strong,
+.sign-focus-grid strong,
 .sign-study-grid strong {
   display: block;
   margin-top: 6px;
@@ -1161,6 +1187,7 @@ h3 {
 
 .exam-detail-grid p,
 .topic-grid p,
+.sign-focus-grid p,
 .sign-study-grid p {
   margin: 8px 0 0;
   color: var(--muted);
@@ -2653,6 +2680,7 @@ button:disabled {
   .exam-stat-grid,
   .exam-detail-grid,
   .topic-grid,
+  .sign-focus-grid,
   .sign-study-grid,
   .study-path-grid,
   .sign-group,
