@@ -746,11 +746,24 @@ function initDmvChecklists() {
     const copyButton = widget.querySelector("[data-dmv-copy-checklist]");
     const printButton = widget.querySelector("[data-dmv-print-checklist]");
     const checks = Array.from(widget.querySelectorAll("[data-dmv-check]"));
+    const packType = widget.querySelector("[data-dmv-pack-type]");
+    const packAgency = widget.querySelector("[data-dmv-pack-agency]");
+    const packTitle = widget.querySelector("[data-dmv-pack-title]");
+    const packSummary = widget.querySelector("[data-dmv-pack-summary]");
+    const packOfficial = widget.querySelector("[data-dmv-pack-official]");
+    const packNext = widget.querySelector("[data-dmv-pack-next]");
+    const copyPackButton = widget.querySelector("[data-dmv-copy-pack]");
+    const resetPackButton = widget.querySelector("[data-dmv-reset-pack]");
+    const packRows = Array.from(widget.querySelectorAll("[data-dmv-pack-row]"));
+    const packItems = Array.from(widget.querySelectorAll("[data-dmv-pack-item]"));
     const lastStateKey = "tdt-dmv-test-day:last-state";
 
     const storageKey = () => `tdt-dmv-test-day:${stateSelect?.value || "default"}`;
+    const documentPackStorageKey = () => `tdt-dmv-document-pack:${stateSelect?.value || "default"}:${packType?.value || "default"}`;
 
     const selectedOption = () => stateSelect?.selectedOptions?.[0];
+    const selectedPackType = () => packType?.selectedOptions?.[0];
+    const visiblePackItems = () => packItems.filter((item) => !item.closest("[data-dmv-pack-row]")?.hidden);
 
     const setStateIfAvailable = (rawValue) => {
       if (!stateSelect || !rawValue) return false;
@@ -810,6 +823,71 @@ function initDmvChecklists() {
       }
     };
 
+    const saveDocumentPack = () => {
+      if (!packItems.length) return;
+      try {
+        const checked = visiblePackItems().filter((item) => item.checked).map((item) => item.value);
+        window.localStorage.setItem(documentPackStorageKey(), JSON.stringify({ checked, updatedAt: Date.now() }));
+      } catch (error) {
+        // The document pack still works when local storage is blocked.
+      }
+    };
+
+    const loadDocumentPack = () => {
+      if (!packItems.length) return;
+      let saved = null;
+      try {
+        saved = JSON.parse(window.localStorage.getItem(documentPackStorageKey()) || "null");
+      } catch (error) {
+        saved = null;
+      }
+      const checked = new Set(Array.isArray(saved?.checked) ? saved.checked : []);
+      packItems.forEach((item) => {
+        item.checked = checked.has(item.value);
+      });
+    };
+
+    const renderDocumentPack = () => {
+      if (!packItems.length) return;
+      const option = selectedOption();
+      const typeOption = selectedPackType();
+      const type = packType?.value || "default";
+
+      packRows.forEach((row) => {
+        const scopes = (row.dataset.scopes || "all").split(/\s+/).filter(Boolean);
+        row.hidden = !(scopes.includes("all") || scopes.includes(type));
+      });
+
+      const visible = visiblePackItems();
+      const checked = visible.filter((item) => item.checked);
+      const stateName = option?.textContent?.trim() || "selected state";
+      const agency = option?.dataset.agency || "State agency";
+      const sourceLabel = option?.dataset.manualLabel || "official source";
+      const typeLabel = typeOption?.textContent?.trim() || "selected path";
+      const typeDetail = typeOption?.dataset.packDetail || "Confirm the exact accepted documents with the official source.";
+
+      if (packAgency) packAgency.textContent = agency;
+      if (packTitle) packTitle.textContent = `${stateName} ${typeLabel}`;
+      if (packSummary) {
+        packSummary.textContent = `${visible.length} document checks for this path. ${typeDetail}`;
+      }
+      if (packOfficial) {
+        packOfficial.href = option?.dataset.manualUrl || "#";
+        packOfficial.textContent = `Open ${sourceLabel}`;
+      }
+      if (packNext) {
+        const firstOpen = visible.find((item) => !item.checked);
+        const label = firstOpen?.closest("label")?.querySelector("strong")?.textContent || "";
+        packNext.textContent = label
+          ? `Next document check: ${label}`
+          : "All visible document checks are marked ready for this path.";
+      }
+      checked.forEach((item) => {
+        const row = item.closest("[data-dmv-pack-row]");
+        if (row?.hidden) item.checked = false;
+      });
+    };
+
     const updateState = () => {
       const option = selectedOption();
       if (!option) return;
@@ -830,6 +908,8 @@ function initDmvChecklists() {
       if (signLink) signLink.href = option.dataset.signUrl || signLink.href;
       load();
       render();
+      loadDocumentPack();
+      renderDocumentPack();
     };
 
     stateSelect?.addEventListener("change", updateState);
@@ -875,6 +955,53 @@ function initDmvChecklists() {
     });
     printButton?.addEventListener("click", () => {
       window.print();
+    });
+    packType?.addEventListener("change", () => {
+      loadDocumentPack();
+      renderDocumentPack();
+    });
+    packItems.forEach((item) => {
+      item.addEventListener("change", () => {
+        saveDocumentPack();
+        renderDocumentPack();
+      });
+    });
+    resetPackButton?.addEventListener("click", () => {
+      visiblePackItems().forEach((item) => {
+        item.checked = false;
+      });
+      saveDocumentPack();
+      renderDocumentPack();
+    });
+    copyPackButton?.addEventListener("click", async () => {
+      const option = selectedOption();
+      const typeLabel = selectedPackType()?.textContent?.trim() || "selected path";
+      const visible = visiblePackItems();
+      const checked = visible.filter((item) => item.checked);
+      const open = visible.filter((item) => !item.checked);
+      const labelFor = (item) => item.closest("label")?.querySelector("strong")?.textContent || item.value;
+      const lines = [
+        `DMV document pack: ${option?.textContent?.trim() || "selected state"} - ${typeLabel}`,
+        `Official source: ${packOfficial?.href || option?.dataset.manualUrl || ""}`,
+        "",
+        "Ready:",
+        ...(checked.length ? checked.map((item) => `- ${labelFor(item)}`) : ["- Nothing marked ready yet"]),
+        "",
+        "Still to confirm:",
+        ...(open.length ? open.map((item) => `- ${labelFor(item)}`) : ["- All visible document checks are marked ready"]),
+      ];
+      try {
+        await navigator.clipboard.writeText(lines.join("\n"));
+        copyPackButton.textContent = "Copied";
+        window.setTimeout(() => {
+          copyPackButton.textContent = "Copy document pack";
+        }, 1800);
+      } catch (error) {
+        copyPackButton.textContent = "Copy unavailable";
+        window.setTimeout(() => {
+          copyPackButton.textContent = "Copy document pack";
+        }, 1800);
+      }
     });
 
     let hasUrlState = false;

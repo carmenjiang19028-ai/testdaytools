@@ -1746,6 +1746,121 @@ h3 {
   gap: 10px;
 }
 
+.dmv-document-pack {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.tool-section-head.compact {
+  margin-bottom: 12px;
+}
+
+.tool-section-head.compact h3 {
+  margin: 6px 0 8px;
+  color: var(--blue-deep);
+  font-size: 1.35rem;
+  line-height: 1.18;
+}
+
+.dmv-pack-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.55fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.dmv-pack-controls,
+.dmv-pack-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.dmv-pack-controls {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.dmv-pack-controls label {
+  display: grid;
+  gap: 7px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.dmv-pack-controls select {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 750;
+}
+
+.dmv-pack-controls > a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  background: var(--blue);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.dmv-pack-panel {
+  padding: 14px;
+}
+
+.dmv-pack-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dmv-pack-list label {
+  min-height: 66px;
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.dmv-pack-list input {
+  margin-top: 5px;
+}
+
+.dmv-pack-list strong {
+  display: block;
+  color: var(--blue-deep);
+}
+
+.dmv-pack-list em {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: normal;
+}
+
 .sat-widget-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.65fr);
@@ -2700,6 +2815,7 @@ button:disabled {
   .dmv-test-day-bridge,
   .dmv-bridge-actions,
   .dmv-document-grid,
+  .dmv-pack-grid,
   .sat-widget-grid,
   .sat-input-panel,
   .sat-band-grid,

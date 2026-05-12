@@ -617,6 +617,7 @@ def render_dmv_checklist_widget(widget):
       <h3>What to bring checklist map</h3>
       <div class="dmv-document-grid">{document_cards}</div>
     </div>""" if document_cards else ""
+    document_pack = render_dmv_document_pack(widget.get("documentPlanner"), states)
     return f"""<section class="tool-block dmv-checklist-widget" id="dmv-checklist" data-dmv-checklist>
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "Interactive checklist"))}</span>
@@ -660,8 +661,57 @@ def render_dmv_checklist_widget(widget):
       </div>
     </div>
   </div>
+  {document_pack}
   {document_map}
 </section>"""
+
+
+def render_dmv_document_pack(planner, states):
+    if not planner:
+        return ""
+    applicant_options = "".join(
+        f'<option value="{esc(item["id"])}" data-pack-detail="{esc(item["detail"])}">{esc(item["label"])}</option>'
+        for item in planner.get("applicantTypes", [])
+    )
+    document_items = []
+    for item in planner.get("items", []):
+        scopes = " ".join(item.get("scopes", ["all"]))
+        document_items.append(f"""<li data-dmv-pack-row data-scopes="{esc(scopes)}">
+  <label><input type="checkbox" value="{esc(item["id"])}" data-dmv-pack-item>
+    <span><strong>{esc(item["label"])}</strong><em>{esc(item["text"])}</em></span>
+  </label>
+</li>""")
+    default_state = states[0] if states else {}
+    default_source = default_state.get("manualUrl", "#")
+    default_agency = default_state.get("agency", "State agency")
+    return f"""<div class="dmv-document-pack" id="document-pack-builder">
+  <div class="tool-section-head compact">
+    <span class="eyebrow">{esc(planner.get("kicker", "Document pack"))}</span>
+    <h3>{esc(planner.get("heading", "Build a DMV document pack"))}</h3>
+    <p class="section-intro">{esc(planner.get("intro", "Choose an applicant path, then turn the common document categories into a printable plan. Confirm exact accepted documents with the official source."))}</p>
+  </div>
+  <div class="dmv-pack-grid">
+    <aside class="dmv-pack-controls">
+      <label>Applicant path <select data-dmv-pack-type>{applicant_options}</select></label>
+      <div class="dmv-source-card">
+        <span data-dmv-pack-agency>{esc(default_agency)}</span>
+        <strong data-dmv-pack-title>Document pack builder</strong>
+        <p data-dmv-pack-summary>Choose a state and applicant path, then check the document categories you have confirmed.</p>
+      </div>
+      <a href="{esc(default_source)}" target="_blank" rel="noopener" data-dmv-pack-official>Open official document source</a>
+    </aside>
+    <div class="dmv-pack-panel">
+      <ul class="dmv-pack-list">{"".join(document_items)}</ul>
+      <div class="dmv-checklist-footer">
+        <p data-dmv-pack-next>Start with the official source, then mark the documents you have ready.</p>
+        <div class="dmv-checklist-buttons">
+          <button type="button" data-dmv-copy-pack>Copy document pack</button>
+          <button type="button" data-dmv-reset-pack>Reset pack</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>"""
 
 
 def render_exam_brief(tool):

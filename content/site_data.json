@@ -4877,7 +4877,130 @@
             "title": "Retake and reschedule rule",
             "text": "Know the retake rule before test day so one failed attempt does not become a confusing scheduling problem."
           }
-        ]
+        ],
+        "documentPlanner": {
+          "kicker": "Document pack builder",
+          "heading": "Build a DMV document pack before test day",
+          "intro": "Select the applicant path that feels closest to your situation. The builder turns common DMV document categories into a copyable plan, while the official state source remains the final authority.",
+          "applicantTypes": [
+            {
+              "id": "first-permit",
+              "label": "First learner permit",
+              "detail": "Start with identity, age, address, application, course, fee, and appointment checks."
+            },
+            {
+              "id": "minor",
+              "label": "Under 18 applicant",
+              "detail": "Add parent or guardian consent, school or course documents, and any state age-path rules."
+            },
+            {
+              "id": "real-id",
+              "label": "REAL ID or compliant license",
+              "detail": "Expect identity, Social Security evidence, address proof, and legal name-change checks if they apply."
+            },
+            {
+              "id": "renewal-transfer",
+              "label": "Renewal, replacement, or transfer",
+              "detail": "Check existing license, identity, address, name-change records, fees, and appointment rules."
+            }
+          ],
+          "items": [
+            {
+              "id": "identity-date-birth",
+              "label": "Identity and date of birth",
+              "text": "Find the accepted primary identity or birth-date documents for this state and applicant path.",
+              "scopes": [
+                "all"
+              ]
+            },
+            {
+              "id": "residency-address",
+              "label": "Residency or address proof",
+              "text": "Confirm how many address documents are needed and whether parent or guardian address proof can be used.",
+              "scopes": [
+                "all"
+              ]
+            },
+            {
+              "id": "application-form",
+              "label": "Application or permit form",
+              "text": "Prepare the state application form or online confirmation if the official process requires one.",
+              "scopes": [
+                "first-permit",
+                "minor",
+                "real-id"
+              ]
+            },
+            {
+              "id": "ssn-evidence",
+              "label": "Social Security or equivalent evidence",
+              "text": "Check whether the state asks for Social Security number evidence, ineligibility proof, or another lawful-status document.",
+              "scopes": [
+                "first-permit",
+                "real-id",
+                "renewal-transfer"
+              ]
+            },
+            {
+              "id": "parent-consent",
+              "label": "Parent or guardian consent",
+              "text": "Under-18 applicants may need signed consent, a guardian signature, or an adult present at the visit.",
+              "scopes": [
+                "minor"
+              ]
+            },
+            {
+              "id": "course-school-proof",
+              "label": "Course, school, or attendance proof",
+              "text": "Check driver education, traffic-law course, school attendance, or completion-certificate rules for this path.",
+              "scopes": [
+                "first-permit",
+                "minor"
+              ]
+            },
+            {
+              "id": "name-change",
+              "label": "Legal name-change records",
+              "text": "If your current name differs from the identity document, confirm whether marriage, court, or other records are needed.",
+              "scopes": [
+                "real-id",
+                "renewal-transfer"
+              ]
+            },
+            {
+              "id": "existing-license",
+              "label": "Existing permit or license",
+              "text": "For renewal, replacement, transfer, or upgrade paths, check whether the current license or permit must be presented.",
+              "scopes": [
+                "renewal-transfer"
+              ]
+            },
+            {
+              "id": "appointment-proof",
+              "label": "Appointment or testing confirmation",
+              "text": "Save the appointment confirmation, testing-provider instructions, or office location details before you leave.",
+              "scopes": [
+                "all"
+              ]
+            },
+            {
+              "id": "fee-payment",
+              "label": "Fee and accepted payment method",
+              "text": "Confirm the current fee and which payment methods the agency office or testing partner accepts.",
+              "scopes": [
+                "all"
+              ]
+            },
+            {
+              "id": "vision-lenses",
+              "label": "Glasses, contacts, or vision items",
+              "text": "Bring the lenses you normally use for distance vision and check whether a vision screen is part of the visit.",
+              "scopes": [
+                "all"
+              ]
+            }
+          ]
+        }
       },
       "examBrief": {
         "kicker": "Final review path",
