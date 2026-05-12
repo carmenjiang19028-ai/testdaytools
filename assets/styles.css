@@ -284,6 +284,7 @@ h3 {
 .task-console-grid *,
 .hero-lab-card *,
 .tool-hero-panel *,
+.practice-workbench *,
 .trust-strip * {
   min-width: 0;
 }
@@ -2166,6 +2167,7 @@ button:disabled {
   .tool-hero-grid,
   .hero-lab-card,
   .tool-hero-panel,
+  .practice-workbench,
   .quiz-workspace,
   .quiz-summary {
     width: 100%;
@@ -2231,5 +2233,16 @@ button:disabled {
 
   .quiz-nav-button {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.74rem;
+    line-height: 1.16;
+  }
+
+  .lede {
+    font-size: 1rem;
   }
 }
