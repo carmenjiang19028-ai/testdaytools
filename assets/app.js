@@ -547,7 +547,7 @@ function initStateFilters() {
     const scope = input.closest("[data-state-filter-scope]");
     if (!scope) return;
 
-    const cards = Array.from(scope.querySelectorAll("[data-state-card]"));
+    const cards = Array.from(scope.querySelectorAll("[data-state-card], [data-requirements-row]"));
     const empty = scope.querySelector("[data-state-empty]");
 
     const filterCards = () => {
@@ -760,6 +760,68 @@ function initRecentPracticeCards() {
       link.href = progress.href;
       link.textContent = answered ? "Continue practice" : "Start practice";
     }
+  });
+}
+
+function initDmvRequirementsFinders() {
+  document.querySelectorAll("[data-dmv-requirements]").forEach((widget) => {
+    const stateSelect = widget.querySelector("[data-requirements-state]");
+    const agency = widget.querySelector("[data-requirements-agency]");
+    const stateTitle = widget.querySelector("[data-requirements-state-title]");
+    const focus = widget.querySelector("[data-requirements-focus]");
+    const format = widget.querySelector("[data-requirements-format]");
+    const formatNote = widget.querySelector("[data-requirements-format-note]");
+    const pass = widget.querySelector("[data-requirements-pass]");
+    const passNote = widget.querySelector("[data-requirements-pass-note]");
+    const target = widget.querySelector("[data-requirements-target]");
+    const documents = widget.querySelector("[data-requirements-documents]");
+    const source = widget.querySelector("[data-requirements-source]");
+    const practice = widget.querySelector("[data-requirements-practice]");
+    const signs = widget.querySelector("[data-requirements-signs]");
+    const checklist = widget.querySelector("[data-requirements-checklist]");
+
+    const setStateFromQuery = () => {
+      if (!stateSelect) return;
+      let requested = "";
+      try {
+        requested = new URLSearchParams(window.location.search).get("state") || "";
+      } catch (error) {
+        requested = "";
+      }
+      if (!requested) return;
+      const normalized = requested.trim().toLowerCase().replace(/\s+/g, "-");
+      const match = Array.from(stateSelect.options).find((option) => {
+        const label = option.textContent.trim().toLowerCase().replace(/\s+/g, "-");
+        return option.value === normalized || label === normalized;
+      });
+      if (match) stateSelect.value = match.value;
+    };
+
+    const render = () => {
+      const option = stateSelect?.selectedOptions?.[0];
+      if (!option) return;
+      const stateName = option.textContent.trim();
+      if (agency) agency.textContent = option.dataset.agency || "State agency";
+      if (stateTitle) stateTitle.textContent = `${stateName} permit-test requirements`;
+      if (focus) focus.textContent = option.dataset.focus || "Use the official source for the final test-day details.";
+      if (format) format.textContent = option.dataset.format || "Confirm with official source";
+      if (formatNote) formatNote.textContent = option.dataset.formatText || (option.dataset.source ? `Source context: ${option.dataset.source}` : "");
+      if (pass) pass.textContent = option.dataset.pass || "Confirm with official source";
+      if (passNote) passNote.textContent = option.dataset.passText || "Passing rules can change. Open the official source before test day.";
+      if (target) target.textContent = option.dataset.practiceTarget || "32 of 40 on mock exam";
+      if (documents) documents.textContent = option.dataset.documents || "Confirm accepted documents with the official source.";
+      if (source) {
+        source.href = option.dataset.sourceUrl || "#";
+        source.textContent = option.dataset.sourceLabel || "Official source";
+      }
+      if (practice) practice.href = option.dataset.practiceUrl || practice.href;
+      if (signs) signs.href = option.dataset.signUrl || signs.href;
+      if (checklist) checklist.href = option.dataset.checklistUrl || checklist.href;
+    };
+
+    setStateFromQuery();
+    stateSelect?.addEventListener("change", render);
+    render();
   });
 }
 
@@ -1173,6 +1235,7 @@ initPracticeWorkbenches();
 initMiniSignDrills();
 initSignLookups();
 initRecentPracticeCards();
+initDmvRequirementsFinders();
 initDmvChecklists();
 initSatScoreEstimators();
 initSatGoalPlanners();

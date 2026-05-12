@@ -20,6 +20,10 @@
       "href": "/dmv-test-day-checklist.html"
     },
     {
+      "label": "Requirements",
+      "href": "/dmv-permit-test-requirements-by-state.html"
+    },
+    {
       "label": "AP",
       "href": "/ap-tools.html"
     },
@@ -40,6 +44,7 @@
         "heading": "DMV and road signs practice",
         "links": [
           "dmv-test-day-checklist",
+          "dmv-permit-test-requirements-by-state",
           "regulatory-traffic-signs-practice-test",
           "road-signs-practice-test",
           "california-dmv-permit-practice-test",
@@ -100,6 +105,12 @@
         "href": "dmv-test-day-checklist.html"
       },
       {
+        "label": "Requirements",
+        "title": "DMV Permit Test Requirements by State",
+        "text": "Compare test format, passing rule, official source, document reminders, signs, and practice links.",
+        "href": "dmv-permit-test-requirements-by-state.html"
+      },
+      {
         "label": "State DMV",
         "title": "Permit practice by state",
         "text": "Pick California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey for permit questions and mock exams.",
@@ -124,6 +135,12 @@
         "title": "DMV Documents and Test Day Checklist",
         "text": "State source finder plus saved documents and readiness checks",
         "href": "dmv-test-day-checklist.html"
+      },
+      {
+        "label": "Reqs",
+        "title": "DMV Permit Test Requirements by State",
+        "text": "Format, pass rule, official source, documents, and practice links",
+        "href": "dmv-permit-test-requirements-by-state.html"
       },
       {
         "label": "FL signs",
@@ -251,6 +268,12 @@
           "href": "dmv-test-day-checklist.html"
         },
         {
+          "label": "Requirements",
+          "title": "DMV Permit Test Requirements by State",
+          "text": "Compare official source, test format, pass rule, document reminders, and next practice step.",
+          "href": "dmv-permit-test-requirements-by-state.html"
+        },
+        {
           "label": "Road signs",
           "title": "Road Signs Practice Test",
           "text": "Regulatory, warning, guide, school, and work-zone sign images in one quiz.",
@@ -274,6 +297,7 @@
           "heading": "Permit practice tests",
           "links": [
             "dmv-test-day-checklist",
+            "dmv-permit-test-requirements-by-state",
             "california-dmv-permit-practice-test",
             "new-york-dmv-permit-practice-test",
             "texas-dmv-permit-practice-test",
@@ -5130,6 +5154,7 @@
         }
       ],
       "related": [
+        "dmv-permit-test-requirements-by-state",
         "road-signs-practice-test",
         "regulatory-traffic-signs-practice-test",
         "florida-dmv-permit-practice-test",

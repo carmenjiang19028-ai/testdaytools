@@ -237,6 +237,7 @@ h3 {
 .hub-primary,
 .hub-section,
 .source-matrix,
+.requirements-finder,
 .tool-block,
 .content-section,
 .fact-section,
@@ -255,6 +256,7 @@ h3 {
 .task-console,
 .dmv-launch,
 .source-matrix,
+.requirements-finder,
 .exam-brief,
 .hub-primary,
 .timeline-section,
@@ -525,7 +527,7 @@ h3 {
 
 .workbench-mode-links {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
   gap: 1px;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -1054,6 +1056,132 @@ h3 {
 .source-matrix td a:hover,
 .source-matrix td a:focus {
   text-decoration: underline;
+}
+
+.source-matrix td span {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.requirements-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.62fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.requirements-control,
+.requirements-snapshot article {
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+}
+
+.requirements-control {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.requirements-control label {
+  display: grid;
+  gap: 7px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.requirements-control select {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: white;
+  font: inherit;
+  font-weight: 750;
+}
+
+.requirements-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.requirements-actions a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--blue);
+  background: #fbfdff;
+  font-size: 0.86rem;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.requirements-actions a:first-child {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.requirements-snapshot {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.requirements-snapshot article {
+  min-height: 154px;
+  padding: 16px;
+  background: #fbfdff;
+}
+
+.requirements-snapshot span {
+  display: block;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.requirements-snapshot strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--blue-deep);
+  font-size: 1.08rem;
+}
+
+.requirements-snapshot p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.requirements-table {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.requirements-table h3 {
+  margin: 4px 0 0;
+  color: var(--blue-deep);
+  font-size: 1.15rem;
+}
+
+.compact-filter {
+  align-self: end;
 }
 
 .exam-brief {
@@ -2920,6 +3048,8 @@ button:disabled {
   .sign-lookup-toolbar,
   .sign-lookup-grid,
   .sign-lookup-card,
+  .requirements-grid,
+  .requirements-snapshot,
   .sign-study-grid,
   .study-path-grid,
   .sign-group,
@@ -2945,6 +3075,7 @@ button:disabled {
   .sat-band-grid,
   .dmv-checklist-grid,
   .dmv-state-actions,
+  .requirements-actions,
   .dmv-checklist-footer,
   .state-filter {
     grid-template-columns: 1fr;

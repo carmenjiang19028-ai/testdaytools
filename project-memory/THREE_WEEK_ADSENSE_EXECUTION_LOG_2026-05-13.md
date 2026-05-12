@@ -187,6 +187,31 @@ Notes:
 - The feature is generator-level, so current and future sign pages can inherit the same lookup tool from their existing sign library data.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
 
+### 2026-05-13 07:36 CST
+
+Eighth local refinement block completed:
+
+- Added `dmv-permit-test-requirements-by-state.html` as a DMV requirements finder page.
+- The new page compares state permit-test format, pass rule, official source, documents, road signs, and checklist paths for seven state paths.
+- Added a state selector that updates source, format, pass rule, document reminder, practice link, road-sign link, and checklist link.
+- Added a filterable comparison table for state requirements.
+- Wired the requirements page into the main navigation, homepage hero, homepage DMV sections, DMV hub hero, DMV hub permit section, sitemap, and related links.
+- Regenerated static HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 47 HTML files, 132 JSON-LD blocks, local links OK.
+- Local Chrome review confirmed the requirements page renders, the Florida selector updates the state facts and action links, and the table filter narrows to the Florida row.
+
+Notes:
+
+- The in-app browser automation setup timed out, so local UI review was completed in Chrome.
+- No real ad code was added.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
 ### 2026-05-13 07:11 CST
 
 Sixth local refinement block completed:

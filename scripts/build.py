@@ -9,6 +9,14 @@ DATA = json.loads((ROOT / "content" / "site_data.json").read_text())
 SITE = DATA["site"]
 TOOL_BY_SLUG = {tool["slug"]: tool for tool in DATA["tools"]}
 HUBS = DATA.get("hubs", [])
+DMV_REQUIREMENTS_SLUG = "dmv-permit-test-requirements-by-state"
+DMV_REQUIREMENTS_PAGE = {
+    "slug": DMV_REQUIREMENTS_SLUG,
+    "category": "DMV",
+    "title": "DMV Permit Test Requirements by State",
+    "description": "Compare DMV permit test format, passing score, official source, documents, road signs, and practice links by state.",
+}
+TOOL_BY_SLUG[DMV_REQUIREMENTS_SLUG] = DMV_REQUIREMENTS_PAGE
 
 SIGN_SVGS = {
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
@@ -246,6 +254,63 @@ def find_dmv_state_for_tool(tool):
     return None
 
 
+def find_dmv_permit_tool_for_state(state):
+    state_label = state.get("label", "").lower()
+    state_value = state.get("value", "").lower()
+    for tool in DATA["tools"]:
+        slug = tool.get("slug", "").lower()
+        title = tool.get("title", "").lower()
+        if tool.get("category") != "DMV":
+            continue
+        if "permit-practice-test" not in slug and "mvc-permit-practice-test" not in slug:
+            continue
+        if state_value in slug or state_label in title:
+            return tool
+    return None
+
+
+def detail_by_label(tool, labels):
+    wanted = {label.lower() for label in labels}
+    for item in tool.get("examDetails", {}).get("items", []):
+        if item.get("label", "").lower() in wanted:
+            return item
+    for item in tool.get("quickFacts", []):
+        if item.get("label", "").lower() in wanted:
+            return item
+    return {}
+
+
+def dmv_requirement_records():
+    records = []
+    for state in get_dmv_checklist_states():
+        tool = find_dmv_permit_tool_for_state(state) or {}
+        format_item = detail_by_label(tool, ["Official format", "Common format", "Class D format"])
+        pass_item = detail_by_label(tool, ["Official pass rule", "Pass rule"])
+        source_item = detail_by_label(tool, ["Official source", "Official agency"])
+        practice_target = detail_by_label(tool, ["Practice target", "Practice target here"])
+        format_value = format_item.get("value") or state.get("format", "Confirm with official source")
+        pass_value = pass_item.get("value") or ("See official source" if not format_value else format_value)
+        records.append({
+            "label": state.get("label", ""),
+            "value": state.get("value", ""),
+            "agency": state.get("agency", "State agency"),
+            "manualLabel": state.get("manualLabel", "Official source"),
+            "manualUrl": state.get("manualUrl", "#"),
+            "permitUrl": state.get("permitUrl", "dmv-practice.html"),
+            "signUrl": state.get("signUrl", find_state_sign_href(state.get("label", ""))),
+            "checklistUrl": checklist_href_for_state(state),
+            "format": format_value,
+            "formatText": format_item.get("text") or state.get("format", ""),
+            "passRule": pass_value,
+            "passText": pass_item.get("text") or "Confirm the current passing rule with the official agency before test day.",
+            "source": source_item.get("value") or state.get("manualLabel", "Official source"),
+            "documents": state.get("documents", ""),
+            "focus": state.get("focus", ""),
+            "practiceTarget": practice_target.get("value", "32 of 40 on mock exam"),
+        })
+    return records
+
+
 def checklist_href_for_state(state):
     if not state:
         return "dmv-test-day-checklist.html#dmv-checklist"
@@ -403,6 +468,7 @@ def render_home_practice_panel():
   <div class="workbench-mode-links">
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
+    <a href="dmv-permit-test-requirements-by-state.html"><span>Requirements</span><strong>Format and pass rule</strong></a>
     <a href="florida-dmv-road-signs-practice.html"><span>Florida</span><strong>Regulatory signs</strong></a>
     <a href="dmv-test-day-checklist.html"><span>Checklist</span><strong>Final ready path</strong></a>
   </div>
@@ -1382,6 +1448,154 @@ def render_dmv_source_matrix():
 </section>"""
 
 
+def render_dmv_requirements_finder():
+    records = dmv_requirement_records()
+    if not records:
+        return ""
+    options = "".join(
+        f'<option value="{esc(item["value"])}" '
+        f'data-agency="{esc(item["agency"])}" '
+        f'data-format="{esc(item["format"])}" '
+        f'data-format-text="{esc(item["formatText"])}" '
+        f'data-pass="{esc(item["passRule"])}" '
+        f'data-pass-text="{esc(item["passText"])}" '
+        f'data-source="{esc(item["source"])}" '
+        f'data-source-url="{esc(item["manualUrl"])}" '
+        f'data-source-label="{esc(item["manualLabel"])}" '
+        f'data-documents="{esc(item["documents"])}" '
+        f'data-focus="{esc(item["focus"])}" '
+        f'data-practice-target="{esc(item["practiceTarget"])}" '
+        f'data-practice-url="{esc(item["permitUrl"])}" '
+        f'data-sign-url="{esc(item["signUrl"])}" '
+        f'data-checklist-url="{esc(item["checklistUrl"])}">{esc(item["label"])}</option>'
+        for item in records
+    )
+    rows = []
+    for item in records:
+        rows.append(f"""<tr data-requirements-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["format"] + " " + item["passRule"]).lower())}">
+  <th scope="row">{esc(item["label"])}</th>
+  <td>{esc(item["agency"])}</td>
+  <td><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["manualLabel"])}</a></td>
+  <td><strong>{esc(item["format"])}</strong><span>{esc(item["formatText"])}</span></td>
+  <td><strong>{esc(item["passRule"])}</strong><span>{esc(item["passText"])}</span></td>
+  <td><a href="{esc(item["permitUrl"])}">Practice</a> <a href="{esc(item["checklistUrl"])}">Checklist</a></td>
+</tr>""")
+    default = records[0]
+    return f"""<section class="requirements-finder tool-block" id="requirements-finder" data-dmv-requirements>
+  <div class="tool-section-head">
+    <span class="eyebrow">Requirements finder</span>
+    <h2>Choose a state and see the permit-test path</h2>
+    <p class="section-intro">Use this as a fast planning map: official source first, then test format, passing rule, documents, signs, and practice links. Final rules always come from the state agency.</p>
+  </div>
+  <div class="requirements-grid">
+    <aside class="requirements-control">
+      <label>Choose state <select data-requirements-state>{options}</select></label>
+      <div class="dmv-source-card">
+        <span data-requirements-agency>{esc(default["agency"])}</span>
+        <strong data-requirements-state-title>{esc(default["label"])} permit-test requirements</strong>
+        <p data-requirements-focus>{esc(default["focus"])}</p>
+      </div>
+      <div class="requirements-actions">
+        <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-requirements-source>Official source</a>
+        <a href="{esc(default["permitUrl"])}" data-requirements-practice>Practice test</a>
+        <a href="{esc(default["signUrl"])}" data-requirements-signs>Road signs</a>
+        <a href="{esc(default["checklistUrl"])}" data-requirements-checklist>Checklist</a>
+      </div>
+    </aside>
+    <div class="requirements-snapshot">
+      <article><span>Test format</span><strong data-requirements-format>{esc(default["format"])}</strong><p data-requirements-format-note>{esc(default["formatText"])}</p></article>
+      <article><span>Passing rule</span><strong data-requirements-pass>{esc(default["passRule"])}</strong><p data-requirements-pass-note>{esc(default["passText"])}</p></article>
+      <article><span>Practice target</span><strong data-requirements-target>{esc(default["practiceTarget"])}</strong><p>Use the practice result as a confidence check, not as an official score.</p></article>
+      <article><span>Documents</span><strong>Verify before visiting</strong><p data-requirements-documents>{esc(default["documents"])}</p></article>
+    </div>
+  </div>
+  <div class="source-matrix requirements-table" id="compare-states" data-state-filter-scope>
+    <div class="section-head-row">
+      <div>
+        <span class="eyebrow">Compare states</span>
+        <h3>Permit test format, passing rule, and official source</h3>
+      </div>
+      <div class="state-filter compact-filter">
+        <label for="requirements-filter">Filter table</label>
+        <input id="requirements-filter" type="search" placeholder="Type Florida, 50 questions, 80%..." data-requirements-filter data-state-filter>
+      </div>
+    </div>
+    <div class="source-matrix-scroll">
+      <table>
+        <thead><tr><th>State</th><th>Agency</th><th>Official source</th><th>Format</th><th>Passing rule</th><th>Next step</th></tr></thead>
+        <tbody>{"".join(rows)}</tbody>
+      </table>
+    </div>
+    <p class="state-filter-empty" data-state-empty hidden>No matching state or requirement yet.</p>
+  </div>
+</section>"""
+
+
+def render_dmv_requirements_page():
+    records = dmv_requirement_records()
+    source_links = "".join(
+        f'<li><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["manualLabel"])}</a></li>'
+        for item in records
+    )
+    faq = render_faq([
+        {
+            "q": "Are these DMV permit-test requirements official?",
+            "a": "No. This is an independent planning tool. Use the linked DMV, DPS, MVC, PennDOT, FLHSMV, or Secretary of State source for final requirements.",
+        },
+        {
+            "q": "Why do some states show a practice target instead of an official score?",
+            "a": "The site keeps the practice target separate from official rules. A practice target helps you decide whether to study more, while the agency source controls the real test requirement.",
+        },
+        {
+            "q": "What should I do after checking my state requirements?",
+            "a": "Open the official source, run one state practice round, drill road signs, then use the checklist to confirm documents, appointment, fees, and retake rules.",
+        },
+    ])
+    body = f"""<section class="hero tool-hero">
+  <div>
+    <p class="eyebrow">DMV requirements by state</p>
+    <h1>DMV permit test requirements by state.</h1>
+    <p class="lede">Compare official-source links, test format, passing rule, document reminders, road-sign practice, and state checklist paths before permit-test day.</p>
+    {render_last_updated()}
+    <div class="hero-actions">
+      <a href="#requirements-finder">Choose state</a>
+      <a href="#compare-states">Compare table</a>
+      <a href="dmv-test-day-checklist.html">Document checklist</a>
+      <a href="road-signs-practice-test.html">Road signs</a>
+    </div>
+  </div>
+</section>
+<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="trust-strip">
+  <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
+  <div><span>Source priority</span><strong>Official agency links</strong></div>
+  <div><span>Use case</span><strong>Format, pass rule, documents</strong></div>
+  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+</section>
+{render_dmv_requirements_finder()}
+<section class="content-section">
+  <h2>How to use this before a DMV permit test</h2>
+  <p>Start with the state selector, open the official source, then use the practice and checklist links as supporting tools. If the official source and this page ever differ, the official source wins.</p>
+</section>
+<section class="content-section">
+  <h2>Why requirements belong next to practice questions</h2>
+  <p>Many visitors are not only asking for questions. They need to know how long the test is, what score is enough, what documents to bring, and which official page controls the final answer.</p>
+</section>
+<section class="sources">
+  <h2>Official state sources</h2>
+  <ul>{source_links}</ul>
+</section>
+{faq}
+{render_related(["dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
+    return page_shell(
+        DMV_REQUIREMENTS_PAGE["title"],
+        DMV_REQUIREMENTS_PAGE["description"],
+        f"/{DMV_REQUIREMENTS_SLUG}.html",
+        body,
+        "tool-page requirements-page",
+    )
+
+
 def render_dmv_hub(hub):
     collections = []
     for section in hub.get("sections", []):
@@ -1403,6 +1617,7 @@ def render_dmv_hub(hub):
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
+        <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
         <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
         <a href="#permit-tests">Permit tests</a>
         <a href="#official-sources">Official sources</a>
@@ -1445,6 +1660,7 @@ def render_home():
       {render_last_updated()}
       <div class="hero-actions">
         <a href="road-signs-practice-test.html">Start road signs</a>
+        <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
         <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
         <a href="dmv-test-day-checklist.html">Checklist</a>
@@ -1494,12 +1710,13 @@ def build():
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
+    write(f"{DMV_REQUIREMENTS_SLUG}.html", render_dmv_requirements_page())
     for tool in DATA["tools"]:
         write(f'{tool["slug"]}.html', render_tool(tool))
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
