@@ -715,3 +715,60 @@ Not done yet:
 - No GA4 tracking installed. User previously decided to wait until there is traffic.
 - No AdSense application submitted. The site still needs indexing and early traffic signals first.
 - No Reddit/Quora/Discord community seeding performed. This needs user/account confirmation.
+
+## Checkpoint 2026-05-12 Search Console First Signal
+
+Search Console status checked manually in the user's logged-in Chrome account:
+- Property: `testdaytools.com`
+- Time range viewed: 3 months
+- Search performance:
+  - Clicks: 0
+  - Impressions: 1
+  - CTR: 0%
+  - Average position: 81
+- First visible query:
+  - `regulatory traffic signs florida`
+- Matching page:
+  - `https://testdaytools.com/florida-dmv-road-signs-practice.html`
+- Country/device:
+  - United States
+  - Desktop
+- Sitemap:
+  - `https://testdaytools.com/sitemap.xml`
+  - Status: success
+  - Discovered pages: 42
+- Indexing:
+  - Indexed pages: 0
+  - Not indexed pages: 6
+  - Reason 1: alternate page with proper canonical tag, 1 URL, `http://testdaytools.com/`; this is expected because HTTP canonicalizes to HTTPS.
+  - Reason 2: crawled, currently not indexed, 5 URLs:
+    - `https://testdaytools.com/california-dmv-permit-practice-test.html`
+    - `https://testdaytools.com/texas-dmv-permit-practice-test.html`
+    - `https://testdaytools.com/florida-dmv-permit-practice-test.html`
+    - `https://testdaytools.com/dmv-practice.html`
+    - `https://testdaytools.com/`
+
+Decision made:
+- Do not expand broadly yet.
+- Do not apply for AdSense yet.
+- Use the first real query signal to strengthen the Florida road-sign page before asking Google to reconsider indexing.
+
+Implemented locally:
+- Retitled `florida-dmv-road-signs-practice.html` from generic Florida road signs to `Florida Regulatory Traffic Signs Practice Test`.
+- Updated the page meta description, H1, hero copy, image quiz heading, sign-library heading, sign-study section, weak-area table, FAQ, and internal links to align with `Florida regulatory traffic signs`.
+- Added explanatory copy for what counts as a Florida regulatory traffic sign, including stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and do not pass signs.
+- Regenerated static HTML. Related homepage, DMV hub, and Florida permit-page links now use the new title/description.
+
+Validation completed:
+- Static generator builds successfully.
+- `content/site_data.json` parses.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata and JSON-LD validation passes across all 42 HTML files.
+- Internal link check passes across all 42 HTML files.
+
+Current caution:
+- The local worktree still contains unrelated dirty/untracked e-commerce tool files from an older task, including `README.md`, `tools/`, `examples/`, `articles/`, `go/`, and `LICENSE`.
+- Do not commit or push everything blindly.
+- For the next TestDayTools commit, stage only relevant files unless the unrelated files are intentionally cleaned or moved first.

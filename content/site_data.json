@@ -7791,10 +7791,10 @@
     {
       "slug": "florida-dmv-road-signs-practice",
       "category": "DMV",
-      "title": "Florida DMV Road Signs Practice",
-      "description": "Florida road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "heroKicker": "Florida road signs",
-      "summary": "Drill Florida road-sign recognition with original sign images, then review warning, regulatory, school, rail, and work-zone signs by category.",
+      "title": "Florida Regulatory Traffic Signs Practice Test",
+      "description": "Practice Florida regulatory traffic signs, warning signs, and road signs with 20 original image questions, explanations, and a Florida sign library.",
+      "heroKicker": "Florida regulatory traffic signs",
+      "summary": "Drill Florida regulatory traffic signs first, then review warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "quickFacts": [
         {
           "label": "Question count",
@@ -7806,7 +7806,7 @@
         },
         {
           "label": "Best use",
-          "value": "Fast sign recognition practice"
+          "value": "Regulatory, warning, and guide signs"
         },
         {
           "label": "Official source",
@@ -7824,16 +7824,16 @@
           "id": "signs",
           "label": "Road Signs",
           "short": "Signs",
-          "title": "Florida road signs image test",
-          "description": "20 image-based sign questions with explanations.",
+          "title": "Florida regulatory traffic signs image test",
+          "description": "20 image-based Florida sign questions with explanations.",
           "quiz": "floridaSigns",
           "passScore": 16
         }
       ],
       "examBrief": {
         "kicker": "Florida sign practice",
-        "heading": "Florida road signs, shapes, and driver actions",
-        "intro": "Start with the image quiz, then review the sign library by category before retaking the Florida road-sign round.",
+        "heading": "Florida regulatory traffic signs, shapes, and driver actions",
+        "intro": "Start with the regulatory traffic sign examples, then use the image quiz and sign library to review warning, school, rail, work-zone, and service signs.",
         "facts": [
           {
             "label": "Official source",
@@ -7881,12 +7881,12 @@
       },
       "signLibrary": {
         "kicker": "Florida road sign library",
-        "heading": "Road signs to recognize before Florida test day",
-        "intro": "Use this library after the quiz to review signs by type instead of memorizing answers one by one.",
+        "heading": "Florida regulatory traffic signs and road signs to recognize",
+        "intro": "Use this library after the quiz to separate regulatory signs from warning, school, rail, work-zone, and service signs instead of memorizing answers one by one.",
         "groups": [
           {
-            "label": "Regulatory and control",
-            "text": "Florida test-takers should recognize stop, yield, wrong-way, one-way, and speed-control signs quickly.",
+            "label": "Florida regulatory traffic signs",
+            "text": "Regulatory traffic signs tell Florida drivers what they must do, must not do, or where traffic is allowed to move. Start with stop, yield, wrong-way, one-way, speed-control, and turn-prohibition signs.",
             "signs": [
               {
                 "image": "stop",
@@ -7996,7 +7996,7 @@
       },
       "tables": [
         {
-          "caption": "Florida weak-area categories to review",
+          "caption": "Florida regulatory traffic signs and weak areas to review",
           "headers": [
             "Category",
             "What to review",
@@ -8004,9 +8004,9 @@
           ],
           "rows": [
             [
-              "Road signs",
-              "Shapes, colors, regulatory signs, warning signs, work zones, and railroad crossings.",
-              "Sign recognition is fast on the real test and easy to confuse under pressure."
+              "Regulatory traffic signs",
+              "Stop, yield, do not enter, wrong way, one way, no U-turn, speed limit, and do not pass signs.",
+              "These signs tell drivers required or prohibited actions and are a direct match for regulatory-sign queries."
             ],
             [
               "Right of way",
@@ -8028,12 +8028,16 @@
       ],
       "body": [
         {
-          "heading": "How to use the Florida road signs page",
-          "text": "Start with the visual quiz without looking at the library. After you miss a sign, review the matching category below and retake the round later."
+          "heading": "What counts as a Florida regulatory traffic sign?",
+          "text": "Regulatory traffic signs are the signs that control driver behavior: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and no passing. Learn those first, then use warning and work-zone signs for broader Florida permit-test practice."
         },
         {
-          "heading": "Why visual practice matters",
-          "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice trains that faster recognition."
+          "heading": "How to use the Florida road signs page",
+          "text": "Start with the visual quiz without looking at the library. After you miss a sign, review the matching regulatory, warning, or work-zone category below and retake the round later."
+        },
+        {
+          "heading": "Why visual regulatory-sign practice matters",
+          "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice helps you connect a Florida traffic sign to the required driver action faster."
         }
       ],
       "cardGroups": [
@@ -8065,6 +8069,14 @@
           "a": "No. It is an unofficial practice tool with original sign illustrations. Use the Official Florida Driver License Handbook and FLHSMV pages for official wording."
         },
         {
+          "q": "What are regulatory traffic signs in Florida?",
+          "a": "Regulatory traffic signs tell drivers what action is required, prohibited, or allowed. Common examples include stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and do not pass signs."
+        },
+        {
+          "q": "Does the Florida permit test include regulatory traffic signs?",
+          "a": "Florida's knowledge exam covers traffic laws, safe driving practices, and identifying traffic controls. Regulatory signs are part of that traffic-control study area, so they are worth reviewing before test day."
+        },
+        {
           "q": "Are the road sign images copied from FLHSMV?",
           "a": "No. The sign images are simplified original SVG illustrations created for practice and quick recognition."
         },
@@ -8089,8 +8101,8 @@
       ],
       "examDetails": {
         "kicker": "Florida test context",
-        "heading": "Florida road signs in the real permit-test context",
-        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "heading": "Florida regulatory signs in the real permit-test context",
+        "intro": "Regulatory-sign practice works better when you also know how signs fit into the real test and official study source.",
         "items": [
           {
             "label": "Official format",
@@ -8116,16 +8128,16 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "Florida signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "heading": "Florida regulatory signs by shape, color, and markings",
+        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns to tell regulatory signs from warning signs before retaking the image round.",
         "groups": [
           {
             "label": "Shapes",
             "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
+            "text": "Shape often tells you whether the sign is regulatory, warning, or school-related before you read the words.",
             "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
+              "Octagon: stop completely; this is a regulatory command.",
+              "Triangle: yield and give right of way; this is also regulatory.",
               "Diamond: warning or changing road condition.",
               "Pentagon: school zone or school crossing."
             ]
@@ -8135,8 +8147,9 @@
             "title": "Color tells the type of action",
             "text": "Color helps separate a rule, a warning, or a service sign quickly.",
             "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
+              "Red: stop, yield, do not enter, wrong way, or prohibited action.",
               "Yellow: general warning or caution.",
+              "White with black text: regulatory rules such as speed limit or no U-turn.",
               "Orange: work zone or temporary traffic control.",
               "Blue/green: services, routes, or guide information."
             ]
