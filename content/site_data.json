@@ -3,7 +3,7 @@
     "name": "TestDayTools",
     "url": "https://testdaytools.com",
     "description": "Free DMV practice tests, road signs practice, regulatory traffic sign quizzes, and test-day tools from an independent study site.",
-    "lastUpdated": "May 10, 2026",
+    "lastUpdated": "May 13, 2026",
     "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency."
   },
   "navigation": [
@@ -34,7 +34,7 @@
   ],
   "home": {
     "title": "Free DMV Practice Tests and Road Signs Practice | TestDayTools",
-    "description": "Free DMV practice tests, road signs practice, regulatory traffic signs quizzes, mock exams, and state permit-test tools for U.S. drivers.",
+    "description": "Free DMV practice tests, road signs practice, regulatory traffic signs quizzes, official-source links, mock exams, and test-day checklist tools for U.S. drivers.",
     "sections": [
       {
         "heading": "DMV and road signs practice",
@@ -128,7 +128,7 @@
       {
         "label": "FL signs",
         "title": "Florida Regulatory Traffic Signs Practice Test",
-        "text": "The first Search Console query signal points here",
+        "text": "Florida signs, regulatory shapes, driver actions, and handbook context",
         "href": "florida-dmv-road-signs-practice.html"
       },
       {
@@ -151,7 +151,7 @@
       }
     ],
     "dmvLaunch": {
-      "intro": "Start with road signs or regulatory traffic signs, then pick a state for permit questions, image signs, checklist planning, and a longer mock exam. The quizzes use original questions and do not collect answers.",
+      "intro": "Start with road signs or regulatory traffic signs, then pick a state for official-source links, permit questions, image signs, checklist planning, and a longer mock exam. The quizzes use original questions and do not collect answers.",
       "stats": [
         {
           "value": "2",
@@ -18481,7 +18481,7 @@
         },
         {
           "heading": "Future ads and analytics",
-          "text": "The site may later use privacy-conscious analytics or advertising services. If that happens, this policy should be updated before launch and before any real ad code is added."
+          "text": "The site may later use Google AdSense or privacy-conscious analytics. If advertising is approved and added, ad partners may use cookies or similar technologies to serve and measure ads under their own policies. This page should be reviewed before any real ad code goes live."
         },
         {
           "heading": "Children and students",
@@ -18496,7 +18496,7 @@
       "content": [
         {
           "heading": "Corrections",
-          "text": "If you find an outdated date, broken source link, or unclear explanation, use the public project page until a dedicated domain email is connected."
+          "text": "If you find an outdated date, broken source link, unclear explanation, or DMV-source mismatch, use the public project page until a dedicated domain email is connected."
         },
         {
           "heading": "What to include",
@@ -18508,7 +18508,7 @@
         },
         {
           "heading": "Advertising and privacy",
-          "text": "Real advertising is not installed yet. Any future advertising setup should be reflected in the Privacy Policy before it goes live."
+          "text": "Real advertising is not installed yet. If ads are approved later, placements should stay away from quiz answer buttons and the Privacy Policy should be reviewed before launch."
         }
       ],
       "links": [

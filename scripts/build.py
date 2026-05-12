@@ -288,10 +288,25 @@ def render_home_practice_panel():
     launch = DATA["home"].get("dmvLaunch", {})
     states = launch.get("states", [])
     default_state = next((state for state in states if state["label"] == "Florida"), states[0] if states else {"label": "Florida", "href": "florida-dmv-permit-practice-test.html"})
-    state_options = "".join(
-        f'<option value="{esc(state["label"])}" data-practice-url="{esc(state["href"])}" data-sign-url="{esc(find_state_sign_href(state["label"]))}" {"selected" if state["label"] == default_state["label"] else ""}>{esc(state["label"])}</option>'
-        for state in states
-    )
+    state_options = []
+    for state in states:
+        checklist_state = find_dmv_state_by_label(state["label"]) or {}
+        checklist_url = checklist_href_for_state(checklist_state) if checklist_state else "dmv-test-day-checklist.html#dmv-checklist"
+        state_options.append(
+            f'<option value="{esc(state["label"])}" '
+            f'data-practice-url="{esc(state["href"])}" '
+            f'data-sign-url="{esc(find_state_sign_href(state["label"]))}" '
+            f'data-checklist-url="{esc(checklist_url)}" '
+            f'data-source-url="{esc(checklist_state.get("manualUrl", ""))}" '
+            f'data-source-label="{esc(checklist_state.get("manualLabel", "Official state source"))}" '
+            f'data-agency="{esc(checklist_state.get("agency", "State agency"))}" '
+            f'{"selected" if state["label"] == default_state["label"] else ""}>{esc(state["label"])}</option>'
+        )
+    state_options = "".join(state_options)
+    default_checklist_state = find_dmv_state_by_label(default_state["label"]) or {}
+    default_checklist_url = checklist_href_for_state(default_checklist_state) if default_checklist_state else "dmv-test-day-checklist.html#dmv-checklist"
+    default_source_url = default_checklist_state.get("manualUrl", "#")
+    default_agency = default_checklist_state.get("agency", "State agency")
     stats = "".join(
         f'<div><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span></div>'
         for item in launch.get("stats", [])[:3]
@@ -308,14 +323,22 @@ def render_home_practice_panel():
   <div class="workbench-router">
     <label for="workbench-state">Choose state</label>
     <select id="workbench-state" data-workbench-state>{state_options}</select>
+    <div class="workbench-route-note">
+      <span data-workbench-agency>{esc(default_agency)}</span>
+      <strong data-workbench-plan-title>{esc(default_state["label"])} permit-test path</strong>
+      <p data-workbench-plan-copy>Open the official source, run a practice round, drill signs, then finish the checklist.</p>
+    </div>
     <div class="workbench-route-actions">
+      <a href="{esc(default_source_url)}" target="_blank" rel="noopener" data-workbench-source>Official source</a>
       <a href="{esc(default_state["href"])}" data-workbench-primary>Permit practice</a>
       <a href="{esc(find_state_sign_href(default_state["label"]))}" data-workbench-secondary>State signs</a>
+      <a href="{esc(default_checklist_url)}" data-workbench-checklist>Checklist</a>
     </div>
   </div>
   <div class="workbench-mode-links">
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
+    <a href="florida-dmv-road-signs-practice.html"><span>Florida</span><strong>Regulatory signs</strong></a>
     <a href="dmv-test-day-checklist.html"><span>Checklist</span><strong>Final ready path</strong></a>
   </div>
   <div class="workbench-return" data-recent-practice>
@@ -1176,6 +1199,7 @@ def render_dmv_hub(hub):
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
+        <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
         <a href="#permit-tests">Permit tests</a>
         <a href="#official-sources">Official sources</a>
         <a href="dmv-test-day-checklist.html">Checklist</a>
@@ -1212,12 +1236,13 @@ def render_home():
   <div class="home-hero-grid">
     <div>
       <p class="eyebrow">DMV-first road sign practice</p>
-      <h1>Free DMV practice tests and road signs practice.</h1>
-      <p class="lede">Start with road signs, drill regulatory traffic signs, then choose a state for permit questions, image signs, and a longer mock exam.</p>
+      <h1>DMV practice tests, road signs, and test-day checklist tools.</h1>
+      <p class="lede">Choose your state, open the official source, drill regulatory traffic signs, then finish with permit questions, image signs, and a saved checklist.</p>
       {render_last_updated()}
       <div class="hero-actions">
         <a href="road-signs-practice-test.html">Start road signs</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
+        <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
         <a href="dmv-test-day-checklist.html">Checklist</a>
       </div>
     </div>
@@ -1225,7 +1250,7 @@ def render_home():
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
-{render_dmv_launcher()}
+{render_dmv_launcher("Choose your state DMV path")}
 {start_section}
 {popular_section}
 {''.join(cards)}

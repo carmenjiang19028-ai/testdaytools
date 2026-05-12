@@ -575,12 +575,28 @@ function initPracticeWorkbenches() {
     const stateSelect = workbench.querySelector("[data-workbench-state]");
     const primary = workbench.querySelector("[data-workbench-primary]");
     const secondary = workbench.querySelector("[data-workbench-secondary]");
+    const checklist = workbench.querySelector("[data-workbench-checklist]");
+    const source = workbench.querySelector("[data-workbench-source]");
+    const agency = workbench.querySelector("[data-workbench-agency]");
+    const planTitle = workbench.querySelector("[data-workbench-plan-title]");
+    const planCopy = workbench.querySelector("[data-workbench-plan-copy]");
 
     const updateStateLinks = () => {
       const selected = stateSelect?.selectedOptions?.[0];
       if (!selected) return;
+      const stateName = selected.textContent.trim();
       if (primary) primary.href = selected.dataset.practiceUrl || primary.href;
       if (secondary) secondary.href = selected.dataset.signUrl || secondary.href;
+      if (checklist) checklist.href = selected.dataset.checklistUrl || checklist.href;
+      if (source) {
+        source.href = selected.dataset.sourceUrl || source.href;
+        source.textContent = selected.dataset.sourceLabel ? "Official source" : "Source finder";
+      }
+      if (agency) agency.textContent = selected.dataset.agency || "State agency";
+      if (planTitle) planTitle.textContent = `${stateName} permit-test path`;
+      if (planCopy) {
+        planCopy.textContent = `Use ${selected.dataset.agency || "the state agency"} for final rules, then practice questions, signs, and checklist items in order.`;
+      }
     };
 
     stateSelect?.addEventListener("change", updateStateLinks);
