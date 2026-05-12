@@ -2,7 +2,7 @@
   "site": {
     "name": "TestDayTools",
     "url": "https://testdaytools.com",
-    "description": "Unofficial test day tools, dates, checklists, and practice questions for AP, SAT, and DMV prep.",
+    "description": "Free DMV practice tests, road signs practice, regulatory traffic sign quizzes, and test-day tools from an independent study site.",
     "lastUpdated": "May 10, 2026",
     "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency."
   },
@@ -10,6 +10,10 @@
     {
       "label": "DMV",
       "href": "/dmv-practice.html"
+    },
+    {
+      "label": "Road Signs",
+      "href": "/road-signs-practice-test.html"
     },
     {
       "label": "AP",
@@ -25,12 +29,13 @@
     }
   ],
   "home": {
-    "title": "TestDayTools: DMV practice tests with road-sign images",
-    "description": "DMV-first practice tools for California, New York, Texas, Florida, Illinois, Pennsylvania, and New Jersey with road-sign image quizzes, mock exams, and instant explanations.",
+    "title": "Free DMV Practice Tests and Road Signs Practice | TestDayTools",
+    "description": "Free DMV practice tests, road signs practice, regulatory traffic signs quizzes, mock exams, and state permit-test tools for U.S. drivers.",
     "sections": [
       {
-        "heading": "DMV practice",
+        "heading": "DMV and road signs practice",
         "links": [
+          "regulatory-traffic-signs-practice-test",
           "road-signs-practice-test",
           "california-dmv-permit-practice-test",
           "new-york-dmv-permit-practice-test",
@@ -72,25 +77,43 @@
     ],
     "startHere": [
       {
-        "label": "DMV",
-        "title": "State permit practice",
-        "text": "Pick California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey.",
+        "label": "Road signs",
+        "title": "Road Signs Practice Test",
+        "text": "Start with regulatory, warning, school, service, and work-zone signs before choosing a state.",
+        "href": "road-signs-practice-test.html"
+      },
+      {
+        "label": "Regulatory signs",
+        "title": "Regulatory Traffic Signs Practice",
+        "text": "Drill stop, yield, do not enter, wrong way, speed limit, one way, no U-turn, and no passing signs.",
+        "href": "regulatory-traffic-signs-practice-test.html"
+      },
+      {
+        "label": "State DMV",
+        "title": "Permit practice by state",
+        "text": "Pick California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey for permit questions and mock exams.",
         "href": "dmv-practice.html"
-      },
-      {
-        "label": "Score season",
-        "title": "AP scores and exam day",
-        "text": "Check score release timing, missing-score steps, credit decisions, and AP exam-day planning.",
-        "href": "ap-tools.html"
-      },
-      {
-        "label": "Digital testing",
-        "title": "SAT score tools and checklists",
-        "text": "Estimate a Digital SAT score band, plan a target, check dates, and prepare Bluebook/device logistics.",
-        "href": "sat-tools.html"
       }
     ],
     "popular": [
+      {
+        "label": "Signs",
+        "title": "Road Signs Practice Test",
+        "text": "24 image questions for common U.S. road signs",
+        "href": "road-signs-practice-test.html"
+      },
+      {
+        "label": "Rules",
+        "title": "Regulatory Traffic Signs Practice Test",
+        "text": "Stop, yield, speed, one way, no entry, and no passing",
+        "href": "regulatory-traffic-signs-practice-test.html"
+      },
+      {
+        "label": "FL signs",
+        "title": "Florida Regulatory Traffic Signs Practice Test",
+        "text": "The first Search Console query signal points here",
+        "href": "florida-dmv-road-signs-practice.html"
+      },
       {
         "label": "CA DMV",
         "title": "California DMV Permit Practice Test",
@@ -104,44 +127,26 @@
         "href": "texas-dmv-permit-practice-test.html"
       },
       {
-        "label": "FL DMV",
-        "title": "Florida DMV Permit Practice Test",
-        "text": "Class E exam context plus image signs",
-        "href": "florida-dmv-permit-practice-test.html"
-      },
-      {
-        "label": "PA DMV",
-        "title": "Pennsylvania DMV Permit Practice Test",
-        "text": "18-question official context and practice loop",
-        "href": "pennsylvania-dmv-permit-practice-test.html"
-      },
-      {
         "label": "NJ MVC",
         "title": "New Jersey MVC Permit Practice Test",
         "text": "MVC source links, 50-question context, sign drill",
         "href": "new-jersey-mvc-permit-practice-test.html"
-      },
-      {
-        "label": "Signs",
-        "title": "Road Signs Practice Test",
-        "text": "Regulatory and warning sign image quiz",
-        "href": "road-signs-practice-test.html"
       }
     ],
     "dmvLaunch": {
-      "intro": "Start with the universal road-sign quiz or pick a state for quick practice, road-sign images, and a longer mock exam. The quizzes use original questions and do not collect answers.",
+      "intro": "Start with road signs or regulatory traffic signs, then pick a state for permit questions, image signs, and a longer mock exam. The quizzes use original questions and do not collect answers.",
       "stats": [
+        {
+          "value": "2",
+          "label": "road-sign hubs"
+        },
         {
           "value": "7",
           "label": "state paths live"
         },
         {
-          "value": "164",
-          "label": "road-sign image prompts"
-        },
-        {
-          "value": "3",
-          "label": "practice modes per state"
+          "value": "176",
+          "label": "image prompts"
         }
       ],
       "states": [
@@ -217,10 +222,10 @@
   "hubs": [
     {
       "slug": "dmv-practice",
-      "title": "DMV Practice Tests and Road Sign Tools by State",
-      "description": "Choose a free DMV permit practice test or road signs practice test for California, New York, Texas, Florida, Illinois, Pennsylvania, and New Jersey.",
+      "title": "DMV Practice Tests, Road Signs Practice, and Regulatory Sign Tools",
+      "description": "Choose free DMV permit practice tests, road signs practice, and regulatory traffic sign quizzes for common U.S. permit-test study paths.",
       "heroKicker": "DMV practice hub",
-      "summary": "Start with the universal road signs practice test or choose a state for permit questions, image signs, and mock exam review.",
+      "summary": "Start with road signs or regulatory traffic signs, then choose a state for permit questions, image signs, and mock exam review.",
       "primaryActions": [
         {
           "label": "Road signs",
@@ -229,16 +234,16 @@
           "href": "road-signs-practice-test.html"
         },
         {
-          "label": "Florida",
-          "title": "Florida DMV practice",
-          "text": "Class E exam context, image signs, and mock mode.",
-          "href": "florida-dmv-permit-practice-test.html"
+          "label": "Regulatory",
+          "title": "Regulatory Traffic Signs Practice",
+          "text": "Stop, yield, speed limit, one way, no entry, no U-turn, and no passing signs.",
+          "href": "regulatory-traffic-signs-practice-test.html"
         },
         {
-          "label": "Texas",
-          "title": "Texas DMV practice",
-          "text": "DPS handbook links, learner-license context, and sign drills.",
-          "href": "texas-dmv-permit-practice-test.html"
+          "label": "Florida",
+          "title": "Florida regulatory signs",
+          "text": "A state-specific page aligned to the first Search Console query signal.",
+          "href": "florida-dmv-road-signs-practice.html"
         }
       ],
       "sections": [
@@ -258,6 +263,7 @@
           "heading": "Road signs practice",
           "links": [
             "road-signs-practice-test",
+            "regulatory-traffic-signs-practice-test",
             "california-dmv-road-signs-practice",
             "new-york-dmv-road-signs-practice",
             "texas-dmv-road-signs-practice",
@@ -270,12 +276,12 @@
       ],
       "body": [
         {
-          "heading": "Why state coverage matters",
-          "text": "Most DMV searches include a state name. Expanding state pages gives the site more long-tail entry points without creating a high-maintenance app."
+          "heading": "Why the site is DMV-first now",
+          "text": "DMV and road-sign searches are evergreen, tool-friendly, and easier to serve with original quizzes than broad AP or SAT head terms. AP and SAT tools remain available, but DMV practice is the main growth path."
         },
         {
           "heading": "How to use these pages",
-          "text": "Choose a state, read the official snapshot, start with quick practice, drill image signs, then use the mock exam to decide what to reread in the official manual."
+          "text": "Start with the general road-sign quiz, drill regulatory signs if you miss rule signs, then choose a state page for official handbook context and a mixed permit-practice round."
         }
       ]
     },
@@ -5395,13 +5401,243 @@
         }
       ],
       "related": [
+        "regulatory-traffic-signs-practice-test",
+        "florida-dmv-road-signs-practice",
+        "california-dmv-road-signs-practice",
+        "texas-dmv-road-signs-practice"
+      ]
+    },
+    {
+      "slug": "regulatory-traffic-signs-practice-test",
+      "category": "DMV",
+      "title": "Regulatory Traffic Signs Practice Test",
+      "description": "Practice regulatory traffic signs with original image questions for stop, yield, do not enter, wrong way, speed limit, one way, no U-turn, and no passing signs.",
+      "heroKicker": "Regulatory traffic signs",
+      "summary": "Learn the road signs that state laws, limits, right-of-way rules, required directions, and prohibited movements before moving into state-specific DMV practice.",
+      "quickFacts": [
+        {
+          "label": "Practice size",
+          "value": "12 image questions"
+        },
+        {
+          "label": "Covers",
+          "value": "Stop, yield, speed, one way, no entry, no U-turn, and no passing signs"
+        },
+        {
+          "label": "Best for",
+          "value": "Permit-test road-sign recognition and driver-action practice"
+        },
+        {
+          "label": "Official source",
+          "value": "FHWA MUTCD and your state driver handbook"
+        },
+        {
+          "label": "Privacy",
+          "value": "No signup; saved mistakes stay in this browser"
+        }
+      ],
+      "quizModes": [
+        {
+          "id": "regulatory-signs-core",
+          "label": "Regulatory signs",
+          "short": "12 image questions",
+          "title": "Regulatory traffic signs image quiz",
+          "description": "Choose what each regulatory sign requires, limits, or prohibits. Missed questions are saved locally for review.",
+          "kicker": "Interactive regulatory sign practice",
+          "quiz": "regulatorySignsCore",
+          "sectionId": "practice",
+          "passScore": 10
+        }
+      ],
+      "signStudy": {
+        "kicker": "Regulatory sign guide",
+        "heading": "How to recognize regulatory traffic signs",
+        "intro": "Regulatory signs are not just sign names. They tell a driver what action is required, what movement is prohibited, or what limit applies at that location.",
+        "groups": [
+          {
+            "label": "Red and white",
+            "title": "Stop, yield, no entry, wrong way",
+            "text": "Red usually signals an important restriction or right-of-way rule.",
+            "items": [
+              "Stop means complete stop and yield before moving.",
+              "Yield means slow and give the right of way when required.",
+              "Do Not Enter and Wrong Way signs tell you not to continue into that roadway or direction."
+            ]
+          },
+          {
+            "label": "Black on white",
+            "title": "Speed, lane, turn, and movement control",
+            "text": "Many everyday regulatory signs use a white background with black text or symbols.",
+            "items": [
+              "Speed limit signs state legal maximum speed under normal conditions.",
+              "One Way signs establish required traffic direction.",
+              "No U-turn and no-passing signs prohibit specific movements."
+            ]
+          },
+          {
+            "label": "Test strategy",
+            "title": "Translate signs into driver actions",
+            "text": "A permit-test answer choice may not use the sign name. It may ask what a safe driver should do next.",
+            "items": [
+              "For each sign, say the action aloud: stop, yield, do not enter, do not turn, stay one way, or follow the speed limit.",
+              "Then review your state handbook for local wording and penalties.",
+              "Use the state road-sign pages after this generic practice round."
+            ]
+          }
+        ]
+      },
+      "signLibrary": {
+        "kicker": "Regulatory sign library",
+        "heading": "Common regulatory traffic signs to know",
+        "intro": "Review these signs after the quiz, then retake missed questions until the action feels automatic.",
+        "groups": [
+          {
+            "label": "Right-of-way signs",
+            "text": "These signs decide who may move first.",
+            "signs": [
+              {
+                "image": "stop",
+                "title": "Stop",
+                "meaning": "Make a complete stop, yield, then go when safe."
+              },
+              {
+                "image": "yield",
+                "title": "Yield",
+                "meaning": "Slow and give the right of way when another road user has priority."
+              }
+            ]
+          },
+          {
+            "label": "Entry and direction signs",
+            "text": "These signs control whether traffic may enter or which way it may travel.",
+            "signs": [
+              {
+                "image": "do-not-enter",
+                "title": "Do Not Enter",
+                "meaning": "Do not drive into that road, ramp, or direction."
+              },
+              {
+                "image": "wrong-way",
+                "title": "Wrong Way",
+                "meaning": "You are facing traffic and must correct direction safely."
+              },
+              {
+                "image": "one-way",
+                "title": "One Way",
+                "meaning": "Traffic moves only in the arrow direction."
+              }
+            ]
+          },
+          {
+            "label": "Limit and movement signs",
+            "text": "These signs set legal limits or prohibit specific maneuvers.",
+            "signs": [
+              {
+                "image": "speed-limit",
+                "title": "Speed Limit",
+                "meaning": "The posted number is the legal maximum under normal conditions."
+              },
+              {
+                "image": "no-u-turn",
+                "title": "No U-turn",
+                "meaning": "A U-turn is not allowed at this location."
+              },
+              {
+                "image": "no-passing",
+                "title": "Do Not Pass",
+                "meaning": "Passing another vehicle is prohibited in this zone."
+              }
+            ]
+          }
+        ]
+      },
+      "examDetails": {
+        "kicker": "Permit-test context",
+        "heading": "Why regulatory signs matter on permit tests",
+        "intro": "Regulatory signs are common because they connect sign recognition to legal driver behavior.",
+        "items": [
+          {
+            "label": "Meaning",
+            "value": "Rule or restriction",
+            "text": "These signs usually tell you what you must do or must not do."
+          },
+          {
+            "label": "Answer style",
+            "value": "Driver action",
+            "text": "Expect answer choices about stopping, yielding, entering, turning, passing, or speed."
+          },
+          {
+            "label": "Next step",
+            "value": "State practice",
+            "text": "After this page, choose your state to review handbook-specific wording and mixed DMV questions."
+          }
+        ]
+      },
+      "practiceTopics": {
+        "kicker": "Next review path",
+        "heading": "What to study after regulatory signs",
+        "intro": "Use saved mistakes to decide where to go next instead of rereading everything.",
+        "items": [
+          {
+            "label": "Missed red signs",
+            "title": "Review right-of-way and entry rules",
+            "text": "Focus on stop, yield, do not enter, wrong way, and no-movement signs.",
+            "review": "Retake this page first."
+          },
+          {
+            "label": "Missed white signs",
+            "title": "Review limits and lane controls",
+            "text": "Focus on speed limits, one-way travel, no U-turn, no passing, and lane-use signs.",
+            "review": "Then move into a state page."
+          },
+          {
+            "label": "Missed state context",
+            "title": "Use a DMV state practice page",
+            "text": "Choose Florida, California, Texas, New York, Illinois, Pennsylvania, or New Jersey for exact permit-test context.",
+            "review": "Start with the related tools below."
+          }
+        ]
+      },
+      "body": [
+        {
+          "heading": "What are regulatory traffic signs?",
+          "text": "Regulatory traffic signs tell drivers about laws, limits, required directions, right-of-way rules, and prohibited movements. Common examples include stop, yield, speed limit, one way, do not enter, wrong way, no U-turn, and do not pass signs."
+        },
+        {
+          "heading": "How to answer regulatory sign questions",
+          "text": "Do not stop at the sign name. Translate the sign into the safest legal action: stop completely, yield, avoid entering, follow the posted direction, obey the limit, or avoid the prohibited movement."
+        }
+      ],
+      "faq": [
+        {
+          "q": "What is a regulatory traffic sign?",
+          "a": "A regulatory traffic sign states a traffic law, limit, required direction, right-of-way rule, or prohibited movement. Stop, yield, speed limit, one way, do not enter, wrong way, no U-turn, and no passing signs are common examples."
+        },
+        {
+          "q": "Are regulatory signs the same as warning signs?",
+          "a": "No. Regulatory signs tell drivers what is required or prohibited. Warning signs alert drivers to conditions ahead, such as curves, merging traffic, pedestrians, signals, or slippery roads."
+        },
+        {
+          "q": "Should I study regulatory signs before my DMV permit test?",
+          "a": "Yes. Most permit-test study plans include sign recognition and driver-action questions. Use this page for core regulatory signs, then confirm state-specific wording in your driver handbook."
+        }
+      ],
+      "sources": [
+        {
+          "label": "FHWA: Manual on Uniform Traffic Control Devices",
+          "url": "https://mutcd.fhwa.dot.gov/"
+        },
+        {
+          "label": "FHWA: Sign principles and types",
+          "url": "https://highways.dot.gov/safety/local-rural/maintenance-signs-and-sign-supports/ii-sign-principles-and-types"
+        }
+      ],
+      "related": [
+        "road-signs-practice-test",
         "florida-dmv-road-signs-practice",
         "california-dmv-road-signs-practice",
         "texas-dmv-road-signs-practice",
-        "new-york-dmv-road-signs-practice",
-        "illinois-dmv-road-signs-practice",
-        "pennsylvania-dmv-road-signs-practice",
-        "new-jersey-mvc-road-signs-practice"
+        "new-york-dmv-road-signs-practice"
       ]
     },
     {
@@ -5559,10 +5795,10 @@
         }
       ],
       "related": [
+        "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "california-dmv-permit-practice-test",
-        "new-york-dmv-road-signs-practice",
-        "new-york-dmv-permit-practice-test"
+        "new-york-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -6464,10 +6700,10 @@
         }
       ],
       "related": [
+        "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "new-york-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice",
-        "california-dmv-permit-practice-test"
+        "california-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -7238,10 +7474,10 @@
       ],
       "quiz": "texasSigns",
       "related": [
+        "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "texas-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice",
-        "new-york-dmv-road-signs-practice"
+        "california-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -8105,10 +8341,10 @@
       ],
       "quiz": "floridaSigns",
       "related": [
+        "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "florida-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice",
-        "new-york-dmv-road-signs-practice"
+        "california-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -8985,10 +9221,10 @@
       ],
       "quiz": "illinoisSigns",
       "related": [
+        "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "illinois-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice",
-        "new-york-dmv-road-signs-practice"
+        "california-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -9852,10 +10088,10 @@
       ],
       "quiz": "pennsylvaniaSigns",
       "related": [
+        "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "pennsylvania-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice",
-        "new-york-dmv-road-signs-practice"
+        "california-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -10719,10 +10955,10 @@
       ],
       "quiz": "newjerseySigns",
       "related": [
+        "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "new-jersey-mvc-permit-practice-test",
-        "california-dmv-road-signs-practice",
-        "new-york-dmv-road-signs-practice"
+        "california-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -17573,6 +17809,176 @@
         ],
         "answer": 1,
         "explanation": "A useful practice round connects each sign to the safe action: stop, yield, merge, slow, watch, or avoid a prohibited movement."
+      }
+    ],
+    "regulatorySignsCore": [
+      {
+        "q": "Which driver action does this sign require?",
+        "image": "stop",
+        "imageAlt": "Stop sign",
+        "category": "Stop and yield rules",
+        "choices": [
+          "Slow only if another vehicle is close",
+          "Come to a complete stop, then yield before moving",
+          "Continue after tapping the brakes",
+          "Stop only when a pedestrian is visible"
+        ],
+        "answer": 1,
+        "explanation": "A stop sign is a regulatory sign. It requires a complete stop and a right-of-way check before proceeding."
+      },
+      {
+        "q": "At this sign, what should you be ready to do?",
+        "image": "yield",
+        "imageAlt": "Yield sign",
+        "category": "Stop and yield rules",
+        "choices": [
+          "Give the right of way when another road user has priority",
+          "Stop for three seconds every time",
+          "Turn around because the road is closed",
+          "Accelerate to enter first"
+        ],
+        "answer": 0,
+        "explanation": "Yield means slow down and let other traffic or pedestrians go first when they have the right of way."
+      },
+      {
+        "q": "This sign tells drivers:",
+        "image": "do-not-enter",
+        "imageAlt": "Do not enter sign",
+        "category": "Prohibited entry signs",
+        "choices": [
+          "Only trucks may enter",
+          "The next road is one way in your direction",
+          "Do not enter this roadway or ramp",
+          "Parking is prohibited after the sign"
+        ],
+        "answer": 2,
+        "explanation": "Do Not Enter is a regulatory sign that prohibits entry into that road, ramp, or direction of travel."
+      },
+      {
+        "q": "If you see this sign while driving, the safest meaning is:",
+        "image": "wrong-way",
+        "imageAlt": "Wrong way sign",
+        "category": "Prohibited entry signs",
+        "choices": [
+          "You are traveling against allowed traffic direction",
+          "A detour begins in two miles",
+          "Passing is not allowed",
+          "A work zone begins ahead"
+        ],
+        "answer": 0,
+        "explanation": "Wrong Way warns that you are facing traffic. Slow, avoid continuing in the lane, and correct direction safely."
+      },
+      {
+        "q": "What movement is not allowed at this sign?",
+        "image": "no-u-turn",
+        "imageAlt": "No U-turn sign",
+        "category": "Turn control signs",
+        "choices": [
+          "Changing lanes",
+          "A U-turn",
+          "Going straight",
+          "Stopping before a crosswalk"
+        ],
+        "answer": 1,
+        "explanation": "The red slash over the U-turn symbol means U-turns are prohibited at that location."
+      },
+      {
+        "q": "This sign controls traffic by telling drivers:",
+        "image": "one-way",
+        "imageAlt": "One way sign",
+        "category": "Lane and direction signs",
+        "choices": [
+          "Traffic may move only in the arrow direction",
+          "A lane ends ahead",
+          "No turns are allowed for one block",
+          "The road is for emergency vehicles only"
+        ],
+        "answer": 0,
+        "explanation": "One Way signs are regulatory signs that establish the required direction of traffic."
+      },
+      {
+        "q": "This sign sets:",
+        "image": "speed-limit",
+        "imageAlt": "Speed limit sign",
+        "category": "Speed signs",
+        "choices": [
+          "A suggested speed for heavy rain only",
+          "A legal maximum speed under normal conditions",
+          "A minimum passing speed",
+          "A work-zone detour route"
+        ],
+        "answer": 1,
+        "explanation": "Speed limit signs state the legal maximum speed for normal conditions. Drivers may need to go slower when conditions are unsafe."
+      },
+      {
+        "q": "What does this sign prohibit?",
+        "image": "no-passing",
+        "imageAlt": "Do not pass sign",
+        "category": "Passing signs",
+        "choices": [
+          "Passing another vehicle in this zone",
+          "Stopping at the shoulder",
+          "Entering a highway",
+          "Turning right after stopping"
+        ],
+        "answer": 0,
+        "explanation": "Do Not Pass marks a zone where passing is not allowed because road layout, traffic, or sight distance makes it unsafe."
+      },
+      {
+        "q": "Which sign color pattern most often means a rule or restriction?",
+        "image": "do-not-enter",
+        "imageAlt": "Red and white regulatory sign",
+        "category": "Sign recognition",
+        "choices": [
+          "Brown and white",
+          "Blue and white",
+          "Red, white, or black on white",
+          "Orange and black only"
+        ],
+        "answer": 2,
+        "explanation": "Regulatory signs often use red, white, black, or black text on a white background. They tell drivers about rules and restrictions."
+      },
+      {
+        "q": "A regulatory sign is different from a warning sign because it usually:",
+        "image": "speed-limit",
+        "imageAlt": "White regulatory speed limit sign",
+        "category": "Sign recognition",
+        "choices": [
+          "States a law, limit, restriction, or required movement",
+          "Only describes scenic routes",
+          "Warns about a possible hazard without stating a rule",
+          "Shows nearby gas, food, or hospitals"
+        ],
+        "answer": 0,
+        "explanation": "Regulatory signs tell drivers what is required, prohibited, or limited. Warning signs alert drivers to conditions ahead."
+      },
+      {
+        "q": "When you see a red circle and diagonal slash over a symbol, it usually means:",
+        "image": "no-u-turn",
+        "imageAlt": "Red slash over U-turn symbol",
+        "category": "Prohibition symbols",
+        "choices": [
+          "The action is optional",
+          "The action is prohibited",
+          "The action is recommended during rain",
+          "The road is scenic"
+        ],
+        "answer": 1,
+        "explanation": "A red circle with a slash is a common prohibition symbol. The action shown by the symbol is not allowed."
+      },
+      {
+        "q": "What is the most useful way to study regulatory traffic signs for a permit test?",
+        "image": "yield",
+        "imageAlt": "Yield sign used for permit-test strategy",
+        "category": "Permit-test strategy",
+        "choices": [
+          "Memorize color only and ignore driver action",
+          "Connect each sign to the action it requires or prohibits",
+          "Study only blue service signs",
+          "Skip state handbook wording completely"
+        ],
+        "answer": 1,
+        "explanation": "Permit-test questions often ask what a driver should do. Pair each regulatory sign with the required or prohibited action."
       }
     ]
   },

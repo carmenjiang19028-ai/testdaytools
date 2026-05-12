@@ -790,3 +790,26 @@ Implemented locally:
 Strategic note:
 - This is a better next step than expanding to more states because it consolidates the first validated topic and improves internal linking with low maintenance cost.
 - Do not apply for AdSense yet. First request indexing for the new road-sign page and the strengthened Florida regulatory signs page, then wait for Search Console indexing and query movement.
+
+## Checkpoint 2026-05-12 DMV-First Monetization Reframe
+
+Goal:
+- Move the site closer to the long-term goal: natural search traffic that can eventually support ad revenue.
+- Treat the project as a DMV-first tool site instead of a broad AP/SAT/DMV portal.
+
+Implemented locally:
+- Retitled the homepage around `Free DMV Practice Tests and Road Signs Practice`.
+- Added `Road Signs` to the main navigation.
+- Added a new page: `/regulatory-traffic-signs-practice-test.html`.
+- Added a 12-question image quiz for regulatory signs: stop, yield, do not enter, wrong way, speed limit, one way, no U-turn, and do not pass.
+- Added regulatory sign study guidance, FAQ, source links, and related links into the road-sign cluster.
+- Updated the DMV hub so users can start with road signs, regulatory signs, or state-specific permit practice.
+
+Strategic note:
+- This is a topic-architecture change, not a cosmetic redesign.
+- The intended SEO cluster is now:
+  - `/road-signs-practice-test.html`
+  - `/regulatory-traffic-signs-practice-test.html`
+  - `/florida-dmv-road-signs-practice.html`
+  - state DMV road-sign pages
+- AP and SAT remain as support sections, but DMV/road signs should be the primary growth path until Search Console proves another direction.

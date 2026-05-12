@@ -143,7 +143,8 @@ def render_sign_preview_strip():
 def render_tool_actions(tool):
     if tool.get("category") != "DMV":
         return ""
-    is_sign_page = "road-signs" in tool.get("slug", "")
+    slug = tool.get("slug", "")
+    is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
     if is_sign_page:
         actions = [
             ("Start image quiz", "#practice"),
@@ -215,7 +216,8 @@ def render_tool_hero_panel(tool):
 def render_practice_console(tool):
     if tool.get("category") != "DMV":
         return ""
-    is_sign_page = "road-signs" in tool.get("slug", "")
+    slug = tool.get("slug", "")
+    is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
     if is_sign_page:
         items = [
             ("Step 1", "Identify the sign", "Use the image first, then read the choices."),
@@ -885,14 +887,14 @@ def render_home():
     body = f"""<section class="hero home-hero dmv-home-hero">
   <div class="home-hero-grid">
     <div>
-      <p class="eyebrow">DMV-first practice tools</p>
-      <h1>Free DMV permit practice by state.</h1>
-      <p class="lede">Pick a state, answer one question at a time, drill road-sign images, and use saved mistakes to decide what to review next.</p>
+      <p class="eyebrow">DMV-first road sign practice</p>
+      <h1>Free DMV practice tests and road signs practice.</h1>
+      <p class="lede">Start with road signs, drill regulatory traffic signs, then choose a state for permit questions, image signs, and a longer mock exam.</p>
       {render_last_updated()}
       <div class="hero-actions">
-        <a href="dmv-practice.html">Start DMV practice</a>
-        <a href="road-signs-practice-test.html">Try road signs</a>
-        <a href="california-dmv-permit-practice-test.html">California test</a>
+        <a href="road-signs-practice-test.html">Start road signs</a>
+        <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
+        <a href="dmv-practice.html">Choose state</a>
       </div>
     </div>
     {render_home_practice_panel()}
