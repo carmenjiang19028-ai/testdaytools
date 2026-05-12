@@ -226,6 +226,7 @@ h3 {
 .home-popular,
 .dmv-launch,
 .dmv-mode-tool,
+.dmv-test-day-bridge,
 .task-console,
 .exam-brief,
 .exam-details,
@@ -281,6 +282,7 @@ h3 {
 .tool-hero-grid > *,
 .state-filter *,
 .state-card *,
+.dmv-bridge-actions *,
 .task-console-grid *,
 .hero-lab-card *,
 .tool-hero-panel *,
@@ -1346,6 +1348,66 @@ h3 {
 .sat-widget {
   background:
     linear-gradient(180deg, #ffffff 0%, #f6f9fc 100%);
+}
+
+.dmv-test-day-bridge {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  background: #f5f8fb;
+  border-top: 1px solid #dce5ee;
+  border-bottom: 1px solid #dce5ee;
+}
+
+.dmv-test-day-bridge h2 {
+  max-width: 620px;
+}
+
+.dmv-bridge-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dmv-bridge-actions a {
+  min-height: 156px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.dmv-bridge-actions a:hover,
+.dmv-bridge-actions a:focus {
+  border-color: var(--blue);
+  transform: translateY(-1px);
+}
+
+.dmv-bridge-actions span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.dmv-bridge-actions strong {
+  color: var(--blue-deep);
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.dmv-bridge-actions em {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: normal;
+  line-height: 1.45;
 }
 
 .dmv-checklist-widget {
@@ -2463,6 +2525,8 @@ button:disabled {
 
   .section-head-row,
   .launch-stats,
+  .dmv-test-day-bridge,
+  .dmv-bridge-actions,
   .sat-widget-grid,
   .sat-input-panel,
   .sat-band-grid,

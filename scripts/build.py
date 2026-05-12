@@ -218,12 +218,38 @@ def find_state_sign_href(state_label):
     return "road-signs-practice-test.html"
 
 
+def get_dmv_checklist_states():
+    checklist = TOOL_BY_SLUG.get("dmv-test-day-checklist", {})
+    return checklist.get("toolWidget", {}).get("states", [])
+
+
+def find_dmv_state_for_tool(tool):
+    if tool.get("category") != "DMV" or tool.get("slug") == "dmv-test-day-checklist":
+        return None
+    slug = tool.get("slug", "").lower()
+    title = tool.get("title", "").lower()
+    for state in get_dmv_checklist_states():
+        label = state.get("label", "").lower()
+        value = state.get("value", "").lower()
+        label_slug = label.replace(" ", "-")
+        if value in slug or label_slug in slug or label in title:
+            return state
+    return None
+
+
+def checklist_href_for_state(state):
+    if not state:
+        return "dmv-test-day-checklist.html#dmv-checklist"
+    return f'dmv-test-day-checklist.html?state={esc(state["value"])}#dmv-checklist'
+
+
 def render_tool_actions(tool):
     if tool.get("category") != "DMV":
         return ""
     slug = tool.get("slug", "")
     is_checklist_page = tool.get("toolWidget", {}).get("type") == "dmvTestDayChecklist"
     is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
+    state = find_dmv_state_for_tool(tool)
     if is_checklist_page:
         actions = [
             ("Open checklist", "#dmv-checklist"),
@@ -236,12 +262,16 @@ def render_tool_actions(tool):
             ("Shape and color guide", "#sign-study"),
             ("Sign library", "#sign-library"),
         ]
+        if state:
+            actions.append(("Test-day checklist", checklist_href_for_state(state)))
     else:
         actions = [
             ("Start practice", "#practice"),
             ("Official test facts", "#official-details"),
             ("Study by topic", "#practice-topics"),
         ]
+        if state:
+            actions.append(("Test-day checklist", checklist_href_for_state(state)))
     links = "".join(f'<a href="{esc(href)}">{esc(label)}</a>' for label, href in actions)
     return f'\n    <div class="hero-actions">{links}</div>'
 
@@ -891,6 +921,29 @@ def render_related(slugs):
     return f'<section class="related"><h2>Related tools</h2><div class="related-grid">{"".join(cards)}</div></section>'
 
 
+def render_dmv_test_day_bridge(tool):
+    state = find_dmv_state_for_tool(tool)
+    if not state:
+        return ""
+    slug = tool.get("slug", "")
+    is_sign_page = "road-signs" in slug
+    pair_href = state.get("permitUrl") if is_sign_page else state.get("signUrl")
+    pair_label = "Permit practice" if is_sign_page else "Road signs drill"
+    checklist_href = checklist_href_for_state(state)
+    return f"""<section class="dmv-test-day-bridge" id="test-day-path">
+  <div>
+    <p class="eyebrow">Before test day</p>
+    <h2>{esc(state["label"])} DMV test-day path</h2>
+    <p class="section-intro">Use this practice page, then finish with the official source, the paired practice round, and a saved readiness checklist.</p>
+  </div>
+  <div class="dmv-bridge-actions">
+    <a href="{esc(checklist_href)}"><span>Checklist</span><strong>Open {esc(state["label"])} checklist</strong><em>Save document, practice, sign, mistake, and logistics progress.</em></a>
+    <a href="{esc(pair_href)}"><span>{esc(pair_label)}</span><strong>Continue practice loop</strong><em>Move between rules questions and image signs before the final review.</em></a>
+    <a href="{esc(state["manualUrl"])}" target="_blank" rel="noopener"><span>Official source</span><strong>{esc(state["manualLabel"])}</strong><em>Use the official source for exact wording and final requirements.</em></a>
+  </div>
+</section>"""
+
+
 def render_tool(tool):
     quiz = render_dmv_mode_tool(tool) if tool.get("category") == "DMV" else render_quiz(tool.get("quiz"))
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
@@ -932,6 +985,7 @@ def render_tool(tool):
     hero_panel = render_tool_hero_panel(tool)
     hero_inner_class = ' class="tool-hero-grid"' if hero_panel else ""
     hero_panel_block = f"\n    {hero_panel}" if hero_panel else ""
+    test_day_bridge = render_dmv_test_day_bridge(tool)
     body = f"""<section class="hero tool-hero">
   <div{hero_inner_class}>
     <div>
@@ -944,7 +998,7 @@ def render_tool(tool):
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
 {render_trust_strip(tool)}
-{practice_console}
+{practice_console}{test_day_bridge}
 {page_sections}"""
     page_type = "LearningResource" if tool.get("category") in ("DMV", "SAT", "AP") else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')

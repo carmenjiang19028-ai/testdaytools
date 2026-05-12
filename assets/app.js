@@ -730,6 +730,18 @@ function initDmvChecklists() {
 
     const selectedOption = () => stateSelect?.selectedOptions?.[0];
 
+    const setStateIfAvailable = (rawValue) => {
+      if (!stateSelect || !rawValue) return false;
+      const requested = String(rawValue).trim().toLowerCase().replace(/\s+/g, "-");
+      const match = Array.from(stateSelect.options).find((option) => {
+        const optionLabel = option.textContent.trim().toLowerCase().replace(/\s+/g, "-");
+        return option.value === requested || optionLabel === requested;
+      });
+      if (!match) return false;
+      stateSelect.value = match.value;
+      return true;
+    };
+
     const save = () => {
       try {
         const checked = checks.filter((check) => check.checked).map((check) => check.value);
@@ -809,11 +821,17 @@ function initDmvChecklists() {
       render();
     });
 
+    let hasUrlState = false;
+    try {
+      hasUrlState = setStateIfAvailable(new URLSearchParams(window.location.search).get("state"));
+    } catch (error) {
+      hasUrlState = false;
+    }
+
     try {
       const lastState = window.localStorage.getItem(lastStateKey);
-      const hasLastState = Array.from(stateSelect?.options || []).some((option) => option.value === lastState);
-      if (lastState && hasLastState) {
-        stateSelect.value = lastState;
+      if (!hasUrlState) {
+        setStateIfAvailable(lastState);
       }
     } catch (error) {
       // Ignore storage issues and use the default state.

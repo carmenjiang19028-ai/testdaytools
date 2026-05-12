@@ -916,3 +916,24 @@ Validation completed:
 Strategic note:
 - This page supports high-intent queries such as DMV test day checklist, permit test checklist, what to bring to DMV test, and state driver manual finder.
 - It also improves internal flow by sending users from final-readiness mode back into state practice and road-sign drills.
+
+## Checkpoint 2026-05-12 DMV Checklist Reverse Links
+
+Goal:
+- Make state DMV landing pages hand visitors into the final-readiness checklist instead of leaving the checklist isolated.
+- Improve internal circulation from search-entry permit and road-sign pages into one saved, high-intent tool.
+
+Implemented locally:
+- Added a `Test-day checklist` hero action to each supported state permit page and each supported state road-sign page.
+- Added a `Before test day` bridge section to supported state pages with three actions: state checklist, paired practice page, and official source.
+- Added `?state=` support to `/dmv-test-day-checklist.html` so incoming state links preselect the correct manual and checklist state.
+- Kept generic DMV road-sign pages unchanged except for shared script/style support.
+
+Validation completed:
+- Static generator builds successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+
+Strategic note:
+- This strengthens the site as a tool network: state pages now lead to a practical next step, and the checklist sends users back to practice.
+- Next useful step is to verify the state-preselected checklist behavior in a browser and then commit/push this internal-linking layer separately.
