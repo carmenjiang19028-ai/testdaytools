@@ -85,7 +85,7 @@ Validated 45 HTML files, 127 JSON-LD blocks, 45 sitemap URLs, local links OK.
 
 ## Recent Commit Timeline
 
-Latest confirmed pushed commit:
+Latest confirmed pushed commit before the 2026-05-13 work session:
 
 ```text
 834f683 Connect state DMV pages to checklist
@@ -282,7 +282,7 @@ Checklist URL state preselect OK: florida, Official Florida Driver License Handb
 
 ## Strategic Next Step
 
-Best next move:
+This next move was started on 2026-05-13:
 
 Expand the DMV checklist page into a stronger long-tail tool surface for queries such as:
 
@@ -299,6 +299,15 @@ Recommended implementation:
 - Add state-specific official-source links rather than overclaiming exact requirements.
 - Add compact FAQ around documents, ID, proof of residency, payment, appointments, glasses/contacts, and retake policy.
 - Add a printable or copyable checklist only if it stays low-maintenance.
+
+2026-05-13 update:
+
+- `/dmv-test-day-checklist.html` was expanded from a simple saved checklist into a fuller saved test-day planner.
+- The widget now has state-specific agency/document/appointment/retake hints.
+- The checklist now includes identity, residency, forms or consent, appointment and fees, practice target, road signs, saved mistakes, logistics and vision items, retake rule, and rest.
+- Added a `What to bring checklist map`, `Copy plan`, and `Print` actions.
+- Added long-tail sections and FAQ coverage for what to bring, proof of residency, glasses/contacts, retake rules, and official-source dependency.
+- Browser validation confirmed Florida preselection, `FLHSMV` agency hint, TLSAE document guidance, 11 checklist items, 18% readiness after two checked items, and document-map rendering.
 
 Lower priority:
 

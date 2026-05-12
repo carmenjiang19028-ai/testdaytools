@@ -507,13 +507,21 @@ def render_dmv_checklist_widget(widget):
     states = widget.get("states", [])
     items = widget.get("items", [])
     options = "".join(
-        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-permit-url="{esc(state["permitUrl"])}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}">{esc(state["label"])}</option>'
+        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-permit-url="{esc(state["permitUrl"])}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}" data-agency="{esc(state.get("agency", "State agency"))}" data-documents="{esc(state.get("documents", ""))}" data-appointment="{esc(state.get("appointment", ""))}" data-retake="{esc(state.get("retake", ""))}">{esc(state["label"])}</option>'
         for state in states
     )
     checklist_items = "".join(
         f"""<li><label><input type="checkbox" value="{esc(item["id"])}" data-dmv-check> <span><strong>{esc(item["label"])}</strong><em>{esc(item["text"])}</em></span></label></li>"""
         for item in items
     )
+    document_cards = "".join(
+        f"""<article><span>{esc(item.get("label", ""))}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></article>"""
+        for item in widget.get("documentGroups", [])
+    )
+    document_map = f"""<div class="dmv-document-map">
+      <h3>What to bring checklist map</h3>
+      <div class="dmv-document-grid">{document_cards}</div>
+    </div>""" if document_cards else ""
     return f"""<section class="tool-block dmv-checklist-widget" id="dmv-checklist" data-dmv-checklist>
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "Interactive checklist"))}</span>
@@ -528,6 +536,11 @@ def render_dmv_checklist_widget(widget):
         <strong data-dmv-manual-label>Choose a state</strong>
         <p data-dmv-exam-format>Use the official state source for final testing details.</p>
         <p data-dmv-focus-area></p>
+      </div>
+      <div class="dmv-state-prep">
+        <article><span data-dmv-agency-name>State agency</span><strong>Documents</strong><p data-dmv-document-hint>Confirm ID, residency, forms, and fees with the official source.</p></article>
+        <article><span>Visit plan</span><strong>Appointment and fees</strong><p data-dmv-appointment-hint>Check appointment, payment, and arrival instructions before you leave.</p></article>
+        <article><span>Backup plan</span><strong>Retake rule</strong><p data-dmv-retake-hint>Know what happens if you need another attempt.</p></article>
       </div>
       <div class="dmv-state-actions">
         <a href="#" data-dmv-manual-link target="_blank" rel="noopener">Open official source</a>
@@ -544,10 +557,15 @@ def render_dmv_checklist_widget(widget):
       <ul class="dmv-checklist-items">{checklist_items}</ul>
       <div class="dmv-checklist-footer">
         <p data-dmv-next-step>First unchecked item will appear here.</p>
-        <button type="button" data-dmv-checklist-reset>Reset checklist</button>
+        <div class="dmv-checklist-buttons">
+          <button type="button" data-dmv-copy-checklist>Copy plan</button>
+          <button type="button" data-dmv-print-checklist>Print</button>
+          <button type="button" data-dmv-checklist-reset>Reset</button>
+        </div>
       </div>
     </div>
   </div>
+  {document_map}
 </section>"""
 
 
@@ -934,10 +952,10 @@ def render_dmv_test_day_bridge(tool):
   <div>
     <p class="eyebrow">Before test day</p>
     <h2>{esc(state["label"])} DMV test-day path</h2>
-    <p class="section-intro">Use this practice page, then finish with the official source, the paired practice round, and a saved readiness checklist.</p>
+    <p class="section-intro">Use this practice page, then finish with what to bring, official documents, road signs, mistakes, and visit logistics in one saved checklist.</p>
   </div>
   <div class="dmv-bridge-actions">
-    <a href="{esc(checklist_href)}"><span>Checklist</span><strong>Open {esc(state["label"])} checklist</strong><em>Save document, practice, sign, mistake, and logistics progress.</em></a>
+    <a href="{esc(checklist_href)}"><span>Checklist</span><strong>Open {esc(state["label"])} test-day checklist</strong><em>Plan ID, residency proof, forms, appointment, fees, signs, mistakes, and retake rules.</em></a>
     <a href="{esc(pair_href)}"><span>{esc(pair_label)}</span><strong>Continue practice loop</strong><em>Move between rules questions and image signs before the final review.</em></a>
     <a href="{esc(state["manualUrl"])}" target="_blank" rel="noopener"><span>Official source</span><strong>{esc(state["manualLabel"])}</strong><em>Use the official source for exact wording and final requirements.</em></a>
   </div>

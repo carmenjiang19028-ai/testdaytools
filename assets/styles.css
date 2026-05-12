@@ -1456,7 +1456,9 @@ h3 {
 }
 
 .dmv-source-card,
-.dmv-readiness-score {
+.dmv-readiness-score,
+.dmv-state-prep article,
+.dmv-document-map article {
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -1464,7 +1466,9 @@ h3 {
 }
 
 .dmv-source-card span,
-.dmv-readiness-score span {
+.dmv-readiness-score span,
+.dmv-state-prep span,
+.dmv-document-map span {
   display: block;
   color: var(--muted);
   font-size: 0.78rem;
@@ -1473,7 +1477,9 @@ h3 {
 }
 
 .dmv-source-card strong,
-.dmv-readiness-score strong {
+.dmv-readiness-score strong,
+.dmv-state-prep strong,
+.dmv-document-map strong {
   display: block;
   margin-top: 6px;
   color: var(--blue-deep);
@@ -1485,10 +1491,17 @@ h3 {
 }
 
 .dmv-source-card p,
-.dmv-readiness-score p {
+.dmv-readiness-score p,
+.dmv-state-prep p,
+.dmv-document-map p {
   margin: 8px 0 0;
   color: var(--muted);
   font-size: 0.92rem;
+}
+
+.dmv-state-prep {
+  display: grid;
+  gap: 8px;
 }
 
 .dmv-state-actions {
@@ -1569,10 +1582,44 @@ h3 {
   font-weight: 800;
 }
 
-.dmv-checklist-footer button {
+.dmv-checklist-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.dmv-checklist-buttons button {
   min-height: 40px;
   padding: 8px 12px;
   font-size: 0.9rem;
+  text-align: center;
+}
+
+.dmv-checklist-buttons button:first-child {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.dmv-document-map {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.dmv-document-map h3 {
+  margin: 0 0 14px;
+  color: var(--blue-deep);
+  font-size: 1.1rem;
+}
+
+.dmv-document-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .sat-widget-grid {
@@ -2527,6 +2574,7 @@ button:disabled {
   .launch-stats,
   .dmv-test-day-bridge,
   .dmv-bridge-actions,
+  .dmv-document-grid,
   .sat-widget-grid,
   .sat-input-panel,
   .sat-band-grid,

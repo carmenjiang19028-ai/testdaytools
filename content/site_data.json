@@ -4663,13 +4663,13 @@
       "slug": "dmv-test-day-checklist",
       "category": "DMV",
       "title": "DMV Test Day Checklist and State Manual Finder",
-      "description": "Use a free DMV test-day checklist with state official-source links, permit practice links, road-sign review, and saved readiness progress in your browser.",
+      "description": "Use a free DMV test-day checklist with what-to-bring planning, state official-source links, permit practice, road-sign review, and saved readiness progress.",
       "heroKicker": "DMV test day",
-      "summary": "Choose your state, open the official driver manual or source page, then save a checklist for documents, practice score, road signs, mistakes, and test-day logistics.",
+      "summary": "Choose your state, open the official driver manual or source page, then save a checklist for documents, ID, appointment, fees, practice score, road signs, mistakes, and test-day logistics.",
       "quickFacts": [
         {
           "label": "Tool type",
-          "value": "Saved checklist"
+          "value": "Saved test-day planner"
         },
         {
           "label": "State sources",
@@ -4687,8 +4687,8 @@
       "toolWidget": {
         "type": "dmvTestDayChecklist",
         "kicker": "Interactive checklist",
-        "heading": "DMV test-day readiness checklist",
-        "intro": "Choose your state, check the official source, then mark the practical items that reduce test-day surprises. Progress is saved only in this browser.",
+        "heading": "DMV test-day checklist: what to bring and what to verify",
+        "intro": "Choose your state, check the official source, then mark the practical items that reduce test-day surprises: documents, ID, appointment, fees, practice score, signs, mistakes, and logistics. Progress is saved only in this browser.",
         "states": [
           {
             "label": "California",
@@ -4698,7 +4698,11 @@
             "permitUrl": "california-dmv-permit-practice-test.html",
             "signUrl": "california-dmv-road-signs-practice.html",
             "format": "Use the handbook for final rules; practice target here is 32 of 40 on the mock exam.",
-            "focus": "Signs, right of way, lane rules, pedestrians, and safe following distance."
+            "focus": "Signs, right of way, lane rules, pedestrians, and safe following distance.",
+            "agency": "California DMV",
+            "documents": "Confirm your application path, identity document, residency proof, and any parent or school forms required for your age.",
+            "appointment": "Check whether your office visit or test needs an appointment, and confirm payment method before leaving home.",
+            "retake": "Review California DMV rules for retesting, waiting periods, and fees if you do not pass on the first try."
           },
           {
             "label": "New York",
@@ -4708,7 +4712,11 @@
             "permitUrl": "new-york-dmv-permit-practice-test.html",
             "signUrl": "new-york-dmv-road-signs-practice.html",
             "format": "Official context: 20 permit questions, with signs included in the passing rule.",
-            "focus": "Road signs, traffic signals, right of way, defensive driving, and New York permit rules."
+            "focus": "Road signs, traffic signals, right of way, defensive driving, and New York permit rules.",
+            "agency": "New York DMV",
+            "documents": "Use New York DMV guidance to confirm proof of identity, age, residence, and the permit application steps that apply to you.",
+            "appointment": "Check the DMV office or testing location process, arrival time, and accepted payment before test day.",
+            "retake": "Confirm current New York retest and appointment rules from the DMV if you need another attempt."
           },
           {
             "label": "Texas",
@@ -4718,7 +4726,11 @@
             "permitUrl": "texas-dmv-permit-practice-test.html",
             "signUrl": "texas-dmv-road-signs-practice.html",
             "format": "Use Texas DPS sources for final testing details; this site uses a 40-question practice target.",
-            "focus": "Signs, right of way, speed, alcohol laws, lane use, and freeway driving."
+            "focus": "Signs, right of way, speed, alcohol laws, lane use, and freeway driving.",
+            "agency": "Texas DPS",
+            "documents": "Check Texas DPS requirements for identity, lawful presence, residency, Social Security evidence, and course or school documents when applicable.",
+            "appointment": "Verify the driver license office appointment process, payment, and any required completion certificates before you go.",
+            "retake": "Use Texas DPS sources for current retesting rules, fees, and scheduling if a knowledge test attempt does not pass."
           },
           {
             "label": "Florida",
@@ -4728,7 +4740,11 @@
             "permitUrl": "florida-dmv-permit-practice-test.html",
             "signUrl": "florida-dmv-road-signs-practice.html",
             "format": "Official context: 50 multiple-choice questions and an 80% passing standard.",
-            "focus": "Traffic controls, road signs, safe driving, substance rules, and licensing basics."
+            "focus": "Traffic controls, road signs, safe driving, substance rules, and licensing basics.",
+            "agency": "FLHSMV",
+            "documents": "Confirm FLHSMV requirements for identity, Social Security number, residential address, parental consent, and TLSAE course completion when applicable.",
+            "appointment": "Check whether the county service center or testing provider requires an appointment, and confirm accepted payment and arrival instructions.",
+            "retake": "Review FLHSMV or county tax collector guidance for retest limits, waiting periods, and fees before making a new plan."
           },
           {
             "label": "Illinois",
@@ -4738,7 +4754,11 @@
             "permitUrl": "illinois-dmv-permit-practice-test.html",
             "signUrl": "illinois-dmv-road-signs-practice.html",
             "format": "Use Illinois Secretary of State sources for final written-test requirements.",
-            "focus": "Traffic signs, right of way, GDL rules, traffic laws, and safe-driving practices."
+            "focus": "Traffic signs, right of way, GDL rules, traffic laws, and safe-driving practices.",
+            "agency": "Illinois Secretary of State",
+            "documents": "Confirm Illinois identity, residency, signature, and age-document requirements before visiting a Secretary of State facility.",
+            "appointment": "Check the facility process, service availability, payment method, and arrival timing before test day.",
+            "retake": "Use Illinois Secretary of State guidance for current retesting rules if the written exam needs another attempt."
           },
           {
             "label": "Pennsylvania",
@@ -4748,7 +4768,11 @@
             "permitUrl": "pennsylvania-dmv-permit-practice-test.html",
             "signUrl": "pennsylvania-dmv-road-signs-practice.html",
             "format": "Official context: 18 questions, with 15 correct needed to pass.",
-            "focus": "Traffic signs, Pennsylvania laws, safe-driving practices, signals, and emergencies."
+            "focus": "Traffic signs, Pennsylvania laws, safe-driving practices, signals, and emergencies.",
+            "agency": "PennDOT",
+            "documents": "Check PennDOT requirements for proof of identity, residency, medical or parent forms, and permit application documents.",
+            "appointment": "Confirm the driver license center process, payment method, and whether scheduling is required for your test path.",
+            "retake": "Review PennDOT rules for knowledge-test retakes and next available attempt timing before rescheduling."
           },
           {
             "label": "New Jersey",
@@ -4758,7 +4782,11 @@
             "permitUrl": "new-jersey-mvc-permit-practice-test.html",
             "signUrl": "new-jersey-mvc-road-signs-practice.html",
             "format": "Official context: 50 knowledge questions and an 80% passing standard.",
-            "focus": "Signs, signals, GDL rules, safe driving, alcohol laws, and MVC process."
+            "focus": "Signs, signals, GDL rules, safe driving, alcohol laws, and MVC process.",
+            "agency": "New Jersey MVC",
+            "documents": "Prepare 6 Points of ID and confirm any age, permit, school, or license-path documents required by New Jersey MVC.",
+            "appointment": "Check the MVC testing-center process, permit purchase step, appointment requirements, and accepted payment before you go.",
+            "retake": "Use MVC guidance for current retest rules and scheduling if you need another knowledge-test attempt."
           }
         ],
         "items": [
@@ -4768,9 +4796,24 @@
             "text": "Use the state manual or official test page for final wording before test day."
           },
           {
-            "id": "documents",
-            "label": "Confirm ID, documents, appointment, and fees",
-            "text": "Requirements vary by state and applicant type, so verify them before leaving home."
+            "id": "identity",
+            "label": "Confirm identity and age documents",
+            "text": "Check which primary ID, age proof, or lawful-presence document your state accepts."
+          },
+          {
+            "id": "residency",
+            "label": "Confirm residency or address proof",
+            "text": "If your state requires address documents, make sure names and dates match the official rules."
+          },
+          {
+            "id": "forms",
+            "label": "Prepare forms, consent, and course proof",
+            "text": "Minors and first-time applicants may need parent consent, school forms, or course completion evidence."
+          },
+          {
+            "id": "appointment",
+            "label": "Confirm appointment, location, and fees",
+            "text": "Verify the office, arrival time, payment method, and whether the test is appointment-only."
           },
           {
             "id": "mock-score",
@@ -4789,20 +4832,57 @@
           },
           {
             "id": "logistics",
-            "label": "Plan arrival, route, and phone storage",
-            "text": "Small logistics mistakes can create stress before the actual knowledge test."
+            "label": "Plan arrival, route, phone storage, and vision items",
+            "text": "Bring glasses or contacts if you use them, and avoid phone or arrival surprises."
+          },
+          {
+            "id": "retake",
+            "label": "Know the retake or reschedule rule",
+            "text": "Check the official source for what happens if you need another attempt."
           },
           {
             "id": "rest",
             "label": "Stop cramming and sleep",
             "text": "The last night is for review and rest, not learning brand-new rules."
           }
+        ],
+        "documentGroups": [
+          {
+            "label": "ID",
+            "title": "Identity and age",
+            "text": "Most permit paths require proof of identity and date of birth. The exact document list depends on state and applicant type."
+          },
+          {
+            "label": "Address",
+            "title": "Residency or address proof",
+            "text": "Many states require proof of where you live. Names, dates, and accepted document types can be strict."
+          },
+          {
+            "label": "Application",
+            "title": "Forms, consent, and courses",
+            "text": "Minors, first-time applicants, and course-based paths may need parent consent, school forms, or completion certificates."
+          },
+          {
+            "label": "Payment",
+            "title": "Fees and payment method",
+            "text": "Confirm accepted payment before you leave. Some offices or partners may not accept every payment type."
+          },
+          {
+            "label": "Vision",
+            "title": "Glasses, contacts, and vision check",
+            "text": "Bring the glasses or contacts you normally use for driving, and check whether vision screening is part of the visit."
+          },
+          {
+            "label": "Backup",
+            "title": "Retake and reschedule rule",
+            "text": "Know the retake rule before test day so one failed attempt does not become a confusing scheduling problem."
+          }
         ]
       },
       "examBrief": {
         "kicker": "Final review path",
-        "heading": "A simple 48-hour DMV permit-test plan",
-        "intro": "Use this page when the test is close and the next action needs to be obvious: source check, practice check, signs check, mistake check, logistics check.",
+        "heading": "A practical 48-hour DMV permit-test plan",
+        "intro": "Use this page when the test is close and the next action needs to be obvious: official source, what to bring, practice score, signs, mistakes, logistics, and backup plan.",
         "facts": [
           {
             "label": "Step 1",
@@ -4811,30 +4891,30 @@
           },
           {
             "label": "Step 2",
-            "value": "Full practice",
-            "note": "Use a mock round to find whether weak areas still repeat."
+            "value": "Documents",
+            "note": "Confirm ID, residency proof, forms, payment, and appointment details."
           },
           {
             "label": "Step 3",
-            "value": "Road signs",
-            "note": "Fast visual recognition can prevent easy missed questions."
+            "value": "Practice proof",
+            "note": "Use a mock round and saved mistakes to find repeated weak areas."
           },
           {
             "label": "Step 4",
-            "value": "Logistics",
-            "note": "Documents, appointment, fees, and arrival time are part of readiness."
+            "value": "Test-day logistics",
+            "note": "Plan arrival, phone storage, vision items, and retake rules."
           }
         ],
         "path": [
           {
             "step": "1",
             "title": "Pick your state",
-            "text": "The state selector updates the official source, permit-practice link, and road-sign review link."
+            "text": "The state selector updates the official source, permit-practice link, road-sign review link, and state-specific reminders."
           },
           {
             "step": "2",
-            "title": "Check the manual",
-            "text": "Use the official state source for final rules, documents, and testing details."
+            "title": "Verify what to bring",
+            "text": "Use the official state source for final rules on ID, address proof, forms, fees, and appointment steps."
           },
           {
             "step": "3",
@@ -4844,14 +4924,18 @@
           {
             "step": "4",
             "title": "Reduce morning friction",
-            "text": "Plan arrival, documents, fees, phone storage, and sleep before test day."
+            "text": "Plan arrival, route, phone storage, glasses or contacts, payment, and retake expectations before test day."
           }
         ]
       },
       "body": [
         {
+          "heading": "What to bring to a DMV permit test",
+          "text": "The exact answer depends on your state and application path, but the common checklist is identity, age, residence or address proof, required forms, appointment details, payment, and any course or parent-consent documents. Use this page to organize those checks, then let the official state source make the final call."
+        },
+        {
           "heading": "Why a checklist belongs on a practice site",
-          "text": "Permit-test preparation is not only question practice. A visitor may know signs and still lose time because documents, appointment rules, or official source wording were not checked."
+          "text": "Permit-test preparation is not only question practice. A visitor may know signs and still lose time because documents, appointment rules, payment, vision screening, or official source wording were not checked."
         },
         {
           "heading": "How to use this with practice pages",
@@ -4864,6 +4948,18 @@
           "a": "No. It is an unofficial planning tool. Use your state DMV, DPS, MVC, PennDOT, FLHSMV, or Secretary of State source for final requirements."
         },
         {
+          "q": "What should I bring to a DMV permit test?",
+          "a": "Common items include identity proof, age proof, residency or address proof, required forms, appointment details, payment, and course or parent-consent documents when applicable. The exact list depends on your state and applicant path, so confirm with the official source."
+        },
+        {
+          "q": "Do DMV permit tests require proof of residency?",
+          "a": "Many states require proof of residence or address, but the accepted documents and number of proofs vary. Check your state source before test day."
+        },
+        {
+          "q": "Should I bring glasses or contacts to the permit test?",
+          "a": "If you normally use glasses or contacts for driving or distance vision, bring them. Some licensing visits include a vision screening or note a corrective-lens restriction."
+        },
+        {
           "q": "Does the checklist save my personal information?",
           "a": "No. The checklist stores only checked items and selected state in your browser local storage."
         },
@@ -4873,7 +4969,11 @@
         },
         {
           "q": "What should I do if my readiness score is low?",
-          "a": "Open the official source first, then complete a state practice round and review saved mistakes before test day."
+          "a": "Open the official source first, then complete a state practice round, review saved mistakes, and drill road signs before test day."
+        },
+        {
+          "q": "What if I fail the DMV written or knowledge test?",
+          "a": "Retake rules vary by state and testing path. Check the official agency source for waiting periods, fees, attempt limits, and rescheduling rules."
         }
       ],
       "sources": [
@@ -4911,6 +5011,80 @@
         "regulatory-traffic-signs-practice-test",
         "florida-dmv-permit-practice-test",
         "california-dmv-permit-practice-test"
+      ],
+      "cardGroups": [
+        {
+          "heading": "DMV permit test document checklist",
+          "intro": "Use these categories as a planning map. The exact documents vary by state, age, license path, and whether you are applying for a permit, taking a knowledge test, or completing a licensing step.",
+          "items": [
+            {
+              "label": "Identity",
+              "title": "Proof of who you are",
+              "text": "Check the official list for accepted identity and date-of-birth documents. A school ID, passport, birth certificate, or other document may not be treated the same in every state."
+            },
+            {
+              "label": "Address",
+              "title": "Proof of where you live",
+              "text": "Some states ask for one or more residency or address documents. Confirm the accepted document types and whether parent or guardian documents are allowed."
+            },
+            {
+              "label": "Forms",
+              "title": "Application, consent, and course proof",
+              "text": "Minors and first-time applicants may need signed forms, school attendance documents, driver education proof, or traffic law course completion."
+            },
+            {
+              "label": "Payment",
+              "title": "Fees and accepted payment",
+              "text": "Check the fee and payment methods before you arrive. A testing partner, county office, or state agency may have different payment rules."
+            },
+            {
+              "label": "Vision",
+              "title": "Glasses, contacts, or vision screening",
+              "text": "If you wear corrective lenses, bring them. Some visits include a vision check or mark a lens restriction on the permit or license."
+            },
+            {
+              "label": "Backup",
+              "title": "Retake, cancellation, and reschedule rules",
+              "text": "Know the rule before you need it. Waiting periods, fees, appointment availability, and attempt limits can affect the next step."
+            }
+          ]
+        },
+        {
+          "heading": "Final 24-hour permit-test review loop",
+          "intro": "A short review loop is better than random cramming. Move through source, practice, signs, mistakes, and logistics in order.",
+          "items": [
+            {
+              "label": "Source",
+              "title": "Read the official source first",
+              "text": "Private practice pages are for studying. The official manual or agency page should decide final wording, documents, fees, and test rules."
+            },
+            {
+              "label": "Practice",
+              "title": "Run one full practice round",
+              "text": "Use a realistic round to expose repeated weak areas. Do not judge readiness from one easy short quiz."
+            },
+            {
+              "label": "Signs",
+              "title": "Do one visual sign pass",
+              "text": "Road-sign questions are often fast points if recognition is automatic. Drill regulatory, warning, school, and work-zone signs."
+            },
+            {
+              "label": "Mistakes",
+              "title": "Review only what you missed",
+              "text": "Saved mistakes are more useful than random extra questions because they point to the exact category slowing you down."
+            },
+            {
+              "label": "Logistics",
+              "title": "Plan the visit like part of the test",
+              "text": "Route, arrival time, phone storage, payment, appointment, and required documents all affect whether the test day goes smoothly."
+            },
+            {
+              "label": "Rest",
+              "title": "Stop before focus drops",
+              "text": "Late-night cramming can make simple signs and rules feel harder. Use the last night for light review and sleep."
+            }
+          ]
+        }
       ]
     },
     {

@@ -716,6 +716,10 @@ function initDmvChecklists() {
     const manualLabel = widget.querySelector("[data-dmv-manual-label]");
     const examFormat = widget.querySelector("[data-dmv-exam-format]");
     const focusArea = widget.querySelector("[data-dmv-focus-area]");
+    const agencyName = widget.querySelector("[data-dmv-agency-name]");
+    const documentHint = widget.querySelector("[data-dmv-document-hint]");
+    const appointmentHint = widget.querySelector("[data-dmv-appointment-hint]");
+    const retakeHint = widget.querySelector("[data-dmv-retake-hint]");
     const manualLink = widget.querySelector("[data-dmv-manual-link]");
     const permitLink = widget.querySelector("[data-dmv-permit-link]");
     const signLink = widget.querySelector("[data-dmv-sign-link]");
@@ -723,6 +727,8 @@ function initDmvChecklists() {
     const message = widget.querySelector("[data-dmv-ready-message]");
     const nextStep = widget.querySelector("[data-dmv-next-step]");
     const resetButton = widget.querySelector("[data-dmv-checklist-reset]");
+    const copyButton = widget.querySelector("[data-dmv-copy-checklist]");
+    const printButton = widget.querySelector("[data-dmv-print-checklist]");
     const checks = Array.from(widget.querySelectorAll("[data-dmv-check]"));
     const lastStateKey = "tdt-dmv-test-day:last-state";
 
@@ -799,6 +805,10 @@ function initDmvChecklists() {
       if (manualLabel) manualLabel.textContent = option.dataset.manualLabel || "Official state source";
       if (examFormat) examFormat.textContent = option.dataset.format || "";
       if (focusArea) focusArea.textContent = option.dataset.focus ? `Review focus: ${option.dataset.focus}` : "";
+      if (agencyName) agencyName.textContent = option.dataset.agency || "State agency";
+      if (documentHint) documentHint.textContent = option.dataset.documents || "Confirm ID, residency, forms, and fees with the official source.";
+      if (appointmentHint) appointmentHint.textContent = option.dataset.appointment || "Check appointment, payment, and arrival instructions before you leave.";
+      if (retakeHint) retakeHint.textContent = option.dataset.retake || "Know what happens if you need another attempt.";
       if (manualLink) manualLink.href = option.dataset.manualUrl || "#";
       if (permitLink) permitLink.href = option.dataset.permitUrl || permitLink.href;
       if (signLink) signLink.href = option.dataset.signUrl || signLink.href;
@@ -819,6 +829,36 @@ function initDmvChecklists() {
       });
       save();
       render();
+    });
+    copyButton?.addEventListener("click", async () => {
+      const option = selectedOption();
+      const checked = checks.filter((check) => check.checked);
+      const open = checks.filter((check) => !check.checked);
+      const lines = [
+        `DMV test-day plan: ${option?.textContent?.trim() || "selected state"}`,
+        `Official source: ${manualLink?.href || option?.dataset.manualUrl || ""}`,
+        "",
+        "Ready:",
+        ...(checked.length ? checked.map((check) => `- ${check.closest("label")?.querySelector("strong")?.textContent || check.value}`) : ["- Nothing marked ready yet"]),
+        "",
+        "Still to confirm:",
+        ...(open.length ? open.map((check) => `- ${check.closest("label")?.querySelector("strong")?.textContent || check.value}`) : ["- All checklist items are marked ready"]),
+      ];
+      try {
+        await navigator.clipboard.writeText(lines.join("\n"));
+        copyButton.textContent = "Copied";
+        window.setTimeout(() => {
+          copyButton.textContent = "Copy plan";
+        }, 1800);
+      } catch (error) {
+        copyButton.textContent = "Copy unavailable";
+        window.setTimeout(() => {
+          copyButton.textContent = "Copy plan";
+        }, 1800);
+      }
+    });
+    printButton?.addEventListener("click", () => {
+      window.print();
     });
 
     let hasUrlState = false;

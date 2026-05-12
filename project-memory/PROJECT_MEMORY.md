@@ -952,3 +952,32 @@ Implemented locally:
 Strategic note:
 - Future work should start from the handoff file and current data/template files, not from old chat transcripts.
 - The best next product step remains strengthening the DMV checklist page for high-intent document/test-day queries before adding more states or ads.
+
+## Checkpoint 2026-05-13 DMV Checklist Planner Expansion
+
+Goal:
+- Make the DMV checklist page feel like a real test-day tool, not just a short list.
+- Target high-intent queries around what to bring to a DMV permit test, required documents, appointment/payment checks, glasses or contacts, and retake rules.
+
+Implemented locally:
+- Expanded `/dmv-test-day-checklist.html` into a saved test-day planner.
+- Added state-specific agency/document/appointment/retake hints for California, New York, Texas, Florida, Illinois, Pennsylvania, and New Jersey.
+- Expanded the interactive checklist from 7 broad items to 11 more practical items: official source, identity, residency, forms/consent/course proof, appointment/fees, practice target, road signs, saved mistakes, logistics/vision items, retake rule, and rest.
+- Added a `What to bring checklist map` inside the widget with identity, address, forms, payment, vision, and retake categories.
+- Added `Copy plan` and `Print` actions to the checklist widget.
+- Added two long-tail content card groups: `DMV permit test document checklist` and `Final 24-hour permit-test review loop`.
+- Expanded FAQ coverage for what to bring, proof of residency, glasses/contacts, privacy, manual vs. practice questions, low readiness score, and failing/retesting.
+- Updated state-page test-day bridge copy to point users toward documents, what-to-bring planning, official source, practice, and retake preparation.
+
+Validation completed:
+- `content/site_data.json` parses successfully.
+- Static generator builds successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata, JSON-LD, sitemap count, and local-link validation passes across all 45 HTML files.
+- Browser interaction test verified: `?state=florida` preselects Florida, agency hint updates to `FLHSMV`, document hint includes TLSAE guidance, the widget has 11 checklist items, checking two items shows 18% readiness, and the document map renders.
+
+Strategic note:
+- This strengthens the highest-intent DMV page before adding more states or ads.
+- The next useful step is to inspect the live page after push and then decide whether to add a small homepage/document-check CTA or wait for Search Console recrawl.
