@@ -937,3 +937,18 @@ Validation completed:
 Strategic note:
 - This strengthens the site as a tool network: state pages now lead to a practical next step, and the checklist sends users back to practice.
 - Next useful step is to verify the state-preselected checklist behavior in a browser and then commit/push this internal-linking layer separately.
+
+## Checkpoint 2026-05-12 Project Handoff Backup
+
+Goal:
+- Save a self-contained project backup so future Codex/model changes can continue without relying on chat history.
+- Capture current commits, architecture, validation status, production checks, dirty-file boundaries, and next strategic step.
+
+Implemented locally:
+- Added `project-memory/CURRENT_HANDOFF_2026-05-12.md`.
+- Updated `project-memory/NEW_CODEX_THREAD_PROMPT.md` so new threads read the handoff first.
+- Documented the current DMV-first direction, latest pushed commit `834f683`, Search Console snapshot, validation commands, deployment notes, and unrelated old seller-tool files to avoid committing.
+
+Strategic note:
+- Future work should start from the handoff file and current data/template files, not from old chat transcripts.
+- The best next product step remains strengthening the DMV checklist page for high-intent document/test-day queries before adding more states or ads.
