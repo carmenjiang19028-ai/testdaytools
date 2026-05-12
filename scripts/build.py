@@ -85,7 +85,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   </main>
   <footer class="site-footer">
     <p>{esc(SITE["disclaimer"])}</p>
-    <p><a href="privacy.html">Privacy</a> <a href="contact.html">Contact</a> <a href="disclaimer.html">Disclaimer</a></p>
+    <p><a href="about.html">About</a> <a href="editorial-policy.html">Editorial Policy</a> <a href="privacy.html">Privacy</a> <a href="contact.html">Contact</a> <a href="disclaimer.html">Disclaimer</a></p>
   </footer>
 </body>
 </html>

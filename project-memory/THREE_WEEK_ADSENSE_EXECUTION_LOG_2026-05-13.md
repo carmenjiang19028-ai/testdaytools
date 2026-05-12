@@ -135,3 +135,30 @@ Notes:
 
 - This was implemented as a generator-level feature so future sign pages inherit the same utility without hand-copying content.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
+### 2026-05-13 07:04 CST
+
+Fifth local refinement block completed:
+
+- Added a new `editorial-policy.html` trust page for AdSense readiness and user confidence.
+- The policy explains:
+  - purpose and scope
+  - original tools/questions/sign artwork
+  - official-source priority
+  - update process
+  - correction requests
+  - future ad placement boundaries
+- Updated the generated footer across the site to include About, Editorial Policy, Privacy, Contact, and Disclaimer.
+- Regenerated static HTML output and sitemap.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 46 HTML files, 129 JSON-LD blocks, local links OK.
+
+Notes:
+
+- No real ad code was added.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.

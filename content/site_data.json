@@ -18494,6 +18494,51 @@
       ]
     },
     {
+      "slug": "editorial-policy",
+      "title": "Editorial Policy",
+      "description": "How TestDayTools writes, checks, updates, and labels unofficial DMV, AP, and SAT tools.",
+      "content": [
+        {
+          "heading": "Purpose",
+          "text": "TestDayTools publishes practical planning tools, checklists, and original practice questions for exam and DMV preparation. The goal is to help readers decide the next action, not to replace official sources."
+        },
+        {
+          "heading": "Original tools and questions",
+          "text": "Practice questions, sign illustrations, checklists, and study flows are written for this site. DMV sign graphics are simplified original SVG illustrations used for recognition practice."
+        },
+        {
+          "heading": "Official-source priority",
+          "text": "When a page mentions a rule, test format, document requirement, or deadline, the official source is treated as the final authority. If a TestDayTools page conflicts with an official source, the official source wins."
+        },
+        {
+          "heading": "Update process",
+          "text": "Static pages are rebuilt from structured data files so dates, source links, FAQs, and practice paths can be updated without redesigning the site. Pages show a site-wide last-updated date."
+        },
+        {
+          "heading": "Corrections",
+          "text": "Correction requests should include the page URL, the section that appears outdated or unclear, and the official source that should be checked."
+        },
+        {
+          "heading": "Advertising policy",
+          "text": "Real ads are not installed yet. If ads are approved later, placements should not cover quiz choices, checklist controls, source links, or any button needed to use a tool."
+        }
+      ],
+      "links": [
+        {
+          "label": "Contact and corrections",
+          "url": "contact.html"
+        },
+        {
+          "label": "Privacy Policy",
+          "url": "privacy.html"
+        },
+        {
+          "label": "Disclaimer",
+          "url": "disclaimer.html"
+        }
+      ]
+    },
+    {
       "slug": "privacy",
       "title": "Privacy Policy",
       "description": "Privacy policy for TestDayTools. The site does not collect personal information or store quiz answers.",
