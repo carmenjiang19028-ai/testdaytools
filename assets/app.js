@@ -51,6 +51,7 @@ function initQuizzes() {
     const wrongAnswers = new Set();
     const missedCategories = {};
     const storageKey = `tdt-mistakes:${window.location.pathname}:${quiz.dataset.modeId || quizLabel}`;
+    const recentPracticeKey = "tdt-recent-practice";
     let savedMistakes = [];
     let activeSequence = questions.map((_, index) => index);
     let activePosition = 0;
@@ -266,6 +267,34 @@ function initQuizzes() {
       }
     };
 
+    const saveRecentPractice = () => {
+      try {
+        const pageName = window.location.pathname.split("/").pop() || "index.html";
+        const selectedFocus = filterSelect?.value || "all";
+        const activeTotal = activeSequence.length || questions.length;
+        const answeredCount = activeSequence.filter((index) => answered.has(index)).length;
+        const correctCount = activeSequence.filter((index) => correctAnswers.has(index)).length;
+        const missedCount = activeSequence.filter((index) => wrongAnswers.has(index)).length;
+        const hasFocus = selectedFocus && selectedFocus !== "all" && selectedFocus !== "saved";
+        const href = hasFocus
+          ? `${pageName}?focus=${encodeURIComponent(selectedFocus)}#practice`
+          : `${pageName}#practice`;
+        const label = hasFocus ? `${quizLabel} · ${selectedFocus}` : quizLabel;
+
+        window.localStorage.setItem(recentPracticeKey, JSON.stringify({
+          label,
+          href,
+          answered: answeredCount,
+          total: activeTotal,
+          correct: correctCount,
+          missed: missedCount,
+          updatedAt: Date.now(),
+        }));
+      } catch (error) {
+        // Practice still works when browser storage is blocked.
+      }
+    };
+
     const resetQuiz = () => {
       answered.clear();
       correctAnswers.clear();
@@ -321,6 +350,23 @@ function initQuizzes() {
         ? allQuestionIndexes()
         : allQuestionIndexes().filter((index) => (questions[index].dataset.category || "Permit basics") === value);
       setActiveSequence(nextSequence);
+    };
+
+    const applyInitialFocus = () => {
+      if (!filterSelect) return;
+      let initialFocus = "";
+      try {
+        initialFocus = new URLSearchParams(window.location.search).get("focus") || "";
+      } catch (error) {
+        initialFocus = "";
+      }
+      if (!initialFocus) return;
+      const match = Array.from(filterSelect.options).find(
+        (option) => option.value.toLowerCase() === initialFocus.toLowerCase()
+      );
+      if (!match) return;
+      filterSelect.value = match.value;
+      applyFocusFilter(match.value);
     };
 
     const shuffleActiveSequence = () => {
@@ -461,11 +507,13 @@ function initQuizzes() {
           feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.explanation}`;
           renderScore();
           renderActiveQuestion();
+          saveRecentPractice();
         });
       });
     });
     loadMistakes();
     populateFilterOptions();
+    applyInitialFocus();
     renderMistakes();
     renderTimer();
   });
@@ -546,9 +594,28 @@ function initMiniSignDrills() {
     const scoreLabel = drill.querySelector("[data-mini-drill-score]");
     const feedback = drill.querySelector("[data-mini-drill-feedback]");
     const nextButton = drill.querySelector("[data-mini-drill-next]");
+    const focusLink = drill.querySelector("[data-mini-drill-focus-link]");
+    const missedFocus = {};
     let activeIndex = 0;
     let correct = 0;
     let answered = 0;
+
+    const bestMissedFocus = () =>
+      Object.entries(missedFocus)
+        .sort((a, b) => b[1] - a[1])
+        .map(([focus]) => focus)[0] || "";
+
+    const updateFocusLink = () => {
+      if (!focusLink) return;
+      const focus = bestMissedFocus();
+      if (!focus) {
+        focusLink.href = "road-signs-practice-test.html#practice";
+        focusLink.textContent = "Full road signs test";
+        return;
+      }
+      focusLink.href = `road-signs-practice-test.html?focus=${encodeURIComponent(focus)}#practice`;
+      focusLink.textContent = `Practice ${focus.toLowerCase()}`;
+    };
 
     const showQuestion = () => {
       questions.forEach((question, index) => {
@@ -573,6 +640,9 @@ function initMiniSignDrills() {
           answered += 1;
           const isCorrect = Number(button.dataset.miniChoice) === Number(question.dataset.miniAnswer);
           if (isCorrect) correct += 1;
+          if (!isCorrect && question.dataset.miniFocus) {
+            missedFocus[question.dataset.miniFocus] = (missedFocus[question.dataset.miniFocus] || 0) + 1;
+          }
           button.classList.add(isCorrect ? "is-correct" : "is-wrong");
           const correctButton = question.querySelector(`[data-mini-choice="${question.dataset.miniAnswer}"]`);
           correctButton?.classList.add("is-correct");
@@ -583,6 +653,7 @@ function initMiniSignDrills() {
             feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.miniExplanation}`;
           }
           updateScore();
+          updateFocusLink();
         });
       });
     });
@@ -601,7 +672,41 @@ function initMiniSignDrills() {
     });
 
     updateScore();
+    updateFocusLink();
     showQuestion();
+  });
+}
+
+function initRecentPracticeCards() {
+  document.querySelectorAll("[data-recent-practice]").forEach((card) => {
+    const title = card.querySelector("[data-recent-practice-title]");
+    const meta = card.querySelector("[data-recent-practice-meta]");
+    const link = card.querySelector("[data-recent-practice-link]");
+    let progress = null;
+
+    try {
+      progress = JSON.parse(window.localStorage.getItem("tdt-recent-practice") || "null");
+    } catch (error) {
+      progress = null;
+    }
+
+    if (!progress || !progress.href) return;
+
+    const answered = Number(progress.answered) || 0;
+    const total = Number(progress.total) || 0;
+    const correct = Number(progress.correct) || 0;
+    const missed = Number(progress.missed) || 0;
+
+    if (title) title.textContent = progress.label || "Recent practice";
+    if (meta) {
+      meta.textContent = total
+        ? `${answered} of ${total} answered · ${correct} correct · ${missed} missed`
+        : `${correct} correct · ${missed} missed`;
+    }
+    if (link) {
+      link.href = progress.href;
+      link.textContent = answered ? "Continue practice" : "Start practice";
+    }
   });
 }
 
@@ -715,5 +820,6 @@ initModeTools();
 initStateFilters();
 initPracticeWorkbenches();
 initMiniSignDrills();
+initRecentPracticeCards();
 initSatScoreEstimators();
 initSatGoalPlanners();

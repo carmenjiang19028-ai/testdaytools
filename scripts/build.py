@@ -148,6 +148,7 @@ def render_mini_sign_drill():
             "prompt": "What is the required action?",
             "choices": ["Slow and continue", "Stop completely, then yield", "Only stop for trucks"],
             "answer": 1,
+            "focus": "Regulatory signs",
             "explanation": "Stop signs require a complete stop before you yield and move when safe.",
         },
         {
@@ -156,6 +157,7 @@ def render_mini_sign_drill():
             "prompt": "What does this sign ask you to do?",
             "choices": ["Give right of way when needed", "Stop every time", "Speed up to merge"],
             "answer": 0,
+            "focus": "Regulatory signs",
             "explanation": "Yield means slow down and let traffic or pedestrians go first when they have priority.",
         },
         {
@@ -164,6 +166,7 @@ def render_mini_sign_drill():
             "prompt": "What should you avoid?",
             "choices": ["Changing lanes", "Entering this road or ramp", "Parking near a curb"],
             "answer": 1,
+            "focus": "Regulatory signs",
             "explanation": "Do Not Enter tells you not to drive into that roadway, ramp, or direction.",
         },
         {
@@ -172,6 +175,7 @@ def render_mini_sign_drill():
             "prompt": "What does this sign set?",
             "choices": ["Suggested speed", "Legal maximum speed", "Minimum passing speed"],
             "answer": 1,
+            "focus": "Speed signs",
             "explanation": "A speed limit sign states the legal maximum speed under normal conditions.",
         },
     ]
@@ -182,7 +186,7 @@ def render_mini_sign_drill():
             f'<button type="button" data-mini-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(item["choices"])
         )
-        cards.append(f"""<article class="mini-question" data-mini-question data-mini-answer="{item["answer"]}" data-mini-explanation="{esc(item["explanation"])}">
+        cards.append(f"""<article class="mini-question" data-mini-question data-mini-answer="{item["answer"]}" data-mini-focus="{esc(item["focus"])}" data-mini-explanation="{esc(item["explanation"])}">
   <div class="mini-sign" role="img" aria-label="{esc(item["alt"])}">{svg}</div>
   <div>
     <span>Question {index + 1} of {len(items)}</span>
@@ -199,7 +203,7 @@ def render_mini_sign_drill():
   <p class="mini-drill-feedback" data-mini-drill-feedback>Answer four signs, then jump into the full practice path.</p>
   <div class="mini-drill-actions">
     <button type="button" data-mini-drill-next>Next sign</button>
-    <a href="road-signs-practice-test.html">Full road signs test</a>
+    <a href="road-signs-practice-test.html#practice" data-mini-drill-focus-link>Full road signs test</a>
   </div>
 </div>"""
 
@@ -268,6 +272,14 @@ def render_home_practice_panel():
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
     <a href="dmv-practice.html#state-paths"><span>States</span><strong>7 practice paths</strong></a>
+  </div>
+  <div class="workbench-return" data-recent-practice>
+    <div>
+      <span>Recent practice</span>
+      <strong data-recent-practice-title>No saved progress on this device yet</strong>
+      <p data-recent-practice-meta>Start a road signs round to save a return point.</p>
+    </div>
+    <a href="road-signs-practice-test.html#practice" data-recent-practice-link>Start road signs</a>
   </div>
   <div class="hero-stat-strip">{stats}</div>
 </aside>"""

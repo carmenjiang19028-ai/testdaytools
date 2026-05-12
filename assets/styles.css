@@ -357,7 +357,8 @@ h3 {
 .workbench-head a,
 .mini-drill-actions a,
 .workbench-route-actions a,
-.workbench-mode-links a {
+.workbench-mode-links a,
+.workbench-return a {
   color: var(--blue);
   font-weight: 850;
   text-decoration: none;
@@ -516,6 +517,49 @@ h3 {
   color: var(--blue-deep);
   font-size: 0.9rem;
   line-height: 1.2;
+}
+
+.workbench-return {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.workbench-return span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.workbench-return strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--blue-deep);
+  line-height: 1.25;
+}
+
+.workbench-return p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.workbench-return a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfdff;
+  font-size: 0.86rem;
+  text-align: center;
 }
 
 .hero-sign-strip {
@@ -2220,6 +2264,7 @@ button:disabled {
   .mini-drill-actions,
   .workbench-route-actions,
   .workbench-mode-links,
+  .workbench-return,
   .quiz-toolbox-actions,
   .task-console-grid,
   .state-grid,

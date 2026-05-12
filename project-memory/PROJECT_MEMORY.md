@@ -865,3 +865,28 @@ Validation completed:
 Strategic note:
 - This feature set should raise engagement across all DMV pages because it upgrades the shared practice engine instead of one page at a time.
 - Next useful step is to make the homepage mini diagnostic hand off into a pre-filtered practice round, then add a lightweight progress summary on return visits.
+
+## Checkpoint 2026-05-12 Diagnostic Handoff and Return Path
+
+Goal:
+- Turn the homepage mini diagnostic into a real practice handoff instead of a dead-end teaser.
+- Give return visitors a simple way to continue the last practice round saved on their device.
+
+Implemented locally:
+- Added focus metadata to each homepage and DMV hub mini diagnostic question.
+- Updated the mini diagnostic CTA so missed signs route into `/road-signs-practice-test.html?focus=...#practice`.
+- Added URL focus handling to generated quiz pages so a `focus` query parameter preselects the matching category.
+- Added lightweight local progress storage after answered quiz questions.
+- Added a recent-practice block to the homepage and DMV hub practice workspace.
+
+Validation completed:
+- Static generator builds successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata, JSON-LD, sitemap count, and local-link validation passes across all 44 HTML files.
+- Browser interaction test verified: a missed homepage stop-sign question routes to the regulatory-signs focus round, the road-sign quiz opens filtered to 5 regulatory-sign questions, answered progress is saved, and the homepage return card updates to continue that focused round.
+
+Strategic note:
+- This improves the visit loop: answer a visible diagnostic, enter the matching drill, then return directly to the saved round.
+- Next useful step is to add one more high-intent tool surface, likely a DMV test-day readiness checklist or a state/manual finder, before adding more low-intent article pages.
