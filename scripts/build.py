@@ -330,6 +330,7 @@ def render_tool_actions(tool):
         actions = [
             ("Start image quiz", "#practice"),
             ("Focus paths", "#sign-focus") if resolve_sign_focus_shortcuts(tool) else None,
+            ("Sign finder", "#sign-meaning-finder") if tool.get("signLibrary") else None,
             ("Shape and color guide", "#sign-study"),
             ("Sign library", "#sign-library"),
         ]
@@ -769,6 +770,63 @@ def render_sign_library(tool):
 </section>"""
 
 
+def render_sign_lookup(tool):
+    library = tool.get("signLibrary")
+    if not library:
+        return ""
+    slug = tool.get("slug", "")
+    cards = []
+    filters = [{"label": "All", "value": "all"}]
+    seen_filters = {"all"}
+    for group in library.get("groups", []):
+        group_label = group.get("label", "Signs")
+        filter_value = group_label.lower().split()[0].replace(",", "")
+        if filter_value and filter_value not in seen_filters:
+            filters.append({"label": group_label, "value": filter_value})
+            seen_filters.add(filter_value)
+        practice_focus = group_label
+        if "regulatory" in group_label.lower():
+            practice_focus = "Regulatory signs"
+        elif "warning" in group_label.lower():
+            practice_focus = "Warning signs"
+        elif "work" in group_label.lower():
+            practice_focus = "Work zone signs"
+        for item in group.get("signs", []):
+            svg = SIGN_SVGS.get(item["image"], "")
+            if not svg:
+                continue
+            query = " ".join([group_label, item["title"], item["meaning"], item["image"]])
+            cards.append(f"""<article class="sign-lookup-card" data-sign-card data-sign-filter-key="{esc(filter_value)}" data-sign-query="{esc(query.lower())}">
+  <div class="sign-thumb" role="img" aria-label="{esc(item["title"])}">{svg}</div>
+  <div>
+    <span>{esc(group_label)}</span>
+    <strong>{esc(item["title"])}</strong>
+    <p>{esc(item["meaning"])}</p>
+    <a href="{esc(slug)}.html?focus={esc(quote(practice_focus))}#practice">Practice this group</a>
+  </div>
+</article>""")
+    if not cards:
+        return ""
+    filter_buttons = "".join(
+        f'<button type="button" class="{"is-active" if item["value"] == "all" else ""}" data-sign-filter="{esc(item["value"])}">{esc(item["label"])}</button>'
+        for item in filters
+    )
+    return f"""<section class="sign-lookup" id="sign-meaning-finder" data-sign-lookup>
+  <div class="tool-section-head">
+    <span class="eyebrow">Sign meaning finder</span>
+    <h2>Search road sign meanings before you quiz</h2>
+    <p class="section-intro">Type a sign name, action, color, or hazard to find the meaning quickly, then jump into the matching practice group.</p>
+  </div>
+  <div class="sign-lookup-toolbar">
+    <label>Find a sign <input type="search" placeholder="Try stop, yield, merge, school, speed..." data-sign-search></label>
+    <div class="sign-lookup-filters" aria-label="Sign category filters">{filter_buttons}</div>
+    <p data-sign-count>{len(cards)} signs shown</p>
+  </div>
+  <div class="sign-lookup-grid">{"".join(cards)}</div>
+  <p class="sign-lookup-empty" data-sign-empty hidden>No matching sign yet. Try a simpler word such as stop, merge, speed, school, or work.</p>
+</section>"""
+
+
 def render_exam_details(tool):
     details = tool.get("examDetails")
     if not details:
@@ -1140,11 +1198,13 @@ def render_tool(tool):
     quiz = render_dmv_mode_tool(tool) if tool.get("category") == "DMV" else render_quiz(tool.get("quiz"))
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
     dmv_single_mode = tool.get("category") == "DMV" and len(tool.get("quizModes", [])) == 1
+    is_sign_page = tool.get("category") == "DMV" and ("road-signs" in tool.get("slug", "") or "regulatory-traffic-signs" in tool.get("slug", ""))
     exam_brief = render_exam_brief(tool)
     exam_details = render_exam_details(tool)
     practice_topics = render_topic_cards(tool)
     sign_study = render_sign_study(tool)
     sign_focus = render_sign_focus_shortcuts(tool)
+    sign_lookup = render_sign_lookup(tool) if is_sign_page else ""
     sign_library = render_sign_library(tool)
     practice_console = render_practice_console(tool)
     body_sections = "".join(
@@ -1154,11 +1214,11 @@ def render_tool(tool):
     dmv_sections = []
     if dmv_quiz_first:
         if dmv_single_mode:
-            dmv_sections.extend([sign_focus, quiz, sign_study, sign_library, exam_details, exam_brief])
+            dmv_sections.extend([sign_focus, sign_lookup, quiz, sign_study, sign_library, exam_details, exam_brief])
         else:
-            dmv_sections.extend([exam_brief, sign_focus, quiz, exam_details, practice_topics, sign_study, sign_library])
+            dmv_sections.extend([exam_brief, sign_focus, sign_lookup, quiz, exam_details, practice_topics, sign_study, sign_library])
     else:
-        dmv_sections.extend([exam_brief, sign_focus, exam_details, practice_topics, sign_study, sign_library])
+        dmv_sections.extend([exam_brief, sign_focus, sign_lookup, exam_details, practice_topics, sign_study, sign_library])
     lower_sections = [
         render_quick_facts(tool.get("quickFacts")),
         render_tool_widget(tool),

@@ -693,6 +693,43 @@ function initMiniSignDrills() {
   });
 }
 
+function initSignLookups() {
+  document.querySelectorAll("[data-sign-lookup]").forEach((lookup) => {
+    const search = lookup.querySelector("[data-sign-search]");
+    const filterButtons = Array.from(lookup.querySelectorAll("[data-sign-filter]"));
+    const cards = Array.from(lookup.querySelectorAll("[data-sign-card]"));
+    const count = lookup.querySelector("[data-sign-count]");
+    const empty = lookup.querySelector("[data-sign-empty]");
+    let activeFilter = "all";
+
+    const render = () => {
+      const term = (search?.value || "").trim().toLowerCase();
+      let shown = 0;
+      cards.forEach((card) => {
+        const matchesFilter = activeFilter === "all" || card.dataset.signFilterKey === activeFilter;
+        const matchesSearch = !term || (card.dataset.signQuery || "").includes(term);
+        const visible = matchesFilter && matchesSearch;
+        card.hidden = !visible;
+        if (visible) shown += 1;
+      });
+      if (count) count.textContent = `${shown} sign${shown === 1 ? "" : "s"} shown`;
+      if (empty) empty.hidden = shown !== 0;
+      filterButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.signFilter === activeFilter);
+      });
+    };
+
+    search?.addEventListener("input", render);
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.signFilter || "all";
+        render();
+      });
+    });
+    render();
+  });
+}
+
 function initRecentPracticeCards() {
   document.querySelectorAll("[data-recent-practice]").forEach((card) => {
     const title = card.querySelector("[data-recent-practice-title]");
@@ -1134,6 +1171,7 @@ initModeTools();
 initStateFilters();
 initPracticeWorkbenches();
 initMiniSignDrills();
+initSignLookups();
 initRecentPracticeCards();
 initDmvChecklists();
 initSatScoreEstimators();

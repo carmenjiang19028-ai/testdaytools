@@ -163,6 +163,30 @@ Notes:
 - No real ad code was added.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
 
+### 2026-05-13 07:19 CST
+
+Seventh local refinement block completed:
+
+- Added a searchable road-sign meaning finder to the general road-sign page, regulatory-sign page, and state road-sign pages.
+- The finder lets visitors search by sign name, action, color, or hazard and filter by sign category.
+- Each result keeps the sign image, meaning, category label, and a direct link back into the relevant practice focus.
+- Added a `Sign finder` hero shortcut on sign pages with an available sign library.
+- Fixed hidden-card behavior for filtered sign results so the visual grid and result count match.
+- Regenerated affected static HTML pages.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 46 HTML files, 129 JSON-LD blocks, local links OK.
+- Local browser review on `http://127.0.0.1:8765/road-signs-practice-test.html#sign-meaning-finder` confirmed the finder renders, accepts search input, filters visible cards, and keeps the quiz below the finder.
+
+Notes:
+
+- The feature is generator-level, so current and future sign pages can inherit the same lookup tool from their existing sign library data.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
 ### 2026-05-13 07:11 CST
 
 Sixth local refinement block completed:

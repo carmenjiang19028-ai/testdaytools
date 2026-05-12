@@ -1062,6 +1062,7 @@ h3 {
 
 .exam-details,
 .sign-focus,
+.sign-lookup,
 .sign-study {
   background: var(--paper);
 }
@@ -1208,6 +1209,126 @@ h3 {
   padding-left: 18px;
   color: var(--muted);
   font-size: 0.92rem;
+}
+
+.sign-lookup-toolbar {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+  box-shadow: var(--shadow-soft);
+}
+
+.sign-lookup-toolbar label {
+  display: grid;
+  gap: 7px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.sign-lookup-toolbar input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+
+.sign-lookup-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sign-lookup-filters button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border-color: var(--line);
+  background: #ffffff;
+  color: var(--blue-deep);
+  font-size: 0.88rem;
+}
+
+.sign-lookup-filters button.is-active {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.sign-lookup-toolbar p,
+.sign-lookup-empty {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.sign-lookup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.sign-lookup-card {
+  min-height: 150px;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.sign-lookup-card[hidden],
+.sign-lookup-empty[hidden] {
+  display: none;
+}
+
+.sign-lookup-card span {
+  color: var(--green);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.sign-lookup-card strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--blue-deep);
+}
+
+.sign-lookup-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.sign-lookup-card a {
+  display: inline-flex;
+  margin-top: 8px;
+  color: var(--blue);
+  font-size: 0.88rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.sign-lookup-card a:hover,
+.sign-lookup-card a:focus {
+  text-decoration: underline;
+}
+
+.sign-lookup-empty {
+  margin-top: 14px;
 }
 
 .study-path-grid {
@@ -2796,6 +2917,9 @@ button:disabled {
   .exam-detail-grid,
   .topic-grid,
   .sign-focus-grid,
+  .sign-lookup-toolbar,
+  .sign-lookup-grid,
+  .sign-lookup-card,
   .sign-study-grid,
   .study-path-grid,
   .sign-group,
