@@ -261,6 +261,7 @@ def render_tool_actions(tool):
     if is_checklist_page:
         actions = [
             ("Open checklist", "#dmv-checklist"),
+            ("Documents", "#documents-map"),
             ("State source finder", "#manual-finder"),
             ("Practice hub", "dmv-practice.html#state-paths"),
         ]
@@ -549,7 +550,7 @@ def render_dmv_checklist_widget(widget):
         f"""<article><span>{esc(item.get("label", ""))}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></article>"""
         for item in widget.get("documentGroups", [])
     )
-    document_map = f"""<div class="dmv-document-map">
+    document_map = f"""<div class="dmv-document-map" id="documents-map">
       <h3>What to bring checklist map</h3>
       <div class="dmv-document-grid">{document_cards}</div>
     </div>""" if document_cards else ""
@@ -1222,7 +1223,7 @@ def render_home():
         f'<a class="start-card" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></a>'
         for item in DATA["home"].get("startHere", [])
     )
-    start_section = f'<section class="home-start"><h2>Choose your test</h2><p class="section-intro">Most visitors should start from one of these paths, then jump into the specific tool they need.</p><div class="start-grid">{start_items}</div></section>' if start_items else ""
+    start_section = f'<section class="home-start"><h2>Start with the DMV task</h2><p class="section-intro">Most visitors should choose a concrete task first: signs, regulatory signs, documents, or state permit practice.</p><div class="start-grid">{start_items}</div></section>' if start_items else ""
     popular_items = "".join(
         f'<a class="popular-row" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><em>{esc(item["text"])}</em></a>'
         for item in DATA["home"].get("popular", [])

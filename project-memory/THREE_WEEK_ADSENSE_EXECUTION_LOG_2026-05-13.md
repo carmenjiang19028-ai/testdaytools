@@ -44,7 +44,7 @@ Planned first block:
 
 Initial execution log created before code changes.
 
-### 2026-05-13 06:55 CST
+### 2026-05-13 06:46 CST
 
 First DMV tool-entry block completed locally:
 
@@ -70,3 +70,20 @@ Notes:
 
 - Real AdSense publisher code is still not installed because no publisher/client ID has been provided yet.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
+### 2026-05-13 06:48 CST
+
+Second local refinement block completed:
+
+- Updated the DMV checklist page title and copy to target documents, ID, residency proof, and state source intent more directly.
+- Added a direct `Documents` hero action to the checklist page.
+- Added a stable `#documents-map` anchor to the what-to-bring checklist map.
+- Changed homepage start section copy from generic test choice to concrete DMV tasks.
+- Regenerated static HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 45 HTML files, 127 JSON-LD blocks, local links OK.
