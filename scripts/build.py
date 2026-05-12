@@ -252,6 +252,66 @@ def checklist_href_for_state(state):
     return f'dmv-test-day-checklist.html?state={esc(state["value"])}#dmv-checklist'
 
 
+def quiz_key_for_tool(tool):
+    modes = tool.get("quizModes") or []
+    if modes:
+        return modes[0].get("quiz")
+    return tool.get("quiz")
+
+
+def resolve_sign_focus_shortcuts(tool):
+    if tool.get("focusShortcuts"):
+        return tool["focusShortcuts"]
+    slug = tool.get("slug", "")
+    if "road-signs" not in slug and "regulatory-traffic-signs" not in slug:
+        return None
+    quiz_key = quiz_key_for_tool(tool)
+    categories = {item.get("category", "Permit basics") for item in DATA["quizzes"].get(quiz_key, [])}
+    if not categories:
+        return None
+    priority = [
+        ("Regulatory signs", "Regulatory first", "Rules and restrictions", "Practice stop, yield, no entry, speed, direction, and turn restrictions first."),
+        ("Warning signs", "Warning signs", "Hazards and road changes", "Use this when yellow warning signs, crossings, curves, or road-condition signs feel slow."),
+        ("Speed signs", "Speed signs", "Speed limits and safe speed", "Practice posted limits and the decision to slow down when conditions change."),
+        ("Turn signs", "Turns and direction", "Turns, lanes, and direction", "Review signs that control turns, lanes, movement, and one-way traffic."),
+        ("Turn and lane control signs", "Turns and direction", "Turns, lanes, and direction", "Review signs that control turns, lanes, movement, and one-way traffic."),
+        ("Work zone signs", "Work zones", "Construction and temporary control", "Review orange signs, temporary control, lane shifts, workers, and slower traffic."),
+    ]
+    items = []
+    used = set()
+    for focus, label, title, text in priority:
+        if focus in categories and focus not in used:
+            items.append({"label": label, "title": title, "text": text, "focus": focus})
+            used.add(focus)
+        if len(items) >= 4:
+            break
+    for focus in sorted(categories):
+        if len(items) >= 4:
+            break
+        if focus in used:
+            continue
+        items.append({
+            "label": "Focus",
+            "title": focus,
+            "text": "Open the quiz with this sign category selected.",
+            "focus": focus,
+        })
+        used.add(focus)
+    if not items:
+        return None
+    state = find_dmv_state_for_tool(tool)
+    if "regulatory-traffic-signs" in slug:
+        label = "regulatory traffic signs"
+    else:
+        label = f'{state["label"]} road signs' if state else "road signs"
+    return {
+        "kicker": "Weak-area shortcuts",
+        "heading": f"Practice {label} by weak area",
+        "intro": "Choose the sign category that feels slow, then the quiz opens with that focus selected.",
+        "items": items,
+    }
+
+
 def render_tool_actions(tool):
     if tool.get("category") != "DMV":
         return ""
@@ -269,7 +329,7 @@ def render_tool_actions(tool):
     elif is_sign_page:
         actions = [
             ("Start image quiz", "#practice"),
-            ("Focus paths", "#sign-focus") if tool.get("focusShortcuts") else None,
+            ("Focus paths", "#sign-focus") if resolve_sign_focus_shortcuts(tool) else None,
             ("Shape and color guide", "#sign-study"),
             ("Sign library", "#sign-library"),
         ]
@@ -719,7 +779,7 @@ def render_sign_study(tool):
 
 
 def render_sign_focus_shortcuts(tool):
-    shortcuts = tool.get("focusShortcuts")
+    shortcuts = resolve_sign_focus_shortcuts(tool)
     if not shortcuts:
         return ""
     slug = tool.get("slug", "")

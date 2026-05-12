@@ -113,3 +113,25 @@ Notes:
 
 - Playwright is not installed in this checkout, so this block used static HTML/link/schema validation rather than a browser screenshot pass.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
+### 2026-05-13 06:59 CST
+
+Fourth local refinement block completed:
+
+- Generalized the weak-area sign shortcuts from the Florida page to the general road-sign page, regulatory-sign page, and six other state road-sign pages.
+- Each affected sign page now has a `Focus paths` hero action and a `#sign-focus` section above the quiz.
+- The generated shortcuts open the quiz with a category focus such as regulatory signs, warning signs, speed signs, turn signs, or work zones.
+- Florida keeps its custom regulatory-sign copy from the prior block.
+- Regenerated static HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 45 HTML files, 127 JSON-LD blocks, local links OK.
+
+Notes:
+
+- This was implemented as a generator-level feature so future sign pages inherit the same utility without hand-copying content.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.
