@@ -710,6 +710,119 @@ function initRecentPracticeCards() {
   });
 }
 
+function initDmvChecklists() {
+  document.querySelectorAll("[data-dmv-checklist]").forEach((widget) => {
+    const stateSelect = widget.querySelector("[data-dmv-checklist-state]");
+    const manualLabel = widget.querySelector("[data-dmv-manual-label]");
+    const examFormat = widget.querySelector("[data-dmv-exam-format]");
+    const focusArea = widget.querySelector("[data-dmv-focus-area]");
+    const manualLink = widget.querySelector("[data-dmv-manual-link]");
+    const permitLink = widget.querySelector("[data-dmv-permit-link]");
+    const signLink = widget.querySelector("[data-dmv-sign-link]");
+    const score = widget.querySelector("[data-dmv-ready-score]");
+    const message = widget.querySelector("[data-dmv-ready-message]");
+    const nextStep = widget.querySelector("[data-dmv-next-step]");
+    const resetButton = widget.querySelector("[data-dmv-checklist-reset]");
+    const checks = Array.from(widget.querySelectorAll("[data-dmv-check]"));
+    const lastStateKey = "tdt-dmv-test-day:last-state";
+
+    const storageKey = () => `tdt-dmv-test-day:${stateSelect?.value || "default"}`;
+
+    const selectedOption = () => stateSelect?.selectedOptions?.[0];
+
+    const save = () => {
+      try {
+        const checked = checks.filter((check) => check.checked).map((check) => check.value);
+        window.localStorage.setItem(storageKey(), JSON.stringify({ checked, updatedAt: Date.now() }));
+      } catch (error) {
+        // The checklist remains usable when local storage is unavailable.
+      }
+    };
+
+    const load = () => {
+      let saved = null;
+      try {
+        saved = JSON.parse(window.localStorage.getItem(storageKey()) || "null");
+      } catch (error) {
+        saved = null;
+      }
+      const checked = new Set(Array.isArray(saved?.checked) ? saved.checked : []);
+      checks.forEach((check) => {
+        check.checked = checked.has(check.value);
+      });
+    };
+
+    const render = () => {
+      const checkedCount = checks.filter((check) => check.checked).length;
+      const total = checks.length || 1;
+      const percent = Math.round((checkedCount / total) * 100);
+      const firstOpen = checks.find((check) => !check.checked);
+      const firstLabel = firstOpen?.closest("label")?.querySelector("strong")?.textContent || "";
+
+      if (score) score.textContent = `${percent}%`;
+      if (message) {
+        if (percent === 100) {
+          message.textContent = "Checklist complete. Do a calm final review, then use the official source for anything that changed.";
+        } else if (percent >= 70) {
+          message.textContent = "Close to ready. Finish the remaining logistics and weak-area checks before test day.";
+        } else if (percent >= 35) {
+          message.textContent = "Partly ready. Use the state practice and sign review links before relying on this score.";
+        } else {
+          message.textContent = "Start with the official source, then complete one practice round before test day.";
+        }
+      }
+      if (nextStep) {
+        nextStep.textContent = firstLabel ? `Next: ${firstLabel}` : "All checklist items are marked ready.";
+      }
+    };
+
+    const updateState = () => {
+      const option = selectedOption();
+      if (!option) return;
+      try {
+        window.localStorage.setItem(lastStateKey, option.value);
+      } catch (error) {
+        // Ignore storage errors; the selected state still updates on the page.
+      }
+      if (manualLabel) manualLabel.textContent = option.dataset.manualLabel || "Official state source";
+      if (examFormat) examFormat.textContent = option.dataset.format || "";
+      if (focusArea) focusArea.textContent = option.dataset.focus ? `Review focus: ${option.dataset.focus}` : "";
+      if (manualLink) manualLink.href = option.dataset.manualUrl || "#";
+      if (permitLink) permitLink.href = option.dataset.permitUrl || permitLink.href;
+      if (signLink) signLink.href = option.dataset.signUrl || signLink.href;
+      load();
+      render();
+    };
+
+    stateSelect?.addEventListener("change", updateState);
+    checks.forEach((check) => {
+      check.addEventListener("change", () => {
+        save();
+        render();
+      });
+    });
+    resetButton?.addEventListener("click", () => {
+      checks.forEach((check) => {
+        check.checked = false;
+      });
+      save();
+      render();
+    });
+
+    try {
+      const lastState = window.localStorage.getItem(lastStateKey);
+      const hasLastState = Array.from(stateSelect?.options || []).some((option) => option.value === lastState);
+      if (lastState && hasLastState) {
+        stateSelect.value = lastState;
+      }
+    } catch (error) {
+      // Ignore storage issues and use the default state.
+    }
+
+    updateState();
+  });
+}
+
 function initSatScoreEstimators() {
   document.querySelectorAll("[data-sat-estimator]").forEach((widget) => {
     const rwInput = widget.querySelector("[data-sat-rw]");
@@ -821,5 +934,6 @@ initStateFilters();
 initPracticeWorkbenches();
 initMiniSignDrills();
 initRecentPracticeCards();
+initDmvChecklists();
 initSatScoreEstimators();
 initSatGoalPlanners();

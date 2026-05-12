@@ -890,3 +890,29 @@ Validation completed:
 Strategic note:
 - This improves the visit loop: answer a visible diagnostic, enter the matching drill, then return directly to the saved round.
 - Next useful step is to add one more high-intent tool surface, likely a DMV test-day readiness checklist or a state/manual finder, before adding more low-intent article pages.
+
+## Checkpoint 2026-05-12 DMV Test-Day Checklist Tool
+
+Goal:
+- Add a high-intent DMV tool surface that helps visitors finish a real task before permit-test day.
+- Combine a state official-source finder with a saved readiness checklist, instead of adding another generic article.
+
+Implemented locally:
+- Added `/dmv-test-day-checklist.html`.
+- Added the page to top navigation, homepage hero CTA, homepage start cards, homepage high-value list, homepage DMV tool group, DMV hub hero CTA, DMV hub permit-test section, and sitemap.
+- Added an interactive state selector for California, New York, Texas, Florida, Illinois, Pennsylvania, and New Jersey.
+- Added official-source links, state permit-practice links, and state road-sign links for each selector state.
+- Added a browser-saved readiness checklist with progress score, next-step text, reset, and last-state persistence.
+- Added dedicated styling for the checklist, source panel, readiness score, and action links.
+
+Validation completed:
+- Static generator builds successfully.
+- `scripts/build.py` compiles.
+- `assets/app.js` syntax check passes.
+- `git diff --check` passes.
+- HTML metadata, JSON-LD, sitemap count, and local-link validation passes across all 45 HTML files.
+- Browser interaction test verified: selecting Florida updates the official source and state links, checking two items saves `29%` readiness progress, reload restores Florida and the checked items, and homepage checklist links render in nav, hero, and workbench.
+
+Strategic note:
+- This page supports high-intent queries such as DMV test day checklist, permit test checklist, what to bring to DMV test, and state driver manual finder.
+- It also improves internal flow by sending users from final-readiness mode back into state practice and road-sign drills.

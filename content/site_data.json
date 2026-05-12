@@ -16,6 +16,10 @@
       "href": "/road-signs-practice-test.html"
     },
     {
+      "label": "Checklist",
+      "href": "/dmv-test-day-checklist.html"
+    },
+    {
       "label": "AP",
       "href": "/ap-tools.html"
     },
@@ -35,6 +39,7 @@
       {
         "heading": "DMV and road signs practice",
         "links": [
+          "dmv-test-day-checklist",
           "regulatory-traffic-signs-practice-test",
           "road-signs-practice-test",
           "california-dmv-permit-practice-test",
@@ -89,6 +94,12 @@
         "href": "regulatory-traffic-signs-practice-test.html"
       },
       {
+        "label": "Test day",
+        "title": "DMV Test Day Checklist",
+        "text": "Choose a state, open the official source, and save a readiness checklist before permit-test day.",
+        "href": "dmv-test-day-checklist.html"
+      },
+      {
         "label": "State DMV",
         "title": "Permit practice by state",
         "text": "Pick California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey for permit questions and mock exams.",
@@ -107,6 +118,12 @@
         "title": "Regulatory Traffic Signs Practice Test",
         "text": "Stop, yield, speed, one way, no entry, and no passing",
         "href": "regulatory-traffic-signs-practice-test.html"
+      },
+      {
+        "label": "Checklist",
+        "title": "DMV Test Day Checklist",
+        "text": "State source finder plus a saved readiness checklist",
+        "href": "dmv-test-day-checklist.html"
       },
       {
         "label": "FL signs",
@@ -228,6 +245,12 @@
       "summary": "Start with road signs or regulatory traffic signs, then choose a state for permit questions, image signs, and mock exam review.",
       "primaryActions": [
         {
+          "label": "Test day",
+          "title": "DMV Test Day Checklist",
+          "text": "Pick a state, open the official source, and save a readiness checklist.",
+          "href": "dmv-test-day-checklist.html"
+        },
+        {
           "label": "Road signs",
           "title": "Road Signs Practice Test",
           "text": "Regulatory, warning, guide, school, and work-zone sign images in one quiz.",
@@ -250,6 +273,7 @@
         {
           "heading": "Permit practice tests",
           "links": [
+            "dmv-test-day-checklist",
             "california-dmv-permit-practice-test",
             "new-york-dmv-permit-practice-test",
             "texas-dmv-permit-practice-test",
@@ -4633,6 +4657,260 @@
         "digital-sat-bluebook-checklist",
         "digital-sat-checklist",
         "sat-test-day-timing-guide"
+      ]
+    },
+    {
+      "slug": "dmv-test-day-checklist",
+      "category": "DMV",
+      "title": "DMV Test Day Checklist and State Manual Finder",
+      "description": "Use a free DMV test-day checklist with state official-source links, permit practice links, road-sign review, and saved readiness progress in your browser.",
+      "heroKicker": "DMV test day",
+      "summary": "Choose your state, open the official driver manual or source page, then save a checklist for documents, practice score, road signs, mistakes, and test-day logistics.",
+      "quickFacts": [
+        {
+          "label": "Tool type",
+          "value": "Saved checklist"
+        },
+        {
+          "label": "State sources",
+          "value": "7 official paths"
+        },
+        {
+          "label": "Best use",
+          "value": "Final 48-hour review"
+        },
+        {
+          "label": "Privacy",
+          "value": "Progress stays in this browser"
+        }
+      ],
+      "toolWidget": {
+        "type": "dmvTestDayChecklist",
+        "kicker": "Interactive checklist",
+        "heading": "DMV test-day readiness checklist",
+        "intro": "Choose your state, check the official source, then mark the practical items that reduce test-day surprises. Progress is saved only in this browser.",
+        "states": [
+          {
+            "label": "California",
+            "value": "california",
+            "manualLabel": "California Driver's Handbook",
+            "manualUrl": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/",
+            "permitUrl": "california-dmv-permit-practice-test.html",
+            "signUrl": "california-dmv-road-signs-practice.html",
+            "format": "Use the handbook for final rules; practice target here is 32 of 40 on the mock exam.",
+            "focus": "Signs, right of way, lane rules, pedestrians, and safe following distance."
+          },
+          {
+            "label": "New York",
+            "value": "new-york",
+            "manualLabel": "New York Driver's Manual and Practice Tests",
+            "manualUrl": "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests",
+            "permitUrl": "new-york-dmv-permit-practice-test.html",
+            "signUrl": "new-york-dmv-road-signs-practice.html",
+            "format": "Official context: 20 permit questions, with signs included in the passing rule.",
+            "focus": "Road signs, traffic signals, right of way, defensive driving, and New York permit rules."
+          },
+          {
+            "label": "Texas",
+            "value": "texas",
+            "manualLabel": "Texas Driver Handbook",
+            "manualUrl": "https://www.dps.texas.gov/Internetforms/Forms/DL-7.pdf",
+            "permitUrl": "texas-dmv-permit-practice-test.html",
+            "signUrl": "texas-dmv-road-signs-practice.html",
+            "format": "Use Texas DPS sources for final testing details; this site uses a 40-question practice target.",
+            "focus": "Signs, right of way, speed, alcohol laws, lane use, and freeway driving."
+          },
+          {
+            "label": "Florida",
+            "value": "florida",
+            "manualLabel": "Official Florida Driver License Handbook",
+            "manualUrl": "https://www.flhsmv.gov/resources/handbooks-manuals/",
+            "permitUrl": "florida-dmv-permit-practice-test.html",
+            "signUrl": "florida-dmv-road-signs-practice.html",
+            "format": "Official context: 50 multiple-choice questions and an 80% passing standard.",
+            "focus": "Traffic controls, road signs, safe driving, substance rules, and licensing basics."
+          },
+          {
+            "label": "Illinois",
+            "value": "illinois",
+            "manualLabel": "Illinois Rules of the Road and Driver Services",
+            "manualUrl": "https://www.ilsos.gov/departments/drivers/",
+            "permitUrl": "illinois-dmv-permit-practice-test.html",
+            "signUrl": "illinois-dmv-road-signs-practice.html",
+            "format": "Use Illinois Secretary of State sources for final written-test requirements.",
+            "focus": "Traffic signs, right of way, GDL rules, traffic laws, and safe-driving practices."
+          },
+          {
+            "label": "Pennsylvania",
+            "value": "pennsylvania",
+            "manualLabel": "Pennsylvania Driver's Manual",
+            "manualUrl": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/testing.html",
+            "permitUrl": "pennsylvania-dmv-permit-practice-test.html",
+            "signUrl": "pennsylvania-dmv-road-signs-practice.html",
+            "format": "Official context: 18 questions, with 15 correct needed to pass.",
+            "focus": "Traffic signs, Pennsylvania laws, safe-driving practices, signals, and emergencies."
+          },
+          {
+            "label": "New Jersey",
+            "value": "new-jersey",
+            "manualLabel": "New Jersey Driver Manual",
+            "manualUrl": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf",
+            "permitUrl": "new-jersey-mvc-permit-practice-test.html",
+            "signUrl": "new-jersey-mvc-road-signs-practice.html",
+            "format": "Official context: 50 knowledge questions and an 80% passing standard.",
+            "focus": "Signs, signals, GDL rules, safe driving, alcohol laws, and MVC process."
+          }
+        ],
+        "items": [
+          {
+            "id": "official-source",
+            "label": "Open the official state source",
+            "text": "Use the state manual or official test page for final wording before test day."
+          },
+          {
+            "id": "documents",
+            "label": "Confirm ID, documents, appointment, and fees",
+            "text": "Requirements vary by state and applicant type, so verify them before leaving home."
+          },
+          {
+            "id": "mock-score",
+            "label": "Reach the practice target",
+            "text": "Use a full mock round and avoid testing while guesses still drive the score."
+          },
+          {
+            "id": "road-signs",
+            "label": "Drill road signs one more time",
+            "text": "Regulatory signs, warning signs, school signs, and work-zone signs should feel automatic."
+          },
+          {
+            "id": "mistakes",
+            "label": "Review saved mistakes",
+            "text": "Reread the categories you missed instead of taking random extra quizzes."
+          },
+          {
+            "id": "logistics",
+            "label": "Plan arrival, route, and phone storage",
+            "text": "Small logistics mistakes can create stress before the actual knowledge test."
+          },
+          {
+            "id": "rest",
+            "label": "Stop cramming and sleep",
+            "text": "The last night is for review and rest, not learning brand-new rules."
+          }
+        ]
+      },
+      "examBrief": {
+        "kicker": "Final review path",
+        "heading": "A simple 48-hour DMV permit-test plan",
+        "intro": "Use this page when the test is close and the next action needs to be obvious: source check, practice check, signs check, mistake check, logistics check.",
+        "facts": [
+          {
+            "label": "Step 1",
+            "value": "Official source",
+            "note": "Open the state manual or official source before trusting any practice page."
+          },
+          {
+            "label": "Step 2",
+            "value": "Full practice",
+            "note": "Use a mock round to find whether weak areas still repeat."
+          },
+          {
+            "label": "Step 3",
+            "value": "Road signs",
+            "note": "Fast visual recognition can prevent easy missed questions."
+          },
+          {
+            "label": "Step 4",
+            "value": "Logistics",
+            "note": "Documents, appointment, fees, and arrival time are part of readiness."
+          }
+        ],
+        "path": [
+          {
+            "step": "1",
+            "title": "Pick your state",
+            "text": "The state selector updates the official source, permit-practice link, and road-sign review link."
+          },
+          {
+            "step": "2",
+            "title": "Check the manual",
+            "text": "Use the official state source for final rules, documents, and testing details."
+          },
+          {
+            "step": "3",
+            "title": "Prove readiness",
+            "text": "Finish a practice round, review saved mistakes, and rerun road signs if recognition is slow."
+          },
+          {
+            "step": "4",
+            "title": "Reduce morning friction",
+            "text": "Plan arrival, documents, fees, phone storage, and sleep before test day."
+          }
+        ]
+      },
+      "body": [
+        {
+          "heading": "Why a checklist belongs on a practice site",
+          "text": "Permit-test preparation is not only question practice. A visitor may know signs and still lose time because documents, appointment rules, or official source wording were not checked."
+        },
+        {
+          "heading": "How to use this with practice pages",
+          "text": "Start with the state source, run the state permit practice page, drill road signs, then return here to mark the items that are actually ready."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Is this DMV test-day checklist official?",
+          "a": "No. It is an unofficial planning tool. Use your state DMV, DPS, MVC, PennDOT, FLHSMV, or Secretary of State source for final requirements."
+        },
+        {
+          "q": "Does the checklist save my personal information?",
+          "a": "No. The checklist stores only checked items and selected state in your browser local storage."
+        },
+        {
+          "q": "Should I rely on practice questions instead of the driver manual?",
+          "a": "No. Practice questions help find weak areas, but the official manual or agency page should make the final call."
+        },
+        {
+          "q": "What should I do if my readiness score is low?",
+          "a": "Open the official source first, then complete a state practice round and review saved mistakes before test day."
+        }
+      ],
+      "sources": [
+        {
+          "label": "California DMV: California Driver's Handbook",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/"
+        },
+        {
+          "label": "New York DMV: Driver's Manual and Practice Tests",
+          "url": "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests"
+        },
+        {
+          "label": "Texas DPS: Driver Handbook",
+          "url": "https://www.dps.texas.gov/Internetforms/Forms/DL-7.pdf"
+        },
+        {
+          "label": "FLHSMV: Handbooks and Manuals",
+          "url": "https://www.flhsmv.gov/resources/handbooks-manuals/"
+        },
+        {
+          "label": "Illinois Secretary of State: Driver Services",
+          "url": "https://www.ilsos.gov/departments/drivers/"
+        },
+        {
+          "label": "PennDOT: Driver Manual Testing",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/testing.html"
+        },
+        {
+          "label": "NJ MVC: Driver Manual PDF",
+          "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
+        }
+      ],
+      "related": [
+        "road-signs-practice-test",
+        "regulatory-traffic-signs-practice-test",
+        "florida-dmv-permit-practice-test",
+        "california-dmv-permit-practice-test"
       ]
     },
     {

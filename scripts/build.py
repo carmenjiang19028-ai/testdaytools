@@ -222,8 +222,15 @@ def render_tool_actions(tool):
     if tool.get("category") != "DMV":
         return ""
     slug = tool.get("slug", "")
+    is_checklist_page = tool.get("toolWidget", {}).get("type") == "dmvTestDayChecklist"
     is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
-    if is_sign_page:
+    if is_checklist_page:
+        actions = [
+            ("Open checklist", "#dmv-checklist"),
+            ("State source finder", "#manual-finder"),
+            ("Practice hub", "dmv-practice.html#state-paths"),
+        ]
+    elif is_sign_page:
         actions = [
             ("Start image quiz", "#practice"),
             ("Shape and color guide", "#sign-study"),
@@ -271,7 +278,7 @@ def render_home_practice_panel():
   <div class="workbench-mode-links">
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
-    <a href="dmv-practice.html#state-paths"><span>States</span><strong>7 practice paths</strong></a>
+    <a href="dmv-test-day-checklist.html"><span>Checklist</span><strong>Final ready path</strong></a>
   </div>
   <div class="workbench-return" data-recent-practice>
     <div>
@@ -288,12 +295,29 @@ def render_home_practice_panel():
 def render_tool_hero_panel(tool):
     if tool.get("category") != "DMV":
         return ""
+    is_checklist_page = tool.get("toolWidget", {}).get("type") == "dmvTestDayChecklist"
     facts = tool.get("quickFacts", [])
     primary = facts[:3]
     fact_rows = "".join(
         f'<div><span>{esc(item["label"])}</span><strong>{esc(item["value"])}</strong></div>'
         for item in primary
     )
+    if is_checklist_page:
+        mode_rows = "".join(
+            f'<li><span>{esc(label)}</span><strong>{esc(text)}</strong></li>'
+            for label, text in [
+                ("1", "Pick state"),
+                ("2", "Open official source"),
+                ("3", "Save readiness"),
+            ]
+        )
+        source = "Official state sources"
+        return f"""<aside class="tool-hero-panel" aria-label="Checklist summary">
+  <div class="panel-status"><span>Free tool</span><strong>Browser-saved</strong></div>
+  <div class="panel-facts">{fact_rows}</div>
+  <ol class="panel-mode-list">{mode_rows}</ol>
+  <p class="panel-source">Use with: {esc(source)}</p>
+</aside>"""
     modes = tool.get("quizModes", [])
     mode_rows = "".join(
         f'<li><span>{esc(mode["label"])}</span><strong>{len(DATA["quizzes"].get(mode["quiz"], []))} questions</strong></li>'
@@ -315,8 +339,18 @@ def render_practice_console(tool):
     if tool.get("category") != "DMV":
         return ""
     slug = tool.get("slug", "")
+    is_checklist_page = tool.get("toolWidget", {}).get("type") == "dmvTestDayChecklist"
     is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
-    if is_sign_page:
+    if is_checklist_page:
+        items = [
+            ("Source", "Choose your state", "Open the state source before trusting any summary."),
+            ("Practice", "Run a full round", "Use the state practice link after the official source check."),
+            ("Signs", "Retake image signs", "Make regulatory and warning signs feel automatic."),
+            ("Ready", "Save the checklist", "Track the last few practical items before test day."),
+        ]
+        heading = "Test-day readiness console"
+        intro = "This page is built for the final stretch: official source, state practice, road signs, saved mistakes, and logistics in one low-friction flow."
+    elif is_sign_page:
         items = [
             ("Step 1", "Identify the sign", "Use the image first, then read the choices."),
             ("Step 2", "Check shape and color", "Connect the sign to the study guide below."),
@@ -379,6 +413,8 @@ def render_tool_widget(tool):
     if not widget:
         return ""
     kind = widget.get("type")
+    if kind == "dmvTestDayChecklist":
+        return render_dmv_checklist_widget(widget)
     if kind == "satScoreEstimator":
         return f"""<section class="tool-block sat-widget" data-sat-estimator>
   <div class="tool-section-head">
@@ -435,6 +471,54 @@ def render_tool_widget(tool):
   </div>
 </section>"""
     return ""
+
+
+def render_dmv_checklist_widget(widget):
+    states = widget.get("states", [])
+    items = widget.get("items", [])
+    options = "".join(
+        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-permit-url="{esc(state["permitUrl"])}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}">{esc(state["label"])}</option>'
+        for state in states
+    )
+    checklist_items = "".join(
+        f"""<li><label><input type="checkbox" value="{esc(item["id"])}" data-dmv-check> <span><strong>{esc(item["label"])}</strong><em>{esc(item["text"])}</em></span></label></li>"""
+        for item in items
+    )
+    return f"""<section class="tool-block dmv-checklist-widget" id="dmv-checklist" data-dmv-checklist>
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(widget.get("kicker", "Interactive checklist"))}</span>
+    <h2>{esc(widget.get("heading", "DMV test-day readiness checklist"))}</h2>
+    <p class="section-intro">{esc(widget.get("intro", "Choose your state, check the official source, and save your readiness progress in this browser."))}</p>
+  </div>
+  <div class="dmv-checklist-grid">
+    <aside class="dmv-source-panel" id="manual-finder">
+      <label>Choose state <select data-dmv-checklist-state>{options}</select></label>
+      <div class="dmv-source-card">
+        <span>Official source</span>
+        <strong data-dmv-manual-label>Choose a state</strong>
+        <p data-dmv-exam-format>Use the official state source for final testing details.</p>
+        <p data-dmv-focus-area></p>
+      </div>
+      <div class="dmv-state-actions">
+        <a href="#" data-dmv-manual-link target="_blank" rel="noopener">Open official source</a>
+        <a href="dmv-practice.html#state-paths" data-dmv-permit-link>State practice</a>
+        <a href="road-signs-practice-test.html#practice" data-dmv-sign-link>Road signs</a>
+      </div>
+      <div class="dmv-readiness-score">
+        <span>Readiness</span>
+        <strong data-dmv-ready-score>0%</strong>
+        <p data-dmv-ready-message>Start by opening the official state source.</p>
+      </div>
+    </aside>
+    <div class="dmv-checklist-panel">
+      <ul class="dmv-checklist-items">{checklist_items}</ul>
+      <div class="dmv-checklist-footer">
+        <p data-dmv-next-step>First unchecked item will appear here.</p>
+        <button type="button" data-dmv-checklist-reset>Reset checklist</button>
+      </div>
+    </div>
+  </div>
+</section>"""
 
 
 def render_exam_brief(tool):
@@ -966,7 +1050,7 @@ def render_dmv_hub(hub):
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
         <a href="#permit-tests">Permit tests</a>
-        <a href="#road-signs">Road signs</a>
+        <a href="dmv-test-day-checklist.html">Checklist</a>
       </div>
     </div>
     {render_home_practice_panel()}
@@ -985,7 +1069,7 @@ def render_home():
         f'<a class="start-card" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></a>'
         for item in DATA["home"].get("startHere", [])
     )
-    start_section = f'<section class="home-start"><h2>Choose your test</h2><p class="section-intro">Most visitors should start from one of these three paths, then jump into the specific tool they need.</p><div class="start-grid">{start_items}</div></section>' if start_items else ""
+    start_section = f'<section class="home-start"><h2>Choose your test</h2><p class="section-intro">Most visitors should start from one of these paths, then jump into the specific tool they need.</p><div class="start-grid">{start_items}</div></section>' if start_items else ""
     popular_items = "".join(
         f'<a class="popular-row" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><em>{esc(item["text"])}</em></a>'
         for item in DATA["home"].get("popular", [])
@@ -1005,7 +1089,7 @@ def render_home():
       <div class="hero-actions">
         <a href="road-signs-practice-test.html">Start road signs</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
-        <a href="dmv-practice.html">Choose state</a>
+        <a href="dmv-test-day-checklist.html">Checklist</a>
       </div>
     </div>
     {render_home_practice_panel()}
