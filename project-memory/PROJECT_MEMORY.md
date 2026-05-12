@@ -772,3 +772,21 @@ Current caution:
 - The local worktree still contains unrelated dirty/untracked e-commerce tool files from an older task, including `README.md`, `tools/`, `examples/`, `articles/`, `go/`, and `LICENSE`.
 - Do not commit or push everything blindly.
 - For the next TestDayTools commit, stage only relevant files unless the unrelated files are intentionally cleaned or moved first.
+
+## Checkpoint 2026-05-12 Road Signs Hub Expansion
+
+Goal:
+- Move the site closer to AdSense-readiness by making the DMV section feel more like a useful tool system and less like isolated pages.
+- Strengthen the road-sign topic because Search Console's first real query signal was `regulatory traffic signs florida`.
+
+Implemented locally:
+- Added a new generic page: `/road-signs-practice-test.html`.
+- Added a 24-question image-based road signs quiz covering regulatory traffic signs, warning signs, railroad signs, school/pedestrian signs, work-zone signs, guide/service signs, and test strategy.
+- Added a sign-shape/color study guide and a grouped road-sign library.
+- Linked the new generic road-sign page from the homepage hero, homepage popular tools, DMV hub, sitemap, and related DMV pages.
+- Updated related links on state DMV pages so road-sign traffic can flow from generic intent to state-specific practice pages.
+- Fixed the single-mode DMV quiz renderer so pages no longer emit duplicate `id="practice"` anchors.
+
+Strategic note:
+- This is a better next step than expanding to more states because it consolidates the first validated topic and improves internal linking with low maintenance cost.
+- Do not apply for AdSense yet. First request indexing for the new road-sign page and the strengthened Florida regulatory signs page, then wait for Search Console indexing and query movement.

@@ -167,6 +167,7 @@ def render_home_practice_panel():
         f'<a href="{esc(state["href"])}"><span>{esc(state["label"])}</span><strong>{esc(state["cta"])}</strong></a>'
         for state in states
     )
+    state_links = '<a href="road-signs-practice-test.html"><span>Road signs</span><strong>Start sign quiz</strong></a>' + state_links
     state_links += '<a href="dmv-practice.html"><span>All states</span><strong>Browse DMV hub</strong></a>'
     stats = "".join(
         f'<div><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span></div>'
@@ -633,7 +634,9 @@ def render_dmv_mode_tool(tool):
         return render_quiz(tool.get("quiz"))
     if len(modes) == 1:
         only = modes[0]
-        quiz = render_quiz(only["quiz"], only)
+        quiz_options = dict(only)
+        quiz_options.pop("sectionId", None)
+        quiz = render_quiz(only["quiz"], quiz_options)
         return f"""<section class="dmv-mode-tool single-mode-tool" id="practice">
   <div class="tool-section-head">
     <span class="eyebrow">Image practice engine</span>
@@ -888,7 +891,7 @@ def render_home():
       {render_last_updated()}
       <div class="hero-actions">
         <a href="dmv-practice.html">Start DMV practice</a>
-        <a href="florida-dmv-road-signs-practice.html">Try road signs</a>
+        <a href="road-signs-practice-test.html">Try road signs</a>
         <a href="california-dmv-permit-practice-test.html">California test</a>
       </div>
     </div>
