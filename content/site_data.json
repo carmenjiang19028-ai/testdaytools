@@ -290,7 +290,7 @@
         {
           "label": "Florida",
           "title": "Florida Permit Practice Test",
-          "text": "FLHSMV source links, image signs, checklist planning, and a 40-question mock exam.",
+          "text": "FLHSMV Class E context, TLSAE confusion help, image signs, checklist planning, and a 40-question mock exam.",
           "href": "florida-dmv-permit-practice-test.html",
           "cta": "Start Florida"
         },
@@ -406,8 +406,14 @@
         {
           "label": "Florida",
           "title": "Florida regulatory signs",
-          "text": "Drill Florida regulatory, direction, speed, and crossing signs by visual weak area.",
+          "text": "Drill Florida regulatory, direction, speed, crossing, and wrong-way signs by visual weak area.",
           "href": "florida-dmv-road-signs-practice.html"
+        },
+        {
+          "label": "Florida",
+          "title": "Florida Class E practice",
+          "text": "Use the Florida permit page for TLSAE vs Class E exam confusion, official-source links, signs, and mock review.",
+          "href": "florida-dmv-permit-practice-test.html"
         }
       ],
       "sections": [
@@ -5249,6 +5255,14 @@
         {
           "q": "If I pass the Florida Class E Knowledge Exam, do I still need a learner permit visit?",
           "a": "Usually the passing score is only one part of the licensing path. Confirm the FLHSMV What to Bring requirements, any appointment or local office process, fees, age or consent rules, and whether your first permit issuance must be completed in person."
+        },
+        {
+          "q": "What documents should a Florida first-time learner permit applicant check?",
+          "a": "Start with FLHSMV's What to Bring guidance for proof of identity, Social Security number, and residential address. Then check age, parent-consent, course, appointment, and fee requirements for your exact path."
+        },
+        {
+          "q": "Do I need an appointment after passing a Florida permit test online?",
+          "a": "Do not assume the online test result completes the whole permit process. Confirm whether your first permit issuance, identity review, fee payment, photo, or other service-center step still requires an appointment."
         }
       ],
       "sources": [
@@ -5298,6 +5312,8 @@
         "dmv-permit-test-requirements-by-state",
         "road-signs-practice-test",
         "regulatory-traffic-signs-practice-test",
+        "florida-dmv-road-signs-practice",
+        "dmv-permit-test-mistake-log",
         "florida-dmv-permit-practice-test",
         "california-dmv-permit-practice-test"
       ],
@@ -8993,6 +9009,14 @@
         {
           "q": "Is TLSAE or DETS the same as the Florida Class E Knowledge Exam?",
           "a": "No. TLSAE or DETS is a course requirement for many first-time drivers. The Class E Knowledge Exam is the separate knowledge test on Florida traffic laws, safe driving practices, and traffic controls."
+        },
+        {
+          "q": "Can I take the Florida Class E Knowledge Exam and get my learner permit in one appointment?",
+          "a": "Treat the exam result and learner permit issuance as related but separate steps. Before choosing an appointment, confirm FLHSMV document rules, age or consent requirements, fees, and whether your testing provider or service center handles the permit issuance step."
+        },
+        {
+          "q": "Can I take the Florida permit test online?",
+          "a": "Some Florida testing paths use approved providers, but eligibility and proctoring rules can change by applicant type. Use the FLHSMV Class E Knowledge Exam page and approved provider guidance before assuming online testing is available for your situation."
         }
       ],
       "sources": [
@@ -9572,6 +9596,14 @@
         {
           "q": "Why does this Florida signs practice start with regulatory and direction-control signs?",
           "a": "Florida's Class E Knowledge Exam includes identifying traffic controls, and real learner questions often cluster around entry, direction, lane movement, and speed signs. Starting there gives you high-value visual recognition practice before school, pedestrian, and broader warning signs."
+        },
+        {
+          "q": "What Florida road signs should I study first for the permit test?",
+          "a": "Start with regulatory and direction-control signs: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, lane arrows, and no passing. Then add school, pedestrian, warning, work-zone, and guide signs."
+        },
+        {
+          "q": "What is the difference between Do Not Enter and Wrong Way?",
+          "a": "Do Not Enter tells you not to enter a roadway, ramp, or lane from that point. Wrong Way warns that you are facing traffic from the wrong direction and need to correct safely."
         }
       ],
       "sources": [

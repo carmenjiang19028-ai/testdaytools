@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import html
 import json
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote
 
@@ -102,6 +103,49 @@ def href_for(path):
     if path == "/":
         return "index.html"
     return path.lstrip("/")
+
+
+def sitemap_lastmod():
+    try:
+        return datetime.strptime(SITE["lastUpdated"], "%B %d, %Y").date().isoformat()
+    except ValueError:
+        return ""
+
+
+def sitemap_priority(path):
+    if path == "/":
+        return "1.0", "daily"
+    high_value = {
+        "/dmv-practice.html",
+        "/florida-dmv-permit-practice-test.html",
+        "/florida-dmv-road-signs-practice.html",
+        "/dmv-test-day-checklist.html",
+        "/dmv-permit-test-mistake-log.html",
+        "/dmv-permit-test-requirements-by-state.html",
+        "/dmv-permit-test-question-of-the-day.html",
+        "/regulatory-traffic-signs-practice-test.html",
+        "/road-signs-practice-test.html",
+    }
+    if path in high_value:
+        return "0.9", "daily"
+    if path.startswith("/dmv") or "dmv-" in path or "road-sign" in path:
+        return "0.8", "weekly"
+    if path in {"/about.html", "/editorial-policy.html", "/privacy.html", "/contact.html", "/disclaimer.html"}:
+        return "0.4", "monthly"
+    return "0.6", "weekly"
+
+
+def sitemap_entry(path, lastmod):
+    priority, changefreq = sitemap_priority(path)
+    lastmod_line = f"\n    <lastmod>{esc(lastmod)}</lastmod>" if lastmod else ""
+    return (
+        "  <url>\n"
+        f"    <loc>{esc(url_for(path))}</loc>"
+        f"{lastmod_line}\n"
+        f"    <changefreq>{esc(changefreq)}</changefreq>\n"
+        f"    <priority>{esc(priority)}</priority>\n"
+        "  </url>"
+    )
 
 
 def page_shell(title, description, path, body, extra_class="", structured_data=None):
@@ -1822,6 +1866,50 @@ def render_dmv_source_matrix():
 </section>"""
 
 
+def render_florida_dmv_cluster():
+    cards = [
+        (
+            "Florida permit",
+            "Florida Class E permit practice",
+            "Start with the Class E confusion map, then run quick practice, signs, and mock review.",
+            "florida-dmv-permit-practice-test.html",
+        ),
+        (
+            "Florida signs",
+            "Regulatory traffic signs first",
+            "Drill Do Not Enter, Wrong Way, One Way, speed, no passing, school, and pedestrian signs.",
+            "florida-dmv-road-signs-practice.html",
+        ),
+        (
+            "Documents",
+            "Florida permit visit checklist",
+            "Check identity, Social Security number, residential address, appointment, fees, and first issuance steps.",
+            "dmv-test-day-checklist.html?state=florida",
+        ),
+        (
+            "Mistakes",
+            "Log the exact weak area",
+            "Track wrong-way entry, one-way direction, right-of-way, crossing, speed, and appointment confusion.",
+            "dmv-permit-test-mistake-log.html",
+        ),
+        (
+            "Requirements",
+            "Confirm the official source",
+            "Compare pass rule, official source, documents, practice, signs, and checklist links.",
+            "dmv-permit-test-requirements-by-state.html#requirements-finder",
+        ),
+    ]
+    items = "".join(
+        f'<a class="hub-action" href="{esc(href)}"><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></a>'
+        for label, title, text, href in cards
+    )
+    return f"""<section class="hub-primary florida-path-cluster" id="florida-dmv-path">
+  <h2>Florida DMV quick path</h2>
+  <p class="section-intro">This is the fastest discovery route for the current DMV-first sprint: one Florida entry point, one signs drill, one checklist, one mistake log, and one requirements source.</p>
+  <div class="hub-action-grid">{items}</div>
+</section>"""
+
+
 def render_shape_swatch(record):
     return (
         f'<div class="shape-swatch {esc(record["visual"])}" role="img" '
@@ -2315,7 +2403,7 @@ def render_dmv_mistake_log_page():
   <h2>What to review first</h2>
   <p>If the missed item is a sign-control problem, use the road-sign page and review the visual cue that caused the miss. If it is a rule, retake state practice. If it is a documents or appointment issue, open the checklist and official source before test day.</p>
 </section>
-{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
+{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
     return page_shell(
         DMV_MISTAKE_LOG_PAGE["title"],
         DMV_MISTAKE_LOG_PAGE["description"],
@@ -2470,7 +2558,7 @@ def render_dmv_study_plan_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
+{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
     return page_shell(
         DMV_STUDY_PLAN_PAGE["title"],
         DMV_STUDY_PLAN_PAGE["description"],
@@ -2621,7 +2709,7 @@ def render_dmv_requirements_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
+{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
     return page_shell(
         DMV_REQUIREMENTS_PAGE["title"],
         DMV_REQUIREMENTS_PAGE["description"],
@@ -2785,7 +2873,7 @@ def render_dmv_score_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
+{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test"])}"""
     return page_shell(
         DMV_SCORE_PAGE["title"],
         DMV_SCORE_PAGE["description"],
@@ -2818,6 +2906,8 @@ def render_dmv_hub(hub):
         <a href="#state-paths">Choose state</a>
         <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
         <a href="dmv-permit-test-mistake-log.html">Mistake log</a>
+        <a href="florida-dmv-permit-practice-test.html">Florida permit</a>
+        <a href="dmv-test-day-checklist.html?state=florida">Florida checklist</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
@@ -2831,6 +2921,7 @@ def render_dmv_hub(hub):
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{render_florida_dmv_cluster()}
 {render_dmv_launcher("Start with your state")}
 {render_dmv_source_matrix()}
 {''.join(collections)}
@@ -2864,6 +2955,8 @@ def render_home():
       <div class="hero-actions">
         <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
         <a href="dmv-permit-test-mistake-log.html">Mistake log</a>
+        <a href="florida-dmv-permit-practice-test.html">Florida permit</a>
+        <a href="dmv-test-day-checklist.html?state=florida">Florida checklist</a>
         <a href="road-signs-practice-test.html">Start road signs</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-road-sign-flashcards.html">Flashcards</a>
@@ -2879,6 +2972,7 @@ def render_home():
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{render_florida_dmv_cluster()}
 {render_dmv_launcher("Choose your state DMV path")}
 {start_section}
 {popular_section}
@@ -2932,8 +3026,9 @@ def build():
         write(f'{page["slug"]}.html', render_trust(page))
 
     urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
-    sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
-    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
+    lastmod = sitemap_lastmod()
+    sitemap_urls = "\n".join(sitemap_entry(path, lastmod) for path in dict.fromkeys(urls))
+    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap_urls}\n</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
 
 
