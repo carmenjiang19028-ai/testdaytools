@@ -48,6 +48,7 @@
         "heading": "DMV and road signs practice",
         "links": [
           "dmv-test-day-checklist",
+          "dmv-permit-test-study-plan",
           "dmv-permit-test-requirements-by-state",
           "dmv-permit-test-passing-score-calculator",
           "regulatory-traffic-signs-practice-test",
@@ -124,6 +125,12 @@
         "href": "dmv-test-day-checklist.html"
       },
       {
+        "label": "Study plan",
+        "title": "DMV Permit Test Study Plan",
+        "text": "Choose your state, timeline, and weakest area to get a practice, signs, score, and checklist sequence.",
+        "href": "dmv-permit-test-study-plan.html"
+      },
+      {
         "label": "Requirements",
         "title": "DMV Permit Test Requirements by State",
         "text": "Compare test format, passing rule, official source, document reminders, signs, and practice links.",
@@ -160,6 +167,12 @@
         "title": "DMV Road Sign Flashcards",
         "text": "Visual sign deck with Know and Review tracking",
         "href": "dmv-road-sign-flashcards.html"
+      },
+      {
+        "label": "Plan",
+        "title": "DMV Permit Test Study Plan",
+        "text": "State-aware 3-day, 7-day, 14-day, and 21-day practice plan",
+        "href": "dmv-permit-test-study-plan.html"
       },
       {
         "label": "Shapes",
@@ -323,6 +336,12 @@
           "href": "dmv-permit-test-passing-score-calculator.html"
         },
         {
+          "label": "Plan",
+          "title": "DMV Permit Test Study Plan",
+          "text": "Turn state rules, road signs, score checks, and checklist tasks into a short study sequence.",
+          "href": "dmv-permit-test-study-plan.html"
+        },
+        {
           "label": "Road signs",
           "title": "Road Signs Practice Test",
           "text": "Regulatory, warning, guide, school, and work-zone sign images in one quiz.",
@@ -358,6 +377,7 @@
           "heading": "Permit practice tests",
           "links": [
             "dmv-test-day-checklist",
+            "dmv-permit-test-study-plan",
             "dmv-permit-test-requirements-by-state",
             "dmv-permit-test-passing-score-calculator",
             "california-dmv-permit-practice-test",
@@ -5218,6 +5238,7 @@
         }
       ],
       "related": [
+        "dmv-permit-test-study-plan",
         "dmv-permit-test-requirements-by-state",
         "road-signs-practice-test",
         "regulatory-traffic-signs-practice-test",

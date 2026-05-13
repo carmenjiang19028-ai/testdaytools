@@ -2012,6 +2012,135 @@ h3 {
   font-weight: 850;
 }
 
+.study-plan-tool {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f8fb 100%);
+}
+
+.study-plan-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.study-plan-controls label {
+  display: grid;
+  gap: 7px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.study-plan-controls select {
+  min-height: 44px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: #ffffff;
+  font: inherit;
+}
+
+.study-plan-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.study-plan-summary article {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.study-plan-summary span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.study-plan-summary strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--blue-deep);
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.study-plan-summary p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.study-plan-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.study-plan-actions a,
+.study-plan-list a {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 1px solid #cbd7e3;
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--blue);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.study-plan-actions a:first-child {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.study-plan-list {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: study-plan;
+}
+
+.study-plan-list li {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.study-plan-list strong {
+  color: var(--blue-deep);
+  font-size: 1.02rem;
+}
+
+.study-plan-list span {
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.study-plan-list a {
+  width: max-content;
+  max-width: 100%;
+}
+
 .study-path-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 14px 0 0;
@@ -3606,6 +3735,8 @@ button:disabled {
   .flashcard-controls,
   .flashcard-status,
   .flashcard-actions,
+  .study-plan-controls,
+  .study-plan-summary,
   .requirements-grid,
   .requirements-snapshot,
   .score-grid,

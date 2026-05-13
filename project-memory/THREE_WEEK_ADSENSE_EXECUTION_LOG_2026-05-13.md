@@ -193,6 +193,35 @@ Next step:
 
 - Commit this flashcard deck as its own Git checkpoint, push through GitHub Desktop, then continue with the next DMV utility expansion or a first-pass mobile polish audit.
 
+### 2026-05-13 09:10 CST
+
+Twelfth local refinement block completed:
+
+- Added `dmv-permit-test-study-plan.html` as a state-aware DMV permit-test study plan builder.
+- The planner lets visitors choose a state, 3/7/14/21-day timeline, and weakest area, then outputs an action sequence with official-source, practice, road-sign, score, and checklist links.
+- Added dynamic daily question targets, road-sign time targets, final checkpoint copy, and weak-area-specific plan steps.
+- Added a state study-link comparison table and official-source list for seven DMV state paths.
+- Wired the study plan into the homepage hero, homepage start cards, popular tools, DMV homepage tool group, DMV hub hero, DMV hub primary actions, DMV hub permit section, checklist related links, passing-score related links, requirements related links, sitemap, and generated HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `python3 -m json.tool content/site_data.json` passed.
+- `python3 scripts/build.py` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 51 HTML files, 144 JSON-LD blocks, 51 sitemap URLs, local links OK.
+- Local Chrome review confirmed the page renders, Florida defaults are populated, changing the weakest area to Road signs updates the sign time and plan steps, and the generated links point to the matching state practice/sign/checklist/score pages.
+
+Current risks:
+
+- Chrome auto-translated the local page during review; source files remain English.
+- This feature is not committed yet.
+
+Next step:
+
+- Commit this planner as a separate Git checkpoint and push through GitHub Desktop, then continue with mobile polish and internal-link tightening.
+
 ### 2026-05-13 07:56 CST
 
 Ninth local refinement block completed:

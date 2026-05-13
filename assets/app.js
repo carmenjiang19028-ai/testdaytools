@@ -912,6 +912,199 @@ function initRecentPracticeCards() {
   });
 }
 
+function initDmvStudyPlanners() {
+  document.querySelectorAll("[data-dmv-study-plan]").forEach((planner) => {
+    const stateSelect = planner.querySelector("[data-study-state]");
+    const daysSelect = planner.querySelector("[data-study-days]");
+    const weakSelect = planner.querySelector("[data-study-weak]");
+    const agency = planner.querySelector("[data-study-agency]");
+    const rule = planner.querySelector("[data-study-rule]");
+    const dailyQuestions = planner.querySelector("[data-study-daily-questions]");
+    const signMinutes = planner.querySelector("[data-study-sign-minutes]");
+    const checkpoint = planner.querySelector("[data-study-checkpoint]");
+    const source = planner.querySelector("[data-study-source]");
+    const practice = planner.querySelector("[data-study-practice]");
+    const signs = planner.querySelector("[data-study-signs]");
+    const checklist = planner.querySelector("[data-study-checklist]");
+    const score = planner.querySelector("[data-study-score]");
+    const planList = planner.querySelector("[data-study-plan-list]");
+
+    const weakLabels = {
+      "mixed": "mixed readiness",
+      "road-signs": "road-sign recognition",
+      "rules": "rules and right-of-way",
+      "score": "passing-score confidence",
+      "documents": "documents and logistics",
+    };
+
+    const linkMap = {
+      source,
+      practice,
+      signs,
+      checklist,
+      score,
+    };
+
+    const setLink = (element, href) => {
+      if (element && href) element.href = href;
+    };
+
+    const appendStep = (steps, title, body, href, cta) => {
+      steps.push({ title, body, href, cta });
+    };
+
+    const buildSteps = (stateName, days, weak, selected, perDay) => {
+      const steps = [];
+      appendStep(
+        steps,
+        "Start with the official source",
+        `Confirm ${stateName} format, passing rule, documents, fees, and retake rules before trusting any practice shortcut.`,
+        selected.dataset.sourceUrl,
+        "Open source",
+      );
+      appendStep(
+        steps,
+        "Run one diagnostic round",
+        `Answer about ${perDay} questions without pausing for notes. Save missed topics as the plan focus.`,
+        selected.dataset.practiceUrl,
+        "Practice",
+      );
+
+      if (weak === "road-signs") {
+        appendStep(
+          steps,
+          "Make sign recognition automatic",
+          "Use flashcards first, then answer image sign questions until stop, yield, warning, school, service, and work-zone signs feel quick.",
+          selected.dataset.signsUrl,
+          "Road signs",
+        );
+      } else if (weak === "rules") {
+        appendStep(
+          steps,
+          "Review rules through missed questions",
+          "Focus on right-of-way, speed, turning, lane use, parking, safe following distance, and alcohol or drug rules from your missed answers.",
+          selected.dataset.practiceUrl,
+          "Retake practice",
+        );
+      } else if (weak === "score") {
+        appendStep(
+          steps,
+          "Check the score margin",
+          "Use the passing-score calculator after each round. If the result is barely above target, retake only the weakest category before another full round.",
+          selected.dataset.scoreUrl,
+          "Score check",
+        );
+      } else if (weak === "documents") {
+        appendStep(
+          steps,
+          "Remove test-day blockers",
+          "Build the document pack early. A prepared applicant can still lose the visit to missing ID, residency proof, appointment rules, or payment details.",
+          selected.dataset.checklistUrl,
+          "Checklist",
+        );
+      } else {
+        appendStep(
+          steps,
+          "Split review between signs and rules",
+          "Spend one block on visual road signs and one block on missed rule categories. Do not keep rereading topics you already answer quickly.",
+          "dmv-road-sign-flashcards.html",
+          "Flashcards",
+        );
+      }
+
+      if (days <= 3) {
+        appendStep(
+          steps,
+          "Final 24-hour pass",
+          "Take one focused review round, recheck the official source, then finish documents, appointment, fees, and arrival timing.",
+          selected.dataset.checklistUrl,
+          "Final checklist",
+        );
+      } else if (days <= 7) {
+        appendStep(
+          steps,
+          "Midweek checkpoint",
+          "By the middle of the plan, your practice score should be above the passing target with fewer slow sign-recognition answers.",
+          selected.dataset.scoreUrl,
+          "Check score",
+        );
+        appendStep(
+          steps,
+          "Final two-day review",
+          "Retake missed categories, drill signs once more, then switch from studying to logistics so test day is not rushed.",
+          selected.dataset.checklistUrl,
+          "Checklist",
+        );
+      } else {
+        appendStep(
+          steps,
+          "Weekly checkpoint",
+          "At the end of each week, compare your score margin, missed categories, and slow sign cards before choosing the next practice block.",
+          selected.dataset.scoreUrl,
+          "Score check",
+        );
+        appendStep(
+          steps,
+          "Last-week conversion",
+          "Move from broad reading to timed practice, sign recognition, and checklist readiness. Long plans still need a tight final week.",
+          selected.dataset.checklistUrl,
+          "Checklist",
+        );
+      }
+
+      return steps;
+    };
+
+    const render = () => {
+      const selected = stateSelect?.selectedOptions?.[0];
+      if (!selected || !planList) return;
+      const days = Math.max(Number(daysSelect?.value) || 7, 1);
+      const weak = weakSelect?.value || "mixed";
+      const stateName = selected.dataset.state || selected.textContent.trim();
+      const questions = Math.max(Number(selected.dataset.questions) || 40, 18);
+      const perDay = Math.max(10, Math.ceil((questions * (days <= 3 ? 2.2 : 2)) / days));
+      const signTime = weak === "road-signs" ? 20 : days <= 3 ? 18 : 12;
+
+      if (agency) agency.textContent = selected.dataset.agency || "State agency";
+      if (rule) rule.textContent = selected.dataset.rule || "Confirm with official source";
+      if (dailyQuestions) dailyQuestions.textContent = `${perDay} questions/day`;
+      if (signMinutes) signMinutes.textContent = `${signTime} minutes/day`;
+      if (checkpoint) {
+        checkpoint.textContent = days <= 3 ? "Official source today" : days <= 7 ? "Midweek score check" : "Weekly checkpoint";
+      }
+
+      setLink(source, selected.dataset.sourceUrl);
+      setLink(practice, selected.dataset.practiceUrl);
+      setLink(signs, selected.dataset.signsUrl);
+      setLink(checklist, selected.dataset.checklistUrl);
+      setLink(score, selected.dataset.scoreUrl);
+
+      const steps = buildSteps(stateName, days, weak, selected, perDay);
+      planList.replaceChildren();
+      steps.forEach((step, index) => {
+        const item = document.createElement("li");
+        const title = document.createElement("strong");
+        const body = document.createElement("span");
+        title.textContent = `${index + 1}. ${step.title}`;
+        body.textContent = step.body;
+        item.append(title, body);
+        if (step.href && step.cta) {
+          const link = document.createElement("a");
+          link.href = step.href;
+          link.textContent = step.cta;
+          item.append(link);
+        }
+        planList.append(item);
+      });
+
+      planner.dataset.currentFocus = weakLabels[weak] || weakLabels.mixed;
+    };
+
+    [stateSelect, daysSelect, weakSelect].forEach((input) => input?.addEventListener("change", render));
+    render();
+  });
+}
+
 function initDmvRequirementsFinders() {
   document.querySelectorAll("[data-dmv-requirements]").forEach((widget) => {
     const stateSelect = widget.querySelector("[data-requirements-state]");
@@ -1497,6 +1690,7 @@ initPracticeWorkbenches();
 initMiniSignDrills();
 initSignLookups();
 initRoadSignFlashcards();
+initDmvStudyPlanners();
 initRecentPracticeCards();
 initDmvRequirementsFinders();
 initDmvScoreCalculators();

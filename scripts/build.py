@@ -41,6 +41,14 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
     "description": "Study DMV road signs with free visual flashcards for regulatory signs, warning signs, school signs, work-zone signs, and service signs.",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
+DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
+DMV_STUDY_PLAN_PAGE = {
+    "slug": DMV_STUDY_PLAN_SLUG,
+    "category": "DMV",
+    "title": "DMV Permit Test Study Plan",
+    "description": "Build a DMV permit test study plan by state, timeline, and weak area with practice, road-sign, checklist, and official-source links.",
+}
+TOOL_BY_SLUG[DMV_STUDY_PLAN_SLUG] = DMV_STUDY_PLAN_PAGE
 
 SIGN_SVGS = {
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
@@ -765,6 +773,7 @@ def render_home_practice_panel():
   <div class="workbench-mode-links">
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="dmv-road-sign-flashcards.html"><span>Flashcards</span><strong>Visual sign deck</strong></a>
+    <a href="dmv-permit-test-study-plan.html"><span>Study plan</span><strong>3 to 21 days</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
     <a href="road-sign-shapes-and-colors-finder.html"><span>Shapes</span><strong>Colors and meanings</strong></a>
     <a href="dmv-permit-test-requirements-by-state.html"><span>Requirements</span><strong>Format and pass rule</strong></a>
@@ -2049,6 +2058,161 @@ def render_road_sign_flashcards_page():
     )
 
 
+def render_dmv_study_plan_page():
+    records = dmv_score_records()
+    if not records:
+        return page_shell(
+            DMV_STUDY_PLAN_PAGE["title"],
+            DMV_STUDY_PLAN_PAGE["description"],
+            f"/{DMV_STUDY_PLAN_SLUG}.html",
+            "<section class=\"content-section\"><h1>DMV permit test study plan</h1><p>State data is not available yet.</p></section>",
+            "tool-page study-plan-page",
+        )
+    default = next((item for item in records if item["value"] == "florida"), records[0])
+    options = "".join(
+        f'<option value="{esc(item["value"])}" '
+        f'data-state="{esc(item["label"])}" '
+        f'data-agency="{esc(item["agency"])}" '
+        f'data-questions="{esc(item["questions"] or 40)}" '
+        f'data-rule="{esc(item["rule"])}" '
+        f'data-source-url="{esc(item["manualUrl"])}" '
+        f'data-practice-url="{esc(item["permitUrl"])}" '
+        f'data-signs-url="{esc(item["signUrl"])}" '
+        f'data-checklist-url="{esc(item["checklistUrl"])}" '
+        f'data-score-url="{DMV_SCORE_SLUG}.html" '
+        f'{"selected" if item["value"] == default["value"] else ""}>{esc(item["label"])}</option>'
+        for item in records
+    )
+    source_links = "".join(
+        f'<li><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["manualLabel"])}</a></li>'
+        for item in records
+    )
+    state_rows = "".join(
+        f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"]).lower())}">
+  <th scope="row">{esc(item["label"])}</th>
+  <td>{esc(item["rule"])}</td>
+  <td><a href="{esc(item["permitUrl"])}">Practice</a></td>
+  <td><a href="{esc(item["signUrl"])}">Signs</a></td>
+  <td><a href="{esc(item["checklistUrl"])}">Checklist</a></td>
+</tr>"""
+        for item in records
+    )
+    faq = render_faq([
+        {
+            "q": "How long should I study for the DMV permit test?",
+            "a": "It depends on your current score and state rules. A short 3-day plan should focus on official rules, road signs, and one full practice round. A 14- or 21-day plan can spread practice into smaller review blocks.",
+        },
+        {
+            "q": "What should I study first for the DMV permit test?",
+            "a": "Open the official state source first, then drill road signs and the state permit practice page. Use the checklist last so documents, appointment, fees, and retake rules are not forgotten.",
+        },
+        {
+            "q": "Is this an official DMV study plan?",
+            "a": "No. It is an independent planning tool from TestDayTools. Use the linked DMV, DPS, MVC, PennDOT, FLHSMV, or Secretary of State source for final rules.",
+        },
+    ])
+    body = f"""<section class="hero tool-hero">
+  <div>
+    <p class="eyebrow">DMV study plan builder</p>
+    <h1>DMV permit test study plan by state.</h1>
+    <p class="lede">Choose your state, days left, and weakest area to build a practical DMV permit-test plan with official-source, practice, road-sign, score, and checklist links.</p>
+    {render_last_updated()}
+    <div class="hero-actions">
+      <a href="#study-plan">Build plan</a>
+      <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
+      <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
+      <a href="road-signs-practice-test.html">Road signs</a>
+      <a href="dmv-test-day-checklist.html">Checklist</a>
+    </div>
+  </div>
+</section>
+<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="trust-strip">
+  <div><span>Planner</span><strong>3 to 21 days</strong></div>
+  <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
+  <div><span>Best use</span><strong>What to do next</strong></div>
+  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+</section>
+<section class="study-plan-tool tool-block" id="study-plan" data-dmv-study-plan>
+  <div class="tool-section-head">
+    <span class="eyebrow">Plan builder</span>
+    <h2>Build your DMV study plan</h2>
+    <p class="section-intro">Use this as a study sequence, not an official guarantee. The official state source should control final requirements and wording.</p>
+  </div>
+  <div class="study-plan-controls">
+    <label>State <select data-study-state>{options}</select></label>
+    <label>Days left <select data-study-days>
+      <option value="3">3 days</option>
+      <option value="7" selected>7 days</option>
+      <option value="14">14 days</option>
+      <option value="21">21 days</option>
+    </select></label>
+    <label>Weakest area <select data-study-weak>
+      <option value="mixed">Not sure yet</option>
+      <option value="road-signs">Road signs</option>
+      <option value="rules">Rules and right-of-way</option>
+      <option value="score">Passing score confidence</option>
+      <option value="documents">Documents and test-day logistics</option>
+    </select></label>
+  </div>
+  <div class="study-plan-summary">
+    <article><span data-study-agency>{esc(default["agency"])}</span><strong data-study-rule>{esc(default["rule"])}</strong><p>Confirm exact wording with the official state source.</p></article>
+    <article><span>Daily target</span><strong data-study-daily-questions>40 questions</strong><p>Use smaller review loops instead of one rushed full exam.</p></article>
+    <article><span>Road signs</span><strong data-study-sign-minutes>15 minutes/day</strong><p>Visual recognition should feel automatic before test day.</p></article>
+    <article><span>Final checkpoint</span><strong data-study-checkpoint>Checklist + score check</strong><p>Do not ignore documents, appointment, fees, or retake rules.</p></article>
+  </div>
+  <div class="study-plan-actions">
+    <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-study-source>Official source</a>
+    <a href="{esc(default["permitUrl"])}" data-study-practice>Practice test</a>
+    <a href="{esc(default["signUrl"])}" data-study-signs>Road signs</a>
+    <a href="{esc(default["checklistUrl"])}" data-study-checklist>Checklist</a>
+    <a href="{DMV_SCORE_SLUG}.html" data-study-score>Passing score</a>
+  </div>
+  <ol class="study-plan-list" data-study-plan-list>
+    <li><strong>Open the official source.</strong><span>Confirm format, passing rule, and applicant requirements before practicing.</span></li>
+    <li><strong>Run one diagnostic practice round.</strong><span>Use missed topics to choose road signs, rules, or score confidence as the next focus.</span></li>
+    <li><strong>Finish with checklist logistics.</strong><span>Documents and appointment details can block a prepared visitor.</span></li>
+  </ol>
+</section>
+<section class="content-section">
+  <h2>How to turn this plan into real practice</h2>
+  <p>Do not use the plan as a reading schedule only. Each block should end with an action: answer questions, flip sign cards, check the passing score, or mark checklist items ready.</p>
+</section>
+<section class="source-matrix requirements-table" id="state-study-links" data-state-filter-scope>
+  <div class="section-head-row">
+    <div>
+      <span class="eyebrow">State paths</span>
+      <h3>Study-plan links by state</h3>
+    </div>
+    <div class="state-filter compact-filter">
+      <label for="study-state-filter">Filter table</label>
+      <input id="study-state-filter" type="search" placeholder="Type Florida, New York, 80%..." data-state-filter>
+    </div>
+  </div>
+  <div class="source-matrix-scroll">
+    <table>
+      <thead><tr><th>State</th><th>Passing rule</th><th>Practice</th><th>Signs</th><th>Checklist</th></tr></thead>
+      <tbody>{state_rows}</tbody>
+    </table>
+  </div>
+  <p class="state-filter-empty" data-state-empty hidden>No matching state plan yet.</p>
+</section>
+<section class="sources">
+  <h2>Official state sources</h2>
+  <ul>{source_links}</ul>
+</section>
+{faq}
+{render_related(["dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
+    return page_shell(
+        DMV_STUDY_PLAN_PAGE["title"],
+        DMV_STUDY_PLAN_PAGE["description"],
+        f"/{DMV_STUDY_PLAN_SLUG}.html",
+        body,
+        "tool-page study-plan-page",
+        page_schema(DMV_STUDY_PLAN_PAGE["title"], DMV_STUDY_PLAN_PAGE["description"], url_for(f"/{DMV_STUDY_PLAN_SLUG}.html"), "LearningResource"),
+    )
+
+
 def render_dmv_requirements_finder():
     records = dmv_requirement_records()
     if not records:
@@ -2161,6 +2325,7 @@ def render_dmv_requirements_page():
     <div class="hero-actions">
       <a href="#requirements-finder">Choose state</a>
       <a href="#compare-states">Compare table</a>
+      <a href="dmv-permit-test-study-plan.html">Study plan</a>
       <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
       <a href="dmv-test-day-checklist.html">Document checklist</a>
       <a href="road-signs-practice-test.html">Road signs</a>
@@ -2188,7 +2353,7 @@ def render_dmv_requirements_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
+{render_related(["dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
     return page_shell(
         DMV_REQUIREMENTS_PAGE["title"],
         DMV_REQUIREMENTS_PAGE["description"],
@@ -2325,6 +2490,7 @@ def render_dmv_score_page():
     <div class="hero-actions">
       <a href="#score-calculator">Use calculator</a>
       <a href="#score-table">Compare scores</a>
+      <a href="dmv-permit-test-study-plan.html">Study plan</a>
       <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
       <a href="road-signs-practice-test.html">Road signs</a>
     </div>
@@ -2351,7 +2517,7 @@ def render_dmv_score_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
+{render_related(["dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
     return page_shell(
         DMV_SCORE_PAGE["title"],
         DMV_SCORE_PAGE["description"],
@@ -2382,6 +2548,7 @@ def render_dmv_hub(hub):
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
+        <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
         <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
@@ -2426,6 +2593,7 @@ def render_home():
       {render_last_updated()}
       <div class="hero-actions">
         <a href="road-signs-practice-test.html">Start road signs</a>
+        <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-road-sign-flashcards.html">Flashcards</a>
         <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
@@ -2479,6 +2647,7 @@ def build():
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
+    write(f"{DMV_STUDY_PLAN_SLUG}.html", render_dmv_study_plan_page())
     write(f"{ROAD_SIGN_FLASHCARDS_SLUG}.html", render_road_sign_flashcards_page())
     write(f"{ROAD_SIGN_SHAPES_SLUG}.html", render_road_sign_shapes_page())
     write(f"{DMV_SCORE_SLUG}.html", render_dmv_score_page())
@@ -2488,7 +2657,7 @@ def build():
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
