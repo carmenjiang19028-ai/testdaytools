@@ -6205,14 +6205,44 @@
                 "meaning": "You are facing traffic; correct your direction safely."
               },
               {
+                "image": "one-way",
+                "title": "One Way",
+                "meaning": "Traffic moves only in the arrow direction."
+              },
+              {
                 "image": "no-u-turn",
                 "title": "No U-turn",
                 "meaning": "A U-turn is not allowed at that location."
               },
               {
+                "image": "four-way-stop",
+                "title": "4-Way Stop",
+                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
+              },
+              {
+                "image": "no-right-turn",
+                "title": "No Right Turn",
+                "meaning": "A right turn is not allowed from this approach."
+              },
+              {
+                "image": "no-turn-on-red",
+                "title": "No Turn on Red",
+                "meaning": "Stopping first is not enough; wait until the signal allows the turn."
+              },
+              {
+                "image": "keep-right",
+                "title": "Keep Right",
+                "meaning": "Stay to the right of an island, divider, or obstruction."
+              },
+              {
                 "image": "speed-limit",
                 "title": "Speed Limit",
                 "meaning": "The posted number is the legal maximum under normal conditions."
+              },
+              {
+                "image": "no-passing",
+                "title": "Do Not Pass",
+                "meaning": "Passing another vehicle is prohibited in this zone."
               }
             ]
           },
@@ -6280,11 +6310,6 @@
                 "image": "deer-crossing",
                 "title": "Animal Crossing",
                 "meaning": "Animals may enter the road; slow and scan shoulders."
-              },
-              {
-                "image": "one-way",
-                "title": "One Way",
-                "meaning": "Traffic moves only in the arrow direction."
               }
             ]
           }
@@ -6626,21 +6651,21 @@
               "label": "Entry error",
               "title": "Do Not Enter or Wrong Way",
               "text": "Review red entry-control signs before mixing in warning signs. The action is to avoid entering or correct direction safely.",
-              "href": "regulatory-traffic-signs-practice-test.html?focus=Entry%20and%20direction%20signs#practice",
+              "href": "regulatory-traffic-signs-practice-test.html?focus=Prohibited%20entry%20signs#practice",
               "cta": "Practice entry signs"
             },
             {
               "label": "Turn error",
               "title": "No U-turn, No Right Turn, No Turn on Red",
               "text": "Group no-turn signs together. The common trap is assuming a turn is allowed after stopping when the sign still prohibits it.",
-              "href": "regulatory-traffic-signs-practice-test.html?focus=Limit%20and%20movement%20signs#practice",
+              "href": "regulatory-traffic-signs-practice-test.html?focus=Turn%20control%20signs#practice",
               "cta": "Practice turn-control signs"
             },
             {
               "label": "Direction error",
               "title": "One Way, lane arrows, and Keep Right",
               "text": "Separate road direction from lane movement. One Way controls the road; Keep Right controls which side of an obstruction to use.",
-              "href": "regulatory-traffic-signs-practice-test.html?focus=Entry%20and%20direction%20signs#practice",
+              "href": "regulatory-traffic-signs-practice-test.html?focus=Lane%20and%20direction%20signs#practice",
               "cta": "Practice direction signs"
             }
           ]

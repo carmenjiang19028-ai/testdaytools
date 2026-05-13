@@ -505,7 +505,7 @@ def road_sign_shape_records():
             "examples": "Stop sign",
             "visual": "shape-octagon",
             "text": "STOP",
-            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Stop%20and%20yield%20rules#practice",
         },
         {
             "key": "triangle",
@@ -518,7 +518,7 @@ def road_sign_shape_records():
             "examples": "Yield sign",
             "visual": "shape-triangle",
             "text": "YIELD",
-            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Stop%20and%20yield%20rules#practice",
         },
         {
             "key": "red-circle",
@@ -528,10 +528,10 @@ def road_sign_shape_records():
             "filter": "regulatory",
             "meaning": "A red circle, slash, or red panel usually marks a prohibited action or direction.",
             "action": "Do not enter, turn, or pass",
-            "examples": "Do Not Enter, No U-turn, Wrong Way",
+            "examples": "Do Not Enter, Wrong Way, No U-turn, No Right Turn",
             "visual": "shape-red-circle",
             "text": "NO",
-            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+            "practice": "regulatory-traffic-signs-practice-test.html#practice",
         },
         {
             "key": "rectangle-white",
@@ -541,10 +541,10 @@ def road_sign_shape_records():
             "filter": "regulatory",
             "meaning": "A white rectangle usually states a traffic law, lane rule, speed rule, or direction rule.",
             "action": "Follow the posted rule",
-            "examples": "Speed Limit, One Way, Lane Use",
+            "examples": "Speed Limit, One Way, Keep Right, No Turn on Red",
             "visual": "shape-white-rectangle",
             "text": "RULE",
-            "practice": "regulatory-traffic-signs-practice-test.html?focus=Speed%20signs#practice",
+            "practice": "regulatory-traffic-signs-practice-test.html#practice",
         },
         {
             "key": "diamond",
@@ -596,7 +596,7 @@ def road_sign_shape_records():
             "examples": "No Passing Zone",
             "visual": "shape-pennant",
             "text": "NO PASS",
-            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Passing%20signs#practice",
         },
         {
             "key": "orange",
@@ -658,9 +658,10 @@ def road_sign_flashcard_records():
     records = []
     for group in source.get("signLibrary", {}).get("groups", []):
         category = group.get("label", "Road signs")
+        is_regulatory = "regulatory" in category.lower()
         filter_key = category.lower().split()[0].replace(",", "")
         practice_focus = category
-        if "regulatory" in category.lower():
+        if is_regulatory:
             practice_focus = "Regulatory signs"
         elif "warning" in category.lower():
             practice_focus = "Warning signs"
@@ -680,7 +681,11 @@ def road_sign_flashcard_records():
                 "category": category,
                 "filter": filter_key,
                 "image": item.get("image", ""),
-                "practice": f'road-signs-practice-test.html?focus={quote(practice_focus)}#practice',
+                "practice": (
+                    "regulatory-traffic-signs-practice-test.html#practice"
+                    if is_regulatory
+                    else f'road-signs-practice-test.html?focus={quote(practice_focus)}#practice'
+                ),
                 "query": " ".join([title, meaning, category, item.get("image", "")]).lower(),
             })
     return records
@@ -1274,6 +1279,54 @@ def render_sign_lookup(tool):
     if not library:
         return ""
     slug = tool.get("slug", "")
+    sign_focus_by_slug = {
+        "road-signs-practice-test": {
+            "stop": "Regulatory signs",
+            "yield": "Regulatory signs",
+            "do-not-enter": "Regulatory signs",
+            "wrong-way": "Regulatory signs",
+            "one-way": "Turn and lane control signs",
+            "no-u-turn": "Turn and lane control signs",
+            "four-way-stop": "Regulatory signs",
+            "no-right-turn": "Turn and lane control signs",
+            "no-turn-on-red": "Turn and lane control signs",
+            "keep-right": "Turn and lane control signs",
+            "speed-limit": "Speed signs",
+            "no-passing": "Regulatory signs",
+        },
+        "regulatory-traffic-signs-practice-test": {
+            "stop": "Stop and yield rules",
+            "yield": "Stop and yield rules",
+            "four-way-stop": "Stop and yield rules",
+            "do-not-enter": "Prohibited entry signs",
+            "wrong-way": "Prohibited entry signs",
+            "one-way": "Lane and direction signs",
+            "keep-right": "Lane and direction signs",
+            "no-u-turn": "Turn control signs",
+            "no-right-turn": "Turn control signs",
+            "no-turn-on-red": "Turn control signs",
+            "speed-limit": "Speed signs",
+            "no-passing": "Passing signs",
+        },
+    }
+    state_road_sign_focus = {
+        "school-crossing": "School signs",
+        "pedestrian-crossing": "Pedestrian signs",
+        "work-zone": "Work zone signs",
+        "hospital": "Service signs",
+        "railroad": "Railroad signs",
+        "signal-ahead": "Signal signs",
+        "divided-highway": "Roadway signs",
+        "no-passing": "Passing signs",
+        "one-way": "Directional signs",
+        "roundabout": "Intersection signs",
+        "deer-crossing": "Warning signs",
+    }
+    if (
+        slug not in sign_focus_by_slug
+        and ("road-signs-practice" in slug or "mvc-road-signs-practice" in slug)
+    ):
+        sign_focus_by_slug[slug] = state_road_sign_focus
     cards = []
     filters = [{"label": "All", "value": "all"}]
     seen_filters = {"all"}
@@ -1287,9 +1340,12 @@ def render_sign_lookup(tool):
             svg = SIGN_SVGS.get(item["image"], "")
             if not svg:
                 continue
-            practice_focus = group_label
+            image_key = item.get("image", "")
+            practice_focus = sign_focus_by_slug.get(slug, {}).get(image_key, group_label)
             focus_label = f'{group_label} {item.get("title", "")}'.lower()
-            if "regulatory" in focus_label:
+            if image_key in sign_focus_by_slug.get(slug, {}):
+                pass
+            elif "regulatory" in focus_label:
                 practice_focus = "Regulatory signs"
             elif "warning" in focus_label:
                 practice_focus = "Warning signs"
@@ -2105,6 +2161,10 @@ def render_road_sign_shapes_page():
   <div class="task-console-grid">{decision_cards}</div>
 </section>
 {render_road_sign_shapes_finder()}
+<section class="content-section">
+  <h2>Shape and color traps that slow learners down</h2>
+  <p>Many missed road-sign questions are not about rare signs. They happen when a learner treats every red sign as Stop, every white sign as Speed Limit, or every yellow sign as a generic warning. Use red panels for entry control, red slashes for prohibited movements, white rectangles for rules such as One Way or Keep Right, and pennants for no-passing zones.</p>
+</section>
 <section class="requirements-table" id="shape-reference" data-state-filter-scope>
   <div class="tool-section-head">
     <span class="eyebrow">Reference table</span>
@@ -2185,7 +2245,7 @@ def render_road_sign_flashcards_page():
             ("1", "Look at shape first", "Identify whether the card is regulatory, warning, school, service, or work-zone before reading words."),
             ("2", "Say the driver action", "Convert each card into an action such as stop, yield, slow, do not enter, or prepare for a hazard."),
             ("3", "Mark review honestly", "Use Review again for slow cards. The deck keeps counts on this browser."),
-            ("4", "Quiz the weak group", "After one pass, open the matching image quiz for the group with the most review cards."),
+            ("4", "Quiz the weak group", "After one pass, open the regulatory quiz first if no-turn, one-way, keep-right, or no-passing cards still feel slow."),
         ]
     )
     body = f"""<section class="hero tool-hero flashcard-hero">
@@ -2207,7 +2267,7 @@ def render_road_sign_flashcards_page():
       <div class="flashcard-mini-stack">
         {''.join(f'<div class="mini-flash-sign" role="img" aria-label="{esc(record["title"])}">{SIGN_SVGS.get(record["image"], "")}</div>' for record in records[:4])}
       </div>
-      <p class="panel-source">Best first pass: stop, yield, no entry, warning, school, service, and work-zone signs.</p>
+      <p class="panel-source">Best first pass: stop, yield, no entry, wrong way, one-way, no-turn, keep-right, school, and work-zone signs.</p>
     </aside>
   </div>
 </section>
@@ -2219,6 +2279,10 @@ def render_road_sign_flashcards_page():
     <p class="section-intro">Road-sign flashcards are useful only if they lead to decisions. Use each card to name the sign family and the safest legal action.</p>
   </div>
   <div class="task-console-grid">{study_cards}</div>
+</section>
+<section class="content-section">
+  <h2>Regulatory cards learners should not skip</h2>
+  <p>Short decks often stop at Stop and Yield, but the harder permit-test misses usually come from smaller rule signs. Give extra review time to 4-Way Stop, One Way, No Right Turn, No Turn on Red, Keep Right, Do Not Pass, Do Not Enter, and Wrong Way because the answer may describe the driver action instead of the sign name.</p>
 </section>
 <section class="flashcard-tool" id="flashcards" data-road-sign-flashcards>
   <div class="tool-section-head">
@@ -2470,7 +2534,7 @@ def render_dmv_mistake_log_page():
   <p class="section-intro">Use the log as a routing tool. The point is to stop repeating full quizzes when one specific confusion is doing the damage.</p>
   <div class="card-grid">
     <article class="info-card"><span>Wrong-way entry</span><h3>Review red entry-control signs</h3><p>Do Not Enter, Wrong Way, Stop, and Yield belong together because the next action is immediate. Practice the sign family before broad warning signs.</p><a class="info-card-link" href="florida-dmv-road-signs-practice.html?focus=Regulatory%20signs#practice">Florida sign drill</a></article>
-    <article class="info-card"><span>One-way or lane direction</span><h3>Separate road direction from lane movement</h3><p>One Way controls the road. Lane arrows control what your lane can do. Save these misses together so the next drill focuses on arrows and permitted turns.</p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Direction%20and%20movement#practice">Direction drill</a></article>
+    <article class="info-card"><span>One-way or lane direction</span><h3>Separate road direction from lane movement</h3><p>One Way controls the road. Lane arrows control what your lane can do. Save these misses together so the next drill focuses on arrows and permitted turns.</p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Lane%20and%20direction%20signs#practice">Direction drill</a></article>
     <article class="info-card"><span>Right-of-way</span><h3>Move from sign cue to driver order</h3><p>If the miss is about who goes first, the next drill should be state practice, not another sign-only round.</p><a class="info-card-link" href="dmv-practice.html#state-paths">State practice</a></article>
     <article class="info-card"><span>Course, exam, permit</span><h3>Map the process before the visit</h3><p>If the miss is about TLSAE, the Class E exam, online testing, documents, or first issuance, switch from practice questions to the process map.</p><a class="info-card-link" href="florida-class-e-knowledge-exam-tlsae.html">Florida Class E map</a></article>
     <article class="info-card"><span>Documents or appointment</span><h3>Use official documents before scheduling</h3><p>A high practice score does not solve identity, Social Security number, address, parent forms, fees, appointment, or local service-center steps.</p><a class="info-card-link" href="dmv-test-day-checklist.html?state=florida#dmv-checklist">Checklist</a></article>
