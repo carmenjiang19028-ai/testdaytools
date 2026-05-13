@@ -19825,6 +19825,18 @@
           "text": "Practice quiz answers are checked in your browser. They are not submitted to a server by this static site."
         },
         {
+          "heading": "Checklist and mistake-log storage",
+          "text": "Some tools can remember selected states, checked items, or saved weak areas in your browser's local storage. This is meant only for convenience on the same device and is not an official DMV record."
+        },
+        {
+          "heading": "No driver's license data",
+          "text": "Do not enter driver's license numbers, Social Security numbers, birth dates, addresses, payment details, or appointment confirmation numbers into this site. Use official agency pages for personal applications."
+        },
+        {
+          "heading": "External official-source links",
+          "text": "Many pages link to official DMV, College Board, or other agency resources. Those sites have their own privacy practices and may ask for account or application information."
+        },
+        {
           "heading": "Server logs",
           "text": "Because the site is hosted as static pages, the hosting provider may process basic technical logs such as page requests, device information, or IP-derived region for security and delivery."
         },
@@ -19846,6 +19858,14 @@
         {
           "heading": "Corrections",
           "text": "If you find an outdated date, broken source link, unclear explanation, or DMV-source mismatch, use the public project page until a dedicated domain email is connected."
+        },
+        {
+          "heading": "Best correction reports",
+          "text": "The most useful reports include the page URL, the exact heading or question that seems wrong, the official source link, and a short note about why the page should change."
+        },
+        {
+          "heading": "DMV and exam account issues",
+          "text": "TestDayTools cannot access DMV, DPS, MVC, FLHSMV, College Board, SAT, AP, testing-provider, appointment, payment, or score accounts. Use official support channels for personal records."
         },
         {
           "heading": "What to include",
@@ -19879,6 +19899,14 @@
         {
           "heading": "No guarantees",
           "text": "Dates, policies, and rules can change. Use official sources for final decisions about exam registration, score sending, credit, permits, and licensing."
+        },
+        {
+          "heading": "DMV rules vary by state and applicant path",
+          "text": "Permit, learner license, REAL ID, document, appointment, testing-provider, retest, age, and parent-consent rules can vary by state, county office, applicant age, and license path."
+        },
+        {
+          "heading": "Official sources decide final requirements",
+          "text": "A TestDayTools checklist can help organize the task, but the state agency, official manual, testing provider, service center, or school office decides what is accepted for your situation."
         },
         {
           "heading": "Practice questions",
