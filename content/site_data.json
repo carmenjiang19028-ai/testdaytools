@@ -99,6 +99,18 @@
     ],
     "startHere": [
       {
+        "label": "Florida signs",
+        "title": "Florida Regulatory Traffic Signs Practice",
+        "text": "Start with a high-confusion Florida topic: regulatory signs, wrong-way signs, one-way arrows, speed signs, and crossings.",
+        "href": "florida-dmv-road-signs-practice.html"
+      },
+      {
+        "label": "Florida Class E",
+        "title": "Class E Exam vs TLSAE Map",
+        "text": "Separate the Florida TLSAE or DETS course, Class E Knowledge Exam, learner permit documents, and office step.",
+        "href": "florida-class-e-knowledge-exam-tlsae.html"
+      },
+      {
         "label": "Road signs",
         "title": "Road Signs Practice Test",
         "text": "Start with regulatory, warning, school, service, and work-zone signs before choosing a state.",
@@ -355,7 +367,7 @@
       "title": "DMV Practice Tests, Road Signs Practice, and Regulatory Sign Tools",
       "description": "Choose free DMV permit practice tests, road signs practice, and regulatory traffic sign quizzes for common U.S. permit-test study paths.",
       "heroKicker": "DMV practice hub",
-      "summary": "Start with road signs or regulatory traffic signs, then choose a state for permit questions, image signs, and mock exam review.",
+      "summary": "Use one DMV study loop: confirm the official source, drill road signs, answer state permit questions, save mistakes, then finish the test-day checklist.",
       "primaryActions": [
         {
           "label": "Test day",
@@ -488,6 +500,18 @@
         {
           "heading": "How to use these pages",
           "text": "Start with the general road-sign quiz, drill regulatory signs if you miss rule signs, then choose a state page for official handbook context and a mixed permit-practice round."
+        },
+        {
+          "heading": "The no-random-practice loop",
+          "text": "A useful DMV site should not send you into endless mixed quizzes. Start with the official source, use road-sign practice to expose visual mistakes, answer a short state round, save the missed pattern, then open the checklist for documents and appointment details."
+        },
+        {
+          "heading": "Why Florida is featured first",
+          "text": "Florida learners often mix together TLSAE, the Class E Knowledge Exam, road signs, documents, and learner permit issuance. The Florida path separates those jobs so each page has a specific use instead of becoming another generic practice list."
+        },
+        {
+          "heading": "What to do after a missed sign",
+          "text": "Do not simply retake the same quiz. Decide whether the miss was a sign-family problem, a right-of-way rule, a direction-control sign, a speed sign, or a document and appointment misunderstanding, then open the matching drill or checklist."
         }
       ]
     },
@@ -5452,9 +5476,9 @@
       "slug": "california-dmv-permit-practice-test",
       "category": "DMV",
       "title": "California DMV Permit Practice Test",
-      "description": "California DMV permit practice with quick questions, original road-sign images, a 40-question mock exam, official handbook links, and weak-area feedback.",
+      "description": "California DMV permit practice with quick questions, original road-sign images, a mock exam, official knowledge-test and instruction-permit links, and weak-area feedback.",
       "heroKicker": "California DMV",
-      "summary": "Practice California DMV permit questions with three modes: quick review, image-based road signs, and a 40-question mock exam with weak-area feedback.",
+      "summary": "Practice California DMV permit topics with quick questions, original road-sign images, and a 40-question mock exam, then confirm the instruction permit, testing option, and document step on official DMV pages.",
       "quickFacts": [
         {
           "label": "Practice modes",
@@ -5556,6 +5580,14 @@
         {
           "heading": "Practice in short rounds",
           "text": "Do one round, read every explanation, then take a short break. Repeating questions immediately can make answers feel familiar without proving you understand the rule."
+        },
+        {
+          "heading": "California permit prep has two separate jobs",
+          "text": "One job is learning signs, right of way, lane use, speed, and safety rules. The other job is confirming the California instruction permit application path, testing option, identity documents, and any under-18 requirements that apply before DMV day."
+        },
+        {
+          "heading": "Do not confuse test access with permit issuance",
+          "text": "California DMV may offer different knowledge-test paths for different applicants, but passing or preparing for a test is not the whole permit process. Use official DMV pages to confirm whether your situation uses online testing, eLearning, or an office step."
         }
       ],
       "cardGroups": [
@@ -5576,6 +5608,33 @@
               "label": "Retake wisely",
               "title": "Wait before repeating the same quiz",
               "text": "Review missed categories first, then return to the quiz to check whether the idea stuck."
+            }
+          ]
+        },
+        {
+          "heading": "California DMV permit confusion map",
+          "intro": "Use practice questions for diagnosis, then use official California DMV pages for the process details that practice tests cannot decide for you.",
+          "items": [
+            {
+              "label": "Knowledge test",
+              "title": "Practice questions are only the study layer",
+              "text": "This page helps you find weak areas, but California DMV controls the official testing path, retake rules, and final wording.",
+              "href": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/preparing-for-knowledge-and-drive-tests/",
+              "cta": "California DMV test source"
+            },
+            {
+              "label": "Instruction permit",
+              "title": "Permit issuance is a separate checklist",
+              "text": "Before test day, confirm the application path, documents, fees, and parent or guardian details if they apply to your age.",
+              "href": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/",
+              "cta": "California DMV permit source"
+            },
+            {
+              "label": "Study order",
+              "title": "Start with visual and right-of-way mistakes",
+              "text": "If a short round feels shaky, move to road signs, right of way, lane rules, parking, and safe-speed categories before another mock exam.",
+              "href": "california-dmv-road-signs-practice.html",
+              "cta": "California signs practice"
             }
           ]
         }
@@ -5600,6 +5659,14 @@
         {
           "q": "Are these questions enough by themselves?",
           "a": "No. They are a short practice set. The official handbook should be your main source for California rules."
+        },
+        {
+          "q": "Is the California DMV knowledge test the same as getting an instruction permit?",
+          "a": "No. Treat the knowledge test, instruction permit application, documents, fees, and any age-based requirements as related but separate steps. Confirm the current path on California DMV pages."
+        },
+        {
+          "q": "What should I study first for the California permit test?",
+          "a": "Start with road signs, traffic signals, right of way, lane rules, speed, parking, road conditions, and impaired-driving rules, then use missed categories to decide what to reread."
         }
       ],
       "sources": [
@@ -5610,13 +5677,24 @@
         {
           "label": "California DMV: Driver education and safety",
           "url": "https://www.dmv.ca.gov/portal/driver-education-and-safety/"
+        },
+        {
+          "label": "California DMV: Preparing for Knowledge and Drive Tests",
+          "url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/preparing-for-knowledge-and-drive-tests/"
+        },
+        {
+          "label": "California DMV: Instruction Permits",
+          "url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/"
         }
       ],
       "related": [
         "california-dmv-road-signs-practice",
         "new-york-dmv-permit-practice-test",
         "new-york-dmv-road-signs-practice",
-        "road-signs-practice-test"
+        "road-signs-practice-test",
+        "dmv-test-day-checklist",
+        "dmv-permit-test-requirements-by-state",
+        "dmv-permit-test-mistake-log"
       ],
       "quizModes": [
         {
@@ -7830,9 +7908,9 @@
       "slug": "texas-dmv-permit-practice-test",
       "category": "DMV",
       "title": "Texas DMV Permit Practice Test",
-      "description": "Texas permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official Texas DPS source links.",
+      "description": "Texas permit practice test with quick practice, image road signs, mock exam mode, Texas DPS handbook links, learner-license reminders, and weak-area feedback.",
       "heroKicker": "Texas permit practice",
-      "summary": "Practice Texas permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the Texas Driver Handbook.",
+      "summary": "Practice Texas permit-test topics with quick questions, road-sign images, and a mock exam, then confirm the learner-license path, driver education step, documents, and official DPS handbook before test day.",
       "quickFacts": [
         {
           "label": "Official source",
@@ -7856,7 +7934,11 @@
         "texas-dmv-road-signs-practice",
         "california-dmv-permit-practice-test",
         "new-york-dmv-permit-practice-test",
-        "road-signs-practice-test"
+        "road-signs-practice-test",
+        "dmv-test-day-checklist",
+        "dmv-permit-test-requirements-by-state",
+        "dmv-permit-test-mistake-log",
+        "dmv-road-sign-flashcards"
       ],
       "quizModes": [
         {
@@ -8129,6 +8211,14 @@
         {
           "heading": "Best low-effort study loop",
           "text": "Take one short round, read only the explanations you missed, review one handbook section, then retake later. That loop is easier to maintain than reading the whole manual repeatedly."
+        },
+        {
+          "heading": "Texas practice should not hide the learner-license step",
+          "text": "A practice score only measures study readiness. Before relying on that score, confirm whether your Texas path involves teen or adult requirements, driver education, identity and residency documents, and any DPS appointment or application steps."
+        },
+        {
+          "heading": "Use DPS wording for process and this page for diagnosis",
+          "text": "Texas DPS and the Texas Driver Handbook are the final source for application details and rule wording. Use this page to find weak topics, then return to the official source for the exact requirement."
         }
       ],
       "cardGroups": [
@@ -8150,6 +8240,33 @@
               "label": "Mock exam",
               "title": "Use the long round late",
               "text": "The 40-question mode is best after you have already fixed obvious misses."
+            }
+          ]
+        },
+        {
+          "heading": "Texas learner license confusion map",
+          "intro": "The common study mistake is treating the practice test as the entire Texas learner-license process. Keep the study job and the DPS process job separate.",
+          "items": [
+            {
+              "label": "Driver education path",
+              "title": "Course and eligibility rules are not quiz questions",
+              "text": "If a course, age rule, or supervised-driving step applies to you, practice questions cannot replace that official requirement check.",
+              "href": "https://www.dps.texas.gov/section/service/apply-learners-license-teen",
+              "cta": "Texas DPS teen source"
+            },
+            {
+              "label": "Knowledge readiness",
+              "title": "Signs and right of way expose weak rules fast",
+              "text": "If your first round is weak, move into signs, right of way, speed, alcohol laws, and lane-use review before another long mock exam.",
+              "href": "texas-dmv-road-signs-practice.html",
+              "cta": "Texas signs practice"
+            },
+            {
+              "label": "Documents and visit",
+              "title": "A passing score is not the only thing to bring",
+              "text": "Use a checklist for identity, residency, Social Security evidence, application details, fees, and any age-specific forms before the DPS visit.",
+              "href": "dmv-test-day-checklist.html?state=texas#dmv-checklist",
+              "cta": "Texas checklist"
             }
           ]
         }
@@ -8174,6 +8291,10 @@
         {
           "q": "Should I trust practice questions or the official handbook?",
           "a": "Use practice questions for feedback, but use the official handbook and agency pages as the final source."
+        },
+        {
+          "q": "Is the Texas learner license process only a knowledge test?",
+          "a": "No. The test is one part of readiness. Confirm the Texas DPS learner-license path, driver education requirements when applicable, documents, fees, and appointment details for your situation."
         }
       ],
       "sources": [
@@ -8314,7 +8435,9 @@
         "Bring DPS-required identity, residency, and school or course documents for your application path.",
         "Practice with a licensed adult age 21 or older as required for learner driving.",
         "Use road-sign image practice until sign meaning is automatic.",
-        "Check DPS appointment and office instructions before test day."
+        "Check DPS appointment and office instructions before test day.",
+        "Confirm whether your Texas path has teen, adult, driver education, or supervised-driving requirements before using practice score alone as a readiness signal.",
+        "Use the test-day checklist to verify identity, residency, Social Security evidence, application details, fees, and appointment notes before the DPS visit."
       ]
     },
     {
@@ -8699,7 +8822,7 @@
       "title": "Florida DMV Permit Practice Test",
       "description": "Florida permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official FLHSMV source links.",
       "heroKicker": "Florida permit practice",
-      "summary": "Practice Florida permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the Official Florida Driver License Handbook.",
+      "summary": "Practice Florida Class E permit-test topics, then separate the three steps learners often mix up: TLSAE or DETS course, Class E Knowledge Exam, and learner permit documents or office issuance.",
       "quickFacts": [
         {
           "label": "Official source",
@@ -8999,6 +9122,10 @@
         {
           "heading": "Best low-effort study loop",
           "text": "Take one short round, read only the explanations you missed, review one handbook section, then retake later. That loop is easier to maintain than reading the whole manual repeatedly."
+        },
+        {
+          "heading": "Florida practice should answer the process confusion too",
+          "text": "A learner can score well on practice questions and still be stuck if TLSAE, the Class E Knowledge Exam, the appointment, and the first permit issuance step are treated as one task. Use this page to diagnose study topics, then open the Class E map and document checklist for the process side."
         }
       ],
       "cardGroups": [
