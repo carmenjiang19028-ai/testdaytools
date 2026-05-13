@@ -49,6 +49,7 @@
         "links": [
           "dmv-test-day-checklist",
           "dmv-permit-test-question-of-the-day",
+          "dmv-permit-test-mistake-log",
           "dmv-permit-test-study-plan",
           "dmv-permit-test-requirements-by-state",
           "dmv-permit-test-passing-score-calculator",
@@ -106,6 +107,12 @@
         "title": "DMV Permit Test Question of the Day",
         "text": "Answer one state-aware DMV question, read the explanation, and open the matching practice path.",
         "href": "dmv-permit-test-question-of-the-day.html"
+      },
+      {
+        "label": "Mistake log",
+        "title": "DMV Permit Test Mistake Log",
+        "text": "Save missed questions by state and weak area, then choose the next review path.",
+        "href": "dmv-permit-test-mistake-log.html"
       },
       {
         "label": "Regulatory signs",
@@ -168,6 +175,12 @@
         "title": "DMV Permit Test Question of the Day",
         "text": "One rotating state-aware question with instant explanation",
         "href": "dmv-permit-test-question-of-the-day.html"
+      },
+      {
+        "label": "Mistakes",
+        "title": "DMV Permit Test Mistake Log",
+        "text": "Browser-saved weak-area notes with next practice links",
+        "href": "dmv-permit-test-mistake-log.html"
       },
       {
         "label": "Rules",
@@ -355,6 +368,12 @@
           "href": "dmv-permit-test-question-of-the-day.html"
         },
         {
+          "label": "Mistakes",
+          "title": "DMV Permit Test Mistake Log",
+          "text": "Save missed questions, track weak areas, and reopen the right practice path.",
+          "href": "dmv-permit-test-mistake-log.html"
+        },
+        {
           "label": "Plan",
           "title": "DMV Permit Test Study Plan",
           "text": "Turn state rules, road signs, score checks, and checklist tasks into a short study sequence.",
@@ -397,6 +416,7 @@
           "links": [
             "dmv-test-day-checklist",
             "dmv-permit-test-question-of-the-day",
+            "dmv-permit-test-mistake-log",
             "dmv-permit-test-study-plan",
             "dmv-permit-test-requirements-by-state",
             "dmv-permit-test-passing-score-calculator",

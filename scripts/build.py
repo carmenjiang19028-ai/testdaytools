@@ -57,6 +57,14 @@ DMV_DAILY_PAGE = {
     "description": "Answer a free daily DMV permit test question with state filters, instant explanation, road-sign images, and links to full practice tools.",
 }
 TOOL_BY_SLUG[DMV_DAILY_SLUG] = DMV_DAILY_PAGE
+DMV_MISTAKE_LOG_SLUG = "dmv-permit-test-mistake-log"
+DMV_MISTAKE_LOG_PAGE = {
+    "slug": DMV_MISTAKE_LOG_SLUG,
+    "category": "DMV",
+    "title": "DMV Permit Test Mistake Log",
+    "description": "Save missed DMV permit-test questions by state and weak area, then turn them into a focused road-sign, rules, score, or checklist review path.",
+}
+TOOL_BY_SLUG[DMV_MISTAKE_LOG_SLUG] = DMV_MISTAKE_LOG_PAGE
 
 SIGN_SVGS = {
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
@@ -824,6 +832,7 @@ def render_home_practice_panel():
   </div>
   <div class="workbench-mode-links">
     <a href="dmv-permit-test-question-of-the-day.html"><span>Daily</span><strong>One question</strong></a>
+    <a href="dmv-permit-test-mistake-log.html"><span>Mistakes</span><strong>Save weak areas</strong></a>
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="dmv-road-sign-flashcards.html"><span>Flashcards</span><strong>Visual sign deck</strong></a>
     <a href="dmv-permit-test-study-plan.html"><span>Study plan</span><strong>3 to 21 days</strong></a>
@@ -2208,7 +2217,7 @@ def render_dmv_daily_question_page():
   <p>Move from the daily prompt into a real sequence: official source, state practice, road signs, score check, and final checklist. That path is more useful than a one-question streak.</p>
 </section>
 {faq}
-{render_related(["dmv-permit-test-study-plan", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist"])}"""
+{render_related(["dmv-permit-test-mistake-log", "dmv-permit-test-study-plan", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist"])}"""
     return page_shell(
         DMV_DAILY_PAGE["title"],
         DMV_DAILY_PAGE["description"],
@@ -2216,6 +2225,100 @@ def render_dmv_daily_question_page():
         body,
         "tool-page daily-question-page",
         page_schema(DMV_DAILY_PAGE["title"], DMV_DAILY_PAGE["description"], url_for(f"/{DMV_DAILY_SLUG}.html"), "LearningResource"),
+    )
+
+
+def render_dmv_mistake_log_page():
+    records = dmv_score_records()
+    default = next((item for item in records if item["value"] == "florida"), records[0] if records else {})
+    options = "".join(
+        f"""<option value="{esc(item["value"])}" data-state-label="{esc(item["label"])}" data-agency="{esc(item["agency"])}" data-source-url="{esc(item["manualUrl"])}" data-practice-url="{esc(item["permitUrl"])}" data-signs-url="{esc(item["signUrl"])}" data-checklist-url="{esc(item["checklistUrl"])}" data-rule="{esc(item["rule"])}" {"selected" if item["value"] == default.get("value") else ""}>{esc(item["label"])}</option>"""
+        for item in records
+    )
+    topic_options = [
+        ("road-signs", "Road signs"),
+        ("regulatory-signs", "Regulatory signs"),
+        ("right-of-way", "Right-of-way rules"),
+        ("speed-distance", "Speed and following distance"),
+        ("turning-lanes", "Turns, lanes, and parking"),
+        ("documents", "Documents or test-day logistics"),
+        ("score", "Passing score or timing"),
+        ("other", "Other missed topic"),
+    ]
+    topics = "".join(f'<option value="{esc(value)}">{esc(label)}</option>' for value, label in topic_options)
+    body = f"""<section class="hero tool-hero">
+  <div>
+    <p class="eyebrow">DMV mistake log</p>
+    <h1>DMV permit test mistake log.</h1>
+    <p class="lede">Save missed permit-test questions by state and weak area, then turn the list into a focused review path instead of repeating random questions.</p>
+    {render_last_updated()}
+    <div class="hero-actions">
+      <a href="#mistake-log">Open log</a>
+      <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
+      <a href="dmv-permit-test-study-plan.html">Study plan</a>
+      <a href="road-signs-practice-test.html">Road signs</a>
+      <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
+      <a href="dmv-test-day-checklist.html">Checklist</a>
+    </div>
+  </div>
+</section>
+<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="trust-strip">
+  <div><span>Storage</span><strong>Saved in this browser</strong></div>
+  <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
+  <div><span>Use after</span><strong>Practice or daily question</strong></div>
+  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+</section>
+<section class="mistake-log-tool tool-block" id="mistake-log" data-dmv-mistake-log>
+  <div class="tool-section-head">
+    <span class="eyebrow">Weak-area tracker</span>
+    <h2>Save the question you missed</h2>
+    <p class="section-intro">Log only mistakes that reveal a pattern. The useful output is the next review action, not a long list.</p>
+  </div>
+  <div class="mistake-log-grid">
+    <form class="mistake-log-form" data-mistake-form>
+      <label>State <select data-mistake-state>{options}</select></label>
+      <label>Weak area <select data-mistake-topic>{topics}</select></label>
+      <label>Missed question or cue <input type="text" data-mistake-prompt placeholder="Example: yellow merge sign, flashing red light, 3-point turn..."></label>
+      <label>Correct rule or fix <textarea data-mistake-fix rows="4" placeholder="Write the rule, sign meaning, or habit to remember next time."></textarea></label>
+      <div class="mistake-log-buttons">
+        <button type="submit">Save mistake</button>
+        <button type="button" data-mistake-copy>Copy review plan</button>
+      </div>
+    </form>
+    <aside class="mistake-log-summary">
+      <article><span>Total saved</span><strong data-mistake-total>0</strong><p>Keep the list short and current.</p></article>
+      <article><span>Top weak area</span><strong data-mistake-top-topic>None yet</strong><p data-mistake-next>Save a mistake to get a next action.</p></article>
+      <article><span>Selected state</span><strong data-mistake-state-label>{esc(default.get("label", "Florida"))}</strong><p data-mistake-rule>{esc(default.get("rule", "Confirm with official source"))}</p></article>
+      <div class="mistake-log-actions">
+        <a href="{esc(default.get("manualUrl", "#"))}" target="_blank" rel="noopener" data-mistake-source>Official source</a>
+        <a href="{esc(default.get("permitUrl", "dmv-practice.html"))}" data-mistake-practice>Practice</a>
+        <a href="{esc(default.get("signUrl", "road-signs-practice-test.html"))}" data-mistake-signs>Signs</a>
+        <a href="dmv-permit-test-study-plan.html" data-mistake-plan>Study plan</a>
+        <a href="{esc(default.get("checklistUrl", "dmv-test-day-checklist.html"))}" data-mistake-checklist>Checklist</a>
+      </div>
+    </aside>
+  </div>
+  <div class="mistake-log-list" data-mistake-list>
+    <p>No saved mistakes yet. Add one missed question or weak topic above.</p>
+  </div>
+</section>
+<section class="content-section">
+  <h2>How to use a DMV mistake log</h2>
+  <p>After each short practice round, save only the questions that show a repeatable weak area: road signs, right-of-way, speed, turns, documents, or score margin. Then practice the weakest area before taking another full round.</p>
+</section>
+<section class="content-section">
+  <h2>What to review first</h2>
+  <p>If the missed item is a sign, use road-sign flashcards or an image quiz. If it is a rule, retake state practice. If it is a logistics issue, open the checklist and official source before test day.</p>
+</section>
+{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
+    return page_shell(
+        DMV_MISTAKE_LOG_PAGE["title"],
+        DMV_MISTAKE_LOG_PAGE["description"],
+        f"/{DMV_MISTAKE_LOG_SLUG}.html",
+        body,
+        "tool-page mistake-log-page",
+        page_schema(DMV_MISTAKE_LOG_PAGE["title"], DMV_MISTAKE_LOG_PAGE["description"], url_for(f"/{DMV_MISTAKE_LOG_SLUG}.html"), "LearningResource"),
     )
 
 
@@ -2363,7 +2466,7 @@ def render_dmv_study_plan_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
+{render_related(["dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
     return page_shell(
         DMV_STUDY_PLAN_PAGE["title"],
         DMV_STUDY_PLAN_PAGE["description"],
@@ -2514,7 +2617,7 @@ def render_dmv_requirements_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
+{render_related(["dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
     return page_shell(
         DMV_REQUIREMENTS_PAGE["title"],
         DMV_REQUIREMENTS_PAGE["description"],
@@ -2678,7 +2781,7 @@ def render_dmv_score_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
+{render_related(["dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
     return page_shell(
         DMV_SCORE_PAGE["title"],
         DMV_SCORE_PAGE["description"],
@@ -2710,6 +2813,7 @@ def render_dmv_hub(hub):
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
         <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
+        <a href="dmv-permit-test-mistake-log.html">Mistake log</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
@@ -2755,6 +2859,7 @@ def render_home():
       {render_last_updated()}
       <div class="hero-actions">
         <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
+        <a href="dmv-permit-test-mistake-log.html">Mistake log</a>
         <a href="road-signs-practice-test.html">Start road signs</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-road-sign-flashcards.html">Flashcards</a>
@@ -2811,6 +2916,7 @@ def build():
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
     write(f"{DMV_DAILY_SLUG}.html", render_dmv_daily_question_page())
+    write(f"{DMV_MISTAKE_LOG_SLUG}.html", render_dmv_mistake_log_page())
     write(f"{DMV_STUDY_PLAN_SLUG}.html", render_dmv_study_plan_page())
     write(f"{ROAD_SIGN_FLASHCARDS_SLUG}.html", render_road_sign_flashcards_page())
     write(f"{ROAD_SIGN_SHAPES_SLUG}.html", render_road_sign_shapes_page())
@@ -2821,7 +2927,7 @@ def build():
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")

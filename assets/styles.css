@@ -2184,6 +2184,148 @@ h3 {
   text-decoration: none;
 }
 
+.mistake-log-tool {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f8fb 100%);
+}
+
+.mistake-log-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.mistake-log-form,
+.mistake-log-summary,
+.mistake-log-list article {
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.mistake-log-form {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.mistake-log-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.mistake-log-form select,
+.mistake-log-form input,
+.mistake-log-form textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: #ffffff;
+  font: inherit;
+}
+
+.mistake-log-form textarea {
+  resize: vertical;
+}
+
+.mistake-log-buttons,
+.mistake-log-actions,
+.mistake-log-entry-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mistake-log-buttons button,
+.mistake-log-actions a,
+.mistake-log-entry-actions a,
+.mistake-log-entry-actions button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfdff;
+  color: var(--blue);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.mistake-log-buttons button:first-child,
+.mistake-log-actions a:first-child {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.mistake-log-summary {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.mistake-log-summary article {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.mistake-log-summary span,
+.mistake-log-list span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.mistake-log-summary strong,
+.mistake-log-list strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--blue-deep);
+  line-height: 1.25;
+}
+
+.mistake-log-summary p,
+.mistake-log-list p {
+  margin: 7px 0 0;
+  color: var(--muted);
+}
+
+.mistake-log-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.mistake-log-list > p {
+  padding: 16px;
+  border: 1px dashed #b8c9d9;
+  border-radius: 8px;
+  background: #fbfdff;
+  color: var(--muted);
+}
+
+.mistake-log-list article {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.32fr);
+  gap: 12px;
+  align-items: start;
+  padding: 16px;
+}
+
 .study-plan-tool {
   background: linear-gradient(180deg, #ffffff 0%, #f5f8fb 100%);
 }
@@ -3926,6 +4068,11 @@ button:disabled {
   .shape-preview-grid,
   .daily-question-controls,
   .daily-choice-grid,
+  .mistake-log-grid,
+  .mistake-log-buttons,
+  .mistake-log-actions,
+  .mistake-log-entry-actions,
+  .mistake-log-list article,
   .flashcard-mini-stack,
   .flashcard-controls,
   .flashcard-status,
@@ -4144,11 +4291,16 @@ button:disabled {
   .hub-action,
   .info-card,
   .daily-question-card,
+  .mistake-log-form,
+  .mistake-log-summary,
+  .mistake-log-list article,
   .study-plan-list li {
     padding: 15px;
   }
 
   .daily-question-controls,
+  .mistake-log-form,
+  .mistake-log-summary,
   .flashcard-controls,
   .study-plan-controls,
   .score-control,

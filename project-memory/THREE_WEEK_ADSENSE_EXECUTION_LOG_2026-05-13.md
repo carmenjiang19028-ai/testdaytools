@@ -402,3 +402,28 @@ Notes:
 - Headless Chrome mobile screenshot capture was unstable in this local session, so the checkpoint relies on CSS-level responsive review plus Chrome desktop render verification.
 - No real ad code was added.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
+### 2026-05-13 10:42 CST
+
+Mistake log utility block completed:
+
+- Added `dmv-permit-test-mistake-log.html` as a browser-local DMV weak-area tracker.
+- The tool saves missed questions by state and weak area, records a correct rule or fix, summarizes total saved mistakes and top weak area, and links the visitor to the matching official source, state practice, signs, study plan, and checklist path.
+- Wired the mistake log into the homepage hero, DMV hub hero, workbench shortcuts, homepage start cards, popular rows, DMV tool sections, sitemap, and related links from daily question, study plan, requirements, and score pages.
+- Regenerated affected static HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `python3 -m json.tool content/site_data.json >/dev/null` passed.
+- `python3 scripts/build.py` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 53 HTML files, 149 JSON-LD blocks, 53 sitemap URLs, local links OK.
+- Local Chrome review on `http://127.0.0.1:8765/dmv-permit-test-mistake-log.html#mistake-log` confirmed the page renders, Florida defaults populate, saving a road-sign mistake updates total/top weak area, clears the form, creates an entry, and routes the entry practice link to the Florida road-sign page.
+
+Notes:
+
+- Chrome auto-translated the local review UI to Chinese, but generated source remains English.
+- No real ad code was added.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.

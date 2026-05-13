@@ -999,6 +999,178 @@ function initDmvDailyQuestions() {
   });
 }
 
+function initDmvMistakeLogs() {
+  document.querySelectorAll("[data-dmv-mistake-log]").forEach((tool) => {
+    const form = tool.querySelector("[data-mistake-form]");
+    const stateSelect = tool.querySelector("[data-mistake-state]");
+    const topicSelect = tool.querySelector("[data-mistake-topic]");
+    const promptInput = tool.querySelector("[data-mistake-prompt]");
+    const fixInput = tool.querySelector("[data-mistake-fix]");
+    const list = tool.querySelector("[data-mistake-list]");
+    const total = tool.querySelector("[data-mistake-total]");
+    const topTopic = tool.querySelector("[data-mistake-top-topic]");
+    const next = tool.querySelector("[data-mistake-next]");
+    const stateLabel = tool.querySelector("[data-mistake-state-label]");
+    const rule = tool.querySelector("[data-mistake-rule]");
+    const source = tool.querySelector("[data-mistake-source]");
+    const practice = tool.querySelector("[data-mistake-practice]");
+    const signs = tool.querySelector("[data-mistake-signs]");
+    const plan = tool.querySelector("[data-mistake-plan]");
+    const checklist = tool.querySelector("[data-mistake-checklist]");
+    const copyButton = tool.querySelector("[data-mistake-copy]");
+    const storageKey = "tdt-dmv-mistake-log";
+    let entries = [];
+
+    const escapeHtml = (value) =>
+      String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      })[char]);
+
+    const selectedState = () => stateSelect?.selectedOptions?.[0];
+    const selectedTopicLabel = () => topicSelect?.selectedOptions?.[0]?.textContent?.trim() || "Review topic";
+
+    const load = () => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(storageKey) || "[]");
+        entries = Array.isArray(saved) ? saved : [];
+      } catch (error) {
+        entries = [];
+      }
+    };
+
+    const save = () => {
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(entries.slice(0, 30)));
+      } catch (error) {
+        // The log is a convenience layer; the page still works when storage is unavailable.
+      }
+    };
+
+    const resolvePracticeHref = (entry) => {
+      if (entry.topic === "road-signs" || entry.topic === "regulatory-signs") return entry.signsUrl;
+      if (entry.topic === "documents") return entry.checklistUrl;
+      if (entry.topic === "score") return "dmv-permit-test-passing-score-calculator.html";
+      return entry.practiceUrl;
+    };
+
+    const safeRelativeHref = (href) => {
+      const value = String(href || "").trim();
+      return value && !value.includes(":") ? value : "dmv-practice.html";
+    };
+
+    const renderLinks = () => {
+      const option = selectedState();
+      if (!option) return;
+      if (stateLabel) stateLabel.textContent = option.dataset.stateLabel || option.textContent.trim();
+      if (rule) rule.textContent = option.dataset.rule || "Confirm with official source.";
+      if (source) source.href = option.dataset.sourceUrl || "#";
+      if (practice) practice.href = option.dataset.practiceUrl || "dmv-practice.html";
+      if (signs) signs.href = option.dataset.signsUrl || "road-signs-practice-test.html";
+      if (plan) plan.href = "dmv-permit-test-study-plan.html";
+      if (checklist) checklist.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
+    };
+
+    const render = () => {
+      renderLinks();
+      if (total) total.textContent = String(entries.length);
+      const counts = entries.reduce((acc, entry) => {
+        acc[entry.topicLabel] = (acc[entry.topicLabel] || 0) + 1;
+        return acc;
+      }, {});
+      const strongest = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+      if (topTopic) topTopic.textContent = strongest ? strongest[0] : "None yet";
+      if (next) {
+        next.textContent = strongest
+          ? `Review ${strongest[0]} before the next full practice round.`
+          : "Save a mistake to get a next action.";
+      }
+
+      if (!list) return;
+      if (!entries.length) {
+        list.innerHTML = "<p>No saved mistakes yet. Add one missed question or weak topic above.</p>";
+        return;
+      }
+
+      list.innerHTML = entries
+        .map((entry, index) => {
+          const href = safeRelativeHref(resolvePracticeHref(entry));
+          return `<article>
+            <div>
+              <span>${escapeHtml(entry.stateLabel || "Selected state")} · ${escapeHtml(entry.topicLabel || "Review topic")}</span>
+              <strong>${escapeHtml(entry.prompt)}</strong>
+              <p>${escapeHtml(entry.fix || "Add the correct rule before your next review round.")}</p>
+            </div>
+            <div class="mistake-log-entry-actions">
+              <a href="${escapeHtml(href)}">Practice</a>
+              <button type="button" data-mistake-remove="${index}">Remove</button>
+            </div>
+          </article>`;
+        })
+        .join("");
+
+      list.querySelectorAll("[data-mistake-remove]").forEach((button) => {
+        button.addEventListener("click", () => {
+          entries.splice(Number(button.dataset.mistakeRemove), 1);
+          save();
+          render();
+        });
+      });
+    };
+
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const option = selectedState();
+      if (!option) return;
+      const prompt = promptInput?.value.trim() || `${selectedTopicLabel()} review`;
+      const fix = fixInput?.value.trim() || "";
+      entries.unshift({
+        state: option.value,
+        stateLabel: option.dataset.stateLabel || option.textContent.trim(),
+        topic: topicSelect?.value || "other",
+        topicLabel: selectedTopicLabel(),
+        prompt,
+        fix,
+        practiceUrl: option.dataset.practiceUrl || "dmv-practice.html",
+        signsUrl: option.dataset.signsUrl || "road-signs-practice-test.html",
+        checklistUrl: option.dataset.checklistUrl || "dmv-test-day-checklist.html",
+        savedAt: Date.now(),
+      });
+      entries = entries.slice(0, 30);
+      if (promptInput) promptInput.value = "";
+      if (fixInput) fixInput.value = "";
+      save();
+      render();
+    });
+
+    copyButton?.addEventListener("click", async () => {
+      const lines = entries.length
+        ? entries.map((entry, index) => `${index + 1}. ${entry.stateLabel} - ${entry.topicLabel}: ${entry.prompt}${entry.fix ? ` | Fix: ${entry.fix}` : ""}`)
+        : ["No DMV mistakes saved yet."];
+      const text = `DMV mistake review plan\n${lines.join("\n")}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        copyButton.textContent = "Copied";
+        window.setTimeout(() => {
+          copyButton.textContent = "Copy review plan";
+        }, 1400);
+      } catch (error) {
+        copyButton.textContent = "Copy unavailable";
+        window.setTimeout(() => {
+          copyButton.textContent = "Copy review plan";
+        }, 1400);
+      }
+    });
+
+    stateSelect?.addEventListener("change", render);
+    load();
+    render();
+  });
+}
+
 function initDmvStudyPlanners() {
   document.querySelectorAll("[data-dmv-study-plan]").forEach((planner) => {
     const stateSelect = planner.querySelector("[data-study-state]");
@@ -1778,6 +1950,7 @@ initMiniSignDrills();
 initSignLookups();
 initRoadSignFlashcards();
 initDmvDailyQuestions();
+initDmvMistakeLogs();
 initDmvStudyPlanners();
 initRecentPracticeCards();
 initDmvRequirementsFinders();
