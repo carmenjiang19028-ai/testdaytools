@@ -19733,6 +19733,18 @@
           "text": "The site favors practical planning details: what to check, what to bring, what to verify, and which official source should make the final call."
         },
         {
+          "heading": "How DMV pages are built",
+          "text": "DMV facts are checked against official agency pages where possible. Public learner discussions and search demand are used only to identify confusing language and real planning gaps, not as authority for rules."
+        },
+        {
+          "heading": "What makes the tools original",
+          "text": "Practice questions, checklists, mistake-log categories, road-sign illustrations, and study paths are written for TestDayTools. They are designed to turn a missed answer or document problem into a next step."
+        },
+        {
+          "heading": "What we do not publish",
+          "text": "The site does not publish official test questions, copied forum posts, scraped competitor quizzes, hidden redirects, or claims that a practice score guarantees a permit or license outcome."
+        },
+        {
           "heading": "Corrections and updates",
           "text": "Dates and policies can change. When a page depends on official timing, the source link is included so readers can verify the latest rule before acting."
         },
@@ -19754,6 +19766,18 @@
         {
           "heading": "Original tools and questions",
           "text": "Practice questions, sign illustrations, checklists, and study flows are written for this site. DMV sign graphics are simplified original SVG illustrations used for recognition practice."
+        },
+        {
+          "heading": "User-confusion research",
+          "text": "Forum threads, search suggestions, and trend signals can reveal what learners are actually confused about, such as course-vs-exam steps, online test results, documents, appointments, road signs, or retest rules. Those signals influence page structure, but facts still come from official sources."
+        },
+        {
+          "heading": "No copied answer keys",
+          "text": "The site does not copy official permit-test questions, private answer keys, Reddit comments, or competitor quiz items. Practice content is written as study material and labeled as unofficial."
+        },
+        {
+          "heading": "Tool-first writing standard",
+          "text": "A page should help the reader decide what to do next: open an official source, drill one weak sign group, log a mistake, check documents, or stop practicing and handle appointment logistics."
         },
         {
           "heading": "Official-source priority",
