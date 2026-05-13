@@ -2385,6 +2385,7 @@ def render_dmv_mistake_log_page():
         ("right-of-way", "Right-of-way rules"),
         ("school-pedestrian-crossing", "School or pedestrian crossing"),
         ("speed-advisory-speed", "Speed limit or advisory speed"),
+        ("course-exam-permit", "Course, exam, or permit step"),
         ("documents-appointment", "Documents or appointment confusion"),
         ("score", "Passing score or timing"),
         ("other", "Other missed topic"),
@@ -2454,6 +2455,17 @@ def render_dmv_mistake_log_page():
 <section class="content-section">
   <h2>What to review first</h2>
   <p>If the missed item is a sign-control problem, use the road-sign page and review the visual cue that caused the miss. If it is a rule, retake state practice. If it is a documents or appointment issue, open the checklist and official source before test day.</p>
+</section>
+<section class="card-group">
+  <h2>Turn common misses into the next drill</h2>
+  <p class="section-intro">Use the log as a routing tool. The point is to stop repeating full quizzes when one specific confusion is doing the damage.</p>
+  <div class="card-grid">
+    <article class="info-card"><span>Wrong-way entry</span><h3>Review red entry-control signs</h3><p>Do Not Enter, Wrong Way, Stop, and Yield belong together because the next action is immediate. Practice the sign family before broad warning signs.</p><a class="info-card-link" href="florida-dmv-road-signs-practice.html?focus=Regulatory%20signs#practice">Florida sign drill</a></article>
+    <article class="info-card"><span>One-way or lane direction</span><h3>Separate road direction from lane movement</h3><p>One Way controls the road. Lane arrows control what your lane can do. Save these misses together so the next drill focuses on arrows and permitted turns.</p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Direction%20and%20movement#practice">Direction drill</a></article>
+    <article class="info-card"><span>Right-of-way</span><h3>Move from sign cue to driver order</h3><p>If the miss is about who goes first, the next drill should be state practice, not another sign-only round.</p><a class="info-card-link" href="dmv-practice.html#state-paths">State practice</a></article>
+    <article class="info-card"><span>Course, exam, permit</span><h3>Map the process before the visit</h3><p>If the miss is about TLSAE, the Class E exam, online testing, documents, or first issuance, switch from practice questions to the process map.</p><a class="info-card-link" href="florida-class-e-knowledge-exam-tlsae.html">Florida Class E map</a></article>
+    <article class="info-card"><span>Documents or appointment</span><h3>Use official documents before scheduling</h3><p>A high practice score does not solve identity, Social Security number, address, parent forms, fees, appointment, or local service-center steps.</p><a class="info-card-link" href="dmv-test-day-checklist.html?state=florida#dmv-checklist">Checklist</a></article>
+  </div>
 </section>
 {render_related(["florida-class-e-knowledge-exam-tlsae", "florida-dmv-permit-documents-checklist", "florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
     return page_shell(

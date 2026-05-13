@@ -1062,6 +1062,9 @@ function initDmvMistakeLogs() {
         return entry.signsUrl;
       }
       if (entry.topic === "documents" || entry.topic === "documents-appointment") return entry.checklistUrl;
+      if (entry.topic === "course-exam-permit") {
+        return entry.state === "florida" ? "florida-class-e-knowledge-exam-tlsae.html" : entry.checklistUrl;
+      }
       if (entry.topic === "score") return "dmv-permit-test-passing-score-calculator.html";
       return entry.practiceUrl;
     };

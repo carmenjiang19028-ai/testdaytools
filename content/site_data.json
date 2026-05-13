@@ -4948,8 +4948,8 @@
             "format": "Official context: 50 multiple-choice questions and an 80% passing standard.",
             "focus": "Traffic controls, road signs, safe driving, substance rules, and licensing basics.",
             "agency": "FLHSMV",
-            "documents": "Confirm FLHSMV requirements for proof of identity, Social Security number, and residential address before a first in-office learner permit or driver license issuance. Use the official What to Bring page when choosing documents.",
-            "appointment": "Passing the Class E Knowledge Exam does not automatically complete the permit issuance visit. Check your county service center or authorized provider for appointments, fees, age or consent rules, and document review.",
+            "documents": "Confirm FLHSMV requirements for proof of identity, Social Security number, and residential address before a first in-office learner permit or driver license issuance. If the Class E Knowledge Exam was completed online, also check the Parent Proctoring Form and how the test record reaches FLHSMV.",
+            "appointment": "Passing the Class E Knowledge Exam does not automatically complete the permit issuance visit. Check your county service center or authorized provider for appointments, fees, age or consent rules, document review, and any random mandatory re-test notice that applies to third-party testing.",
             "retake": "Review FLHSMV or county tax collector guidance for retest limits, waiting periods, and fees before making a new plan."
           },
           {
@@ -5015,6 +5015,11 @@
             "id": "forms",
             "label": "Prepare forms, consent, and course proof",
             "text": "Minors and first-time applicants may need parent consent, school forms, or course completion evidence."
+          },
+          {
+            "id": "exam-result-provider",
+            "label": "Save exam result or provider instructions",
+            "text": "If a third-party, school, or online test is involved, confirm how the pass record reaches the agency and whether an extra form is required."
           },
           {
             "id": "appointment",
@@ -5159,6 +5164,15 @@
               "id": "course-school-proof",
               "label": "Course, school, or attendance proof",
               "text": "Check driver education, traffic-law course, school attendance, or completion-certificate rules for this path.",
+              "scopes": [
+                "first-permit",
+                "minor"
+              ]
+            },
+            {
+              "id": "online-provider-record",
+              "label": "Online test or provider record",
+              "text": "If the knowledge test was taken online, through a school, or through a third-party provider, confirm how the result is submitted and whether a proctor, parent, or provider form is still needed.",
               "scopes": [
                 "first-permit",
                 "minor"
@@ -5315,6 +5329,14 @@
         {
           "q": "Do I need an appointment after passing a Florida permit test online?",
           "a": "Do not assume the online test result completes the whole permit process. Confirm whether your first permit issuance, identity review, fee payment, photo, or other service-center step still requires an appointment."
+        },
+        {
+          "q": "Do I need a paper certificate after passing the Florida Class E Knowledge Exam online?",
+          "a": "FLHSMV says online test results are submitted automatically, but applicants should still check the Parent Proctoring Form, identity documents, Social Security number, residential address, fees, and local issuance steps before the permit visit."
+        },
+        {
+          "q": "Can a Florida third-party Class E exam pass still require a retest?",
+          "a": "Yes. FLHSMV warns that customers who pass a Class E Knowledge Exam through an authorized third-party administrator may be selected for a mandatory random re-test without prior notice before a driver license is issued."
         }
       ],
       "sources": [
@@ -5357,6 +5379,10 @@
         {
           "label": "FLHSMV Class E Knowledge Exam and Driving Skills Test",
           "url": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
+        },
+        {
+          "label": "FLHSMV Driver License Exams",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/driver-license-exams/"
         }
       ],
       "related": [
@@ -5467,6 +5493,40 @@
               "text": "TLSAE/DETS, the Class E Knowledge Exam, and learner permit issuance are different checkpoints. Put each one on the checklist so you do not arrive with only one completed.",
               "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/",
               "cta": "FLHSMV exam source"
+            }
+          ]
+        },
+        {
+          "heading": "Florida after-the-exam traps",
+          "intro": "These are the practical gaps that can still block a learner after a practice score, online course, or Class E exam pass looks finished.",
+          "items": [
+            {
+              "label": "Online exam record",
+              "title": "Do not rely on a screenshot or casual pass note",
+              "text": "FLHSMV says online Class E test results are submitted automatically, but you should still confirm the provider path, Parent Proctoring Form, identity review, and local issuance step before the visit.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/driver-license-exams/",
+              "cta": "FLHSMV exam page"
+            },
+            {
+              "label": "Random re-test",
+              "title": "A third-party pass may not be the final gate",
+              "text": "Florida warns that customers who pass through an authorized third-party administrator may be selected for a mandatory random re-test before a license is issued. Build that possibility into your plan.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/driver-license-exams/",
+              "cta": "FLHSMV re-test note"
+            },
+            {
+              "label": "Parent or guardian",
+              "title": "Under-18 paperwork is a separate check",
+              "text": "A learner can finish study tasks and still be missing parent, guardian, proctor, or consent details. Put those forms next to identity, SSN, and residential address documents.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
+              "cta": "FLHSMV What to Bring"
+            },
+            {
+              "label": "Course vs exam",
+              "title": "TLSAE/DETS completion is not the same as the knowledge exam",
+              "text": "Use the Class E map when the blocker is course completion, exam access, online testing, documents, or first permit issuance. Each one answers a different question.",
+              "href": "florida-class-e-knowledge-exam-tlsae.html",
+              "cta": "Open Class E map"
             }
           ]
         }
