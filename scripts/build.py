@@ -73,6 +73,10 @@ SIGN_SVGS = {
     "do-not-enter": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="62" fill="#c7312f"/><rect x="54" y="66" width="112" height="28" rx="3" fill="#fff"/><text x="110" y="128" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">DO NOT ENTER</text></svg>',
     "wrong-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="40" y="42" width="140" height="76" rx="5" fill="#c7312f" stroke="#981f1d" stroke-width="5"/><text x="110" y="74" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WRONG</text><text x="110" y="104" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WAY</text></svg>',
     "no-u-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M90 116 V58 a25 25 0 0 1 50 0 v14" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M124 72 h32 l-16 24z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="121" x2="151" y2="39" stroke="#c7312f" stroke-width="11"/></svg>',
+    "four-way-stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,8 138,8 184,42 202,94 174,138 46,138 18,94 36,42" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="86" text-anchor="middle" fill="#fff" font-size="34" font-weight="900" font-family="Arial, sans-serif">STOP</text><rect x="68" y="118" width="84" height="28" rx="4" fill="#fff" stroke="#222" stroke-width="3"/><text x="110" y="138" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">4-WAY</text></svg>',
+    "no-right-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M74 96 h48 a22 22 0 0 0 22-22 V48" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M126 48 h36 l-18-22z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="121" x2="151" y2="39" stroke="#c7312f" stroke-width="11"/></svg>',
+    "no-turn-on-red": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="42" y="18" width="136" height="124" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="52" text-anchor="middle" fill="#111" font-size="22" font-weight="900" font-family="Arial, sans-serif">NO TURN</text><text x="110" y="82" text-anchor="middle" fill="#111" font-size="22" font-weight="900" font-family="Arial, sans-serif">ON RED</text><circle cx="110" cy="113" r="17" fill="#c7312f"/><line x1="65" y1="128" x2="155" y2="38" stroke="#c7312f" stroke-width="9" stroke-linecap="round"/></svg>',
+    "keep-right": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="42" y="20" width="136" height="120" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="48" text-anchor="middle" fill="#111" font-size="19" font-weight="900" font-family="Arial, sans-serif">KEEP</text><text x="110" y="70" text-anchor="middle" fill="#111" font-size="19" font-weight="900" font-family="Arial, sans-serif">RIGHT</text><path d="M94 124 C138 113 153 92 145 58" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M128 63 h34 l-18-26z" fill="#111"/><path d="M85 122 l18-48 18 48z" fill="#111"/></svg>',
     "one-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="28" y="46" width="164" height="68" rx="6" fill="#111827"/><path d="M58 80 h78" stroke="#fff" stroke-width="12" stroke-linecap="round"/><path d="M126 50 170 80 126 110z" fill="#fff"/><text x="78" y="105" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ONE WAY</text></svg>',
     "speed-limit": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="66" y="16" width="88" height="128" rx="4" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="48" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">SPEED</text><text x="110" y="68" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">LIMIT</text><text x="110" y="118" text-anchor="middle" fill="#111" font-size="48" font-weight="900" font-family="Arial, sans-serif">35</text></svg>',
     "school-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,12 190,54 172,142 48,142 30,54" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="84" cy="55" r="9" fill="#111"/><circle cx="130" cy="53" r="9" fill="#111"/><path d="M82 68 l-18 38 M82 68 l24 18 M130 66 l-18 42 M130 66 l26 18" stroke="#111" stroke-width="8" stroke-linecap="round"/><path d="M92 108 h56" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
@@ -1279,17 +1283,22 @@ def render_sign_lookup(tool):
         if filter_value and filter_value not in seen_filters:
             filters.append({"label": group_label, "value": filter_value})
             seen_filters.add(filter_value)
-        practice_focus = group_label
-        if "regulatory" in group_label.lower():
-            practice_focus = "Regulatory signs"
-        elif "warning" in group_label.lower():
-            practice_focus = "Warning signs"
-        elif "work" in group_label.lower():
-            practice_focus = "Work zone signs"
         for item in group.get("signs", []):
             svg = SIGN_SVGS.get(item["image"], "")
             if not svg:
                 continue
+            practice_focus = group_label
+            focus_label = f'{group_label} {item.get("title", "")}'.lower()
+            if "regulatory" in focus_label:
+                practice_focus = "Regulatory signs"
+            elif "warning" in focus_label:
+                practice_focus = "Warning signs"
+            elif "school" in focus_label or "pedestrian" in focus_label:
+                practice_focus = "School and pedestrian signs"
+            elif "rail" in focus_label:
+                practice_focus = "Railroad signs"
+            elif "work" in focus_label:
+                practice_focus = "Work zone signs"
             query = " ".join([group_label, item["title"], item["meaning"], item["image"]])
             cards.append(f"""<article class="sign-lookup-card" data-sign-card data-sign-filter-key="{esc(filter_value)}" data-sign-query="{esc(query.lower())}">
   <div class="sign-thumb" role="img" aria-label="{esc(item["title"])}">{svg}</div>

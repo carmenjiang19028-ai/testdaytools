@@ -5872,6 +5872,26 @@
                 "image": "no-u-turn",
                 "title": "No U-Turn",
                 "meaning": "Do not turn around at this location."
+              },
+              {
+                "image": "four-way-stop",
+                "title": "4-Way Stop",
+                "meaning": "Stop completely, then use right-of-way order before entering the intersection."
+              },
+              {
+                "image": "no-right-turn",
+                "title": "No Right Turn",
+                "meaning": "Do not make a right turn where this sign is posted."
+              },
+              {
+                "image": "no-turn-on-red",
+                "title": "No Turn on Red",
+                "meaning": "Do not turn while the signal is red, even after stopping."
+              },
+              {
+                "image": "keep-right",
+                "title": "Keep Right",
+                "meaning": "Stay to the right of the island, divider, or obstruction."
               }
             ]
           },
@@ -9489,13 +9509,13 @@
       "slug": "florida-dmv-road-signs-practice",
       "category": "DMV",
       "title": "Florida Regulatory Traffic Signs Practice Test",
-      "description": "Practice Florida regulatory traffic signs, warning signs, and road signs with 20 original image questions, explanations, and a Florida sign library.",
+      "description": "Practice Florida regulatory traffic signs, warning signs, and road signs with 24 original image questions, explanations, and a Florida sign library.",
       "heroKicker": "Florida regulatory traffic signs",
-      "summary": "Drill Florida regulatory traffic signs first, then review warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "summary": "Drill Florida regulatory traffic signs first, including stop, yield, wrong-way, no-turn, keep-right, speed, and lane-control signs, then review warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "quickFacts": [
         {
           "label": "Question count",
-          "value": "20 image-based road sign questions"
+          "value": "24 image-based road sign questions"
         },
         {
           "label": "Image source",
@@ -9526,9 +9546,9 @@
           "label": "Road Signs",
           "short": "Signs",
           "title": "Florida regulatory traffic signs image test",
-          "description": "Start with regulatory and direction-control signs, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
+          "description": "Start with regulatory and direction-control signs, including no-turn, keep-right, and four-way-stop prompts, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
           "quiz": "floridaSigns",
-          "passScore": 16
+          "passScore": 19
         }
       ],
       "focusShortcuts": {
@@ -9636,7 +9656,7 @@
         "groups": [
           {
             "label": "Florida regulatory traffic signs",
-            "text": "Regulatory traffic signs tell Florida drivers what they must do, must not do, or where traffic is allowed to move. Start with stop, yield, wrong-way, one-way, speed-control, and turn-prohibition signs.",
+            "text": "Regulatory traffic signs tell Florida drivers what they must do, must not do, or where traffic is allowed to move. Start with stop, yield, wrong-way, one-way, speed-control, no-turn, keep-right, and turn-prohibition signs.",
             "signs": [
               {
                 "image": "stop",
@@ -9667,6 +9687,26 @@
                 "image": "no-u-turn",
                 "title": "No U-Turn",
                 "meaning": "Do not turn around at this location."
+              },
+              {
+                "image": "four-way-stop",
+                "title": "4-Way Stop",
+                "meaning": "Stop completely, then use right-of-way order before entering the intersection."
+              },
+              {
+                "image": "no-right-turn",
+                "title": "No Right Turn",
+                "meaning": "Do not make a right turn where this sign is posted."
+              },
+              {
+                "image": "no-turn-on-red",
+                "title": "No Turn on Red",
+                "meaning": "Do not turn while the signal is red, even after stopping."
+              },
+              {
+                "image": "keep-right",
+                "title": "Keep Right",
+                "meaning": "Stay to the right of the island, divider, or obstruction."
               }
             ]
           },
@@ -9783,7 +9823,7 @@
         },
         {
           "heading": "Regulatory traffic signs Florida learners should study first",
-          "text": "If your search is regulatory traffic signs Florida, start with signs that control an immediate driver action: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, no passing, lane arrows, and turn-only signs. Then use the weak-area shortcuts on this page for the exact miss instead of rereading every sign at once."
+          "text": "If your search is regulatory traffic signs Florida, start with signs that control an immediate driver action: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, no right turn, no turn on red, no passing, keep right, lane arrows, and turn-only signs. Then use the weak-area shortcuts on this page for the exact miss instead of rereading every sign at once."
         },
         {
           "heading": "How to use the Florida road signs page",
@@ -9847,6 +9887,32 @@
               "label": "School crossing vs pedestrian crossing",
               "title": "Same crossing habit, different context",
               "text": "Both ask you to look for people crossing. School signs add a school-zone context, so pair the sign shape and color with the environment shown in the prompt."
+            }
+          ]
+        },
+        {
+          "heading": "Regulatory signs many short quizzes skip",
+          "intro": "A Florida learner can know Stop and Yield but still miss a smaller rule sign because the question asks for the driver action, not the sign name.",
+          "items": [
+            {
+              "label": "4-way stop",
+              "title": "Stop first, then apply right-of-way order",
+              "text": "A 4-way plaque does not change the stop requirement. It changes the intersection context, so pair the sign with arrival order and yielding."
+            },
+            {
+              "label": "No right turn",
+              "title": "A red slash means the movement is prohibited",
+              "text": "Treat no-turn signs as action blocks. The key answer is what you cannot do from that lane or approach."
+            },
+            {
+              "label": "No turn on red",
+              "title": "Stopping first is not enough",
+              "text": "Some learners overapply the general right-on-red habit. If the sign says no turn on red, wait for a signal that allows the turn."
+            },
+            {
+              "label": "Keep right",
+              "title": "Direction around an island or divider",
+              "text": "Keep Right signs are not guide signs. They tell you which side of an obstruction, island, or divider traffic must use."
             }
           ]
         },
@@ -15884,6 +15950,58 @@
         "answer": 1,
         "category": "Turn signs",
         "explanation": "A No U-turn sign means drivers may not reverse direction at that location. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
+        "q": "What does this 4-way plaque change about the stop sign?",
+        "image": "four-way-stop",
+        "imageAlt": "stop sign with 4-way plaque",
+        "choices": [
+          "All approaches must stop, then use right-of-way order",
+          "Only the first car at the intersection must stop",
+          "Drivers may roll through if no pedestrian is visible"
+        ],
+        "answer": 0,
+        "category": "Right of way signs",
+        "explanation": "A 4-way plaque tells you every approach has a stop sign. Stop completely, then use arrival order and right-of-way rules before entering. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
+        "q": "What movement does this regulatory sign block?",
+        "image": "no-right-turn",
+        "imageAlt": "no right turn regulatory sign",
+        "choices": [
+          "A right turn from this approach",
+          "A lane change after the intersection",
+          "Stopping before the crosswalk"
+        ],
+        "answer": 0,
+        "category": "Turn signs",
+        "explanation": "A red slash over the right-turn arrow means a right turn is not allowed at that location. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
+        "q": "At this sign, what should a driver do while the signal is red?",
+        "image": "no-turn-on-red",
+        "imageAlt": "no turn on red regulatory sign",
+        "choices": [
+          "Wait until the signal allows the turn",
+          "Turn after stopping if traffic is clear",
+          "Turn only if another driver waves you through"
+        ],
+        "answer": 0,
+        "category": "Signal and turn signs",
+        "explanation": "No Turn on Red means stopping first is not enough; wait until the signal permits the turn. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
+        "q": "This sign tells a driver to:",
+        "image": "keep-right",
+        "imageAlt": "keep right regulatory sign",
+        "choices": [
+          "Stay to the right of the island, divider, or obstruction",
+          "Use the right lane only to pass",
+          "Turn right at the next driveway"
+        ],
+        "answer": 0,
+        "category": "Directional signs",
+        "explanation": "Keep Right is a regulatory direction sign. It tells traffic which side of an island, divider, or obstruction to use. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
       },
       {
         "q": "This sign indicates:",
