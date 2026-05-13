@@ -105,6 +105,10 @@ def href_for(path):
     return path.lstrip("/")
 
 
+def is_external_url(path):
+    return str(path).startswith(("http://", "https://"))
+
+
 def sitemap_lastmod():
     try:
         return datetime.strptime(SITE["lastUpdated"], "%B %d, %Y").date().isoformat()
@@ -119,6 +123,8 @@ def sitemap_priority(path):
         "/dmv-practice.html",
         "/florida-dmv-permit-practice-test.html",
         "/florida-dmv-road-signs-practice.html",
+        "/florida-class-e-knowledge-exam-tlsae.html",
+        "/florida-dmv-permit-documents-checklist.html",
         "/dmv-test-day-checklist.html",
         "/dmv-permit-test-mistake-log.html",
         "/dmv-permit-test-requirements-by-state.html",
@@ -789,6 +795,13 @@ def resolve_sign_focus_shortcuts(tool):
 def render_tool_actions(tool):
     if tool.get("category") != "DMV":
         return ""
+    if tool.get("heroActions"):
+        links = []
+        for action in tool.get("heroActions", []):
+            attrs = ' target="_blank" rel="noopener"' if is_external_url(action["href"]) else ""
+            links.append(f'<a href="{esc(action["href"])}"{attrs}>{esc(action["label"])}</a>')
+        links = "".join(links)
+        return f'\n    <div class="hero-actions">{links}</div>'
     slug = tool.get("slug", "")
     is_checklist_page = tool.get("toolWidget", {}).get("type") == "dmvTestDayChecklist"
     is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
@@ -884,6 +897,8 @@ def render_home_practice_panel():
     <a href="road-sign-shapes-and-colors-finder.html"><span>Shapes</span><strong>Colors and meanings</strong></a>
     <a href="dmv-permit-test-requirements-by-state.html"><span>Requirements</span><strong>Format and pass rule</strong></a>
     <a href="florida-dmv-road-signs-practice.html"><span>Florida</span><strong>Regulatory signs</strong></a>
+    <a href="florida-class-e-knowledge-exam-tlsae.html"><span>Florida</span><strong>Class E map</strong></a>
+    <a href="florida-dmv-permit-documents-checklist.html"><span>Florida</span><strong>Permit docs</strong></a>
     <a href="dmv-test-day-checklist.html"><span>Checklist</span><strong>Final ready path</strong></a>
   </div>
   <div class="workbench-return" data-recent-practice>
@@ -1416,7 +1431,8 @@ def render_card_groups(groups):
         for item in group.get("items", []):
             source_link = ""
             if item.get("href"):
-                source_link = f'<a class="info-card-link" href="{esc(item["href"])}">{esc(item.get("cta", "Official source"))}</a>'
+                attrs = ' target="_blank" rel="noopener"' if is_external_url(item["href"]) else ""
+                source_link = f'<a class="info-card-link" href="{esc(item["href"])}"{attrs}>{esc(item.get("cta", "Official source"))}</a>'
             cards.append(
                 f'<article class="info-card"><span>{esc(item.get("label", ""))}</span><h3>{esc(item["title"])}</h3><p>{esc(item["text"])}</p>{source_link}</article>'
             )
@@ -1875,6 +1891,12 @@ def render_florida_dmv_cluster():
             "florida-dmv-permit-practice-test.html",
         ),
         (
+            "Class E vs TLSAE",
+            "Separate course, exam, and permit steps",
+            "Use the confusion map when TLSAE, DETS, the Class E Knowledge Exam, and learner permit issuance feel like one task.",
+            "florida-class-e-knowledge-exam-tlsae.html",
+        ),
+        (
             "Florida signs",
             "Regulatory traffic signs first",
             "Drill Do Not Enter, Wrong Way, One Way, speed, no passing, school, and pedestrian signs.",
@@ -1884,7 +1906,7 @@ def render_florida_dmv_cluster():
             "Documents",
             "Florida permit visit checklist",
             "Check identity, Social Security number, residential address, appointment, fees, and first issuance steps.",
-            "dmv-test-day-checklist.html?state=florida",
+            "florida-dmv-permit-documents-checklist.html",
         ),
         (
             "Mistakes",
@@ -2403,7 +2425,7 @@ def render_dmv_mistake_log_page():
   <h2>What to review first</h2>
   <p>If the missed item is a sign-control problem, use the road-sign page and review the visual cue that caused the miss. If it is a rule, retake state practice. If it is a documents or appointment issue, open the checklist and official source before test day.</p>
 </section>
-{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
+{render_related(["florida-class-e-knowledge-exam-tlsae", "florida-dmv-permit-documents-checklist", "florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
     return page_shell(
         DMV_MISTAKE_LOG_PAGE["title"],
         DMV_MISTAKE_LOG_PAGE["description"],
@@ -2558,7 +2580,7 @@ def render_dmv_study_plan_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
+{render_related(["florida-class-e-knowledge-exam-tlsae", "florida-dmv-permit-documents-checklist", "florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
     return page_shell(
         DMV_STUDY_PLAN_PAGE["title"],
         DMV_STUDY_PLAN_PAGE["description"],
@@ -2709,7 +2731,7 @@ def render_dmv_requirements_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
+{render_related(["florida-class-e-knowledge-exam-tlsae", "florida-dmv-permit-documents-checklist", "florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
     return page_shell(
         DMV_REQUIREMENTS_PAGE["title"],
         DMV_REQUIREMENTS_PAGE["description"],
@@ -2873,7 +2895,7 @@ def render_dmv_score_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test"])}"""
+{render_related(["florida-class-e-knowledge-exam-tlsae", "florida-dmv-permit-documents-checklist", "florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-mistake-log", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test"])}"""
     return page_shell(
         DMV_SCORE_PAGE["title"],
         DMV_SCORE_PAGE["description"],
@@ -2908,6 +2930,8 @@ def render_dmv_hub(hub):
         <a href="dmv-permit-test-mistake-log.html">Mistake log</a>
         <a href="florida-dmv-permit-practice-test.html">Florida permit</a>
         <a href="dmv-test-day-checklist.html?state=florida">Florida checklist</a>
+        <a href="florida-class-e-knowledge-exam-tlsae.html">Class E map</a>
+        <a href="florida-dmv-permit-documents-checklist.html">Florida docs</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
@@ -2957,6 +2981,8 @@ def render_home():
         <a href="dmv-permit-test-mistake-log.html">Mistake log</a>
         <a href="florida-dmv-permit-practice-test.html">Florida permit</a>
         <a href="dmv-test-day-checklist.html?state=florida">Florida checklist</a>
+        <a href="florida-class-e-knowledge-exam-tlsae.html">Class E map</a>
+        <a href="florida-dmv-permit-documents-checklist.html">Florida docs</a>
         <a href="road-signs-practice-test.html">Start road signs</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-road-sign-flashcards.html">Flashcards</a>

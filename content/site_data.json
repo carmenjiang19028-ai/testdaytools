@@ -61,6 +61,8 @@
           "new-york-dmv-permit-practice-test",
           "texas-dmv-permit-practice-test",
           "florida-dmv-permit-practice-test",
+          "florida-class-e-knowledge-exam-tlsae",
+          "florida-dmv-permit-documents-checklist",
           "illinois-dmv-permit-practice-test",
           "pennsylvania-dmv-permit-practice-test",
           "new-jersey-mvc-permit-practice-test",
@@ -229,6 +231,18 @@
         "title": "Florida Regulatory Traffic Signs Practice Test",
         "text": "Florida signs, regulatory shapes, driver actions, and handbook context",
         "href": "florida-dmv-road-signs-practice.html"
+      },
+      {
+        "label": "FL Class E",
+        "title": "Florida Class E Knowledge Exam vs TLSAE",
+        "text": "Course, exam, learner permit, and appointment steps separated",
+        "href": "florida-class-e-knowledge-exam-tlsae.html"
+      },
+      {
+        "label": "FL docs",
+        "title": "Florida Learner Permit Documents Checklist",
+        "text": "Identity, SSN, address, appointment, and permit issuance reminders",
+        "href": "florida-dmv-permit-documents-checklist.html"
       },
       {
         "label": "CA DMV",
@@ -414,6 +428,18 @@
           "title": "Florida Class E practice",
           "text": "Use the Florida permit page for TLSAE vs Class E exam confusion, official-source links, signs, and mock review.",
           "href": "florida-dmv-permit-practice-test.html"
+        },
+        {
+          "label": "Florida",
+          "title": "Class E exam vs TLSAE",
+          "text": "Separate the required course, Class E Knowledge Exam, documents, and learner permit issuance step.",
+          "href": "florida-class-e-knowledge-exam-tlsae.html"
+        },
+        {
+          "label": "Florida",
+          "title": "Learner permit documents",
+          "text": "Turn identity, SSN, residential address, appointment, and first-issuance reminders into a checklist.",
+          "href": "florida-dmv-permit-documents-checklist.html"
         }
       ],
       "sections": [
@@ -430,6 +456,8 @@
             "new-york-dmv-permit-practice-test",
             "texas-dmv-permit-practice-test",
             "florida-dmv-permit-practice-test",
+            "florida-class-e-knowledge-exam-tlsae",
+            "florida-dmv-permit-documents-checklist",
             "illinois-dmv-permit-practice-test",
             "pennsylvania-dmv-permit-practice-test",
             "new-jersey-mvc-permit-practice-test"
@@ -5312,6 +5340,8 @@
         "dmv-permit-test-requirements-by-state",
         "road-signs-practice-test",
         "regulatory-traffic-signs-practice-test",
+        "florida-class-e-knowledge-exam-tlsae",
+        "florida-dmv-permit-documents-checklist",
         "florida-dmv-road-signs-practice",
         "dmv-permit-test-mistake-log",
         "florida-dmv-permit-practice-test",
@@ -8637,6 +8667,8 @@
       ],
       "quiz": "florida",
       "related": [
+        "florida-class-e-knowledge-exam-tlsae",
+        "florida-dmv-permit-documents-checklist",
         "florida-dmv-road-signs-practice",
         "dmv-test-day-checklist",
         "dmv-permit-test-mistake-log",
@@ -9195,6 +9227,8 @@
       ],
       "quiz": "floridaSigns",
       "related": [
+        "florida-class-e-knowledge-exam-tlsae",
+        "florida-dmv-permit-documents-checklist",
         "florida-dmv-permit-practice-test",
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
@@ -9695,6 +9729,334 @@
         "After a miss, review the matching shape/color group below.",
         "Retake the road-sign round later instead of immediately guessing again.",
         "Confirm final wording in the Official Florida Driver License Handbook."
+      ]
+    },
+    {
+      "slug": "florida-class-e-knowledge-exam-tlsae",
+      "category": "DMV",
+      "title": "Florida Class E Knowledge Exam vs TLSAE/DETS Course",
+      "description": "A Florida DMV learner-permit confusion map that separates TLSAE or DETS course requirements, the Class E Knowledge Exam, online testing, documents, and permit issuance steps.",
+      "heroKicker": "Florida Class E confusion map",
+      "summary": "Use this page when Florida learner-permit prep feels like one mixed-up task. The course, Class E Knowledge Exam, practice study, documents, and learner permit issuance step are related, but they are not the same thing.",
+      "heroActions": [
+        {
+          "label": "Practice Florida",
+          "href": "florida-dmv-permit-practice-test.html"
+        },
+        {
+          "label": "Florida documents",
+          "href": "florida-dmv-permit-documents-checklist.html"
+        },
+        {
+          "label": "Road signs",
+          "href": "florida-dmv-road-signs-practice.html"
+        },
+        {
+          "label": "Official exam source",
+          "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
+        }
+      ],
+      "quickFacts": [
+        {
+          "label": "Official source",
+          "value": "FLHSMV Class E Knowledge Exam"
+        },
+        {
+          "label": "Exam format",
+          "value": "50 multiple-choice questions"
+        },
+        {
+          "label": "Passing score",
+          "value": "40 correct / 80%"
+        },
+        {
+          "label": "Main confusion",
+          "value": "Course, exam, and permit issuance are separate"
+        }
+      ],
+      "examDetails": {
+        "kicker": "Official context",
+        "heading": "Florida Class E steps in plain order",
+        "intro": "Use FLHSMV pages for final rules. This page turns the official pieces into a practical study and appointment map.",
+        "items": [
+          {
+            "label": "TLSAE or DETS",
+            "value": "Course step",
+            "text": "A required course can be part of the first-time driver path, but finishing it is not the same as passing the Class E Knowledge Exam."
+          },
+          {
+            "label": "Class E Knowledge Exam",
+            "value": "50-question knowledge test",
+            "text": "FLHSMV describes the exam as 50 multiple-choice questions covering traffic laws, safe driving practices, and identifying traffic controls."
+          },
+          {
+            "label": "Passing rule",
+            "value": "40 of 50 correct",
+            "text": "FLHSMV lists 40 correct answers, or 80 percent, as the passing score."
+          },
+          {
+            "label": "Permit issuance",
+            "value": "Document and office step",
+            "text": "A passed exam result still needs to fit the applicant's document, age, consent, fee, provider, and service-center path."
+          }
+        ]
+      },
+      "body": [
+        {
+          "heading": "Why Florida learners confuse these steps",
+          "text": "Forum questions often mix the course, knowledge exam, online testing, and permit appointment into one sentence. That is understandable because they all belong to the learner-permit path, but each one answers a different question."
+        },
+        {
+          "heading": "How this page should be used",
+          "text": "Start by identifying which step is blocking you. If the issue is study readiness, use the Florida practice and signs pages. If the issue is what happens after passing, use the documents checklist and FLHSMV What to Bring."
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Florida learner-permit confusion map",
+          "intro": "Use this as a routing map before you schedule, test, or retake practice questions.",
+          "items": [
+            {
+              "label": "I finished TLSAE or DETS",
+              "title": "Next question: did you pass the knowledge exam?",
+              "text": "A course completion is not a practice score and not the Class E Knowledge Exam result. Move to official exam eligibility and study readiness.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/education-courses/driver-improvement-schools/traffic-law-substance-abuse-education-tlsae-find-approved-listing-tlsae-course-providers/",
+              "cta": "FLHSMV TLSAE source"
+            },
+            {
+              "label": "I passed the Class E exam",
+              "title": "Next question: can the permit be issued yet?",
+              "text": "Check identity, Social Security number, residential address, age or consent rules, fees, and whether your provider or service center handles the issuance step.",
+              "href": "florida-dmv-permit-documents-checklist.html",
+              "cta": "Florida document checklist"
+            },
+            {
+              "label": "I am not sure what to study",
+              "title": "Start with traffic controls and signs",
+              "text": "Class E prep should prioritize road signs, traffic controls, right of way, safe driving practices, speed, and lane decisions before random mixed retakes.",
+              "href": "florida-dmv-road-signs-practice.html",
+              "cta": "Florida signs drill"
+            },
+            {
+              "label": "I want to test online",
+              "title": "Confirm provider and applicant rules first",
+              "text": "Do not assume online testing applies to every applicant path. Check FLHSMV and the approved testing provider details before planning the rest of the permit visit.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/",
+              "cta": "FLHSMV exam source"
+            }
+          ]
+        }
+      ],
+      "checklist": [
+        "Separate course completion from the Class E Knowledge Exam result.",
+        "Use the official FLHSMV exam page for current exam details and testing path.",
+        "Practice road signs and traffic controls before attempting a full mock exam.",
+        "After passing, check identity, SSN, address, age or consent, appointment, fees, and issuance steps.",
+        "Use FLHSMV What to Bring before visiting an office or service center."
+      ],
+      "faq": [
+        {
+          "q": "Is TLSAE or DETS the same as the Florida Class E Knowledge Exam?",
+          "a": "No. TLSAE or DETS is a course requirement in many first-time driver paths. The Class E Knowledge Exam is the separate knowledge test on traffic laws, safe driving practices, and traffic controls."
+        },
+        {
+          "q": "How many questions are on the Florida Class E Knowledge Exam?",
+          "a": "FLHSMV says the Class E Knowledge Exam has 50 multiple-choice questions, and 40 correct answers, or 80 percent, are needed to pass."
+        },
+        {
+          "q": "If I pass the Florida Class E Knowledge Exam online, am I done?",
+          "a": "Do not assume the whole learner-permit process is finished. Confirm the document review, fee, age or consent, photo or issuance step, provider rules, and service-center process for your path."
+        },
+        {
+          "q": "What should I study first for the Florida Class E exam?",
+          "a": "Start with traffic controls, road signs, right of way, traffic laws, and safe driving practices. Use missed answers to choose the next focused drill instead of retaking random mixed tests."
+        }
+      ],
+      "sources": [
+        {
+          "label": "FLHSMV: Class E Knowledge Exam and Driving Skills Test",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
+        },
+        {
+          "label": "FLHSMV: TLSAE course providers",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/education-courses/driver-improvement-schools/traffic-law-substance-abuse-education-tlsae-find-approved-listing-tlsae-course-providers/"
+        },
+        {
+          "label": "FLHSMV: What to Bring",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/"
+        }
+      ],
+      "related": [
+        "florida-dmv-permit-practice-test",
+        "florida-dmv-permit-documents-checklist",
+        "florida-dmv-road-signs-practice",
+        "dmv-permit-test-mistake-log",
+        "dmv-test-day-checklist"
+      ]
+    },
+    {
+      "slug": "florida-dmv-permit-documents-checklist",
+      "category": "DMV",
+      "title": "Florida Learner Permit Documents and Appointment Checklist",
+      "description": "Florida learner permit document checklist for identity, Social Security number, residential address, appointment, fee, Class E exam result, TLSAE course, and first permit issuance reminders.",
+      "heroKicker": "Florida permit documents",
+      "summary": "Use this Florida-specific checklist after practice or after passing the Class E Knowledge Exam. It separates what to bring, what to verify, and what may still require a service-center or provider step.",
+      "heroActions": [
+        {
+          "label": "Class E map",
+          "href": "florida-class-e-knowledge-exam-tlsae.html"
+        },
+        {
+          "label": "Permit practice",
+          "href": "florida-dmv-permit-practice-test.html"
+        },
+        {
+          "label": "Florida signs",
+          "href": "florida-dmv-road-signs-practice.html"
+        },
+        {
+          "label": "FLHSMV What to Bring",
+          "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/"
+        }
+      ],
+      "quickFacts": [
+        {
+          "label": "Official source",
+          "value": "FLHSMV What to Bring"
+        },
+        {
+          "label": "Core documents",
+          "value": "Identity, SSN, residential address"
+        },
+        {
+          "label": "Best use",
+          "value": "Before appointment or permit issuance"
+        },
+        {
+          "label": "Related exam",
+          "value": "Florida Class E Knowledge Exam"
+        }
+      ],
+      "examDetails": {
+        "kicker": "Document context",
+        "heading": "Florida permit documents are a separate readiness check",
+        "intro": "A learner can be ready for the knowledge exam but still not ready for the permit visit. Use FLHSMV What to Bring as the final document source.",
+        "items": [
+          {
+            "label": "Identity",
+            "value": "Proof of identity",
+            "text": "Use FLHSMV What to Bring to choose acceptable identity and date-of-birth documents for your applicant path."
+          },
+          {
+            "label": "SSN",
+            "value": "Social Security number",
+            "text": "Confirm whether your path needs Social Security number evidence or another official document route."
+          },
+          {
+            "label": "Address",
+            "value": "Residential address",
+            "text": "Check the accepted residential address documents and whether parent or guardian documents apply."
+          },
+          {
+            "label": "Visit path",
+            "value": "Appointment, fee, and issuance",
+            "text": "Confirm the local office, county tax collector, or approved provider process before assuming an exam pass completes the permit."
+          }
+        ]
+      },
+      "body": [
+        {
+          "heading": "Why this page exists",
+          "text": "Real Florida learner questions often begin after a pass or course completion: what happens next, what documents are needed, and whether an office visit is still required. A state-specific checklist is more useful than a generic document paragraph."
+        },
+        {
+          "heading": "Use this before you leave home",
+          "text": "Open the official What to Bring page, match the document categories to your situation, and keep the Class E exam result, course requirement, age or consent rule, appointment, and payment step separate."
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Florida document and appointment checks",
+          "intro": "Use these cards as a pre-visit route. The official FLHSMV source decides the exact document list.",
+          "items": [
+            {
+              "label": "Identity",
+              "title": "Verify accepted identity documents",
+              "text": "Do not rely on a school ID or casual document list. Match your document to the official FLHSMV What to Bring categories.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
+              "cta": "FLHSMV What to Bring"
+            },
+            {
+              "label": "SSN",
+              "title": "Check Social Security number evidence",
+              "text": "If your document path involves Social Security number evidence or an exception, confirm the official rule before the visit.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/document-help/",
+              "cta": "FLHSMV document help"
+            },
+            {
+              "label": "Address",
+              "title": "Prepare residential address proof",
+              "text": "Address documents are easy to overlook. Check how many documents apply, whose name can be used, and whether your current address matches.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
+              "cta": "FLHSMV What to Bring"
+            },
+            {
+              "label": "Appointment",
+              "title": "Confirm where permit issuance happens",
+              "text": "Passing a knowledge exam does not automatically answer office, county tax collector, approved provider, fee, photo, or first-issuance questions.",
+              "href": "florida-class-e-knowledge-exam-tlsae.html",
+              "cta": "Class E step map"
+            }
+          ]
+        }
+      ],
+      "checklist": [
+        "Open FLHSMV What to Bring before choosing documents.",
+        "Prepare proof of identity and date of birth.",
+        "Confirm Social Security number evidence or the official alternative path.",
+        "Prepare residential address documents that match your situation.",
+        "Keep TLSAE or DETS course completion separate from the Class E Knowledge Exam result.",
+        "Confirm appointment, office or provider path, fees, age or consent rules, and first permit issuance steps.",
+        "Bring glasses or contacts if you normally use them for distance vision."
+      ],
+      "faq": [
+        {
+          "q": "What documents do I need for a Florida learner permit?",
+          "a": "Start with FLHSMV What to Bring and confirm proof of identity, Social Security number, and residential address. The exact accepted documents depend on your applicant path."
+        },
+        {
+          "q": "Do I need an appointment after passing the Florida Class E Knowledge Exam?",
+          "a": "Possibly. Treat the exam result and learner permit issuance as separate steps. Confirm the local service-center, county tax collector, or approved provider process before assuming you are done."
+        },
+        {
+          "q": "Is a TLSAE or DETS course completion enough to get a permit?",
+          "a": "No. Course completion can be one requirement, but the Class E Knowledge Exam, document review, age or consent rules, fees, and permit issuance step still matter."
+        },
+        {
+          "q": "Should I use this checklist instead of FLHSMV?",
+          "a": "No. Use this checklist to organize the task, then use FLHSMV What to Bring and your local office or provider instructions for final requirements."
+        }
+      ],
+      "sources": [
+        {
+          "label": "FLHSMV: What to Bring",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/"
+        },
+        {
+          "label": "FLHSMV: Document Help",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/document-help/"
+        },
+        {
+          "label": "FLHSMV: Class E Knowledge Exam and Driving Skills Test",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
+        }
+      ],
+      "related": [
+        "florida-class-e-knowledge-exam-tlsae",
+        "florida-dmv-permit-practice-test",
+        "florida-dmv-road-signs-practice",
+        "dmv-test-day-checklist",
+        "dmv-permit-test-requirements-by-state"
       ]
     },
     {
