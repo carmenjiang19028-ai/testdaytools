@@ -378,3 +378,27 @@ Notes:
 - Chrome auto-translated the local review UI to Chinese, but the generated source remains English.
 - No real ad code was added.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
+### 2026-05-13 10:07 CST
+
+Mobile polish checkpoint completed:
+
+- Tightened the small-screen header so the main navigation stays in one horizontal scroll row instead of pushing useful content too far down.
+- Made hero, study-plan, score, requirements, and daily-question action links use full-width tap targets on small screens.
+- Reduced small-screen section padding and card/control padding to keep the first useful tool area closer to the first viewport.
+- Shortened the flashcard mobile stage height and kept flashcard action buttons in a two-column grid for faster thumb use.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `python3 -m json.tool content/site_data.json >/dev/null` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 52 HTML files, 147 JSON-LD blocks, 52 sitemap URLs, local links OK.
+- Local Chrome desktop review confirmed the daily question page still renders and remains interactive after the CSS change.
+
+Notes:
+
+- Headless Chrome mobile screenshot capture was unstable in this local session, so the checkpoint relies on CSS-level responsive review plus Chrome desktop render verification.
+- No real ad code was added.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.

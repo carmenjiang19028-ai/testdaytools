@@ -3865,12 +3865,33 @@ button:disabled {
   .site-header {
     align-items: flex-start;
     flex-direction: column;
+    gap: 10px;
+    min-height: 0;
     padding-top: 14px;
     padding-bottom: 14px;
   }
 
   .site-header nav {
+    width: 100%;
+    flex-wrap: nowrap;
     justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .site-header nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header nav a {
+    flex: 0 0 auto;
+    min-height: 32px;
+    padding: 5px 9px;
+    white-space: nowrap;
+    font-size: 0.88rem;
   }
 
   .tool-grid,
@@ -3953,6 +3974,24 @@ button:disabled {
     padding-bottom: 34px;
   }
 
+  .hero-actions a,
+  .study-plan-actions a,
+  .study-plan-list a,
+  .requirements-actions a,
+  .score-actions a,
+  .daily-question-card > a {
+    width: 100%;
+  }
+
+  .hero-actions a,
+  .study-plan-actions a,
+  .requirements-actions a,
+  .score-actions a,
+  .daily-question-card > a {
+    justify-content: center;
+    text-align: center;
+  }
+
   .home-hero-grid,
   .tool-hero-grid,
   .hero-lab-card,
@@ -3973,6 +4012,15 @@ button:disabled {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 7px;
     padding: 8px;
+  }
+
+  .flashcard-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .flashcard-inner,
+  .flashcard-face {
+    min-height: 340px;
   }
 
   .preview-sign {
@@ -4031,6 +4079,18 @@ button:disabled {
 }
 
 @media (max-width: 480px) {
+  .site-header,
+  .site-footer,
+  main > section {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .site-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
   h1 {
     font-size: 1.74rem;
     line-height: 1.16;
@@ -4038,5 +4098,69 @@ button:disabled {
 
   .lede {
     font-size: 1rem;
+  }
+
+  .hero-actions,
+  .study-plan-actions,
+  .score-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .home-group,
+  .home-start,
+  .home-popular,
+  .dmv-launch,
+  .dmv-mode-tool,
+  .dmv-test-day-bridge,
+  .task-console,
+  .exam-brief,
+  .exam-details,
+  .practice-topics,
+  .sign-focus,
+  .sign-study,
+  .sign-library,
+  .hub-primary,
+  .hub-section,
+  .source-matrix,
+  .requirements-finder,
+  .tool-block,
+  .content-section,
+  .fact-section,
+  .timeline-section,
+  .card-group,
+  .faq,
+  .sources,
+  .related,
+  .countdown,
+  .ad-slot {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .tool-grid a,
+  .related-card,
+  .start-card,
+  .hub-action,
+  .info-card,
+  .daily-question-card,
+  .study-plan-list li {
+    padding: 15px;
+  }
+
+  .daily-question-controls,
+  .flashcard-controls,
+  .study-plan-controls,
+  .score-control,
+  .requirements-control {
+    padding: 12px;
+  }
+
+  .flashcard-face {
+    padding: 22px;
+  }
+
+  .flashcard-sign {
+    width: min(220px, 78%);
   }
 }
