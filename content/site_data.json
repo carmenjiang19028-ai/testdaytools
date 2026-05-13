@@ -9186,6 +9186,10 @@
         {
           "heading": "Florida practice should answer the process confusion too",
           "text": "A learner can score well on practice questions and still be stuck if TLSAE, the Class E Knowledge Exam, the appointment, and the first permit issuance step are treated as one task. Use this page to diagnose study topics, then open the Class E map and document checklist for the process side."
+        },
+        {
+          "heading": "Practice score is not the same as permit readiness",
+          "text": "If the next step is an online Class E exam, approved provider, Parent Proctoring Form, document review, or first permit issuance, switch from question practice to the Florida process checklist before scheduling."
         }
       ],
       "cardGroups": [
@@ -9255,6 +9259,33 @@
               "text": "Do not only chase a high score. Log wrong answers by topic so your next drill targets the pattern instead of replaying the same mixed test."
             }
           ]
+        },
+        {
+          "heading": "After practice, check the Florida process step",
+          "intro": "Use this when the practice score looks fine but the licensing path is still unclear.",
+          "items": [
+            {
+              "label": "Online Class E exam",
+              "title": "Confirm provider, proctoring, and result submission",
+              "text": "If you plan to test online, check FLHSMV and provider instructions before assuming the pass record, Parent Proctoring Form, and permit visit are handled.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/driver-license-exams/",
+              "cta": "FLHSMV exam page"
+            },
+            {
+              "label": "Third-party pass",
+              "title": "Know the random re-test possibility",
+              "text": "A third-party Class E pass can still be selected for a mandatory random re-test before issuance, so build a backup plan instead of treating a pass as the last gate.",
+              "href": "florida-class-e-knowledge-exam-tlsae.html",
+              "cta": "Class E map"
+            },
+            {
+              "label": "Permit issuance",
+              "title": "Move from study mode to document mode",
+              "text": "Before the visit, check identity, Social Security number, residential address, age or consent, appointment, fees, and local service-center instructions.",
+              "href": "florida-dmv-permit-documents-checklist.html",
+              "cta": "Florida documents"
+            }
+          ]
         }
       ],
       "faq": [
@@ -9289,6 +9320,14 @@
         {
           "q": "Can I take the Florida permit test online?",
           "a": "Some Florida testing paths use approved providers, but eligibility and proctoring rules can change by applicant type. Use the FLHSMV Class E Knowledge Exam page and approved provider guidance before assuming online testing is available for your situation."
+        },
+        {
+          "q": "After a Florida online Class E exam pass, what should I check next?",
+          "a": "Confirm provider instructions, Parent Proctoring Form requirements, whether the result is submitted to FLHSMV, identity documents, Social Security number, residential address, appointment or service-center steps, and fees."
+        },
+        {
+          "q": "Can a third-party Florida Class E pass still lead to a retest?",
+          "a": "Yes. FLHSMV warns that customers who pass through an authorized third-party administrator may be selected for a mandatory random re-test before issuance."
         }
       ],
       "sources": [
@@ -9307,6 +9346,10 @@
         {
           "label": "FLHSMV TLSAE course providers",
           "url": "https://www.flhsmv.gov/driver-licenses-id-cards/education-courses/driver-improvement-schools/traffic-law-substance-abuse-education-tlsae-find-approved-listing-tlsae-course-providers/"
+        },
+        {
+          "label": "FLHSMV Driver License Exams",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/driver-license-exams/"
         }
       ],
       "examDetails": {
@@ -9437,6 +9480,8 @@
         "Practice until 40 of 50 feels realistic, not lucky.",
         "Bring the identification and parental-consent documents required for your age and application type.",
         "If testing online through an approved provider, confirm age eligibility and proctoring rules.",
+        "If testing online, confirm provider result submission and Parent Proctoring Form requirements before the permit visit.",
+        "If using a third-party administrator, know that FLHSMV may select the applicant for a mandatory random re-test before issuance.",
         "Retake the weak-area categories before trying another full mock exam."
       ]
     },
