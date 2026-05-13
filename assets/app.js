@@ -912,6 +912,93 @@ function initRecentPracticeCards() {
   });
 }
 
+function initDmvDailyQuestions() {
+  document.querySelectorAll("[data-dmv-daily-question]").forEach((widget) => {
+    const cards = Array.from(widget.querySelectorAll("[data-daily-card]"));
+    const stateSelect = widget.querySelector("[data-daily-state]");
+    const dateLabel = widget.querySelector("[data-daily-date]");
+    const title = widget.querySelector("[data-daily-title]");
+    const note = widget.querySelector("[data-daily-note]");
+    const nextButton = widget.querySelector("[data-daily-next]");
+    const dayNumber = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
+    let offset = 0;
+
+    const resetCard = (card) => {
+      card.dataset.answered = "false";
+      card.querySelectorAll("[data-daily-choice]").forEach((button) => {
+        button.disabled = false;
+        button.classList.remove("is-correct", "is-wrong");
+      });
+      const feedback = card.querySelector("[data-daily-feedback]");
+      const explanation = card.querySelector("[data-daily-explanation]");
+      if (feedback) feedback.textContent = "";
+      if (explanation) explanation.hidden = true;
+    };
+
+    const visibleCards = () => {
+      const selectedState = stateSelect?.value || "all";
+      if (selectedState === "all") return cards;
+      const stateCards = cards.filter((card) => card.dataset.state === selectedState);
+      return stateCards.length ? stateCards : cards.filter((card) => card.dataset.state === "all");
+    };
+
+    const render = () => {
+      const matches = visibleCards();
+      if (!matches.length) return;
+      const active = matches[(dayNumber + offset) % matches.length];
+      cards.forEach((card) => {
+        const isActive = card === active;
+        card.hidden = !isActive;
+        card.classList.toggle("is-active", isActive);
+        card.setAttribute("aria-hidden", isActive ? "false" : "true");
+        if (isActive) resetCard(card);
+      });
+
+      const stateName = active.dataset.stateLabel || stateSelect?.selectedOptions?.[0]?.textContent?.trim() || "DMV";
+      const category = active.dataset.category || "Permit basics";
+      if (dateLabel) dateLabel.textContent = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      if (title) title.textContent = `${stateName}: ${category}`;
+      if (note) note.textContent = "Answer first, then use the explanation to choose the next practice path.";
+    };
+
+    cards.forEach((card) => {
+      card.querySelectorAll("[data-daily-choice]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (card.dataset.answered === "true") return;
+          card.dataset.answered = "true";
+          const answer = Number(card.dataset.answer);
+          const choice = Number(button.dataset.dailyChoice);
+          const correct = answer === choice;
+          button.classList.add(correct ? "is-correct" : "is-wrong");
+          const correctButton = card.querySelector(`[data-daily-choice="${answer}"]`);
+          correctButton?.classList.add("is-correct");
+          card.querySelectorAll("[data-daily-choice]").forEach((choiceButton) => {
+            choiceButton.disabled = true;
+          });
+          const feedback = card.querySelector("[data-daily-feedback]");
+          const explanation = card.querySelector("[data-daily-explanation]");
+          if (explanation) explanation.hidden = false;
+          if (feedback) {
+            feedback.textContent = correct
+              ? "Correct. Open the full practice path if you want a longer round."
+              : "Not quite. Review the explanation, then practice this topic.";
+          }
+        });
+      });
+    });
+
+    stateSelect?.addEventListener("change", () => {
+      offset = 0;
+      render();
+    });
+    nextButton?.addEventListener("click", () => {
+      offset += 1;
+      render();
+    });
+    render();
+  });
+}
+
 function initDmvStudyPlanners() {
   document.querySelectorAll("[data-dmv-study-plan]").forEach((planner) => {
     const stateSelect = planner.querySelector("[data-study-state]");
@@ -1690,6 +1777,7 @@ initPracticeWorkbenches();
 initMiniSignDrills();
 initSignLookups();
 initRoadSignFlashcards();
+initDmvDailyQuestions();
 initDmvStudyPlanners();
 initRecentPracticeCards();
 initDmvRequirementsFinders();

@@ -48,6 +48,7 @@
         "heading": "DMV and road signs practice",
         "links": [
           "dmv-test-day-checklist",
+          "dmv-permit-test-question-of-the-day",
           "dmv-permit-test-study-plan",
           "dmv-permit-test-requirements-by-state",
           "dmv-permit-test-passing-score-calculator",
@@ -99,6 +100,12 @@
         "title": "Road Signs Practice Test",
         "text": "Start with regulatory, warning, school, service, and work-zone signs before choosing a state.",
         "href": "road-signs-practice-test.html"
+      },
+      {
+        "label": "Daily question",
+        "title": "DMV Permit Test Question of the Day",
+        "text": "Answer one state-aware DMV question, read the explanation, and open the matching practice path.",
+        "href": "dmv-permit-test-question-of-the-day.html"
       },
       {
         "label": "Regulatory signs",
@@ -155,6 +162,12 @@
         "title": "Road Signs Practice Test",
         "text": "24 image questions for common U.S. road signs",
         "href": "road-signs-practice-test.html"
+      },
+      {
+        "label": "Daily",
+        "title": "DMV Permit Test Question of the Day",
+        "text": "One rotating state-aware question with instant explanation",
+        "href": "dmv-permit-test-question-of-the-day.html"
       },
       {
         "label": "Rules",
@@ -336,6 +349,12 @@
           "href": "dmv-permit-test-passing-score-calculator.html"
         },
         {
+          "label": "Daily",
+          "title": "DMV Permit Test Question of the Day",
+          "text": "Answer one quick state-aware prompt before choosing a full practice path.",
+          "href": "dmv-permit-test-question-of-the-day.html"
+        },
+        {
           "label": "Plan",
           "title": "DMV Permit Test Study Plan",
           "text": "Turn state rules, road signs, score checks, and checklist tasks into a short study sequence.",
@@ -377,6 +396,7 @@
           "heading": "Permit practice tests",
           "links": [
             "dmv-test-day-checklist",
+            "dmv-permit-test-question-of-the-day",
             "dmv-permit-test-study-plan",
             "dmv-permit-test-requirements-by-state",
             "dmv-permit-test-passing-score-calculator",

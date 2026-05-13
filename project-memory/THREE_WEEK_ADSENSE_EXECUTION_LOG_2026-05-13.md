@@ -352,3 +352,29 @@ Notes:
 
 - No real ad code was added.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
+
+### 2026-05-13 09:44 CST
+
+Daily question refinement block completed:
+
+- Added `dmv-permit-test-question-of-the-day.html` as a low-maintenance DMV daily warm-up tool.
+- Built 18 rotating prompts across a national mix plus CA, NY, TX, FL, IL, PA, and NJ practice paths.
+- Added state focus, deterministic daily rotation, a `Show another` control, instant answer feedback, explanations, and per-question links into the matching full practice page.
+- Wired the daily question page into the homepage, DMV hub, DMV workbench shortcuts, related-tool paths, and `sitemap.xml`.
+- Regenerated affected static HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `python3 -m json.tool content/site_data.json >/dev/null` passed.
+- `python3 scripts/build.py` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 52 HTML files, 147 JSON-LD blocks, 52 sitemap URLs, local links OK.
+- Local Chrome review on `http://127.0.0.1:8765/dmv-permit-test-question-of-the-day.html#daily-question` confirmed the Florida default card, answer feedback, explanation reveal, disabled answered choices, and `Show another` rotation.
+
+Notes:
+
+- Chrome auto-translated the local review UI to Chinese, but the generated source remains English.
+- No real ad code was added.
+- Old unrelated seller-tool artifacts remain outside the current sprint boundary.

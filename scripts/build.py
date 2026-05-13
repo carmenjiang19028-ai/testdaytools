@@ -49,6 +49,14 @@ DMV_STUDY_PLAN_PAGE = {
     "description": "Build a DMV permit test study plan by state, timeline, and weak area with practice, road-sign, checklist, and official-source links.",
 }
 TOOL_BY_SLUG[DMV_STUDY_PLAN_SLUG] = DMV_STUDY_PLAN_PAGE
+DMV_DAILY_SLUG = "dmv-permit-test-question-of-the-day"
+DMV_DAILY_PAGE = {
+    "slug": DMV_DAILY_SLUG,
+    "category": "DMV",
+    "title": "DMV Permit Test Question of the Day",
+    "description": "Answer a free daily DMV permit test question with state filters, instant explanation, road-sign images, and links to full practice tools.",
+}
+TOOL_BY_SLUG[DMV_DAILY_SLUG] = DMV_DAILY_PAGE
 
 SIGN_SVGS = {
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
@@ -616,6 +624,50 @@ def road_sign_flashcard_records():
     return records
 
 
+def dmv_daily_question_records():
+    plan = [
+        ("all", "National mix", "roadSignsCore", 0, "road-signs-practice-test.html#practice"),
+        ("all", "National mix", "regulatorySignsCore", 1, "regulatory-traffic-signs-practice-test.html#practice"),
+        ("california", "California", "california", 0, "california-dmv-permit-practice-test.html#practice"),
+        ("california", "California", "californiaSigns", 2, "california-dmv-road-signs-practice.html#practice"),
+        ("new-york", "New York", "newyork", 0, "new-york-dmv-permit-practice-test.html#practice"),
+        ("new-york", "New York", "newyorkSigns", 3, "new-york-dmv-road-signs-practice.html#practice"),
+        ("texas", "Texas", "texas", 1, "texas-dmv-permit-practice-test.html#practice"),
+        ("texas", "Texas", "texasSigns", 4, "texas-dmv-road-signs-practice.html#practice"),
+        ("florida", "Florida", "florida", 1, "florida-dmv-permit-practice-test.html#practice"),
+        ("florida", "Florida", "floridaSigns", 5, "florida-dmv-road-signs-practice.html#practice"),
+        ("illinois", "Illinois", "illinois", 1, "illinois-dmv-permit-practice-test.html#practice"),
+        ("illinois", "Illinois", "illinoisSigns", 6, "illinois-dmv-road-signs-practice.html#practice"),
+        ("pennsylvania", "Pennsylvania", "pennsylvania", 1, "pennsylvania-dmv-permit-practice-test.html#practice"),
+        ("pennsylvania", "Pennsylvania", "pennsylvaniaSigns", 7, "pennsylvania-dmv-road-signs-practice.html#practice"),
+        ("new-jersey", "New Jersey", "newjersey", 1, "new-jersey-mvc-permit-practice-test.html#practice"),
+        ("new-jersey", "New Jersey", "newjerseySigns", 8, "new-jersey-mvc-road-signs-practice.html#practice"),
+        ("all", "National mix", "roadSignsCore", 9, "road-signs-practice-test.html#practice"),
+        ("all", "National mix", "regulatorySignsCore", 4, "regulatory-traffic-signs-practice-test.html#practice"),
+    ]
+    records = []
+    for index, (state_value, state_label, quiz_key, question_index, practice) in enumerate(plan):
+        questions = DATA["quizzes"].get(quiz_key, [])
+        if not questions:
+            continue
+        question = questions[question_index % len(questions)]
+        records.append({
+            "id": f"daily-{index + 1}",
+            "state": state_value,
+            "stateLabel": state_label,
+            "quiz": quiz_key,
+            "practice": practice,
+            "category": question.get("category", "Permit basics"),
+            "q": question.get("q", "Practice question"),
+            "choices": question.get("choices", []),
+            "answer": question.get("answer", 0),
+            "explanation": question.get("explanation", ""),
+            "image": question.get("image", ""),
+            "imageAlt": question.get("imageAlt", "Road sign illustration"),
+        })
+    return records
+
+
 def checklist_href_for_state(state):
     if not state:
         return "dmv-test-day-checklist.html#dmv-checklist"
@@ -771,6 +823,7 @@ def render_home_practice_panel():
     </div>
   </div>
   <div class="workbench-mode-links">
+    <a href="dmv-permit-test-question-of-the-day.html"><span>Daily</span><strong>One question</strong></a>
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="dmv-road-sign-flashcards.html"><span>Flashcards</span><strong>Visual sign deck</strong></a>
     <a href="dmv-permit-test-study-plan.html"><span>Study plan</span><strong>3 to 21 days</strong></a>
@@ -2058,6 +2111,114 @@ def render_road_sign_flashcards_page():
     )
 
 
+def render_dmv_daily_question_page():
+    records = dmv_daily_question_records()
+    cards = []
+    for index, record in enumerate(records):
+        visual = ""
+        if record.get("image") in SIGN_SVGS:
+            visual = f"""<figure class="daily-question-visual">
+  <div class="sign-art" role="img" aria-label="{esc(record["imageAlt"])}">{SIGN_SVGS[record["image"]]}</div>
+  <figcaption>Read the image first, then choose the safest meaning or driver action.</figcaption>
+</figure>"""
+        choices = "".join(
+            f'<button type="button" data-daily-choice="{choice_index}">{esc(choice)}</button>'
+            for choice_index, choice in enumerate(record.get("choices", []))
+        )
+        visual_html = f"  {visual}\n" if visual else ""
+        cards.append(f"""<article class="daily-question-card{" is-active" if index == 0 else ""}" data-daily-card data-state="{esc(record["state"])}" data-state-label="{esc(record["stateLabel"])}" data-category="{esc(record["category"])}" data-answer="{esc(record["answer"])}" data-practice-url="{esc(record["practice"])}" {"hidden" if index else ""}>
+  <div class="daily-question-meta">
+    <span>{esc(record["stateLabel"])}</span>
+    <strong>{esc(record["category"])}</strong>
+  </div>
+{visual_html}  <h3>{esc(record["q"])}</h3>
+  <div class="daily-choice-grid">{choices}</div>
+  <p class="daily-question-feedback" data-daily-feedback aria-live="polite"></p>
+  <p class="daily-question-explanation" data-daily-explanation hidden>{esc(record["explanation"])}</p>
+  <a href="{esc(record["practice"])}" data-daily-practice>Practice this topic</a>
+</article>""")
+    cards_html = "".join(cards)
+    state_options = """<option value="all">National mix</option>
+<option value="california">California</option>
+<option value="new-york">New York</option>
+<option value="texas">Texas</option>
+<option value="florida" selected>Florida</option>
+<option value="illinois">Illinois</option>
+<option value="pennsylvania">Pennsylvania</option>
+<option value="new-jersey">New Jersey</option>"""
+    faq = render_faq([
+        {
+            "q": "Is the DMV question of the day official?",
+            "a": "No. The questions are original TestDayTools study prompts. Use the linked state source and driver handbook for final rules.",
+        },
+        {
+            "q": "Does the daily DMV question repeat?",
+            "a": "The page rotates through a small bank of original practice prompts. Use Show another if you want a second question immediately.",
+        },
+        {
+            "q": "Should I use one daily question instead of a practice test?",
+            "a": "No. A daily question is a warm-up. Use the full state practice page, road-sign drill, passing-score calculator, and checklist before test day.",
+        },
+    ])
+    body = f"""<section class="hero tool-hero">
+  <div>
+    <p class="eyebrow">DMV question of the day</p>
+    <h1>DMV permit test question of the day.</h1>
+    <p class="lede">Answer one state-aware DMV practice question, check the explanation, then jump into the matching full practice tool.</p>
+    {render_last_updated()}
+    <div class="hero-actions">
+      <a href="#daily-question">Answer today</a>
+      <a href="dmv-permit-test-study-plan.html">Study plan</a>
+      <a href="road-signs-practice-test.html">Road signs</a>
+      <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
+      <a href="dmv-test-day-checklist.html">Checklist</a>
+    </div>
+  </div>
+</section>
+<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="trust-strip">
+  <div><span>Daily use</span><strong>One quick question</strong></div>
+  <div><span>Question bank</span><strong>{len(records)} rotating prompts</strong></div>
+  <div><span>Includes</span><strong>Rules and road signs</strong></div>
+  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+</section>
+<section class="daily-question-tool tool-block" id="daily-question" data-dmv-daily-question>
+  <div class="tool-section-head">
+    <span class="eyebrow">Daily warm-up</span>
+    <h2>Answer today&apos;s DMV permit-test question</h2>
+    <p class="section-intro">Choose a state focus, answer the prompt, then open the full practice path if the explanation feels slow.</p>
+  </div>
+  <div class="daily-question-controls">
+    <label>State focus <select data-daily-state>{state_options}</select></label>
+    <div>
+      <span data-daily-date>Today&apos;s question</span>
+      <strong data-daily-title>Florida daily warm-up</strong>
+      <p data-daily-note>One fast check before a full practice round.</p>
+    </div>
+    <button type="button" data-daily-next>Show another</button>
+  </div>
+  <div class="daily-question-stage">{cards_html}</div>
+</section>
+<section class="content-section">
+  <h2>How to use a daily DMV question</h2>
+  <p>Use the question as a quick readiness signal. If you miss it or need too long, open the matching full practice page instead of guessing through more random questions.</p>
+</section>
+<section class="content-section">
+  <h2>What to do after the question</h2>
+  <p>Move from the daily prompt into a real sequence: official source, state practice, road signs, score check, and final checklist. That path is more useful than a one-question streak.</p>
+</section>
+{faq}
+{render_related(["dmv-permit-test-study-plan", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist"])}"""
+    return page_shell(
+        DMV_DAILY_PAGE["title"],
+        DMV_DAILY_PAGE["description"],
+        f"/{DMV_DAILY_SLUG}.html",
+        body,
+        "tool-page daily-question-page",
+        page_schema(DMV_DAILY_PAGE["title"], DMV_DAILY_PAGE["description"], url_for(f"/{DMV_DAILY_SLUG}.html"), "LearningResource"),
+    )
+
+
 def render_dmv_study_plan_page():
     records = dmv_score_records()
     if not records:
@@ -2202,7 +2363,7 @@ def render_dmv_study_plan_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
+{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-passing-score-calculator", "dmv-permit-test-requirements-by-state", "dmv-road-sign-flashcards", "road-signs-practice-test", "dmv-test-day-checklist"])}"""
     return page_shell(
         DMV_STUDY_PLAN_PAGE["title"],
         DMV_STUDY_PLAN_PAGE["description"],
@@ -2353,7 +2514,7 @@ def render_dmv_requirements_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
+{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "regulatory-traffic-signs-practice-test"])}"""
     return page_shell(
         DMV_REQUIREMENTS_PAGE["title"],
         DMV_REQUIREMENTS_PAGE["description"],
@@ -2517,7 +2678,7 @@ def render_dmv_score_page():
   <ul>{source_links}</ul>
 </section>
 {faq}
-{render_related(["dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
+{render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-requirements-by-state", "dmv-test-day-checklist", "road-signs-practice-test", "florida-dmv-permit-practice-test"])}"""
     return page_shell(
         DMV_SCORE_PAGE["title"],
         DMV_SCORE_PAGE["description"],
@@ -2548,6 +2709,7 @@ def render_dmv_hub(hub):
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
+        <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
@@ -2592,6 +2754,7 @@ def render_home():
       <p class="lede">Choose your state, open the official source, drill regulatory traffic signs, then finish with permit questions, image signs, and a saved checklist.</p>
       {render_last_updated()}
       <div class="hero-actions">
+        <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
         <a href="road-signs-practice-test.html">Start road signs</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
         <a href="dmv-road-sign-flashcards.html">Flashcards</a>
@@ -2647,6 +2810,7 @@ def build():
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
+    write(f"{DMV_DAILY_SLUG}.html", render_dmv_daily_question_page())
     write(f"{DMV_STUDY_PLAN_SLUG}.html", render_dmv_study_plan_page())
     write(f"{ROAD_SIGN_FLASHCARDS_SLUG}.html", render_road_sign_flashcards_page())
     write(f"{ROAD_SIGN_SHAPES_SLUG}.html", render_road_sign_shapes_page())
@@ -2657,7 +2821,7 @@ def build():
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
