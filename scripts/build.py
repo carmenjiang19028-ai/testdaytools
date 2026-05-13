@@ -25,6 +25,14 @@ DMV_SCORE_PAGE = {
     "description": "Calculate how many DMV permit test questions you can miss by state, compare passing scores, and check a practice score against the state target.",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
+ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
+ROAD_SIGN_SHAPES_PAGE = {
+    "slug": ROAD_SIGN_SHAPES_SLUG,
+    "category": "DMV",
+    "title": "Road Sign Shapes and Colors Finder for DMV Tests",
+    "description": "Search road sign shapes and colors by meaning, driver action, category, and DMV permit-test use before taking a road signs practice test.",
+}
+TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
 
 SIGN_SVGS = {
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
@@ -398,6 +406,167 @@ def dmv_score_records():
     return records
 
 
+def road_sign_shape_records():
+    return [
+        {
+            "key": "octagon",
+            "label": "Octagon",
+            "color": "Red",
+            "category": "Regulatory",
+            "filter": "regulatory",
+            "meaning": "A red octagon means stop. Come to a complete stop, yield, then move only when safe.",
+            "action": "Stop completely",
+            "examples": "Stop sign",
+            "visual": "shape-octagon",
+            "text": "STOP",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+        },
+        {
+            "key": "triangle",
+            "label": "Inverted triangle",
+            "color": "Red and white",
+            "category": "Regulatory",
+            "filter": "regulatory",
+            "meaning": "A downward triangle means yield. Slow down and give right of way when needed.",
+            "action": "Yield right of way",
+            "examples": "Yield sign",
+            "visual": "shape-triangle",
+            "text": "YIELD",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+        },
+        {
+            "key": "red-circle",
+            "label": "Circle or slash",
+            "color": "Red symbol",
+            "category": "Regulatory",
+            "filter": "regulatory",
+            "meaning": "A red circle, slash, or red panel usually marks a prohibited action or direction.",
+            "action": "Do not enter, turn, or pass",
+            "examples": "Do Not Enter, No U-turn, Wrong Way",
+            "visual": "shape-red-circle",
+            "text": "NO",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+        },
+        {
+            "key": "rectangle-white",
+            "label": "White rectangle",
+            "color": "White and black",
+            "category": "Regulatory",
+            "filter": "regulatory",
+            "meaning": "A white rectangle usually states a traffic law, lane rule, speed rule, or direction rule.",
+            "action": "Follow the posted rule",
+            "examples": "Speed Limit, One Way, Lane Use",
+            "visual": "shape-white-rectangle",
+            "text": "RULE",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Speed%20signs#practice",
+        },
+        {
+            "key": "diamond",
+            "label": "Diamond",
+            "color": "Yellow",
+            "category": "Warning",
+            "filter": "warning",
+            "meaning": "A yellow diamond warns about a condition ahead that may require slower speed or extra space.",
+            "action": "Slow and scan ahead",
+            "examples": "Merge, Lane Ends, Slippery Road",
+            "visual": "shape-diamond",
+            "text": "!",
+            "practice": "road-signs-practice-test.html?focus=Warning%20signs#practice",
+        },
+        {
+            "key": "pentagon",
+            "label": "Pentagon",
+            "color": "Yellow-green",
+            "category": "School",
+            "filter": "warning",
+            "meaning": "A pentagon or fluorescent yellow-green sign often marks a school zone or crossing.",
+            "action": "Watch for children",
+            "examples": "School Crossing",
+            "visual": "shape-pentagon",
+            "text": "SCH",
+            "practice": "road-signs-practice-test.html?focus=School%20and%20pedestrian%20signs#practice",
+        },
+        {
+            "key": "round",
+            "label": "Round sign",
+            "color": "Yellow",
+            "category": "Warning",
+            "filter": "warning",
+            "meaning": "A round yellow sign is commonly used as an advance railroad crossing warning.",
+            "action": "Prepare for tracks",
+            "examples": "Railroad Crossing Ahead",
+            "visual": "shape-circle",
+            "text": "RR",
+            "practice": "road-signs-practice-test.html?focus=Warning%20signs#practice",
+        },
+        {
+            "key": "pennant",
+            "label": "Pennant",
+            "color": "Yellow",
+            "category": "Warning",
+            "filter": "warning",
+            "meaning": "A side pennant often warns of a no-passing zone before or along a two-lane road.",
+            "action": "Do not pass",
+            "examples": "No Passing Zone",
+            "visual": "shape-pennant",
+            "text": "NO PASS",
+            "practice": "regulatory-traffic-signs-practice-test.html?focus=Regulatory%20signs#practice",
+        },
+        {
+            "key": "orange",
+            "label": "Orange diamond",
+            "color": "Orange",
+            "category": "Work zone",
+            "filter": "work",
+            "meaning": "Orange signs warn about road work, temporary traffic control, workers, or lane shifts.",
+            "action": "Slow for the work zone",
+            "examples": "Work Zone, Lane Shift, Flagging",
+            "visual": "shape-orange-diamond",
+            "text": "WORK",
+            "practice": "road-signs-practice-test.html?focus=Work%20zone%20signs#practice",
+        },
+        {
+            "key": "blue",
+            "label": "Blue rectangle",
+            "color": "Blue",
+            "category": "Service",
+            "filter": "guide",
+            "meaning": "Blue signs usually point to driver services such as hospitals, fuel, lodging, or food.",
+            "action": "Use for services",
+            "examples": "Hospital, Gas, Food, Lodging",
+            "visual": "shape-blue-rectangle",
+            "text": "H",
+            "practice": "road-signs-practice-test.html?focus=Guide%20and%20service%20signs#practice",
+        },
+        {
+            "key": "green",
+            "label": "Green rectangle",
+            "color": "Green",
+            "category": "Guide",
+            "filter": "guide",
+            "meaning": "Green guide signs help drivers choose routes, exits, destinations, and street directions.",
+            "action": "Follow route guidance",
+            "examples": "Exit, Street, Destination",
+            "visual": "shape-green-rectangle",
+            "text": "EXIT",
+            "practice": "road-signs-practice-test.html?focus=Guide%20and%20service%20signs#practice",
+        },
+        {
+            "key": "brown",
+            "label": "Brown rectangle",
+            "color": "Brown",
+            "category": "Guide",
+            "filter": "guide",
+            "meaning": "Brown signs usually identify parks, recreation areas, cultural sites, or scenic points.",
+            "action": "Use for recreation guidance",
+            "examples": "Park, Recreation, Historic Site",
+            "visual": "shape-brown-rectangle",
+            "text": "PARK",
+            "practice": "road-signs-practice-test.html#practice",
+        },
+    ]
+
+
 def checklist_href_for_state(state):
     if not state:
         return "dmv-test-day-checklist.html#dmv-checklist"
@@ -555,6 +724,7 @@ def render_home_practice_panel():
   <div class="workbench-mode-links">
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
+    <a href="road-sign-shapes-and-colors-finder.html"><span>Shapes</span><strong>Colors and meanings</strong></a>
     <a href="dmv-permit-test-requirements-by-state.html"><span>Requirements</span><strong>Format and pass rule</strong></a>
     <a href="florida-dmv-road-signs-practice.html"><span>Florida</span><strong>Regulatory signs</strong></a>
     <a href="dmv-test-day-checklist.html"><span>Checklist</span><strong>Final ready path</strong></a>
@@ -1535,6 +1705,183 @@ def render_dmv_source_matrix():
 </section>"""
 
 
+def render_shape_swatch(record):
+    return (
+        f'<div class="shape-swatch {esc(record["visual"])}" role="img" '
+        f'aria-label="{esc(record["color"])} {esc(record["label"])} road sign shape">'
+        f'<span>{esc(record["text"])}</span></div>'
+    )
+
+
+def render_road_sign_shapes_finder():
+    records = road_sign_shape_records()
+    filters = [
+        ("all", "All"),
+        ("regulatory", "Regulatory"),
+        ("warning", "Warning"),
+        ("guide", "Guide and service"),
+        ("work", "Work zone"),
+    ]
+    filter_buttons = "".join(
+        f'<button type="button" class="{"is-active" if value == "all" else ""}" data-sign-filter="{esc(value)}">{esc(label)}</button>'
+        for value, label in filters
+    )
+    cards = []
+    for record in records:
+        query = " ".join([
+            record["label"],
+            record["color"],
+            record["category"],
+            record["meaning"],
+            record["action"],
+            record["examples"],
+        ]).lower()
+        cards.append(f"""<article class="sign-lookup-card shape-lookup-card" data-sign-card data-sign-filter-key="{esc(record["filter"])}" data-sign-query="{esc(query)}">
+  {render_shape_swatch(record)}
+  <div>
+    <span>{esc(record["category"])} - {esc(record["color"])}</span>
+    <strong>{esc(record["label"])}</strong>
+    <p>{esc(record["meaning"])}</p>
+    <a href="{esc(record["practice"])}">Practice this pattern</a>
+  </div>
+</article>""")
+    return f"""<section class="sign-lookup shape-finder" id="shape-color-finder" data-sign-lookup data-sign-count-label="shape">
+  <div class="tool-section-head">
+    <span class="eyebrow">Shape and color finder</span>
+    <h2>Search road sign shapes, colors, and driver actions</h2>
+    <p class="section-intro">Type a shape, color, sign category, or action. Use the result to move into the matching image practice round.</p>
+  </div>
+  <div class="sign-lookup-toolbar">
+    <label>Find a shape or color <input type="search" placeholder="Try red, diamond, school, yield, work zone..." data-sign-search></label>
+    <div class="sign-lookup-filters" aria-label="Shape category filters">{filter_buttons}</div>
+    <p data-sign-count>{len(cards)} shapes shown</p>
+  </div>
+  <div class="sign-lookup-grid">{"".join(cards)}</div>
+  <p class="sign-lookup-empty" data-sign-empty hidden>No matching shape yet. Try red, yellow, diamond, rectangle, school, or work.</p>
+</section>"""
+
+
+def render_road_sign_shapes_page():
+    records = road_sign_shape_records()
+    stats = "".join(
+        f'<div><strong>{esc(value)}</strong><span>{esc(label)}</span></div>'
+        for value, label in [("12", "shape/color rules"), ("4", "main sign families"), ("0", "signup required")]
+    )
+    quick_cards = "".join(
+        f"""<article>
+  {render_shape_swatch(record)}
+  <div><span>{esc(record["color"])}</span><strong>{esc(record["label"])}</strong><p>{esc(record["action"])}</p></div>
+</article>"""
+        for record in records[:6]
+    )
+    decision_cards = "".join(
+        f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
+        for label, title, text in [
+            ("Step 1", "Name the color", "Red usually means stop, yield, prohibition, or wrong direction. Yellow and orange usually warn."),
+            ("Step 2", "Name the shape", "Octagon, triangle, diamond, pentagon, circle, and rectangle narrow the meaning before you read words."),
+            ("Step 3", "Translate to action", "Permit tests usually want the driver action: stop, yield, slow, do not enter, or prepare for a hazard."),
+            ("Step 4", "Practice the weak family", "After you identify the pattern, open the linked road-sign or regulatory-sign quiz."),
+        ]
+    )
+    table_rows = "".join(f"""<tr data-score-row data-state-name="{esc((record["label"] + " " + record["color"] + " " + record["category"] + " " + record["examples"]).lower())}">
+  <th scope="row">{esc(record["label"])}</th>
+  <td>{esc(record["color"])}</td>
+  <td>{esc(record["category"])}</td>
+  <td>{esc(record["action"])}</td>
+  <td>{esc(record["examples"])}</td>
+</tr>""" for record in records)
+    faq = [
+        {
+            "q": "What road sign shape is always stop?",
+            "a": "A red octagon is used for stop. On a permit test, translate it into the action: come to a complete stop, yield, then proceed only when safe.",
+        },
+        {
+            "q": "What do yellow diamond signs mean?",
+            "a": "Yellow diamond signs are warning signs. They usually tell you to slow down, scan ahead, and prepare for a road condition such as merging traffic, lane endings, crossings, or slippery pavement.",
+        },
+        {
+            "q": "Are road sign colors the same in every state?",
+            "a": "Core U.S. sign colors and shapes are broadly standardized, but each state handbook can use its own wording and examples. Use this finder for recognition, then confirm with your state driver handbook.",
+        },
+        {
+            "q": "Should I study sign shapes before taking practice tests?",
+            "a": "Yes. Shape and color recognition makes image questions faster because you can identify the sign family before reading every answer choice.",
+        },
+    ]
+    body = f"""<section class="hero tool-hero shape-hero">
+  <div class="tool-hero-grid">
+    <div>
+      <p class="eyebrow">Road sign shapes and colors</p>
+      <h1>{esc(ROAD_SIGN_SHAPES_PAGE["title"])}</h1>
+      <p class="lede">Use shape and color first, then turn the sign into a safe driver action before you answer DMV road-sign questions.</p>
+      {render_last_updated()}
+      <div class="hero-actions">
+        <a href="#shape-color-finder">Open finder</a>
+        <a href="#shape-reference">Shape table</a>
+        <a href="road-signs-practice-test.html#practice">Road signs quiz</a>
+        <a href="regulatory-traffic-signs-practice-test.html#practice">Regulatory quiz</a>
+      </div>
+    </div>
+    <aside class="tool-hero-panel shape-hero-panel" aria-label="Shape and color preview">
+      <div class="panel-status"><span>Free guide</span><strong>Visual first</strong></div>
+      <div class="shape-preview-grid">{quick_cards}</div>
+      <div class="hero-stat-strip">{stats}</div>
+    </aside>
+  </div>
+</section>
+<section class="notice"><strong>Unofficial guide.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="task-console" aria-label="Road sign reading sequence">
+  <div class="tool-section-head">
+    <span class="eyebrow">Permit-test method</span>
+    <h2>Read the sign before you read the answer choices</h2>
+    <p class="section-intro">The fastest road-sign questions usually follow the same sequence: color, shape, category, driver action.</p>
+  </div>
+  <div class="task-console-grid">{decision_cards}</div>
+</section>
+{render_road_sign_shapes_finder()}
+<section class="requirements-table" id="shape-reference" data-state-filter-scope>
+  <div class="tool-section-head">
+    <span class="eyebrow">Reference table</span>
+    <h2>Road sign shape and color meanings</h2>
+    <p class="section-intro">Filter the table when you only remember part of a sign, such as yellow diamond, red triangle, blue hospital, or orange work zone.</p>
+  </div>
+  <div class="state-filter">
+    <label for="shape-reference-filter">Filter shapes</label>
+    <input id="shape-reference-filter" type="search" placeholder="Filter by color, category, action, or example..." data-state-filter>
+    <a href="road-signs-practice-test.html#sign-meaning-finder">Open sign meaning finder</a>
+  </div>
+  <div class="requirements-table-scroll">
+    <table>
+      <thead><tr><th>Shape</th><th>Color</th><th>Family</th><th>Driver action</th><th>Examples</th></tr></thead>
+      <tbody>{table_rows}</tbody>
+    </table>
+  </div>
+</section>
+<section class="hub-primary">
+  <h2>Practice after the shape guide</h2>
+  <div class="hub-action-grid">
+    <a class="hub-action" href="road-signs-practice-test.html#practice"><span>All signs</span><strong>Road Signs Practice Test</strong><p>Use the full image practice set after reviewing shape and color families.</p></a>
+    <a class="hub-action" href="regulatory-traffic-signs-practice-test.html#practice"><span>Rules</span><strong>Regulatory Traffic Signs Practice</strong><p>Use this if red, white, stop, yield, speed, no-entry, or no-turn signs feel slow.</p></a>
+    <a class="hub-action" href="dmv-practice.html#state-paths"><span>State path</span><strong>Choose your DMV state</strong><p>Move into state-specific permit questions, road signs, checklist, and official-source links.</p></a>
+  </div>
+</section>
+{render_faq(faq)}
+{render_sources([
+  {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
+  {"label": "FHWA: Sign principles and types", "url": "https://highways.dot.gov/safety/local-rural/maintenance-signs-and-sign-supports/ii-sign-principles-and-types"},
+])}
+{render_related(["road-signs-practice-test", "regulatory-traffic-signs-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-requirements-by-state"])}
+{render_ad("Future ad")}"""
+    return page_shell(
+        ROAD_SIGN_SHAPES_PAGE["title"],
+        ROAD_SIGN_SHAPES_PAGE["description"],
+        f"/{ROAD_SIGN_SHAPES_SLUG}.html",
+        body,
+        "tool-page shape-page",
+        page_schema(ROAD_SIGN_SHAPES_PAGE["title"], ROAD_SIGN_SHAPES_PAGE["description"], url_for(f"/{ROAD_SIGN_SHAPES_SLUG}.html"), "LearningResource"),
+    )
+
+
 def render_dmv_requirements_finder():
     records = dmv_requirement_records()
     if not records:
@@ -1912,6 +2259,7 @@ def render_home():
       {render_last_updated()}
       <div class="hero-actions">
         <a href="road-signs-practice-test.html">Start road signs</a>
+        <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
@@ -1963,6 +2311,7 @@ def build():
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
+    write(f"{ROAD_SIGN_SHAPES_SLUG}.html", render_road_sign_shapes_page())
     write(f"{DMV_SCORE_SLUG}.html", render_dmv_score_page())
     write(f"{DMV_REQUIREMENTS_SLUG}.html", render_dmv_requirements_page())
     for tool in DATA["tools"]:
@@ -1970,7 +2319,7 @@ def build():
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")

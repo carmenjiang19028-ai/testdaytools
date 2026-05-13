@@ -189,6 +189,35 @@ Notes:
 - No real ad code was added.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
 
+### 2026-05-13 08:10 CST
+
+Tenth local refinement block in progress:
+
+- Added `road-sign-shapes-and-colors-finder.html` as a visual road-sign shape and color finder for DMV permit-test study.
+- The page covers 12 shape/color patterns: red octagon, yield triangle, red prohibition symbols, white regulatory rectangles, yellow diamonds, school pentagons, railroad circles, no-passing pennants, orange work-zone signs, blue service signs, green guide signs, and brown recreation signs.
+- Added searchable/filterable cards for shape, color, category, examples, meaning, and driver action.
+- Added a filterable reference table and practice bridges into road signs, regulatory signs, and DMV state paths.
+- Wired the new page into homepage start cards, homepage popular tools, homepage DMV tool group, DMV hub primary actions, DMV hub road-sign section, road-sign related links, regulatory-sign related links, sitemap, and generated HTML output.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `python3 -m json.tool content/site_data.json` passed.
+- `python3 scripts/build.py` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 49 HTML files, 138 JSON-LD blocks, 49 sitemap URLs, local links OK.
+- Local Chrome review confirmed the new page renders, shape cards display, search for `orange` narrows the finder to one work-zone card, and filtering the reference table by `blue` narrows to the blue service-sign row.
+
+Current risks:
+
+- Chrome auto-translated the local page during review, so visual verification was done on translated text; the generated HTML source remains English.
+- This feature is not committed yet.
+
+Next step:
+
+- Re-run final validation, commit this shape/color finder as its own Git checkpoint, then push through GitHub Desktop.
+
 ### 2026-05-13 07:19 CST
 
 Seventh local refinement block completed:

@@ -700,6 +700,7 @@ function initSignLookups() {
     const cards = Array.from(lookup.querySelectorAll("[data-sign-card]"));
     const count = lookup.querySelector("[data-sign-count]");
     const empty = lookup.querySelector("[data-sign-empty]");
+    const countLabel = lookup.dataset.signCountLabel || "sign";
     let activeFilter = "all";
 
     const render = () => {
@@ -712,7 +713,7 @@ function initSignLookups() {
         card.hidden = !visible;
         if (visible) shown += 1;
       });
-      if (count) count.textContent = `${shown} sign${shown === 1 ? "" : "s"} shown`;
+      if (count) count.textContent = `${shown} ${countLabel}${shown === 1 ? "" : "s"} shown`;
       if (empty) empty.hidden = shown !== 0;
       filterButtons.forEach((button) => {
         button.classList.toggle("is-active", button.dataset.signFilter === activeFilter);
