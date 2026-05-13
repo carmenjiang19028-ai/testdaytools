@@ -2626,6 +2626,18 @@ h3 {
   color: var(--muted);
 }
 
+.info-card-link {
+  margin-top: auto;
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.info-card-link:hover,
+.info-card-link:focus {
+  text-decoration: underline;
+}
+
 .start-card:first-child,
 .hub-action:first-child {
   border-color: #a9cde7;

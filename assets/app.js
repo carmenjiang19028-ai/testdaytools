@@ -1051,8 +1051,17 @@ function initDmvMistakeLogs() {
     };
 
     const resolvePracticeHref = (entry) => {
-      if (entry.topic === "road-signs" || entry.topic === "regulatory-signs") return entry.signsUrl;
-      if (entry.topic === "documents") return entry.checklistUrl;
+      if (
+        entry.topic === "road-signs" ||
+        entry.topic === "regulatory-signs" ||
+        entry.topic === "wrong-way-entry" ||
+        entry.topic === "one-way-lane-direction" ||
+        entry.topic === "school-pedestrian-crossing" ||
+        entry.topic === "speed-advisory-speed"
+      ) {
+        return entry.signsUrl;
+      }
+      if (entry.topic === "documents" || entry.topic === "documents-appointment") return entry.checklistUrl;
       if (entry.topic === "score") return "dmv-permit-test-passing-score-calculator.html";
       return entry.practiceUrl;
     };

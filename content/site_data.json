@@ -406,7 +406,7 @@
         {
           "label": "Florida",
           "title": "Florida regulatory signs",
-          "text": "A state-specific page aligned to the first Search Console query signal.",
+          "text": "Drill Florida regulatory, direction, speed, and crossing signs by visual weak area.",
           "href": "florida-dmv-road-signs-practice.html"
         }
       ],
@@ -4890,8 +4890,8 @@
             "format": "Official context: 50 multiple-choice questions and an 80% passing standard.",
             "focus": "Traffic controls, road signs, safe driving, substance rules, and licensing basics.",
             "agency": "FLHSMV",
-            "documents": "Confirm FLHSMV requirements for identity, Social Security number, residential address, parental consent, and TLSAE course completion when applicable.",
-            "appointment": "Check whether the county service center or testing provider requires an appointment, and confirm accepted payment and arrival instructions.",
+            "documents": "Confirm FLHSMV requirements for proof of identity, Social Security number, and residential address before a first in-office learner permit or driver license issuance. Use the official What to Bring page when choosing documents.",
+            "appointment": "Passing the Class E Knowledge Exam does not automatically complete the permit issuance visit. Check your county service center or authorized provider for appointments, fees, age or consent rules, and document review.",
             "retake": "Review FLHSMV or county tax collector guidance for retest limits, waiting periods, and fees before making a new plan."
           },
           {
@@ -5245,6 +5245,10 @@
         {
           "q": "What if I fail the DMV written or knowledge test?",
           "a": "Retake rules vary by state and testing path. Check the official agency source for waiting periods, fees, attempt limits, and rescheduling rules."
+        },
+        {
+          "q": "If I pass the Florida Class E Knowledge Exam, do I still need a learner permit visit?",
+          "a": "Usually the passing score is only one part of the licensing path. Confirm the FLHSMV What to Bring requirements, any appointment or local office process, fees, age or consent rules, and whether your first permit issuance must be completed in person."
         }
       ],
       "sources": [
@@ -5275,6 +5279,18 @@
         {
           "label": "NJ MVC: Driver Manual PDF",
           "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
+        },
+        {
+          "label": "FLHSMV What to Bring",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/"
+        },
+        {
+          "label": "FLHSMV document help",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/document-help/"
+        },
+        {
+          "label": "FLHSMV Class E Knowledge Exam and Driving Skills Test",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
         }
       ],
       "related": [
@@ -5355,6 +5371,32 @@
               "label": "Rest",
               "title": "Stop before focus drops",
               "text": "Late-night cramming can make simple signs and rules feel harder. Use the last night for light review and sleep."
+            }
+          ]
+        },
+        {
+          "heading": "Florida permit visit reminder",
+          "items": [
+            {
+              "label": "Identity, SSN, address",
+              "title": "Build the document stack before test day",
+              "text": "Florida applicants should verify proof of identity, Social Security number, and residential address against FLHSMV What to Bring before going to an office.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
+              "cta": "FLHSMV What to Bring"
+            },
+            {
+              "label": "First in-office issuance",
+              "title": "Do not treat a pass as a finished permit",
+              "text": "A passed knowledge exam can still be followed by a document, fee, age or consent, and issuance step. Confirm the local office path before choosing a date.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
+              "cta": "FLHSMV document source"
+            },
+            {
+              "label": "Course vs exam vs permit",
+              "title": "Keep the three steps separate",
+              "text": "TLSAE/DETS, the Class E Knowledge Exam, and learner permit issuance are different checkpoints. Put each one on the checklist so you do not arrive with only one completed.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/",
+              "cta": "FLHSMV exam source"
             }
           ]
         }
@@ -8580,8 +8622,9 @@
       "quiz": "florida",
       "related": [
         "florida-dmv-road-signs-practice",
-        "california-dmv-permit-practice-test",
-        "new-york-dmv-permit-practice-test",
+        "dmv-test-day-checklist",
+        "dmv-permit-test-mistake-log",
+        "dmv-permit-test-requirements-by-state",
         "road-signs-practice-test"
       ],
       "quizModes": [
@@ -8878,6 +8921,52 @@
               "text": "The 40-question mode is best after you have already fixed obvious misses."
             }
           ]
+        },
+        {
+          "heading": "Florida Class E exam confusion map",
+          "items": [
+            {
+              "label": "TLSAE or DETS course",
+              "title": "Course requirement, not the knowledge exam",
+              "text": "Treat the required course as a separate licensing step. Completing a course does not mean you have passed the Class E Knowledge Exam.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/education-courses/driver-improvement-schools/traffic-law-substance-abuse-education-tlsae-find-approved-listing-tlsae-course-providers/",
+              "cta": "FLHSMV course source"
+            },
+            {
+              "label": "Class E Knowledge Exam",
+              "title": "The rules and traffic-controls test",
+              "text": "The official Class E Knowledge Exam is the multiple-choice test on Florida traffic laws, safe driving practices, and identifying traffic controls.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/",
+              "cta": "FLHSMV exam source"
+            },
+            {
+              "label": "Learner permit issuance",
+              "title": "Documents and office step still matter",
+              "text": "After exam prep, confirm identity, Social Security number, residential address, age or consent rules, fees, and whether the permit issuance step must happen in person.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
+              "cta": "FLHSMV document source"
+            }
+          ]
+        },
+        {
+          "heading": "What to study first",
+          "items": [
+            {
+              "label": "1. Road signs and traffic controls",
+              "title": "Start with visual recognition",
+              "text": "Prioritize regulatory signs, direction signs, road markings, and signal-control situations before memorizing isolated definitions."
+            },
+            {
+              "label": "2. Right-of-way and traffic laws",
+              "title": "Turn signs into driver actions",
+              "text": "For each missed rule, write what the driver should do next: stop, yield, wait, turn from a specific lane, or continue only when safe."
+            },
+            {
+              "label": "3. Safe driving practices",
+              "title": "Use practice tests as diagnosis",
+              "text": "Do not only chase a high score. Log wrong answers by topic so your next drill targets the pattern instead of replaying the same mixed test."
+            }
+          ]
         }
       ],
       "faq": [
@@ -8887,7 +8976,7 @@
         },
         {
           "q": "What should I study first for the Florida permit test?",
-          "a": "Start with signs, right of way, lane markings, speed, parking, road conditions, and impaired-driving rules in the Official Florida Driver License Handbook."
+          "a": "Start with traffic controls and road signs, then right-of-way, traffic laws, and safe driving practices. Use missed-question notes to turn each wrong answer into the next short review block."
         },
         {
           "q": "Do I need an account to use this practice test?",
@@ -8900,6 +8989,10 @@
         {
           "q": "Should I trust practice questions or the official handbook?",
           "a": "Use practice questions for feedback, but use the official handbook and agency pages as the final source."
+        },
+        {
+          "q": "Is TLSAE or DETS the same as the Florida Class E Knowledge Exam?",
+          "a": "No. TLSAE or DETS is a course requirement for many first-time drivers. The Class E Knowledge Exam is the separate knowledge test on Florida traffic laws, safe driving practices, and traffic controls."
         }
       ],
       "sources": [
@@ -8910,6 +9003,14 @@
         {
           "label": "FLHSMV: Handbooks and Manuals",
           "url": "https://www.flhsmv.gov/resources/handbooks-manuals/"
+        },
+        {
+          "label": "FLHSMV What to Bring",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/"
+        },
+        {
+          "label": "FLHSMV TLSAE course providers",
+          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/education-courses/driver-improvement-schools/traffic-law-substance-abuse-education-tlsae-find-approved-listing-tlsae-course-providers/"
         }
       ],
       "examDetails": {
@@ -9070,10 +9171,11 @@
       ],
       "quiz": "floridaSigns",
       "related": [
+        "florida-dmv-permit-practice-test",
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
-        "florida-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice"
+        "dmv-permit-test-mistake-log",
+        "dmv-permit-test-requirements-by-state"
       ],
       "quizModes": [
         {
@@ -9081,39 +9183,57 @@
           "label": "Road Signs",
           "short": "Signs",
           "title": "Florida regulatory traffic signs image test",
-          "description": "20 image-based Florida sign questions with explanations.",
+          "description": "Start with regulatory and direction-control signs, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
           "quiz": "floridaSigns",
           "passScore": 16
         }
       ],
       "focusShortcuts": {
         "kicker": "Weak-area shortcuts",
-        "heading": "Practice Florida regulatory signs by weak area",
-        "intro": "Choose the sign category that feels slow, then the quiz opens with that focus selected.",
+        "heading": "Practice Florida road signs by the mistake you keep making",
+        "intro": "Choose the exact visual confusion first. Each shortcut opens the quiz on the matching sign family instead of sending you back into a random mixed round.",
         "items": [
           {
-            "label": "Regulatory first",
-            "title": "Stop, yield, wrong way, one way",
-            "text": "Start here for the core Florida regulatory traffic signs that tell drivers what to do or not do.",
+            "label": "Entry signs",
+            "title": "Do Not Enter and Wrong Way",
+            "text": "Start here when red entry signs feel similar or you miss what action they require.",
             "focus": "Regulatory signs"
           },
           {
-            "label": "Speed and passing",
-            "title": "Speed limit and do-not-pass signs",
-            "text": "Use this when speed, passing, and posted-limit questions are the weak spot.",
-            "focus": "Speed signs"
+            "label": "One-way direction",
+            "title": "One Way and lane direction",
+            "text": "Use this when the hard part is separating a street-direction sign from a lane-use arrow.",
+            "focus": "Directional signs"
           },
           {
-            "label": "Turns and direction",
-            "title": "No U-turn, one way, and lane direction",
-            "text": "Practice signs that control movement before you mix them with warning signs.",
+            "label": "Turn control",
+            "title": "No U-turn and turn-only signs",
+            "text": "Practice permitted and prohibited turns before adding warning signs back into the round.",
             "focus": "Turn signs"
           },
           {
-            "label": "Compare warnings",
-            "title": "Warning signs after regulatory signs",
-            "text": "Switch here when the hard part is telling a rule sign from a caution sign.",
-            "focus": "Warning signs"
+            "label": "Speed",
+            "title": "Speed limit and advisory speed",
+            "text": "Use this when posted limits, safe speed, and condition-based speed choices are the weak spot.",
+            "focus": "Speed signs"
+          },
+          {
+            "label": "No passing",
+            "title": "No Passing and pennant cues",
+            "text": "Review the prohibition and the shape cue together so you do not treat passing signs like generic warnings.",
+            "focus": "Passing signs"
+          },
+          {
+            "label": "School crossing",
+            "title": "School-zone crossing signs",
+            "text": "Use this when the school context is what changes your answer or required caution.",
+            "focus": "School signs"
+          },
+          {
+            "label": "Pedestrian crossing",
+            "title": "Pedestrian crossing signs",
+            "text": "Use this when the symbol is familiar but the driver action still feels slow under test pressure.",
+            "focus": "Pedestrian signs"
           }
         ]
       },
@@ -9325,6 +9445,10 @@
         {
           "heading": "Why visual regulatory-sign practice matters",
           "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice helps you connect a Florida traffic sign to the required driver action faster."
+        },
+        {
+          "heading": "Signs, signals, and pavement markings",
+          "text": "Treat every prompt as a visual traffic-control decision: read the shape and color first, then look for arrows, lane direction, signal context, or pavement marking clues. This keeps the page focused on recognition instead of turning it into a general handbook chapter. When a sign depends on lane position, match the symbol to what your vehicle is allowed to do next. If the clue is about a signal or pavement marking, use it as context and confirm the rule in the official Florida driver handbook or FDOT sign reference."
         }
       ],
       "cardGroups": [
@@ -9346,6 +9470,76 @@
               "label": "Retake",
               "title": "Retake only the missed category",
               "text": "Use the focus-area selector or weak-area shortcuts before running another full sign round."
+            }
+          ]
+        },
+        {
+          "heading": "Real learner trouble spots",
+          "items": [
+            {
+              "label": "Do Not Enter vs Wrong Way",
+              "title": "Entry rule before lane direction",
+              "text": "Do Not Enter means the opening is closed to you. Wrong Way confirms you are already facing traffic from the wrong direction. Drill both as red regulatory warnings, not as generic danger signs."
+            },
+            {
+              "label": "One Way vs lane arrows",
+              "title": "Street direction vs lane movement",
+              "text": "One Way controls the road direction. Lane arrows control what your lane can do at the intersection. If you miss these, review arrows, turn lanes, and direction-control signs together."
+            },
+            {
+              "label": "Speed Limit vs advisory speed",
+              "title": "Legal limit vs condition warning",
+              "text": "A posted Speed Limit is a regulatory maximum. An advisory speed is usually tied to a curve, ramp, or condition and tells you what speed is safer for that situation."
+            },
+            {
+              "label": "No Passing vs pennant",
+              "title": "Rule sign vs advance shape cue",
+              "text": "No Passing tells you the action is prohibited. The pennant shape is a fast visual cue for a no-passing zone. Practice the wording and the shape together."
+            },
+            {
+              "label": "School crossing vs pedestrian crossing",
+              "title": "Same crossing habit, different context",
+              "text": "Both ask you to look for people crossing. School signs add a school-zone context, so pair the sign shape and color with the environment shown in the prompt."
+            }
+          ]
+        },
+        {
+          "heading": "If you missed this, review that",
+          "items": [
+            {
+              "label": "Wrong-way entry",
+              "title": "Focus drill: red regulatory entry signs",
+              "text": "Use FDOT regulatory signs to revisit Do Not Enter, Wrong Way, Stop, and Yield before mixing in warning signs.",
+              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "cta": "FDOT sign source"
+            },
+            {
+              "label": "One-way or lane direction",
+              "title": "Focus drill: arrows and permitted movements",
+              "text": "Use FDOT regulatory signs to review One Way, lane-use arrows, turn-only signs, and intersection movement prompts as one set.",
+              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "cta": "FDOT sign source"
+            },
+            {
+              "label": "Right-of-way misses",
+              "title": "Focus drill: stop, yield, and intersection order",
+              "text": "Use FLHSMV Class E materials to pair each sign with the driver action it requires before memorizing longer rule wording.",
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/",
+              "cta": "FLHSMV exam source"
+            },
+            {
+              "label": "School or pedestrian crossing",
+              "title": "Focus drill: crossing context",
+              "text": "Use the Florida driver handbook to compare sign color, symbol, and setting so you do not answer only from the stick-figure symbol.",
+              "href": "https://www.flhsmv.gov/resources/handbooks-manuals/",
+              "cta": "Florida handbook source"
+            },
+            {
+              "label": "Speed or advisory speed",
+              "title": "Focus drill: posted number plus road condition",
+              "text": "Use FDOT regulatory signs to separate enforceable speed-limit signs from advisory warning plates tied to curves, ramps, or conditions.",
+              "href": "https://www.flhsmv.gov/resources/handbooks-manuals/",
+              "cta": "Florida handbook source"
             }
           ]
         }
@@ -9374,6 +9568,10 @@
         {
           "q": "What should I do after missing a Florida sign question?",
           "a": "Read the explanation, review that sign category in the library, then retake the image round later."
+        },
+        {
+          "q": "Why does this Florida signs practice start with regulatory and direction-control signs?",
+          "a": "Florida's Class E Knowledge Exam includes identifying traffic controls, and real learner questions often cluster around entry, direction, lane movement, and speed signs. Starting there gives you high-value visual recognition practice before school, pedestrian, and broader warning signs."
         }
       ],
       "sources": [
@@ -9384,6 +9582,10 @@
         {
           "label": "FLHSMV: Handbooks and Manuals",
           "url": "https://www.flhsmv.gov/resources/handbooks-manuals/"
+        },
+        {
+          "label": "FDOT Florida regulatory signs",
+          "url": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm"
         }
       ],
       "examDetails": {
@@ -14862,6 +15064,45 @@
     ],
     "floridaSigns": [
       {
+        "q": "For Florida practice, this sign tells drivers that:",
+        "image": "do-not-enter",
+        "imageAlt": "red do not enter sign",
+        "choices": [
+          "Traffic may not enter from this direction",
+          "Only trucks may enter",
+          "The road is open to local traffic only"
+        ],
+        "answer": 0,
+        "category": "Regulatory signs",
+        "explanation": "A Do Not Enter sign means the lane or road is closed to traffic from your direction. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
+        "q": "What is the safest meaning of this sign?",
+        "image": "wrong-way",
+        "imageAlt": "red wrong way sign",
+        "choices": [
+          "You are traveling against permitted traffic",
+          "The lane is temporarily reserved for buses",
+          "A sharp curve begins ahead"
+        ],
+        "answer": 0,
+        "category": "Regulatory signs",
+        "explanation": "Wrong Way warns that you are entering or driving against traffic and should safely stop and turn around. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
+        "q": "What should a driver do at this sign?",
+        "image": "yield",
+        "imageAlt": "red and white triangular yield sign",
+        "choices": [
+          "Speed up to enter first",
+          "Slow down and give right of way when needed",
+          "Stop for exactly five seconds every time"
+        ],
+        "answer": 1,
+        "category": "Right of way signs",
+        "explanation": "Yield means slow down and let traffic or pedestrians with priority go first. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
         "q": "For Florida practice, what action is prohibited by this sign?",
         "image": "no-u-turn",
         "imageAlt": "no U-turn regulatory sign",
@@ -14899,6 +15140,19 @@
         "answer": 1,
         "category": "Speed signs",
         "explanation": "Speed limit signs show the posted maximum speed under normal conditions unless conditions require slower driving. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+      },
+      {
+        "q": "For Florida practice, this sign means drivers should not:",
+        "image": "no-passing",
+        "imageAlt": "do not pass sign",
+        "choices": [
+          "Pass other vehicles in this zone",
+          "Use headlights",
+          "Drive under the speed limit"
+        ],
+        "answer": 0,
+        "category": "Passing signs",
+        "explanation": "Do Not Pass signs mark places where passing is not allowed or is unsafe. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
       },
       {
         "q": "For Florida practice, what should you expect near this sign?",
@@ -15018,19 +15272,6 @@
         "explanation": "Divided highway signs warn that a median or divider changes the roadway layout. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
       },
       {
-        "q": "For Florida practice, this sign means drivers should not:",
-        "image": "no-passing",
-        "imageAlt": "do not pass sign",
-        "choices": [
-          "Pass other vehicles in this zone",
-          "Use headlights",
-          "Drive under the speed limit"
-        ],
-        "answer": 0,
-        "category": "Passing signs",
-        "explanation": "Do Not Pass signs mark places where passing is not allowed or is unsafe. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
-      },
-      {
         "q": "This sign warns drivers about:",
         "image": "roundabout",
         "imageAlt": "yellow roundabout warning sign",
@@ -15081,45 +15322,6 @@
         "answer": 0,
         "category": "Road signs",
         "explanation": "A red octagon means stop. Stop before the limit line, crosswalk, or intersection. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
-      },
-      {
-        "q": "What should a driver do at this sign?",
-        "image": "yield",
-        "imageAlt": "red and white triangular yield sign",
-        "choices": [
-          "Speed up to enter first",
-          "Slow down and give right of way when needed",
-          "Stop for exactly five seconds every time"
-        ],
-        "answer": 1,
-        "category": "Right of way signs",
-        "explanation": "Yield means slow down and let traffic or pedestrians with priority go first. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
-      },
-      {
-        "q": "For Florida practice, this sign tells drivers that:",
-        "image": "do-not-enter",
-        "imageAlt": "red do not enter sign",
-        "choices": [
-          "Traffic may not enter from this direction",
-          "Only trucks may enter",
-          "The road is open to local traffic only"
-        ],
-        "answer": 0,
-        "category": "Regulatory signs",
-        "explanation": "A Do Not Enter sign means the lane or road is closed to traffic from your direction. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
-      },
-      {
-        "q": "What is the safest meaning of this sign?",
-        "image": "wrong-way",
-        "imageAlt": "red wrong way sign",
-        "choices": [
-          "You are traveling against permitted traffic",
-          "The lane is temporarily reserved for buses",
-          "A sharp curve begins ahead"
-        ],
-        "answer": 0,
-        "category": "Regulatory signs",
-        "explanation": "Wrong Way warns that you are entering or driving against traffic and should safely stop and turn around. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
       }
     ],
     "floridaMock": [

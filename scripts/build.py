@@ -1368,11 +1368,15 @@ def render_card_groups(groups):
     output = []
     for group in groups:
         intro = f'<p class="section-intro">{esc(group["intro"])}</p>' if group.get("intro") else ""
-        cards = "".join(
-            f'<article class="info-card"><span>{esc(item.get("label", ""))}</span><h3>{esc(item["title"])}</h3><p>{esc(item["text"])}</p></article>'
-            for item in group.get("items", [])
-        )
-        output.append(f'<section class="card-group"><h2>{esc(group["heading"])}</h2>{intro}<div class="card-grid">{cards}</div></section>')
+        cards = []
+        for item in group.get("items", []):
+            source_link = ""
+            if item.get("href"):
+                source_link = f'<a class="info-card-link" href="{esc(item["href"])}">{esc(item.get("cta", "Official source"))}</a>'
+            cards.append(
+                f'<article class="info-card"><span>{esc(item.get("label", ""))}</span><h3>{esc(item["title"])}</h3><p>{esc(item["text"])}</p>{source_link}</article>'
+            )
+        output.append(f'<section class="card-group"><h2>{esc(group["heading"])}</h2>{intro}<div class="card-grid">{"".join(cards)}</div></section>')
     return "".join(output)
 
 
@@ -2236,12 +2240,12 @@ def render_dmv_mistake_log_page():
         for item in records
     )
     topic_options = [
-        ("road-signs", "Road signs"),
-        ("regulatory-signs", "Regulatory signs"),
+        ("wrong-way-entry", "Wrong-way entry"),
+        ("one-way-lane-direction", "One-way or lane direction"),
         ("right-of-way", "Right-of-way rules"),
-        ("speed-distance", "Speed and following distance"),
-        ("turning-lanes", "Turns, lanes, and parking"),
-        ("documents", "Documents or test-day logistics"),
+        ("school-pedestrian-crossing", "School or pedestrian crossing"),
+        ("speed-advisory-speed", "Speed limit or advisory speed"),
+        ("documents-appointment", "Documents or appointment confusion"),
         ("score", "Passing score or timing"),
         ("other", "Other missed topic"),
     ]
@@ -2279,7 +2283,7 @@ def render_dmv_mistake_log_page():
     <form class="mistake-log-form" data-mistake-form>
       <label>State <select data-mistake-state>{options}</select></label>
       <label>Weak area <select data-mistake-topic>{topics}</select></label>
-      <label>Missed question or cue <input type="text" data-mistake-prompt placeholder="Example: yellow merge sign, flashing red light, 3-point turn..."></label>
+      <label>Missed question or cue <input type="text" data-mistake-prompt placeholder="Example: Wrong Way sign, one-way arrow, advisory speed, permit appointment..."></label>
       <label>Correct rule or fix <textarea data-mistake-fix rows="4" placeholder="Write the rule, sign meaning, or habit to remember next time."></textarea></label>
       <div class="mistake-log-buttons">
         <button type="submit">Save mistake</button>
@@ -2305,11 +2309,11 @@ def render_dmv_mistake_log_page():
 </section>
 <section class="content-section">
   <h2>How to use a DMV mistake log</h2>
-  <p>After each short practice round, save only the questions that show a repeatable weak area: road signs, right-of-way, speed, turns, documents, or score margin. Then practice the weakest area before taking another full round.</p>
+  <p>After each short practice round, save only the questions that show a repeatable weak area: wrong-way entry, one-way or lane direction, right-of-way, crossing signs, speed/advisory speed, documents, or score margin. Then practice the weakest area before taking another full round.</p>
 </section>
 <section class="content-section">
   <h2>What to review first</h2>
-  <p>If the missed item is a sign, use road-sign flashcards or an image quiz. If it is a rule, retake state practice. If it is a logistics issue, open the checklist and official source before test day.</p>
+  <p>If the missed item is a sign-control problem, use the road-sign page and review the visual cue that caused the miss. If it is a rule, retake state practice. If it is a documents or appointment issue, open the checklist and official source before test day.</p>
 </section>
 {render_related(["dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
     return page_shell(
