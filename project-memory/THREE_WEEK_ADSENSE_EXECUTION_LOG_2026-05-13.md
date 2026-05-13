@@ -163,6 +163,36 @@ Notes:
 - No real ad code was added.
 - Old unrelated seller-tool artifacts remain outside the current sprint boundary.
 
+### 2026-05-13 08:42 CST
+
+Eleventh local refinement block completed:
+
+- Added `dmv-road-sign-flashcards.html` as a visual DMV road-sign flashcard deck.
+- The deck reuses existing original road-sign illustrations and covers 18 cards across regulatory, warning, school, work-zone, and service signs.
+- Added card flip behavior, previous/next controls, category filtering, keyword search, reset, Know/Review marking, and browser-local progress storage.
+- Added practice bridges from each card into the matching road-sign or regulatory-sign quiz focus.
+- Wired the flashcard page into the homepage hero, homepage start cards, homepage popular tools, homepage DMV tool group, DMV hub primary actions, DMV hub road-sign section, road-sign related links, regulatory-sign related links, shape/color finder related links, sitemap, and generated HTML output.
+- Corrected the prior handoff state: the shape/color finder was committed and pushed afterward as `cae6bae`.
+
+Validation:
+
+- `python3 -m py_compile scripts/build.py` passed.
+- `node --check assets/app.js` passed.
+- `python3 -m json.tool content/site_data.json` passed.
+- `python3 scripts/build.py` passed.
+- `git diff --check` passed.
+- Local generated-site validator passed: 50 HTML files, 141 JSON-LD blocks, 50 sitemap URLs, local links OK.
+- Local Chrome review confirmed the flashcards page renders, a card flips to show meaning, Know marking updates the deck message, and search for `yield` narrows visible cards to 4.
+
+Current risks:
+
+- Chrome auto-translated the local page during review, so visual verification was done on translated text; the generated HTML source remains English.
+- The in-app browser automation setup timed out again, so UI review was completed in Chrome.
+
+Next step:
+
+- Commit this flashcard deck as its own Git checkpoint, push through GitHub Desktop, then continue with the next DMV utility expansion or a first-pass mobile polish audit.
+
 ### 2026-05-13 07:56 CST
 
 Ninth local refinement block completed:

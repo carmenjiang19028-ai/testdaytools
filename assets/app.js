@@ -731,6 +731,154 @@ function initSignLookups() {
   });
 }
 
+function initRoadSignFlashcards() {
+  document.querySelectorAll("[data-road-sign-flashcards]").forEach((deck) => {
+    const cards = Array.from(deck.querySelectorAll("[data-flashcard]"));
+    const filterSelect = deck.querySelector("[data-flashcard-filter]");
+    const searchInput = deck.querySelector("[data-flashcard-search]");
+    const resetButton = deck.querySelector("[data-flashcard-reset]");
+    const prevButton = deck.querySelector("[data-flashcard-prev]");
+    const nextButton = deck.querySelector("[data-flashcard-next]");
+    const knownButton = deck.querySelector("[data-flashcard-known-button]");
+    const reviewButton = deck.querySelector("[data-flashcard-review-button]");
+    const position = deck.querySelector("[data-flashcard-position]");
+    const knownCount = deck.querySelector("[data-flashcard-known]");
+    const reviewCount = deck.querySelector("[data-flashcard-review]");
+    const visibleCount = deck.querySelector("[data-flashcard-visible]");
+    const message = deck.querySelector("[data-flashcard-message]");
+    const empty = deck.querySelector("[data-flashcard-empty]");
+    const storageKey = "tdt-road-sign-flashcards";
+    let known = new Set();
+    let review = new Set();
+    let activeIndexes = cards.map((_, index) => index);
+    let activePosition = 0;
+
+    const load = () => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(storageKey) || "null");
+        known = new Set(Array.isArray(saved?.known) ? saved.known : []);
+        review = new Set(Array.isArray(saved?.review) ? saved.review : []);
+      } catch (error) {
+        known = new Set();
+        review = new Set();
+      }
+    };
+
+    const save = () => {
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify({
+          known: Array.from(known),
+          review: Array.from(review),
+          updatedAt: Date.now(),
+        }));
+      } catch (error) {
+        // Flashcards remain usable when browser storage is unavailable.
+      }
+    };
+
+    const cardId = (card) => card?.dataset.cardId || "";
+    const activeCard = () => cards[activeIndexes[activePosition]];
+
+    const render = () => {
+      cards.forEach((card, index) => {
+        const active = activeIndexes[activePosition] === index;
+        const id = cardId(card);
+        card.hidden = !active;
+        card.classList.toggle("is-active", active);
+        card.classList.toggle("is-known", known.has(id));
+        card.classList.toggle("is-review", review.has(id));
+        card.setAttribute("aria-hidden", active ? "false" : "true");
+      });
+
+      const current = activeCard();
+      const total = activeIndexes.length;
+      if (position) position.textContent = total ? `${activePosition + 1} of ${total}` : "0 of 0";
+      if (knownCount) knownCount.textContent = String(known.size);
+      if (reviewCount) reviewCount.textContent = String(review.size);
+      if (visibleCount) visibleCount.textContent = String(total);
+      if (empty) empty.hidden = total !== 0;
+      if (prevButton) prevButton.disabled = activePosition === 0 || total === 0;
+      if (nextButton) nextButton.disabled = activePosition >= total - 1 || total === 0;
+      if (knownButton) knownButton.disabled = !current;
+      if (reviewButton) reviewButton.disabled = !current;
+      if (current && message) {
+        const id = cardId(current);
+        if (known.has(id)) {
+          message.textContent = "Marked as known. Move to the next card or open the matching quiz.";
+        } else if (review.has(id)) {
+          message.textContent = "Saved for review. Retake this sign family after the deck.";
+        }
+      }
+    };
+
+    const applyFilters = () => {
+      const filter = filterSelect?.value || "all";
+      const term = (searchInput?.value || "").trim().toLowerCase();
+      activeIndexes = cards
+        .map((card, index) => ({ card, index }))
+        .filter(({ card }) => {
+          const matchesFilter = filter === "all" || card.dataset.cardFilter === filter;
+          const matchesSearch = !term || (card.dataset.cardQuery || "").includes(term);
+          return matchesFilter && matchesSearch;
+        })
+        .map(({ index }) => index);
+      activePosition = 0;
+      cards.forEach((card) => card.classList.remove("is-flipped"));
+      if (message) {
+        message.textContent = activeIndexes.length
+          ? "Flip the card, then mark Know or Review again."
+          : "No cards match this filter yet.";
+      }
+      render();
+    };
+
+    cards.forEach((card) => {
+      card.querySelector("[data-flashcard-flip]")?.addEventListener("click", () => {
+        card.classList.toggle("is-flipped");
+      });
+    });
+
+    const markActive = (status) => {
+      const current = activeCard();
+      if (!current) return;
+      const id = cardId(current);
+      if (status === "known") {
+        known.add(id);
+        review.delete(id);
+      } else {
+        review.add(id);
+        known.delete(id);
+      }
+      save();
+      render();
+    };
+
+    knownButton?.addEventListener("click", () => markActive("known"));
+    reviewButton?.addEventListener("click", () => markActive("review"));
+    prevButton?.addEventListener("click", () => {
+      activePosition = Math.max(activePosition - 1, 0);
+      render();
+    });
+    nextButton?.addEventListener("click", () => {
+      activePosition = Math.min(activePosition + 1, Math.max(activeIndexes.length - 1, 0));
+      render();
+    });
+    resetButton?.addEventListener("click", () => {
+      known = new Set();
+      review = new Set();
+      save();
+      cards.forEach((card) => card.classList.remove("is-flipped"));
+      if (message) message.textContent = "Deck reset. Start again with the visible cards.";
+      render();
+    });
+    filterSelect?.addEventListener("change", applyFilters);
+    searchInput?.addEventListener("input", applyFilters);
+
+    load();
+    applyFilters();
+  });
+}
+
 function initRecentPracticeCards() {
   document.querySelectorAll("[data-recent-practice]").forEach((card) => {
     const title = card.querySelector("[data-recent-practice-title]");
@@ -1348,6 +1496,7 @@ initStateFilters();
 initPracticeWorkbenches();
 initMiniSignDrills();
 initSignLookups();
+initRoadSignFlashcards();
 initRecentPracticeCards();
 initDmvRequirementsFinders();
 initDmvScoreCalculators();

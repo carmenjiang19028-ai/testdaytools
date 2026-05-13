@@ -51,6 +51,7 @@
           "dmv-permit-test-requirements-by-state",
           "dmv-permit-test-passing-score-calculator",
           "regulatory-traffic-signs-practice-test",
+          "dmv-road-sign-flashcards",
           "road-sign-shapes-and-colors-finder",
           "road-signs-practice-test",
           "california-dmv-permit-practice-test",
@@ -105,6 +106,12 @@
         "href": "regulatory-traffic-signs-practice-test.html"
       },
       {
+        "label": "Flashcards",
+        "title": "DMV Road Sign Flashcards",
+        "text": "Flip visual road-sign cards, save review cards, and jump into the matching quiz.",
+        "href": "dmv-road-sign-flashcards.html"
+      },
+      {
         "label": "Shapes",
         "title": "Road Sign Shapes and Colors Finder",
         "text": "Search sign shapes, colors, categories, and driver actions before taking the image quiz.",
@@ -147,6 +154,12 @@
         "title": "Regulatory Traffic Signs Practice Test",
         "text": "Stop, yield, speed, one way, no entry, and no passing",
         "href": "regulatory-traffic-signs-practice-test.html"
+      },
+      {
+        "label": "Cards",
+        "title": "DMV Road Sign Flashcards",
+        "text": "Visual sign deck with Know and Review tracking",
+        "href": "dmv-road-sign-flashcards.html"
       },
       {
         "label": "Shapes",
@@ -316,6 +329,12 @@
           "href": "road-signs-practice-test.html"
         },
         {
+          "label": "Flashcards",
+          "title": "DMV Road Sign Flashcards",
+          "text": "Flip visual sign cards, save review cards, and move into the matching quiz.",
+          "href": "dmv-road-sign-flashcards.html"
+        },
+        {
           "label": "Shapes",
           "title": "Road Sign Shapes and Colors Finder",
           "text": "Search sign shape, color, family, examples, and driver action before the image quiz.",
@@ -355,6 +374,7 @@
           "links": [
             "road-signs-practice-test",
             "regulatory-traffic-signs-practice-test",
+            "dmv-road-sign-flashcards",
             "road-sign-shapes-and-colors-finder",
             "california-dmv-road-signs-practice",
             "new-york-dmv-road-signs-practice",
@@ -6045,6 +6065,7 @@
         }
       ],
       "related": [
+        "dmv-road-sign-flashcards",
         "road-sign-shapes-and-colors-finder",
         "regulatory-traffic-signs-practice-test",
         "florida-dmv-road-signs-practice",
@@ -6278,6 +6299,7 @@
         }
       ],
       "related": [
+        "dmv-road-sign-flashcards",
         "road-sign-shapes-and-colors-finder",
         "road-signs-practice-test",
         "florida-dmv-road-signs-practice",

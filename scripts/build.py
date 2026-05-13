@@ -33,6 +33,14 @@ ROAD_SIGN_SHAPES_PAGE = {
     "description": "Search road sign shapes and colors by meaning, driver action, category, and DMV permit-test use before taking a road signs practice test.",
 }
 TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
+ROAD_SIGN_FLASHCARDS_SLUG = "dmv-road-sign-flashcards"
+ROAD_SIGN_FLASHCARDS_PAGE = {
+    "slug": ROAD_SIGN_FLASHCARDS_SLUG,
+    "category": "DMV",
+    "title": "DMV Road Sign Flashcards",
+    "description": "Study DMV road signs with free visual flashcards for regulatory signs, warning signs, school signs, work-zone signs, and service signs.",
+}
+TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 
 SIGN_SVGS = {
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
@@ -567,6 +575,39 @@ def road_sign_shape_records():
     ]
 
 
+def road_sign_flashcard_records():
+    source = TOOL_BY_SLUG.get("road-signs-practice-test", {})
+    records = []
+    for group in source.get("signLibrary", {}).get("groups", []):
+        category = group.get("label", "Road signs")
+        filter_key = category.lower().split()[0].replace(",", "")
+        practice_focus = category
+        if "regulatory" in category.lower():
+            practice_focus = "Regulatory signs"
+        elif "warning" in category.lower():
+            practice_focus = "Warning signs"
+        elif "work" in category.lower():
+            practice_focus = "Work zone signs"
+        elif "school" in category.lower():
+            practice_focus = "School and pedestrian signs"
+        for item in group.get("signs", []):
+            if item.get("image") not in SIGN_SVGS:
+                continue
+            title = item.get("title", "")
+            meaning = item.get("meaning", "")
+            records.append({
+                "id": item.get("image", title.lower().replace(" ", "-")),
+                "title": title,
+                "meaning": meaning,
+                "category": category,
+                "filter": filter_key,
+                "image": item.get("image", ""),
+                "practice": f'road-signs-practice-test.html?focus={quote(practice_focus)}#practice',
+                "query": " ".join([title, meaning, category, item.get("image", "")]).lower(),
+            })
+    return records
+
+
 def checklist_href_for_state(state):
     if not state:
         return "dmv-test-day-checklist.html#dmv-checklist"
@@ -723,6 +764,7 @@ def render_home_practice_panel():
   </div>
   <div class="workbench-mode-links">
     <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
+    <a href="dmv-road-sign-flashcards.html"><span>Flashcards</span><strong>Visual sign deck</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
     <a href="road-sign-shapes-and-colors-finder.html"><span>Shapes</span><strong>Colors and meanings</strong></a>
     <a href="dmv-permit-test-requirements-by-state.html"><span>Requirements</span><strong>Format and pass rule</strong></a>
@@ -1870,7 +1912,7 @@ def render_road_sign_shapes_page():
   {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
   {"label": "FHWA: Sign principles and types", "url": "https://highways.dot.gov/safety/local-rural/maintenance-signs-and-sign-supports/ii-sign-principles-and-types"},
 ])}
-{render_related(["road-signs-practice-test", "regulatory-traffic-signs-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-requirements-by-state"])}
+{render_related(["dmv-road-sign-flashcards", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-requirements-by-state"])}
 {render_ad("Future ad")}"""
     return page_shell(
         ROAD_SIGN_SHAPES_PAGE["title"],
@@ -1879,6 +1921,131 @@ def render_road_sign_shapes_page():
         body,
         "tool-page shape-page",
         page_schema(ROAD_SIGN_SHAPES_PAGE["title"], ROAD_SIGN_SHAPES_PAGE["description"], url_for(f"/{ROAD_SIGN_SHAPES_SLUG}.html"), "LearningResource"),
+    )
+
+
+def render_road_sign_flashcards_page():
+    records = road_sign_flashcard_records()
+    filters = []
+    seen_filters = set()
+    for record in records:
+        if record["filter"] not in seen_filters:
+            filters.append((record["filter"], record["category"]))
+            seen_filters.add(record["filter"])
+    filter_options = '<option value="all">All signs</option>' + "".join(
+        f'<option value="{esc(value)}">{esc(label)}</option>'
+        for value, label in filters
+    )
+    cards = []
+    for index, record in enumerate(records):
+        cards.append(f"""<article class="flashcard{" is-active" if index == 0 else ""}" data-flashcard data-card-id="{esc(record["id"])}" data-card-filter="{esc(record["filter"])}" data-card-query="{esc(record["query"])}" aria-hidden="{"false" if index == 0 else "true"}">
+  <button type="button" class="flashcard-inner" data-flashcard-flip aria-label="Flip {esc(record["title"])} card">
+    <span class="flashcard-face flashcard-front">
+      <span class="flashcard-category">{esc(record["category"])}</span>
+      <span class="flashcard-sign" role="img" aria-label="{esc(record["title"])} sign">{SIGN_SVGS.get(record["image"], "")}</span>
+      <strong>{esc(record["title"])}</strong>
+      <em>Tap to reveal meaning</em>
+    </span>
+    <span class="flashcard-face flashcard-back">
+      <span class="flashcard-category">{esc(record["category"])}</span>
+      <strong>{esc(record["title"])}</strong>
+      <p>{esc(record["meaning"])}</p>
+      <span class="flashcard-link-label">Practice this group after review</span>
+    </span>
+  </button>
+  <a href="{esc(record["practice"])}">Open matching quiz</a>
+</article>""")
+    study_cards = "".join(
+        f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
+        for label, title, text in [
+            ("1", "Look at shape first", "Identify whether the card is regulatory, warning, school, service, or work-zone before reading words."),
+            ("2", "Say the driver action", "Convert each card into an action such as stop, yield, slow, do not enter, or prepare for a hazard."),
+            ("3", "Mark review honestly", "Use Review again for slow cards. The deck keeps counts on this browser."),
+            ("4", "Quiz the weak group", "After one pass, open the matching image quiz for the group with the most review cards."),
+        ]
+    )
+    body = f"""<section class="hero tool-hero flashcard-hero">
+  <div class="tool-hero-grid">
+    <div>
+      <p class="eyebrow">Road sign flashcards</p>
+      <h1>{esc(ROAD_SIGN_FLASHCARDS_PAGE["title"])}</h1>
+      <p class="lede">Flip visual sign cards, mark which ones you know, save review cards in this browser, then jump into the matching road-sign quiz.</p>
+      {render_last_updated()}
+      <div class="hero-actions">
+        <a href="#flashcards">Start flashcards</a>
+        <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors</a>
+        <a href="road-signs-practice-test.html#practice">Road signs quiz</a>
+        <a href="regulatory-traffic-signs-practice-test.html#practice">Regulatory quiz</a>
+      </div>
+    </div>
+    <aside class="tool-hero-panel flashcard-hero-panel" aria-label="Flashcard preview">
+      <div class="panel-status"><span>Free deck</span><strong>{len(records)} visual cards</strong></div>
+      <div class="flashcard-mini-stack">
+        {''.join(f'<div class="mini-flash-sign" role="img" aria-label="{esc(record["title"])}">{SIGN_SVGS.get(record["image"], "")}</div>' for record in records[:4])}
+      </div>
+      <p class="panel-source">Best first pass: stop, yield, no entry, warning, school, service, and work-zone signs.</p>
+    </aside>
+  </div>
+</section>
+<section class="notice"><strong>Unofficial study deck.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="task-console" aria-label="Flashcard study loop">
+  <div class="tool-section-head">
+    <span class="eyebrow">Study loop</span>
+    <h2>Turn recognition into a driver action</h2>
+    <p class="section-intro">Road-sign flashcards are useful only if they lead to decisions. Use each card to name the sign family and the safest legal action.</p>
+  </div>
+  <div class="task-console-grid">{study_cards}</div>
+</section>
+<section class="flashcard-tool" id="flashcards" data-road-sign-flashcards>
+  <div class="tool-section-head">
+    <span class="eyebrow">Interactive deck</span>
+    <h2>Study DMV road signs with saved review cards</h2>
+    <p class="section-intro">Filter the deck, flip each sign, then mark Know or Review again. Progress is saved only in this browser.</p>
+  </div>
+  <div class="flashcard-controls">
+    <label>Sign group <select data-flashcard-filter>{filter_options}</select></label>
+    <label>Search cards <input type="search" placeholder="Try stop, yield, merge, school, hospital..." data-flashcard-search></label>
+    <button type="button" data-flashcard-reset>Reset deck</button>
+  </div>
+  <div class="flashcard-status" aria-live="polite">
+    <div><span>Card</span><strong data-flashcard-position>1 of {len(records)}</strong></div>
+    <div><span>Know</span><strong data-flashcard-known>0</strong></div>
+    <div><span>Review</span><strong data-flashcard-review>0</strong></div>
+    <div><span>Visible</span><strong data-flashcard-visible>{len(records)}</strong></div>
+  </div>
+  <div class="flashcard-stage">{"".join(cards)}</div>
+  <p class="flashcard-empty" data-flashcard-empty hidden>No cards match this filter yet.</p>
+  <div class="flashcard-actions">
+    <button type="button" data-flashcard-prev>Previous</button>
+    <button type="button" data-flashcard-review-button>Review again</button>
+    <button type="button" data-flashcard-known-button>I know this</button>
+    <button type="button" data-flashcard-next>Next</button>
+  </div>
+  <p class="flashcard-next-step" data-flashcard-message>Flip the first card, then mark whether it belongs in review.</p>
+</section>
+<section class="hub-primary">
+  <h2>Move from flashcards into practice</h2>
+  <div class="hub-action-grid">
+    <a class="hub-action" href="road-signs-practice-test.html#practice"><span>Image quiz</span><strong>Road Signs Practice Test</strong><p>Use this after the flashcards feel familiar.</p></a>
+    <a class="hub-action" href="regulatory-traffic-signs-practice-test.html#practice"><span>Rules</span><strong>Regulatory Traffic Signs Practice</strong><p>Use this if stop, yield, one way, speed, no entry, or no turn cards still feel slow.</p></a>
+    <a class="hub-action" href="road-sign-shapes-and-colors-finder.html"><span>Lookup</span><strong>Shapes and Colors Finder</strong><p>Use this when you remember the color or shape but not the meaning.</p></a>
+  </div>
+</section>
+{render_faq([
+  {"q": "Are these official DMV flashcards?", "a": "No. These are original study flashcards from TestDayTools. Use them for practice, then confirm exact wording with your state driver handbook."},
+  {"q": "Should I use flashcards before practice tests?", "a": "Flashcards are useful for recognition. After one pass, use the image quiz so you practice choosing the correct driver action under test-style pressure."},
+  {"q": "Does the flashcard deck save my answers?", "a": "The deck saves Know and Review counts only in this browser. TestDayTools does not require signup and does not collect your answers."},
+  {"q": "Which signs should I review first?", "a": "Start with regulatory signs such as stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and no passing because they often map directly to legal driver actions."},
+])}
+{render_related(["road-signs-practice-test", "regulatory-traffic-signs-practice-test", "road-sign-shapes-and-colors-finder", "dmv-permit-test-requirements-by-state"])}
+{render_ad("Future ad")}"""
+    return page_shell(
+        ROAD_SIGN_FLASHCARDS_PAGE["title"],
+        ROAD_SIGN_FLASHCARDS_PAGE["description"],
+        f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html",
+        body,
+        "tool-page flashcard-page",
+        page_schema(ROAD_SIGN_FLASHCARDS_PAGE["title"], ROAD_SIGN_FLASHCARDS_PAGE["description"], url_for(f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html"), "LearningResource"),
     )
 
 
@@ -2259,6 +2426,7 @@ def render_home():
       {render_last_updated()}
       <div class="hero-actions">
         <a href="road-signs-practice-test.html">Start road signs</a>
+        <a href="dmv-road-sign-flashcards.html">Flashcards</a>
         <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
@@ -2311,6 +2479,7 @@ def build():
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
+    write(f"{ROAD_SIGN_FLASHCARDS_SLUG}.html", render_road_sign_flashcards_page())
     write(f"{ROAD_SIGN_SHAPES_SLUG}.html", render_road_sign_shapes_page())
     write(f"{DMV_SCORE_SLUG}.html", render_dmv_score_page())
     write(f"{DMV_REQUIREMENTS_SLUG}.html", render_dmv_requirements_page())
@@ -2319,7 +2488,7 @@ def build():
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "".join(f"<url><loc>{esc(url_for(path))}</loc></url>" for path in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap_urls}</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")

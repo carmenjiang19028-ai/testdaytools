@@ -1771,6 +1771,247 @@ h3 {
   grid-template-columns: 108px minmax(0, 1fr);
 }
 
+.flashcard-hero-panel {
+  gap: 16px;
+}
+
+.flashcard-mini-stack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mini-flash-sign {
+  min-height: 76px;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.mini-flash-sign svg {
+  width: 100%;
+  height: auto;
+}
+
+.flashcard-tool {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f8fb 100%);
+}
+
+.flashcard-controls {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 14px;
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.flashcard-controls label {
+  display: grid;
+  gap: 7px;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
+.flashcard-controls select,
+.flashcard-controls input {
+  min-height: 44px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: #ffffff;
+  font: inherit;
+}
+
+.flashcard-controls button,
+.flashcard-actions button {
+  min-height: 44px;
+  padding: 9px 13px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.flashcard-status {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.flashcard-status div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.flashcard-status span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.flashcard-status strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--blue-deep);
+  font-size: 1.2rem;
+}
+
+.flashcard-stage {
+  margin-top: 14px;
+}
+
+.flashcard {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.flashcard[hidden],
+.flashcard-empty[hidden] {
+  display: none;
+}
+
+.flashcard-inner {
+  width: 100%;
+  min-height: 420px;
+  display: grid;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  color: inherit;
+  background: transparent;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.flashcard-face {
+  grid-area: 1 / 1;
+  min-height: 420px;
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  padding: 28px;
+  border: 1px solid #cbd7e3;
+  border-radius: 10px;
+  background: #ffffff;
+  text-align: center;
+  backface-visibility: hidden;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.flashcard-back {
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+
+.flashcard.is-flipped .flashcard-front {
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+
+.flashcard.is-flipped .flashcard-back {
+  opacity: 1;
+  transform: rotateY(0);
+}
+
+.flashcard-category {
+  color: var(--green);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.flashcard-sign {
+  width: min(260px, 70%);
+  display: block;
+}
+
+.flashcard-sign svg {
+  width: 100%;
+  height: auto;
+}
+
+.flashcard-face strong {
+  color: var(--blue-deep);
+  font-size: 1.65rem;
+  line-height: 1.15;
+}
+
+.flashcard-face em,
+.flashcard-link-label {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.flashcard-face p {
+  max-width: 560px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.15rem;
+  line-height: 1.55;
+}
+
+.flashcard > a {
+  display: inline-flex;
+  margin-top: 12px;
+  color: var(--blue);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.flashcard > a:hover,
+.flashcard > a:focus {
+  text-decoration: underline;
+}
+
+.flashcard.is-known .flashcard-inner {
+  outline: 3px solid rgba(22, 132, 81, 0.28);
+}
+
+.flashcard.is-review .flashcard-inner {
+  outline: 3px solid rgba(218, 119, 6, 0.32);
+}
+
+.flashcard-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 720px;
+  margin: 14px auto 0;
+}
+
+.flashcard-actions [data-flashcard-known-button] {
+  border-color: var(--green);
+  background: var(--green);
+  color: #ffffff;
+}
+
+.flashcard-actions [data-flashcard-review-button] {
+  border-color: #d97706;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.flashcard-empty,
+.flashcard-next-step {
+  max-width: 720px;
+  margin: 12px auto 0;
+  color: var(--blue-deep);
+  font-weight: 850;
+}
+
 .study-path-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 14px 0 0;
@@ -3361,6 +3602,10 @@ button:disabled {
   .sign-lookup-grid,
   .sign-lookup-card,
   .shape-preview-grid,
+  .flashcard-mini-stack,
+  .flashcard-controls,
+  .flashcard-status,
+  .flashcard-actions,
   .requirements-grid,
   .requirements-snapshot,
   .score-grid,
