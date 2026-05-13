@@ -1882,6 +1882,36 @@ def render_dmv_source_matrix():
 </section>"""
 
 
+def render_home_value_brief():
+    cards = "".join(
+        f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
+        for label, title, text in [
+            (
+                "1",
+                "Official source first",
+                "Open the state source before trusting any practice score. TestDayTools points you there, then helps you decide what to drill.",
+            ),
+            (
+                "2",
+                "Visual signs second",
+                "Road-sign mistakes are easier to diagnose when you separate regulatory signs, warnings, direction signs, speed signs, and crossings.",
+            ),
+            (
+                "3",
+                "Mistakes become a route",
+                "A missed question should send you to a focused drill, a handbook section, or a document checklist instead of another random quiz.",
+            ),
+        ]
+    )
+    return f"""<section class="content-section home-value-brief">
+  <h2>How to use TestDayTools without wasting practice time</h2>
+  <p>Pick one state, confirm the official source, run a short practice round, then use the first miss to choose the next tool. The site is built to turn DMV confusion into a small sequence: official source, signs, state practice, mistake log, checklist.</p>
+</section>
+<section class="mode-card-grid home-value-cards" aria-label="DMV study loop">
+  {cards}
+</section>"""
+
+
 def render_florida_dmv_cluster():
     cards = [
         (
@@ -2998,6 +3028,7 @@ def render_home():
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{render_home_value_brief()}
 {render_florida_dmv_cluster()}
 {render_dmv_launcher("Choose your state DMV path")}
 {start_section}
