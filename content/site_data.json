@@ -41,8 +41,8 @@
     }
   ],
   "home": {
-    "title": "Free DMV Practice Tests and Road Signs Practice | TestDayTools",
-    "description": "Free DMV practice tests, road signs practice, regulatory traffic signs quizzes, official-source links, mock exams, and test-day checklist tools for U.S. drivers.",
+    "title": "Free DMV Practice Tests, Florida Road Signs, and Flashcards | TestDayTools",
+    "description": "Free DMV practice tests, Florida regulatory traffic signs practice, road sign flashcards, shape and color lookup, official-source links, and test-day checklist tools.",
     "sections": [
       {
         "heading": "DMV and road signs practice",
@@ -101,7 +101,7 @@
       {
         "label": "Florida signs",
         "title": "Florida Regulatory Traffic Signs Practice",
-        "text": "Start with a high-confusion Florida topic: regulatory signs, wrong-way signs, one-way arrows, speed signs, and crossings.",
+        "text": "Start with the Search Console signal: Florida regulatory traffic signs, official traffic signs, wrong-way signs, one-way arrows, right-turn signs, and yellow warnings.",
         "href": "florida-dmv-road-signs-practice.html"
       },
       {
@@ -112,8 +112,8 @@
       },
       {
         "label": "Road signs",
-        "title": "Road Signs Practice Test",
-        "text": "Start with regulatory, warning, school, service, and work-zone signs before choosing a state.",
+        "title": "Road Signs Practice Test with Pictures",
+        "text": "Use image questions for regulatory, warning, school, service, and work-zone signs before choosing a state.",
         "href": "road-signs-practice-test.html"
       },
       {
@@ -136,8 +136,8 @@
       },
       {
         "label": "Flashcards",
-        "title": "DMV Road Sign Flashcards",
-        "text": "Flip visual road-sign cards, save review cards, and jump into the matching quiz.",
+        "title": "Road Sign Flashcards",
+        "text": "Flip visual road-sign flashcards, save review cards, and jump into the matching road signs quiz.",
         "href": "dmv-road-sign-flashcards.html"
       },
       {
@@ -180,8 +180,8 @@
     "popular": [
       {
         "label": "Signs",
-        "title": "Road Signs Practice Test",
-        "text": "24 image questions for common U.S. road signs",
+        "title": "Road Signs Practice Test with Pictures",
+        "text": "24 image questions for regulatory, warning, and guide signs",
         "href": "road-signs-practice-test.html"
       },
       {
@@ -204,8 +204,8 @@
       },
       {
         "label": "Cards",
-        "title": "DMV Road Sign Flashcards",
-        "text": "Visual sign deck with Know and Review tracking",
+        "title": "Road Sign Flashcards",
+        "text": "Traffic sign flashcards with Know and Review tracking",
         "href": "dmv-road-sign-flashcards.html"
       },
       {
@@ -217,7 +217,7 @@
       {
         "label": "Shapes",
         "title": "Road Sign Shapes and Colors Finder",
-        "text": "Shape, color, sign family, and driver-action lookup",
+        "text": "Yellow warning, red regulatory, black-and-white rule, and brown guide sign lookup",
         "href": "road-sign-shapes-and-colors-finder.html"
       },
       {
@@ -6103,10 +6103,10 @@
     {
       "slug": "road-signs-practice-test",
       "category": "DMV",
-      "title": "Road Signs Practice Test: Regulatory, Warning, and Guide Signs",
-      "description": "Free road signs practice test with 24 image questions covering regulatory traffic signs, warning signs, guide signs, school signs, and work-zone signs.",
+      "title": "Road Signs Practice Test with Pictures: Regulatory and Warning Signs",
+      "description": "Free road signs practice test with pictures for regulatory traffic signs, warning signs, shape and color clues, flashcards, guide signs, school signs, and work-zone signs.",
       "heroKicker": "Road signs practice test",
-      "summary": "Practice the sign meanings and driver actions that show up across U.S. permit tests: regulatory traffic signs first, then warning, railroad, school, service, and work-zone signs.",
+      "summary": "Practice road signs with pictures, starting with regulatory traffic signs and yellow warning signs, then use shape, color, flashcards, and saved mistakes to choose the next drill.",
       "quickFacts": [
         {
           "label": "Practice size",
@@ -6130,8 +6130,8 @@
           "id": "road-signs-core",
           "label": "Core signs",
           "short": "24 image questions",
-          "title": "Road signs practice test with images",
-          "description": "Identify each sign, choose the safest driver action, and use saved mistakes to decide which sign group to review next.",
+          "title": "Road signs practice test with pictures",
+          "description": "Identify each sign, choose the safest driver action, then use saved mistakes to decide whether to review regulatory, warning, shape/color, or flashcard practice next.",
           "kicker": "Interactive road-sign practice",
           "quiz": "roadSignsCore",
           "sectionId": "practice",
@@ -6141,7 +6141,7 @@
       "signStudy": {
         "kicker": "Shape and color guide",
         "heading": "How to read road signs before the words are clear",
-        "intro": "A practical road-sign study session starts with category recognition. Shape, color, and symbol usually tell you whether the sign states a rule, warns about a hazard, or points to a service.",
+        "intro": "A practical road-sign study session starts with category recognition. Shape, color, and symbol usually tell you whether the sign states a rule, warns about a hazard, points to a service, or needs a focused flashcard review.",
         "groups": [
           {
             "label": "Regulatory",
@@ -6374,6 +6374,46 @@
         {
           "heading": "Studying Florida road signs?",
           "text": "If you are preparing for Florida, use this page as a broad sign warm-up, then move into the Florida regulatory traffic signs page for Do Not Enter, Wrong Way, One Way, speed, no-passing, school, pedestrian, and FDOT/FLHSMV source links."
+        },
+        {
+          "heading": "Practice by what you remember",
+          "text": "If you remember a red slash, start with prohibited-movement signs. If you remember a yellow diamond, review warning signs. If you remember only a shape or color, use the shapes and colors finder before retaking the image quiz."
+        }
+      ],
+      "cardGroups": [
+        {
+          "heading": "Road-sign practice paths from real search queries",
+          "intro": "These paths match the queries Google has already started showing for this site.",
+          "items": [
+            {
+              "label": "Road signs practice",
+              "title": "Start with the image quiz",
+              "text": "Use this page when the query is broad. Answer pictures first, then let missed categories decide whether you need regulatory signs, warning signs, shape/color lookup, or flashcards.",
+              "href": "#practice",
+              "cta": "Start image quiz"
+            },
+            {
+              "label": "Road signs flashcards",
+              "title": "Use cards when recognition is slow",
+              "text": "Flashcards are better before the quiz when you cannot name the sign family quickly. After a card pass, return here for driver-action practice.",
+              "href": "dmv-road-sign-flashcards.html",
+              "cta": "Open flashcards"
+            },
+            {
+              "label": "Shape and color",
+              "title": "Use lookup when only the visual clue stuck",
+              "text": "Search yellow diamond, red and white, black and white, brown sign, octagon, pennant, or rectangle, then open the matching drill.",
+              "href": "road-sign-shapes-and-colors-finder.html",
+              "cta": "Open finder"
+            },
+            {
+              "label": "Florida signs",
+              "title": "Move to Florida regulatory signs when state context matters",
+              "text": "Use the Florida page for regulatory traffic signs, official Florida source links, right-turn signs, yellow warning signs, and learner trouble spots.",
+              "href": "florida-dmv-road-signs-practice.html",
+              "cta": "Florida signs"
+            }
+          ]
         }
       ],
       "faq": [
@@ -6392,6 +6432,14 @@
         {
           "q": "Where should I practice Florida regulatory traffic signs?",
           "a": "Start with the Florida regulatory traffic signs page if you are studying for Florida. It keeps the same image-practice format but adds Florida-specific sign trouble spots, FDOT regulatory sign context, and FLHSMV source links."
+        },
+        {
+          "q": "Should I study road sign flashcards before this practice test?",
+          "a": "Use flashcards first if you cannot name the sign family quickly. Use this practice test after that so you can choose the safest driver action from answer choices."
+        },
+        {
+          "q": "What should I do if I only remember a sign's shape or color?",
+          "a": "Use the road sign shapes and colors finder, then come back to this image quiz. Shape and color recognition helps separate regulatory signs, warning signs, guide signs, and service signs before you read answer choices."
         }
       ],
       "sources": [
@@ -8979,10 +9027,36 @@
     {
       "slug": "florida-dmv-permit-practice-test",
       "category": "DMV",
-      "title": "Florida DMV Permit Practice Test",
-      "description": "Florida permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official FLHSMV source links.",
+      "title": "Florida DMV Permit Practice Test and Passing Score",
+      "description": "Florida permit practice test with quick practice, image road signs, mock exam mode, instant explanations, official FLHSMV source links, and the 40 of 50 passing score context.",
       "heroKicker": "Florida permit practice",
-      "summary": "Practice Florida Class E permit-test topics, then separate the three steps learners often mix up: TLSAE or DETS course, Class E Knowledge Exam, and learner permit documents or office issuance.",
+      "summary": "Practice Florida Class E permit-test topics, check the 40 of 50 passing score context, then separate TLSAE or DETS, the Class E Knowledge Exam, and learner permit documents or office issuance.",
+      "heroActions": [
+        {
+          "label": "Start practice",
+          "href": "#practice"
+        },
+        {
+          "label": "Passing score",
+          "href": "dmv-permit-test-passing-score-calculator.html"
+        },
+        {
+          "label": "Florida road signs",
+          "href": "florida-dmv-road-signs-practice.html"
+        },
+        {
+          "label": "Class E map",
+          "href": "florida-class-e-knowledge-exam-tlsae.html"
+        },
+        {
+          "label": "Florida documents",
+          "href": "florida-dmv-permit-documents-checklist.html"
+        },
+        {
+          "label": "FLHSMV exam source",
+          "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Official source",
@@ -9008,6 +9082,7 @@
         "florida-dmv-road-signs-practice",
         "dmv-test-day-checklist",
         "dmv-permit-test-mistake-log",
+        "dmv-permit-test-passing-score-calculator",
         "dmv-permit-test-requirements-by-state",
         "road-signs-practice-test"
       ],
@@ -9284,6 +9359,10 @@
           "text": "Take one short round, read only the explanations you missed, review one handbook section, then retake later. That loop is easier to maintain than reading the whole manual repeatedly."
         },
         {
+          "heading": "What score do you need to pass the Florida permit test?",
+          "text": "FLHSMV lists the Florida Class E Knowledge Exam as 50 multiple-choice questions with 40 correct answers, or 80 percent, needed to pass. Treat a practice score below that as a topic map: signs, right of way, speed, safe driving, or process confusion."
+        },
+        {
           "heading": "Florida practice should answer the process confusion too",
           "text": "A learner can score well on practice questions and still be stuck if TLSAE, the Class E Knowledge Exam, the appointment, and the first permit issuance step are treated as one task. Use this page to diagnose study topics, then open the Class E map and document checklist for the process side."
         },
@@ -9361,6 +9440,33 @@
           ]
         },
         {
+          "heading": "Turn a practice score into the next action",
+          "intro": "The useful question is not only whether the score passed. It is what the score tells you to study next.",
+          "items": [
+            {
+              "label": "40 of 50 target",
+              "title": "Use 80 percent as the minimum, not the goal",
+              "text": "If a practice round is near the line, build margin before test day. One missed sign or right-of-way cluster can move the result quickly.",
+              "href": "dmv-permit-test-passing-score-calculator.html",
+              "cta": "Open score calculator"
+            },
+            {
+              "label": "Sign misses",
+              "title": "Switch from mixed practice to visual signs",
+              "text": "When missed answers involve traffic controls, do a Florida road-sign round before another mock exam.",
+              "href": "florida-dmv-road-signs-practice.html#practice",
+              "cta": "Practice Florida signs"
+            },
+            {
+              "label": "Process misses",
+              "title": "Separate study readiness from permit readiness",
+              "text": "If the blocker is TLSAE, online testing, documents, appointment, or permit issuance, move to the Class E map instead of retaking random questions.",
+              "href": "florida-class-e-knowledge-exam-tlsae.html",
+              "cta": "Open Class E map"
+            }
+          ]
+        },
+        {
           "heading": "After practice, check the Florida process step",
           "intro": "Use this when the practice score looks fine but the licensing path is still unclear.",
           "items": [
@@ -9396,6 +9502,10 @@
         {
           "q": "What should I study first for the Florida permit test?",
           "a": "Start with traffic controls and road signs, then right-of-way, traffic laws, and safe driving practices. Use missed-question notes to turn each wrong answer into the next short review block."
+        },
+        {
+          "q": "What score do I need to pass the Florida permit test?",
+          "a": "FLHSMV lists 40 correct answers out of 50 questions, or 80 percent, as the passing score for the Florida Class E Knowledge Exam."
         },
         {
           "q": "Do I need an account to use this practice test?",
@@ -9589,9 +9699,9 @@
       "slug": "florida-dmv-road-signs-practice",
       "category": "DMV",
       "title": "Florida Regulatory Traffic Signs Practice Test",
-      "description": "Practice Florida regulatory traffic signs, warning signs, and road signs with 24 original image questions, explanations, and a Florida sign library.",
+      "description": "Practice Florida regulatory traffic signs, official traffic sign categories, right-turn signs, yellow warning signs, and road signs with 24 original image questions and explanations.",
       "heroKicker": "Florida regulatory traffic signs",
-      "summary": "Drill Florida regulatory traffic signs first, including stop, yield, wrong-way, no-turn, keep-right, speed, and lane-control signs, then review warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "summary": "Drill Florida regulatory traffic signs first: stop, yield, do not enter, wrong way, one way, right-turn control, keep right, speed, and lane-control signs. Then review yellow warning signs, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "quickFacts": [
         {
           "label": "Question count",
@@ -9617,6 +9727,8 @@
         "florida-dmv-permit-practice-test",
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
+        "dmv-road-sign-flashcards",
+        "road-sign-shapes-and-colors-finder",
         "dmv-permit-test-mistake-log",
         "dmv-permit-test-requirements-by-state"
       ],
@@ -9683,7 +9795,7 @@
       "examBrief": {
         "kicker": "Florida sign practice",
         "heading": "Florida regulatory traffic signs, shapes, and driver actions",
-        "intro": "Start with the regulatory traffic sign examples, then use the image quiz and sign library to review warning, school, rail, work-zone, and service signs.",
+        "intro": "Start with the regulatory traffic sign examples Google is already testing for this site: entry control, right-turn control, one-way movement, speed, lane direction, and no-passing signs. Then use the image quiz and sign library for warning, school, rail, work-zone, and service signs.",
         "facts": [
           {
             "label": "Official source",
@@ -9875,8 +9987,13 @@
           "rows": [
             [
               "Regulatory traffic signs",
-              "Stop, yield, do not enter, wrong way, one way, no U-turn, speed limit, and do not pass signs.",
+              "Stop, yield, do not enter, wrong way, one way, no U-turn, no right turn, no turn on red, keep right, speed limit, and do not pass signs.",
               "These signs tell drivers required or prohibited actions and are a direct match for regulatory-sign queries."
+            ],
+            [
+              "Official traffic signs",
+              "Use FDOT and the Official Florida Driver License Handbook for final sign categories and wording.",
+              "The site gives practice paths; official sources decide exact wording and current rules."
             ],
             [
               "Right of way",
@@ -9904,6 +10021,18 @@
         {
           "heading": "Regulatory traffic signs Florida learners should study first",
           "text": "If your search is regulatory traffic signs Florida, start with signs that control an immediate driver action: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, no right turn, no turn on red, no passing, keep right, lane arrows, and turn-only signs. Then use the weak-area shortcuts on this page for the exact miss instead of rereading every sign at once."
+        },
+        {
+          "heading": "Official traffic signs Florida learners can use as a source check",
+          "text": "Use this page for practice, then use FDOT sign references and the Official Florida Driver License Handbook for the source check. The practical study order is official source for correctness, this page for visual recognition, and the quiz result for the next drill."
+        },
+        {
+          "heading": "Right Turn Only, No Right Turn, and No Turn on Red",
+          "text": "Right-turn signs are easy to mix up because the answer may ask what your vehicle may do next. Right Turn Only points to a required lane movement, No Right Turn blocks a right turn from that approach, and No Turn on Red means stopping first is not enough while the signal is red."
+        },
+        {
+          "heading": "Yellow traffic warning signs in Florida practice",
+          "text": "Yellow warning signs usually tell you to slow down, scan ahead, and prepare for a road condition such as merging traffic, lane endings, signals, pedestrians, school areas, slippery pavement, or divided roadways. Do not answer every yellow sign as danger; name the specific hazard."
         },
         {
           "heading": "How to use the Florida road signs page",
@@ -9997,6 +10126,34 @@
           ]
         },
         {
+          "heading": "Florida queries this page now answers directly",
+          "intro": "These blocks map to the terms that started appearing in Search Console.",
+          "items": [
+            {
+              "label": "regulatory traffic signs florida",
+              "title": "Rules that require or prohibit a driver action",
+              "text": "Start with stop, yield, do not enter, wrong way, one way, no-turn, keep-right, speed limit, and no-passing signs, then take the image quiz."
+            },
+            {
+              "label": "official traffic signs florida",
+              "title": "Practice here, source-check with FLHSMV and FDOT",
+              "text": "This page uses original practice illustrations and links to official Florida sources for final wording and sign reference checks.",
+              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "cta": "FDOT regulatory signs"
+            },
+            {
+              "label": "right turn only sign",
+              "title": "Separate required movement from prohibited movement",
+              "text": "Right Turn Only means your lane must turn right. No Right Turn and No Turn on Red are restriction signs with different driver actions."
+            },
+            {
+              "label": "yellow traffic warning signs",
+              "title": "Name the specific hazard",
+              "text": "Yellow signs usually warn of a condition ahead. The test answer often depends on whether the hazard is a merge, lane end, signal, crossing, or road surface."
+            }
+          ]
+        },
+        {
           "heading": "If you missed this, review that",
           "items": [
             {
@@ -10044,7 +10201,19 @@
         },
         {
           "q": "What are regulatory traffic signs in Florida?",
-          "a": "Regulatory traffic signs tell drivers what action is required, prohibited, or allowed. Common examples include stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and do not pass signs."
+          "a": "Regulatory traffic signs tell drivers what action is required, prohibited, or allowed. Common examples include stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, no right turn, no turn on red, keep right, and do not pass signs."
+        },
+        {
+          "q": "Where can I check official traffic signs for Florida?",
+          "a": "Use FLHSMV and FDOT sources for official wording and sign references. This page is an unofficial practice tool that links to those official sources for source checks."
+        },
+        {
+          "q": "What does a Right Turn Only sign mean in Florida practice?",
+          "a": "A Right Turn Only sign means traffic in that lane or approach must turn right. Do not mix it up with No Right Turn, which prohibits the right turn, or No Turn on Red, which blocks the turn while the signal is red."
+        },
+        {
+          "q": "What do yellow traffic warning signs mean?",
+          "a": "Yellow warning signs alert drivers to a condition ahead, such as merging traffic, lane endings, signals, crossings, slippery roads, or divided highways. The safest answer usually involves slowing, scanning, and preparing for the specific hazard."
         },
         {
           "q": "Does the Florida permit test include regulatory traffic signs?",

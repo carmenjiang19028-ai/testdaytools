@@ -31,15 +31,15 @@ ROAD_SIGN_SHAPES_PAGE = {
     "slug": ROAD_SIGN_SHAPES_SLUG,
     "category": "DMV",
     "title": "Road Sign Shapes and Colors Finder for DMV Tests",
-    "description": "Search road sign shapes and colors by meaning, driver action, category, and DMV permit-test use before taking a road signs practice test.",
+    "description": "Search road sign shapes and colors by meaning, driver action, category, and DMV permit-test use, including yellow warning signs, red regulatory signs, and brown guide signs.",
 }
 TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
 ROAD_SIGN_FLASHCARDS_SLUG = "dmv-road-sign-flashcards"
 ROAD_SIGN_FLASHCARDS_PAGE = {
     "slug": ROAD_SIGN_FLASHCARDS_SLUG,
     "category": "DMV",
-    "title": "DMV Road Sign Flashcards",
-    "description": "Study DMV road signs with free visual flashcards for regulatory signs, warning signs, school signs, work-zone signs, and service signs.",
+    "title": "Road Sign Flashcards for DMV Permit Tests",
+    "description": "Study road sign flashcards for DMV permit tests with visual cards for regulatory signs, warning signs, school signs, work-zone signs, and service signs.",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -2122,6 +2122,14 @@ def render_road_sign_shapes_page():
             "a": "Yellow diamond signs are warning signs. They usually tell you to slow down, scan ahead, and prepare for a road condition such as merging traffic, lane endings, crossings, or slippery pavement.",
         },
         {
+            "q": "What do brown road signs mean?",
+            "a": "Brown road signs usually point to recreation, parks, historic, cultural, or tourist destinations. They are guide signs, not warning or regulatory signs.",
+        },
+        {
+            "q": "Are black and white road signs regulatory signs?",
+            "a": "Many black-and-white rectangular signs are regulatory signs, such as speed limit, lane-use, parking, and turn-control signs. Read the words and arrows as driver actions.",
+        },
+        {
             "q": "Are road sign colors the same in every state?",
             "a": "Core U.S. sign colors and shapes are broadly standardized, but each state handbook can use its own wording and examples. Use this finder for recognition, then confirm with your state driver handbook.",
         },
@@ -2164,6 +2172,16 @@ def render_road_sign_shapes_page():
 <section class="content-section">
   <h2>Shape and color traps that slow learners down</h2>
   <p>Many missed road-sign questions are not about rare signs. They happen when a learner treats every red sign as Stop, every white sign as Speed Limit, or every yellow sign as a generic warning. Use red panels for entry control, red slashes for prohibited movements, white rectangles for rules such as One Way or Keep Right, and pennants for no-passing zones.</p>
+</section>
+<section class="card-group">
+  <h2>Practice by the clue you remember</h2>
+  <p class="section-intro">Use this when you remember only the color, shape, or symbol from a road-sign question.</p>
+  <div class="card-grid">
+    <article class="info-card"><span>Yellow diamond</span><h3>Warning signs and hazards</h3><p>Yellow diamond signs usually warn about curves, merges, signals, crossings, slippery roads, lane endings, or other conditions that require slowing and scanning ahead.</p><a class="info-card-link" href="road-signs-practice-test.html?focus=Warning%20signs#practice">Practice warning signs</a></article>
+    <article class="info-card"><span>Red and white</span><h3>Stop, yield, entry, and prohibited movement</h3><p>Red is the fastest clue for stop, yield, do not enter, wrong way, or a movement blocked by a slash such as no right turn or no U-turn.</p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Prohibited%20entry%20signs#practice">Practice red regulatory signs</a></article>
+    <article class="info-card"><span>Black and white</span><h3>Rules, lane use, and speed control</h3><p>Black-and-white rectangular signs often tell you a legal rule: speed limit, lane use, one way, keep right, turn control, or parking restriction.</p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Lane%20and%20direction%20signs#practice">Practice rule signs</a></article>
+    <article class="info-card"><span>Brown guide</span><h3>Parks, recreation, and cultural destinations</h3><p>Brown signs are usually guide signs. They help you recognize destinations, not immediate right-of-way or hazard decisions.</p><a class="info-card-link" href="road-signs-practice-test.html#practice">Practice mixed signs</a></article>
+  </div>
 </section>
 <section class="requirements-table" id="shape-reference" data-state-filter-scope>
   <div class="tool-section-head">
@@ -2253,7 +2271,7 @@ def render_road_sign_flashcards_page():
     <div>
       <p class="eyebrow">Road sign flashcards</p>
       <h1>{esc(ROAD_SIGN_FLASHCARDS_PAGE["title"])}</h1>
-      <p class="lede">Flip visual sign cards, mark which ones you know, save review cards in this browser, then jump into the matching road-sign quiz.</p>
+      <p class="lede">Flip traffic sign flashcards, mark which ones you know, save review cards in this browser, then jump into the matching road-sign practice test.</p>
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#flashcards">Start flashcards</a>
@@ -2283,6 +2301,10 @@ def render_road_sign_flashcards_page():
 <section class="content-section">
   <h2>Regulatory cards learners should not skip</h2>
   <p>Short decks often stop at Stop and Yield, but the harder permit-test misses usually come from smaller rule signs. Give extra review time to 4-Way Stop, One Way, No Right Turn, No Turn on Red, Keep Right, Do Not Pass, Do Not Enter, and Wrong Way because the answer may describe the driver action instead of the sign name.</p>
+</section>
+<section class="content-section">
+  <h2>Traffic signs flashcards vs a practice test</h2>
+  <p>Use flashcards when the sign still feels slow. Use the practice test when you can name the sign but need to choose the safest driver action under answer-choice pressure. A good loop is flashcard first, image quiz second, then review only the cards you missed.</p>
 </section>
 <section class="flashcard-tool" id="flashcards" data-road-sign-flashcards>
   <div class="tool-section-head">
@@ -2322,6 +2344,7 @@ def render_road_sign_flashcards_page():
 {render_faq([
   {"q": "Are these official DMV flashcards?", "a": "No. These are original study flashcards from TestDayTools. Use them for practice, then confirm exact wording with your state driver handbook."},
   {"q": "Should I use flashcards before practice tests?", "a": "Flashcards are useful for recognition. After one pass, use the image quiz so you practice choosing the correct driver action under test-style pressure."},
+  {"q": "Are traffic signs flashcards enough for a permit test?", "a": "No. Flashcards help with recognition, but permit tests often ask for the driver action. After flashcards, use an image-based road signs practice test and review missed categories."},
   {"q": "Does the flashcard deck save my answers?", "a": "The deck saves Know and Review counts only in this browser. TestDayTools does not require signup and does not collect your answers."},
   {"q": "Which signs should I review first?", "a": "Start with regulatory signs such as stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and no passing because they often map directly to legal driver actions."},
 ])}
@@ -3088,8 +3111,8 @@ def render_home():
   <div class="home-hero-grid">
     <div>
       <p class="eyebrow">DMV-first road sign practice</p>
-      <h1>DMV practice tests, road signs, and test-day checklist tools.</h1>
-      <p class="lede">Choose your state, open the official source, drill regulatory traffic signs, then finish with permit questions, image signs, and a saved checklist.</p>
+      <h1>DMV practice tests, Florida regulatory traffic signs, and test-day tools.</h1>
+      <p class="lede">Start with Florida regulatory traffic signs, road signs practice, flashcards, and shape/color lookup, then finish with permit questions and a saved checklist.</p>
       {render_last_updated()}
       <div class="hero-actions">
         <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
@@ -3098,14 +3121,14 @@ def render_home():
         <a href="dmv-test-day-checklist.html?state=florida">Florida checklist</a>
         <a href="florida-class-e-knowledge-exam-tlsae.html">Class E map</a>
         <a href="florida-dmv-permit-documents-checklist.html">Florida docs</a>
-        <a href="road-signs-practice-test.html">Start road signs</a>
+        <a href="florida-dmv-road-signs-practice.html">Florida regulatory traffic signs</a>
+        <a href="road-signs-practice-test.html">Road signs practice test</a>
         <a href="dmv-permit-test-study-plan.html">Study plan</a>
-        <a href="dmv-road-sign-flashcards.html">Flashcards</a>
-        <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors</a>
+        <a href="dmv-road-sign-flashcards.html">Road sign flashcards</a>
+        <a href="road-sign-shapes-and-colors-finder.html">Road sign shapes and colors</a>
         <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
         <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
-        <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
         <a href="dmv-test-day-checklist.html">Checklist</a>
       </div>
     </div>
