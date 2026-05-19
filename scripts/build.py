@@ -30,16 +30,16 @@ ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
 ROAD_SIGN_SHAPES_PAGE = {
     "slug": ROAD_SIGN_SHAPES_SLUG,
     "category": "DMV",
-    "title": "Road Sign Shapes and Colors Finder for DMV Tests",
-    "description": "Search road sign shapes and colors by meaning, driver action, category, and DMV permit-test use, including yellow warning signs, red regulatory signs, and brown guide signs.",
+    "title": "Road Sign Shapes and Colors: DMV Meaning Finder",
+    "description": "Search road sign shapes and colors by meaning, action, and category, including yellow warning signs, red regulatory signs, brown guide signs, and DMV examples.",
 }
 TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
 ROAD_SIGN_FLASHCARDS_SLUG = "dmv-road-sign-flashcards"
 ROAD_SIGN_FLASHCARDS_PAGE = {
     "slug": ROAD_SIGN_FLASHCARDS_SLUG,
     "category": "DMV",
-    "title": "Road Sign Flashcards for DMV Permit Tests",
-    "description": "Study road sign flashcards for DMV permit tests with visual cards for regulatory signs, warning signs, school signs, work-zone signs, and service signs.",
+    "title": "Road Sign Flashcards: DMV Pictures for Fast Review",
+    "description": "Flip DMV road sign flashcards for regulatory, warning, school, work-zone, and service signs. Save review cards in your browser. No signup.",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -2143,7 +2143,7 @@ def render_road_sign_shapes_page():
     <div>
       <p class="eyebrow">Road sign shapes and colors</p>
       <h1>{esc(ROAD_SIGN_SHAPES_PAGE["title"])}</h1>
-      <p class="lede">Use shape and color first, then turn the sign into a safe driver action before you answer DMV road-sign questions.</p>
+      <p class="lede">Search the sign clue you remember, then turn color, shape, category, and driver action into a faster DMV road-sign answer.</p>
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#shape-color-finder">Open finder</a>
@@ -2164,7 +2164,7 @@ def render_road_sign_shapes_page():
   <div class="tool-section-head">
     <span class="eyebrow">Permit-test method</span>
     <h2>Read the sign before you read the answer choices</h2>
-    <p class="section-intro">The fastest road-sign questions usually follow the same sequence: color, shape, category, driver action.</p>
+  <p class="section-intro">The fastest road-sign questions usually follow the same sequence: color, shape, category, driver action. Use this when you remember yellow diamond, red regulatory, brown guide, octagon, pennant, or a lane-control symbol.</p>
   </div>
   <div class="task-console-grid">{decision_cards}</div>
 </section>
@@ -2271,7 +2271,7 @@ def render_road_sign_flashcards_page():
     <div>
       <p class="eyebrow">Road sign flashcards</p>
       <h1>{esc(ROAD_SIGN_FLASHCARDS_PAGE["title"])}</h1>
-      <p class="lede">Flip traffic sign flashcards, mark which ones you know, save review cards in this browser, then jump into the matching road-sign practice test.</p>
+      <p class="lede">Flip DMV road sign pictures, mark the slow ones, save review cards in this browser, then jump into the matching road-sign practice test.</p>
       {render_last_updated()}
       <div class="hero-actions">
         <a href="#flashcards">Start flashcards</a>
@@ -2285,7 +2285,7 @@ def render_road_sign_flashcards_page():
       <div class="flashcard-mini-stack">
         {''.join(f'<div class="mini-flash-sign" role="img" aria-label="{esc(record["title"])}">{SIGN_SVGS.get(record["image"], "")}</div>' for record in records[:4])}
       </div>
-      <p class="panel-source">Best first pass: stop, yield, no entry, wrong way, one-way, no-turn, keep-right, school, and work-zone signs.</p>
+      <p class="panel-source">Best first pass: stop, yield, do not enter, wrong way, one-way, no-turn, keep-right, school, and work-zone signs. No signup needed.</p>
     </aside>
   </div>
 </section>
