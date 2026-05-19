@@ -922,6 +922,79 @@ def render_home_practice_panel():
 </aside>"""
 
 
+def render_home_road_sign_panel():
+    links = [
+        (
+            "Florida",
+            "Regulatory signs",
+            "24 Florida picture questions",
+            "florida-dmv-road-signs-practice.html",
+        ),
+        (
+            "Rules",
+            "Regulatory traffic signs",
+            "16 action-focused pictures",
+            "regulatory-traffic-signs-practice-test.html",
+        ),
+        (
+            "Pictures",
+            "Road signs practice",
+            "24 DMV image questions",
+            "road-signs-practice-test.html",
+        ),
+        (
+            "Cards",
+            "Road sign flashcards",
+            "Save slow review cards",
+            "dmv-road-sign-flashcards.html",
+        ),
+        (
+            "Shapes",
+            "Shapes and colors",
+            "Find the visual clue",
+            "road-sign-shapes-and-colors-finder.html",
+        ),
+        (
+            "FL score",
+            "40 of 50 pass score",
+            "Practice Class E next",
+            "florida-dmv-permit-practice-test.html",
+        ),
+    ]
+    link_cards = "".join(
+        f'<a href="{esc(href)}"><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></a>'
+        for label, title, text, href in links
+    )
+    stats = "".join(
+        f'<div><strong>{esc(value)}</strong><span>{esc(label)}</span></div>'
+        for value, label in [
+            ("Florida", "first path"),
+            ("24", "picture questions"),
+            ("40/50", "Class E pass rule"),
+        ]
+    )
+    return f"""<aside class="practice-workbench road-sign-hub-panel" aria-label="DMV road signs hub">
+  <div class="workbench-head">
+    <div>
+      <span>Road signs hub</span>
+      <strong>Start with the right tool</strong>
+    </div>
+    <span>Florida first</span>
+  </div>
+  {render_mini_sign_drill()}
+  <div class="workbench-mode-links home-road-sign-links">{link_cards}</div>
+  <div class="workbench-return">
+    <div>
+      <span>Best first click</span>
+      <strong>Florida regulatory signs</strong>
+      <p>Use this when you need Florida sign pictures, official source checks, and a missed-sign path.</p>
+    </div>
+    <a href="florida-dmv-road-signs-practice.html#practice">Start Florida signs</a>
+  </div>
+  <div class="hero-stat-strip">{stats}</div>
+</aside>"""
+
+
 def render_tool_hero_panel(tool):
     if tool.get("category") != "DMV":
         return ""
@@ -1974,6 +2047,56 @@ def render_home_value_brief():
 </section>
 <section class="mode-card-grid home-value-cards" aria-label="DMV study loop">
   {cards}
+</section>"""
+
+
+def render_home_tool_roles():
+    cards = [
+        (
+            "Florida signs",
+            "Use for Florida regulatory and official sign checks",
+            "Start here for Do Not Enter, Wrong Way, One Way, speed, right-turn, no-passing, and yellow warning signs in a Florida permit-test context.",
+            "florida-dmv-road-signs-practice.html",
+        ),
+        (
+            "Regulatory signs",
+            "Use for rule signs across states",
+            "Choose this when the weak area is the driver action: stop, yield, do not enter, follow one way, obey speed, or avoid a prohibited turn.",
+            "regulatory-traffic-signs-practice-test.html",
+        ),
+        (
+            "Road signs pictures",
+            "Use for broad visual practice",
+            "Take the 24-question image quiz when you need a mixed road-sign round before choosing a focused weak-area drill.",
+            "road-signs-practice-test.html",
+        ),
+        (
+            "Flashcards",
+            "Use before the quiz when recognition is slow",
+            "Flip cards until the sign family is fast, then move into the picture practice test for answer-choice pressure.",
+            "dmv-road-sign-flashcards.html",
+        ),
+        (
+            "Shapes and colors",
+            "Use when only the visual clue stuck",
+            "Search yellow diamond, red regulatory, brown guide, octagon, pennant, rectangle, or lane-control clues.",
+            "road-sign-shapes-and-colors-finder.html",
+        ),
+        (
+            "Florida permit",
+            "Use after signs for 40 of 50 Class E context",
+            "Move here when you need Florida practice questions, FLHSMV links, TLSAE separation, and the 40 of 50 pass score.",
+            "florida-dmv-permit-practice-test.html",
+        ),
+    ]
+    items = "".join(
+        f'<a class="hub-action" href="{esc(href)}"><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></a>'
+        for label, title, text, href in cards
+    )
+    return f"""<section class="hub-primary home-tool-roles">
+  <h2>Choose the right DMV road-sign tool</h2>
+  <p class="section-intro">Each road-sign page has a different job, so the Florida page can stay the main state-specific path while the other tools support recognition, rules, and review.</p>
+  <div class="hub-action-grid">{items}</div>
 </section>"""
 
 
@@ -3111,31 +3234,23 @@ def render_home():
   <div class="home-hero-grid">
     <div>
       <p class="eyebrow">DMV-first road sign practice</p>
-      <h1>DMV practice tests, Florida regulatory traffic signs, and test-day tools.</h1>
-      <p class="lede">Start with Florida regulatory traffic signs, road signs practice, flashcards, and shape/color lookup, then finish with permit questions and a saved checklist.</p>
+      <h1>Florida DMV road signs, regulatory signs, and permit practice tools.</h1>
+      <p class="lede">Start with Florida regulatory traffic signs, regulatory sign pictures, road-sign flashcards, shape/color lookup, and the Florida 40 of 50 permit score path.</p>
       {render_last_updated()}
       <div class="hero-actions">
-        <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
-        <a href="dmv-permit-test-mistake-log.html">Mistake log</a>
-        <a href="florida-dmv-permit-practice-test.html">Florida permit</a>
-        <a href="dmv-test-day-checklist.html?state=florida">Florida checklist</a>
-        <a href="florida-class-e-knowledge-exam-tlsae.html">Class E map</a>
-        <a href="florida-dmv-permit-documents-checklist.html">Florida docs</a>
-        <a href="florida-dmv-road-signs-practice.html">Florida regulatory traffic signs</a>
-        <a href="road-signs-practice-test.html">Road signs practice test</a>
-        <a href="dmv-permit-test-study-plan.html">Study plan</a>
+        <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
+        <a href="regulatory-traffic-signs-practice-test.html">Regulatory traffic signs</a>
+        <a href="road-signs-practice-test.html">Road signs with pictures</a>
         <a href="dmv-road-sign-flashcards.html">Road sign flashcards</a>
-        <a href="road-sign-shapes-and-colors-finder.html">Road sign shapes and colors</a>
-        <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
-        <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
-        <a href="regulatory-traffic-signs-practice-test.html">Regulatory signs</a>
-        <a href="dmv-test-day-checklist.html">Checklist</a>
+        <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors finder</a>
+        <a href="florida-dmv-permit-practice-test.html">Florida 40 of 50 score</a>
       </div>
     </div>
-    {render_home_practice_panel()}
+    {render_home_road_sign_panel()}
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{render_home_tool_roles()}
 {render_home_value_brief()}
 {render_florida_dmv_cluster()}
 {render_dmv_launcher("Choose your state DMV path")}

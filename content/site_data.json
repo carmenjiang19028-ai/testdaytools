@@ -28,14 +28,6 @@
       "href": "/dmv-permit-test-passing-score-calculator.html"
     },
     {
-      "label": "AP",
-      "href": "/ap-tools.html"
-    },
-    {
-      "label": "SAT",
-      "href": "/sat-tools.html"
-    },
-    {
       "label": "About",
       "href": "/about.html"
     }
@@ -105,28 +97,10 @@
         "href": "florida-dmv-road-signs-practice.html"
       },
       {
-        "label": "Florida Class E",
-        "title": "Class E Exam vs TLSAE Map",
-        "text": "Separate the Florida TLSAE or DETS course, Class E Knowledge Exam, learner permit documents, and office step.",
-        "href": "florida-class-e-knowledge-exam-tlsae.html"
-      },
-      {
         "label": "Road signs",
         "title": "Road Signs Practice: 24 DMV Pictures",
         "text": "Take the broad 24-picture road-sign quiz first, then route misses into regulatory signs, flashcards, shape/color lookup, or Florida source checks.",
         "href": "road-signs-practice-test.html"
-      },
-      {
-        "label": "Daily question",
-        "title": "DMV Permit Test Question of the Day",
-        "text": "Answer one state-aware DMV question, read the explanation, and open the matching practice path.",
-        "href": "dmv-permit-test-question-of-the-day.html"
-      },
-      {
-        "label": "Mistake log",
-        "title": "DMV Permit Test Mistake Log",
-        "text": "Save missed questions by state and weak area, then choose the next review path.",
-        "href": "dmv-permit-test-mistake-log.html"
       },
       {
         "label": "Regulatory signs",
@@ -147,42 +121,48 @@
         "href": "road-sign-shapes-and-colors-finder.html"
       },
       {
-        "label": "Documents",
-        "title": "DMV Documents and Test Day Checklist",
-        "text": "Choose a state, open the official source, and save ID, residency, appointment, fee, and readiness checks.",
-        "href": "dmv-test-day-checklist.html"
-      },
-      {
-        "label": "Study plan",
-        "title": "DMV Permit Test Study Plan",
-        "text": "Choose your state, timeline, and weakest area to get a practice, signs, score, and checklist sequence.",
-        "href": "dmv-permit-test-study-plan.html"
-      },
-      {
-        "label": "Requirements",
-        "title": "DMV Permit Test Requirements by State",
-        "text": "Compare test format, passing rule, official source, document reminders, signs, and practice links.",
-        "href": "dmv-permit-test-requirements-by-state.html"
-      },
-      {
-        "label": "Passing score",
-        "title": "DMV Permit Test Passing Score Calculator",
-        "text": "Estimate how many questions you can miss and check a practice score against the state target.",
-        "href": "dmv-permit-test-passing-score-calculator.html"
-      },
-      {
-        "label": "State DMV",
-        "title": "Permit practice by state",
-        "text": "Pick California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey for permit questions and mock exams.",
-        "href": "dmv-practice.html"
+        "label": "Florida score",
+        "title": "Florida Permit: 40 of 50 Pass Score",
+        "text": "Practice Florida Class E questions after signs, with FLHSMV context and the 40 of 50 passing score visible.",
+        "href": "florida-dmv-permit-practice-test.html"
       }
     ],
     "popular": [
       {
-        "label": "Signs",
+        "label": "FL signs",
+        "title": "Florida Regulatory Traffic Signs: 24 Pictures",
+        "text": "Florida regulatory signs, official source checks, and visual weak-area review",
+        "href": "florida-dmv-road-signs-practice.html"
+      },
+      {
+        "label": "Rules",
+        "title": "Regulatory Traffic Signs Practice",
+        "text": "16 picture questions for stop, yield, wrong way, one way, speed, no-turn, and no-passing signs",
+        "href": "regulatory-traffic-signs-practice-test.html"
+      },
+      {
+        "label": "Pictures",
         "title": "Road Signs Practice Test with Pictures",
-        "text": "24 image questions for regulatory, warning, and guide signs",
+        "text": "24 DMV image questions for regulatory, warning, and guide signs",
         "href": "road-signs-practice-test.html"
+      },
+      {
+        "label": "Cards",
+        "title": "Road Sign Flashcards",
+        "text": "Traffic sign flashcards with Know and Review tracking",
+        "href": "dmv-road-sign-flashcards.html"
+      },
+      {
+        "label": "Shapes",
+        "title": "Road Sign Shapes and Colors Finder",
+        "text": "Yellow warning, red regulatory, black-and-white rule, and brown guide sign lookup",
+        "href": "road-sign-shapes-and-colors-finder.html"
+      },
+      {
+        "label": "FL score",
+        "title": "Florida Permit Practice: 40 of 50",
+        "text": "Class E practice with road-sign pictures, FLHSMV links, and pass-score context",
+        "href": "florida-dmv-permit-practice-test.html"
       },
       {
         "label": "Daily",
@@ -197,28 +177,10 @@
         "href": "dmv-permit-test-mistake-log.html"
       },
       {
-        "label": "Rules",
-        "title": "Regulatory Traffic Signs Practice Test",
-        "text": "Stop, yield, speed, one way, no entry, and no passing",
-        "href": "regulatory-traffic-signs-practice-test.html"
-      },
-      {
-        "label": "Cards",
-        "title": "Road Sign Flashcards",
-        "text": "Traffic sign flashcards with Know and Review tracking",
-        "href": "dmv-road-sign-flashcards.html"
-      },
-      {
         "label": "Plan",
         "title": "DMV Permit Test Study Plan",
         "text": "State-aware 3-day, 7-day, 14-day, and 21-day practice plan",
         "href": "dmv-permit-test-study-plan.html"
-      },
-      {
-        "label": "Shapes",
-        "title": "Road Sign Shapes and Colors Finder",
-        "text": "Yellow warning, red regulatory, black-and-white rule, and brown guide sign lookup",
-        "href": "road-sign-shapes-and-colors-finder.html"
       },
       {
         "label": "Checklist",
@@ -237,12 +199,6 @@
         "title": "DMV Permit Test Passing Score Calculator",
         "text": "Can-miss math and practice score check by state",
         "href": "dmv-permit-test-passing-score-calculator.html"
-      },
-      {
-        "label": "FL signs",
-        "title": "Florida Regulatory Traffic Signs Practice Test",
-        "text": "Florida signs, regulatory shapes, driver actions, and handbook context",
-        "href": "florida-dmv-road-signs-practice.html"
       },
       {
         "label": "FL Class E",
