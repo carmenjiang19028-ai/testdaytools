@@ -252,8 +252,9 @@ def page_schema(title, description, canonical, page_type="WebPage"):
     return [schema(title, description, canonical, page_type), breadcrumb_schema(title, canonical)]
 
 
-def render_last_updated():
-    return f'<p class="last-updated">Last updated: <time>{esc(SITE["lastUpdated"])}</time></p>'
+def render_last_updated(value=None):
+    updated = value or SITE["lastUpdated"]
+    return f'<p class="last-updated">Last updated: <time>{esc(updated)}</time></p>'
 
 
 def render_ad(label="future ad"):
@@ -3293,7 +3294,7 @@ def render_trust(page):
     <p class="eyebrow">TestDayTools</p>
     <h1>{esc(page["title"])}</h1>
     <p class="lede">{esc(page["description"])}</p>
-    {render_last_updated()}
+    {render_last_updated(page.get("lastUpdated"))}
   </div>
 </section>
 {content}

@@ -20226,6 +20226,7 @@
       "slug": "privacy",
       "title": "Privacy Policy",
       "description": "Privacy policy for TestDayTools. The site does not collect personal information or store quiz answers.",
+      "lastUpdated": "June 3, 2026",
       "content": [
         {
           "heading": "Personal information",
@@ -20252,8 +20253,12 @@
           "text": "Because the site is hosted as static pages, the hosting provider may process basic technical logs such as page requests, device information, or IP-derived region for security and delivery."
         },
         {
-          "heading": "Future ads and analytics",
-          "text": "The site may later use Google AdSense or privacy-conscious analytics. If advertising is approved and added, ad partners may use cookies or similar technologies to serve and measure ads under their own policies. This page should be reviewed before any real ad code goes live."
+          "heading": "Google Analytics",
+          "text": "The site uses Google Analytics 4 to measure basic site usage, including page views, traffic sources, device and browser information, approximate region, scrolling, and outbound clicks. This helps decide which study tools and pages need improvement. TestDayTools does not ask for names, emails, driver's license numbers, account details, or test scores."
+        },
+        {
+          "heading": "Advertising",
+          "text": "Real advertising is not installed yet. If advertising is approved and added later, ad partners may use cookies or similar technologies to serve and measure ads under their own policies. This page should be reviewed again before any real ad code goes live."
         },
         {
           "heading": "Children and students",
