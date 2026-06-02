@@ -158,6 +158,21 @@ def sitemap_entry(path, lastmod):
     )
 
 
+def render_analytics_tag():
+    measurement_id = SITE.get("analytics", {}).get("ga4MeasurementId", "").strip()
+    if not measurement_id.startswith("G-"):
+        return ""
+    escaped_id = esc(measurement_id)
+    json_id = json.dumps(measurement_id)
+    return f"""  <script async src="https://www.googletagmanager.com/gtag/js?id={escaped_id}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', {json_id});
+  </script>"""
+
+
 def page_shell(title, description, path, body, extra_class="", structured_data=None):
     nav = "".join(
         f'<a href="{esc(href_for(item["href"]))}">{esc(item["label"])}</a>'
@@ -169,6 +184,8 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
         f'<script type="application/ld+json">{json.dumps(item, separators=(",", ":"))}</script>'
         for item in schemas
     )
+    analytics_tag = render_analytics_tag()
+    analytics_block = f"{analytics_tag}\n" if analytics_tag else ""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -178,6 +195,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   <meta name="description" content="{esc(description)}">
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="stylesheet" href="assets/styles.css">
+{analytics_block}\
   <script src="assets/app.js" defer></script>
   {schema_scripts}
 </head>

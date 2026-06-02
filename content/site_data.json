@@ -4,7 +4,11 @@
     "url": "https://testdaytools.com",
     "description": "Free DMV practice tests, road signs practice, regulatory traffic sign quizzes, and test-day tools from an independent study site.",
     "lastUpdated": "May 13, 2026",
-    "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency."
+    "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency.",
+    "analytics": {
+      "ga4MeasurementId": "",
+      "notes": "Use only a TestDayTools GA4 Measurement ID. Do not reuse CMPanda GTM, Google Ads, or conversion tags."
+    }
   },
   "navigation": [
     {
@@ -1512,7 +1516,7 @@
       "slug": "sat-test-dates-2026-2027",
       "category": "SAT",
       "title": "SAT Test Dates 2026-2027",
-      "description": "Plan around 2026-2027 SAT weekend test dates, registration reminders, and score timing considerations.",
+      "description": "Plan around 2026-2027 SAT weekend test dates, SAT School Day checks, registration reminders, and score timing considerations.",
       "heroKicker": "SAT dates",
       "summary": "College Board lists confirmed SAT weekend dates for the 2026-2027 school year. Use this page to compare test months and build a simple registration plan.",
       "quickFacts": [
@@ -1531,6 +1535,10 @@
         {
           "label": "Always verify",
           "value": "Registration deadline and test center availability"
+        },
+        {
+          "label": "SAT School Day",
+          "value": "Ask your school; dates are school-selected"
         }
       ],
       "countdown": {
@@ -1695,6 +1703,10 @@
         {
           "heading": "Do not ignore school workload",
           "text": "The best date on paper may be a poor date if it lands beside AP exams, finals, major travel, or a heavy activity season. A slightly later test with better preparation can be smarter than a rushed early test."
+        },
+        {
+          "heading": "SAT School Day 2027 is different from weekend registration",
+          "text": "If you are searching for SAT School Day 2027, do not use the weekend-date table as your only answer. SAT School Day is arranged through participating schools and districts, so ask your counselor or principal whether your school will offer it and which school-selected date applies."
         }
       ],
       "cardGroups": [
@@ -1764,6 +1776,10 @@
         {
           "q": "How should I choose between October and November?",
           "a": "Check college deadlines first. October leaves more room for early deadlines, while November may fit regular decision plans for many students."
+        },
+        {
+          "q": "Is SAT School Day 2027 the same as the weekend SAT dates?",
+          "a": "No. Weekend SAT dates are selected by students during registration. SAT School Day is offered through participating schools and districts, and students should ask their counselor or principal whether their school will offer it."
         }
       ],
       "sources": [
@@ -1772,8 +1788,8 @@
           "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
         },
         {
-          "label": "College Board SAT: Weekend administrations",
-          "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
+          "label": "College Board SAT School Day: Test dates",
+          "url": "https://satsuite.collegeboard.org/sat-school-day/test-dates"
         }
       ],
       "related": [
