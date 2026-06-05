@@ -4008,6 +4008,329 @@ button:disabled {
   margin-right: 14px;
 }
 
+.pocket-home-hero {
+  padding-top: 48px;
+  padding-bottom: 44px;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(21, 94, 159, 0.08), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #f4f8fb 100%);
+}
+
+.pocket-home-hero .home-hero-grid {
+  grid-template-columns: minmax(0, 0.92fr) minmax(420px, 0.74fr);
+  gap: 44px;
+  align-items: start;
+}
+
+.home-page .brand-mark {
+  background: linear-gradient(135deg, #0b8f4d 0%, #08733f 100%);
+}
+
+.pocket-home-hero .lede {
+  max-width: 660px;
+  color: #47566a;
+  font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+}
+
+.pocket-home-hero .last-updated {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-top: 22px;
+  padding: 8px 12px;
+  border: 1px solid #d8e6f2;
+  border-radius: 8px;
+  background: #edf6ff;
+  color: #35516d;
+  font-weight: 750;
+}
+
+.pocket-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  margin-top: 28px;
+  border: 1px solid #d0dbe6;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.pocket-tabs a {
+  min-height: 62px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  border-right: 1px solid #dfe7ef;
+  color: #26364b;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pocket-tabs a:last-child {
+  border-right: 0;
+}
+
+.pocket-tabs a[aria-current="page"] {
+  background: linear-gradient(135deg, #0a9850 0%, #087a41 100%);
+  color: #fff;
+}
+
+.home-quick-links {
+  margin-top: 18px;
+}
+
+.home-quick-links a {
+  min-height: 36px;
+  padding: 7px 10px;
+  border-color: #d7e3ee;
+  box-shadow: none;
+  font-size: 0.9rem;
+}
+
+.pocket-diagnostic {
+  gap: 18px;
+  padding: 20px;
+  border-color: #cfdae6;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 44px rgba(23, 33, 47, 0.12);
+}
+
+.pocket-diagnostic .workbench-head {
+  display: none;
+}
+
+.pocket-diagnostic .mini-sign-drill {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.pocket-diagnostic .mini-drill-head {
+  margin-bottom: 12px;
+}
+
+.pocket-diagnostic .mini-drill-head span {
+  color: var(--ink);
+  font-size: 1.02rem;
+  text-transform: none;
+}
+
+.pocket-diagnostic .mini-drill-head strong {
+  min-width: 52px;
+  text-align: center;
+}
+
+.pocket-diagnostic .mini-question {
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.pocket-diagnostic .mini-question-stage {
+  min-height: 260px;
+}
+
+.pocket-diagnostic .mini-sign {
+  min-height: 104px;
+  background: #f8fbfd;
+}
+
+.pocket-diagnostic .mini-question strong {
+  margin-top: 8px;
+  font-size: 1.08rem;
+}
+
+.pocket-diagnostic .mini-choices {
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.pocket-diagnostic .mini-choices button {
+  min-height: 48px;
+  padding: 11px 13px;
+  border-color: #d8e1eb;
+  background: #fff;
+  color: #33435a;
+  font-weight: 750;
+  box-shadow: 0 1px 0 rgba(23, 33, 47, 0.03);
+}
+
+.pocket-diagnostic .mini-drill-actions {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.pocket-diagnostic .mini-drill-actions button,
+.pocket-diagnostic .mini-drill-actions a {
+  min-height: 48px;
+}
+
+.pocket-diagnostic .mini-drill-actions button {
+  border-color: #098448;
+  background: linear-gradient(135deg, #0a9850 0%, #087a41 100%);
+}
+
+.pocket-tool-list {
+  overflow: hidden;
+  border: 1px solid #d8e1eb;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.pocket-tool-row {
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 13px 16px;
+  border-bottom: 1px solid #e2e9f0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.pocket-tool-row:last-child {
+  border-bottom: 0;
+}
+
+.pocket-tool-row:hover,
+.pocket-tool-row:focus {
+  background: #f6fbff;
+}
+
+.pocket-tool-token {
+  width: 42px;
+  min-height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #eaf7f0;
+  color: #087a41;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.pocket-tool-row:nth-child(2) .pocket-tool-token,
+.pocket-tool-row:nth-child(4) .pocket-tool-token {
+  background: #eaf4ff;
+  color: #155e9f;
+}
+
+.pocket-tool-row:nth-child(3) .pocket-tool-token {
+  background: #f2edff;
+  color: #6d45b5;
+}
+
+.pocket-tool-row:nth-child(5) .pocket-tool-token {
+  background: #fff5dd;
+  color: #8a650a;
+}
+
+.pocket-tool-row strong,
+.pocket-tool-row em {
+  display: block;
+}
+
+.pocket-tool-row strong {
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.pocket-tool-row em {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-style: normal;
+}
+
+.pocket-tool-row b {
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: #fff0c2;
+  color: #8a650a;
+  font-size: 0.9rem;
+}
+
+.pocket-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #d7e7f4;
+  background: #eef7ff;
+  color: #1d476d;
+}
+
+.pocket-notice a {
+  margin-left: auto;
+  color: #155e9f;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.home-state-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.82fr);
+  gap: 24px;
+  align-items: center;
+  padding-top: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.home-state-preview span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.home-state-preview h2 {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.home-state-preview p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+}
+
+.home-state-preview-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-state-preview-actions a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 11px;
+  border: 1px solid #d8e1eb;
+  border-radius: 8px;
+  background: #fbfdff;
+  color: var(--blue);
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.home-state-preview-actions a:first-child {
+  border-color: #098448;
+  background: #0a8f4c;
+  color: #fff;
+}
+
+.home-bottom-nav {
+  display: none;
+}
+
 @media (max-width: 760px) {
   .site-header,
   .site-footer,
@@ -4046,6 +4369,31 @@ button:disabled {
     padding: 5px 9px;
     white-space: nowrap;
     font-size: 0.88rem;
+  }
+
+  .home-page {
+    padding-bottom: 76px;
+  }
+
+  .home-page .site-header {
+    min-height: 64px;
+    align-items: center;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .home-page .site-header nav {
+    display: none;
+  }
+
+  .home-page .brand {
+    font-size: 1.08rem;
+  }
+
+  .home-page .brand-mark {
+    width: 40px;
+    height: 40px;
   }
 
   .tool-grid,
@@ -4112,6 +4460,7 @@ button:disabled {
 
   .section-head-row,
   .launch-stats,
+  .home-state-preview,
   .dmv-test-day-bridge,
   .dmv-bridge-actions,
   .dmv-document-grid,
@@ -4131,6 +4480,150 @@ button:disabled {
   .hero {
     padding-top: 34px;
     padding-bottom: 34px;
+  }
+
+  .pocket-home-hero {
+    padding-top: 28px;
+    padding-bottom: 22px;
+  }
+
+  .pocket-home-hero .home-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .pocket-home-hero h1 {
+    font-size: clamp(1.95rem, 8vw, 2.16rem);
+    line-height: 1.1;
+  }
+
+  .pocket-home-hero .eyebrow {
+    display: none;
+  }
+
+  .pocket-home-hero .last-updated {
+    min-height: 38px;
+    margin-top: 18px;
+    font-size: 0.9rem;
+  }
+
+  .pocket-tabs {
+    position: sticky;
+    top: 64px;
+    z-index: 4;
+    margin-top: 24px;
+    border-radius: 8px;
+  }
+
+  .pocket-tabs a {
+    min-height: 54px;
+    font-size: 0.94rem;
+  }
+
+  .home-page .home-quick-links {
+    display: none;
+  }
+
+  .pocket-diagnostic {
+    padding: 14px;
+    box-shadow: 0 10px 28px rgba(23, 33, 47, 0.1);
+  }
+
+  .pocket-diagnostic .workbench-head {
+    margin-bottom: 4px;
+  }
+
+  .pocket-diagnostic .workbench-head > span {
+    display: none;
+  }
+
+  .pocket-diagnostic .mini-question {
+    grid-template-columns: 86px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .pocket-diagnostic .mini-question-stage {
+    min-height: 284px;
+  }
+
+  .pocket-diagnostic .mini-sign {
+    min-height: 86px;
+    padding: 6px;
+  }
+
+  .pocket-diagnostic .mini-question strong {
+    font-size: 1rem;
+  }
+
+  .pocket-diagnostic .mini-question span {
+    font-size: 0.74rem;
+  }
+
+  .pocket-diagnostic .mini-choices {
+    grid-column: 1 / -1;
+  }
+
+  .pocket-diagnostic .mini-choices button {
+    min-height: 54px;
+    font-size: 0.98rem;
+  }
+
+  .pocket-tool-row {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    min-height: 70px;
+    padding: 12px;
+  }
+
+  .pocket-tool-token {
+    width: 38px;
+    min-height: 38px;
+  }
+
+  .pocket-notice {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .pocket-notice strong {
+    grid-column: 1 / -1;
+  }
+
+  .home-state-preview-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .home-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 8;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-height: 70px;
+    padding: 7px 8px 9px;
+    border-top: 1px solid #d8e1eb;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 -12px 28px rgba(23, 33, 47, 0.08);
+  }
+
+  .home-bottom-nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 6px 4px;
+    border-radius: 8px;
+    color: #4e5c6f;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .home-bottom-nav a[aria-current="page"] {
+    background: #eaf7f0;
+    color: #087a41;
   }
 
   .hero-actions a,
@@ -4264,6 +4757,10 @@ button:disabled {
   .score-actions {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .home-page .home-quick-links {
+    display: none;
   }
 
   .home-group,

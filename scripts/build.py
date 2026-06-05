@@ -944,45 +944,57 @@ def render_home_practice_panel():
 def render_home_road_sign_panel():
     links = [
         (
-            "Florida",
-            "Regulatory signs",
-            "24 Florida picture questions",
+            "FL",
+            "Florida regulatory signs",
+            "Browse all Florida regulatory traffic signs",
             "florida-dmv-road-signs-practice.html",
+            "",
         ),
         (
-            "Rules",
-            "Regulatory traffic signs",
-            "16 action-focused pictures",
-            "regulatory-traffic-signs-practice-test.html",
-        ),
-        (
-            "Pictures",
-            "Road signs practice",
-            "24 DMV image questions",
+            "Pic",
+            "Road signs pictures",
+            "View signs with clear practice prompts",
             "road-signs-practice-test.html",
+            "",
         ),
         (
             "Cards",
             "Road sign flashcards",
-            "Save slow review cards",
+            "Memorize signs before a full quiz",
             "dmv-road-sign-flashcards.html",
+            "",
         ),
         (
             "Shapes",
-            "Shapes and colors",
-            "Find the visual clue",
+            "Shapes and colors finder",
+            "Find signs by shape, color, and symbols",
             "road-sign-shapes-and-colors-finder.html",
+            "",
         ),
         (
-            "FL score",
+            "Rules",
+            "Regulatory traffic signs",
+            "Drill stop, yield, wrong way, one way, and speed signs",
+            "regulatory-traffic-signs-practice-test.html",
+            "",
+        ),
+        (
+            "Score",
             "40 of 50 pass score",
-            "Practice Class E next",
+            "Track the Florida Class E readiness target",
             "florida-dmv-permit-practice-test.html",
+            "40/50",
         ),
     ]
+    def render_pocket_tool_row(label, title, text, href, badge):
+        badge_html = f'\n  <b>{esc(badge)}</b>' if badge else ""
+        return f"""<a class="pocket-tool-row" href="{esc(href)}">
+  <span class="pocket-tool-token">{esc(label)}</span>
+  <span><strong>{esc(title)}</strong><em>{esc(text)}</em></span>{badge_html}
+</a>"""
     link_cards = "".join(
-        f'<a href="{esc(href)}"><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></a>'
-        for label, title, text, href in links
+        render_pocket_tool_row(label, title, text, href, badge)
+        for label, title, text, href, badge in links
     )
     stats = "".join(
         f'<div><strong>{esc(value)}</strong><span>{esc(label)}</span></div>'
@@ -992,16 +1004,16 @@ def render_home_road_sign_panel():
             ("40/50", "Class E pass rule"),
         ]
     )
-    return f"""<aside class="practice-workbench road-sign-hub-panel" aria-label="DMV road signs hub">
+    return f"""<aside class="practice-workbench road-sign-hub-panel pocket-diagnostic" aria-label="DMV road signs hub">
   <div class="workbench-head">
     <div>
-      <span>Road signs hub</span>
-      <strong>Start with the right tool</strong>
+      <span>Quick diagnostic</span>
+      <strong>0 / 4</strong>
     </div>
     <span>Florida first</span>
   </div>
   {render_mini_sign_drill()}
-  <div class="workbench-mode-links home-road-sign-links">{link_cards}</div>
+  <div class="pocket-tool-list" aria-label="Fast road sign tools">{link_cards}</div>
   <div class="workbench-return">
     <div>
       <span>Best first click</span>
@@ -1012,6 +1024,54 @@ def render_home_road_sign_panel():
   </div>
   <div class="hero-stat-strip">{stats}</div>
 </aside>"""
+
+
+def render_home_pocket_tabs():
+    tabs = [
+        ("Signs", "road-signs-practice-test.html#practice"),
+        ("State", "#state-paths"),
+        ("Score", "dmv-permit-test-passing-score-calculator.html"),
+        ("Docs", "dmv-test-day-checklist.html?state=florida#dmv-checklist"),
+    ]
+    items = []
+    for index, (label, href) in enumerate(tabs):
+        current = ' aria-current="page"' if index == 0 else ""
+        items.append(f'<a href="{esc(href)}"{current}>{esc(label)}</a>')
+    return f'<nav class="pocket-tabs" aria-label="Fast DMV tool shortcuts">{"".join(items)}</nav>'
+
+
+def render_home_state_preview():
+    state = find_dmv_state_by_label("Florida") or {}
+    source = state.get("manualUrl", "#")
+    checklist = checklist_href_for_state(state) if state else "dmv-test-day-checklist.html?state=florida#dmv-checklist"
+    return f"""<section class="home-state-preview" id="state-paths-preview">
+  <div>
+    <span>Choose your state DMV path</span>
+    <h2>Florida is ready first.</h2>
+    <p>Use the official source for final rules, then jump into Florida signs, Class E practice, score math, or the checklist.</p>
+  </div>
+  <div class="home-state-preview-actions">
+    <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
+    <a href="florida-dmv-permit-practice-test.html">Permit practice</a>
+    <a href="{esc(checklist)}">Checklist</a>
+    <a href="{esc(source)}" target="_blank" rel="noopener">Official source</a>
+  </div>
+</section>"""
+
+
+def render_home_bottom_nav():
+    links = [
+        ("Home", "index.html"),
+        ("Road Signs", "road-signs-practice-test.html"),
+        ("Practice", "dmv-practice.html"),
+        ("Checklist", "dmv-test-day-checklist.html?state=florida#dmv-checklist"),
+        ("More", "#state-paths"),
+    ]
+    items = []
+    for index, (label, href) in enumerate(links):
+        current = ' aria-current="page"' if index == 0 else ""
+        items.append(f'<a href="{esc(href)}"{current}>{esc(label)}</a>')
+    return f'<nav class="home-bottom-nav" aria-label="Mobile DMV shortcuts">{"".join(items)}</nav>'
 
 
 def render_tool_hero_panel(tool):
@@ -3249,14 +3309,15 @@ def render_home():
     for section in DATA["home"]["sections"]:
         links = render_tool_links(section["links"])
         cards.append(f'<section class="home-group"><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
-    body = f"""<section class="hero home-hero dmv-home-hero">
+    body = f"""<section class="hero home-hero dmv-home-hero pocket-home-hero">
   <div class="home-hero-grid">
     <div>
       <p class="eyebrow">DMV-first road sign practice</p>
       <h1>Florida DMV road signs, regulatory signs, and permit practice tools.</h1>
       <p class="lede">Start with Florida regulatory traffic signs, regulatory sign pictures, road-sign flashcards, shape/color lookup, and the Florida 40 of 50 permit score path.</p>
       {render_last_updated()}
-      <div class="hero-actions">
+      {render_home_pocket_tabs()}
+      <div class="hero-actions home-quick-links">
         <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory traffic signs</a>
         <a href="road-signs-practice-test.html">Road signs with pictures</a>
@@ -3268,7 +3329,8 @@ def render_home():
     {render_home_road_sign_panel()}
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="notice pocket-notice"><strong>Independent resource.</strong> {esc(SITE["disclaimer"])} <a href="disclaimer.html">Read more</a></section>
+{render_home_state_preview()}
 {render_home_tool_roles()}
 {render_home_value_brief()}
 {render_florida_dmv_cluster()}
@@ -3276,7 +3338,8 @@ def render_home():
 {start_section}
 {popular_section}
 {''.join(cards)}
-{render_ad("Future ad")}"""
+{render_ad("Future ad")}
+{render_home_bottom_nav()}"""
     return page_shell(DATA["home"]["title"], DATA["home"]["description"], "/", body, "home-page")
 
 
