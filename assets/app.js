@@ -1,3 +1,93 @@
+function cleanAnalyticsValue(value, fallback = "unknown") {
+  const text = String(value ?? "").trim().replace(/\s+/g, " ");
+  return (text || fallback).slice(0, 100);
+}
+
+function analyticsPathFromHref(href) {
+  if (!href) return "";
+  try {
+    const url = new URL(href, window.location.href);
+    return url.origin === window.location.origin ? `${url.pathname}${url.hash || ""}` : url.hostname;
+  } catch (error) {
+    return String(href).split("?")[0].slice(0, 100);
+  }
+}
+
+function trackToolEvent(eventName, params = {}) {
+  if (typeof window.gtag !== "function") return;
+  const safeParams = {
+    page_path: window.location.pathname || "/",
+    transport_type: "beacon",
+  };
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+    if (typeof value === "number" || typeof value === "boolean") {
+      safeParams[key] = value;
+      return;
+    }
+    safeParams[key] = cleanAnalyticsValue(value);
+  });
+
+  window.gtag("event", eventName, safeParams);
+}
+
+function closestAnalyticsSection(element) {
+  const section = element.closest(
+    ".pocket-tabs, .home-quick-links, .pocket-tool-list, .home-state-preview-actions, .home-bottom-nav, .home-tool-roles, .home-start, .home-popular, .state-card-actions"
+  );
+  if (!section) return "home";
+  if (section.classList.contains("pocket-tabs")) return "hero_tabs";
+  if (section.classList.contains("home-quick-links")) return "hero_quick_links";
+  if (section.classList.contains("pocket-tool-list")) return "diagnostic_tool_list";
+  if (section.classList.contains("home-state-preview-actions")) return "state_preview";
+  if (section.classList.contains("home-bottom-nav")) return "mobile_bottom_nav";
+  if (section.classList.contains("home-tool-roles")) return "tool_roles";
+  if (section.classList.contains("home-start")) return "start_cards";
+  if (section.classList.contains("home-popular")) return "popular_tools";
+  if (section.classList.contains("state-card-actions")) return "state_cards";
+  return "home";
+}
+
+function isOfficialSourceLink(link) {
+  const text = cleanAnalyticsValue(link.textContent || link.getAttribute("aria-label") || "", "");
+  const href = link.getAttribute("href") || "";
+  if (link.matches("[data-workbench-source], [data-study-source], [data-requirements-source], [data-score-source], [data-dmv-manual-link], [data-dmv-pack-official]")) {
+    return true;
+  }
+  if (/official|source|manual|handbook/i.test(text)) return /^https?:\/\//i.test(href);
+  try {
+    const url = new URL(href, window.location.href);
+    if (url.origin === window.location.origin) return false;
+    return /dmv|dps|mvc|flhsmv|penndot|ilsos|ny\.gov|ca\.gov|tx|pa\.gov|nj\.gov|collegeboard/i.test(url.hostname);
+  } catch (error) {
+    return false;
+  }
+}
+
+function initAnalyticsEvents() {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest?.("a[href]");
+    if (!link) return;
+
+    if (document.body.classList.contains("home-page") && link.closest(".pocket-tabs, .home-quick-links, .pocket-tool-list, .home-state-preview-actions, .home-bottom-nav, .home-tool-roles, .home-start, .home-popular, .state-card-actions")) {
+      trackToolEvent("home_tool_click", {
+        section: closestAnalyticsSection(link),
+        target: analyticsPathFromHref(link.getAttribute("href")),
+        link_text: link.textContent,
+      });
+    }
+
+    if (isOfficialSourceLink(link)) {
+      trackToolEvent("official_source_click", {
+        target: analyticsPathFromHref(link.href),
+        link_text: link.textContent,
+        section: closestAnalyticsSection(link),
+      });
+    }
+  });
+}
+
 function initCountdowns() {
   document.querySelectorAll("[data-countdown]").forEach((box) => {
     const target = new Date(box.dataset.countdown).getTime();
@@ -59,6 +149,8 @@ function initQuizzes() {
     let timerId = 0;
     let timerRemaining = 10 * 60;
     let timerComplete = false;
+    let quizStartedTracked = false;
+    let quizCompletedTracked = false;
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -211,6 +303,20 @@ function initQuizzes() {
         ? `Score: ${correctCount} of ${answeredCount} answered · ${percent}% correct`
         : "Score: 0 of 0 answered";
 
+      if (complete && !quizCompletedTracked) {
+        quizCompletedTracked = true;
+        trackToolEvent("quiz_complete", {
+          tool: quizLabel,
+          mode: quiz.dataset.modeId || "default",
+          focus: filterSelect?.value || "all",
+          total: activeTotal,
+          answered: answeredCount,
+          correct: correctCount,
+          missed: missedCount,
+          passed: correctCount >= effectivePassScore,
+        });
+      }
+
       if (score) score.textContent = resultText;
       if (result) result.textContent = resultText;
       if (meter) meter.style.width = `${activeTotal ? Math.round((answeredCount / activeTotal) * 100) : 0}%`;
@@ -302,6 +408,8 @@ function initQuizzes() {
       Object.keys(missedCategories).forEach((key) => delete missedCategories[key]);
       activePosition = 0;
       toolMessage = "";
+      quizStartedTracked = false;
+      quizCompletedTracked = false;
       questions.forEach((question) => {
         question.querySelectorAll("button").forEach((button) => {
           button.disabled = false;
@@ -481,6 +589,15 @@ function initQuizzes() {
       question.querySelectorAll("button").forEach((button) => {
         button.addEventListener("click", () => {
           if (answered.has(index)) return;
+          if (!quizStartedTracked) {
+            quizStartedTracked = true;
+            trackToolEvent("quiz_start", {
+              tool: quizLabel,
+              mode: quiz.dataset.modeId || "default",
+              focus: filterSelect?.value || "all",
+              total: activeSequence.length || questions.length,
+            });
+          }
           answered.add(index);
           toolMessage = "";
 
@@ -659,6 +776,14 @@ function initMiniSignDrills() {
           if (!isCorrect && question.dataset.miniFocus) {
             missedFocus[question.dataset.miniFocus] = (missedFocus[question.dataset.miniFocus] || 0) + 1;
           }
+          trackToolEvent("mini_diagnostic_answer", {
+            tool: "road_sign_mini_diagnostic",
+            question_index: questions.indexOf(question) + 1,
+            focus: question.dataset.miniFocus || "road_signs",
+            correct: isCorrect,
+            answered,
+            total: questions.length,
+          });
           button.classList.add(isCorrect ? "is-correct" : "is-wrong");
           const correctButton = question.querySelector(`[data-mini-choice="${question.dataset.miniAnswer}"]`);
           correctButton?.classList.add("is-correct");
@@ -851,6 +976,12 @@ function initRoadSignFlashcards() {
       }
       save();
       render();
+      trackToolEvent("flashcard_mark", {
+        tool: "road_sign_flashcards",
+        status,
+        filter: filterSelect?.value || "all",
+        visible_cards: activeIndexes.length,
+      });
     };
 
     knownButton?.addEventListener("click", () => markActive("known"));
@@ -1742,6 +1873,13 @@ function initDmvChecklists() {
       check.addEventListener("change", () => {
         save();
         render();
+        trackToolEvent("checklist_item_toggle", {
+          tool: "dmv_test_day_checklist",
+          state: stateSelect?.value || "default",
+          checked: check.checked,
+          checked_count: checks.filter((item) => item.checked).length,
+          total: checks.length,
+        });
       });
     });
     resetButton?.addEventListener("click", () => {
@@ -1789,6 +1927,14 @@ function initDmvChecklists() {
       item.addEventListener("change", () => {
         saveDocumentPack();
         renderDocumentPack();
+        trackToolEvent("checklist_item_toggle", {
+          tool: "dmv_document_pack",
+          state: stateSelect?.value || "default",
+          pack_type: packType?.value || "default",
+          checked: item.checked,
+          checked_count: visiblePackItems().filter((packItem) => packItem.checked).length,
+          total: visiblePackItems().length,
+        });
       });
     });
     resetPackButton?.addEventListener("click", () => {
@@ -1953,6 +2099,7 @@ function initSatGoalPlanners() {
   });
 }
 
+initAnalyticsEvents();
 initCountdowns();
 initQuizzes();
 initModeTools();
