@@ -1515,10 +1515,10 @@
     {
       "slug": "sat-test-dates-2026-2027",
       "category": "SAT",
-      "title": "SAT Test Dates 2026-2027",
-      "description": "Plan around 2026-2027 SAT weekend test dates, SAT School Day checks, registration reminders, and score timing considerations.",
+      "title": "SAT Test Dates 2026-2027 and SAT School Day 2027",
+      "description": "Plan around 2026-2027 SAT weekend dates, 2027 SAT dates, SAT School Day checks, registration deadlines, and score timing considerations.",
       "heroKicker": "SAT dates",
-      "summary": "College Board lists confirmed SAT weekend dates for the 2026-2027 school year. Use this page to compare test months and build a simple registration plan.",
+      "summary": "College Board lists confirmed SAT weekend dates for the 2026-2027 school year, including March 6, May 1, and June 5, 2027. Use this page to compare weekend SAT dates, understand how SAT School Day 2027 is different, and build a simple registration plan.",
       "quickFacts": [
         {
           "label": "Next listed date",
@@ -1530,7 +1530,7 @@
         },
         {
           "label": "Best junior start",
-          "value": "March or May 2027"
+          "value": "March 6 or May 1, 2027"
         },
         {
           "label": "Always verify",
@@ -1701,6 +1701,10 @@
           "text": "A good SAT plan usually includes one primary date and one possible retake date. That gives you room for illness, technical issues, a lower-than-expected score, or a schedule conflict."
         },
         {
+          "heading": "2027 SAT dates at a glance",
+          "text": "The confirmed spring 2027 weekend SAT dates are March 6, May 1, and June 5. March gives juniors the most retake room, May can work after more preparation, and June can help students who want a score before senior-year planning."
+        },
+        {
           "heading": "Do not ignore school workload",
           "text": "The best date on paper may be a poor date if it lands beside AP exams, finals, major travel, or a heavy activity season. A slightly later test with better preparation can be smarter than a rushed early test."
         },
@@ -1780,6 +1784,10 @@
         {
           "q": "Is SAT School Day 2027 the same as the weekend SAT dates?",
           "a": "No. Weekend SAT dates are selected by students during registration. SAT School Day is offered through participating schools and districts, and students should ask their counselor or principal whether their school will offer it."
+        },
+        {
+          "q": "What are the spring 2027 SAT weekend dates?",
+          "a": "The confirmed spring 2027 weekend SAT dates are March 6, May 1, and June 5. Always check your College Board account for registration deadlines, seats, and test-center availability before choosing one."
         }
       ],
       "sources": [
@@ -9683,9 +9691,35 @@
       "slug": "florida-dmv-road-signs-practice",
       "category": "DMV",
       "title": "Florida Regulatory Traffic Signs: 24 Picture Practice",
-      "description": "Practice Florida regulatory traffic signs with 24 picture questions for Do Not Enter, Wrong Way, One Way, speed, no-turn, right-turn, and warning-sign misses.",
+      "description": "Practice Florida regulatory traffic signs with 24 picture questions, FDOT and FLHSMV source checks, and review paths for entry, turn, speed, and warning-sign misses.",
       "heroKicker": "Florida regulatory traffic signs",
-      "summary": "Practice 24 Florida road-sign pictures, starting with regulatory traffic signs: stop, yield, do not enter, wrong way, one way, right-turn control, keep right, speed, and lane-control signs. Then review yellow warning signs, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "summary": "Practice 24 Florida road-sign pictures, starting with the regulatory signs Florida learners search for most: stop, yield, do not enter, wrong way, one way, right-turn control, keep right, speed, lane-control, and no-passing signs. Then source-check with FDOT and FLHSMV before reviewing warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "heroActions": [
+        {
+          "label": "Start image quiz",
+          "href": "#practice"
+        },
+        {
+          "label": "Weak-area shortcuts",
+          "href": "#sign-focus"
+        },
+        {
+          "label": "FDOT official signs",
+          "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm"
+        },
+        {
+          "label": "Florida handbook",
+          "href": "https://www.flhsmv.gov/resources/handbooks-manuals/"
+        },
+        {
+          "label": "Shape/color guide",
+          "href": "#sign-study"
+        },
+        {
+          "label": "Permit checklist",
+          "href": "dmv-test-day-checklist.html?state=florida#dmv-checklist"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Question count",
