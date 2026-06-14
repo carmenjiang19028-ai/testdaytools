@@ -490,8 +490,8 @@
         },
         {
           "label": "Missing score",
-          "title": "AP Scores Delayed or Missing",
-          "text": "Account checks, August 15 support checkpoint, and information to gather.",
+          "title": "College Board AP Scores Delayed",
+          "text": "College Board account checks, August 15 support checkpoint, and information to gather.",
           "href": "ap-scores-delayed-missing-2026.html"
         },
         {
@@ -836,10 +836,10 @@
     {
       "slug": "ap-scores-delayed-missing-2026",
       "category": "AP",
-      "title": "AP Scores Delayed or Missing 2026",
-      "description": "Use this unofficial checklist if a 2026 AP score is delayed, missing, or not yet visible in your College Board account.",
-      "heroKicker": "AP score help",
-      "summary": "If one 2026 AP score is missing, do not create a new account or panic-refresh. Some scores take longer to process, and College Board points students to AP Services if current-year scores are not received by August 15.",
+      "title": "College Board AP Scores Delayed or Missing 2026",
+      "description": "Use this unofficial College Board AP checklist if a 2026 U.S. AP score is delayed, missing, or not yet visible in your College Board account.",
+      "heroKicker": "College Board AP score help",
+      "summary": "For College Board AP Exams in the U.S., if one 2026 AP score is missing, do not create a new account or panic-refresh. Some scores take longer to process, and College Board points students to AP Services if current-year scores are not received by August 15.",
       "quickFacts": [
         {
           "label": "First check",
@@ -946,6 +946,10 @@
         }
       ],
       "body": [
+        {
+          "heading": "This page is for College Board AP scores",
+          "text": "Use this checklist for U.S. College Board Advanced Placement exam scores. It is focused on AP score release, delayed scores, missing scores, account matching, and AP Services for Students."
+        },
         {
           "heading": "Do the simple checks first",
           "text": "Most students should start by confirming they are in the same College Board account used for AP registration and class enrollment. A duplicate account can make matching slower, not faster."
