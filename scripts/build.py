@@ -114,10 +114,29 @@ def is_external_url(path):
 
 
 def sitemap_lastmod():
+    return format_lastmod(SITE["lastUpdated"])
+
+
+def format_lastmod(value):
     try:
-        return datetime.strptime(SITE["lastUpdated"], "%B %d, %Y").date().isoformat()
+        return datetime.strptime(value, "%B %d, %Y").date().isoformat()
     except ValueError:
         return ""
+
+
+def lastmod_for_path(path):
+    if path == "/":
+        return format_lastmod(DATA.get("home", {}).get("lastUpdated", SITE["lastUpdated"]))
+    slug = path.strip("/").removesuffix(".html")
+    if slug in TOOL_BY_SLUG:
+        return format_lastmod(TOOL_BY_SLUG[slug].get("lastUpdated", SITE["lastUpdated"]))
+    for hub in HUBS:
+        if hub.get("slug") == slug:
+            return format_lastmod(hub.get("lastUpdated", SITE["lastUpdated"]))
+    for page in DATA["trustPages"]:
+        if page.get("slug") == slug:
+            return format_lastmod(page.get("lastUpdated", SITE["lastUpdated"]))
+    return sitemap_lastmod()
 
 
 def sitemap_priority(path):
@@ -1962,7 +1981,7 @@ def render_tool(tool):
     <p class="eyebrow">{esc(tool["heroKicker"])}</p>
     <h1>{esc(tool["title"])}</h1>
     <p class="lede">{esc(tool["summary"])}</p>
-{render_last_updated()}{render_tool_actions(tool)}
+{render_last_updated(tool.get("lastUpdated"))}{render_tool_actions(tool)}
     </div>{hero_panel_block}
   </div>
 </section>
@@ -2004,7 +2023,7 @@ def render_hub(hub):
     <p class="eyebrow">{esc(hub["heroKicker"])}</p>
     <h1>{esc(hub["title"])}</h1>
     <p class="lede">{esc(hub["summary"])}</p>
-    {render_last_updated()}
+    {render_last_updated(hub.get("lastUpdated"))}
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
@@ -2023,14 +2042,19 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
     state_cards = []
     for state in states:
         checklist_state = find_dmv_state_by_label(state["label"])
-        sign_href = find_state_sign_href(state["label"])
+        permit_href = state.get("permitHref", state["href"])
+        sign_href = state.get("signHref") or find_state_sign_href(state["label"])
+        checklist_href = state.get("checklistHref") or (checklist_href_for_state(checklist_state) if checklist_state else "")
+        action_items = []
+        if permit_href:
+            action_items.append(("Permit practice", permit_href))
+        if sign_href:
+            action_items.append(("Road signs", sign_href))
+        if checklist_href:
+            action_items.append(("Checklist", checklist_href))
         actions = "".join(
             f'<a href="{esc(href)}">{esc(label)}</a>'
-            for label, href in [
-                ("Permit practice", state["href"]),
-                ("Road signs", sign_href),
-                ("Checklist", checklist_href_for_state(checklist_state)),
-            ]
+            for label, href in action_items
         )
         state_cards.append(
             f'<article class="state-card" data-state-card data-state-name="{esc(state["label"] + " " + state["title"] + " " + state["text"])}">'
@@ -2061,7 +2085,7 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
     <a href="dmv-practice.html">View all DMV tools</a>
   </div>
   <div class="state-grid">{state_cards_html}</div>
-  <p class="state-filter-empty" data-state-empty hidden>No matching state yet. Try California, New York, Texas, Florida, Illinois, Pennsylvania, or New Jersey.</p>
+  <p class="state-filter-empty" data-state-empty hidden>No matching state yet. Try a listed state name or open the road-sign tools below.</p>
   <div class="mode-card-grid">{mode_cards}</div>
 </section>"""
 
@@ -3263,7 +3287,7 @@ def render_dmv_hub(hub):
       <p class="eyebrow">{esc(hub["heroKicker"])}</p>
       <h1>{esc(hub["title"])}</h1>
       <p class="lede">{esc(hub["summary"])}</p>
-      {render_last_updated()}
+      {render_last_updated(hub.get("lastUpdated"))}
       <div class="hero-actions">
         <a href="#state-paths">Choose state</a>
         <a href="dmv-permit-test-question-of-the-day.html">Daily question</a>
@@ -3313,17 +3337,17 @@ def render_home():
   <div class="home-hero-grid">
     <div>
       <p class="eyebrow">DMV-first road sign practice</p>
-      <h1>Florida DMV road signs, regulatory signs, and permit practice tools.</h1>
-      <p class="lede">Start with Florida regulatory traffic signs, regulatory sign pictures, road-sign flashcards, shape/color lookup, and the Florida 40 of 50 permit score path.</p>
-      {render_last_updated()}
+      <h1>DMV road signs practice by state, pictures, and permit tools.</h1>
+      <p class="lede">Start with road signs by state, then drill regulatory signs, flashcards, shape/color lookup, Florida source checks, and permit-test planning tools.</p>
+      {render_last_updated(DATA["home"].get("lastUpdated"))}
       {render_home_pocket_tabs()}
       <div class="hero-actions home-quick-links">
-        <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
-        <a href="regulatory-traffic-signs-practice-test.html">Regulatory traffic signs</a>
         <a href="road-signs-practice-test.html">Road signs with pictures</a>
+        <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
+        <a href="georgia-dds-road-signs-practice.html">Georgia road signs</a>
+        <a href="north-carolina-dmv-road-signs-practice.html">North Carolina signs</a>
+        <a href="regulatory-traffic-signs-practice-test.html">Regulatory traffic signs</a>
         <a href="dmv-road-sign-flashcards.html">Road sign flashcards</a>
-        <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors finder</a>
-        <a href="florida-dmv-permit-practice-test.html">Florida 40 of 50 score</a>
       </div>
     </div>
     {render_home_road_sign_panel()}
@@ -3388,8 +3412,7 @@ def build():
         write(f'{page["slug"]}.html', render_trust(page))
 
     urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
-    lastmod = sitemap_lastmod()
-    sitemap_urls = "\n".join(sitemap_entry(path, lastmod) for path in dict.fromkeys(urls))
+    sitemap_urls = "\n".join(sitemap_entry(path, lastmod_for_path(path)) for path in dict.fromkeys(urls))
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap_urls}\n</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
 
