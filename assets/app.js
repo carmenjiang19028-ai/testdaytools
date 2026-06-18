@@ -654,7 +654,13 @@ function initModeTools() {
     };
 
     buttons.forEach((button) => {
-      button.addEventListener("click", () => activate(button.dataset.modeButton));
+      button.addEventListener("click", () => {
+        activate(button.dataset.modeButton);
+        trackToolEvent("practice_mode_select", {
+          mode: button.dataset.modeButton,
+          label: button.textContent,
+        });
+      });
     });
   });
 }

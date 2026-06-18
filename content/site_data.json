@@ -6198,10 +6198,10 @@
     {
       "slug": "road-signs-practice-test",
       "category": "DMV",
-      "title": "Road Signs Practice Test with Pictures: 24 DMV Questions",
-      "description": "Take 24 DMV road-sign picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and Florida-specific source checks.",
+      "title": "Road Signs Practice Test with Pictures for DMV Permit Test",
+      "description": "Take a DMV road signs permit-test practice round with 24 picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and state-specific source checks.",
       "heroKicker": "Road signs practice test",
-      "summary": "Take 24 road-sign picture questions, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and Florida-specific source checks to choose the next drill.",
+      "summary": "Take 24 DMV road-sign picture questions for permit-test practice, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and state-specific source checks to choose the next drill.",
       "quickFacts": [
         {
           "label": "Practice size",
@@ -6209,7 +6209,7 @@
         },
         {
           "label": "Best for",
-          "value": "Regulatory, warning, school, guide, and work-zone signs"
+          "value": "DMV permit-test regulatory, warning, school, guide, and work-zone signs"
         },
         {
           "label": "Official source",
@@ -6222,14 +6222,24 @@
       ],
       "quizModes": [
         {
+          "id": "road-signs-starter",
+          "label": "Permit starter",
+          "short": "10 questions",
+          "title": "DMV road signs permit-test starter",
+          "description": "Start with 10 high-signal road-sign questions before taking the full 24-picture round. This is the fastest path for visitors who came from a broad DMV road signs query.",
+          "kicker": "Short road-sign round",
+          "quiz": "roadSignsCore",
+          "passScore": 8,
+          "maxQuestions": 10
+        },
+        {
           "id": "road-signs-core",
-          "label": "Core signs",
-          "short": "24 image questions",
+          "label": "Full signs test",
+          "short": "24 questions",
           "title": "Road signs practice test with pictures",
           "description": "Identify each sign, choose the safest driver action, then use saved mistakes to decide whether to review regulatory, warning, shape/color, or flashcard practice next.",
           "kicker": "Interactive road-sign practice",
           "quiz": "roadSignsCore",
-          "sectionId": "practice",
           "passScore": 19
         }
       ],
@@ -6460,7 +6470,7 @@
       "body": [
         {
           "heading": "Fast answer: what this road signs practice gives you",
-          "text": "This is a 24-picture DMV road signs practice test. Start with the images, get instant explanations, then move missed signs into regulatory practice, flashcards, shape and color lookup, or the Florida road-sign page when state context matters."
+          "text": "This is a 24-picture DMV road signs permit-test practice round. Start with the images, get instant explanations, then move missed signs into regulatory practice, flashcards, shape and color lookup, or a state road-sign page when local context matters."
         },
         {
           "heading": "What counts as a regulatory traffic sign?",
@@ -6525,6 +6535,10 @@
           "a": "Most permit-test study programs include road signs, but the format and number of sign questions vary by state. Use this page for core sign recognition, then review your state driver handbook for exact rules."
         },
         {
+          "q": "Is this a DMV road signs permit-test practice page?",
+          "a": "Yes. It is built as a free practice round for common DMV road-sign recognition, but it is not an official state test. Use it to practice sign meaning and driver action, then confirm exact wording in your state driver handbook."
+        },
+        {
           "q": "Are these official DMV road sign questions?",
           "a": "No. The questions are original practice prompts for study. TestDayTools is independent and is not affiliated with any DMV, MVC, DPS, FHWA, or testing agency."
         },
@@ -6563,10 +6577,10 @@
     {
       "slug": "regulatory-traffic-signs-practice-test",
       "category": "DMV",
-      "title": "Regulatory Traffic Signs Practice: 16 Picture Questions",
-      "description": "Practice 16 regulatory traffic sign pictures for stop, yield, Do Not Enter, Wrong Way, speed limit, One Way, no-turn, keep-right, and no-passing signs.",
+      "title": "Regulatory Traffic Signs Practice Test: 16 Picture Questions",
+      "description": "Practice regulatory signs that state traffic laws and driver actions: stop, yield, Do Not Enter, Wrong Way, speed limit, One Way, no-turn, keep-right, and no-passing signs.",
       "heroKicker": "Regulatory traffic signs",
-      "summary": "Practice 16 regulatory traffic sign pictures that state laws, limits, right-of-way rules, required directions, and prohibited movements before moving into state-specific DMV practice.",
+      "summary": "Regulatory signs are traffic signs that state laws, limits, right-of-way rules, required directions, and prohibited movements. Practice 16 picture questions, then move into state-specific DMV practice when the sign action is clear.",
       "quickFacts": [
         {
           "label": "Practice size",
@@ -6578,7 +6592,7 @@
         },
         {
           "label": "Best for",
-          "value": "Permit-test road-sign recognition and driver-action practice"
+          "value": "Answering regulatory-sign meaning and permit-test driver-action questions"
         },
         {
           "label": "Official source",
@@ -6591,14 +6605,24 @@
       ],
       "quizModes": [
         {
+          "id": "regulatory-signs-starter",
+          "label": "Quick regulatory",
+          "short": "8 questions",
+          "title": "Regulatory signs quick practice",
+          "description": "Answer 8 core regulatory-sign questions first: stop, yield, entry control, turns, lane direction, speed, and no-passing signs.",
+          "kicker": "Short regulatory round",
+          "quiz": "regulatorySignsCore",
+          "passScore": 6,
+          "maxQuestions": 8
+        },
+        {
           "id": "regulatory-signs-core",
-          "label": "Regulatory signs",
-          "short": "16 image questions",
+          "label": "Full regulatory",
+          "short": "16 questions",
           "title": "Regulatory traffic signs image quiz",
           "description": "Choose what each regulatory sign requires, limits, or prohibits, including smaller no-turn and keep-right signs. Missed questions are saved locally for review.",
           "kicker": "Interactive regulatory sign practice",
           "quiz": "regulatorySignsCore",
-          "sectionId": "practice",
           "passScore": 13
         }
       ],
@@ -6773,8 +6797,8 @@
       },
       "body": [
         {
-          "heading": "Fast answer: regulatory traffic signs are action signs",
-          "text": "Use this page when the search intent is regulatory traffic signs, not every road sign. The quiz focuses on signs that require, limit, or prohibit a driver action: stop, yield, do not enter, wrong way, one way, speed limit, no-turn, keep right, and no passing."
+          "heading": "Fast answer: regulatory signs are law and action signs",
+          "text": "Regulatory signs are traffic signs that tell a driver what is required, prohibited, limited, or allowed. Use this page when the search intent is regulatory traffic signs, not every road sign. The quiz focuses on signs that require, limit, or prohibit a driver action: stop, yield, do not enter, wrong way, one way, speed limit, no-turn, keep right, and no passing."
         },
         {
           "heading": "What are regulatory traffic signs?",
@@ -6783,6 +6807,10 @@
         {
           "heading": "How to answer regulatory sign questions",
           "text": "Do not stop at the sign name. Translate the sign into the safest legal action: stop completely, yield, avoid entering, follow the posted direction, obey the limit, or avoid the prohibited movement."
+        },
+        {
+          "heading": "Regulatory signs are different from warning signs",
+          "text": "A regulatory sign gives a rule or restriction. A warning sign alerts you to a condition ahead. If the answer choice asks what you must do, what you may not do, or which direction is allowed, treat it as a regulatory-sign question first."
         },
         {
           "heading": "Florida regulatory traffic signs path",
@@ -6850,6 +6878,10 @@
         }
       ],
       "faq": [
+        {
+          "q": "Regulatory signs are what type of signs?",
+          "a": "Regulatory signs are traffic-control signs that state laws, limits, required directions, right-of-way rules, or prohibited movements. They tell drivers what action is required or not allowed."
+        },
         {
           "q": "What is a regulatory traffic sign?",
           "a": "A regulatory traffic sign states a traffic law, limit, required direction, right-of-way rule, or prohibited movement. Stop, yield, speed limit, one way, do not enter, wrong way, no U-turn, no right turn, no turn on red, keep right, and no passing signs are common examples."
@@ -7807,10 +7839,10 @@
     {
       "slug": "new-york-dmv-road-signs-practice",
       "category": "DMV",
-      "title": "New York DMV Road Signs Practice",
-      "description": "New York DMV road signs practice with 20 original image questions, official pass-rule context, sign categories, and instant explanations.",
+      "title": "New York DMV Road Signs Practice Test with Pictures",
+      "description": "Practice NY DMV road signs with 20 picture questions, signs and signals, regulatory and warning signs, official manual links, and instant explanations.",
       "heroKicker": "New York road signs",
-      "summary": "Practice New York DMV road signs with original image prompts, instant explanations, and a sign library grouped by category.",
+      "summary": "Practice New York DMV road signs with original picture prompts, instant explanations, and a category guide for signs and signals, regulatory signs, warning signs, crossings, work zones, and service signs.",
       "quickFacts": [
         {
           "label": "Question count",
@@ -7822,7 +7854,11 @@
         },
         {
           "label": "Best use",
-          "value": "Fast sign recognition practice"
+          "value": "NY permit-test sign and signal review"
+        },
+        {
+          "label": "Official source",
+          "value": "New York DMV driver manual"
         },
         {
           "label": "Privacy",
@@ -7842,12 +7878,17 @@
             [
               "Regulatory sign",
               "A traffic law or required action.",
-              "Follow the posted instruction."
+              "Follow the posted instruction, such as stop, yield, one way, speed, or a prohibited turn."
             ],
             [
               "Warning sign",
               "A hazard or condition ahead.",
               "Slow down and prepare early."
+            ],
+            [
+              "Signs and signals",
+              "Traffic lights, railroad controls, lane signs, and crossing signs.",
+              "Name the required driver action before choosing an answer."
             ],
             [
               "Yield sign",
@@ -7904,15 +7945,50 @@
       ],
       "body": [
         {
+          "heading": "Fast answer: New York DMV road signs practice",
+          "text": "Use this page for New York DMV road signs practice when you need image questions, not a long handbook chapter. Start with the 20-question sign round, then use the quick guide to separate regulatory signs, warning signs, signs and signals, school crossings, railroad controls, and work-zone cues."
+        },
+        {
           "heading": "Why signs are a useful quick win",
           "text": "Road sign questions are concrete and searchable. If you can quickly connect a shape or color with the right action, you remove one source of permit-test uncertainty."
         },
         {
           "heading": "Study the action, not only the image",
           "text": "A sign matters because it tells you what to do: stop, yield, slow, watch, merge, or avoid a movement. Practice should always connect the sign to the action."
+        },
+        {
+          "heading": "Use the New York DMV manual as the source check",
+          "text": "This practice page uses original illustrations and explanations. For exact New York wording, permit rules, and official study material, use the New York DMV driver manual and practice-test page linked below."
         }
       ],
       "cardGroups": [
+        {
+          "heading": "New York road-sign study path",
+          "intro": "Use this route when Search Console shows New York sign interest but the click path still needs to be clearer.",
+          "items": [
+            {
+              "label": "Start here",
+              "title": "Take the New York picture round",
+              "text": "Use the image quiz first so you can see whether the weak spot is regulatory signs, yellow warnings, crossings, or signals.",
+              "href": "#practice",
+              "cta": "Start NY sign quiz"
+            },
+            {
+              "label": "Regulatory signs",
+              "title": "Review rules and required actions",
+              "text": "If you miss stop, yield, one-way, speed, no-turn, or entry-control signs, use the regulatory-sign drill before a full mixed test.",
+              "href": "regulatory-traffic-signs-practice-test.html",
+              "cta": "Regulatory drill"
+            },
+            {
+              "label": "Full permit test",
+              "title": "Move from signs into mixed practice",
+              "text": "After signs feel faster, use the New York permit practice page for broader rules, right-of-way, safety, and official-source review.",
+              "href": "new-york-dmv-permit-practice-test.html",
+              "cta": "NY permit practice"
+            }
+          ]
+        },
         {
           "heading": "New York road sign mistakes",
           "items": [
@@ -7935,6 +8011,10 @@
         }
       ],
       "faq": [
+        {
+          "q": "What New York road signs should I study first?",
+          "a": "Start with regulatory signs, warning signs, school and pedestrian crossings, railroad controls, work-zone signs, and common service signs. The fastest practice is to connect each sign to the action a driver should take."
+        },
         {
           "q": "Are these official New York DMV sign questions?",
           "a": "No. They are original practice questions written for study support."
@@ -7966,9 +8046,20 @@
       ],
       "quizModes": [
         {
+          "id": "ny-signs-starter",
+          "label": "NY starter",
+          "short": "8 questions",
+          "title": "New York signs and signals starter",
+          "description": "Start with 8 New York sign-and-signal questions before the full picture round. Use this when you want a quick permit-test check.",
+          "kicker": "Short New York round",
+          "quiz": "newyorkSigns",
+          "passScore": 6,
+          "maxQuestions": 8
+        },
+        {
           "id": "signs",
-          "label": "Road Signs",
-          "short": "20 image questions",
+          "label": "Full NY signs",
+          "short": "20 questions",
           "title": "New York road signs image test",
           "description": "Practice warning, regulatory, yield, crossing, and service signs with original images.",
           "quiz": "newyorkSigns",
@@ -9805,10 +9896,10 @@
     {
       "slug": "florida-dmv-road-signs-practice",
       "category": "DMV",
-      "title": "Florida Regulatory Traffic Signs: 24 Picture Practice",
-      "description": "Practice Florida regulatory traffic signs with 24 picture questions, FDOT and FLHSMV source checks, and review paths for entry, turn, speed, and warning-sign misses.",
+      "title": "Florida Regulatory Traffic Signs Practice Test",
+      "description": "Practice Florida regulatory traffic signs with 24 picture questions, FDOT and FLHSMV source checks, right-turn signs, official-source links, and warning-sign review paths.",
       "heroKicker": "Florida regulatory traffic signs",
-      "summary": "Practice 24 Florida road-sign pictures, starting with the regulatory signs Florida learners search for most: stop, yield, do not enter, wrong way, one way, right-turn control, keep right, speed, lane-control, and no-passing signs. Then source-check with FDOT and FLHSMV before reviewing warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "summary": "Practice 24 Florida road-sign pictures, starting with the regulatory signs Florida learners search for most: stop, yield, do not enter, wrong way, one way, right-turn-only and no-right-turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check with FDOT and FLHSMV before reviewing warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "heroActions": [
         {
           "label": "Start image quiz",
@@ -9846,7 +9937,7 @@
         },
         {
           "label": "Best use",
-          "value": "Regulatory, warning, and guide signs"
+          "value": "Florida regulatory, right-turn, one-way, warning, and guide signs"
         },
         {
           "label": "Official source",
@@ -9867,11 +9958,22 @@
       ],
       "quizModes": [
         {
+          "id": "florida-regulatory-starter",
+          "label": "Florida starter",
+          "short": "8 questions",
+          "title": "Florida regulatory signs quick practice",
+          "description": "Answer 8 Florida regulatory and direction-control sign questions first: entry, wrong-way, yield, turn control, 4-way stop, no turn on red, and keep-right signs.",
+          "kicker": "Short Florida round",
+          "quiz": "floridaSigns",
+          "passScore": 6,
+          "maxQuestions": 8
+        },
+        {
           "id": "signs",
-          "label": "Road Signs",
-          "short": "Signs",
-          "title": "Florida regulatory traffic signs image test",
-          "description": "Start with regulatory and direction-control signs, including no-turn, keep-right, and four-way-stop prompts, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
+          "label": "Full Florida signs",
+          "short": "24 questions",
+          "title": "Florida regulatory signs practice test",
+          "description": "Start with regulatory and direction-control signs, including right-turn-only, no-right-turn, keep-right, and four-way-stop prompts, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
           "quiz": "floridaSigns",
           "passScore": 19
         }
@@ -9895,8 +9997,8 @@
           },
           {
             "label": "Turn control",
-            "title": "No U-turn and turn-only signs",
-            "text": "Practice permitted and prohibited turns before adding warning signs back into the round.",
+            "title": "Right Turn Only, No Right Turn, and No U-turn",
+            "text": "Practice required and prohibited turns before adding warning signs back into the round.",
             "focus": "Turn signs"
           },
           {
@@ -10032,6 +10134,16 @@
                 "image": "keep-right",
                 "title": "Keep Right",
                 "meaning": "Stay to the right of the island, divider, or obstruction."
+              },
+              {
+                "image": "speed-limit",
+                "title": "Speed Limit",
+                "meaning": "The posted number is the legal maximum speed under normal conditions."
+              },
+              {
+                "image": "no-passing",
+                "title": "Do Not Pass",
+                "meaning": "Do not pass another vehicle in this zone."
               }
             ]
           },
@@ -10149,7 +10261,7 @@
       "body": [
         {
           "heading": "Fast answer: Florida regulatory traffic signs practice",
-          "text": "This page is built for common Florida sign searches: regulatory traffic signs Florida, official traffic signs Florida, right-turn signs, wrong-way signs, one-way signs, and yellow warning signs. Start with 24 original picture questions, then use the missed-sign path to source-check with FLHSMV and FDOT."
+          "text": "This page is built for common Florida sign searches: regulatory signs Florida, official traffic signs Florida, official Right Turn Only traffic sign Florida, wrong-way signs, one-way signs, and yellow traffic warning signs. Start with 24 original picture questions, then use the missed-sign path to source-check with FLHSMV and FDOT."
         },
         {
           "heading": "What counts as a Florida regulatory traffic sign?",
@@ -10161,11 +10273,11 @@
         },
         {
           "heading": "Official traffic signs Florida learners can use as a source check",
-          "text": "Use this page for practice, then use FDOT sign references and the Official Florida Driver License Handbook for the source check. The practical study order is official source for correctness, this page for visual recognition, and the quiz result for the next drill."
+          "text": "Use this page for practice, then use FDOT sign references and the Official Florida Driver License Handbook for the source check. The practical study order is official source for correctness, this page for visual recognition, and the quiz result for the next drill. This wording is intentional: the practice illustrations here are original, while official Florida traffic sign wording belongs to FLHSMV and FDOT sources."
         },
         {
           "heading": "Right Turn Only, No Right Turn, and No Turn on Red",
-          "text": "Right-turn signs are easy to mix up because the answer may ask what your vehicle may do next. Right Turn Only points to a required lane movement, No Right Turn blocks a right turn from that approach, and No Turn on Red means stopping first is not enough while the signal is red."
+          "text": "Right-turn signs are easy to mix up because the answer may ask what your vehicle may do next. A Right Turn Only sign points to a required lane movement, No Right Turn blocks a right turn from that approach, and No Turn on Red means stopping first is not enough while the signal is red."
         },
         {
           "heading": "Yellow traffic warning signs in Florida practice",
@@ -10345,7 +10457,7 @@
           "a": "Use FLHSMV and FDOT sources for official wording and sign references. This page is an unofficial practice tool that links to those official sources for source checks."
         },
         {
-          "q": "What does a Right Turn Only sign mean in Florida practice?",
+          "q": "What does an official Right Turn Only traffic sign mean in Florida practice?",
           "a": "A Right Turn Only sign means traffic in that lane or approach must turn right. Do not mix it up with No Right Turn, which prohibits the right turn, or No Turn on Red, which blocks the turn while the signal is red."
         },
         {

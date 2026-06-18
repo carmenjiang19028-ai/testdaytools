@@ -1093,6 +1093,14 @@ def render_home_bottom_nav():
     return f'<nav class="home-bottom-nav" aria-label="Mobile DMV shortcuts">{"".join(items)}</nav>'
 
 
+def quiz_question_count(mode):
+    count = len(DATA["quizzes"].get(mode["quiz"], []))
+    max_questions = int(mode.get("maxQuestions") or 0)
+    if max_questions > 0:
+        return min(count, max_questions)
+    return count
+
+
 def render_tool_hero_panel(tool):
     if tool.get("category") != "DMV":
         return ""
@@ -1121,7 +1129,7 @@ def render_tool_hero_panel(tool):
 </aside>"""
     modes = tool.get("quizModes", [])
     mode_rows = "".join(
-        f'<li><span>{esc(mode["label"])}</span><strong>{len(DATA["quizzes"].get(mode["quiz"], []))} questions</strong></li>'
+        f'<li><span>{esc(mode["label"])}</span><strong>{quiz_question_count(mode)} questions</strong></li>'
         for mode in modes[:3]
     )
     if not mode_rows and tool.get("quiz"):
@@ -1758,6 +1766,9 @@ def render_quiz(quiz_key, options=None):
         return ""
     options = options or {}
     questions = DATA["quizzes"][quiz_key]
+    max_questions = int(options.get("maxQuestions") or 0)
+    if max_questions > 0:
+        questions = questions[:max_questions]
     cards = []
     for index, q in enumerate(questions):
         category = q.get("category", "Permit basics")
