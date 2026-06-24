@@ -949,6 +949,7 @@
       "category": "AP",
       "title": "College Board AP Scores Delayed or Missing 2026",
       "description": "Use this unofficial College Board AP checklist if a 2026 U.S. AP score is delayed, missing, or not yet visible in your College Board account.",
+      "lastUpdated": "June 24, 2026",
       "heroKicker": "College Board AP score help",
       "summary": "For College Board AP Exams in the U.S., if one 2026 AP score is missing, do not create a new account or panic-refresh. Some scores take longer to process, and College Board points students to AP Services if current-year scores are not received by August 15.",
       "quickFacts": [
@@ -1062,6 +1063,10 @@
           "text": "Use this checklist for U.S. College Board Advanced Placement exam scores. It is focused on AP score release, delayed scores, missing scores, account matching, and AP Services for Students."
         },
         {
+          "heading": "Not AP EAMCET or state entrance results",
+          "text": "If you searched for AP EAMCET 2026 result delay, Andhra Pradesh entrance results, or another non-College Board exam, this page is not the right source. Use the official state exam authority for those results."
+        },
+        {
           "heading": "Do the simple checks first",
           "text": "Most students should start by confirming they are in the same College Board account used for AP registration and class enrollment. A duplicate account can make matching slower, not faster."
         },
@@ -1108,6 +1113,10 @@
         {
           "q": "Why is one AP score missing but the others are visible?",
           "a": "One score can take longer because of late testing, processing, or record matching. College Board says some scores may take longer and that students will be emailed when a score is added."
+        },
+        {
+          "q": "Is this page about AP EAMCET result delays?",
+          "a": "No. This page is only for U.S. College Board Advanced Placement score delays or missing AP scores. It is not about AP EAMCET or other state entrance exam results."
         },
         {
           "q": "Should I make a new College Board account?",
@@ -1630,10 +1639,11 @@
     {
       "slug": "sat-test-dates-2026-2027",
       "category": "SAT",
-      "title": "SAT Test Dates 2026-2027 and SAT School Day 2027",
-      "description": "Plan around 2026-2027 SAT weekend dates, 2027 SAT dates, SAT School Day checks, registration deadlines, and score timing considerations.",
-      "heroKicker": "SAT dates",
-      "summary": "College Board lists confirmed SAT weekend dates for the 2026-2027 school year, including March 6, May 1, and June 5, 2027. Use this page to compare weekend SAT dates, understand how SAT School Day 2027 is different, and build a simple registration plan.",
+      "title": "College Board SAT Test Dates 2026-2027 and SAT School Day 2027",
+      "description": "Plan around College Board 2026-2027 U.S. SAT weekend dates, 2027 SAT dates, SAT School Day checks, registration deadlines, and score timing considerations.",
+      "lastUpdated": "June 24, 2026",
+      "heroKicker": "College Board SAT dates",
+      "summary": "College Board lists confirmed SAT weekend dates for the 2026-2027 school year, including March 6, May 1, and June 5, 2027. Use this page to compare weekend SAT dates, understand how SAT School Day 2027 is different, and remember that country, test-center, and school-day availability still need an official registration check.",
       "quickFacts": [
         {
           "label": "Next listed date",
@@ -1812,6 +1822,10 @@
           "text": "Registration windows, test center availability, fees, and accommodations deadlines can change. Confirm details in your official College Board account before making plans."
         },
         {
+          "heading": "Country and test-center availability can differ",
+          "text": "If your search includes a country or local school, such as SAT test dates Angola 2026 2027, use this page as a planning table only. The final answer depends on the test centers and seats shown in the official College Board registration flow for that location."
+        },
+        {
           "heading": "Choose a date with a backup plan",
           "text": "A good SAT plan usually includes one primary date and one possible retake date. That gives you room for illness, technical issues, a lower-than-expected score, or a schedule conflict."
         },
@@ -1875,6 +1889,10 @@
         {
           "q": "Are these dates guaranteed?",
           "a": "They are based on College Board's confirmed SAT weekend schedule as of the last page update, but registration details, test centers, and deadlines should still be confirmed before you register."
+        },
+        {
+          "q": "Are these SAT dates the same for every country?",
+          "a": "Not automatically. The weekend schedule is a planning reference, but available countries, test centers, seats, and registration deadlines should be checked inside the official College Board registration flow."
         },
         {
           "q": "How many SAT dates should I plan for?",
@@ -9896,10 +9914,11 @@
     {
       "slug": "florida-dmv-road-signs-practice",
       "category": "DMV",
-      "title": "Florida Regulatory Traffic Signs Practice Test",
-      "description": "Practice Florida regulatory traffic signs with 24 picture questions, FDOT and FLHSMV source checks, right-turn signs, official-source links, and warning-sign review paths.",
-      "heroKicker": "Florida regulatory traffic signs",
-      "summary": "Practice 24 Florida road-sign pictures, starting with the regulatory signs Florida learners search for most: stop, yield, do not enter, wrong way, one way, right-turn-only and no-right-turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check with FDOT and FLHSMV before reviewing warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "title": "Florida Traffic Signs Practice: Regulatory Signs and FDOT Sources",
+      "description": "Practice Florida traffic signs with 24 picture questions, regulatory and Right Turn Only review, FDOT/FLHSMV source checks, and yellow warning-sign drills.",
+      "lastUpdated": "June 24, 2026",
+      "heroKicker": "Florida traffic signs practice",
+      "summary": "Practice 24 Florida road-sign pictures, starting with the regulatory signs Florida learners search for most: stop, yield, do not enter, wrong way, one way, Right Turn Only and No Right Turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check official Florida traffic signs with FDOT and FLHSMV before reviewing yellow warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "heroActions": [
         {
           "label": "Start image quiz",
@@ -9910,7 +9929,7 @@
           "href": "#sign-focus"
         },
         {
-          "label": "FDOT official signs",
+          "label": "FDOT sign library",
           "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm"
         },
         {
@@ -9941,7 +9960,7 @@
         },
         {
           "label": "Official source",
-          "value": "Official Florida Driver License Handbook"
+          "value": "FDOT sign library + FLHSMV handbook"
         }
       ],
       "quiz": "floridaSigns",
@@ -9959,9 +9978,9 @@
       "quizModes": [
         {
           "id": "florida-regulatory-starter",
-          "label": "Florida starter",
+          "label": "Source-check starter",
           "short": "8 questions",
-          "title": "Florida regulatory signs quick practice",
+          "title": "Florida traffic signs source-check starter",
           "description": "Answer 8 Florida regulatory and direction-control sign questions first: entry, wrong-way, yield, turn control, 4-way stop, no turn on red, and keep-right signs.",
           "kicker": "Short Florida round",
           "quiz": "floridaSigns",
@@ -9972,7 +9991,7 @@
           "id": "signs",
           "label": "Full Florida signs",
           "short": "24 questions",
-          "title": "Florida regulatory signs practice test",
+          "title": "Florida traffic signs practice test",
           "description": "Start with regulatory and direction-control signs, including right-turn-only, no-right-turn, keep-right, and four-way-stop prompts, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
           "quiz": "floridaSigns",
           "passScore": 19
@@ -10029,13 +10048,13 @@
       },
       "examBrief": {
         "kicker": "Florida sign practice",
-        "heading": "Florida regulatory traffic signs, shapes, and driver actions",
-        "intro": "Start with regulatory traffic sign examples Florida learners often confuse: entry control, right-turn control, one-way movement, speed, lane direction, and no-passing signs. Then use the image quiz and sign library for warning, school, rail, work-zone, and service signs.",
+        "heading": "Florida traffic signs from official source check to practice",
+        "intro": "Start with official-source queries Florida learners often bring here: regulatory traffic signs, Right Turn Only, one-way movement, speed, lane direction, and no-passing signs. Then use the image quiz and sign library for warning, school, rail, work-zone, and service signs.",
         "facts": [
           {
             "label": "Official source",
-            "value": "Official Florida Driver License Handbook",
-            "note": "Use the Official Florida Driver License Handbook for exact state rules and final wording."
+            "value": "FDOT sign library + FLHSMV handbook",
+            "note": "Use FDOT and the Official Florida Driver License Handbook for exact state rules and final wording."
           },
           {
             "label": "Official format",
@@ -10079,11 +10098,11 @@
       "signLibrary": {
         "kicker": "Florida road sign library",
         "heading": "Florida regulatory traffic signs and road signs to recognize",
-        "intro": "Use this library after the quiz to separate regulatory signs from warning, school, rail, work-zone, and service signs instead of memorizing answers one by one.",
+        "intro": "Use this library after the quiz to separate regulatory signs from warning, school, rail, work-zone, and service signs. When you need official wording, use FDOT and FLHSMV as the source check.",
         "groups": [
           {
             "label": "Florida regulatory traffic signs",
-            "text": "Regulatory traffic signs tell Florida drivers what they must do, must not do, or where traffic is allowed to move. Start with stop, yield, wrong-way, one-way, speed-control, no-turn, keep-right, and turn-prohibition signs.",
+            "text": "Regulatory traffic signs tell Florida drivers what they must do, must not do, or where traffic is allowed to move. Start with stop, yield, wrong-way, one-way, Right Turn Only, speed-control, no-turn, keep-right, and turn-prohibition signs.",
             "signs": [
               {
                 "image": "stop",
@@ -10109,6 +10128,11 @@
                 "image": "one-way",
                 "title": "One Way",
                 "meaning": "Traffic flows only in the arrow direction."
+              },
+              {
+                "image": "right-turn-only",
+                "title": "Right Turn Only",
+                "meaning": "Traffic in this lane or approach must turn right."
               },
               {
                 "image": "no-u-turn",
@@ -10241,6 +10265,11 @@
               "The site gives practice paths; official sources decide exact wording and current rules."
             ],
             [
+              "Right-turn and lane-use signs",
+              "Right Turn Only requires the turn; No Right Turn prohibits it; No Turn on Red blocks the turn while the signal is red.",
+              "These queries show up because the visual arrow alone is not enough; the driver action is the answer."
+            ],
+            [
               "Right of way",
               "Four-way stops, pedestrians, left turns, emergency vehicles, and roundabouts.",
               "Many test questions ask who should wait or yield."
@@ -10272,12 +10301,12 @@
           "text": "If your search is regulatory traffic signs Florida, start with signs that control an immediate driver action: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, no right turn, no turn on red, no passing, keep right, lane arrows, and turn-only signs. Then use the weak-area shortcuts on this page for the exact miss instead of rereading every sign at once."
         },
         {
-          "heading": "Official traffic signs Florida learners can use as a source check",
+          "heading": "Official traffic signs Florida: source-check path",
           "text": "Use this page for practice, then use FDOT sign references and the Official Florida Driver License Handbook for the source check. The practical study order is official source for correctness, this page for visual recognition, and the quiz result for the next drill. This wording is intentional: the practice illustrations here are original, while official Florida traffic sign wording belongs to FLHSMV and FDOT sources."
         },
         {
           "heading": "Right Turn Only, No Right Turn, and No Turn on Red",
-          "text": "Right-turn signs are easy to mix up because the answer may ask what your vehicle may do next. A Right Turn Only sign points to a required lane movement, No Right Turn blocks a right turn from that approach, and No Turn on Red means stopping first is not enough while the signal is red."
+          "text": "Right-turn signs are easy to mix up because the answer may ask what your vehicle may do next from a specific lane or approach. A Right Turn Only sign points to a required lane movement, No Right Turn blocks a right turn from that approach, and No Turn on Red means stopping first is not enough while the signal is red."
         },
         {
           "heading": "Yellow traffic warning signs in Florida practice",
@@ -10363,6 +10392,11 @@
               "text": "Treat no-turn signs as action blocks. The key answer is what you cannot do from that lane or approach."
             },
             {
+              "label": "Right turn only",
+              "title": "A black arrow can still be a rule",
+              "text": "Right Turn Only is not a warning or suggestion. It tells drivers in that lane or approach that the permitted movement is a right turn."
+            },
+            {
               "label": "No turn on red",
               "title": "Stopping first is not enough",
               "text": "Some learners overapply the general right-on-red habit. If the sign says no turn on red, wait for a signal that allows the turn."
@@ -10391,9 +10425,11 @@
               "cta": "FDOT regulatory signs"
             },
             {
-              "label": "right turn only sign",
+              "label": "official right turn only sign florida",
               "title": "Separate required movement from prohibited movement",
-              "text": "Right Turn Only means your lane must turn right. No Right Turn and No Turn on Red are restriction signs with different driver actions."
+              "text": "Right Turn Only means your lane must turn right. No Right Turn and No Turn on Red are restriction signs with different driver actions.",
+              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "cta": "FDOT regulatory signs"
             },
             {
               "label": "yellow traffic warning signs",
@@ -10446,11 +10482,11 @@
       "faq": [
         {
           "q": "Is this Florida road signs practice official?",
-          "a": "No. It is an unofficial practice tool with original sign illustrations. Use the Official Florida Driver License Handbook and FLHSMV pages for official wording."
+          "a": "No. It is an unofficial practice tool with original sign illustrations. Use FDOT, FLHSMV, and the Official Florida Driver License Handbook for official wording."
         },
         {
           "q": "What are regulatory traffic signs in Florida?",
-          "a": "Regulatory traffic signs tell drivers what action is required, prohibited, or allowed. Common examples include stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, no right turn, no turn on red, keep right, and do not pass signs."
+          "a": "Regulatory traffic signs tell drivers what action is required, prohibited, or allowed. Common examples include stop, yield, do not enter, wrong way, one way, Right Turn Only, speed limit, no U-turn, no right turn, no turn on red, keep right, and do not pass signs."
         },
         {
           "q": "Where can I check official traffic signs for Florida?",

@@ -150,6 +150,7 @@ function initQuizzes() {
     let timerRemaining = 10 * 60;
     let timerComplete = false;
     let quizStartedTracked = false;
+    let quizHalfwayTracked = false;
     let quizCompletedTracked = false;
 
     const escapeHtml = (value) =>
@@ -294,6 +295,7 @@ function initQuizzes() {
       const leftCount = Math.max(activeTotal - answeredCount, 0);
       const percent = answeredCount ? Math.round((correctCount / answeredCount) * 100) : 0;
       const complete = activeTotal > 0 && answeredCount === activeTotal;
+      const halfwayReached = activeTotal > 1 && answeredCount >= Math.ceil(activeTotal / 2);
       const effectivePassScore = Math.min(passScore, Math.max(activeTotal - 1, 1));
       const resultText = !activeTotal
         ? "No questions selected"
@@ -302,6 +304,19 @@ function initQuizzes() {
         : answeredCount
         ? `Score: ${correctCount} of ${answeredCount} answered · ${percent}% correct`
         : "Score: 0 of 0 answered";
+
+      if (halfwayReached && !quizHalfwayTracked) {
+        quizHalfwayTracked = true;
+        trackToolEvent("quiz_halfway", {
+          tool: quizLabel,
+          mode: quiz.dataset.modeId || "default",
+          focus: filterSelect?.value || "all",
+          total: activeTotal,
+          answered: answeredCount,
+          correct: correctCount,
+          missed: missedCount,
+        });
+      }
 
       if (complete && !quizCompletedTracked) {
         quizCompletedTracked = true;
@@ -409,6 +424,7 @@ function initQuizzes() {
       activePosition = 0;
       toolMessage = "";
       quizStartedTracked = false;
+      quizHalfwayTracked = false;
       quizCompletedTracked = false;
       questions.forEach((question) => {
         question.querySelectorAll("button").forEach((button) => {
