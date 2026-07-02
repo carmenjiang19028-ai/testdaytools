@@ -595,8 +595,8 @@
       "primaryActions": [
         {
           "label": "Score release",
-          "title": "AP Score Release Date 2026",
-          "text": "Countdown, score-day plan, and first steps after scores appear.",
+          "title": "AP Scores 2026 Release Date",
+          "text": "July 6 release timing, score-day checks, and first steps after scores appear.",
           "href": "ap-score-release-date-2026.html"
         },
         {
@@ -714,18 +714,19 @@
     {
       "slug": "ap-score-release-date-2026",
       "category": "AP",
-      "title": "AP Score Release Date 2026",
-      "description": "Track the 2026 AP score release date, see what to do before scores arrive, and understand how to send AP scores after release.",
-      "heroKicker": "AP dates",
-      "summary": "2026 AP scores are scheduled to be available starting Monday, July 6, 2026. Use the countdown and quick checklist below to get ready before release day.",
+      "title": "AP Scores 2026 Release Date: July 6 and Next Steps",
+      "description": "2026 AP scores start July 6. See how to view AP scores, avoid duplicate accounts, send score reports, and plan credit or placement after release.",
+      "lastUpdated": "July 2, 2026",
+      "heroKicker": "AP scores 2026",
+      "summary": "2026 AP scores are available starting Monday, July 6, 2026. Use this score-day guide to sign in, view AP scores, avoid duplicate accounts, send score reports, and decide what to do after results appear.",
       "quickFacts": [
         {
           "label": "Release starts",
           "value": "Monday, July 6, 2026"
         },
         {
-          "label": "Where to check",
-          "value": "Official College Board AP score account"
+          "label": "Where to view scores",
+          "value": "Official College Board AP scores page"
         },
         {
           "label": "Best prep task",
@@ -829,24 +830,24 @@
       ],
       "body": [
         {
-          "heading": "What to know",
-          "text": "AP scores usually roll out through the student's online College Board account. Release timing can vary during the day, so refresh gently and keep your sign-in information ready."
+          "heading": "AP scores 2026 release date",
+          "text": "College Board says 2026 AP Exam scores will be available starting Monday, July 6. Scores are viewed through the student's College Board account, and access can vary during the day."
         },
         {
           "heading": "Before scores arrive",
           "text": "Confirm that your College Board account uses the same name and identifying details you used for AP exams. If you are sending scores to a college, review your recipient choices before making changes."
         },
         {
-          "heading": "How to check your AP scores",
-          "text": "Start from the official AP score page and sign in directly. Avoid links from random messages or social posts on score day. If the site is slow, wait a short while and try again instead of creating a second account."
+          "heading": "How to view AP scores",
+          "text": "Start from the official AP score page and sign in directly with the same College Board account used for AP. Avoid links from random messages or social posts on score day. If the site is slow, wait a short while and try again instead of creating a second account."
         },
         {
           "heading": "Why a score can be delayed",
           "text": "A delayed or missing score can happen for account matching, late testing, make-up testing, or processing review. This page cannot access private score data, so any score-specific problem should be handled through official College Board support."
         },
         {
-          "heading": "Use scores carefully",
-          "text": "AP scores can help with placement and credit, but each college sets its own policy. Before dropping a class, changing a schedule, or sending a report, compare the score with the exact policy for that school and program."
+          "heading": "What is a good AP score?",
+          "text": "A good AP score depends on the college, subject, department, and placement policy. Many students look first at whether a 3, 4, or 5 earns credit or placement at the school they plan to attend."
         }
       ],
       "cardGroups": [
@@ -930,8 +931,8 @@
       ],
       "sources": [
         {
-          "label": "College Board AP Students: Score release calendar",
-          "url": "https://apstudents.collegeboard.org/view-scores/calendar"
+          "label": "College Board AP Students: View your scores",
+          "url": "https://apstudents.collegeboard.org/view-scores"
         },
         {
           "label": "College Board AP Students: Sending scores",
@@ -9914,11 +9915,11 @@
     {
       "slug": "florida-dmv-road-signs-practice",
       "category": "DMV",
-      "title": "Florida Traffic Signs Practice: Regulatory Signs and FDOT Sources",
-      "description": "Practice Florida traffic signs with 24 picture questions, regulatory and Right Turn Only review, FDOT/FLHSMV source checks, and yellow warning-sign drills.",
-      "lastUpdated": "June 24, 2026",
+      "title": "Florida Regulatory Traffic Signs Practice with FDOT Sources",
+      "description": "Practice Florida regulatory traffic signs with 24 picture questions, Right Turn Only and No Right Turn review, official FDOT sign-library links, FLHSMV handbook checks, and yellow warning-sign drills.",
+      "lastUpdated": "July 2, 2026",
       "heroKicker": "Florida traffic signs practice",
-      "summary": "Practice 24 Florida road-sign pictures, starting with the regulatory signs Florida learners search for most: stop, yield, do not enter, wrong way, one way, Right Turn Only and No Right Turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check official Florida traffic signs with FDOT and FLHSMV before reviewing yellow warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "summary": "Practice 24 Florida regulatory traffic sign pictures, starting with the official-source sign groups Florida learners search for most: stop, yield, do not enter, wrong way, one way, Right Turn Only and No Right Turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check Florida traffic signs with FDOT and FLHSMV before reviewing yellow warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "heroActions": [
         {
           "label": "Start image quiz",
