@@ -102,8 +102,8 @@
     "startHere": [
       {
         "label": "Florida signs",
-        "title": "Florida Regulatory Signs: 24 Pictures",
-        "text": "Practice the high-intent Florida sign cluster: regulatory traffic signs, official traffic signs, wrong-way signs, one-way arrows, right-turn signs, and yellow warnings.",
+        "title": "Florida Regulatory Traffic Signs: Right Turn Only and More",
+        "text": "Practice the high-intent Florida sign cluster: regulatory traffic signs, official Right Turn Only traffic sign Florida checks, wrong-way signs, one-way arrows, and yellow warnings.",
         "href": "florida-dmv-road-signs-practice.html"
       },
       {
@@ -146,8 +146,8 @@
     "popular": [
       {
         "label": "FL signs",
-        "title": "Florida Regulatory Traffic Signs: 24 Pictures",
-        "text": "Florida regulatory signs, official source checks, and visual weak-area review",
+        "title": "Florida Regulatory Traffic Signs and Right Turn Only",
+        "text": "Florida regulatory signs, official traffic signs, Right Turn Only, and visual weak-area review",
         "href": "florida-dmv-road-signs-practice.html"
       },
       {
@@ -714,23 +714,23 @@
     {
       "slug": "ap-score-release-date-2026",
       "category": "AP",
-      "title": "AP Scores 2026 Release Date: July 6 and Next Steps",
-      "description": "2026 AP scores start July 6. See how to view AP scores, avoid duplicate accounts, send score reports, and plan credit or placement after release.",
-      "lastUpdated": "July 2, 2026",
-      "heroKicker": "AP scores 2026",
-      "summary": "2026 AP scores are available starting Monday, July 6, 2026. Use this score-day guide to sign in, view AP scores, avoid duplicate accounts, send score reports, and decide what to do after results appear.",
+      "title": "AP Scores 2026: Release Date, Score Meaning, and Next Steps",
+      "description": "AP scores 2026 started July 6. See how to view scores, understand 3/4/5 results, send score reports, compare AP credit, and handle missing scores.",
+      "lastUpdated": "July 11, 2026",
+      "heroKicker": "AP scores after release",
+      "summary": "2026 AP scores started releasing Monday, July 6, 2026. Use this score guide to view results, understand what your score can mean, send official score reports, compare AP credit or placement policies, and decide what to do if a score is delayed.",
       "quickFacts": [
         {
           "label": "Release starts",
-          "value": "Monday, July 6, 2026"
+          "value": "Started Monday, July 6, 2026"
         },
         {
           "label": "Where to view scores",
           "value": "Official College Board AP scores page"
         },
         {
-          "label": "Best prep task",
-          "value": "Confirm sign-in before release day"
+          "label": "Best next task",
+          "value": "Check credit and placement policies"
         },
         {
           "label": "If delayed",
@@ -738,26 +738,26 @@
         }
       ],
       "countdown": {
-        "label": "AP score release begins",
+        "label": "AP score release status",
         "date": "2026-07-06T08:00:00-04:00"
       },
       "timeline": {
-        "heading": "AP score release timeline",
+        "heading": "AP score release and next-step timeline",
         "items": [
           {
-            "label": "Now",
-            "title": "Clean up account access",
-            "text": "Sign in once, update email if needed, and avoid creating duplicate accounts."
+            "label": "Release week",
+            "title": "View scores safely",
+            "text": "Sign in through College Board, avoid duplicate accounts, and keep full score screenshots private."
           },
           {
-            "label": "Release morning",
-            "title": "Check privately",
-            "text": "Use a private device, keep personal information off screenshots, and expect traffic delays."
+            "label": "Same day",
+            "title": "Understand the score",
+            "text": "Connect each 3, 4, or 5 to the exact college, subject, department, and placement policy before changing plans."
           },
           {
             "label": "Same week",
-            "title": "Compare credit policies",
-            "text": "Look up the exact college and department policy before changing a schedule."
+            "title": "Decide whether to send scores",
+            "text": "Use official score-sending tools when a college requires an official report, and check deadlines before waiting."
           },
           {
             "label": "After August 15",
@@ -830,12 +830,16 @@
       ],
       "body": [
         {
-          "heading": "AP scores 2026 release date",
-          "text": "College Board says 2026 AP Exam scores will be available starting Monday, July 6. Scores are viewed through the student's College Board account, and access can vary during the day."
+          "heading": "What to do after AP scores arrive",
+          "text": "First, save a private record for your own planning. Then separate three decisions: whether the score earns college credit, whether it changes course placement, and whether you need to send an official score report."
         },
         {
-          "heading": "Before scores arrive",
-          "text": "Confirm that your College Board account uses the same name and identifying details you used for AP exams. If you are sending scores to a college, review your recipient choices before making changes."
+          "heading": "AP scores 2026 release date",
+          "text": "College Board says 2026 AP Exam scores became available starting Monday, July 6. Scores are viewed through the student's College Board account, and access can vary during release week."
+        },
+        {
+          "heading": "How to understand a 3, 4, or 5",
+          "text": "A 3, 4, or 5 can mean different things at different colleges. One school may grant credit, another may grant placement only, and another may require a higher score for the same subject."
         },
         {
           "heading": "How to view AP scores",
@@ -847,7 +851,7 @@
         },
         {
           "heading": "What is a good AP score?",
-          "text": "A good AP score depends on the college, subject, department, and placement policy. Many students look first at whether a 3, 4, or 5 earns credit or placement at the school they plan to attend."
+          "text": "A good AP score depends on the goal. For many students, the practical question is whether the score earns credit, satisfies a placement requirement, or helps choose the next course."
         }
       ],
       "cardGroups": [
@@ -888,7 +892,9 @@
             {
               "label": "Seniors",
               "title": "Check orientation deadlines",
-              "text": "Some colleges use AP scores for placement before classes begin, so timing can matter after admission."
+              "text": "Some colleges use AP scores for placement before classes begin, so timing can matter after admission.",
+              "href": "ap-credit-after-scores-guide.html",
+              "cta": "AP credit guide"
             }
           ]
         }
@@ -7076,6 +7082,13 @@
               "label": "Crossings",
               "title": "Stopping on tracks or crosswalks",
               "text": "Leave space before railroad tracks and crosswalks so you are not trapped in a danger area."
+            },
+            {
+              "label": "Compare",
+              "title": "Use Florida regulatory signs for action drills",
+              "text": "If the weak spot is required or prohibited movement, compare with the Florida regulatory traffic signs page for Right Turn Only, No Right Turn, One Way, and Keep Right practice.",
+              "href": "florida-dmv-road-signs-practice.html",
+              "cta": "Florida regulatory traffic signs"
             }
           ]
         }
@@ -7108,7 +7121,8 @@
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "california-dmv-permit-practice-test",
-        "new-york-dmv-road-signs-practice"
+        "new-york-dmv-road-signs-practice",
+        "florida-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -8005,6 +8019,13 @@
               "text": "After signs feel faster, use the New York permit practice page for broader rules, right-of-way, safety, and official-source review.",
               "href": "new-york-dmv-permit-practice-test.html",
               "cta": "NY permit practice"
+            },
+            {
+              "label": "Compare",
+              "title": "Check Florida regulatory traffic signs",
+              "text": "When the miss is about required movement, compare with the Florida regulatory traffic signs page for Right Turn Only, No Right Turn, One Way, and Keep Right actions.",
+              "href": "florida-dmv-road-signs-practice.html",
+              "cta": "Florida regulatory traffic signs"
             }
           ]
         },
@@ -8061,7 +8082,8 @@
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "new-york-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice"
+        "california-dmv-road-signs-practice",
+        "florida-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -8891,7 +8913,8 @@
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
         "texas-dmv-permit-practice-test",
-        "california-dmv-road-signs-practice"
+        "california-dmv-road-signs-practice",
+        "florida-dmv-road-signs-practice"
       ],
       "quizModes": [
         {
@@ -9129,6 +9152,13 @@
               "label": "Mock exam",
               "title": "Use the long round late",
               "text": "The 40-question mode is best after you have already fixed obvious misses."
+            },
+            {
+              "label": "Compare",
+              "title": "Review Florida regulatory traffic signs",
+              "text": "If the sign confusion is about lane movement or turn restrictions, use the Florida regulatory traffic signs page for Right Turn Only, No Right Turn, One Way, and Keep Right practice.",
+              "href": "florida-dmv-road-signs-practice.html",
+              "cta": "Florida regulatory traffic signs"
             }
           ]
         }
