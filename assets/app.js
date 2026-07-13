@@ -88,6 +88,17 @@ function initAnalyticsEvents() {
   });
 }
 
+function initPrintableResources() {
+  document.querySelectorAll("[data-print-page]").forEach((button) => {
+    button.addEventListener("click", () => {
+      trackToolEvent("resource_print", {
+        resource: "dmv_road_signs_cheat_sheet",
+      });
+      window.print();
+    });
+  });
+}
+
 function initCountdowns() {
   document.querySelectorAll("[data-countdown]").forEach((box) => {
     const target = new Date(box.dataset.countdown).getTime();
@@ -2122,6 +2133,7 @@ function initSatGoalPlanners() {
 }
 
 initAnalyticsEvents();
+initPrintableResources();
 initCountdowns();
 initQuizzes();
 initModeTools();

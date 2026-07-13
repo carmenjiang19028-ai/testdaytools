@@ -53,6 +53,7 @@
           "dmv-road-sign-flashcards",
           "road-sign-shapes-and-colors-finder",
           "road-signs-practice-test",
+          "dmv-road-signs-cheat-sheet",
           "california-dmv-permit-practice-test",
           "new-york-dmv-permit-practice-test",
           "texas-dmv-permit-practice-test",
@@ -117,6 +118,12 @@
         "title": "Road Signs Practice: 24 DMV Pictures",
         "text": "Take the broad 24-picture road-sign quiz first, then route misses into regulatory signs, flashcards, shape/color lookup, or Florida source checks.",
         "href": "road-signs-practice-test.html"
+      },
+      {
+        "label": "Print",
+        "title": "Free DMV Road Signs Cheat Sheet",
+        "text": "Print 23 original road-sign pictures with plain-English meanings, no email or signup required, then quiz only the signs that feel slow.",
+        "href": "dmv-road-signs-cheat-sheet.html"
       },
       {
         "label": "Regulatory signs",
@@ -197,6 +204,12 @@
         "title": "Road Signs Practice Test with Pictures",
         "text": "24 DMV image questions for regulatory, warning, and guide signs",
         "href": "road-signs-practice-test.html"
+      },
+      {
+        "label": "Print",
+        "title": "Free DMV Road Signs Cheat Sheet",
+        "text": "23 printable sign pictures and meanings with no email gate",
+        "href": "dmv-road-signs-cheat-sheet.html"
       },
       {
         "label": "Cards",
@@ -422,7 +435,7 @@
         }
       ]
     },
-    "lastUpdated": "June 14, 2026"
+    "lastUpdated": "July 14, 2026"
   },
   "hubs": [
     {
@@ -473,6 +486,12 @@
           "title": "Road Signs Practice Test",
           "text": "Regulatory, warning, guide, school, and work-zone sign images in one quiz.",
           "href": "road-signs-practice-test.html"
+        },
+        {
+          "label": "Print",
+          "title": "Free DMV Road Signs Cheat Sheet",
+          "text": "Print 23 original road-sign pictures and meanings without an email gate, then quiz the signs that need more work.",
+          "href": "dmv-road-signs-cheat-sheet.html"
         },
         {
           "label": "Flashcards",
@@ -542,6 +561,7 @@
           "heading": "Road signs practice",
           "links": [
             "road-signs-practice-test",
+            "dmv-road-signs-cheat-sheet",
             "regulatory-traffic-signs-practice-test",
             "dmv-road-sign-flashcards",
             "road-sign-shapes-and-colors-finder",
@@ -6591,6 +6611,7 @@
         }
       ],
       "related": [
+        "dmv-road-signs-cheat-sheet",
         "dmv-road-sign-flashcards",
         "road-sign-shapes-and-colors-finder",
         "regulatory-traffic-signs-practice-test",
@@ -23026,6 +23047,7 @@
       "slug": "about",
       "title": "About TestDayTools",
       "description": "Learn what TestDayTools is, how the site is maintained, and why all tools are unofficial.",
+      "lastUpdated": "July 14, 2026",
       "content": [
         {
           "heading": "What we make",
@@ -23056,8 +23078,22 @@
           "text": "Dates and policies can change. When a page depends on official timing, the source link is included so readers can verify the latest rule before acting."
         },
         {
+          "heading": "Funding and editorial independence",
+          "text": "TestDayTools is currently self-funded. If advertising is added, ads will be separated from quiz controls and will not determine practice answers, source selection, rankings, or editorial conclusions."
+        },
+        {
           "heading": "Affiliation",
           "text": "We are not affiliated with College Board, AP, SAT, any DMV, or any government agency. Names are used only to describe the exams and public services students are researching."
+        }
+      ],
+      "links": [
+        {
+          "label": "Editorial Policy",
+          "url": "editorial-policy.html"
+        },
+        {
+          "label": "Public GitHub project",
+          "url": "https://github.com/carmenjiang19028-ai/testdaytools"
         }
       ]
     },
@@ -23065,6 +23101,7 @@
       "slug": "editorial-policy",
       "title": "Editorial Policy",
       "description": "How TestDayTools writes, checks, updates, and labels unofficial DMV, AP, and SAT tools.",
+      "lastUpdated": "July 14, 2026",
       "content": [
         {
           "heading": "Purpose",
@@ -23100,7 +23137,7 @@
         },
         {
           "heading": "Advertising policy",
-          "text": "Real ads are not installed yet. If ads are approved later, placements should not cover quiz choices, checklist controls, source links, or any button needed to use a tool."
+          "text": "Advertising is not installed yet. If ads are approved, placements will stay separate from quiz choices, checklist controls, source links, and required tool buttons. Advertising will not change practice answers, source selection, rankings, or editorial conclusions."
         }
       ],
       "links": [
@@ -23122,7 +23159,7 @@
       "slug": "privacy",
       "title": "Privacy Policy",
       "description": "Privacy policy for TestDayTools. The site does not collect personal information or store quiz answers.",
-      "lastUpdated": "June 3, 2026",
+      "lastUpdated": "July 14, 2026",
       "content": [
         {
           "heading": "Personal information",
@@ -23154,7 +23191,11 @@
         },
         {
           "heading": "Advertising",
-          "text": "Real advertising is not installed yet. If advertising is approved and added later, ad partners may use cookies or similar technologies to serve and measure ads under their own policies. This page should be reviewed again before any real ad code goes live."
+          "text": "Advertising is not installed yet. If Google AdSense or another advertising partner is activated, Google and its advertising partners may use cookies or similar technologies to serve, limit, personalize, and measure ads under their own policies. TestDayTools will review this notice before ad code goes live and will use an appropriate consent message where required."
+        },
+        {
+          "heading": "Advertising choices and consent",
+          "text": "If advertising is activated, visitors in regions that require consent will be shown a consent or privacy-choice message before eligible advertising cookies are used. Visitors can also manage Google ad personalization through Google's advertising settings."
         },
         {
           "heading": "Children and students",
@@ -23166,6 +23207,7 @@
       "slug": "contact",
       "title": "Contact",
       "description": "Contact information and correction requests for TestDayTools.",
+      "lastUpdated": "July 14, 2026",
       "content": [
         {
           "heading": "Corrections",
@@ -23189,7 +23231,7 @@
         },
         {
           "heading": "Advertising and privacy",
-          "text": "Real advertising is not installed yet. If ads are approved later, placements should stay away from quiz answer buttons and the Privacy Policy should be reviewed before launch."
+          "text": "Advertising is not installed yet. If ads are approved, placements will stay away from quiz answer buttons and required tool controls, and the Privacy Policy and consent settings will be reviewed before launch."
         }
       ],
       "links": [

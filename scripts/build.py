@@ -42,6 +42,15 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
     "description": "Flip DMV road sign flashcards for regulatory, warning, school, work-zone, and service signs. Save review cards in your browser. No signup.",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
+ROAD_SIGN_CHEAT_SHEET_SLUG = "dmv-road-signs-cheat-sheet"
+ROAD_SIGN_CHEAT_SHEET_PAGE = {
+    "slug": ROAD_SIGN_CHEAT_SHEET_SLUG,
+    "category": "DMV",
+    "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
+    "description": "Print a free DMV road signs cheat sheet with 23 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
+    "lastUpdated": "July 14, 2026",
+}
+TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
 DMV_STUDY_PLAN_PAGE = {
     "slug": DMV_STUDY_PLAN_SLUG,
@@ -155,6 +164,7 @@ def sitemap_priority(path):
         "/dmv-permit-test-question-of-the-day.html",
         "/regulatory-traffic-signs-practice-test.html",
         "/road-signs-practice-test.html",
+        "/dmv-road-signs-cheat-sheet.html",
     }
     if path in high_value:
         return "0.9", "daily"
@@ -2452,7 +2462,7 @@ def render_road_sign_shapes_page():
   {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
   {"label": "FHWA: Sign principles and types", "url": "https://highways.dot.gov/safety/local-rural/maintenance-signs-and-sign-supports/ii-sign-principles-and-types"},
 ])}
-{render_related(["dmv-road-sign-flashcards", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-requirements-by-state"])}
+{render_related(["dmv-road-signs-cheat-sheet", "dmv-road-sign-flashcards", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-requirements-by-state"])}
 {render_ad("Future ad")}"""
     return page_shell(
         ROAD_SIGN_SHAPES_PAGE["title"],
@@ -2461,6 +2471,91 @@ def render_road_sign_shapes_page():
         body,
         "tool-page shape-page",
         page_schema(ROAD_SIGN_SHAPES_PAGE["title"], ROAD_SIGN_SHAPES_PAGE["description"], url_for(f"/{ROAD_SIGN_SHAPES_SLUG}.html"), "LearningResource"),
+    )
+
+
+def render_road_sign_cheat_sheet_page():
+    source_tool = TOOL_BY_SLUG["road-signs-practice-test"]
+    groups = source_tool.get("signLibrary", {}).get("groups", [])
+    rendered_groups = []
+    sign_count = 0
+    for group in groups:
+        signs = []
+        for sign in group.get("signs", []):
+            sign_count += 1
+            signs.append(f"""<article class="cheat-sign-card">
+  <div class="cheat-sign-visual" role="img" aria-label="{esc(sign['title'])} road sign">{SIGN_SVGS.get(sign["image"], "")}</div>
+  <div><strong>{esc(sign["title"])}</strong><p>{esc(sign["meaning"])}</p></div>
+</article>""")
+        rendered_groups.append(f"""<section class="cheat-group">
+  <div class="cheat-group-head"><h2>{esc(group.get("label", "Road signs"))}</h2><p>{esc(group.get("text", ""))}</p></div>
+  <div class="cheat-sign-grid">{"".join(signs)}</div>
+</section>""")
+
+    body = f"""<section class="hero tool-hero printable-resource-hero">
+  <div class="tool-hero-grid">
+    <div>
+      <p class="eyebrow">Free printable DMV study sheet</p>
+      <h1>{esc(ROAD_SIGN_CHEAT_SHEET_PAGE["title"])}</h1>
+      <p class="lede">Use this no-email, no-signup reference to review {sign_count} common U.S. road signs by picture, meaning, shape, and color. Print it, mark the signs that feel slow, then practice only those groups.</p>
+      {render_last_updated(ROAD_SIGN_CHEAT_SHEET_PAGE["lastUpdated"])}
+      <div class="hero-actions print-sheet-toolbar">
+        <button type="button" data-print-page>Print cheat sheet</button>
+        <a href="road-signs-practice-test.html#practice">Take the picture quiz</a>
+        <a href="dmv-road-sign-flashcards.html">Open flashcards</a>
+      </div>
+    </div>
+    <aside class="tool-hero-panel" aria-label="Cheat sheet summary">
+      <div class="panel-status"><span>Free resource</span><strong>No email required</strong></div>
+      {render_sign_preview_strip()}
+      <div class="panel-facts"><div><span>Included</span><strong>{sign_count} original sign pictures</strong></div><div><span>Print layout</span><strong>Compact two-column study sheet</strong></div><div><span>Best next step</span><strong>Quiz the signs you cannot name quickly</strong></div></div>
+    </aside>
+  </div>
+</section>
+<section class="notice"><strong>Unofficial study resource.</strong> {esc(SITE["disclaimer"])}</section>
+<section class="printable-road-sign-sheet" id="printable-sheet">
+  <header class="printable-sheet-head">
+    <div><p class="eyebrow">TestDayTools printable reference</p><h2>DMV road signs and meanings</h2></div>
+    <p>{sign_count} common signs. Read the picture first, then say the driver action before checking the meaning.</p>
+  </header>
+  <div class="cheat-legend" aria-label="Road sign color and shape legend">
+    <div><span class="legend-swatch legend-red"></span><strong>Red</strong><p>Stop, yield, entry, or prohibited movement</p></div>
+    <div><span class="legend-swatch legend-yellow"></span><strong>Yellow</strong><p>Warning, crossing, or road condition ahead</p></div>
+    <div><span class="legend-swatch legend-white"></span><strong>White</strong><p>Regulatory rule, speed, lane, or direction</p></div>
+    <div><span class="legend-swatch legend-blue"></span><strong>Blue</strong><p>Driver service such as a hospital</p></div>
+  </div>
+  {"".join(rendered_groups)}
+  <footer class="printable-sheet-foot"><strong>Study loop:</strong> Cover the meanings, name each sign and driver action, circle misses, then retake the matching group at testdaytools.com/road-signs-practice-test.html.</footer>
+</section>
+<section class="card-group">
+  <h2>Turn the sheet into permit-test practice</h2>
+  <div class="card-grid">
+    <article class="info-card"><span>1. Scan</span><h3>Name the driver action</h3><p>Say stop, yield, merge, slow, watch, or prohibited movement before reading the definition.</p></article>
+    <article class="info-card"><span>2. Mark</span><h3>Circle only slow signs</h3><p>A short weak-sign list is more useful than repeatedly studying signs you already recognize.</p></article>
+    <article class="info-card"><span>3. Test</span><h3>Use pictures without the labels</h3><p>Move into the 24-picture quiz, then save missed signs in your browser for another review.</p></article>
+  </div>
+</section>
+{render_sources([
+  {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
+])}
+{render_related(["road-signs-practice-test", "dmv-road-sign-flashcards", "road-sign-shapes-and-colors-finder", "regulatory-traffic-signs-practice-test"])}
+{render_ad("Future ad")}"""
+    canonical = url_for(f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html")
+    resource_schema = schema(
+        ROAD_SIGN_CHEAT_SHEET_PAGE["title"],
+        ROAD_SIGN_CHEAT_SHEET_PAGE["description"],
+        canonical,
+        "LearningResource",
+    )
+    resource_schema["learningResourceType"] = "Cheat sheet"
+    resource_schema["educationalUse"] = "Study"
+    return page_shell(
+        ROAD_SIGN_CHEAT_SHEET_PAGE["title"],
+        ROAD_SIGN_CHEAT_SHEET_PAGE["description"],
+        f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html",
+        body,
+        "tool-page road-sign-cheat-sheet-page",
+        [resource_schema, breadcrumb_schema(ROAD_SIGN_CHEAT_SHEET_PAGE["title"], canonical)],
     )
 
 
@@ -2586,7 +2681,7 @@ def render_road_sign_flashcards_page():
   {"q": "Does the flashcard deck save my answers?", "a": "The deck saves Know and Review counts only in this browser. TestDayTools does not require signup and does not collect your answers."},
   {"q": "Which signs should I review first?", "a": "Start with regulatory signs such as stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and no passing because they often map directly to legal driver actions."},
 ])}
-{render_related(["road-signs-practice-test", "regulatory-traffic-signs-practice-test", "road-sign-shapes-and-colors-finder", "dmv-permit-test-requirements-by-state"])}
+{render_related(["dmv-road-signs-cheat-sheet", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "road-sign-shapes-and-colors-finder", "dmv-permit-test-requirements-by-state"])}
 {render_ad("Future ad")}"""
     return page_shell(
         ROAD_SIGN_FLASHCARDS_PAGE["title"],
@@ -3355,6 +3450,7 @@ def render_home():
       {render_home_pocket_tabs()}
       <div class="hero-actions home-quick-links">
         <a href="road-signs-practice-test.html">Road signs with pictures</a>
+        <a href="dmv-road-signs-cheat-sheet.html">Printable road signs cheat sheet</a>
         <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
         <a href="georgia-dds-road-signs-practice.html">Georgia road signs</a>
         <a href="north-carolina-dmv-road-signs-practice.html">North Carolina signs</a>
@@ -3415,6 +3511,7 @@ def build():
     write(f"{DMV_MISTAKE_LOG_SLUG}.html", render_dmv_mistake_log_page())
     write(f"{DMV_STUDY_PLAN_SLUG}.html", render_dmv_study_plan_page())
     write(f"{ROAD_SIGN_FLASHCARDS_SLUG}.html", render_road_sign_flashcards_page())
+    write(f"{ROAD_SIGN_CHEAT_SHEET_SLUG}.html", render_road_sign_cheat_sheet_page())
     write(f"{ROAD_SIGN_SHAPES_SLUG}.html", render_road_sign_shapes_page())
     write(f"{DMV_SCORE_SLUG}.html", render_dmv_score_page())
     write(f"{DMV_REQUIREMENTS_SLUG}.html", render_dmv_requirements_page())
@@ -3423,7 +3520,7 @@ def build():
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "\n".join(sitemap_entry(path, lastmod_for_path(path)) for path in dict.fromkeys(urls))
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap_urls}\n</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
