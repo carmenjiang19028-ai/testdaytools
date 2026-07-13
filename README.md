@@ -9,6 +9,7 @@ Popular resources:
 - [DMV road signs practice test](https://testdaytools.com/road-signs-practice-test.html)
 - [Free printable DMV road signs cheat sheet](https://testdaytools.com/dmv-road-signs-cheat-sheet.html)
 - [DMV permit test tools](https://testdaytools.com/dmv-practice.html)
+- [SAT test dates, deadlines, and free calendar](https://testdaytools.com/sat-test-dates-2026-2027.html)
 
 ## Stack
 

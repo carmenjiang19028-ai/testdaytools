@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import html
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import quote
 
@@ -170,7 +170,7 @@ def sitemap_priority(path):
         return "0.9", "daily"
     if path.startswith("/dmv") or "dmv-" in path or "road-sign" in path:
         return "0.8", "weekly"
-    if path in {"/about.html", "/editorial-policy.html", "/privacy.html", "/contact.html", "/disclaimer.html"}:
+    if path in {"/about.html", "/editorial-policy.html", "/privacy.html", "/accessibility.html", "/contact.html", "/disclaimer.html"}:
         return "0.4", "monthly"
     return "0.6", "weekly"
 
@@ -243,7 +243,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   </main>
   <footer class="site-footer">
     <p>{esc(SITE["disclaimer"])}</p>
-    <p><a href="about.html">About</a> <a href="editorial-policy.html">Editorial Policy</a> <a href="privacy.html">Privacy</a> <a href="contact.html">Contact</a> <a href="disclaimer.html">Disclaimer</a></p>
+    <p><a href="about.html">About</a> <a href="editorial-policy.html">Editorial Policy</a> <a href="privacy.html">Privacy</a> <a href="accessibility.html">Accessibility</a> <a href="contact.html">Contact</a> <a href="disclaimer.html">Disclaimer</a></p>
   </footer>
 </body>
 </html>
@@ -851,15 +851,16 @@ def resolve_sign_focus_shortcuts(tool):
 
 
 def render_tool_actions(tool):
-    if tool.get("category") != "DMV":
-        return ""
     if tool.get("heroActions"):
         links = []
         for action in tool.get("heroActions", []):
             attrs = ' target="_blank" rel="noopener"' if is_external_url(action["href"]) else ""
-            links.append(f'<a href="{esc(action["href"])}"{attrs}>{esc(action["label"])}</a>')
+            download = f' download data-resource-download="{esc(action["resource"])}"' if action.get("resource") else ""
+            links.append(f'<a href="{esc(action["href"])}"{attrs}{download}>{esc(action["label"])}</a>')
         links = "".join(links)
         return f'\n    <div class="hero-actions">{links}</div>'
+    if tool.get("category") != "DMV":
+        return ""
     slug = tool.get("slug", "")
     is_checklist_page = tool.get("toolWidget", {}).get("type") == "dmvTestDayChecklist"
     is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
@@ -1758,6 +1759,69 @@ def render_countdown(countdown):
 </section>"""
 
 
+def render_calendar_download(calendar):
+    if not calendar:
+        return ""
+    filename = calendar["filename"]
+    return f"""<section class="calendar-download" id="sat-calendar">
+  <div>
+    <p class="eyebrow">Free calendar file</p>
+    <h2>{esc(calendar["heading"])}</h2>
+    <p>{esc(calendar["text"])}</p>
+  </div>
+  <div class="calendar-download-actions">
+    <a href="{esc(filename)}" download data-resource-download="{esc(calendar.get('resource', 'sat_dates_calendar'))}">Download all 8 SAT dates (.ics)</a>
+    <span>Import into Google Calendar, Apple Calendar, or Outlook.</span>
+  </div>
+</section>"""
+
+
+def ics_escape(value):
+    return str(value).replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\r\n", "\\n").replace("\n", "\\n")
+
+
+def fold_ics_line(line, width=72):
+    parts = []
+    remaining = line
+    while len(remaining) > width:
+        chunk = remaining[:width]
+        remaining = remaining[width:]
+        if chunk.endswith(" "):
+            chunk = chunk[:-1]
+            remaining = f" {remaining}"
+        parts.append(chunk)
+    parts.append(remaining)
+    return "\r\n ".join(parts)
+
+
+def render_calendar_file(calendar):
+    lines = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//TestDayTools//SAT Test Dates 2026-2027//EN",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "X-WR-CALNAME:SAT Test Dates 2026-2027",
+        "X-WR-CALDESC:Confirmed College Board weekend SAT dates with registration deadline reminders.",
+    ]
+    for event in calendar.get("events", []):
+        start = datetime.strptime(event["date"], "%Y-%m-%d")
+        end = start + timedelta(days=1)
+        lines.extend([
+            "BEGIN:VEVENT",
+            f'UID:sat-{start.strftime("%Y%m%d")}@testdaytools.com',
+            "DTSTAMP:20260714T000000Z",
+            f'DTSTART;VALUE=DATE:{start.strftime("%Y%m%d")}',
+            f'DTEND;VALUE=DATE:{end.strftime("%Y%m%d")}',
+            f'SUMMARY:{ics_escape(event["title"])}',
+            f'DESCRIPTION:{ics_escape(event["description"])}',
+            "URL:https://satsuite.collegeboard.org/sat/dates-deadlines",
+            "END:VEVENT",
+        ])
+    lines.append("END:VCALENDAR")
+    return "\r\n".join(fold_ics_line(line) for line in lines) + "\r\n"
+
+
 def render_sign_visual(question):
     key = question.get("image")
     if not key:
@@ -1981,6 +2045,7 @@ def render_tool(tool):
         render_quick_facts(tool.get("quickFacts")),
         render_tool_widget(tool),
         render_countdown(tool.get("countdown")),
+        render_calendar_download(tool.get("calendarDownload")),
         render_timeline(tool.get("timeline")),
         render_tables(tool.get("tables")),
         body_sections,
@@ -3517,6 +3582,8 @@ def build():
     write(f"{DMV_REQUIREMENTS_SLUG}.html", render_dmv_requirements_page())
     for tool in DATA["tools"]:
         write(f'{tool["slug"]}.html', render_tool(tool))
+        if tool.get("calendarDownload"):
+            write(tool["calendarDownload"]["filename"], render_calendar_file(tool["calendarDownload"]))
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 

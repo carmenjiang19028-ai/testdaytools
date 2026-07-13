@@ -1666,11 +1666,11 @@
     {
       "slug": "sat-test-dates-2026-2027",
       "category": "SAT",
-      "title": "College Board SAT Test Dates 2026-2027 and SAT School Day 2027",
-      "description": "Plan around College Board 2026-2027 U.S. SAT weekend dates, 2027 SAT dates, SAT School Day checks, registration deadlines, and score timing considerations.",
-      "lastUpdated": "June 24, 2026",
-      "heroKicker": "College Board SAT dates",
-      "summary": "College Board lists confirmed SAT weekend dates for the 2026-2027 school year, including March 6, May 1, and June 5, 2027. Use this page to compare weekend SAT dates, understand how SAT School Day 2027 is different, and remember that country, test-center, and school-day availability still need an official registration check.",
+      "title": "SAT Test Dates 2026-2027: Deadlines and School Day 2027",
+      "description": "See confirmed SAT test dates and registration deadlines from August 2026 through June 2027, SAT School Day windows, and a free downloadable calendar.",
+      "lastUpdated": "July 14, 2026",
+      "heroKicker": "Official dates, deadlines, and free calendar",
+      "summary": "Compare all eight confirmed SAT weekend dates from August 2026 through June 2027, see each registration and late deadline, check the SAT School Day 2027 window, and download every date as one free calendar file.",
       "quickFacts": [
         {
           "label": "Next listed date",
@@ -1690,9 +1690,68 @@
         },
         {
           "label": "SAT School Day",
-          "value": "Ask your school; dates are school-selected"
+          "value": "March 1-April 30, 2027 window"
         }
       ],
+      "heroActions": [
+        {
+          "label": "Download all 8 SAT dates",
+          "href": "sat-test-dates-2026-2027.ics",
+          "resource": "sat_dates_2026_2027_calendar"
+        },
+        {
+          "label": "Official dates and registration",
+          "href": "https://satsuite.collegeboard.org/sat/dates-deadlines"
+        }
+      ],
+      "calendarDownload": {
+        "filename": "sat-test-dates-2026-2027.ics",
+        "resource": "sat_dates_2026_2027_calendar",
+        "heading": "Add every 2026-2027 SAT date to your calendar",
+        "text": "One free file adds all eight confirmed weekend test dates. Each event includes the regular registration deadline and late-registration deadline in its notes.",
+        "events": [
+          {
+            "date": "2026-08-22",
+            "title": "SAT - August 22, 2026",
+            "description": "Regular registration deadline: August 7, 2026. Late registration and changes deadline: August 11, 2026. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2026-09-12",
+            "title": "SAT - September 12, 2026",
+            "description": "Regular registration deadline: August 28, 2026. Late registration and changes deadline: September 1, 2026. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2026-10-03",
+            "title": "SAT - October 3, 2026",
+            "description": "Regular registration deadline: September 18, 2026. Late registration and changes deadline: September 22, 2026. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2026-11-07",
+            "title": "SAT - November 7, 2026",
+            "description": "Regular registration deadline: October 23, 2026. Late registration and changes deadline: October 27, 2026. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2026-12-05",
+            "title": "SAT - December 5, 2026",
+            "description": "Regular registration deadline: November 20, 2026. Late registration and changes deadline: November 24, 2026. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2027-03-06",
+            "title": "SAT - March 6, 2027",
+            "description": "Regular registration deadline: February 19, 2027. Late registration and changes deadline: February 23, 2027. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2027-05-01",
+            "title": "SAT - May 1, 2027",
+            "description": "Regular registration deadline: April 16, 2027. Late registration and changes deadline: April 20, 2027. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2027-06-05",
+            "title": "SAT - June 5, 2027",
+            "description": "Regular registration deadline: May 21, 2027. Late registration and changes deadline: May 25, 2027. Verify test-center availability with College Board."
+          }
+        ]
+      },
       "countdown": {
         "label": "Next listed SAT weekend date",
         "date": "2026-08-22T07:45:00-04:00"
@@ -1724,52 +1783,61 @@
       },
       "tables": [
         {
-          "caption": "Confirmed SAT weekend dates for 2026-2027",
+          "caption": "SAT test dates and registration deadlines for 2026-2027",
           "headers": [
             "Test date",
-            "Best for",
-            "Planning note"
+            "Registration deadline",
+            "Late registration / changes",
+            "Planning use"
           ],
           "rows": [
             [
               "August 22, 2026",
-              "Early senior testing",
-              "Useful before fall application deadlines."
+              "August 7, 2026",
+              "August 11, 2026",
+              "Early senior testing before fall applications."
             ],
             [
               "September 12, 2026",
-              "Retake buffer",
-              "Leaves time before October deadlines."
+              "August 28, 2026",
+              "September 1, 2026",
+              "Retake buffer before October deadlines."
             ],
             [
               "October 3, 2026",
-              "Fall applications",
-              "Check college score deadlines carefully."
+              "September 18, 2026",
+              "September 22, 2026",
+              "Fall applications; check college score deadlines."
             ],
             [
               "November 7, 2026",
-              "Regular decision planning",
-              "Can work for many January deadlines."
+              "October 23, 2026",
+              "October 27, 2026",
+              "Regular decision planning for many January deadlines."
             ],
             [
               "December 5, 2026",
-              "Final fall attempt",
-              "Confirm whether colleges accept December scores."
+              "November 20, 2026",
+              "November 24, 2026",
+              "Final fall attempt; confirm score acceptance timing."
             ],
             [
               "March 6, 2027",
-              "Junior spring testing",
-              "Common first official SAT for juniors."
+              "February 19, 2027",
+              "February 23, 2027",
+              "Junior spring testing with May and June retake room."
             ],
             [
               "May 1, 2027",
-              "Junior retake",
-              "Consider AP exam overlap."
+              "April 16, 2027",
+              "April 20, 2027",
+              "Junior retake; consider AP exam overlap."
             ],
             [
               "June 5, 2027",
-              "Summer planning",
-              "Good for students wanting scores before senior fall."
+              "May 21, 2027",
+              "May 25, 2027",
+              "Scores before senior-year planning."
             ]
           ]
         },
@@ -1846,7 +1914,7 @@
         },
         {
           "heading": "Registration reminders",
-          "text": "Registration windows, test center availability, fees, and accommodations deadlines can change. Confirm details in your official College Board account before making plans."
+          "text": "College Board now lists regular and late-registration deadlines for every August 2026-June 2027 weekend date. Deadlines expire at 11:59 p.m. ET, and students borrowing a College Board device need to register and request it at least 30 days before test day. Test-center availability can still change, so confirm the final details in your account."
         },
         {
           "heading": "Country and test-center availability can differ",
@@ -1866,7 +1934,7 @@
         },
         {
           "heading": "SAT School Day 2027 is different from weekend registration",
-          "text": "If you are searching for SAT School Day 2027, do not use the weekend-date table as your only answer. SAT School Day is arranged through participating schools and districts, so ask your counselor or principal whether your school will offer it and which school-selected date applies."
+          "text": "The official spring 2027 SAT School Day testing window is March 1-April 30, 2027. Participating U.S. schools and districts choose whether to offer it and select a school day within that window, so ask your counselor or principal for your exact date. The fall 2026 School Day window is October 1-30, 2026."
         }
       ],
       "cardGroups": [
@@ -1943,7 +2011,11 @@
         },
         {
           "q": "Is SAT School Day 2027 the same as the weekend SAT dates?",
-          "a": "No. Weekend SAT dates are selected by students during registration. SAT School Day is offered through participating schools and districts, and students should ask their counselor or principal whether their school will offer it."
+          "a": "No. Weekend SAT dates are selected by students during registration. The spring 2027 SAT School Day window is March 1-April 30, but participating U.S. schools and districts choose whether to offer it and select the exact school day."
+        },
+        {
+          "q": "What are the SAT registration deadlines for 2026-2027?",
+          "a": "Regular registration closes about two weeks before each test. The exact confirmed deadlines are August 7, August 28, September 18, October 23, and November 20, 2026, then February 19, April 16, and May 21, 2027. Check the table and your College Board account for the matching late deadline and current seat availability."
         },
         {
           "q": "What are the spring 2027 SAT weekend dates?",
@@ -23200,6 +23272,52 @@
         {
           "heading": "Children and students",
           "text": "The site is informational and does not ask students to create accounts, submit scores, or provide school records."
+        }
+      ]
+    },
+    {
+      "slug": "accessibility",
+      "title": "Accessibility",
+      "description": "Accessibility practices and feedback options for TestDayTools quizzes, checklists, tables, and printable study resources.",
+      "lastUpdated": "July 14, 2026",
+      "content": [
+        {
+          "heading": "Our approach",
+          "text": "TestDayTools aims to make study tools usable with a keyboard, screen reader, browser zoom, and common mobile and desktop layouts. Core quizzes and checklists do not require an account or drag-and-drop interaction."
+        },
+        {
+          "heading": "Keyboard and controls",
+          "text": "Interactive choices use native buttons, links, inputs, checkboxes, and select controls where practical. Focus indicators remain visible, and a skip link lets keyboard users move directly to the main content."
+        },
+        {
+          "heading": "Road-sign illustrations",
+          "text": "Road-sign practice uses original simplified illustrations with text alternatives. Meaning is explained in text after each answer, so color alone is not the only way to identify the rule or driver action."
+        },
+        {
+          "heading": "Responsive tables and zoom",
+          "text": "Pages are designed to reflow on mobile screens and at browser zoom. Wide date or requirements tables use a horizontal scroll area so columns remain readable instead of overlapping."
+        },
+        {
+          "heading": "Printable resources",
+          "text": "Printable resources keep headings, sign names, and meanings in text. Print layout is a convenience layer; the same information remains available in the standard web page."
+        },
+        {
+          "heading": "Known limitations and feedback",
+          "text": "Accessibility can vary by browser, assistive technology, and device. If a control, table, illustration, or download is difficult to use, send the page URL, the affected element, and your browser or assistive technology through the contact page so the issue can be reproduced and corrected."
+        }
+      ],
+      "links": [
+        {
+          "label": "Contact and corrections",
+          "url": "contact.html"
+        },
+        {
+          "label": "Editorial Policy",
+          "url": "editorial-policy.html"
+        },
+        {
+          "label": "Public GitHub project",
+          "url": "https://github.com/carmenjiang19028-ai/testdaytools"
         }
       ]
     },

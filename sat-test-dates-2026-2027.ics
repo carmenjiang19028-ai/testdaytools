@@ -1,0 +1,97 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//TestDayTools//SAT Test Dates 2026-2027//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:SAT Test Dates 2026-2027
+X-WR-CALDESC:Confirmed College Board weekend SAT dates with registration
+  deadline reminders.
+BEGIN:VEVENT
+UID:sat-20260822@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20260822
+DTEND;VALUE=DATE:20260823
+SUMMARY:SAT - August 22\, 2026
+DESCRIPTION:Regular registration deadline: August 7\, 2026. Late registr
+ ation and changes deadline: August 11\, 2026. Verify test-center availab
+ ility with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20260912@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20260912
+DTEND;VALUE=DATE:20260913
+SUMMARY:SAT - September 12\, 2026
+DESCRIPTION:Regular registration deadline: August 28\, 2026. Late regist
+ ration and changes deadline: September 1\, 2026. Verify test-center avai
+ lability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20261003@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:SAT - October 3\, 2026
+DESCRIPTION:Regular registration deadline: September 18\, 2026. Late reg
+ istration and changes deadline: September 22\, 2026. Verify test-center
+  availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20261107@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:SAT - November 7\, 2026
+DESCRIPTION:Regular registration deadline: October 23\, 2026. Late regis
+ tration and changes deadline: October 27\, 2026. Verify test-center avai
+ lability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20261205@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:SAT - December 5\, 2026
+DESCRIPTION:Regular registration deadline: November 20\, 2026. Late regi
+ stration and changes deadline: November 24\, 2026. Verify test-center av
+ ailability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20270306@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20270306
+DTEND;VALUE=DATE:20270307
+SUMMARY:SAT - March 6\, 2027
+DESCRIPTION:Regular registration deadline: February 19\, 2027. Late regi
+ stration and changes deadline: February 23\, 2027. Verify test-center av
+ ailability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20270501@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20270501
+DTEND;VALUE=DATE:20270502
+SUMMARY:SAT - May 1\, 2027
+DESCRIPTION:Regular registration deadline: April 16\, 2027. Late registr
+ ation and changes deadline: April 20\, 2027. Verify test-center availabi
+ lity with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20270605@testdaytools.com
+DTSTAMP:20260714T000000Z
+DTSTART;VALUE=DATE:20270605
+DTEND;VALUE=DATE:20270606
+SUMMARY:SAT - June 5\, 2027
+DESCRIPTION:Regular registration deadline: May 21\, 2027. Late registrat
+ ion and changes deadline: May 25\, 2027. Verify test-center availability
+  with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+END:VCALENDAR

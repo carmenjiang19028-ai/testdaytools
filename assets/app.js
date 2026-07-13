@@ -78,6 +78,13 @@ function initAnalyticsEvents() {
       });
     }
 
+    if (link.matches("[data-resource-download]")) {
+      trackToolEvent("resource_download", {
+        resource: link.dataset.resourceDownload,
+        target: analyticsPathFromHref(link.getAttribute("href")),
+      });
+    }
+
     if (isOfficialSourceLink(link)) {
       trackToolEvent("official_source_click", {
         target: analyticsPathFromHref(link.href),
