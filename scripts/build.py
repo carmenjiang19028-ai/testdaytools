@@ -1866,6 +1866,7 @@ def render_quiz(quiz_key, options=None):
     kicker = options.get("kicker", "Interactive practice")
     quiz_label = options.get("label", title)
     mode_id = options.get("id", quiz_key)
+    state_value = options.get("state", "")
     section_id = f' id="{esc(options["sectionId"])}"' if options.get("sectionId") else ""
     summary = f"""<aside class="quiz-summary" aria-live="polite">
   <p class="quiz-kicker">Practice status</p>
@@ -1900,13 +1901,19 @@ def render_quiz(quiz_key, options=None):
     </div>
     <div class="mistake-list" data-quiz-mistakes><span>No saved mistakes yet.</span></div>
   </div>
+  <div class="quiz-next-plan">
+    <span>Next study block</span>
+    <strong data-quiz-next-title>Finish this round first</strong>
+    <p data-quiz-next-copy>Your score and missed categories will choose the next useful activity.</p>
+    <a href="#practice" data-quiz-next-action>Continue this round</a>
+  </div>
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>"""
     controls = """<div class="quiz-controls">
   <button type="button" class="quiz-nav-button" data-quiz-prev>Previous</button>
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>"""
-    return f"""<section class="quiz tool-block"{section_id} data-quiz data-total="{total}" data-pass-score="{esc(pass_score)}" data-quiz-label="{esc(quiz_label)}" data-mode-id="{esc(mode_id)}">
+    return f"""<section class="quiz tool-block"{section_id} data-quiz data-total="{total}" data-pass-score="{esc(pass_score)}" data-quiz-label="{esc(quiz_label)}" data-mode-id="{esc(mode_id)}" data-state="{esc(state_value)}">
   <div class="tool-section-head">
     <span class="eyebrow">{esc(kicker)}</span>
     <h2>{esc(title)}</h2>
@@ -1928,13 +1935,16 @@ def render_quiz(quiz_key, options=None):
 
 
 def render_dmv_mode_tool(tool):
+    state = find_dmv_state_for_tool(tool) or {}
+    state_value = state.get("value", "")
     modes = tool.get("quizModes")
     if not modes:
-        return render_quiz(tool.get("quiz"))
+        return render_quiz(tool.get("quiz"), {"state": state_value})
     if len(modes) == 1:
         only = modes[0]
         quiz_options = dict(only)
         quiz_options.pop("sectionId", None)
+        quiz_options["state"] = state_value
         quiz = render_quiz(only["quiz"], quiz_options)
         return f"""<section class="dmv-mode-tool single-mode-tool" id="practice">
   <div class="tool-section-head">
@@ -1958,7 +1968,9 @@ def render_dmv_mode_tool(tool):
         active_class = " is-active" if active else ""
         hidden = "false" if active else "true"
         tabs.append(f'<button type="button" class="mode-tab{active_class}" data-mode-button="{esc(mode["id"])}" aria-selected="{selected}"><span>{esc(mode["label"])}</span><strong>{esc(mode.get("short", mode["title"]))}</strong></button>')
-        quiz = render_quiz(mode["quiz"], mode)
+        quiz_options = dict(mode)
+        quiz_options["state"] = state_value
+        quiz = render_quiz(mode["quiz"], quiz_options)
         panels.append(f'<div class="mode-panel{active_class}" data-mode-panel="{esc(mode["id"])}" aria-hidden="{hidden}">{quiz}</div>')
     overview_items = "".join(
         f'<li><strong>{esc(mode["label"])}</strong><span>{esc(mode.get("description", ""))}</span></li>'
@@ -2174,6 +2186,67 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
   <div class="state-grid">{state_cards_html}</div>
   <p class="state-filter-empty" data-state-empty hidden>No matching state yet. Try a listed state name or open the road-sign tools below.</p>
   <div class="mode-card-grid">{mode_cards}</div>
+</section>"""
+
+
+def render_dmv_journey_dashboard():
+    states = get_dmv_checklist_states()
+    if not states:
+        return ""
+    default_state = next((state for state in states if state.get("value") == "florida"), states[0])
+    options = []
+    for state in states:
+        options.append(
+            f'<option value="{esc(state.get("value", ""))}" '
+            f'data-label="{esc(state.get("label", ""))}" '
+            f'data-agency="{esc(state.get("agency", "State agency"))}" '
+            f'data-practice-url="{esc(state.get("permitUrl", "dmv-practice.html"))}" '
+            f'data-sign-url="{esc(state.get("signUrl", find_state_sign_href(state.get("label", ""))))}" '
+            f'data-checklist-url="{esc(checklist_href_for_state(state))}" '
+            f'data-source-url="{esc(state.get("manualUrl", "#"))}" '
+            f'{"selected" if state is default_state else ""}>{esc(state.get("label", ""))}</option>'
+        )
+    return f"""<section class="dmv-journey" data-dmv-journey aria-labelledby="dmv-journey-title">
+  <div class="journey-header">
+    <div>
+      <p class="eyebrow">Saved on this device</p>
+      <h2 id="dmv-journey-title">Your DMV study path</h2>
+      <p class="section-intro">Build evidence of readiness instead of taking random quizzes: answer today, fix weak areas, pass two focused rounds, then finish test-day logistics.</p>
+    </div>
+    <label class="journey-state-control">Your state
+      <select data-journey-state>{"".join(options)}</select>
+      <small>No account. Your progress stays in this browser.</small>
+    </label>
+  </div>
+  <div class="journey-overview">
+    <div class="journey-priority">
+      <span data-journey-kicker>Start here today</span>
+      <strong data-journey-title>Take the 10-question road-sign diagnostic</strong>
+      <p data-journey-copy>One short round creates a real baseline and reveals the first category to review.</p>
+      <div class="journey-actions">
+        <a href="road-signs-practice-test.html#practice" data-journey-primary>Start 10 questions</a>
+        <a href="{esc(default_state.get("manualUrl", "#"))}" target="_blank" rel="noopener" data-journey-source>Official state source</a>
+      </div>
+    </div>
+    <dl class="journey-stats">
+      <div><dt>Today</dt><dd data-journey-answered>0 questions</dd></div>
+      <div><dt>Accuracy</dt><dd data-journey-accuracy>No baseline</dd></div>
+      <div><dt>Completed</dt><dd data-journey-sessions>0 rounds</dd></div>
+      <div><dt>Study streak</dt><dd data-journey-streak>0 days</dd></div>
+    </dl>
+  </div>
+  <div class="journey-steps" aria-label="DMV readiness milestones">
+    <article data-journey-step="warmup"><span>1</span><div><strong>Build today's baseline</strong><p>Answer at least 10 questions.</p></div><b data-journey-step-status>Not started</b></article>
+    <article data-journey-step="review"><span>2</span><div><strong>Repair the weak area</strong><p>Use misses to choose signs or state rules.</p></div><b data-journey-step-status>Waiting</b></article>
+    <article data-journey-step="passes"><span>3</span><div><strong>Pass two focused rounds</strong><p>Two 10+ question results at 80%+ are stronger than one lucky score.</p></div><b data-journey-step-status>0 of 2</b></article>
+    <article data-journey-step="ready"><span>4</span><div><strong>Finish test-day readiness</strong><p>Confirm documents, source, and visit logistics.</p></div><b data-journey-step-status>0 items</b></article>
+  </div>
+  <div class="journey-recent" data-journey-recent hidden>
+    <span>Latest completed round</span>
+    <strong data-journey-recent-title></strong>
+    <p data-journey-recent-meta></p>
+    <a href="road-signs-practice-test.html#practice" data-journey-recent-link>Open round</a>
+  </div>
 </section>"""
 
 
@@ -3481,6 +3554,7 @@ def render_dmv_hub(hub):
   </div>
 </section>
 <section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
+{render_dmv_journey_dashboard()}
 {render_florida_dmv_cluster()}
 {render_dmv_launcher("Start with your state")}
 {render_dmv_source_matrix()}
@@ -3527,6 +3601,7 @@ def render_home():
   </div>
 </section>
 <section class="notice pocket-notice"><strong>Independent resource.</strong> {esc(SITE["disclaimer"])} <a href="disclaimer.html">Read more</a></section>
+{render_dmv_journey_dashboard()}
 {render_home_state_preview()}
 {render_home_tool_roles()}
 {render_home_value_brief()}

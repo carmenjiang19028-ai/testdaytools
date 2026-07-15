@@ -32,6 +32,109 @@ function trackToolEvent(eventName, params = {}) {
   window.gtag("event", eventName, safeParams);
 }
 
+const DMV_JOURNEY_STORAGE_KEY = "tdt-dmv-journey:v1";
+
+function normalizeDmvState(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+}
+
+function localDayStamp(timestamp = Date.now()) {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function readDmvJourney() {
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(DMV_JOURNEY_STORAGE_KEY) || "null");
+    if (saved && typeof saved === "object") {
+      return {
+        state: normalizeDmvState(saved.state),
+        days: saved.days && typeof saved.days === "object" ? saved.days : {},
+        sessions: Array.isArray(saved.sessions) ? saved.sessions : [],
+        weak: saved.weak && typeof saved.weak === "object" ? saved.weak : {},
+        updatedAt: Number(saved.updatedAt) || 0,
+      };
+    }
+  } catch (error) {
+    // The study path still works as a one-visit tool when storage is blocked.
+  }
+  return { state: "", days: {}, sessions: [], weak: {}, updatedAt: 0 };
+}
+
+function saveDmvJourney(journey) {
+  const recentDays = Object.entries(journey.days || {})
+    .sort(([a], [b]) => b.localeCompare(a))
+    .slice(0, 30);
+  journey.days = Object.fromEntries(recentDays);
+  journey.sessions = (journey.sessions || []).slice(0, 20);
+  journey.updatedAt = Date.now();
+  try {
+    window.localStorage.setItem(DMV_JOURNEY_STORAGE_KEY, JSON.stringify(journey));
+  } catch (error) {
+    return;
+  }
+  document.dispatchEvent(new CustomEvent("tdt:dmv-progress", { detail: journey }));
+}
+
+function setDmvJourneyState(value) {
+  const state = normalizeDmvState(value);
+  if (!state) return;
+  const journey = readDmvJourney();
+  if (journey.state === state) return;
+  journey.state = state;
+  try {
+    window.localStorage.setItem("tdt-dmv-test-day:last-state", state);
+  } catch (error) {
+    // State still changes for this visit when storage is blocked.
+  }
+  saveDmvJourney(journey);
+  document.dispatchEvent(new CustomEvent("tdt:dmv-state", { detail: { state } }));
+}
+
+function recordDmvAnswer({ correct, category, state }) {
+  const journey = readDmvJourney();
+  const selectedState = normalizeDmvState(state || journey.state);
+  if (selectedState) journey.state = selectedState;
+  const stamp = localDayStamp();
+  const day = journey.days[stamp] || { answered: 0, correct: 0, sessions: 0 };
+  day.answered = (Number(day.answered) || 0) + 1;
+  day.correct = (Number(day.correct) || 0) + (correct ? 1 : 0);
+  journey.days[stamp] = day;
+  if (!correct && category) {
+    journey.weak[category] = (Number(journey.weak[category]) || 0) + 1;
+  }
+  saveDmvJourney(journey);
+}
+
+function recordDmvSession({ label, href, total, correct, missed, weak, state }) {
+  const journey = readDmvJourney();
+  const selectedState = normalizeDmvState(state || journey.state);
+  if (selectedState) journey.state = selectedState;
+  const stamp = localDayStamp();
+  const day = journey.days[stamp] || { answered: 0, correct: 0, sessions: 0 };
+  day.sessions = (Number(day.sessions) || 0) + 1;
+  journey.days[stamp] = day;
+  const percent = total ? Math.round((correct / total) * 100) : 0;
+  journey.sessions.unshift({
+    label,
+    href,
+    total,
+    correct,
+    missed,
+    percent,
+    weak: Array.isArray(weak) ? weak.slice(0, 3) : [],
+    state: selectedState,
+    completedAt: Date.now(),
+  });
+  saveDmvJourney(journey);
+}
+
 function closestAnalyticsSection(element) {
   const section = element.closest(
     ".pocket-tabs, .home-quick-links, .pocket-tool-list, .home-state-preview-actions, .home-bottom-nav, .home-tool-roles, .home-start, .home-popular, .state-card-actions"
@@ -152,6 +255,9 @@ function initQuizzes() {
     const timerButton = quiz.querySelector("[data-quiz-timer]");
     const timerLabel = quiz.querySelector("[data-quiz-timer-label]");
     const jumpList = quiz.querySelector("[data-quiz-jump-list]");
+    const nextPlanTitle = quiz.querySelector("[data-quiz-next-title]");
+    const nextPlanCopy = quiz.querySelector("[data-quiz-next-copy]");
+    const nextPlanAction = quiz.querySelector("[data-quiz-next-action]");
     const passScore = Number(quiz.dataset.passScore) || questions.length;
     const quizLabel = quiz.dataset.quizLabel || "practice round";
     const answered = new Set();
@@ -336,7 +442,8 @@ function initQuizzes() {
         });
       }
 
-      if (complete && !quizCompletedTracked) {
+      const justCompleted = complete && !quizCompletedTracked;
+      if (justCompleted) {
         quizCompletedTracked = true;
         trackToolEvent("quiz_complete", {
           tool: quizLabel,
@@ -369,6 +476,19 @@ function initQuizzes() {
         .sort((a, b) => b[1] - a[1])
         .map(([category]) => category)
         .slice(0, 3);
+
+      if (justCompleted) {
+        const pageName = window.location.pathname.split("/").pop() || "index.html";
+        recordDmvSession({
+          label: quizLabel,
+          href: `${pageName}#practice`,
+          total: activeTotal,
+          correct: correctCount,
+          missed: missedCount,
+          weak: missed,
+          state: quiz.dataset.state,
+        });
+      }
 
       if (breakdown) {
         if (!answeredCount) {
@@ -403,6 +523,39 @@ function initQuizzes() {
         next.textContent = `Keep going. Saved mistakes now point to: ${missed.join(", ")}.`;
       } else {
         next.textContent = "So far, no weak area. Keep going.";
+      }
+
+      if (nextPlanTitle && nextPlanCopy && nextPlanAction) {
+        const state = normalizeDmvState(quiz.dataset.state || readDmvJourney().state);
+        const signMiss = missed.some((category) => /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(category));
+        if (!complete) {
+          nextPlanTitle.textContent = answeredCount ? "Finish the current evidence" : "Create a real baseline";
+          nextPlanCopy.textContent = answeredCount
+            ? `${leftCount} questions remain. Finish before switching tools so the weak-area result is reliable.`
+            : "Answer this round before choosing another tool. The next action will use your real misses.";
+          nextPlanAction.href = "#practice";
+          nextPlanAction.textContent = answeredCount ? "Continue this round" : "Start this round";
+        } else if (missedCount && signMiss) {
+          nextPlanTitle.textContent = `Review ${missed[0] || "missed signs"}`;
+          nextPlanCopy.textContent = "Use visual flashcards once, then return to the saved-mistake filter instead of restarting a random test.";
+          nextPlanAction.href = "dmv-road-sign-flashcards.html";
+          nextPlanAction.textContent = "Open sign flashcards";
+        } else if (missedCount) {
+          nextPlanTitle.textContent = `Repair ${missed[0] || "the weak rule area"}`;
+          nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";
+          nextPlanAction.href = state ? `dmv-permit-test-study-plan.html?state=${encodeURIComponent(state)}` : "dmv-permit-test-study-plan.html";
+          nextPlanAction.textContent = "Build a focused plan";
+        } else if (state) {
+          nextPlanTitle.textContent = "Move from score to test-day readiness";
+          nextPlanCopy.textContent = "A clean round is useful evidence. Now confirm official rules, documents, and visit logistics for your state.";
+          nextPlanAction.href = `dmv-test-day-checklist.html?state=${encodeURIComponent(state)}#dmv-checklist`;
+          nextPlanAction.textContent = "Open state checklist";
+        } else {
+          nextPlanTitle.textContent = "Apply the result to your state";
+          nextPlanCopy.textContent = "Choose a state path for official-source context, state questions, and final checklist planning.";
+          nextPlanAction.href = "dmv-practice.html#state-paths";
+          nextPlanAction.textContent = "Choose your state";
+        }
       }
     };
 
@@ -647,6 +800,11 @@ function initQuizzes() {
             missedCategories[category] = (missedCategories[category] || 0) + 1;
             rememberMistake(question);
           }
+          recordDmvAnswer({
+            correct: isCorrect,
+            category: question.dataset.category || "Review topic",
+            state: quiz.dataset.state,
+          });
 
           const correctButton = question.querySelector(`[data-choice="${question.dataset.answer}"]`);
           if (correctButton) correctButton.classList.add("is-correct");
@@ -738,6 +896,16 @@ function initPracticeWorkbenches() {
     const planTitle = workbench.querySelector("[data-workbench-plan-title]");
     const planCopy = workbench.querySelector("[data-workbench-plan-copy]");
 
+    const selectSavedState = () => {
+      if (!stateSelect) return;
+      const savedState = readDmvJourney().state;
+      if (!savedState) return;
+      const match = Array.from(stateSelect.options).find(
+        (option) => normalizeDmvState(option.value || option.textContent) === savedState,
+      );
+      if (match) stateSelect.value = match.value;
+    };
+
     const updateStateLinks = () => {
       const selected = stateSelect?.selectedOptions?.[0];
       if (!selected) return;
@@ -756,7 +924,22 @@ function initPracticeWorkbenches() {
       }
     };
 
-    stateSelect?.addEventListener("change", updateStateLinks);
+    stateSelect?.addEventListener("change", () => {
+      updateStateLinks();
+      setDmvJourneyState(stateSelect.value);
+      trackToolEvent("study_state_change", { state: normalizeDmvState(stateSelect.value) });
+    });
+    document.addEventListener("tdt:dmv-state", (event) => {
+      const requested = normalizeDmvState(event.detail?.state);
+      const match = Array.from(stateSelect?.options || []).find(
+        (option) => normalizeDmvState(option.value || option.textContent) === requested,
+      );
+      if (match && stateSelect.value !== match.value) {
+        stateSelect.value = match.value;
+        updateStateLinks();
+      }
+    });
+    selectSavedState();
     updateStateLinks();
   });
 }
@@ -1080,6 +1263,182 @@ function initRecentPracticeCards() {
       link.href = progress.href;
       link.textContent = answered ? "Continue practice" : "Start practice";
     }
+  });
+}
+
+function initDmvJourneyDashboards() {
+  document.querySelectorAll("[data-dmv-journey]").forEach((dashboard) => {
+    const stateSelect = dashboard.querySelector("[data-journey-state]");
+    const kicker = dashboard.querySelector("[data-journey-kicker]");
+    const title = dashboard.querySelector("[data-journey-title]");
+    const copy = dashboard.querySelector("[data-journey-copy]");
+    const primary = dashboard.querySelector("[data-journey-primary]");
+    const source = dashboard.querySelector("[data-journey-source]");
+    const answered = dashboard.querySelector("[data-journey-answered]");
+    const accuracy = dashboard.querySelector("[data-journey-accuracy]");
+    const sessions = dashboard.querySelector("[data-journey-sessions]");
+    const streak = dashboard.querySelector("[data-journey-streak]");
+    const recentBox = dashboard.querySelector("[data-journey-recent]");
+    const recentTitle = dashboard.querySelector("[data-journey-recent-title]");
+    const recentMeta = dashboard.querySelector("[data-journey-recent-meta]");
+    const recentLink = dashboard.querySelector("[data-journey-recent-link]");
+    const steps = Object.fromEntries(
+      Array.from(dashboard.querySelectorAll("[data-journey-step]")).map((step) => [step.dataset.journeyStep, step]),
+    );
+
+    const setStep = (name, status, complete = false, active = false) => {
+      const step = steps[name];
+      if (!step) return;
+      const label = step.querySelector("[data-journey-step-status]");
+      if (label) label.textContent = status;
+      step.classList.toggle("is-complete", complete);
+      step.classList.toggle("is-active", active);
+    };
+
+    const checklistCount = (state) => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(`tdt-dmv-test-day:${state}`) || "null");
+        return Array.isArray(saved?.checked) ? saved.checked.length : 0;
+      } catch (error) {
+        return 0;
+      }
+    };
+
+    const countStreak = (days) => {
+      let count = 0;
+      const cursor = new Date();
+      if (!Number(days[localDayStamp(cursor.getTime())]?.answered)) {
+        cursor.setDate(cursor.getDate() - 1);
+      }
+      while (count < 30) {
+        const stamp = localDayStamp(cursor.getTime());
+        if (!Number(days[stamp]?.answered)) break;
+        count += 1;
+        cursor.setDate(cursor.getDate() - 1);
+      }
+      return count;
+    };
+
+    const selectState = (state) => {
+      const requested = normalizeDmvState(state);
+      const match = Array.from(stateSelect?.options || []).find((option) => option.value === requested);
+      if (match) stateSelect.value = match.value;
+    };
+
+    const render = () => {
+      const journey = readDmvJourney();
+      selectState(journey.state);
+      const option = stateSelect?.selectedOptions?.[0];
+      if (!option) return;
+      const state = option.value;
+      const stateLabel = option.dataset.label || option.textContent.trim();
+      const today = journey.days[localDayStamp()] || { answered: 0, correct: 0, sessions: 0 };
+      const answeredToday = Number(today.answered) || 0;
+      const correctToday = Number(today.correct) || 0;
+      const missedToday = Math.max(answeredToday - correctToday, 0);
+      const accuracyToday = answeredToday ? Math.round((correctToday / answeredToday) * 100) : 0;
+      const stateSessions = journey.sessions.filter((session) => !session.state || session.state === state);
+      const recent = stateSessions[0] || null;
+      const twoWeeksAgo = Date.now() - 14 * 86400000;
+      const passes = stateSessions.filter(
+        (session) => Number(session.completedAt) >= twoWeeksAgo && Number(session.total) >= 10 && Number(session.percent) >= 80,
+      ).length;
+      const readyCount = checklistCount(state);
+      const weak = recent?.weak?.[0] || Object.entries(journey.weak)
+        .sort((a, b) => Number(b[1]) - Number(a[1]))[0]?.[0] || "";
+
+      if (source) source.href = option.dataset.sourceUrl || source.href;
+      if (answered) answered.textContent = `${answeredToday} ${answeredToday === 1 ? "question" : "questions"}`;
+      if (accuracy) accuracy.textContent = answeredToday ? `${accuracyToday}% today` : "No baseline";
+      if (sessions) sessions.textContent = `${stateSessions.length} ${stateSessions.length === 1 ? "round" : "rounds"}`;
+      const streakCount = countStreak(journey.days);
+      if (streak) streak.textContent = `${streakCount} ${streakCount === 1 ? "day" : "days"}`;
+
+      setStep("warmup", answeredToday >= 10 ? "Complete" : `${Math.min(answeredToday, 10)} of 10`, answeredToday >= 10, answeredToday < 10);
+      if (answeredToday >= 10 && !missedToday) {
+        setStep("review", "Clear today", true, false);
+      } else if (weak) {
+        setStep("review", `Review ${weak}`, false, answeredToday >= 10);
+      } else {
+        setStep("review", "Waiting", false, false);
+      }
+      setStep("passes", `${Math.min(passes, 2)} of 2`, passes >= 2, answeredToday >= 10 && passes < 2 && !weak);
+      setStep("ready", `${readyCount} of 12`, readyCount >= 12, passes >= 2 && readyCount < 12);
+
+      if (recent && recentBox) {
+        recentBox.hidden = false;
+        if (recentTitle) recentTitle.textContent = recent.label || "Completed practice round";
+        if (recentMeta) {
+          const weakText = recent.weak?.length ? ` · review ${recent.weak.join(", ")}` : " · no missed categories";
+          recentMeta.textContent = `${recent.correct} of ${recent.total} correct · ${recent.percent}%${weakText}`;
+        }
+        if (recentLink) recentLink.href = recent.href || option.dataset.practiceUrl || "dmv-practice.html";
+      } else if (recentBox) {
+        recentBox.hidden = true;
+      }
+
+      if (!answeredToday) {
+        kicker.textContent = `Start ${stateLabel} prep today`;
+        title.textContent = "Take the 10-question road-sign diagnostic";
+        copy.textContent = "A short first round creates a baseline and reveals which sign family or rule deserves the next ten minutes.";
+        primary.href = "road-signs-practice-test.html#practice";
+        primary.textContent = "Start 10 questions";
+      } else if (answeredToday < 10) {
+        kicker.textContent = "Finish the baseline";
+        title.textContent = `${10 - answeredToday} questions left before switching tools`;
+        copy.textContent = "Complete the short round first so the weak-area recommendation is based on enough evidence.";
+        primary.href = recent?.href || option.dataset.practiceUrl || "road-signs-practice-test.html#practice";
+        primary.textContent = "Continue practice";
+      } else if (missedToday && weak) {
+        kicker.textContent = "Best next study block";
+        title.textContent = `Repair ${weak}`;
+        copy.textContent = /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(weak)
+          ? "Use the visual deck once, then retake only saved mistakes. Avoid another random full quiz until recognition is faster."
+          : `Use the ${stateLabel} practice path and official source to fix the rule, then retake a focused round.`;
+        primary.href = /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(weak)
+          ? "dmv-road-sign-flashcards.html"
+          : option.dataset.practiceUrl || "dmv-practice.html";
+        primary.textContent = /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(weak)
+          ? "Review sign flashcards"
+          : `Review ${stateLabel} rules`;
+      } else if (passes < 2) {
+        kicker.textContent = "Confirm the result";
+        title.textContent = "Pass one more focused round";
+        copy.textContent = "Two recent 80%+ rounds are a better readiness signal than one clean attempt.";
+        primary.href = option.dataset.practiceUrl || "dmv-practice.html";
+        primary.textContent = `Take ${stateLabel} practice`;
+      } else if (readyCount < 12) {
+        kicker.textContent = "Move from score to test day";
+        title.textContent = `Finish the ${stateLabel} readiness checklist`;
+        copy.textContent = "Your practice evidence is strong enough to shift attention to official rules, documents, appointment details, and arrival logistics.";
+        primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
+        primary.textContent = "Continue checklist";
+      } else {
+        kicker.textContent = "Readiness path complete";
+        title.textContent = "Protect the result with one calm final review";
+        copy.textContent = "Use the official source for changes, then stop cramming and keep the final practice short.";
+        primary.href = option.dataset.practiceUrl || "dmv-practice.html";
+        primary.textContent = "Run final review";
+      }
+    };
+
+    stateSelect?.addEventListener("change", () => {
+      setDmvJourneyState(stateSelect.value);
+      render();
+      trackToolEvent("study_state_change", { state: stateSelect.value, surface: "journey_dashboard" });
+    });
+    primary?.addEventListener("click", () => {
+      trackToolEvent("study_next_step_click", {
+        state: stateSelect?.value || "unknown",
+        target: analyticsPathFromHref(primary.href),
+      });
+    });
+    document.addEventListener("tdt:dmv-progress", render);
+    document.addEventListener("tdt:dmv-state", (event) => {
+      selectState(event.detail?.state);
+      render();
+    });
+    render();
   });
 }
 
@@ -1542,7 +1901,21 @@ function initDmvStudyPlanners() {
       planner.dataset.currentFocus = weakLabels[weak] || weakLabels.mixed;
     };
 
-    [stateSelect, daysSelect, weakSelect].forEach((input) => input?.addEventListener("change", render));
+    try {
+      const requestedState = normalizeDmvState(new URLSearchParams(window.location.search).get("state"));
+      const savedState = requestedState || readDmvJourney().state;
+      const stateOption = Array.from(stateSelect?.options || []).find(
+        (option) => normalizeDmvState(option.value || option.dataset.state || option.textContent) === savedState,
+      );
+      if (stateOption) stateSelect.value = stateOption.value;
+    } catch (error) {
+      // Use the default planner state if URL parsing is unavailable.
+    }
+    stateSelect?.addEventListener("change", () => {
+      setDmvJourneyState(stateSelect.value);
+      render();
+    });
+    [daysSelect, weakSelect].forEach((input) => input?.addEventListener("change", render));
     render();
   });
 }
@@ -2153,6 +2526,7 @@ initDmvDailyQuestions();
 initDmvMistakeLogs();
 initDmvStudyPlanners();
 initRecentPracticeCards();
+initDmvJourneyDashboards();
 initDmvRequirementsFinders();
 initDmvScoreCalculators();
 initDmvChecklists();
