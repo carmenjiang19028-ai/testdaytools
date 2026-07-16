@@ -7972,7 +7972,7 @@
       "quickFacts": [
         {
           "label": "Question count",
-          "value": "20 image-based road sign questions"
+          "value": "20-question image bank plus a 4-sign checkpoint"
         },
         {
           "label": "Image source",
@@ -8085,6 +8085,10 @@
         {
           "heading": "Use the New York DMV manual as the source check",
           "text": "This practice page uses original illustrations and explanations. For exact New York wording, permit rules, and official study material, use the New York DMV driver manual and practice-test page linked below."
+        },
+        {
+          "heading": "Use the four-sign checkpoint, then prove the result",
+          "text": "New York's written test includes four road-sign questions and requires at least two correct. The four-sign checkpoint mirrors that count, while the full image round tests a wider sign set. A question only moves to reliable after two correct rounds; a miss returns it to your saved review queue."
         }
       ],
       "cardGroups": [
@@ -8179,6 +8183,17 @@
         "florida-dmv-road-signs-practice"
       ],
       "quizModes": [
+        {
+          "id": "ny-four-sign-checkpoint",
+          "label": "4-sign checkpoint",
+          "short": "4 questions",
+          "title": "New York four-sign checkpoint",
+          "description": "Use a four-question road-sign check that mirrors the sign-question count in the official New York permit test. Two correct is the minimum checkpoint; this does not replace the full 20-question permit test.",
+          "kicker": "Official-format sign check",
+          "quiz": "newyorkSigns",
+          "passScore": 2,
+          "maxQuestions": 4
+        },
         {
           "id": "ny-signs-starter",
           "label": "NY starter",

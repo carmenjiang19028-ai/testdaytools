@@ -3683,6 +3683,43 @@ tr:last-child td {
   line-height: 1;
 }
 
+.quiz-mastery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.quiz-mastery div {
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid #cfe0d8;
+  border-radius: 6px;
+  background: #f4faf7;
+}
+
+.quiz-mastery span {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.quiz-mastery strong {
+  color: var(--green);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.quiz-mastery p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .breakdown-note,
 .breakdown-chip {
   display: inline-flex;
@@ -4466,7 +4503,7 @@ button:disabled {
   border-right: 0;
 }
 
-.journey-stats div:nth-child(n + 3) {
+.journey-stats div:nth-last-child(-n + 2) {
   border-bottom: 0;
 }
 
@@ -4573,6 +4610,10 @@ button:disabled {
 
 .journey-recent[hidden] {
   display: none;
+}
+
+.journey-mastery-queue {
+  border-left: 5px solid var(--blue);
 }
 
 .journey-recent > span {

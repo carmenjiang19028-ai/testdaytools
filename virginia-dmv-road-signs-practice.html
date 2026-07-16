@@ -293,7 +293,7 @@
     <span>3. Save misses</span>
     <span>4. Review library</span>
   </div>
-  <section class="quiz tool-block" data-quiz data-total="24" data-pass-score="19" data-quiz-label="Road Signs" data-mode-id="virginia-signs" data-state="">
+  <section class="quiz tool-block" data-quiz data-total="24" data-pass-score="19" data-quiz-label="Road Signs" data-mode-id="virginia-signs" data-state="virginia" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Interactive practice</span>
     <h2>Virginia road signs image test</h2>
@@ -539,6 +539,12 @@
     <div><span>Missed</span><strong data-quiz-missed>0</strong></div>
     <div><span>Left</span><strong data-quiz-left>24</strong></div>
   </div>
+  <div class="quiz-mastery" data-quiz-mastery>
+    <div><span>Due review</span><strong data-quiz-mastery-due>0</strong></div>
+    <div><span>Learning</span><strong data-quiz-mastery-learning>0</strong></div>
+    <div><span>Reliable</span><strong data-quiz-mastery-reliable>0</strong></div>
+    <p>Two correct rounds move a question to reliable. Misses return to the review queue.</p>
+  </div>
   <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
   <div class="quiz-breakdown" data-quiz-breakdown></div>
   <div class="quiz-toolbox">
@@ -548,7 +554,7 @@
     </label>
     <div class="quiz-toolbox-actions">
       <button type="button" data-quiz-shuffle>Shuffle</button>
-      <button type="button" data-quiz-review-mistakes>Review mistakes</button>
+      <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
     <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>

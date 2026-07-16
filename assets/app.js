@@ -33,6 +33,8 @@ function trackToolEvent(eventName, params = {}) {
 }
 
 const DMV_JOURNEY_STORAGE_KEY = "tdt-dmv-journey:v1";
+const DMV_MASTERY_STORAGE_KEY = "tdt-dmv-mastery:v1";
+const DAY_MS = 86400000;
 
 function normalizeDmvState(value) {
   return String(value || "")
@@ -47,6 +49,94 @@ function localDayStamp(timestamp = Date.now()) {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function readDmvMastery() {
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(DMV_MASTERY_STORAGE_KEY) || "null");
+    if (saved && typeof saved === "object") {
+      return {
+        items: saved.items && typeof saved.items === "object" ? saved.items : {},
+        updatedAt: Number(saved.updatedAt) || 0,
+      };
+    }
+  } catch (error) {
+    // Quizzes still work without a persistent review queue.
+  }
+  return { items: {}, updatedAt: 0 };
+}
+
+function saveDmvMastery(mastery) {
+  const recentItems = Object.entries(mastery.items || {})
+    .sort(([, a], [, b]) => Number(b?.updatedAt) - Number(a?.updatedAt))
+    .slice(0, 400);
+  mastery.items = Object.fromEntries(recentItems);
+  mastery.updatedAt = Date.now();
+  try {
+    window.localStorage.setItem(DMV_MASTERY_STORAGE_KEY, JSON.stringify(mastery));
+  } catch (error) {
+    return;
+  }
+  document.dispatchEvent(new CustomEvent("tdt:dmv-mastery", { detail: mastery }));
+}
+
+function masteryToken(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .slice(0, 220);
+}
+
+function questionMasteryId(question, state = "") {
+  const prompt = question.dataset.prompt || question.querySelector("h3")?.textContent || "question";
+  const answer = question.querySelector(`[data-choice="${question.dataset.answer}"]`)?.textContent || "answer";
+  return `${normalizeDmvState(state) || "general"}|${masteryToken(prompt)}|${masteryToken(answer)}`;
+}
+
+function getDmvMasterySummary(state = "") {
+  const selectedState = normalizeDmvState(state);
+  const now = Date.now();
+  const items = Object.values(readDmvMastery().items).filter((item) => {
+    const itemState = normalizeDmvState(item?.state);
+    return !selectedState || itemState === selectedState || itemState === "general";
+  });
+  const learning = items.filter((item) => !Number(item.reliableAt));
+  const dueItems = learning
+    .filter((item) => Number(item.dueAt) <= now)
+    .sort((a, b) => Number(a.dueAt) - Number(b.dueAt) || Number(a.updatedAt) - Number(b.updatedAt));
+  return {
+    attempted: items.length,
+    learning: learning.length,
+    reliable: items.length - learning.length,
+    due: dueItems.length,
+    dueItem: dueItems[0] || null,
+  };
+}
+
+function recordQuestionMastery({ question, correct, state, label, mode }) {
+  const mastery = readDmvMastery();
+  const id = questionMasteryId(question, state);
+  const now = Date.now();
+  const previous = mastery.items[id] || {};
+  const correctStreak = correct ? (Number(previous.correctStreak) || 0) + 1 : 0;
+  const becameReliable = correctStreak >= 2 && !Number(previous.reliableAt);
+  const pageName = window.location.pathname.split("/").pop() || "dmv-practice.html";
+  mastery.items[id] = {
+    state: normalizeDmvState(state) || "general",
+    prompt: cleanAnalyticsValue(question.dataset.prompt || question.querySelector("h3")?.textContent, "Practice question"),
+    category: cleanAnalyticsValue(question.dataset.category, "Review topic"),
+    label: cleanAnalyticsValue(label, "DMV practice"),
+    href: `${pageName}?mode=${encodeURIComponent(mode || "default")}&focus=due#practice`,
+    attempts: (Number(previous.attempts) || 0) + 1,
+    misses: (Number(previous.misses) || 0) + (correct ? 0 : 1),
+    correctStreak,
+    dueAt: correct ? now + (correctStreak >= 2 ? 7 * DAY_MS : DAY_MS) : now,
+    reliableAt: correctStreak >= 2 ? Number(previous.reliableAt) || now : 0,
+    updatedAt: now,
+  };
+  saveDmvMastery(mastery);
+  return { record: mastery.items[id], becameReliable };
 }
 
 function readDmvJourney() {
@@ -258,8 +348,12 @@ function initQuizzes() {
     const nextPlanTitle = quiz.querySelector("[data-quiz-next-title]");
     const nextPlanCopy = quiz.querySelector("[data-quiz-next-copy]");
     const nextPlanAction = quiz.querySelector("[data-quiz-next-action]");
+    const masteryDue = quiz.querySelector("[data-quiz-mastery-due]");
+    const masteryLearning = quiz.querySelector("[data-quiz-mastery-learning]");
+    const masteryReliable = quiz.querySelector("[data-quiz-mastery-reliable]");
     const passScore = Number(quiz.dataset.passScore) || questions.length;
     const quizLabel = quiz.dataset.quizLabel || "practice round";
+    const isDmvQuiz = quiz.dataset.domain === "dmv";
     const answered = new Set();
     const correctAnswers = new Set();
     const wrongAnswers = new Set();
@@ -290,6 +384,36 @@ function initQuizzes() {
       question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
 
     const getActiveQuestionIndex = () => activeSequence[activePosition];
+
+    const masteryRecords = () => {
+      if (!isDmvQuiz) return [];
+      const items = readDmvMastery().items;
+      return questions.map((question) => items[questionMasteryId(question, quiz.dataset.state)] || null);
+    };
+
+    const dueQuestionIndexes = () => {
+      const now = Date.now();
+      return masteryRecords()
+        .map((record, index) => ({ index, record }))
+        .filter(({ record }) => record && !Number(record.reliableAt) && Number(record.dueAt) <= now)
+        .map(({ index }) => index);
+    };
+
+    const renderMasteryStats = () => {
+      if (!isDmvQuiz) return;
+      const currentRecords = masteryRecords();
+      const now = Date.now();
+      const records = currentRecords.filter(Boolean);
+      const dueCount = currentRecords.filter(
+        (record) => record && !Number(record.reliableAt) && Number(record.dueAt) <= now
+      ).length;
+      const reliableCount = records.filter((record) => Number(record.reliableAt)).length;
+      const learningCount = records.length - reliableCount;
+      if (masteryDue) masteryDue.textContent = String(dueCount);
+      if (masteryLearning) masteryLearning.textContent = String(learningCount);
+      if (masteryReliable) masteryReliable.textContent = String(reliableCount);
+      if (reviewMistakesButton) reviewMistakesButton.disabled = dueCount === 0;
+    };
 
     const loadMistakes = () => {
       try {
@@ -477,7 +601,7 @@ function initQuizzes() {
         .map(([category]) => category)
         .slice(0, 3);
 
-      if (justCompleted) {
+      if (justCompleted && isDmvQuiz) {
         const pageName = window.location.pathname.split("/").pop() || "index.html";
         recordDmvSession({
           label: quizLabel,
@@ -525,7 +649,7 @@ function initQuizzes() {
         next.textContent = "So far, no weak area. Keep going.";
       }
 
-      if (nextPlanTitle && nextPlanCopy && nextPlanAction) {
+      if (nextPlanTitle && nextPlanCopy && nextPlanAction && isDmvQuiz) {
         const state = normalizeDmvState(quiz.dataset.state || readDmvJourney().state);
         const signMiss = missed.some((category) => /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(category));
         if (!complete) {
@@ -555,6 +679,25 @@ function initQuizzes() {
           nextPlanCopy.textContent = "Choose a state path for official-source context, state questions, and final checklist planning.";
           nextPlanAction.href = "dmv-practice.html#state-paths";
           nextPlanAction.textContent = "Choose your state";
+        }
+      } else if (nextPlanTitle && nextPlanCopy && nextPlanAction) {
+        if (!complete) {
+          nextPlanTitle.textContent = answeredCount ? "Finish this round" : "Create a baseline";
+          nextPlanCopy.textContent = answeredCount
+            ? `${leftCount} questions remain before the result is useful.`
+            : "Complete the current round before choosing another study block.";
+          nextPlanAction.href = "#practice";
+          nextPlanAction.textContent = answeredCount ? "Continue this round" : "Start this round";
+        } else if (missedCount) {
+          nextPlanTitle.textContent = `Review ${missed[0] || "missed questions"}`;
+          nextPlanCopy.textContent = "Use the saved-mistake filter and reread the explanation before adding new practice.";
+          nextPlanAction.href = "#practice";
+          nextPlanAction.textContent = "Review this result";
+        } else {
+          nextPlanTitle.textContent = "Protect the clean result";
+          nextPlanCopy.textContent = "Use a later timed round to confirm the score instead of repeating immediately.";
+          nextPlanAction.href = "#practice";
+          nextPlanAction.textContent = "Plan another round";
         }
       }
     };
@@ -617,6 +760,7 @@ function initQuizzes() {
       filterSelect.replaceChildren();
       [
         ["all", "All categories"],
+        ...(isDmvQuiz ? [["due", "Review due"]] : []),
         ["saved", "Saved mistakes"],
         ...categories.map((category) => [category, category]),
       ].forEach(([value, label]) => {
@@ -629,10 +773,22 @@ function initQuizzes() {
 
     const applyFocusFilter = (value) => {
       toolMessage = "";
+      if (value === "due" && isDmvQuiz) {
+        const dueIndexes = dueQuestionIndexes();
+        resetQuiz();
+        setActiveSequence(
+          dueIndexes,
+          dueIndexes.length
+            ? "Due questions loaded. Two correct rounds are required before a question becomes reliable."
+            : "No questions are due in this mode. Continue with a focused round or return when the next review opens."
+        );
+        return;
+      }
       if (value === "saved") {
         loadMistakes();
         const prompts = new Set(savedMistakes.map((item) => item.prompt));
         const savedIndexes = allQuestionIndexes().filter((index) => prompts.has(questionPrompt(questions[index])));
+        resetQuiz();
         setActiveSequence(
           savedIndexes,
           savedIndexes.length
@@ -763,8 +919,16 @@ function initQuizzes() {
 
     if (reviewMistakesButton) {
       reviewMistakesButton.addEventListener("click", () => {
-        if (filterSelect) filterSelect.value = "saved";
-        applyFocusFilter("saved");
+        const target = isDmvQuiz ? "due" : "saved";
+        if (filterSelect) filterSelect.value = target;
+        applyFocusFilter(target);
+        if (isDmvQuiz) {
+          trackToolEvent("mastery_review_start", {
+            tool: quizLabel,
+            state: quiz.dataset.state || "general",
+            due: dueQuestionIndexes().length,
+          });
+        }
       });
     }
 
@@ -800,11 +964,28 @@ function initQuizzes() {
             missedCategories[category] = (missedCategories[category] || 0) + 1;
             rememberMistake(question);
           }
-          recordDmvAnswer({
-            correct: isCorrect,
-            category: question.dataset.category || "Review topic",
-            state: quiz.dataset.state,
-          });
+          if (isDmvQuiz) {
+            recordDmvAnswer({
+              correct: isCorrect,
+              category: question.dataset.category || "Review topic",
+              state: quiz.dataset.state,
+            });
+            const masteryResult = recordQuestionMastery({
+              question,
+              correct: isCorrect,
+              state: quiz.dataset.state,
+              label: quizLabel,
+              mode: quiz.dataset.modeId,
+            });
+            if (masteryResult.becameReliable) {
+              trackToolEvent("question_mastered", {
+                tool: quizLabel,
+                state: quiz.dataset.state || "general",
+                category: question.dataset.category || "Review topic",
+              });
+            }
+            renderMasteryStats();
+          }
 
           const correctButton = question.querySelector(`[data-choice="${question.dataset.answer}"]`);
           if (correctButton) correctButton.classList.add("is-correct");
@@ -824,6 +1005,7 @@ function initQuizzes() {
     populateFilterOptions();
     applyInitialFocus();
     renderMistakes();
+    renderMasteryStats();
     renderTimer();
   });
 }
@@ -854,6 +1036,16 @@ function initModeTools() {
         });
       });
     });
+
+    let requestedMode = "";
+    try {
+      requestedMode = new URLSearchParams(window.location.search).get("mode") || "";
+    } catch (error) {
+      requestedMode = "";
+    }
+    if (requestedMode && buttons.some((button) => button.dataset.modeButton === requestedMode)) {
+      activate(requestedMode);
+    }
   });
 }
 
@@ -1278,10 +1470,16 @@ function initDmvJourneyDashboards() {
     const accuracy = dashboard.querySelector("[data-journey-accuracy]");
     const sessions = dashboard.querySelector("[data-journey-sessions]");
     const streak = dashboard.querySelector("[data-journey-streak]");
+    const due = dashboard.querySelector("[data-journey-due]");
+    const reliable = dashboard.querySelector("[data-journey-reliable]");
     const recentBox = dashboard.querySelector("[data-journey-recent]");
     const recentTitle = dashboard.querySelector("[data-journey-recent-title]");
     const recentMeta = dashboard.querySelector("[data-journey-recent-meta]");
     const recentLink = dashboard.querySelector("[data-journey-recent-link]");
+    const reviewBox = dashboard.querySelector("[data-journey-review]");
+    const reviewTitle = dashboard.querySelector("[data-journey-review-title]");
+    const reviewCopy = dashboard.querySelector("[data-journey-review-copy]");
+    const reviewLink = dashboard.querySelector("[data-journey-review-link]");
     const steps = Object.fromEntries(
       Array.from(dashboard.querySelectorAll("[data-journey-step]")).map((step) => [step.dataset.journeyStep, step]),
     );
@@ -1339,13 +1537,16 @@ function initDmvJourneyDashboards() {
       const accuracyToday = answeredToday ? Math.round((correctToday / answeredToday) * 100) : 0;
       const stateSessions = journey.sessions.filter((session) => !session.state || session.state === state);
       const recent = stateSessions[0] || null;
+      const mastery = getDmvMasterySummary(state);
+      const baselineCount = Math.min(mastery.attempted, 10);
       const twoWeeksAgo = Date.now() - 14 * 86400000;
       const passes = stateSessions.filter(
         (session) => Number(session.completedAt) >= twoWeeksAgo && Number(session.total) >= 10 && Number(session.percent) >= 80,
       ).length;
       const readyCount = checklistCount(state);
-      const weak = recent?.weak?.[0] || Object.entries(journey.weak)
-        .sort((a, b) => Number(b[1]) - Number(a[1]))[0]?.[0] || "";
+      const weak = recent
+        ? recent.weak?.[0] || ""
+        : Object.entries(journey.weak).sort((a, b) => Number(b[1]) - Number(a[1]))[0]?.[0] || "";
 
       if (source) source.href = option.dataset.sourceUrl || source.href;
       if (answered) answered.textContent = `${answeredToday} ${answeredToday === 1 ? "question" : "questions"}`;
@@ -1353,16 +1554,20 @@ function initDmvJourneyDashboards() {
       if (sessions) sessions.textContent = `${stateSessions.length} ${stateSessions.length === 1 ? "round" : "rounds"}`;
       const streakCount = countStreak(journey.days);
       if (streak) streak.textContent = `${streakCount} ${streakCount === 1 ? "day" : "days"}`;
+      if (due) due.textContent = `${mastery.due} ${mastery.due === 1 ? "question" : "questions"}`;
+      if (reliable) reliable.textContent = `${mastery.reliable} ${mastery.reliable === 1 ? "question" : "questions"}`;
 
-      setStep("warmup", answeredToday >= 10 ? "Complete" : `${Math.min(answeredToday, 10)} of 10`, answeredToday >= 10, answeredToday < 10);
-      if (answeredToday >= 10 && !missedToday) {
-        setStep("review", "Clear today", true, false);
+      setStep("warmup", baselineCount >= 10 ? "Complete" : `${baselineCount} of 10`, baselineCount >= 10, baselineCount < 10);
+      if (mastery.due) {
+        setStep("review", `${mastery.due} due`, false, baselineCount >= 10);
+      } else if (baselineCount >= 10) {
+        setStep("review", "Queue clear", true, false);
       } else if (weak) {
-        setStep("review", `Review ${weak}`, false, answeredToday >= 10);
+        setStep("review", `Review ${weak}`, false, false);
       } else {
         setStep("review", "Waiting", false, false);
       }
-      setStep("passes", `${Math.min(passes, 2)} of 2`, passes >= 2, answeredToday >= 10 && passes < 2 && !weak);
+      setStep("passes", `${Math.min(passes, 2)} of 2`, passes >= 2, baselineCount >= 10 && passes < 2 && !mastery.due);
       setStep("ready", `${readyCount} of 12`, readyCount >= 12, passes >= 2 && readyCount < 12);
 
       if (recent && recentBox) {
@@ -1377,30 +1582,41 @@ function initDmvJourneyDashboards() {
         recentBox.hidden = true;
       }
 
-      if (!answeredToday) {
+      if (mastery.dueItem && reviewBox) {
+        reviewBox.hidden = false;
+        if (reviewTitle) reviewTitle.textContent = `${mastery.due} ${mastery.due === 1 ? "question needs" : "questions need"} another round`;
+        if (reviewCopy) {
+          reviewCopy.textContent = `${mastery.dueItem.category || "Review topic"}: ${mastery.dueItem.prompt || "Return to the saved practice question."}`;
+        }
+        if (reviewLink) reviewLink.href = mastery.dueItem.href || "road-signs-practice-test.html?focus=due#practice";
+      } else if (reviewBox) {
+        reviewBox.hidden = true;
+      }
+
+      if (mastery.due && mastery.dueItem) {
+        kicker.textContent = "Review queue ready";
+        title.textContent = `Repair ${mastery.due} due ${mastery.due === 1 ? "question" : "questions"}`;
+        copy.textContent = "Return to the exact questions that still need evidence. Two correct rounds are required before they count as reliable.";
+        primary.href = mastery.dueItem.href || option.dataset.practiceUrl || "dmv-practice.html";
+        primary.textContent = "Start due review";
+      } else if (!mastery.attempted) {
         kicker.textContent = `Start ${stateLabel} prep today`;
         title.textContent = "Take the 10-question road-sign diagnostic";
         copy.textContent = "A short first round creates a baseline and reveals which sign family or rule deserves the next ten minutes.";
         primary.href = "road-signs-practice-test.html#practice";
         primary.textContent = "Start 10 questions";
-      } else if (answeredToday < 10) {
+      } else if (mastery.attempted < 10) {
         kicker.textContent = "Finish the baseline";
-        title.textContent = `${10 - answeredToday} questions left before switching tools`;
-        copy.textContent = "Complete the short round first so the weak-area recommendation is based on enough evidence.";
+        title.textContent = `${10 - mastery.attempted} different questions left before switching tools`;
+        copy.textContent = "Attempt different questions so the weak-area recommendation cannot be inflated by repeating one familiar item.";
         primary.href = recent?.href || option.dataset.practiceUrl || "road-signs-practice-test.html#practice";
         primary.textContent = "Continue practice";
       } else if (missedToday && weak) {
         kicker.textContent = "Best next study block";
         title.textContent = `Repair ${weak}`;
-        copy.textContent = /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(weak)
-          ? "Use the visual deck once, then retake only saved mistakes. Avoid another random full quiz until recognition is faster."
-          : `Use the ${stateLabel} practice path and official source to fix the rule, then retake a focused round.`;
-        primary.href = /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(weak)
-          ? "dmv-road-sign-flashcards.html"
-          : option.dataset.practiceUrl || "dmv-practice.html";
-        primary.textContent = /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(weak)
-          ? "Review sign flashcards"
-          : `Review ${stateLabel} rules`;
+        copy.textContent = `Use the ${stateLabel} practice path and official source to fix the rule, then retake a focused round.`;
+        primary.href = option.dataset.practiceUrl || "dmv-practice.html";
+        primary.textContent = `Review ${stateLabel} rules`;
       } else if (passes < 2) {
         kicker.textContent = "Confirm the result";
         title.textContent = "Pass one more focused round";
@@ -1433,7 +1649,15 @@ function initDmvJourneyDashboards() {
         target: analyticsPathFromHref(primary.href),
       });
     });
+    reviewLink?.addEventListener("click", () => {
+      trackToolEvent("mastery_review_start", {
+        state: stateSelect?.value || "unknown",
+        surface: "journey_dashboard",
+        target: analyticsPathFromHref(reviewLink.href),
+      });
+    });
     document.addEventListener("tdt:dmv-progress", render);
+    document.addEventListener("tdt:dmv-mastery", render);
     document.addEventListener("tdt:dmv-state", (event) => {
       selectState(event.detail?.state);
       render();

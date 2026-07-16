@@ -295,7 +295,7 @@
   </div>
   <div class="mode-tabs" role="tablist" aria-label="Practice modes"><button type="button" class="mode-tab is-active" data-mode-button="road-signs-starter" aria-selected="true"><span>Permit starter</span><strong>10 questions</strong></button><button type="button" class="mode-tab" data-mode-button="road-signs-core" aria-selected="false"><span>Full signs test</span><strong>24 questions</strong></button></div>
   <ul class="mode-overview"><li><strong>Permit starter</strong><span>Start with 10 high-signal road-sign questions before taking the full 24-picture round. This is the fastest path for visitors who came from a broad DMV road signs query.</span></li><li><strong>Full signs test</strong><span>Identify each sign, choose the safest driver action, then use saved mistakes to decide whether to review regulatory, warning, shape/color, or flashcard practice next.</span></li></ul>
-  <div class="mode-panels"><div class="mode-panel is-active" data-mode-panel="road-signs-starter" aria-hidden="false"><section class="quiz tool-block" data-quiz data-total="10" data-pass-score="8" data-quiz-label="Permit starter" data-mode-id="road-signs-starter" data-state="">
+  <div class="mode-panels"><div class="mode-panel is-active" data-mode-panel="road-signs-starter" aria-hidden="false"><section class="quiz tool-block" data-quiz data-total="10" data-pass-score="8" data-quiz-label="Permit starter" data-mode-id="road-signs-starter" data-state="" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Short road-sign round</span>
     <h2>DMV road signs permit-test starter</h2>
@@ -415,6 +415,12 @@
     <div><span>Missed</span><strong data-quiz-missed>0</strong></div>
     <div><span>Left</span><strong data-quiz-left>10</strong></div>
   </div>
+  <div class="quiz-mastery" data-quiz-mastery>
+    <div><span>Due review</span><strong data-quiz-mastery-due>0</strong></div>
+    <div><span>Learning</span><strong data-quiz-mastery-learning>0</strong></div>
+    <div><span>Reliable</span><strong data-quiz-mastery-reliable>0</strong></div>
+    <p>Two correct rounds move a question to reliable. Misses return to the review queue.</p>
+  </div>
   <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
   <div class="quiz-breakdown" data-quiz-breakdown></div>
   <div class="quiz-toolbox">
@@ -424,7 +430,7 @@
     </label>
     <div class="quiz-toolbox-actions">
       <button type="button" data-quiz-shuffle>Shuffle</button>
-      <button type="button" data-quiz-review-mistakes>Review mistakes</button>
+      <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
     <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
@@ -446,7 +452,7 @@
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>
   </div>
-</section></div><div class="mode-panel" data-mode-panel="road-signs-core" aria-hidden="true"><section class="quiz tool-block" data-quiz data-total="24" data-pass-score="19" data-quiz-label="Full signs test" data-mode-id="road-signs-core" data-state="">
+</section></div><div class="mode-panel" data-mode-panel="road-signs-core" aria-hidden="true"><section class="quiz tool-block" data-quiz data-total="24" data-pass-score="19" data-quiz-label="Full signs test" data-mode-id="road-signs-core" data-state="" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Interactive road-sign practice</span>
     <h2>Road signs practice test with pictures</h2>
@@ -692,6 +698,12 @@
     <div><span>Missed</span><strong data-quiz-missed>0</strong></div>
     <div><span>Left</span><strong data-quiz-left>24</strong></div>
   </div>
+  <div class="quiz-mastery" data-quiz-mastery>
+    <div><span>Due review</span><strong data-quiz-mastery-due>0</strong></div>
+    <div><span>Learning</span><strong data-quiz-mastery-learning>0</strong></div>
+    <div><span>Reliable</span><strong data-quiz-mastery-reliable>0</strong></div>
+    <p>Two correct rounds move a question to reliable. Misses return to the review queue.</p>
+  </div>
   <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
   <div class="quiz-breakdown" data-quiz-breakdown></div>
   <div class="quiz-toolbox">
@@ -701,7 +713,7 @@
     </label>
     <div class="quiz-toolbox-actions">
       <button type="button" data-quiz-shuffle>Shuffle</button>
-      <button type="button" data-quiz-review-mistakes>Review mistakes</button>
+      <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
     <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>

@@ -1867,7 +1867,16 @@ def render_quiz(quiz_key, options=None):
     quiz_label = options.get("label", title)
     mode_id = options.get("id", quiz_key)
     state_value = options.get("state", "")
+    domain = options.get("domain", "")
+    is_dmv = domain == "dmv"
     section_id = f' id="{esc(options["sectionId"])}"' if options.get("sectionId") else ""
+    mastery_panel = "" if not is_dmv else """<div class="quiz-mastery" data-quiz-mastery>
+    <div><span>Due review</span><strong data-quiz-mastery-due>0</strong></div>
+    <div><span>Learning</span><strong data-quiz-mastery-learning>0</strong></div>
+    <div><span>Reliable</span><strong data-quiz-mastery-reliable>0</strong></div>
+    <p>Two correct rounds move a question to reliable. Misses return to the review queue.</p>
+  </div>"""
+    review_button_label = "Review due" if is_dmv else "Review mistakes"
     summary = f"""<aside class="quiz-summary" aria-live="polite">
   <p class="quiz-kicker">Practice status</p>
   <div>
@@ -1879,6 +1888,7 @@ def render_quiz(quiz_key, options=None):
     <div><span>Missed</span><strong data-quiz-missed>0</strong></div>
     <div><span>Left</span><strong data-quiz-left>{total}</strong></div>
   </div>
+  {mastery_panel}
   <div class="quiz-meter" aria-hidden="true"><span data-quiz-meter></span></div>
   <div class="quiz-breakdown" data-quiz-breakdown></div>
   <div class="quiz-toolbox">
@@ -1888,7 +1898,7 @@ def render_quiz(quiz_key, options=None):
     </label>
     <div class="quiz-toolbox-actions">
       <button type="button" data-quiz-shuffle>Shuffle</button>
-      <button type="button" data-quiz-review-mistakes>Review mistakes</button>
+      <button type="button" data-quiz-review-mistakes>{review_button_label}</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
     <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
@@ -1913,7 +1923,7 @@ def render_quiz(quiz_key, options=None):
   <button type="button" class="quiz-nav-button" data-quiz-prev>Previous</button>
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>"""
-    return f"""<section class="quiz tool-block"{section_id} data-quiz data-total="{total}" data-pass-score="{esc(pass_score)}" data-quiz-label="{esc(quiz_label)}" data-mode-id="{esc(mode_id)}" data-state="{esc(state_value)}">
+    return f"""<section class="quiz tool-block"{section_id} data-quiz data-total="{total}" data-pass-score="{esc(pass_score)}" data-quiz-label="{esc(quiz_label)}" data-mode-id="{esc(mode_id)}" data-state="{esc(state_value)}" data-domain="{esc(domain)}">
   <div class="tool-section-head">
     <span class="eyebrow">{esc(kicker)}</span>
     <h2>{esc(title)}</h2>
@@ -1937,14 +1947,21 @@ def render_quiz(quiz_key, options=None):
 def render_dmv_mode_tool(tool):
     state = find_dmv_state_for_tool(tool) or {}
     state_value = state.get("value", "")
+    if not state_value:
+        slug = tool.get("slug", "")
+        for marker in ("-dmv-", "-bmv-", "-mvd-", "-mvc-", "-sos-", "-dds-"):
+            if marker in slug:
+                state_value = slug.split(marker, 1)[0]
+                break
     modes = tool.get("quizModes")
     if not modes:
-        return render_quiz(tool.get("quiz"), {"state": state_value})
+        return render_quiz(tool.get("quiz"), {"state": state_value, "domain": "dmv"})
     if len(modes) == 1:
         only = modes[0]
         quiz_options = dict(only)
         quiz_options.pop("sectionId", None)
         quiz_options["state"] = state_value
+        quiz_options["domain"] = "dmv"
         quiz = render_quiz(only["quiz"], quiz_options)
         return f"""<section class="dmv-mode-tool single-mode-tool" id="practice">
   <div class="tool-section-head">
@@ -1970,6 +1987,7 @@ def render_dmv_mode_tool(tool):
         tabs.append(f'<button type="button" class="mode-tab{active_class}" data-mode-button="{esc(mode["id"])}" aria-selected="{selected}"><span>{esc(mode["label"])}</span><strong>{esc(mode.get("short", mode["title"]))}</strong></button>')
         quiz_options = dict(mode)
         quiz_options["state"] = state_value
+        quiz_options["domain"] = "dmv"
         quiz = render_quiz(mode["quiz"], quiz_options)
         panels.append(f'<div class="mode-panel{active_class}" data-mode-panel="{esc(mode["id"])}" aria-hidden="{hidden}">{quiz}</div>')
     overview_items = "".join(
@@ -2233,10 +2251,12 @@ def render_dmv_journey_dashboard():
       <div><dt>Accuracy</dt><dd data-journey-accuracy>No baseline</dd></div>
       <div><dt>Completed</dt><dd data-journey-sessions>0 rounds</dd></div>
       <div><dt>Study streak</dt><dd data-journey-streak>0 days</dd></div>
+      <div><dt>Review due</dt><dd data-journey-due>0 questions</dd></div>
+      <div><dt>Reliable</dt><dd data-journey-reliable>0 questions</dd></div>
     </dl>
   </div>
   <div class="journey-steps" aria-label="DMV readiness milestones">
-    <article data-journey-step="warmup"><span>1</span><div><strong>Build today's baseline</strong><p>Answer at least 10 questions.</p></div><b data-journey-step-status>Not started</b></article>
+    <article data-journey-step="warmup"><span>1</span><div><strong>Build a 10-question baseline</strong><p>Attempt 10 different questions.</p></div><b data-journey-step-status>Not started</b></article>
     <article data-journey-step="review"><span>2</span><div><strong>Repair the weak area</strong><p>Use misses to choose signs or state rules.</p></div><b data-journey-step-status>Waiting</b></article>
     <article data-journey-step="passes"><span>3</span><div><strong>Pass two focused rounds</strong><p>Two 10+ question results at 80%+ are stronger than one lucky score.</p></div><b data-journey-step-status>0 of 2</b></article>
     <article data-journey-step="ready"><span>4</span><div><strong>Finish test-day readiness</strong><p>Confirm documents, source, and visit logistics.</p></div><b data-journey-step-status>0 items</b></article>
@@ -2246,6 +2266,12 @@ def render_dmv_journey_dashboard():
     <strong data-journey-recent-title></strong>
     <p data-journey-recent-meta></p>
     <a href="road-signs-practice-test.html#practice" data-journey-recent-link>Open round</a>
+  </div>
+  <div class="journey-recent journey-mastery-queue" data-journey-review hidden>
+    <span>Review queue</span>
+    <strong data-journey-review-title></strong>
+    <p data-journey-review-copy></p>
+    <a href="road-signs-practice-test.html?focus=due#practice" data-journey-review-link>Review due questions</a>
   </div>
 </section>"""
 
