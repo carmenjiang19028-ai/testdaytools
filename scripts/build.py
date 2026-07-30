@@ -40,6 +40,7 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
     "category": "DMV",
     "title": "Road Sign Flashcards: DMV Pictures for Fast Review",
     "description": "Flip DMV road sign flashcards for regulatory, warning, school, work-zone, and service signs. Save review cards in your browser. No signup.",
+    "lastUpdated": "July 30, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 ROAD_SIGN_CHEAT_SHEET_SLUG = "dmv-road-signs-cheat-sheet"
@@ -47,8 +48,8 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "slug": ROAD_SIGN_CHEAT_SHEET_SLUG,
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
-    "description": "Print a free DMV road signs cheat sheet with 23 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "July 27, 2026",
+    "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
+    "lastUpdated": "July 30, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -102,6 +103,14 @@ SIGN_SVGS = {
     "roundabout": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M83 63 a36 36 0 0 1 58 5 M146 89 a36 36 0 0 1-57 12 M93 57 l-20 2 10-18 M151 88 l-4 20 20-8" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     "hospital": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="48" y="26" width="124" height="108" rx="8" fill="#0f5fa8"/><text x="110" y="108" text-anchor="middle" fill="#fff" font-size="76" font-weight="900" font-family="Arial, sans-serif">H</text></svg>',
     "deer-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M78 106 l22-42 25 14 22-18 M100 64 l-12-20 M107 66 l8-24 M125 78 l20 30 M112 82 l-4 34" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/><circle cx="143" cy="58" r="7" fill="#111"/></svg>',
+    "curve": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M82 126 C84 102 139 97 136 62 C135 48 126 42 114 35" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M99 43 l14-19 16 18z" fill="#111"/></svg>',
+    "winding-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 128 C68 109 151 92 105 74 C67 59 132 48 112 34" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M97 43 l14-20 16 18z" fill="#111"/></svg>',
+    "crossroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 125 V36 M68 80 H152" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
+    "side-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M96 126 V36 M96 78 H150" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
+    "t-intersection": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 126 V67 M66 58 H154" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
+    "two-way-traffic": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M88 119 V47 M132 41 V113" fill="none" stroke="#111" stroke-width="10" stroke-linecap="round"/><path d="M72 52 l16-24 16 24z M116 108 l16 24 16-24z" fill="#111"/></svg>',
+    "stop-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><polygon points="92,45 128,45 151,63 151,97 128,115 92,115 69,97 69,63" fill="none" stroke="#111" stroke-width="7"/><text x="110" y="88" text-anchor="middle" fill="#111" font-size="23" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
+    "bicycle-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="76" cy="103" r="22" fill="none" stroke="#111" stroke-width="7"/><circle cx="146" cy="103" r="22" fill="none" stroke="#111" stroke-width="7"/><path d="M76 103 l28-44 25 44 H76 l20-31 h31 l19 31 M101 48 h21" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 }
 
 
@@ -950,10 +959,10 @@ def render_home_practice_panel():
   <div class="workbench-mode-links">
     <a href="dmv-permit-test-question-of-the-day.html"><span>Daily</span><strong>One question</strong></a>
     <a href="dmv-permit-test-mistake-log.html"><span>Mistakes</span><strong>Save weak areas</strong></a>
-    <a href="road-signs-practice-test.html"><span>Road signs</span><strong>24 image questions</strong></a>
+    <a href="road-signs-practice-test.html"><span>Road signs</span><strong>40 image questions</strong></a>
     <a href="dmv-road-sign-flashcards.html"><span>Flashcards</span><strong>Visual sign deck</strong></a>
     <a href="dmv-permit-test-study-plan.html"><span>Study plan</span><strong>3 to 21 days</strong></a>
-    <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>12 rule signs</strong></a>
+    <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>16 rule signs</strong></a>
     <a href="road-sign-shapes-and-colors-finder.html"><span>Shapes</span><strong>Colors and meanings</strong></a>
     <a href="dmv-permit-test-requirements-by-state.html"><span>Requirements</span><strong>Format and pass rule</strong></a>
     <a href="florida-dmv-road-signs-practice.html"><span>Florida</span><strong>Regulatory signs</strong></a>
@@ -1108,6 +1117,9 @@ def render_home_bottom_nav():
 
 def quiz_question_count(mode):
     count = len(DATA["quizzes"].get(mode["quiz"], []))
+    append_quiz = mode.get("appendQuiz")
+    if append_quiz:
+        count += len(DATA["quizzes"].get(append_quiz, []))
     max_questions = int(mode.get("maxQuestions") or 0)
     if max_questions > 0:
         return min(count, max_questions)
@@ -1842,7 +1854,10 @@ def render_quiz(quiz_key, options=None):
     if not quiz_key:
         return ""
     options = options or {}
-    questions = DATA["quizzes"][quiz_key]
+    questions = list(DATA["quizzes"][quiz_key])
+    append_quiz = options.get("appendQuiz")
+    if append_quiz:
+        questions.extend(DATA["quizzes"].get(append_quiz, []))
     max_questions = int(options.get("maxQuestions") or 0)
     if max_questions > 0:
         questions = questions[:max_questions]
@@ -2698,7 +2713,7 @@ def render_road_sign_cheat_sheet_page():
   <div class="card-grid">
     <article class="info-card"><span>1. Scan</span><h3>Name the driver action</h3><p>Say stop, yield, merge, slow, watch, or prohibited movement before reading the definition.</p></article>
     <article class="info-card"><span>2. Mark</span><h3>Circle only slow signs</h3><p>A short weak-sign list is more useful than repeatedly studying signs you already recognize.</p></article>
-    <article class="info-card"><span>3. Test</span><h3>Use pictures without the labels</h3><p>Move into the 24-picture quiz, then save missed signs in your browser for another review.</p></article>
+    <article class="info-card"><span>3. Test</span><h3>Use pictures without the labels</h3><p>Move into the 40-picture quiz, then save missed signs in your browser for another review.</p></article>
   </div>
 </section>
 <section class="card-group">
@@ -2787,7 +2802,7 @@ def render_road_sign_flashcards_page():
       <p class="eyebrow">Road sign flashcards</p>
       <h1>{esc(ROAD_SIGN_FLASHCARDS_PAGE["title"])}</h1>
       <p class="lede">Flip DMV road sign pictures, mark the slow ones, save review cards in this browser, then jump into the matching road-sign practice test.</p>
-      {render_last_updated()}
+      {render_last_updated(ROAD_SIGN_FLASHCARDS_PAGE["lastUpdated"])}
       <div class="hero-actions">
         <a href="#flashcards">Start flashcards</a>
         <a href="road-sign-shapes-and-colors-finder.html">Shapes and colors</a>

@@ -38,7 +38,7 @@
   ],
   "home": {
     "title": "Free DMV Road Signs Practice, Flashcards, and Permit Tools | TestDayTools",
-    "description": "Choose 24-picture road sign practice, state road-sign pages, Florida regulatory signs, flashcards, shape lookup, permit practice, and test-day checklist tools from one DMV study hub.",
+    "description": "Choose 40-picture road sign practice, state road-sign pages, Florida regulatory signs, flashcards, shape lookup, permit practice, and test-day checklist tools from one DMV study hub.",
     "sections": [
       {
         "heading": "DMV and road signs practice",
@@ -115,14 +115,14 @@
       },
       {
         "label": "Road signs",
-        "title": "Road Signs Practice: 24 DMV Pictures",
-        "text": "Take the broad 24-picture road-sign quiz first, then route misses into regulatory signs, flashcards, shape/color lookup, or Florida source checks.",
+        "title": "Road Signs Practice: 40 DMV Pictures",
+        "text": "Take the broad 40-picture road-sign quiz first, then route misses into regulatory signs, flashcards, shape/color lookup, or Florida source checks.",
         "href": "road-signs-practice-test.html"
       },
       {
         "label": "Print",
         "title": "Free DMV Road Signs Cheat Sheet",
-        "text": "Print 23 original road-sign pictures with plain-English meanings, no email or signup required, then quiz only the signs that feel slow.",
+        "text": "Print 31 original road-sign pictures with plain-English meanings, no email or signup required, then quiz only the signs that feel slow.",
         "href": "dmv-road-signs-cheat-sheet.html"
       },
       {
@@ -435,7 +435,7 @@
         }
       ]
     },
-    "lastUpdated": "July 14, 2026"
+    "lastUpdated": "July 30, 2026"
   },
   "hubs": [
     {
@@ -490,7 +490,7 @@
         {
           "label": "Print",
           "title": "Free DMV Road Signs Cheat Sheet",
-          "text": "Print 23 original road-sign pictures and meanings without an email gate, then quiz the signs that need more work.",
+          "text": "Print 31 original road-sign pictures and meanings without an email gate, then quiz the signs that need more work.",
           "href": "dmv-road-signs-cheat-sheet.html"
         },
         {
@@ -596,15 +596,15 @@
           "text": "A useful DMV site should not send you into endless mixed quizzes. Start with the official source, use road-sign practice to expose visual mistakes, answer a short state round, save the missed pattern, then open the checklist for documents and appointment details."
         },
         {
-          "heading": "Why state road-sign pages are expanding now",
-          "text": "Search data has already shown road-sign demand. The next aggressive move is to build a clearer state road-sign cluster while keeping each page tool-first, source-linked, and useful without pretending to be an official DMV page."
+          "heading": "Why the national road-sign page goes deeper first",
+          "text": "Search data shows broad road-sign demand, so the national page now carries the deepest 40-question practice round. State pages stay focused on official-source context and only expand when page-level queries show a state-specific need instead of a duplicated national quiz."
         },
         {
           "heading": "What to do after a missed sign",
           "text": "Do not simply retake the same quiz. Decide whether the miss was a sign-family problem, a right-of-way rule, a direction-control sign, a speed sign, or a document and appointment misunderstanding, then open the matching drill or checklist."
         }
       ],
-      "lastUpdated": "June 14, 2026"
+      "lastUpdated": "July 30, 2026"
     },
     {
       "slug": "ap-tools",
@@ -6316,14 +6316,14 @@
       "slug": "road-signs-practice-test",
       "category": "DMV",
       "title": "Road Signs Practice Test with Pictures for DMV Permit Test",
-      "description": "Take a DMV road signs permit-test practice round with 24 picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and state-specific source checks.",
+      "description": "Take a DMV road signs permit-test practice round with 40 picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and state-specific source checks.",
       "heroKicker": "Road signs practice test",
-      "summary": "Take 24 DMV road-sign picture questions for permit-test practice, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and state-specific source checks to choose the next drill.",
-      "lastUpdated": "July 27, 2026",
+      "summary": "Take 40 DMV road-sign picture questions for permit-test practice, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and state-specific source checks to choose the next drill.",
+      "lastUpdated": "July 30, 2026",
       "quickFacts": [
         {
           "label": "Practice size",
-          "value": "24 image questions"
+          "value": "40 image questions"
         },
         {
           "label": "Best for",
@@ -6344,7 +6344,7 @@
           "label": "Permit starter",
           "short": "10 questions",
           "title": "DMV road signs permit-test starter",
-          "description": "Start with 10 high-signal road-sign questions before taking the full 24-picture round. This is the fastest path for visitors who came from a broad DMV road signs query.",
+          "description": "Start with 10 high-signal road-sign questions before taking the full 40-picture round. This is the fastest path for visitors who came from a broad DMV road signs query.",
           "kicker": "Short road-sign round",
           "quiz": "roadSignsCore",
           "passScore": 8,
@@ -6353,12 +6353,13 @@
         {
           "id": "road-signs-core",
           "label": "Full signs test",
-          "short": "24 questions",
+          "short": "40 questions",
           "title": "Road signs practice test with pictures",
           "description": "Identify each sign, choose the safest driver action, then use saved mistakes to decide whether to review regulatory, warning, shape/color, or flashcard practice next.",
           "kicker": "Interactive road-sign practice",
           "quiz": "roadSignsCore",
-          "passScore": 19
+          "appendQuiz": "roadSignsChallenge",
+          "passScore": 32
         }
       ],
       "signStudy": {
@@ -6502,6 +6503,46 @@
                 "image": "roundabout",
                 "title": "Roundabout",
                 "meaning": "A circular intersection is ahead; slow and yield as required."
+              },
+              {
+                "image": "curve",
+                "title": "Curve",
+                "meaning": "The road bends ahead; reduce speed before entering the curve."
+              },
+              {
+                "image": "winding-road",
+                "title": "Winding Road",
+                "meaning": "Several curves are ahead; slow down and keep steady lane position."
+              },
+              {
+                "image": "crossroad",
+                "title": "Crossroad",
+                "meaning": "Another road crosses ahead; scan both sides for entering traffic."
+              },
+              {
+                "image": "side-road",
+                "title": "Side Road",
+                "meaning": "A side road joins ahead; watch for traffic entering from that side."
+              },
+              {
+                "image": "t-intersection",
+                "title": "T-Intersection",
+                "meaning": "The road ends at another road; prepare to turn left or right."
+              },
+              {
+                "image": "two-way-traffic",
+                "title": "Two-Way Traffic",
+                "meaning": "Opposing traffic begins ahead; stay right and expect oncoming vehicles."
+              },
+              {
+                "image": "stop-ahead",
+                "title": "Stop Ahead",
+                "meaning": "A stop sign is ahead; begin slowing so you can stop completely."
+              },
+              {
+                "image": "bicycle-crossing",
+                "title": "Bicycle Crossing",
+                "meaning": "Bicyclists may enter or cross the road; slow and scan carefully."
               }
             ]
           },
@@ -6588,7 +6629,7 @@
       "body": [
         {
           "heading": "Fast answer: what this road signs practice gives you",
-          "text": "This is a 24-picture DMV road signs permit-test practice round. Start with the images, get instant explanations, then move missed signs into regulatory practice, flashcards, shape and color lookup, or a state road-sign page when local context matters."
+          "text": "This is a 40-picture DMV road signs permit-test practice round. Start with the images, get instant explanations, then move missed signs into regulatory practice, flashcards, shape and color lookup, or a state road-sign page when local context matters."
         },
         {
           "heading": "What counts as a regulatory traffic sign?",
@@ -22953,6 +22994,232 @@
         ],
         "answer": 1,
         "explanation": "A useful practice round connects each sign to the safe action: stop, yield, merge, slow, watch, or avoid a prohibited movement."
+      }
+    ],
+    "roadSignsChallenge": [
+      {
+        "q": "What should a driver do before entering this curve?",
+        "image": "curve",
+        "imageAlt": "Yellow curve warning sign",
+        "category": "Alignment warning signs",
+        "choices": [
+          "Reduce speed before the road bends",
+          "Stop in the travel lane",
+          "Move onto the shoulder",
+          "Accelerate through the curve"
+        ],
+        "answer": 0,
+        "explanation": "A curve warning sign gives advance notice of a change in road alignment. Slow before the curve and keep a steady lane position."
+      },
+      {
+        "q": "This winding-road sign warns drivers to expect:",
+        "image": "winding-road",
+        "imageAlt": "Yellow winding road warning sign",
+        "category": "Alignment warning signs",
+        "choices": [
+          "One sharp turn followed by a stop sign",
+          "Several curves over the next road section",
+          "A road closed to passenger vehicles",
+          "A passing lane on every curve"
+        ],
+        "answer": 1,
+        "explanation": "Winding Road warns of a series of curves. Lower speed, look through each bend, and avoid passing where sight distance is limited."
+      },
+      {
+        "q": "What does this crossroad symbol tell you?",
+        "image": "crossroad",
+        "imageAlt": "Yellow crossroad intersection warning sign",
+        "category": "Intersection warning signs",
+        "choices": [
+          "The road becomes one way",
+          "A railroad crosses the highway",
+          "Another road crosses ahead",
+          "The highway ends immediately"
+        ],
+        "answer": 2,
+        "explanation": "A Crossroad sign shows that another road intersects ahead. Scan both sides and be ready for entering or crossing traffic."
+      },
+      {
+        "q": "Where should you expect traffic to enter after this sign?",
+        "image": "side-road",
+        "imageAlt": "Yellow side road intersection warning sign",
+        "category": "Intersection warning signs",
+        "choices": [
+          "From the side shown by the branch",
+          "Only from a driveway behind you",
+          "From a railroad track",
+          "From the median only"
+        ],
+        "answer": 0,
+        "explanation": "A Side Road sign shows the direction from which another road joins. Watch that side for vehicles entering the main road."
+      },
+      {
+        "q": "What driving decision is coming at this T-intersection sign?",
+        "image": "t-intersection",
+        "imageAlt": "Yellow T-intersection warning sign",
+        "category": "Intersection warning signs",
+        "choices": [
+          "Continue straight at the same speed",
+          "Prepare to turn left or right because the road ends",
+          "Merge into a lane on the right",
+          "Stop for a railroad crossing"
+        ],
+        "answer": 1,
+        "explanation": "A T-Intersection sign warns that your road ends at another road. Slow down and prepare for the required turn and right-of-way check."
+      },
+      {
+        "q": "This two-way traffic sign means:",
+        "image": "two-way-traffic",
+        "imageAlt": "Yellow two-way traffic warning sign",
+        "category": "Traffic flow warning signs",
+        "choices": [
+          "Two lanes move in your direction",
+          "Passing is required on the left",
+          "Opposing traffic begins or continues ahead",
+          "The road becomes a divided highway"
+        ],
+        "answer": 2,
+        "explanation": "Two-Way Traffic warns that vehicles will travel in opposite directions. Stay right and expect oncoming traffic."
+      },
+      {
+        "q": "What should you begin doing when you see this warning sign?",
+        "image": "stop-ahead",
+        "imageAlt": "Yellow stop ahead warning sign",
+        "category": "Advance warning signs",
+        "choices": [
+          "Prepare to stop completely at the stop sign ahead",
+          "Stop immediately beside the warning sign",
+          "Treat the next intersection as a yield",
+          "Speed up before traffic reaches the stop sign"
+        ],
+        "answer": 0,
+        "explanation": "Stop Ahead gives advance notice when a stop sign may not be visible soon enough. Begin slowing so you can make a complete stop at the actual stop sign."
+      },
+      {
+        "q": "What hazard does this bicycle sign warn about?",
+        "image": "bicycle-crossing",
+        "imageAlt": "Yellow bicycle crossing warning sign",
+        "category": "Crossing signs",
+        "choices": [
+          "A bicycle-only parking area",
+          "Bicyclists may enter or cross the roadway",
+          "Motorcycles must leave the highway",
+          "Bicycles have a separate speed limit"
+        ],
+        "answer": 1,
+        "explanation": "A Bicycle warning sign alerts drivers to possible bicycle entry or crossing activity. Slow down, scan carefully, and allow safe space."
+      },
+      {
+        "q": "At a roundabout warning sign, which action should come first?",
+        "image": "roundabout",
+        "imageAlt": "Roundabout warning sign",
+        "category": "Intersection warning signs",
+        "choices": [
+          "Choose an exit after entering at full speed",
+          "Stop in the circulating lane",
+          "Slow down and look for traffic already circulating",
+          "Turn left around the central island"
+        ],
+        "answer": 2,
+        "explanation": "A roundabout warning sign means a circular intersection is ahead. Reduce speed, follow lane markings, and yield as required before entering."
+      },
+      {
+        "q": "Why is a school crossing sign a speed-control clue?",
+        "image": "school-crossing",
+        "imageAlt": "School crossing warning sign",
+        "category": "School and pedestrian signs",
+        "choices": [
+          "Children can be less predictable and local school-zone rules may apply",
+          "School signs always cancel the posted speed limit",
+          "Only school buses may use the road",
+          "Drivers must stop whenever the sign is visible"
+        ],
+        "answer": 0,
+        "explanation": "School crossing signs call for extra scanning and controlled speed. Obey any posted school-zone limit and be ready for children crossing."
+      },
+      {
+        "q": "What is the safest response if railroad warning lights begin flashing?",
+        "image": "railroad",
+        "imageAlt": "Railroad crossing advance warning sign",
+        "category": "Railroad signs",
+        "choices": [
+          "Cross quickly before the gate lowers",
+          "Stop as required and never drive around a lowered gate",
+          "Stop with the front wheels on the tracks",
+          "Follow the vehicle ahead even if space is blocked"
+        ],
+        "answer": 1,
+        "explanation": "Flashing railroad signals require drivers to stop as directed. Never go around a lowered gate or enter tracks without room to clear them."
+      },
+      {
+        "q": "Which clue separates a temporary work-zone warning from a permanent warning sign?",
+        "image": "work-zone",
+        "imageAlt": "Orange work-zone warning sign",
+        "category": "Work zone signs",
+        "choices": [
+          "Its orange background",
+          "Its blue service symbol",
+          "Its red octagon shape",
+          "Its brown recreation color"
+        ],
+        "answer": 0,
+        "explanation": "Orange is used for temporary traffic-control and work-zone warnings. Expect changed lanes, workers, equipment, or temporary directions."
+      },
+      {
+        "q": "On a wet road, why should you avoid sudden braking after this sign?",
+        "image": "slippery",
+        "imageAlt": "Slippery when wet warning sign",
+        "category": "Road condition signs",
+        "choices": [
+          "Hard braking increases tire traction",
+          "Reduced traction can cause skidding or loss of control",
+          "The sign means the road is closed",
+          "The sign applies only to trucks"
+        ],
+        "answer": 1,
+        "explanation": "Slippery When Wet warns that tire grip may be reduced. Lower speed and make steering, braking, and acceleration changes gradually."
+      },
+      {
+        "q": "When traffic is merging, what creates the safest gap?",
+        "image": "merge",
+        "imageAlt": "Merge warning sign",
+        "category": "Traffic flow warning signs",
+        "choices": [
+          "Matching traffic speed while adjusting space early",
+          "Stopping in the through lane",
+          "Blocking the merging lane",
+          "Driving beside another vehicle through the merge point"
+        ],
+        "answer": 0,
+        "explanation": "A merge warning calls for early speed and space management. Avoid staying beside another vehicle where the lanes join."
+      },
+      {
+        "q": "Can you always drive at the posted speed shown here?",
+        "image": "speed-limit",
+        "imageAlt": "Speed limit 35 sign",
+        "category": "Speed signs",
+        "choices": [
+          "Yes, even when visibility is poor",
+          "Yes, if other vehicles are faster",
+          "No, unsafe conditions can require a lower speed",
+          "No, the sign is only a suggested minimum"
+        ],
+        "answer": 2,
+        "explanation": "A speed limit is the legal maximum under normal conditions. Rain, darkness, traffic, curves, or limited visibility can require a slower safe speed."
+      },
+      {
+        "q": "What should you do when a no-passing zone begins before a hill or curve?",
+        "image": "no-passing",
+        "imageAlt": "Do not pass sign",
+        "category": "Passing signs",
+        "choices": [
+          "Finish any pass only if you can do so without entering the prohibited zone",
+          "Start a pass because traffic is slower uphill",
+          "Use the shoulder to pass",
+          "Ignore the sign when the center line is visible"
+        ],
+        "answer": 0,
+        "explanation": "A no-passing zone marks limited sight distance or another unsafe condition. Do not begin a pass that would continue into the prohibited area."
       }
     ],
     "regulatorySignsCore": [
