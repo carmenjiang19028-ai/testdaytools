@@ -1247,6 +1247,80 @@ def render_quick_facts(facts):
     return f'<section class="fact-section"><h2>Quick facts</h2><dl class="fact-grid">{items}</dl></section>'
 
 
+def render_sat_date_planner(tool, widget):
+    events = []
+    for event in tool.get("calendarDownload", {}).get("events", []):
+        if not event.get("registrationDate") or not event.get("lateDate"):
+            continue
+        events.append({
+            "date": event["date"],
+            "label": event.get("label", event.get("title", "SAT date").replace("SAT - ", "")),
+            "registrationDate": event["registrationDate"],
+            "lateDate": event["lateDate"],
+            "description": event.get("description", ""),
+        })
+    if not events:
+        return ""
+    event_data = json.dumps(events, separators=(",", ":")).replace("</", "<\\/")
+    return f"""<section class="tool-block sat-widget sat-date-planner" id="sat-date-planner" data-sat-date-planner>
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(widget.get("kicker", "Interactive SAT date tool"))}</span>
+    <h2>{esc(widget.get("heading", "Choose your primary SAT date and backup"))}</h2>
+    <p class="section-intro">{esc(widget.get("intro", "Answer three planning questions to get a date pair that leaves realistic preparation and retake room."))}</p>
+  </div>
+  <div class="sat-widget-grid">
+    <div class="sat-input-panel sat-date-inputs">
+      <label>Where are you in school?
+        <span>This changes whether fall or spring dates get priority.</span>
+        <select data-sat-stage>
+          <option value="rising_senior">Rising senior</option>
+          <option value="senior">Senior</option>
+          <option value="junior_first">Junior planning a first SAT</option>
+          <option value="junior_retake">Junior planning a retake</option>
+          <option value="other">Another timeline</option>
+        </select>
+      </label>
+      <label>What deadline matters most?
+        <span>Always confirm each college's final score policy.</span>
+        <select data-sat-deadline>
+          <option value="early">Early action or early decision</option>
+          <option value="regular">Regular decision</option>
+          <option value="flexible">No application deadline yet</option>
+          <option value="unsure">Not sure yet</option>
+        </select>
+      </label>
+      <label>How much preparation runway do you need?
+        <span>The planner will skip dates that are too close.</span>
+        <select data-sat-readiness>
+          <option value="ready">Ready now; about 2+ weeks</option>
+          <option value="focused" selected>Focused plan; about 6+ weeks</option>
+          <option value="starting">Starting now; about 10+ weeks</option>
+        </select>
+      </label>
+      <label class="sat-date-checkbox"><input type="checkbox" checked data-sat-retake> <span><strong>Leave room for a retake</strong><em>Recommend the next workable backup administration.</em></span></label>
+      <button type="button" data-sat-plan-button>Build my SAT date plan</button>
+    </div>
+    <aside class="sat-result-panel sat-date-result" aria-live="polite">
+      <span>Your date plan</span>
+      <strong data-sat-plan-headline>Answer the questions to compare dates</strong>
+      <p data-sat-plan-reason>The result uses today's date, registration deadlines, preparation runway, and retake room.</p>
+      <div class="sat-date-picks" hidden data-sat-plan-picks>
+        <div><span>Primary date</span><strong data-sat-primary-date>--</strong><p data-sat-primary-deadline>--</p></div>
+        <div><span>Backup date</span><strong data-sat-backup-date>--</strong><p data-sat-backup-deadline>--</p></div>
+      </div>
+      <div class="sat-plan-actions">
+        <button type="button" disabled data-sat-plan-save>Save this plan</button>
+        <button type="button" disabled data-sat-date-calendar>Download primary date</button>
+        <a href="{esc(widget.get('sourceUrl', 'https://satsuite.collegeboard.org/sat/dates-deadlines'))}" target="_blank" rel="noopener" data-sat-register-link>Check official registration</a>
+      </div>
+      <p class="sat-saved-status" hidden data-sat-saved-status></p>
+      <p class="sat-widget-note">This planner does not check your test center, country, accommodations, or a college's score deadline. Confirm those details before registering.</p>
+    </aside>
+  </div>
+  <script type="application/json" data-sat-date-data>{event_data}</script>
+</section>"""
+
+
 def render_tool_widget(tool):
     widget = tool.get("toolWidget")
     if not widget:
@@ -1254,6 +1328,8 @@ def render_tool_widget(tool):
     kind = widget.get("type")
     if kind == "dmvTestDayChecklist":
         return render_dmv_checklist_widget(widget)
+    if kind == "satDatePlanner":
+        return render_sat_date_planner(tool, widget)
     if kind == "satScoreEstimator":
         return f"""<section class="tool-block sat-widget" data-sat-estimator>
   <div class="tool-section-head">

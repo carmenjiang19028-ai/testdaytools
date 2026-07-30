@@ -3153,7 +3153,8 @@ h3 {
   font-weight: 650;
 }
 
-.sat-input-panel input {
+.sat-input-panel input,
+.sat-input-panel select {
   width: 100%;
   min-height: 46px;
   padding: 10px 12px;
@@ -3164,7 +3165,8 @@ h3 {
   font-weight: 750;
 }
 
-.sat-input-panel input:focus {
+.sat-input-panel input:focus,
+.sat-input-panel select:focus {
   outline: 2px solid rgba(21, 94, 159, 0.18);
   border-color: var(--blue);
 }
@@ -3227,6 +3229,122 @@ h3 {
   display: block;
   margin-top: 5px;
   font-size: 1.05rem;
+}
+
+.sat-date-inputs {
+  align-content: start;
+}
+
+.sat-date-checkbox {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #f8fafc;
+}
+
+.sat-date-checkbox input {
+  width: 20px;
+  min-height: 20px;
+  margin: 2px 0 0;
+}
+
+.sat-date-checkbox span,
+.sat-date-checkbox strong,
+.sat-date-checkbox em {
+  display: block;
+}
+
+.sat-date-checkbox strong {
+  color: var(--blue-deep);
+}
+
+.sat-date-checkbox em {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.sat-date-result > strong {
+  font-size: 1.8rem;
+  line-height: 1.12;
+}
+
+.sat-date-picks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.sat-date-picks[hidden] {
+  display: none;
+}
+
+.sat-date-picks > div {
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.sat-date-picks span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.sat-date-picks strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--blue-deep);
+  font-size: 1.05rem;
+}
+
+.sat-date-picks p {
+  margin-top: 7px;
+  font-size: 0.86rem;
+}
+
+.sat-plan-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.sat-plan-actions button,
+.sat-plan-actions a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.sat-plan-actions a {
+  grid-column: 1 / -1;
+  background: #eef6fd;
+  color: var(--blue-deep);
+}
+
+.sat-saved-status {
+  padding: 10px 12px;
+  border-left: 3px solid #178052;
+  background: #f2fbf6;
+  color: #145c3d !important;
+  font-weight: 750;
 }
 
 .sat-widget-note {
@@ -4783,6 +4901,8 @@ button:disabled {
   .sat-widget-grid,
   .sat-input-panel,
   .sat-band-grid,
+  .sat-date-picks,
+  .sat-plan-actions,
   .dmv-checklist-grid,
   .dmv-state-actions,
   .requirements-actions,

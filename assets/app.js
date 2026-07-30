@@ -2736,6 +2736,213 @@ function initSatGoalPlanners() {
   });
 }
 
+function initSatDatePlanners() {
+  document.querySelectorAll("[data-sat-date-planner]").forEach((widget) => {
+    const dataNode = widget.querySelector("[data-sat-date-data]");
+    const stageSelect = widget.querySelector("[data-sat-stage]");
+    const deadlineSelect = widget.querySelector("[data-sat-deadline]");
+    const readinessSelect = widget.querySelector("[data-sat-readiness]");
+    const retakeInput = widget.querySelector("[data-sat-retake]");
+    const buildButton = widget.querySelector("[data-sat-plan-button]");
+    const headline = widget.querySelector("[data-sat-plan-headline]");
+    const reason = widget.querySelector("[data-sat-plan-reason]");
+    const picks = widget.querySelector("[data-sat-plan-picks]");
+    const primaryDate = widget.querySelector("[data-sat-primary-date]");
+    const primaryDeadline = widget.querySelector("[data-sat-primary-deadline]");
+    const backupDate = widget.querySelector("[data-sat-backup-date]");
+    const backupDeadline = widget.querySelector("[data-sat-backup-deadline]");
+    const saveButton = widget.querySelector("[data-sat-plan-save]");
+    const calendarButton = widget.querySelector("[data-sat-date-calendar]");
+    const registerLink = widget.querySelector("[data-sat-register-link]");
+    const savedStatus = widget.querySelector("[data-sat-saved-status]");
+    const storageKey = "tdt-sat-date-plan:v1";
+    let events = [];
+    let currentPlan = null;
+
+    try {
+      events = JSON.parse(dataNode?.textContent || "[]");
+    } catch (error) {
+      events = [];
+    }
+    if (!events.length) return;
+
+    const dateAtNoon = (value) => new Date(`${value}T12:00:00`);
+    const dateLabel = (value) => dateAtNoon(value).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const daysUntil = (value) => Math.ceil((dateAtNoon(value).getTime() - today.getTime()) / DAY_MS);
+    const monthKey = (event) => `${event.date.slice(0, 4)}-${event.date.slice(5, 7)}`;
+    const readinessDays = { ready: 14, focused: 42, starting: 70 };
+    const preferredKeys = (stage, deadline) => {
+      if (stage === "junior_first") return ["2027-03", "2027-05", "2027-06"];
+      if (stage === "junior_retake") return ["2027-05", "2027-06", "2027-03"];
+      if (stage === "rising_senior" || stage === "senior") {
+        if (deadline === "early") return ["2026-08", "2026-09", "2026-10", "2026-11"];
+        if (deadline === "regular") return ["2026-10", "2026-11", "2026-12"];
+        return ["2026-08", "2026-09", "2026-10", "2026-11", "2026-12"];
+      }
+      return events.map(monthKey);
+    };
+    const registrationText = (event) => {
+      const regularPassed = dateAtNoon(event.registrationDate) < today;
+      if (regularPassed) return `Regular deadline passed; late deadline ${dateLabel(event.lateDate)}`;
+      return `Register by ${dateLabel(event.registrationDate)}; late deadline ${dateLabel(event.lateDate)}`;
+    };
+    const stageReason = (stage, deadline) => {
+      if (stage === "junior_first") return "Spring gives a first-time junior room to review the score and test again.";
+      if (stage === "junior_retake") return "This spring date leaves a later administration available if another retake is useful.";
+      if (deadline === "early") return "This fall date preserves more room before early application deadlines.";
+      if (deadline === "regular") return "This date fits a regular-decision timeline while keeping registration visible.";
+      return "This is the earliest listed date that fits the preparation runway you selected.";
+    };
+
+    const buildPlan = ({ track = true } = {}) => {
+      const stage = stageSelect?.value || "other";
+      const deadline = deadlineSelect?.value || "unsure";
+      const readiness = readinessSelect?.value || "focused";
+      const wantsRetake = Boolean(retakeInput?.checked);
+      const minimumDays = readinessDays[readiness] || readinessDays.focused;
+      const valid = events
+        .filter((event) => dateAtNoon(event.lateDate) >= today && daysUntil(event.date) >= minimumDays)
+        .sort((a, b) => a.date.localeCompare(b.date));
+      const priorities = preferredKeys(stage, deadline);
+      const preferred = priorities
+        .map((key) => valid.find((event) => monthKey(event) === key))
+        .filter(Boolean);
+      const primary = preferred[0] || valid[0] || null;
+      const backup = wantsRetake && primary
+        ? valid.find((event) => event.date > primary.date) || null
+        : null;
+
+      if (!primary) {
+        currentPlan = null;
+        if (headline) headline.textContent = "No listed date fits that runway";
+        if (reason) reason.textContent = "Shorten the preparation runway or check College Board for a later testing year.";
+        if (picks) picks.hidden = true;
+        if (saveButton) saveButton.disabled = true;
+        if (calendarButton) calendarButton.disabled = true;
+        return;
+      }
+
+      currentPlan = { stage, deadline, readiness, wantsRetake, primary, backup, createdAt: Date.now() };
+      if (headline) headline.textContent = `${primary.label} is the strongest fit`;
+      if (reason) {
+        reason.textContent = `${stageReason(stage, deadline)} It is ${daysUntil(primary.date)} days away, matching the ${minimumDays}+ day runway you chose.`;
+      }
+      if (primaryDate) primaryDate.textContent = primary.label;
+      if (primaryDeadline) primaryDeadline.textContent = registrationText(primary);
+      if (backupDate) backupDate.textContent = backup?.label || (wantsRetake ? "No later listed date" : "Not requested");
+      if (backupDeadline) {
+        backupDeadline.textContent = backup ? registrationText(backup) : "You can rebuild the plan whenever your timeline changes.";
+      }
+      if (picks) picks.hidden = false;
+      if (saveButton) saveButton.disabled = false;
+      if (calendarButton) calendarButton.disabled = false;
+      if (savedStatus) savedStatus.hidden = true;
+
+      if (track) {
+        trackToolEvent("sat_plan_generated", {
+          stage,
+          deadline,
+          readiness,
+          primary_date: primary.date,
+          backup_date: backup?.date || "none",
+        });
+      }
+    };
+
+    buildButton?.addEventListener("click", () => buildPlan());
+    saveButton?.addEventListener("click", () => {
+      if (!currentPlan) return;
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(currentPlan));
+        if (savedStatus) {
+          savedStatus.textContent = `Saved in this browser: ${currentPlan.primary.label}${currentPlan.backup ? ` with ${currentPlan.backup.label} as backup` : ""}.`;
+          savedStatus.hidden = false;
+        }
+        saveButton.textContent = "Plan saved";
+        window.setTimeout(() => {
+          saveButton.textContent = "Save this plan";
+        }, 1800);
+        trackToolEvent("sat_plan_saved", {
+          primary_date: currentPlan.primary.date,
+          backup_date: currentPlan.backup?.date || "none",
+        });
+        trackToolEvent("study_state_change", { state: "sat_date_plan_saved" });
+      } catch (error) {
+        if (savedStatus) {
+          savedStatus.textContent = "This browser blocked saving. The date plan still works for this visit.";
+          savedStatus.hidden = false;
+        }
+      }
+    });
+    calendarButton?.addEventListener("click", () => {
+      if (!currentPlan) return;
+      const event = currentPlan.primary;
+      const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+      const nextDay = new Date(dateAtNoon(event.date).getTime() + DAY_MS).toISOString().slice(0, 10).replace(/-/g, "");
+      const startDay = event.date.replace(/-/g, "");
+      const escapeIcs = (value) => String(value).replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\n/g, "\\n");
+      const ics = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//TestDayTools//SAT Date Planner//EN",
+        "CALSCALE:GREGORIAN",
+        "BEGIN:VEVENT",
+        `UID:sat-${event.date}@testdaytools.com`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART;VALUE=DATE:${startDay}`,
+        `DTEND;VALUE=DATE:${nextDay}`,
+        `SUMMARY:${escapeIcs(`SAT - ${event.label}`)}`,
+        `DESCRIPTION:${escapeIcs(event.description)}`,
+        "END:VEVENT",
+        "END:VCALENDAR",
+        "",
+      ].join("\r\n");
+      const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
+      const download = document.createElement("a");
+      download.href = url;
+      download.download = `sat-${event.date}.ics`;
+      document.body.appendChild(download);
+      download.click();
+      download.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      trackToolEvent("sat_date_selected", { action: "calendar_download", primary_date: event.date });
+      trackToolEvent("resource_download", { resource: "sat_primary_date_calendar", target: download.download });
+    });
+    registerLink?.addEventListener("click", () => {
+      trackToolEvent("study_next_step_click", {
+        action: "official_sat_registration",
+        primary_date: currentPlan?.primary?.date || "not_generated",
+      });
+      if (currentPlan) {
+        trackToolEvent("sat_date_selected", { action: "official_registration", primary_date: currentPlan.primary.date });
+      }
+    });
+
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(storageKey) || "null");
+      if (saved?.primary?.date && events.some((event) => event.date === saved.primary.date)) {
+        if (stageSelect && saved.stage) stageSelect.value = saved.stage;
+        if (deadlineSelect && saved.deadline) deadlineSelect.value = saved.deadline;
+        if (readinessSelect && saved.readiness) readinessSelect.value = saved.readiness;
+        if (retakeInput) retakeInput.checked = Boolean(saved.wantsRetake);
+        buildPlan({ track: false });
+        if (savedStatus && currentPlan) {
+          savedStatus.textContent = `Saved in this browser: ${currentPlan.primary.label}${currentPlan.backup ? ` with ${currentPlan.backup.label} as backup` : ""}.`;
+          savedStatus.hidden = false;
+        }
+      }
+    } catch (error) {
+      // A fresh plan remains available when saved browser data cannot be read.
+    }
+  });
+}
+
 initAnalyticsEvents();
 initPrintableResources();
 initCountdowns();
@@ -2756,3 +2963,4 @@ initDmvScoreCalculators();
 initDmvChecklists();
 initSatScoreEstimators();
 initSatGoalPlanners();
+initSatDatePlanners();
