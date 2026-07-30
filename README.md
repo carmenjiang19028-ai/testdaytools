@@ -1,21 +1,34 @@
 # TestDayTools
 
-Unofficial AP, SAT, and DMV planning and practice tools.
+Free, no-signup DMV, AP, and SAT planning and practice tools. The current product focus is visual DMV road-sign learning for permit-test students, families, driving educators, libraries, and homeschool resource pages.
 
 Live site: [testdaytools.com](https://testdaytools.com/)
 
 Popular resources:
 
-- [DMV road signs practice test](https://testdaytools.com/road-signs-practice-test.html)
-- [Free printable DMV road signs cheat sheet](https://testdaytools.com/dmv-road-signs-cheat-sheet.html)
+- [DMV road signs practice test](https://testdaytools.com/road-signs-practice-test.html) - 10-question starter plus a 40-question picture round
+- [Free printable DMV road signs cheat sheet](https://testdaytools.com/dmv-road-signs-cheat-sheet.html) - 31 original sign illustrations and plain-English meanings
+- [DMV road sign flashcards](https://testdaytools.com/dmv-road-sign-flashcards.html) - 31 browser-saved visual review cards
 - [DMV permit test tools](https://testdaytools.com/dmv-practice.html)
 - [SAT test dates, deadlines, and free calendar](https://testdaytools.com/sat-test-dates-2026-2027.html)
+
+## What the DMV tools do
+
+- Pair each road-sign picture with a driver decision and immediate explanation
+- Save missed questions and mastery progress locally in the visitor's browser
+- Route learners from a broad national round into regulatory signs, flashcards, printable review, or state-specific practice
+- Link state pages to official driver handbooks for final wording and requirements
+- Work on mobile and desktop without an account, email gate, or payment
+
+Road-sign names and categories are checked against the [FHWA Manual on Uniform Traffic Control Devices](https://mutcd.fhwa.dot.gov/) and official state sources. Questions and simplified SVG illustrations are original TestDayTools study material, not copied official exam questions.
+
+Educators and resource curators may link directly to the live practice test or printable cheat sheet. The live pages remain free and do not require student registration.
 
 ## Stack
 
 - Plain static HTML, CSS, and JavaScript
 - Python standard-library build script
-- No runtime dependencies and no personal data collection
+- No runtime dependencies and no collection of names, emails, license numbers, or test scores
 
 ## Update content
 
