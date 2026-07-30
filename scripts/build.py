@@ -48,7 +48,7 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 23 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "July 14, 2026",
+    "lastUpdated": "July 27, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -224,6 +224,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
   <link rel="canonical" href="{esc(canonical)}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
 {analytics_block}\
   <script src="assets/app.js" defer></script>
@@ -1211,11 +1212,12 @@ def render_trust_strip(tool):
         if fact.get("label", "").lower() == "official source":
             official = fact.get("value", official)
             break
+    updated = tool.get("lastUpdated", SITE["lastUpdated"])
     return f"""<section class="trust-strip" aria-label="Practice trust notes">
   <div><span>Source context</span><strong>{esc(official)}</strong></div>
   <div><span>Privacy</span><strong>Answers stay in this browser</strong></div>
   <div><span>Quality check</span><strong>Original practice questions</strong></div>
-  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+  <div><span>Updated</span><strong>{esc(updated)}</strong></div>
 </section>"""
 
 
@@ -2699,10 +2701,19 @@ def render_road_sign_cheat_sheet_page():
     <article class="info-card"><span>3. Test</span><h3>Use pictures without the labels</h3><p>Move into the 24-picture quiz, then save missed signs in your browser for another review.</p></article>
   </div>
 </section>
+<section class="card-group">
+  <h2>Use this resource with a class or library page</h2>
+  <p class="section-intro">This page is designed to be shared as a live, free study link. Students can open it without an account, print their own copy, and move from the reference sheet into picture practice.</p>
+  <div class="card-grid">
+    <article class="info-card"><span>Share</span><h3>Link to the live page</h3><p>Use the page URL on a class, counseling, driver-education, or library resource list so learners receive the current sheet, source note, and practice links together.</p></article>
+    <article class="info-card"><span>Teach</span><h3>Run a 10-minute recall check</h3><p>Have learners cover the meanings, name each sign and driver action, circle slow answers, then open the matching picture quiz instead of rereading every card.</p></article>
+    <article class="info-card"><span>Verify</span><h3>Keep state rules authoritative</h3><p>The illustrations support recognition of common U.S. signs. Learners should confirm state-specific laws, wording, and permit-test requirements in their official driver handbook.</p></article>
+  </div>
+</section>
 {render_sources([
   {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
 ])}
-{render_related(["road-signs-practice-test", "dmv-road-sign-flashcards", "road-sign-shapes-and-colors-finder", "regulatory-traffic-signs-practice-test"])}
+{render_related(["road-signs-practice-test", "new-york-dmv-road-signs-practice", "dmv-road-sign-flashcards", "road-sign-shapes-and-colors-finder", "regulatory-traffic-signs-practice-test"])}
 {render_ad("Future ad")}"""
     canonical = url_for(f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html")
     resource_schema = schema(
@@ -2712,7 +2723,14 @@ def render_road_sign_cheat_sheet_page():
         "LearningResource",
     )
     resource_schema["learningResourceType"] = "Cheat sheet"
-    resource_schema["educationalUse"] = "Study"
+    resource_schema["educationalUse"] = ["Study", "Classroom review"]
+    resource_schema["interactivityType"] = "mixed"
+    resource_schema["typicalAgeRange"] = "14-18"
+    resource_schema["teaches"] = [
+        "Recognize common U.S. road signs",
+        "Connect road sign shapes and colors to driver actions",
+        "Identify signs that need more permit-test practice",
+    ]
     return page_shell(
         ROAD_SIGN_CHEAT_SHEET_PAGE["title"],
         ROAD_SIGN_CHEAT_SHEET_PAGE["description"],

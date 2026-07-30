@@ -6319,6 +6319,7 @@
       "description": "Take a DMV road signs permit-test practice round with 24 picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and state-specific source checks.",
       "heroKicker": "Road signs practice test",
       "summary": "Take 24 DMV road-sign picture questions for permit-test practice, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and state-specific source checks to choose the next drill.",
+      "lastUpdated": "July 27, 2026",
       "quickFacts": [
         {
           "label": "Practice size",
@@ -6609,7 +6610,7 @@
       "cardGroups": [
         {
           "heading": "Road-sign practice paths from common searches",
-          "intro": "Use the path that matches what you were trying to solve: broad road-sign practice, flashcard review, shape lookup, or Florida regulatory signs.",
+          "intro": "Use the path that matches what you were trying to solve: broad road-sign practice, flashcard review, shape lookup, or a state-specific checkpoint.",
           "items": [
             {
               "label": "Road signs practice",
@@ -6633,11 +6634,11 @@
               "cta": "Open finder"
             },
             {
-              "label": "Florida signs",
-              "title": "Move to Florida regulatory signs when state context matters",
-              "text": "Use the Florida page for regulatory traffic signs, official Florida source links, right-turn signs, yellow warning signs, and learner trouble spots.",
-              "href": "florida-dmv-road-signs-practice.html",
-              "cta": "Florida signs"
+              "label": "New York signs",
+              "title": "Use New York's four-sign checkpoint",
+              "text": "New York has a separate road-sign requirement within the permit test. Use the four-sign checkpoint, then continue with the full New York image round and official DMV source links.",
+              "href": "new-york-dmv-road-signs-practice.html",
+              "cta": "New York signs"
             }
           ]
         }
@@ -6687,6 +6688,7 @@
         "dmv-road-sign-flashcards",
         "road-sign-shapes-and-colors-finder",
         "regulatory-traffic-signs-practice-test",
+        "new-york-dmv-road-signs-practice",
         "florida-dmv-road-signs-practice",
         "california-dmv-road-signs-practice",
         "texas-dmv-road-signs-practice"
@@ -7969,6 +7971,7 @@
       "description": "Practice NY DMV road signs with 20 picture questions, signs and signals, regulatory and warning signs, official manual links, and instant explanations.",
       "heroKicker": "New York road signs",
       "summary": "Practice New York DMV road signs with original picture prompts, instant explanations, and a category guide for signs and signals, regulatory signs, warning signs, crossings, work zones, and service signs.",
+      "lastUpdated": "July 27, 2026",
       "quickFacts": [
         {
           "label": "Question count",
@@ -9043,7 +9046,7 @@
           {
             "label": "Official source",
             "value": "Texas Driver Handbook",
-            "note": "Use the Texas Driver Handbook for exact state rules and final wording."
+            "note": "Use the January 2026 Texas Driver Handbook, especially Chapter 5: Signals, Signs, and Markers, for final wording."
           },
           {
             "label": "Official format",
@@ -9057,30 +9060,30 @@
           },
           {
             "label": "High-risk topics",
-            "value": "Signs, right of way, speed, alcohol laws",
-            "note": "Missed categories tell you which handbook section to reread first."
+            "value": "Signs, signals, pavement markings, and work zones",
+            "note": "A missed visual category should send you back to the matching part of Chapter 5."
           }
         ],
         "path": [
           {
             "step": "1",
-            "title": "Read the official handbook",
-            "text": "Start with signs, right of way, lane markings, speed, parking, and impaired-driving rules in the Texas Driver Handbook."
+            "title": "Open Texas Handbook Chapter 5",
+            "text": "Review Signals, Signs, and Markers before using a practice score to judge readiness."
           },
           {
             "step": "2",
-            "title": "Run quick practice",
-            "text": "Use the 15-question round to find obvious gaps without spending too long."
+            "title": "Run the 20-picture sign round",
+            "text": "Answer all 20 image questions without using the sign library so slow recognition remains visible."
           },
           {
             "step": "3",
-            "title": "Drill image signs",
-            "text": "Switch to Road Signs when visual recognition feels slow or uncertain."
+            "title": "Review only the missed category",
+            "text": "Use the sign library for regulatory, warning, school, rail, or work-zone misses, then check the matching handbook section."
           },
           {
             "step": "4",
-            "title": "Finish with mock exam",
-            "text": "Use the 40-question mixed mode only after reading explanations from missed questions."
+            "title": "Move to mixed Texas rules",
+            "text": "After reaching the 16-of-20 practice target, use the related Texas permit page for right-of-way, speed, alcohol, and safe-driving questions."
           }
         ]
       },
@@ -9209,24 +9212,24 @@
           ],
           "rows": [
             [
-              "Road signs",
-              "Shapes, colors, regulatory signs, warning signs, work zones, and railroad crossings.",
-              "Sign recognition is fast on the real test and easy to confuse under pressure."
+              "Regulatory and warning signs",
+              "Stop, yield, wrong way, one way, no-turn, merge, lane-end, and speed signs.",
+              "Name the driver action before reading answer choices."
             ],
             [
-              "Right of way",
-              "Four-way stops, pedestrians, left turns, emergency vehicles, and roundabouts.",
-              "Many test questions ask who should wait or yield."
+              "Traffic signals",
+              "Steady and flashing lights, arrows, lane-use signals, and signal-ahead warnings.",
+              "Chapter 5 covers signals together with signs and markers."
             ],
             [
-              "Road conditions",
-              "Fog, rain, hydroplaning, night driving, skids, and following distance.",
-              "Safe speed changes with weather and visibility."
+              "Texas work-zone devices",
+              "Barricades, vertical panels, drums, cones, tubes, and diagonal stripe direction.",
+              "The stripe slope tells drivers which side of the device to pass."
             ],
             [
-              "State process",
-              "Texas DPS source pages, documents, and official handbook wording.",
-              "Process questions are easy points if you read the official page once."
+              "Pavement and railroad markers",
+              "Yellow and white lines, crosswalks, stop lines, crossbucks, gates, and warning lights.",
+              "Texas road-sign study is incomplete if it ignores markers and crossings."
             ]
           ]
         }
@@ -9237,8 +9240,8 @@
           "text": "Start with the visual quiz without looking at the library. After you miss a sign, review the matching category below and retake the round later."
         },
         {
-          "heading": "Why visual practice matters",
-          "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice trains that faster recognition."
+          "heading": "Why Texas Chapter 5 goes beyond sign pictures",
+          "text": "The Texas handbook groups traffic signals, signs, pavement markers, railroad controls, and work-zone channelizing devices together. Use the image quiz for recognition, then review the matching non-sign control when a question involves lights, lines, gates, or barricades."
         }
       ],
       "cardGroups": [
@@ -9257,16 +9260,37 @@
               "text": "Shape and color often reveal the action before you read the words."
             },
             {
-              "label": "Mock exam",
-              "title": "Use the long round late",
-              "text": "The 40-question mode is best after you have already fixed obvious misses."
+              "label": "Next tool",
+              "title": "Move to Texas permit rules after signs",
+              "text": "Once you reach 16 of 20 here, use the related Texas permit page instead of repeating familiar sign images."
             },
             {
-              "label": "Compare",
-              "title": "Review Florida regulatory traffic signs",
-              "text": "If the sign confusion is about lane movement or turn restrictions, use the Florida regulatory traffic signs page for Right Turn Only, No Right Turn, One Way, and Keep Right practice.",
-              "href": "florida-dmv-road-signs-practice.html",
-              "cta": "Florida regulatory traffic signs"
+              "label": "Official check",
+              "title": "Finish with Texas Handbook Chapter 5",
+              "text": "Confirm signs, traffic signals, pavement markers, railroad controls, and channelizing devices in the current Texas handbook.",
+              "href": "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf",
+              "cta": "Open the Texas handbook"
+            }
+          ]
+        },
+        {
+          "heading": "Texas-specific review after a missed sign",
+          "intro": "Do not restart the entire quiz automatically. Match the miss to the Texas handbook section that can fix it.",
+          "items": [
+            {
+              "label": "Barricade stripes",
+              "title": "Review the side traffic should pass",
+              "text": "Use the stripe slope to decide whether traffic belongs to the left or right of a work-zone device, then reopen the Chapter 5 channelizing-device section."
+            },
+            {
+              "label": "English sign text",
+              "title": "Practice the words printed on signs",
+              "text": "Texas DPS offers the non-commercial knowledge test in English or Spanish, but applicants must understand road signs written in English."
+            },
+            {
+              "label": "Signs are already strong",
+              "title": "Move to Texas rules instead of repeating images",
+              "text": "Use the related Texas permit practice page for right-of-way, speed, parking, alcohol, and safe-driving decisions."
             }
           ]
         }
@@ -9291,12 +9315,16 @@
       ],
       "sources": [
         {
-          "label": "Texas DPS: Driver Handbook",
-          "url": "https://www.dps.texas.gov/Internetforms/Forms/DL-7.pdf"
+          "label": "Texas DPS: January 2026 Driver Handbook",
+          "url": "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf"
         },
         {
-          "label": "Texas DPS: Apply for a Learner License as a Teen",
-          "url": "https://www.dps.texas.gov/section/service/apply-learners-license-teen"
+          "label": "Texas DPS: Testing in Other Languages",
+          "url": "https://www.dps.texas.gov/section/driver-license/testing-other-languages"
+        },
+        {
+          "label": "Texas DPS: Apply for a Texas Driver License",
+          "url": "https://www.dps.texas.gov/section/driver-license/apply-texas-driver-license"
         }
       ],
       "examDetails": {
@@ -9310,19 +9338,19 @@
             "text": "Use the DPS handbook for final rules, signs, and learner-license process details."
           },
           {
-            "label": "Learner driving",
-            "value": "Adult 21+ in front seat",
-            "text": "Texas DPS says learner license driving requires a licensed adult age 21 or older in the front passenger seat."
+            "label": "Knowledge pass rule",
+            "value": "70% or better",
+            "text": "The January 2026 Texas Driver Handbook states that a score of 70 percent or better is required on a knowledge exam."
           },
           {
-            "label": "Teen hold period",
-            "value": "At least 6 months",
-            "text": "Teen learner license holders generally keep the learner license for six months unless they turn 18."
+            "label": "Language detail",
+            "value": "Signs remain in English",
+            "text": "Texas DPS says the non-commercial knowledge test is offered in English or Spanish, but applicants must understand signs written in English."
           },
           {
             "label": "Practice target here",
-            "value": "32 of 40 on mock exam",
-            "text": "Use this target as a confidence check before the real knowledge exam."
+            "value": "16 of 20 image signs",
+            "text": "Use this 80 percent practice target as a confidence check, then review any slow category before moving to mixed Texas rules."
           }
         ]
       },
@@ -9363,6 +9391,17 @@
               "Flashing yellow means proceed carefully.",
               "Crosswalk markings require pedestrian awareness."
             ]
+          },
+          {
+            "label": "Texas work zones",
+            "title": "Barricade stripes show which side to pass",
+            "text": "The January 2026 Texas Driver Handbook groups barricades, vertical panels, drums, cones, and tubes as channelizing devices.",
+            "items": [
+              "Diagonal stripes sloping down to the right direct traffic to pass on the right.",
+              "Diagonal stripes sloping down to the left direct traffic to pass on the left.",
+              "Slow before the channelizing devices and keep the reduced speed until you leave the construction zone.",
+              "Check traffic before returning to the normal lane after the work zone."
+            ]
           }
         ]
       },
@@ -9373,7 +9412,8 @@
         "After a miss, review the matching shape/color group below.",
         "Retake the road-sign round later instead of immediately guessing again.",
         "Confirm final wording in the Texas Driver Handbook."
-      ]
+      ],
+      "lastUpdated": "July 27, 2026"
     },
     {
       "slug": "florida-dmv-permit-practice-test",
