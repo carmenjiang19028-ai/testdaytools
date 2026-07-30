@@ -7669,7 +7669,11 @@
       "sources": [
         {
           "label": "New York DMV: Driver's manual",
-          "url": "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests"
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-practice-tests"
+        },
+        {
+          "label": "New York DMV: Road Signs You Must Know",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"
         },
         {
           "label": "New York DMV: Learner permits",
@@ -7695,11 +7699,11 @@
         {
           "id": "signs",
           "label": "Road Signs",
-          "short": "20 image questions",
+          "short": "25 image questions",
           "title": "New York road signs image test",
-          "description": "Image-based sign recognition using original SVG road sign illustrations.",
+          "description": "A 25-question image round covering every sign on New York DMV's current must-know chart plus common sign controls.",
           "quiz": "newyorkSigns",
-          "passScore": 16
+          "passScore": 20
         },
         {
           "id": "mock",
@@ -8010,14 +8014,37 @@
       "slug": "new-york-dmv-road-signs-practice",
       "category": "DMV",
       "title": "New York DMV Road Signs Practice Test with Pictures",
-      "description": "Practice NY DMV road signs with 20 picture questions, signs and signals, regulatory and warning signs, official manual links, and instant explanations.",
+      "description": "Practice NY DMV road signs with 25 picture questions aligned to the official must-know sign chart, a 4-sign checkpoint, PDF study sheet, and instant explanations.",
       "heroKicker": "New York road signs",
-      "summary": "Practice New York DMV road signs with original picture prompts, instant explanations, and a category guide for signs and signals, regulatory signs, warning signs, crossings, work zones, and service signs.",
-      "lastUpdated": "July 27, 2026",
+      "summary": "Practice the road signs New York DMV says you must know with 25 original picture prompts, a four-sign checkpoint, instant explanations, and a printable 31-sign study sheet.",
+      "lastUpdated": "July 30, 2026",
+      "heroActions": [
+        {
+          "label": "Start 4-sign checkpoint",
+          "href": "#practice"
+        },
+        {
+          "label": "Download 31-sign PDF",
+          "href": "dmv-road-signs-cheat-sheet.pdf",
+          "resource": "ny_road_signs_pdf"
+        },
+        {
+          "label": "Find a sign",
+          "href": "#sign-meaning-finder"
+        },
+        {
+          "label": "Official NY sign chart",
+          "href": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"
+        },
+        {
+          "label": "Test-day checklist",
+          "href": "dmv-test-day-checklist.html?state=new-york#dmv-checklist"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Question count",
-          "value": "20-question image bank plus a 4-sign checkpoint"
+          "value": "25-question image bank plus a 4-sign checkpoint"
         },
         {
           "label": "Image source",
@@ -8038,6 +8065,36 @@
       ],
       "quiz": "newyorkSigns",
       "tables": [
+        {
+          "caption": "New York DMV official must-know sign coverage",
+          "headers": [
+            "Official sign group",
+            "Practice on this page",
+            "What to say before choosing"
+          ],
+          "rows": [
+            [
+              "Right lane ends, merging traffic, divided highway ends, two-way traffic, hill ahead",
+              "Five picture questions",
+              "Name the road change and the lane or speed response."
+            ],
+            [
+              "Yield, stop, keep right, no left turn, no U-turn",
+              "Five picture questions",
+              "Name the required or prohibited action."
+            ],
+            [
+              "Railroad crossing, signal ahead, school crossing, slippery when wet",
+              "Four picture questions",
+              "Name the hazard and what you must prepare to do."
+            ],
+            [
+              "One way / do not enter and hospital to the right",
+              "Direction, entry-control, and service questions",
+              "Separate a legal direction from a service destination."
+            ]
+          ]
+        },
         {
           "caption": "New York road signs quick guide",
           "headers": [
@@ -8117,7 +8174,7 @@
       "body": [
         {
           "heading": "Fast answer: New York DMV road signs practice",
-          "text": "Use this page for New York DMV road signs practice when you need image questions, not a long handbook chapter. Start with the 20-question sign round, then use the quick guide to separate regulatory signs, warning signs, signs and signals, school crossings, railroad controls, and work-zone cues."
+          "text": "Use this page for New York DMV road signs practice when you need image questions, not a long handbook chapter. Start with the 25-question sign round, then use the official-coverage table to confirm that you practiced every sign group on New York DMV's must-know chart."
         },
         {
           "heading": "Why signs are a useful quick win",
@@ -8129,7 +8186,7 @@
         },
         {
           "heading": "Use the New York DMV manual as the source check",
-          "text": "This practice page uses original illustrations and explanations. For exact New York wording, permit rules, and official study material, use the New York DMV driver manual and practice-test page linked below."
+          "text": "This practice page uses original illustrations and explanations. The 25-question bank covers every sign on New York DMV's current Road Signs You Must Know chart, with separate questions where the official chart combines two controls. For exact wording and current permit rules, use the official chart and driver manual linked below."
         },
         {
           "heading": "Use the four-sign checkpoint, then prove the result",
@@ -8213,7 +8270,11 @@
       "sources": [
         {
           "label": "New York DMV: Driver's manual and practice tests",
-          "url": "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests"
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-practice-tests"
+        },
+        {
+          "label": "New York DMV: Road Signs You Must Know",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"
         },
         {
           "label": "New York DMV: Learner permits",
@@ -8254,11 +8315,11 @@
         {
           "id": "signs",
           "label": "Full NY signs",
-          "short": "20 questions",
+          "short": "25 questions",
           "title": "New York road signs image test",
-          "description": "Practice warning, regulatory, yield, crossing, and service signs with original images.",
+          "description": "Practice all signs on New York DMV's must-know chart plus common entry, speed, crossing, work-zone, and service signs with original images.",
           "quiz": "newyorkSigns",
-          "passScore": 16
+          "passScore": 20
         }
       ],
       "examBrief": {
@@ -8348,6 +8409,16 @@
                 "image": "no-u-turn",
                 "title": "No U-Turn",
                 "meaning": "Do not turn around at this location."
+              },
+              {
+                "image": "no-left-turn",
+                "title": "No Left Turn",
+                "meaning": "A left turn is prohibited from this approach."
+              },
+              {
+                "image": "keep-right",
+                "title": "Keep Right",
+                "meaning": "Stay to the right of a divider, island, or obstruction."
               }
             ]
           },
@@ -8384,6 +8455,21 @@
                 "image": "divided-highway",
                 "title": "Divided Highway",
                 "meaning": "A divided roadway begins or changes ahead."
+              },
+              {
+                "image": "divided-highway-ends",
+                "title": "Divided Highway Ends",
+                "meaning": "The median ends and opposing traffic will no longer be separated."
+              },
+              {
+                "image": "two-way-traffic",
+                "title": "Two-Way Traffic",
+                "meaning": "Opposing traffic begins ahead; stay right and watch for oncoming vehicles."
+              },
+              {
+                "image": "hill-ahead",
+                "title": "Hill Ahead",
+                "meaning": "A steep downgrade is ahead; control speed before descending."
               }
             ]
           },
@@ -17272,16 +17358,16 @@
       },
       {
         "q": "What service does this blue sign identify?",
-        "image": "hospital",
-        "imageAlt": "blue hospital H sign",
+        "image": "hospital-right",
+        "imageAlt": "blue hospital sign with a right arrow",
         "choices": [
-          "Hospital or medical services nearby",
+          "A hospital or medical service is to the right",
           "High-occupancy vehicle lane",
           "Hazardous cargo route"
         ],
         "answer": 0,
         "category": "Service signs",
-        "explanation": "Blue service signs can identify hospitals, fuel, food, lodging, or other services."
+        "explanation": "The blue H identifies hospital services, and the arrow shows that the hospital is to the right."
       },
       {
         "q": "This sign warns drivers to watch for:",
@@ -17295,6 +17381,71 @@
         "answer": 0,
         "category": "Warning signs",
         "explanation": "Animal crossing signs warn that animals may enter the roadway unexpectedly."
+      },
+      {
+        "q": "What does this New York must-know sign require?",
+        "image": "keep-right",
+        "imageAlt": "black and white keep right of divider sign",
+        "choices": [
+          "Pass to the right of the divider or obstruction",
+          "Move into the left lane immediately",
+          "Stop beside the divider"
+        ],
+        "answer": 0,
+        "category": "Directional signs",
+        "explanation": "Keep Right means traffic must pass to the right of the divider, island, or obstruction."
+      },
+      {
+        "q": "Which movement is prohibited by this sign?",
+        "image": "no-left-turn",
+        "imageAlt": "no left turn regulatory sign",
+        "choices": [
+          "Turning left",
+          "Continuing straight",
+          "Turning right"
+        ],
+        "answer": 0,
+        "category": "Turn signs",
+        "explanation": "The crossed-out left arrow means a left turn is prohibited from that approach."
+      },
+      {
+        "q": "What roadway change does this sign announce?",
+        "image": "two-way-traffic",
+        "imageAlt": "yellow two-way traffic warning sign",
+        "choices": [
+          "Opposing traffic begins ahead",
+          "Both lanes travel in your direction",
+          "Passing is required"
+        ],
+        "answer": 0,
+        "category": "Roadway signs",
+        "explanation": "Two-Way Traffic warns that vehicles will travel in opposite directions ahead, so stay right and watch for oncoming traffic."
+      },
+      {
+        "q": "What does this sign mean?",
+        "image": "divided-highway-ends",
+        "imageAlt": "yellow divided highway ends warning sign",
+        "choices": [
+          "The median ends and opposing traffic will no longer be separated",
+          "A divided highway begins ahead",
+          "The road is closed beyond the median"
+        ],
+        "answer": 0,
+        "category": "Roadway signs",
+        "explanation": "Divided Highway Ends warns that the physical divider ends and opposing traffic will share an undivided roadway."
+      },
+      {
+        "q": "What should a driver prepare for at this sign?",
+        "image": "hill-ahead",
+        "imageAlt": "yellow hill ahead warning sign",
+        "choices": [
+          "A steep downgrade where speed should be controlled early",
+          "A truck-only parking area",
+          "A level railroad crossing"
+        ],
+        "answer": 0,
+        "category": "Road condition signs",
+        "explanation": "Hill Ahead warns of a steep downgrade. Reduce speed before descending and avoid riding the brakes."
       }
     ],
     "californiaMock": [
