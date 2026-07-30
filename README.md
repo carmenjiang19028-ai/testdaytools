@@ -42,6 +42,15 @@ The script regenerates root HTML pages, `sitemap.xml`, and `robots.txt`.
 
 Canonical URLs are generated from the `site.url` value in `content/site_data.json`.
 
+After changing the printable road-sign sheet, regenerate its downloadable PDF:
+
+```bash
+python3 scripts/build_road_sign_pdf.py
+```
+
+The PDF builder uses an installed Chrome or Chromium binary and writes
+`dmv-road-signs-cheat-sheet.pdf` at the site root.
+
 ## Local preview
 
 Open `index.html` directly, or run:

@@ -2681,6 +2681,7 @@ def render_road_sign_cheat_sheet_page():
       <p class="lede">Use this no-email, no-signup reference to review {sign_count} common U.S. road signs by picture, meaning, shape, and color. Print it, mark the signs that feel slow, then practice only those groups.</p>
       {render_last_updated(ROAD_SIGN_CHEAT_SHEET_PAGE["lastUpdated"])}
       <div class="hero-actions print-sheet-toolbar">
+        <a href="dmv-road-signs-cheat-sheet.pdf" download data-resource-download="dmv_road_signs_cheat_sheet_pdf">Download PDF</a>
         <button type="button" data-print-page>Print cheat sheet</button>
         <a href="road-signs-practice-test.html#practice">Take the picture quiz</a>
         <a href="dmv-road-sign-flashcards.html">Open flashcards</a>
@@ -2706,6 +2707,22 @@ def render_road_sign_cheat_sheet_page():
     <div><span class="legend-swatch legend-blue"></span><strong>Blue</strong><p>Driver service such as a hospital</p></div>
   </div>
   {"".join(rendered_groups)}
+  <section class="cheat-review-panel" aria-label="Road sign review notes">
+    <div>
+      <p class="eyebrow">Your next review</p>
+      <h2>Turn slow signs into one focused quiz</h2>
+      <ol>
+        <li>Cover the meanings and name the driver action.</li>
+        <li>Write down only the signs that still feel slow.</li>
+        <li>Retake the picture quiz and record the new score.</li>
+      </ol>
+    </div>
+    <div class="cheat-review-fields">
+      <p><strong>Signs to review</strong><span></span></p>
+      <p><strong>Official manual section</strong><span></span></p>
+      <p class="cheat-review-score"><strong>Next quiz score</strong><span>____ / 40</span><strong>Review date</strong><span>____________</span></p>
+    </div>
+  </section>
   <footer class="printable-sheet-foot"><strong>Study loop:</strong> Cover the meanings, name each sign and driver action, circle misses, then retake the matching group at testdaytools.com/road-signs-practice-test.html.</footer>
 </section>
 <section class="card-group">
