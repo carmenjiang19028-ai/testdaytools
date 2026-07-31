@@ -23739,12 +23739,12 @@
     {
       "slug": "privacy",
       "title": "Privacy Policy",
-      "description": "Privacy policy for TestDayTools. The site does not collect personal information or store quiz answers.",
-      "lastUpdated": "July 14, 2026",
+      "description": "Privacy policy for TestDayTools, including browser storage, Google Analytics, hosting logs, and future advertising disclosures.",
+      "lastUpdated": "July 31, 2026",
       "content": [
         {
           "heading": "Personal information",
-          "text": "This site does not ask for names, emails, account numbers, scores, driver's license numbers, or other personal information."
+          "text": "TestDayTools does not provide user accounts or forms that ask you to submit names, emails, test scores, driver's license numbers, Social Security numbers, payment details, or school records. Hosting and analytics services may still process limited technical data as described below."
         },
         {
           "heading": "Quiz answers",
@@ -23768,19 +23768,33 @@
         },
         {
           "heading": "Google Analytics",
-          "text": "The site uses Google Analytics 4 to measure basic site usage, including page views, traffic sources, device and browser information, approximate region, scrolling, and outbound clicks. This helps decide which study tools and pages need improvement. TestDayTools does not ask for names, emails, driver's license numbers, account details, or test scores."
+          "text": "The site uses Google Analytics 4 to measure basic site usage, including page views, traffic sources, device and browser information, approximate region, scrolling, downloads, tool actions, and outbound clicks. Google Analytics may use cookies or similar identifiers and process technical information under Google's own terms and privacy practices. TestDayTools uses these measurements to decide which study tools need improvement and does not send names, emails, driver's license numbers, account details, or test scores to Google Analytics."
         },
         {
           "heading": "Advertising",
-          "text": "Advertising is not installed yet. If Google AdSense or another advertising partner is activated, Google and its advertising partners may use cookies or similar technologies to serve, limit, personalize, and measure ads under their own policies. TestDayTools will review this notice before ad code goes live and will use an appropriate consent message where required."
+          "text": "Advertising is not installed yet. If Google AdSense is activated, third-party vendors including Google may use cookies to serve ads based on a visitor's prior visits to TestDayTools or other websites. Google's use of advertising cookies enables Google and its partners to serve, limit, personalize, and measure ads. Any additional advertising vendors used by TestDayTools will be disclosed before their code goes live."
         },
         {
           "heading": "Advertising choices and consent",
-          "text": "If advertising is activated, visitors in regions that require consent will be shown a consent or privacy-choice message before eligible advertising cookies are used. Visitors can also manage Google ad personalization through Google's advertising settings."
+          "text": "Visitors can manage or opt out of personalized Google advertising through Google Ads Settings. Before eligible advertising is activated for visitors in the EEA, the United Kingdom, or Switzerland, TestDayTools will configure a Google-certified consent management platform and provide the disclosures and choices required for that traffic."
         },
         {
           "heading": "Children and students",
-          "text": "The site is informational and does not ask students to create accounts, submit scores, or provide school records."
+          "text": "The site is a general-audience educational resource and does not ask students to create accounts, submit scores, or provide school records. Learners should not enter personal application, identity, payment, or school information into any TestDayTools study control."
+        }
+      ],
+      "links": [
+        {
+          "label": "Google: How Google uses information from sites that use its services",
+          "url": "https://policies.google.com/technologies/partner-sites"
+        },
+        {
+          "label": "Google Ads Settings",
+          "url": "https://adssettings.google.com/"
+        },
+        {
+          "label": "Contact and corrections",
+          "url": "contact.html"
         }
       ]
     },
