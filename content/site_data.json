@@ -23848,11 +23848,11 @@
       "slug": "contact",
       "title": "Contact",
       "description": "Contact information and correction requests for TestDayTools.",
-      "lastUpdated": "July 14, 2026",
+      "lastUpdated": "July 31, 2026",
       "content": [
         {
           "heading": "Corrections",
-          "text": "If you find an outdated date, broken source link, unclear explanation, or DMV-source mismatch, use the public project page until a dedicated domain email is connected."
+          "text": "If you find an outdated date, broken source link, unclear explanation, accessibility problem, or DMV-source mismatch, open a correction report through the public GitHub issue link below. This creates a visible record that can be checked and closed after the page is corrected."
         },
         {
           "heading": "Best correction reports",
@@ -23863,8 +23863,8 @@
           "text": "TestDayTools cannot access DMV, DPS, MVC, FLHSMV, College Board, SAT, AP, testing-provider, appointment, payment, or score accounts. Use official support channels for personal records."
         },
         {
-          "heading": "What to include",
-          "text": "For a correction request, include the page URL, the line or section that seems wrong, and the official source you believe should be used."
+          "heading": "Correction reports are public",
+          "text": "GitHub issue reports are public. Do not include names, email addresses, account details, test scores, driver's license information, school records, appointment details, or other personal information."
         },
         {
           "heading": "No official support",
@@ -23877,8 +23877,20 @@
       ],
       "links": [
         {
-          "label": "GitHub project page",
+          "label": "Open a public correction report",
+          "url": "https://github.com/carmenjiang19028-ai/testdaytools/issues/new"
+        },
+        {
+          "label": "View existing correction reports",
+          "url": "https://github.com/carmenjiang19028-ai/testdaytools/issues"
+        },
+        {
+          "label": "Public GitHub project",
           "url": "https://github.com/carmenjiang19028-ai/testdaytools"
+        },
+        {
+          "label": "Privacy Policy",
+          "url": "privacy.html"
         }
       ]
     },
