@@ -49,7 +49,7 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "July 30, 2026",
+    "lastUpdated": "August 1, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -2803,7 +2803,10 @@ def render_road_sign_cheat_sheet_page():
       <p class="cheat-review-score"><strong>Next quiz score</strong><span>____ / 40</span><strong>Review date</strong><span>____________</span></p>
     </div>
   </section>
-  <footer class="printable-sheet-foot"><strong>Study loop:</strong> Cover the meanings, name each sign and driver action, circle misses, then retake the matching group at testdaytools.com/road-signs-practice-test.html.</footer>
+  <footer class="printable-sheet-foot">
+    <p><strong>Study loop:</strong> Cover the meanings, name each sign and driver action, circle misses, then retake the matching group at testdaytools.com/road-signs-practice-test.html.</p>
+    <p><strong>Educational-use permission:</strong> Teachers, libraries, driving schools, and families may print and share this unmodified PDF for noncommercial education when the TestDayTools credit and page URL remain visible. No resale, rebranding, or adaptation.</p>
+  </footer>
 </section>
 <section class="card-group">
   <h2>Turn the sheet into permit-test practice</h2>
@@ -2822,6 +2825,11 @@ def render_road_sign_cheat_sheet_page():
     <article class="info-card"><span>Verify</span><h3>Keep state rules authoritative</h3><p>The illustrations support recognition of common U.S. signs. Learners should confirm state-specific laws, wording, and permit-test requirements in their official driver handbook.</p></article>
   </div>
 </section>
+<section class="content-section" id="educational-use-license">
+  <h2>Permission for teachers, libraries, and families</h2>
+  <p>Teachers, libraries, driving schools, families, and other noncommercial educators may print and share the unmodified PDF for noncommercial educational use when the TestDayTools credit and this page URL remain visible. Do not sell, rebrand, adapt, or include the resource in a paid product, and do not imply endorsement by a DMV or government agency.</p>
+  <p>This permission applies only to sharing the unmodified PDF. TestDayTools branding, site code, quiz questions, and separate reuse of the original illustrations are not included. All other rights are reserved.</p>
+</section>
 {render_sources([
   {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
 ])}
@@ -2836,6 +2844,10 @@ def render_road_sign_cheat_sheet_page():
     )
     resource_schema["learningResourceType"] = "Cheat sheet"
     resource_schema["educationalUse"] = ["Study", "Classroom review"]
+    resource_schema["license"] = f"{canonical}#educational-use-license"
+    resource_schema["usageInfo"] = f"{canonical}#educational-use-license"
+    resource_schema["isAccessibleForFree"] = True
+    resource_schema["copyrightHolder"] = {"@type": "Organization", "name": SITE["name"]}
     resource_schema["interactivityType"] = "mixed"
     resource_schema["typicalAgeRange"] = "14-18"
     resource_schema["teaches"] = [
