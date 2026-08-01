@@ -7048,7 +7048,7 @@
               "label": "Official sign source",
               "title": "Use FDOT for Florida regulatory sign context",
               "text": "Use FDOT as the official sign-library reference, then return to the practice page to turn sign names into driver actions.",
-              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library",
               "cta": "FDOT regulatory signs"
             },
             {
@@ -7098,7 +7098,7 @@
         },
         {
           "label": "FDOT Florida regulatory signs",
-          "url": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm"
+          "url": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library"
         },
         {
           "label": "FLHSMV: Class E Knowledge Exam",
@@ -10248,7 +10248,7 @@
       "category": "DMV",
       "title": "Florida Regulatory Traffic Signs Practice with FDOT Sources",
       "description": "Practice Florida regulatory traffic signs with 24 picture questions, Right Turn Only and No Right Turn review, official FDOT sign-library links, FLHSMV handbook checks, and yellow warning-sign drills.",
-      "lastUpdated": "July 2, 2026",
+      "lastUpdated": "August 1, 2026",
       "heroKicker": "Florida traffic signs practice",
       "summary": "Practice 24 Florida regulatory traffic sign pictures, starting with the official-source sign groups Florida learners search for most: stop, yield, do not enter, wrong way, one way, Right Turn Only and No Right Turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check Florida traffic signs with FDOT and FLHSMV before reviewing yellow warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "heroActions": [
@@ -10262,7 +10262,7 @@
         },
         {
           "label": "FDOT sign library",
-          "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm"
+          "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library"
         },
         {
           "label": "Florida handbook",
@@ -10754,14 +10754,14 @@
               "label": "official traffic signs florida",
               "title": "Practice here, source-check with FLHSMV and FDOT",
               "text": "This page uses original practice illustrations and links to official Florida sources for final wording and sign reference checks.",
-              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library",
               "cta": "FDOT regulatory signs"
             },
             {
               "label": "official right turn only sign florida",
               "title": "Separate required movement from prohibited movement",
               "text": "Right Turn Only means your lane must turn right. No Right Turn and No Turn on Red are restriction signs with different driver actions.",
-              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library",
               "cta": "FDOT regulatory signs"
             },
             {
@@ -10778,14 +10778,14 @@
               "label": "Wrong-way entry",
               "title": "Focus drill: red regulatory entry signs",
               "text": "Use FDOT regulatory signs to revisit Do Not Enter, Wrong Way, Stop, and Yield before mixing in warning signs.",
-              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library",
               "cta": "FDOT sign source"
             },
             {
               "label": "One-way or lane direction",
               "title": "Focus drill: arrows and permitted movements",
               "text": "Use FDOT regulatory signs to review One Way, lane-use arrows, turn-only signs, and intersection movement prompts as one set.",
-              "href": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm",
+              "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library",
               "cta": "FDOT sign source"
             },
             {
@@ -10877,7 +10877,7 @@
         },
         {
           "label": "FDOT Florida regulatory signs",
-          "url": "https://www.fdot.gov/traffic/trafficservices/signlibrary/regulatory/regulatory.shtm"
+          "url": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library"
         }
       ],
       "examDetails": {
