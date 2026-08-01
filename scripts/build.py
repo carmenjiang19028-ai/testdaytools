@@ -216,7 +216,7 @@ def render_analytics_tag():
   </script>"""
 
 
-def page_shell(title, description, path, body, extra_class="", structured_data=None):
+def page_shell(title, description, path, body, extra_class="", structured_data=None, social_image=None):
     nav = "".join(
         f'<a href="{esc(href_for(item["href"]))}">{esc(item["label"])}</a>'
         for item in DATA["navigation"]
@@ -229,6 +229,24 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
     )
     analytics_tag = render_analytics_tag()
     analytics_block = f"{analytics_tag}\n" if analytics_tag else ""
+    social_image_url = url_for(f"/{social_image.lstrip('/')}") if social_image else ""
+    social_meta = ""
+    if social_image_url:
+        social_meta = f"""  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{esc(SITE['name'])}">
+  <meta property="og:title" content="{esc(title)}">
+  <meta property="og:description" content="{esc(description)}">
+  <meta property="og:url" content="{esc(canonical)}">
+  <meta property="og:image" content="{esc(social_image_url)}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{esc(title)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{esc(title)}">
+  <meta name="twitter:description" content="{esc(description)}">
+  <meta name="twitter:image" content="{esc(social_image_url)}">
+  <meta name="twitter:image:alt" content="{esc(title)}">
+"""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -236,6 +254,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
+{social_meta}\
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
@@ -2862,6 +2881,7 @@ def render_road_sign_cheat_sheet_page():
         body,
         "tool-page road-sign-cheat-sheet-page",
         [resource_schema, breadcrumb_schema(ROAD_SIGN_CHEAT_SHEET_PAGE["title"], canonical)],
+        social_image="assets/dmv-road-signs-cheat-sheet-preview.png",
     )
 
 
