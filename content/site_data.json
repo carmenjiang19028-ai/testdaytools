@@ -56,11 +56,9 @@
           "dmv-road-signs-cheat-sheet",
           "california-dmv-permit-practice-test",
           "new-york-dmv-permit-practice-test",
-          "texas-dmv-permit-practice-test",
           "florida-dmv-permit-practice-test",
           "florida-class-e-knowledge-exam-tlsae",
           "florida-dmv-permit-documents-checklist",
-          "illinois-dmv-permit-practice-test",
           "pennsylvania-dmv-permit-practice-test",
           "new-jersey-mvc-permit-practice-test",
           "california-dmv-road-signs-practice",
@@ -284,10 +282,10 @@
         "href": "california-dmv-permit-practice-test.html"
       },
       {
-        "label": "TX DMV",
-        "title": "Texas DMV Permit Practice Test",
-        "text": "DPS source links, road signs, and mock exam",
-        "href": "texas-dmv-permit-practice-test.html"
+        "label": "TX signs",
+        "title": "Texas DMV Road Signs Practice",
+        "text": "DPS handbook signs, image practice, and sign review",
+        "href": "texas-dmv-road-signs-practice.html"
       },
       {
         "label": "NJ MVC",
@@ -329,10 +327,10 @@
         },
         {
           "label": "Texas",
-          "title": "Texas Permit Practice Test",
-          "text": "Texas DPS source links, image signs, checklist planning, and a 40-question mock exam.",
-          "href": "texas-dmv-permit-practice-test.html",
-          "cta": "Start Texas"
+          "title": "Texas DMV road signs practice",
+          "text": "Texas DPS handbook context, image signs, sign lookup, and checklist planning.",
+          "href": "texas-dmv-road-signs-practice.html",
+          "cta": "Practice Texas signs"
         },
         {
           "label": "Florida",
@@ -343,10 +341,10 @@
         },
         {
           "label": "Illinois",
-          "title": "Illinois Permit Practice Test",
-          "text": "Illinois Secretary of State source links, image signs, checklist planning, and a 40-question mock exam.",
-          "href": "illinois-dmv-permit-practice-test.html",
-          "cta": "Start Illinois"
+          "title": "Illinois DMV road signs practice",
+          "text": "Illinois Rules of the Road context, image signs, sign lookup, and checklist planning.",
+          "href": "illinois-dmv-road-signs-practice.html",
+          "cta": "Practice Illinois signs"
         },
         {
           "label": "Pennsylvania",
@@ -548,11 +546,9 @@
             "dmv-permit-test-passing-score-calculator",
             "california-dmv-permit-practice-test",
             "new-york-dmv-permit-practice-test",
-            "texas-dmv-permit-practice-test",
             "florida-dmv-permit-practice-test",
             "florida-class-e-knowledge-exam-tlsae",
             "florida-dmv-permit-documents-checklist",
-            "illinois-dmv-permit-practice-test",
             "pennsylvania-dmv-permit-practice-test",
             "new-jersey-mvc-permit-practice-test"
           ]
@@ -702,8 +698,7 @@
           "links": [
             "sat-reading-writing-score-guide",
             "sat-math-score-guide",
-            "sat-practice-test-review-template",
-            "sat-study-plan-by-score-gap"
+            "sat-practice-test-review-template"
           ]
         },
         {
@@ -4561,11 +4556,25 @@
     },
     {
       "slug": "sat-study-plan-by-score-gap",
+      "indexable": false,
+      "replacementSlug": "sat-score-goal-planner",
+      "replacementLabel": "Use the interactive score goal planner.",
+      "replacementText": "It combines current score, target score, timeline, and weekly study hours in one stronger plan.",
       "category": "SAT",
       "title": "SAT Study Plan by Score Gap",
       "description": "Choose an SAT study plan based on whether your target score gap is small, medium, or large, with different tactics for each timeline.",
       "heroKicker": "SAT study plan",
       "summary": "A 40-point gap and a 200-point gap need different plans. Use this guide to match your current score gap with a realistic study approach.",
+      "heroActions": [
+        {
+          "label": "Build a score goal plan",
+          "href": "sat-score-goal-planner.html"
+        },
+        {
+          "label": "Review a practice test",
+          "href": "sat-practice-test-review-template.html"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Small gap",
@@ -5647,7 +5656,7 @@
         },
         {
           "heading": "How to use this with practice pages",
-          "text": "Start with the state source, run the state permit practice page, drill road signs, then return here to mark the items that are actually ready."
+          "text": "Start with the state source, run the strongest state practice path, drill road signs, then return here to mark the items that are actually ready."
         }
       ],
       "faq": [
@@ -8742,11 +8751,29 @@
     },
     {
       "slug": "texas-dmv-permit-practice-test",
+      "indexable": false,
+      "replacementSlug": "texas-dmv-road-signs-practice",
+      "replacementLabel": "Start with Texas road-sign practice.",
+      "replacementText": "It keeps the Texas DPS handbook, image signs, and focused review tools together in one shorter path.",
       "category": "DMV",
       "title": "Texas DMV Permit Practice Test",
       "description": "Texas permit practice test with quick practice, image road signs, mock exam mode, Texas DPS handbook links, learner-license reminders, and weak-area feedback.",
       "heroKicker": "Texas permit practice",
       "summary": "Practice Texas permit-test topics with quick questions, road-sign images, and a mock exam, then confirm the learner-license path, driver education step, documents, and official DPS handbook before test day.",
+      "heroActions": [
+        {
+          "label": "Practice Texas road signs",
+          "href": "texas-dmv-road-signs-practice.html#practice"
+        },
+        {
+          "label": "Try the daily Texas question",
+          "href": "dmv-permit-test-question-of-the-day.html?state=texas"
+        },
+        {
+          "label": "Open the Texas handbook",
+          "href": "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Official source",
@@ -9306,7 +9333,7 @@
         "dmv-road-signs-cheat-sheet",
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
-        "texas-dmv-permit-practice-test",
+        "dmv-permit-test-question-of-the-day",
         "california-dmv-road-signs-practice",
         "florida-dmv-road-signs-practice"
       ],
@@ -9366,7 +9393,7 @@
           {
             "step": "4",
             "title": "Move to mixed Texas rules",
-            "text": "After reaching the 16-of-20 practice target, use the related Texas permit page for right-of-way, speed, alcohol, and safe-driving questions."
+            "text": "After reaching the 16-of-20 practice target, use the daily Texas question path for right-of-way, speed, alcohol, and safe-driving review."
           }
         ]
       },
@@ -9544,8 +9571,8 @@
             },
             {
               "label": "Next tool",
-              "title": "Move to Texas permit rules after signs",
-              "text": "Once you reach 16 of 20 here, use the related Texas permit page instead of repeating familiar sign images."
+              "title": "Move to a Texas rules question after signs",
+              "text": "Once you reach 16 of 20 here, use the daily Texas question path instead of repeating familiar sign images."
             },
             {
               "label": "Official check",
@@ -9573,7 +9600,7 @@
             {
               "label": "Signs are already strong",
               "title": "Move to Texas rules instead of repeating images",
-              "text": "Use the related Texas permit practice page for right-of-way, speed, parking, alcohol, and safe-driving decisions."
+              "text": "Use the daily Texas question path for right-of-way, speed, parking, alcohol, and safe-driving decisions."
             }
           ]
         }
@@ -11500,11 +11527,29 @@
     },
     {
       "slug": "illinois-dmv-permit-practice-test",
+      "indexable": false,
+      "replacementSlug": "illinois-dmv-road-signs-practice",
+      "replacementLabel": "Start with Illinois road-sign practice.",
+      "replacementText": "It keeps Illinois Rules of the Road context, image signs, and focused review tools together in one shorter path.",
       "category": "DMV",
       "title": "Illinois DMV Permit Practice Test",
       "description": "Illinois permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official Illinois Secretary of State source links.",
       "heroKicker": "Illinois permit practice",
       "summary": "Practice Illinois permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the Illinois Rules of the Road.",
+      "heroActions": [
+        {
+          "label": "Practice Illinois road signs",
+          "href": "illinois-dmv-road-signs-practice.html#practice"
+        },
+        {
+          "label": "Try the daily Illinois question",
+          "href": "dmv-permit-test-question-of-the-day.html?state=illinois"
+        },
+        {
+          "label": "Open Illinois driver services",
+          "href": "https://www.ilsos.gov/departments/drivers/"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Official source",
@@ -12019,7 +12064,7 @@
         "dmv-road-signs-cheat-sheet",
         "regulatory-traffic-signs-practice-test",
         "road-signs-practice-test",
-        "illinois-dmv-permit-practice-test",
+        "dmv-permit-test-question-of-the-day",
         "california-dmv-road-signs-practice"
       ],
       "quizModes": [

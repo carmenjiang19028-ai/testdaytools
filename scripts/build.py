@@ -216,7 +216,7 @@ def render_analytics_tag():
   </script>"""
 
 
-def page_shell(title, description, path, body, extra_class="", structured_data=None, social_image=None):
+def page_shell(title, description, path, body, extra_class="", structured_data=None, social_image=None, indexable=True):
     nav = "".join(
         f'<a href="{esc(href_for(item["href"]))}">{esc(item["label"])}</a>'
         for item in DATA["navigation"]
@@ -229,6 +229,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
     )
     analytics_tag = render_analytics_tag()
     analytics_block = f"{analytics_tag}\n" if analytics_tag else ""
+    robots_meta = "" if indexable else '  <meta name="robots" content="noindex,follow">\n'
     social_image_url = url_for(f"/{social_image.lstrip('/')}") if social_image else ""
     social_meta = ""
     if social_image_url:
@@ -254,6 +255,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
+{robots_meta}\
 {social_meta}\
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -411,9 +413,32 @@ def find_state_sign_href(state_label):
     return "road-signs-practice-test.html"
 
 
+def resolve_internal_href(value):
+    href = str(value or "")
+    path = href
+    suffix = ""
+    for separator in ("?", "#"):
+        if separator in path:
+            path, remainder = path.split(separator, 1)
+            suffix = f"{separator}{remainder}"
+            break
+    if not path.endswith(".html"):
+        return href
+    slug = path.removesuffix(".html")
+    tool = TOOL_BY_SLUG.get(slug)
+    if not tool or tool.get("indexable") is not False:
+        return href
+    replacement = tool.get("replacementSlug")
+    return f"{replacement}.html{suffix}" if replacement else href
+
+
 def get_dmv_checklist_states():
     checklist = TOOL_BY_SLUG.get("dmv-test-day-checklist", {})
-    return checklist.get("toolWidget", {}).get("states", [])
+    states = checklist.get("toolWidget", {}).get("states", [])
+    return [
+        {**state, "permitUrl": resolve_internal_href(state.get("permitUrl", "dmv-practice.html"))}
+        for state in states
+    ]
 
 
 def find_dmv_state_by_label(state_label):
@@ -805,7 +830,7 @@ def dmv_daily_question_records():
             "state": state_value,
             "stateLabel": state_label,
             "quiz": quiz_key,
-            "practice": practice,
+            "practice": resolve_internal_href(practice),
             "category": question.get("category", "Permit basics"),
             "q": question.get("q", "Practice question"),
             "choices": question.get("choices", []),
@@ -2213,12 +2238,19 @@ def render_dmv_mode_tool(tool):
 </section>"""
 
 
-def render_related(slugs):
+def render_related(slugs, current_slug=""):
     cards = []
+    seen = set()
     for slug in slugs or []:
         tool = TOOL_BY_SLUG.get(slug)
+        if tool and tool.get("indexable") is False:
+            slug = tool.get("replacementSlug", "")
+            tool = TOOL_BY_SLUG.get(slug)
+        if not slug or slug == current_slug or slug in seen:
+            continue
         if tool:
             cards.append(f'<a class="related-card" href="{esc(slug)}.html"><span>{esc(tool["category"])}</span><strong>{esc(tool["title"])}</strong></a>')
+            seen.add(slug)
     if not cards:
         return ""
     return f'<section class="related"><h2>Related tools</h2><div class="related-grid">{"".join(cards)}</div></section>'
@@ -2232,6 +2264,11 @@ def render_dmv_test_day_bridge(tool):
     is_sign_page = "road-signs" in slug
     pair_href = state.get("permitUrl") if is_sign_page else state.get("signUrl")
     pair_label = "Permit practice" if is_sign_page else "Road signs drill"
+    pair_slug = str(pair_href or "").removesuffix(".html")
+    pair_tool = TOOL_BY_SLUG.get(pair_slug)
+    if is_sign_page and (pair_slug == slug or (pair_tool and pair_tool.get("indexable") is False)):
+        pair_href = "dmv-practice.html"
+        pair_label = "DMV practice hub"
     checklist_href = checklist_href_for_state(state)
     return f"""<section class="dmv-test-day-bridge" id="test-day-path">
   <div>
@@ -2286,13 +2323,19 @@ def render_tool(tool):
         render_ad(),
         render_faq(tool.get("faq")),
         render_sources(tool.get("sources")),
-        render_related(tool.get("related")),
+        render_related(tool.get("related"), tool.get("slug", "")),
     ]
     page_sections = "".join(section for section in dmv_sections + lower_sections if section)
     hero_panel = render_tool_hero_panel(tool)
     hero_inner_class = ' class="tool-hero-grid"' if hero_panel else ""
     hero_panel_block = f"\n    {hero_panel}" if hero_panel else ""
     test_day_bridge = render_dmv_test_day_bridge(tool)
+    replacement_notice = ""
+    replacement_slug = tool.get("replacementSlug")
+    replacement_tool = TOOL_BY_SLUG.get(replacement_slug)
+    if replacement_tool:
+        replacement_notice = f'''<section class="notice"><strong>{esc(tool.get("replacementLabel", "Use the stronger study path."))}</strong> {esc(tool.get("replacementText", "This page remains available, while the linked tool provides the clearest next step."))} <a href="{esc(replacement_slug)}.html">Open {esc(replacement_tool["title"])}</a>.</section>'''
+    replacement_notice_block = f"{replacement_notice}\n" if replacement_notice else ""
     body = f"""<section class="hero tool-hero">
   <div{hero_inner_class}>
     <div>
@@ -2304,6 +2347,7 @@ def render_tool(tool):
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
+{replacement_notice_block}\
 {render_trust_strip(tool)}
 {practice_console}{test_day_bridge}
 {page_sections}"""
@@ -2318,6 +2362,7 @@ def render_tool(tool):
         body,
         "tool-page",
         [resource_schema, breadcrumb_schema(tool["title"], canonical)],
+        indexable=tool.get("indexable", True),
     )
 
 
@@ -3937,7 +3982,7 @@ def build():
     for page in DATA["trustPages"]:
         write(f'{page["slug"]}.html', render_trust(page))
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"]] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
+    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"] if tool.get("indexable", True)] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "\n".join(sitemap_entry(path, lastmod_for_path(path)) for path in dict.fromkeys(urls))
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap_urls}\n</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
