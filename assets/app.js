@@ -2943,6 +2943,250 @@ function initSatDatePlanners() {
   });
 }
 
+function initSatAugustReadiness() {
+  document.querySelectorAll("[data-sat-august-readiness]").forEach((tool) => {
+    const registration = tool.querySelector("[data-august-registration]");
+    const device = tool.querySelector("[data-august-device]");
+    const id = tool.querySelector("[data-august-id]");
+    const route = tool.querySelector("[data-august-route]");
+    const buildButton = tool.querySelector("[data-august-plan-button]");
+    const saveButton = tool.querySelector("[data-august-plan-save]");
+    const calendarLink = tool.querySelector("[data-august-calendar]");
+    const registerLink = tool.querySelector("[data-august-register]");
+    const statusLabel = tool.querySelector("[data-august-status-label]");
+    const statusHeadline = tool.querySelector("[data-august-status-headline]");
+    const statusDetail = tool.querySelector("[data-august-status-detail]");
+    const planHeadline = tool.querySelector("[data-august-plan-headline]");
+    const planReason = tool.querySelector("[data-august-plan-reason]");
+    const planSteps = tool.querySelector("[data-august-plan-steps]");
+    const savedStatus = tool.querySelector("[data-august-saved-status]");
+    const storageKey = "tdt-sat-august-2026:v1";
+
+    const dates = {
+      regular: new Date(tool.dataset.regularDeadline).getTime(),
+      late: new Date(tool.dataset.lateDeadline).getTime(),
+      setup: new Date(tool.dataset.setupStart).getTime(),
+      test: new Date(tool.dataset.testStart).getTime(),
+      testEnd: new Date(tool.dataset.testEnd).getTime(),
+      score: new Date(tool.dataset.scoreDate).getTime(),
+    };
+    if (Object.values(dates).some(Number.isNaN)) return;
+
+    let currentPlan = null;
+
+    const currentWindow = (now = Date.now()) => {
+      if (now <= dates.regular) return "regular_registration";
+      if (now <= dates.late) return "late_registration";
+      if (now < dates.setup) return "registered_preparation";
+      if (now < dates.test) return "exam_setup";
+      if (now < dates.testEnd) return "test_day";
+      if (now < dates.score) return "score_wait";
+      return "scores_available";
+    };
+
+    const renderStatus = () => {
+      const now = Date.now();
+      const windowName = currentWindow(now);
+      const hoursLeft = Math.max(0, Math.ceil((dates.late - now) / 3600000));
+      const daysLeft = Math.floor(hoursLeft / 24);
+      const remainingHours = hoursLeft % 24;
+      const status = {
+        regular_registration: [
+          "Registration window",
+          "Regular registration is still open",
+          "College Board lists August 7 at 11:59 p.m. ET as the regular deadline and August 11 as the late deadline.",
+        ],
+        late_registration: [
+          "Late-registration window",
+          "Late registration and changes are open",
+          `${daysLeft ? `${daysLeft} day${daysLeft === 1 ? "" : "s"} ` : ""}${remainingHours} hour${remainingHours === 1 ? "" : "s"} remain until August 11 at 11:59 p.m. ET. Seat availability can still vary.`,
+        ],
+        registered_preparation: [
+          "Preparation window",
+          "August registration has closed",
+          "Registered students should resolve device, physical ID, and route issues before Bluebook exam setup opens on August 17.",
+        ],
+        exam_setup: [
+          "Exam-setup window",
+          "Complete Bluebook exam setup now",
+          "Generate the admission ticket, confirm the center address and arrival time, and save an accessible copy before August 22.",
+        ],
+        test_day: [
+          "Test day",
+          "Follow the admission ticket's arrival time",
+          "Bring the charged testing device, physical photo ID, ticket, and required supplies. Check for center changes before leaving.",
+        ],
+        score_wait: [
+          "Score window",
+          "The August SAT is complete",
+          "College Board lists September 4 as the scheduled score release. Use the wait to compare college deadlines and backup dates.",
+        ],
+        scores_available: [
+          "Next decision",
+          "Review the August score and deadline fit",
+          "Compare the score with your target and each college's policy before paying for another administration.",
+        ],
+      }[windowName];
+      if (statusLabel) statusLabel.textContent = status[0];
+      if (statusHeadline) statusHeadline.textContent = status[1];
+      if (statusDetail) statusDetail.textContent = status[2];
+      return windowName;
+    };
+
+    const buildPlan = ({ track = true } = {}) => {
+      if (!registration || !device || !id || !route || !planHeadline || !planReason || !planSteps) return;
+      const windowName = renderStatus();
+      const registrationValue = registration.value;
+      const deviceValue = device.value;
+      const idValue = id.value;
+      const routeValue = route.value;
+      const steps = [];
+      let gapCount = 0;
+
+      if (registrationValue !== "registered") {
+        gapCount += 1;
+        if (["regular_registration", "late_registration"].includes(windowName)) {
+          steps.push({
+            title: registrationValue === "unsure" ? "Confirm your registration today" : "Check late registration now",
+            text: "Open the official College Board registration flow before August 11 at 11:59 p.m. ET and verify whether a test-center seat is available.",
+          });
+        } else {
+          steps.push({
+            title: "Use September 12 as the first backup",
+            text: "August registration has closed. College Board lists August 28 as the regular deadline and September 1 as the late deadline for September 12.",
+          });
+        }
+      }
+
+      if (deviceValue === "not_ready") {
+        gapCount += 1;
+        steps.push({ title: "Resolve Bluebook before the final week", text: "Install or update Bluebook, sign in on the testing device, and fix password or compatibility issues before exam setup." });
+      } else if (deviceValue === "installed") {
+        gapCount += 1;
+        steps.push({ title: "Finish the device check", text: "Confirm Bluebook opens, the device can stay charged for roughly three hours, and you can unlock it without another device." });
+      } else if (deviceValue === "borrowed") {
+        steps.push({ title: "Follow the loaned-device arrival instructions", text: "College Board's sample schedule asks students with an approved loaned device to arrive 30 minutes earlier. Your admission ticket is the final instruction." });
+      }
+
+      if (idValue !== "ready") {
+        gapCount += 1;
+        steps.push({
+          title: idValue === "missing" ? "Get an acceptable physical photo ID" : "Verify the current ID rules",
+          text: "The ID must be an original physical document with a recognizable photo and the same full legal name shown on the admission ticket.",
+        });
+      }
+
+      if (routeValue !== "ready") {
+        gapCount += 1;
+        steps.push({ title: "Confirm the center and ride", text: "Use the admission ticket for the exact address and arrival time, then plan a backup ride and enough travel buffer." });
+      }
+
+      if (registrationValue === "registered") {
+        if (Date.now() < dates.setup) {
+          steps.push({ title: "Set an August 17 exam-setup reminder", text: "Between August 17 and 21, open Bluebook, complete exam setup, and print or email the admission ticket." });
+        } else if (Date.now() < dates.test) {
+          steps.push({ title: "Complete exam setup now", text: "Generate the admission ticket in Bluebook and confirm the center address and arrival time before test day." });
+        }
+      }
+
+      if (Date.now() < dates.test) {
+        steps.push({ title: "Protect the final night", text: "Charge the device, pack the power cord, physical ID, ticket, pens or pencils, calculator if desired, water, and a snack." });
+        steps.push({ title: "Check for a center change", text: "Review Bluebook, email, My SAT, and the test-center website before leaving on August 22." });
+      } else {
+        steps.push({ title: "Use September 4 as the score checkpoint", text: "Compare the released score with your target and application deadlines before deciding on a retake." });
+      }
+
+      const headline = registrationValue !== "registered" && !["regular_registration", "late_registration"].includes(windowName)
+        ? "Pivot from August registration to the next useful date"
+        : gapCount
+          ? `${gapCount} readiness item${gapCount === 1 ? "" : "s"} need attention`
+          : "Core logistics are confirmed";
+      planHeadline.textContent = headline;
+      planReason.textContent = gapCount
+        ? "Work from the first item downward. Deadline and admission risks come before extra practice."
+        : "Keep the setup window, ticket, final-night pack, and center-change check on the calendar.";
+      planSteps.replaceChildren(...steps.map((step) => {
+        const item = document.createElement("li");
+        const title = document.createElement("strong");
+        const text = document.createElement("span");
+        title.textContent = step.title;
+        text.textContent = step.text;
+        item.append(title, text);
+        return item;
+      }));
+      planSteps.hidden = false;
+      if (saveButton) saveButton.disabled = false;
+      currentPlan = {
+        registration: registrationValue,
+        device: deviceValue,
+        id: idValue,
+        route: routeValue,
+        window: windowName,
+        headline,
+        steps,
+        updatedAt: Date.now(),
+      };
+      if (savedStatus) savedStatus.hidden = true;
+
+      if (track) {
+        trackToolEvent("sat_august_plan_generated", {
+          registration: registrationValue,
+          device: deviceValue,
+          id_status: idValue,
+          route: routeValue,
+          timeline_window: windowName,
+          readiness_gaps: gapCount,
+        });
+      }
+    };
+
+    buildButton?.addEventListener("click", () => buildPlan());
+    saveButton?.addEventListener("click", () => {
+      if (!currentPlan) return;
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(currentPlan));
+        if (savedStatus) {
+          savedStatus.textContent = "Plan saved in this browser. Reopen this page to review the same readiness choices.";
+          savedStatus.hidden = false;
+        }
+        saveButton.textContent = "Plan saved";
+        window.setTimeout(() => { saveButton.textContent = "Save this plan"; }, 1800);
+        trackToolEvent("sat_august_plan_saved", { timeline_window: currentPlan.window, step_count: currentPlan.steps.length });
+        trackToolEvent("study_state_change", { state: "sat_august_plan_saved" });
+      } catch (error) {
+        if (savedStatus) {
+          savedStatus.textContent = "This browser blocked saving. The plan still works for this visit.";
+          savedStatus.hidden = false;
+        }
+      }
+    });
+    calendarLink?.addEventListener("click", () => {
+      trackToolEvent("study_next_step_click", { action: "download_august_sat_timeline", timeline_window: currentPlan?.window || currentWindow() });
+    });
+    registerLink?.addEventListener("click", () => {
+      trackToolEvent("study_next_step_click", { action: "official_august_sat_registration", timeline_window: currentPlan?.window || currentWindow() });
+    });
+
+    renderStatus();
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(storageKey) || "null");
+      if (saved && typeof saved === "object") {
+        if (registration && saved.registration) registration.value = saved.registration;
+        if (device && saved.device) device.value = saved.device;
+        if (id && saved.id) id.value = saved.id;
+        if (route && saved.route) route.value = saved.route;
+        buildPlan({ track: false });
+        if (savedStatus) {
+          savedStatus.textContent = "Saved plan restored from this browser.";
+          savedStatus.hidden = false;
+        }
+      }
+    } catch (error) {
+      // A fresh plan remains available when local storage is blocked.
+    }
+  });
+}
+
 initAnalyticsEvents();
 initPrintableResources();
 initCountdowns();
@@ -2964,3 +3208,4 @@ initDmvChecklists();
 initSatScoreEstimators();
 initSatGoalPlanners();
 initSatDatePlanners();
+initSatAugustReadiness();

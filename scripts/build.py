@@ -1340,6 +1340,84 @@ def render_sat_date_planner(tool, widget):
 </section>"""
 
 
+def render_sat_august_readiness(tool, widget):
+    calendar = tool.get("calendarDownload", {})
+    milestones = widget.get("milestones", [])
+    milestone_cards = "".join(
+        f'''<li><time datetime="{esc(item["date"])}">{esc(item["label"])}</time><strong>{esc(item["title"])}</strong><span>{esc(item["text"])}</span></li>'''
+        for item in milestones
+    )
+    return f"""<section class="tool-block sat-widget sat-august-widget" id="august-sat-readiness" data-sat-august-readiness
+  data-regular-deadline="{esc(widget.get('regularDeadline', '2026-08-07T23:59:00-04:00'))}"
+  data-late-deadline="{esc(widget.get('lateDeadline', '2026-08-11T23:59:00-04:00'))}"
+  data-setup-start="{esc(widget.get('setupStart', '2026-08-17T00:00:00'))}"
+  data-test-start="{esc(widget.get('testStart', '2026-08-22T00:00:00'))}"
+  data-test-end="{esc(widget.get('testEnd', '2026-08-23T00:00:00'))}"
+  data-score-date="{esc(widget.get('scoreDate', '2026-09-04T00:00:00'))}">
+  <div class="tool-section-head">
+    <span class="eyebrow">{esc(widget.get("kicker", "Live August SAT tool"))}</span>
+    <h2>{esc(widget.get("heading", "Build your August SAT readiness plan"))}</h2>
+    <p class="section-intro">{esc(widget.get("intro", "Check the current registration window, then turn your device, ID, and route status into a short test-day action plan."))}</p>
+  </div>
+  <div class="sat-august-status" aria-live="polite">
+    <span data-august-status-label>Current window</span>
+    <strong data-august-status-headline>Checking the official timeline...</strong>
+    <p data-august-status-detail>The live status uses College Board's published August 2026 dates.</p>
+  </div>
+  <ol class="sat-milestone-grid" aria-label="August 2026 SAT milestones">{milestone_cards}</ol>
+  <div class="sat-widget-grid">
+    <div class="sat-input-panel sat-date-inputs">
+      <label>Are you registered for August 22?
+        <span>Choose the closest answer. The tool does not access your College Board account.</span>
+        <select data-august-registration>
+          <option value="registered">Yes, I am registered</option>
+          <option value="not_registered">No, not yet</option>
+          <option value="unsure">I need to confirm</option>
+        </select>
+      </label>
+      <label>What is your Bluebook status?
+        <span>Exam setup and the admission ticket become available 1-5 days before test day.</span>
+        <select data-august-device>
+          <option value="ready">Installed, signed in, and device tested</option>
+          <option value="installed">Installed, but not fully checked</option>
+          <option value="not_ready">Not installed or login unresolved</option>
+          <option value="borrowed">Using a College Board loaned device</option>
+        </select>
+      </label>
+      <label>Is your physical photo ID ready?
+        <span>The name must match the admission ticket; digital IDs are not accepted.</span>
+        <select data-august-id>
+          <option value="ready">Yes, physical ID is ready</option>
+          <option value="check">I need to verify the ID rules</option>
+          <option value="missing">No acceptable physical ID yet</option>
+        </select>
+      </label>
+      <label>Is your test-center route confirmed?
+        <span>Use the admission ticket for the center address and arrival time.</span>
+        <select data-august-route>
+          <option value="ready">Yes, route and ride are confirmed</option>
+          <option value="check">Not yet</option>
+        </select>
+      </label>
+      <button type="button" data-august-plan-button>Build my final readiness plan</button>
+    </div>
+    <aside class="sat-result-panel sat-date-result" aria-live="polite">
+      <span>Your next steps</span>
+      <strong data-august-plan-headline>Answer four questions to get a plan</strong>
+      <p data-august-plan-reason>The result separates deadline risk from test-day readiness.</p>
+      <ol class="sat-august-plan" hidden data-august-plan-steps></ol>
+      <div class="sat-plan-actions">
+        <button type="button" disabled data-august-plan-save>Save this plan</button>
+        <a href="{esc(calendar.get('filename', 'sat-august-22-2026-timeline.ics'))}" download data-resource-download="{esc(calendar.get('resource', 'sat_august_2026_timeline'))}" data-august-calendar>Download key dates</a>
+        <a href="{esc(widget.get('registrationUrl', 'https://satsuite.collegeboard.org/sat/registration'))}" target="_blank" rel="noopener" data-august-register>Check official registration</a>
+      </div>
+      <p class="sat-saved-status" hidden data-august-saved-status></p>
+      <p class="sat-widget-note">No account, score, ID number, or personal information is requested. Confirm seat availability, accommodations, and your admission ticket in the official College Board flow.</p>
+    </aside>
+  </div>
+</section>"""
+
+
 def render_tool_widget(tool):
     widget = tool.get("toolWidget")
     if not widget:
@@ -1349,6 +1427,8 @@ def render_tool_widget(tool):
         return render_dmv_checklist_widget(widget)
     if kind == "satDatePlanner":
         return render_sat_date_planner(tool, widget)
+    if kind == "satAugustReadiness":
+        return render_sat_august_readiness(tool, widget)
     if kind == "satScoreEstimator":
         return f"""<section class="tool-block sat-widget" data-sat-estimator>
   <div class="tool-section-head">
@@ -1873,7 +1953,7 @@ def render_countdown(countdown):
 
 
 def render_calendar_download(calendar):
-    if not calendar:
+    if not calendar or calendar.get("hideSection"):
         return ""
     filename = calendar["filename"]
     return f"""<section class="calendar-download" id="sat-calendar">
@@ -1883,7 +1963,7 @@ def render_calendar_download(calendar):
     <p>{esc(calendar["text"])}</p>
   </div>
   <div class="calendar-download-actions">
-    <a href="{esc(filename)}" download data-resource-download="{esc(calendar.get('resource', 'sat_dates_calendar'))}">Download all 8 SAT dates (.ics)</a>
+    <a href="{esc(filename)}" download data-resource-download="{esc(calendar.get('resource', 'sat_dates_calendar'))}">{esc(calendar.get('buttonLabel', 'Download all 8 SAT dates (.ics)'))}</a>
     <span>Import into Google Calendar, Apple Calendar, or Outlook.</span>
   </div>
 </section>"""
@@ -1908,27 +1988,32 @@ def fold_ics_line(line, width=72):
 
 
 def render_calendar_file(calendar):
+    calendar_name = calendar.get("name", "SAT Test Dates 2026-2027")
+    calendar_description = calendar.get("description", "Confirmed College Board weekend SAT dates with registration deadline reminders.")
+    source_url = calendar.get("sourceUrl", "https://satsuite.collegeboard.org/sat/dates-deadlines")
+    dtstamp = calendar.get("dtstamp", "20260714T000000Z")
+    uid_prefix = calendar.get("uidPrefix", "sat")
     lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//TestDayTools//SAT Test Dates 2026-2027//EN",
+        f"PRODID:-//TestDayTools//{ics_escape(calendar_name)}//EN",
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
-        "X-WR-CALNAME:SAT Test Dates 2026-2027",
-        "X-WR-CALDESC:Confirmed College Board weekend SAT dates with registration deadline reminders.",
+        f"X-WR-CALNAME:{ics_escape(calendar_name)}",
+        f"X-WR-CALDESC:{ics_escape(calendar_description)}",
     ]
     for event in calendar.get("events", []):
         start = datetime.strptime(event["date"], "%Y-%m-%d")
         end = start + timedelta(days=1)
         lines.extend([
             "BEGIN:VEVENT",
-            f'UID:sat-{start.strftime("%Y%m%d")}@testdaytools.com',
-            "DTSTAMP:20260714T000000Z",
+            f'UID:{uid_prefix}-{start.strftime("%Y%m%d")}@testdaytools.com',
+            f"DTSTAMP:{dtstamp}",
             f'DTSTART;VALUE=DATE:{start.strftime("%Y%m%d")}',
             f'DTEND;VALUE=DATE:{end.strftime("%Y%m%d")}',
             f'SUMMARY:{ics_escape(event["title"])}',
             f'DESCRIPTION:{ics_escape(event["description"])}',
-            "URL:https://satsuite.collegeboard.org/sat/dates-deadlines",
+            f'URL:{event.get("url", source_url)}',
             "END:VEVENT",
         ])
     lines.append("END:VCALENDAR")
@@ -2224,13 +2309,15 @@ def render_tool(tool):
 {page_sections}"""
     page_type = "LearningResource" if tool.get("category") in ("DMV", "SAT", "AP") else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')
+    resource_schema = schema(tool["title"], tool["description"], canonical, page_type)
+    resource_schema.update(tool.get("schema", {}))
     return page_shell(
         tool["title"],
         tool["description"],
         f'/{tool["slug"]}.html',
         body,
         "tool-page",
-        page_schema(tool["title"], tool["description"], canonical, page_type),
+        [resource_schema, breadcrumb_schema(tool["title"], canonical)],
     )
 
 
