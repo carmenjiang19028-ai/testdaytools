@@ -22,8 +22,9 @@ DMV_SCORE_SLUG = "dmv-permit-test-passing-score-calculator"
 DMV_SCORE_PAGE = {
     "slug": DMV_SCORE_SLUG,
     "category": "DMV",
-    "title": "DMV Permit Test Passing Score Calculator",
-    "description": "Calculate how many DMV permit test questions you can miss by state, compare passing scores, and check a practice score against the state target.",
+    "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
+    "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
+    "lastUpdated": "August 9, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
@@ -299,6 +300,10 @@ def schema(title, description, canonical, page_type="WebPage"):
         base["learningResourceType"] = "Practice test"
         base["educationalUse"] = "Practice"
         base["audience"] = {"@type": "EducationalAudience", "educationalRole": "student"}
+    if page_type == "WebApplication":
+        base["applicationCategory"] = "EducationalApplication"
+        base["operatingSystem"] = "Any"
+        base["offers"] = {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
     return base
 
 
@@ -523,12 +528,12 @@ def dmv_requirement_records():
 def dmv_score_records():
     score_facts = {
         "california": {
-            "questions": 36,
-            "correct": 30,
-            "percent": 83.4,
-            "rule": "30 correct out of 36 questions",
-            "miss": "6",
-            "note": "California applicants commonly see a 36-question knowledge test; use the DMV source for your exact path.",
+            "questions": "",
+            "correct": "",
+            "percent": 80,
+            "rule": "80% or better",
+            "miss": "Depends on current test length",
+            "note": "California DMV currently publishes an 80% passing score. Enter the question count shown for your test path to calculate the miss limit.",
         },
         "new-york": {
             "questions": 20,
@@ -3693,7 +3698,7 @@ def render_dmv_score_calculator():
     default = records[0]
     rows = []
     for item in records:
-        official_format = f'{item["questions"]} questions' if item["questions"] else item["format"]
+        official_format = f'{item["questions"]} questions' if item["questions"] else "Use current test length"
         required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
         rows.append(f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"] + " " + item["miss"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
@@ -3739,6 +3744,7 @@ def render_dmv_score_calculator():
         </div>
         <button type="button" data-score-use-official>Use official length</button>
       </div>
+      <button class="score-check-submit" type="button" data-score-check>Check practice score</button>
       <div class="score-result" aria-live="polite">
         <span data-score-percent>0%</span>
         <strong data-score-status>Enter a practice score.</strong>
@@ -3768,6 +3774,38 @@ def render_dmv_score_calculator():
 </section>"""
 
 
+def render_dmv_score_answers(records):
+    cards = []
+    for item in records:
+        if isinstance(item["questions"], int) and isinstance(item["correct"], int):
+            answer = (
+                f'{item["label"]} uses {item["questions"]} questions for this path. '
+                f'You need {item["correct"]} correct, so the basic miss limit is {item["miss"]}.'
+            )
+        else:
+            answer = (
+                f'The published passing rule for {item["label"]} is {item["percent"]}% for this path. '
+                "Enter the current test length in the calculator to see the matching correct-answer target and miss limit."
+            )
+        cards.append(f"""<article class="score-answer-card" id="{esc(item["value"])}-permit-test-passing-score">
+  <span>State answer</span>
+  <h3>How many questions can you miss on the {esc(item["label"])} permit test?</h3>
+  <p><strong>{esc(answer)}</strong></p>
+  <p>{esc(item["scoreNote"])}</p>
+  <div class="score-answer-actions">
+    <a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">Verify official rule</a>
+    <a href="{esc(item["permitUrl"])}">Open practice</a>
+    <a href="{esc(item["checklistUrl"])}">Test-day checklist</a>
+  </div>
+</article>""")
+    return f"""<section class="content-section score-answer-section" id="state-score-answers">
+  <span class="eyebrow">Direct answers by state</span>
+  <h2>How many questions can you miss on each permit test?</h2>
+  <p class="section-intro">These seven paths use current official agency sources. Use the exact answer when a fixed test length is published; otherwise enter the question count shown for your test.</p>
+  <div class="score-answer-grid">{"".join(cards)}</div>
+</section>"""
+
+
 def render_dmv_score_page():
     records = dmv_score_records()
     source_links = "".join(
@@ -3791,11 +3829,12 @@ def render_dmv_score_page():
     body = f"""<section class="hero tool-hero">
   <div>
     <p class="eyebrow">DMV passing score calculator</p>
-    <h1>DMV permit test passing score calculator.</h1>
-    <p class="lede">Choose a state to estimate how many questions you can miss, compare passing scores, and check whether a practice result is above the state target.</p>
-    {render_last_updated()}
+    <h1>Permit test passing score calculator: how many can you miss?</h1>
+    <p class="lede">Choose a state, get the published passing rule, calculate the questions you can miss, and check whether a practice result has enough margin.</p>
+    {render_last_updated(DMV_SCORE_PAGE["lastUpdated"])}
     <div class="hero-actions">
       <a href="#score-calculator">Use calculator</a>
+      <a href="#state-score-answers">State answers</a>
       <a href="#score-table">Compare scores</a>
       <a href="dmv-permit-test-study-plan.html">Study plan</a>
       <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
@@ -3808,9 +3847,10 @@ def render_dmv_score_page():
   <div><span>States</span><strong>{len(records)} score paths</strong></div>
   <div><span>Primary use</span><strong>Can-miss math</strong></div>
   <div><span>Calculator</span><strong>Practice score check</strong></div>
-  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+  <div><span>Updated</span><strong>{esc(DMV_SCORE_PAGE["lastUpdated"])}</strong></div>
 </section>
 {render_dmv_score_calculator()}
+{render_dmv_score_answers(records)}
 <section class="content-section">
   <h2>Use the calculator before a full practice round</h2>
   <p>Start with the official pass rule, then compare your latest practice result. If the calculator says you are barely above the target, review missed signs and right-of-way rules before taking another full round.</p>
@@ -3831,6 +3871,7 @@ def render_dmv_score_page():
         f"/{DMV_SCORE_SLUG}.html",
         body,
         "tool-page score-page",
+        page_schema(DMV_SCORE_PAGE["title"], DMV_SCORE_PAGE["description"], url_for(f"/{DMV_SCORE_SLUG}.html"), "WebApplication"),
     )
 
 

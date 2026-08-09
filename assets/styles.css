@@ -1324,6 +1324,72 @@ h3 {
   font-weight: 900;
 }
 
+.score-check-submit {
+  min-height: 44px;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  color: white;
+  background: var(--green);
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.score-answer-section {
+  display: grid;
+  gap: 12px;
+}
+
+.score-answer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.score-answer-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #cbd7e3;
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+}
+
+.score-answer-card > span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.score-answer-card h3 {
+  margin: 7px 0 0;
+  color: var(--blue-deep);
+  font-size: 1.08rem;
+}
+
+.score-answer-card p {
+  margin: 9px 0 0;
+  color: var(--muted);
+}
+
+.score-answer-card p strong {
+  color: var(--ink);
+}
+
+.score-answer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.score-answer-actions a {
+  color: var(--blue);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
 .score-result strong {
   display: block;
   color: var(--blue-deep);
@@ -4997,6 +5063,7 @@ button:disabled {
   .requirements-snapshot,
   .score-grid,
   .score-stat-row,
+  .score-answer-grid,
   .practice-score-check,
   .sign-study-grid,
   .study-path-grid,

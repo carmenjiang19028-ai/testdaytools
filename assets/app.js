@@ -2221,6 +2221,7 @@ function initDmvScoreCalculators() {
     const correctInput = widget.querySelector("[data-score-input-correct]");
     const totalInput = widget.querySelector("[data-score-input-total]");
     const useOfficial = widget.querySelector("[data-score-use-official]");
+    const checkScore = widget.querySelector("[data-score-check]");
     const percent = widget.querySelector("[data-score-percent]");
     const status = widget.querySelector("[data-score-status]");
     const message = widget.querySelector("[data-score-message]");
@@ -2266,7 +2267,14 @@ function initDmvScoreCalculators() {
       const pct = Math.round((correct / total) * 100);
       const gap = Math.max(0, needed - correct);
       if (percent) percent.textContent = `${pct}%`;
-      if (status) status.textContent = gap ? `${gap} more correct answer${gap === 1 ? "" : "s"} needed` : "Above the selected state target";
+      if (status) {
+        const cushion = correct - needed;
+        status.textContent = gap
+          ? `${gap} more correct answer${gap === 1 ? "" : "s"} needed`
+          : cushion > 0
+            ? "Above the selected state target"
+            : "Meets the selected state target";
+      }
       if (message) {
         const stateName = option.dataset.state || option.textContent.trim();
         const ruleText = option.dataset.rule || "the official passing rule";
@@ -2303,7 +2311,13 @@ function initDmvScoreCalculators() {
       renderScore();
     };
 
-    stateSelect?.addEventListener("change", renderState);
+    stateSelect?.addEventListener("change", () => {
+      renderState();
+      trackToolEvent("study_state_change", {
+        state: stateSelect.value,
+        surface: "dmv_score_calculator",
+      });
+    });
     correctInput?.addEventListener("input", renderScore);
     totalInput?.addEventListener("input", renderScore);
     useOfficial?.addEventListener("click", () => {
@@ -2313,6 +2327,15 @@ function initDmvScoreCalculators() {
       if (officialQuestions && totalInput) totalInput.value = String(officialQuestions);
       if (officialCorrect && correctInput) correctInput.value = String(officialCorrect);
       renderScore();
+    });
+    checkScore?.addEventListener("click", () => {
+      renderScore();
+      const option = currentOption();
+      trackToolEvent("dmv_score_checked", {
+        state: option?.value || "unknown",
+        practice_correct: Number(correctInput?.value) || 0,
+        practice_total: Number(totalInput?.value) || 0,
+      });
     });
     setStateFromQuery();
     renderState();
