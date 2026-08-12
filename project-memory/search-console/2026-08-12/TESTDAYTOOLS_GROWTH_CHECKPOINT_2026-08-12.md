@@ -161,3 +161,26 @@ Commit `bff9348` added an explicit HTML `<link rel="alternate" type="application
 - Submitted the resource page and classroom PDF to IndexNow again after the discovery link was live (HTTP 200).
 - A focused live search of the first- and second-batch library domains did not find a public TestDayTools link as of this check. This only rules out a currently discoverable public link; it does not establish whether a librarian replied privately.
 - Gmail's signed-in search did not return a reliable readable state during this run, so no follow-up was sent without current reply/bounce evidence. Preserve the one-follow-up limit and recheck the mailbox before any message.
+
+## 2026-08-12 first-batch final follow-up
+
+The Gmail state became reliable later in the same operating day and was checked before any external action:
+
+- A focused sender search returned no replies from Ellsworth, Somerset, London, Richard Sugden, or Atglen.
+- A focused mailer-daemon search returned no bounce involving those five addresses.
+- Sent Mail confirmed the three first-batch messages to Ellsworth, Somerset, and London were sent on 2026-07-31 at 22:00 and had not previously been followed up.
+- Live public-domain searches still did not show a TestDayTools link on the first- or second-batch library sites.
+
+At 19:56-19:59 Asia/Shanghai on 2026-08-12, one reply was sent in each original first-batch thread:
+
+1. Ellsworth Public Library, `cherfindahl@ellsworthlibrary.org`.
+2. Somerset Public Library, `mrua-larsen@sailsinc.org`.
+3. London Public Library, `mwood@mylondonlibrary.org`.
+
+Each message described only the material upgrade since the original note: the three-page student worksheet, eight driver-action questions, facilitator answer key, 10-minute teaching plan, no-sign-up access, and noncommercial educational sharing permission. Each message explicitly said no reply was needed if the resource was not a fit and that TestDayTools would not follow up again.
+
+Operating boundary:
+
+- Do not send another message to these three recipients, regardless of silence.
+- Monitor only replies, bounces, public page changes, qualified Referral, and GSC external links.
+- The second batch sent 2026-08-09 remains untouched until its own seven-business-day window; do not reuse the first-batch timing.
