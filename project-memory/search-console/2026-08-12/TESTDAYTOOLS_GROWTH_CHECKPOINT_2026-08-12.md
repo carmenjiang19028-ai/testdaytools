@@ -151,3 +151,13 @@ Judgment window:
 3. After at least 10 qualified landing sessions on the resource page, use classroom-pack download rate as the primary product signal. A 10% or greater rate is the initial usefulness threshold.
 4. Treat a public educator/library link, a non-owner MERLOT/OER/library Referral, or the first GSC external-link record as stronger validation than raw PDF downloads.
 5. Do not create another printable asset before this one is used in the next eligible targeted follow-up. The immediate constraint is distribution, not the number of files available.
+
+## 2026-08-12 classroom-PDF discovery release
+
+Commit `bff9348` added an explicit HTML `<link rel="alternate" type="application/pdf">` from the canonical resource page to the classroom worksheet PDF. This provides a machine-readable discovery path in addition to the two visible download links, without creating another indexable HTML URL or changing the resource page title, description, canonical, H1, or body experiment.
+
+- Verified all 63 HTML pages after regeneration; title, one H1, canonical, and internal targets remained valid.
+- Confirmed the alternate PDF link on the live GitHub Pages deployment.
+- Submitted the resource page and classroom PDF to IndexNow again after the discovery link was live (HTTP 200).
+- A focused live search of the first- and second-batch library domains did not find a public TestDayTools link as of this check. This only rules out a currently discoverable public link; it does not establish whether a librarian replied privately.
+- Gmail's signed-in search did not return a reliable readable state during this run, so no follow-up was sent without current reply/bounce evidence. Preserve the one-follow-up limit and recheck the mailbox before any message.
