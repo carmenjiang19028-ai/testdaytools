@@ -217,7 +217,7 @@ def render_analytics_tag():
   </script>"""
 
 
-def page_shell(title, description, path, body, extra_class="", structured_data=None, social_image=None, indexable=True):
+def page_shell(title, description, path, body, extra_class="", structured_data=None, social_image=None, indexable=True, extra_head=""):
     nav = "".join(
         f'<a href="{esc(href_for(item["href"]))}">{esc(item["label"])}</a>'
         for item in DATA["navigation"]
@@ -262,6 +262,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
 {analytics_block}\
+{extra_head}\
   <script src="assets/app.js" defer></script>
   {schema_scripts}
 </head>
@@ -3029,6 +3030,11 @@ def render_road_sign_cheat_sheet_page():
         "Connect road sign shapes and colors to driver actions",
         "Identify signs that need more permit-test practice",
     ]
+    resource_link = (
+        '  <link rel="alternate" type="application/pdf" '
+        'href="dmv-road-signs-classroom-worksheet.pdf" '
+        'title="DMV Road Signs Classroom Worksheet and Answer Key">'
+    )
     return page_shell(
         ROAD_SIGN_CHEAT_SHEET_PAGE["title"],
         ROAD_SIGN_CHEAT_SHEET_PAGE["description"],
@@ -3037,6 +3043,7 @@ def render_road_sign_cheat_sheet_page():
         "tool-page road-sign-cheat-sheet-page",
         [resource_schema, breadcrumb_schema(ROAD_SIGN_CHEAT_SHEET_PAGE["title"], canonical)],
         social_image="assets/dmv-road-signs-cheat-sheet-preview.png",
+        extra_head=resource_link,
     )
 
 
