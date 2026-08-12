@@ -39,6 +39,7 @@
   "home": {
     "title": "Free DMV Road Signs Practice, Flashcards, and Permit Tools | TestDayTools",
     "description": "Choose 40-picture road sign practice, state road-sign pages, Florida regulatory signs, flashcards, shape lookup, permit practice, and test-day checklist tools from one DMV study hub.",
+    "lastUpdated": "August 12, 2026",
     "sections": [
       {
         "heading": "DMV and road signs practice",
@@ -106,10 +107,10 @@
         "href": "florida-dmv-road-signs-practice.html"
       },
       {
-        "label": "State signs",
-        "title": "Georgia, NC, Ohio, Virginia, Michigan, and Arizona Signs",
-        "text": "New state road-sign pages use the 24-picture quiz plus official-source links, so Google sees a clearer DMV road-sign cluster.",
-        "href": "georgia-dds-road-signs-practice.html"
+        "label": "New York signs",
+        "title": "New York DMV Road Signs: 25 Picture Questions",
+        "text": "Use the official must-know sign coverage, a four-sign checkpoint, a 25-question image bank, and the printable 31-sign study sheet.",
+        "href": "new-york-dmv-road-signs-practice.html"
       },
       {
         "label": "Road signs",
@@ -146,6 +147,12 @@
         "title": "Florida Permit: 40 of 50 Pass Score",
         "text": "Practice Florida Class E questions after signs, with FLHSMV context and the 40 of 50 passing score visible.",
         "href": "florida-dmv-permit-practice-test.html"
+      },
+      {
+        "label": "August SAT",
+        "title": "August 22 SAT: Final Readiness Plan",
+        "text": "Registration has closed. Registered students can now check Bluebook setup, physical ID, test-center route, and the September 4 score date.",
+        "href": "sat-august-22-2026-planning.html"
       }
     ],
     "popular": [
@@ -154,6 +161,18 @@
         "title": "Florida Regulatory Traffic Signs and Right Turn Only",
         "text": "Florida regulatory signs, official traffic signs, Right Turn Only, and visual weak-area review",
         "href": "florida-dmv-road-signs-practice.html"
+      },
+      {
+        "label": "NY signs",
+        "title": "New York DMV Road Signs Practice",
+        "text": "25 picture questions, official must-know sign coverage, checkpoint, and printable study sheet",
+        "href": "new-york-dmv-road-signs-practice.html"
+      },
+      {
+        "label": "August SAT",
+        "title": "August 22 SAT Final Readiness Plan",
+        "text": "Bluebook setup, physical ID, test-center route, timeline download, and September 4 score date",
+        "href": "sat-august-22-2026-planning.html"
       },
       {
         "label": "GA signs",
@@ -433,7 +452,7 @@
         }
       ]
     },
-    "lastUpdated": "July 30, 2026"
+    "lastUpdated": "August 12, 2026"
   },
   "hubs": [
     {

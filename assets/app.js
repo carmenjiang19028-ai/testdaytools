@@ -264,11 +264,19 @@ function initAnalyticsEvents() {
     if (!link) return;
 
     if (document.body.classList.contains("home-page") && link.closest(".pocket-tabs, .home-quick-links, .pocket-tool-list, .home-state-preview-actions, .home-bottom-nav, .home-tool-roles, .home-start, .home-popular, .state-card-actions")) {
+      const target = analyticsPathFromHref(link.getAttribute("href"));
       trackToolEvent("home_tool_click", {
         section: closestAnalyticsSection(link),
-        target: analyticsPathFromHref(link.getAttribute("href")),
+        target,
         link_text: link.textContent,
       });
+      if (["/new-york-dmv-road-signs-practice.html", "/sat-august-22-2026-planning.html"].includes(target)) {
+        trackToolEvent("home_priority_path_click", {
+          path: target.includes("new-york") ? "new_york_road_signs" : "august_sat_2026",
+          section: closestAnalyticsSection(link),
+          target,
+        });
+      }
     }
 
     if (link.matches("[data-resource-download]")) {
