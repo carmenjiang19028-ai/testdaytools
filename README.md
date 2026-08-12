@@ -27,7 +27,7 @@ Educators and resource curators may link directly to the live practice test or p
 ## Stack
 
 - Plain static HTML, CSS, and JavaScript
-- Python standard-library build script
+- Python standard-library site build script; ReportLab is used only to regenerate the optional classroom PDF
 - No runtime dependencies and no collection of names, emails, license numbers, or test scores
 
 ## Update content
@@ -46,10 +46,14 @@ After changing the printable road-sign sheet, regenerate its downloadable PDF:
 
 ```bash
 python3 scripts/build_road_sign_pdf.py
+python3 scripts/build_road_sign_classroom_pack.py
 ```
 
 The PDF builder uses an installed Chrome or Chromium binary and writes
 `dmv-road-signs-cheat-sheet.pdf` at the site root.
+
+The classroom-pack builder uses ReportLab and writes
+`dmv-road-signs-classroom-worksheet.pdf` at the site root.
 
 ## Local preview
 

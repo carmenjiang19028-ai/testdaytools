@@ -50,7 +50,7 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "August 1, 2026",
+    "lastUpdated": "August 12, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -2918,6 +2918,7 @@ def render_road_sign_cheat_sheet_page():
       {render_last_updated(ROAD_SIGN_CHEAT_SHEET_PAGE["lastUpdated"])}
       <div class="hero-actions print-sheet-toolbar">
         <a href="dmv-road-signs-cheat-sheet.pdf" download data-resource-download="dmv_road_signs_cheat_sheet_pdf">Download PDF</a>
+        <a href="dmv-road-signs-classroom-worksheet.pdf" download data-resource-download="dmv_road_signs_classroom_worksheet_pdf">Classroom worksheet + answer key</a>
         <button type="button" data-print-page>Print cheat sheet</button>
         <a href="road-signs-practice-test.html#practice">Take the picture quiz</a>
         <a href="dmv-road-sign-flashcards.html">Open flashcards</a>
@@ -2981,10 +2982,27 @@ def render_road_sign_cheat_sheet_page():
     <article class="info-card"><span>Verify</span><h3>Keep state rules authoritative</h3><p>The illustrations support recognition of common U.S. signs. Learners should confirm state-specific laws, wording, and permit-test requirements in their official driver handbook.</p></article>
   </div>
 </section>
+<section class="classroom-pack-band" id="classroom-worksheet">
+  <div>
+    <p class="eyebrow">Ready-to-use classroom activity</p>
+    <h2>Road signs worksheet and answer key</h2>
+    <p>Use the three-page Letter PDF for an independent review, teen program, homeschool lesson, or driver-education warm-up. Students identify eight original sign illustrations, answer eight driver-action questions, and record the next weak area. Page three includes the answer key and a 10-minute teaching plan.</p>
+    <ul>
+      <li>No student account, email, or personal data required.</li>
+      <li>Original prompts and simplified illustrations.</li>
+      <li>Unmodified sharing allowed for noncommercial education with credit.</li>
+    </ul>
+  </div>
+  <div class="classroom-pack-action">
+    <span>3-page US Letter PDF</span>
+    <strong>Student worksheet + facilitator answer key</strong>
+    <a href="dmv-road-signs-classroom-worksheet.pdf" download data-resource-download="dmv_road_signs_classroom_worksheet_pdf">Download classroom pack</a>
+  </div>
+</section>
 <section class="content-section" id="educational-use-license">
   <h2>Permission for teachers, libraries, and families</h2>
   <p>Teachers, libraries, driving schools, families, and other noncommercial educators may print and share the unmodified PDF for noncommercial educational use when the TestDayTools credit and this page URL remain visible. Do not sell, rebrand, adapt, or include the resource in a paid product, and do not imply endorsement by a DMV or government agency.</p>
-  <p>This permission applies only to sharing the unmodified PDF. TestDayTools branding, site code, quiz questions, and separate reuse of the original illustrations are not included. All other rights are reserved.</p>
+  <p>This permission applies only to sharing the unmodified cheat-sheet PDF and classroom worksheet PDF. TestDayTools branding, site code, separate reuse of quiz questions, and separate reuse of the original illustrations are not included. All other rights are reserved.</p>
 </section>
 {render_sources([
   {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
@@ -2998,8 +3016,8 @@ def render_road_sign_cheat_sheet_page():
         canonical,
         "LearningResource",
     )
-    resource_schema["learningResourceType"] = "Cheat sheet"
-    resource_schema["educationalUse"] = ["Study", "Classroom review"]
+    resource_schema["learningResourceType"] = ["Cheat sheet", "Worksheet", "Answer key"]
+    resource_schema["educationalUse"] = ["Study", "Classroom review", "Instruction"]
     resource_schema["license"] = f"{canonical}#educational-use-license"
     resource_schema["usageInfo"] = f"{canonical}#educational-use-license"
     resource_schema["isAccessibleForFree"] = True
