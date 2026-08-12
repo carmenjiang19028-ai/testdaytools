@@ -683,6 +683,12 @@
       "summary": "Start with a score estimate or goal planner, then use the study guides and test-day checklists to turn SAT prep into a clear next action.",
       "primaryActions": [
         {
+          "label": "August 22",
+          "title": "August SAT Final Readiness Plan",
+          "text": "Check Bluebook setup, physical ID, test-center route, admission ticket, and the September 4 score date.",
+          "href": "sat-august-22-2026-planning.html"
+        },
+        {
           "label": "Score tool",
           "title": "Digital SAT Score Calculator",
           "text": "Estimate a planning score band from practice correct counts.",
@@ -5032,6 +5038,7 @@
         }
       ],
       "related": [
+        "sat-august-22-2026-planning",
         "digital-sat-checklist",
         "digital-sat-bluebook-checklist",
         "sat-score-release-guide"
@@ -5253,6 +5260,7 @@
         }
       ],
       "related": [
+        "sat-august-22-2026-planning",
         "digital-sat-bluebook-checklist",
         "digital-sat-checklist",
         "sat-test-day-timing-guide"
