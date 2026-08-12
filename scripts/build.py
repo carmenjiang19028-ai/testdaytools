@@ -1124,7 +1124,7 @@ def render_home_pocket_tabs():
     tabs = [
         ("Signs", "road-signs-practice-test.html#practice"),
         ("State", "#state-paths"),
-        ("Score", "dmv-permit-test-passing-score-calculator.html"),
+        ("Score", "dmv-permit-test-passing-score-calculator.html?source=home_pocket_tab#score-calculator"),
         ("Docs", "dmv-test-day-checklist.html?state=florida#dmv-checklist"),
     ]
     items = []
@@ -3848,6 +3848,20 @@ def render_dmv_score_page():
   <div><span>Primary use</span><strong>Can-miss math</strong></div>
   <div><span>Calculator</span><strong>Practice score check</strong></div>
   <div><span>Updated</span><strong>{esc(DMV_SCORE_PAGE["lastUpdated"])}</strong></div>
+</section>
+<section class="score-entry-paths" aria-label="Start with a common permit-test score question">
+  <div>
+    <span class="eyebrow">Fast score answers</span>
+    <h2>Start with your state or enter the test length.</h2>
+    <p>Open a known state rule below. If your current test uses a different question count, choose the state in the calculator and enter the length shown for your test.</p>
+  </div>
+  <div class="score-entry-grid">
+    <a href="#florida-permit-test-passing-score"><span>Florida</span><strong>50 questions, 10 can be missed</strong><em>40 correct is the published passing mark.</em></a>
+    <a href="#new-york-permit-test-passing-score"><span>New York</span><strong>20 questions, 6 can be missed</strong><em>You also need at least 2 of 4 road-sign questions.</em></a>
+    <a href="#new-jersey-permit-test-passing-score"><span>New Jersey</span><strong>50 questions, 10 can be missed</strong><em>Use the current MVC source before test day.</em></a>
+    <a href="#pennsylvania-permit-test-passing-score"><span>Pennsylvania</span><strong>18 questions, 3 can be missed</strong><em>15 correct is the published passing mark.</em></a>
+    <a href="#score-calculator"><span>Other path</span><strong>Calculate from the current test length</strong><em>Use this when the state publishes a percentage rule.</em></a>
+  </div>
 </section>
 {render_dmv_score_calculator()}
 {render_dmv_score_answers(records)}

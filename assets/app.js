@@ -32,6 +32,32 @@ function trackToolEvent(eventName, params = {}) {
   window.gtag("event", eventName, safeParams);
 }
 
+function initScoreEntryTracking() {
+  document.querySelectorAll('a[href*="dmv-permit-test-passing-score-calculator.html"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      let source = "internal_link";
+      try {
+        source = new URL(link.href, window.location.href).searchParams.get("source") || source;
+      } catch (error) {
+        // The destination still works when URL parsing is unavailable.
+      }
+      trackToolEvent("score_tool_entry_click", {
+        source,
+        target: analyticsPathFromHref(link.href),
+      });
+    });
+  });
+
+  document.querySelectorAll(".score-entry-grid a").forEach((link) => {
+    link.addEventListener("click", () => {
+      trackToolEvent("score_direct_answer_click", {
+        answer: link.querySelector("span")?.textContent || "score_calculator",
+        target: analyticsPathFromHref(link.href),
+      });
+    });
+  });
+}
+
 const DMV_JOURNEY_STORAGE_KEY = "tdt-dmv-journey:v1";
 const DMV_MASTERY_STORAGE_KEY = "tdt-dmv-mastery:v1";
 const DAY_MS = 86400000;
@@ -3235,6 +3261,7 @@ initRecentPracticeCards();
 initDmvJourneyDashboards();
 initDmvRequirementsFinders();
 initDmvScoreCalculators();
+initScoreEntryTracking();
 initDmvChecklists();
 initSatScoreEstimators();
 initSatGoalPlanners();

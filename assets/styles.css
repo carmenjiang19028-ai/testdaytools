@@ -49,6 +49,74 @@ a {
   left: 8px;
 }
 
+.score-entry-paths {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+  gap: 28px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.score-entry-paths h2,
+.score-entry-paths p {
+  margin-top: 0;
+}
+
+.score-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.score-entry-grid a {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--soft);
+  text-decoration: none;
+}
+
+.score-entry-grid a:hover,
+.score-entry-grid a:focus {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.score-entry-grid span,
+.score-entry-grid strong,
+.score-entry-grid em {
+  display: block;
+}
+
+.score-entry-grid span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.score-entry-grid strong {
+  margin-top: 3px;
+  line-height: 1.35;
+}
+
+.score-entry-grid em {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-style: normal;
+}
+
+@media (max-width: 760px) {
+  .score-entry-paths,
+  .score-entry-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .site-header,
 .site-footer,
 main > section {
