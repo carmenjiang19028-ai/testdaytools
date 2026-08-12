@@ -94,3 +94,18 @@ Pass or stop rules:
 ## Operating decision
 
 No additional title or body change is justified today. The shortest growth action already shipped on 2026-08-12: homepage internal traffic was reallocated toward New York road signs and the August SAT page, with `home_priority_path_click` measurement. The next action must be selected from the equal-window page and query data, not from a single daily movement.
+
+## 2026-08-12 follow-up release
+
+Commit `8c26f64` strengthened the remaining August SAT window without changing the indexed page's title or body:
+
+- promoted the August 22 SAT planner to the first action in `sat-tools.html`;
+- added a contextual related-tool link from `sat-test-day-timing-guide.html`;
+- added a contextual related-tool link from `sat-device-troubleshooting-guide.html`;
+- increased distinct internal source pages for the August SAT URL from seven to ten;
+- preserved the existing title/body experiment and its page-level attribution boundary;
+- verified all 63 pages for title, one H1, canonical, and internal-link integrity;
+- verified the SAT hub at 1440px and 390px with no horizontal overflow or browser errors;
+- confirmed GitHub Pages deployment and submitted the three source pages plus the target URL to IndexNow (HTTP 200).
+
+Do not add another internal-link or title change before the next complete GSC read. The August SAT stop rule remains cumulative 50 impressions plus either 3 clicks or 4% CTR, with average position no worse than 12 through August 22.
