@@ -130,3 +130,24 @@ Judgment window:
 3. Product gate: after at least 10 Organic Search sessions on this page, require at least 20% to fire `dmv_score_checked`; use `score_direct_answer_click` only as a diagnostic step, not the conversion.
 4. Search gate: after at least 50 page impressions, separate queries by average position. If a `how many can I miss` or state passing-score query reaches position 20 or better but CTR remains below 1%, then test the title. If average position stays worse than 25, improve query coverage or authority instead of blaming CTR.
 5. Stop rule: if the page remains indexed but receives fewer than 20 impressions by 2026-08-23, treat discovery as weak and audit contextual authority from DMV/state pages before adding more copy or another overlapping URL.
+
+## 2026-08-12 classroom-resource release
+
+Commit `b2f6678` upgraded the existing printable road-sign page into a more complete education resource without changing its indexed title, description, canonical, or H1.
+
+- Added a separate three-page US Letter PDF with an eight-sign recognition worksheet, eight driver-action questions, a facilitator answer key, and a 10-minute teaching plan.
+- Kept the existing cheat-sheet PDF and URL intact; the new classroom pack is an additional download, not a replacement or competing HTML page.
+- Added two visible download paths and records both with `resource_download`, using `resource=dmv_road_signs_classroom_worksheet_pdf` and `target=/dmv-road-signs-classroom-worksheet.pdf`.
+- Expanded the page's `LearningResource` metadata to describe a cheat sheet, worksheet, answer key, classroom review, and instruction while retaining the existing educational-use license URL.
+- Updated the page date and sitemap date to 2026-08-12.
+- Verified all three PDF pages by rendered-image review and text extraction; the final PDF is 71,390 bytes, Letter size, unencrypted, and contains no JavaScript.
+- Verified the live page at 1440x1000 and 390x844 with no horizontal overflow or browser errors; verified the PDF response as HTTP 200 `application/pdf` and verified the real browser download plus GA4 event payload.
+- Confirmed GitHub Pages deployment and submitted the resource page and PDF to IndexNow (HTTP 200).
+
+Judgment window:
+
+1. Keep the existing cheat-sheet title frozen. The classroom pack is a distribution and usefulness experiment, not a new keyword page.
+2. In GA4, separate `dmv_road_signs_classroom_worksheet_pdf` from the existing cheat-sheet PDF. Report Organic Search and Referral independently, and do not count owner testing as demand.
+3. After at least 10 qualified landing sessions on the resource page, use classroom-pack download rate as the primary product signal. A 10% or greater rate is the initial usefulness threshold.
+4. Treat a public educator/library link, a non-owner MERLOT/OER/library Referral, or the first GSC external-link record as stronger validation than raw PDF downloads.
+5. Do not create another printable asset before this one is used in the next eligible targeted follow-up. The immediate constraint is distribution, not the number of files available.
