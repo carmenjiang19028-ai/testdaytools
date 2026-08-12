@@ -109,3 +109,24 @@ Commit `8c26f64` strengthened the remaining August SAT window without changing t
 - confirmed GitHub Pages deployment and submitted the three source pages plus the target URL to IndexNow (HTTP 200).
 
 Do not add another internal-link or title change before the next complete GSC read. The August SAT stop rule remains cumulative 50 impressions plus either 3 clicks or 4% CTR, with average position no worse than 12 through August 22.
+
+## 2026-08-12 evergreen score-intent release
+
+Commit `49cd3c4` created a separate evergreen acquisition experiment for the newly indexed permit-test passing-score calculator. It does not change the title, description, canonical, H1, or body of the road-sign, New York, or August SAT pages under observation.
+
+- Renamed the site-wide navigation command from the generic `Score` to the user question `Can I miss?` and sends that click directly to the calculator.
+- Sends the mobile home score tab directly to the calculator rather than its page top.
+- Added five first-screen answer paths on the calculator page: Florida, New York, New Jersey, Pennsylvania, and a variable-length calculator path.
+- Added `score_tool_entry_click` for internal acquisition and `score_direct_answer_click` for state-answer selection; retain the existing `dmv_score_checked` event for calculator completion.
+- Preserved the calculator page's indexed title and H1 so first-query evidence remains attributable to the August 9 content release.
+- Verified 63 HTML pages for one title, one H1, one canonical, and valid internal HTML targets.
+- Verified the score page and site navigation at 1440x1000 and 390x844 with no horizontal overflow or browser errors.
+- Confirmed GitHub Pages deployment and IndexNow acceptance for the homepage and score calculator (HTTP 200).
+
+Judgment window:
+
+1. Indexing gate: the calculator must remain indexed and begin receiving query impressions; do not infer failure before GSC has a complete post-release window.
+2. Acquisition gate: in GA4 Organic Search, look for `score_tool_entry_click`, then `dmv_score_checked`. Treat the latter as the primary useful-action event.
+3. Product gate: after at least 10 Organic Search sessions on this page, require at least 20% to fire `dmv_score_checked`; use `score_direct_answer_click` only as a diagnostic step, not the conversion.
+4. Search gate: after at least 50 page impressions, separate queries by average position. If a `how many can I miss` or state passing-score query reaches position 20 or better but CTR remains below 1%, then test the title. If average position stays worse than 25, improve query coverage or authority instead of blaming CTR.
+5. Stop rule: if the page remains indexed but receives fewer than 20 impressions by 2026-08-23, treat discovery as weak and audit contextual authority from DMV/state pages before adding more copy or another overlapping URL.
