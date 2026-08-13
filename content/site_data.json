@@ -333,7 +333,7 @@
         {
           "label": "California",
           "title": "California DMV practice",
-          "text": "Quick practice, 20 image road signs, test-day checklist, and a 40-question mock exam.",
+          "text": "Quick practice, 28 image road signs, a five-color curb check, test-day checklist, and a 40-question mock exam.",
           "href": "california-dmv-permit-practice-test.html",
           "cta": "Start California"
         },
@@ -5963,7 +5963,7 @@
         },
         {
           "label": "Road sign images",
-          "value": "20 original SVG sign prompts"
+          "value": "28 original SVG sign prompts"
         },
         {
           "label": "Official source",
@@ -6182,11 +6182,11 @@
         {
           "id": "signs",
           "label": "Road Signs",
-          "short": "20 image questions",
+          "short": "28 image questions",
           "title": "California road signs image test",
           "description": "Image-based sign recognition using original SVG road sign illustrations.",
           "quiz": "californiaSigns",
-          "passScore": 16
+          "passScore": 23
         },
         {
           "id": "mock",
@@ -6388,9 +6388,9 @@
         "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
         "items": [
           {
-            "label": "Common format",
-            "value": "36 questions / 30 correct",
-            "text": "Many Class C applicants see a 36-question knowledge test; check your DMV account for your exact requirement."
+            "label": "Official pass rule",
+            "value": "80%",
+            "text": "California DMV states that learner-permit knowledge tests use an 80% passing score. Check your application path for the exact test format."
           },
           {
             "label": "Official source",
@@ -6405,7 +6405,7 @@
           {
             "label": "Practice target here",
             "value": "32 of 40 on mock exam",
-            "text": "Aim above the minimum before scheduling or visiting DMV."
+            "text": "This site's mixed mock exam uses an 80% practice benchmark."
           }
         ]
       },
@@ -7297,13 +7297,33 @@
       "slug": "california-dmv-road-signs-practice",
       "category": "DMV",
       "title": "California DMV Road Signs Practice",
-      "description": "California DMV road signs practice with 20 original image questions, sign categories, instant explanations, and handbook review guidance.",
+      "description": "California DMV road signs practice with 28 original image questions, a five-color curb checkpoint, instant explanations, and official handbook guidance.",
       "heroKicker": "California road signs",
-      "summary": "Practice California DMV road signs with original image prompts, instant explanations, and a sign library grouped by meaning.",
+      "summary": "Practice California DMV road signs with 28 original image prompts, then use a five-color curb checkpoint to turn handbook rules into quick parking decisions.",
+      "lastUpdated": "August 13, 2026",
+      "heroActions": [
+        {
+          "label": "Start 5-color checkpoint",
+          "href": "#practice"
+        },
+        {
+          "label": "Open full 28-sign round",
+          "href": "?mode=signs#practice"
+        },
+        {
+          "label": "Download 31-sign PDF",
+          "href": "dmv-road-signs-cheat-sheet.pdf",
+          "resource": "ca_road_signs_pdf"
+        },
+        {
+          "label": "Official California curb rules",
+          "href": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/navigating-the-roads-cont1/"
+        }
+      ],
       "quickFacts": [
         {
-          "label": "Question count",
-          "value": "20 image-based road sign questions"
+          "label": "Practice set",
+          "value": "28 image questions plus 5 curb decisions"
         },
         {
           "label": "Image source",
@@ -7311,7 +7331,7 @@
         },
         {
           "label": "Best use",
-          "value": "Fast sign recognition practice"
+          "value": "California sign and curb-rule review"
         },
         {
           "label": "Privacy",
@@ -7320,6 +7340,41 @@
       ],
       "quiz": "californiaSigns",
       "tables": [
+        {
+          "caption": "California DMV colored curb decision guide",
+          "headers": [
+            "Curb color",
+            "California handbook rule",
+            "Decision cue"
+          ],
+          "rows": [
+            [
+              "White",
+              "Stop only long enough to pick up or drop off passengers.",
+              "Passenger stop, not general parking."
+            ],
+            [
+              "Green",
+              "Park for the posted or painted time limit.",
+              "Find the time limit before leaving the vehicle."
+            ],
+            [
+              "Yellow",
+              "Load or unload passengers or freight for no longer than the posted time.",
+              "A noncommercial driver is usually required to stay with the vehicle."
+            ],
+            [
+              "Red",
+              "No stopping, standing, or parking, except a bus at a zone marked for buses.",
+              "Keep moving unless the marked bus exception applies."
+            ],
+            [
+              "Blue",
+              "Parking for a disabled person or their driver with the required placard or plate.",
+              "Do not use the space without the required authorization."
+            ]
+          ]
+        },
         {
           "caption": "California sign colors quick guide",
           "headers": [
@@ -7370,13 +7425,13 @@
           "rows": [
             [
               "1",
-              "Answer the 10 questions without notes.",
-              "Find which sign types you confuse."
+              "Answer the five curb decisions without notes.",
+              "Find which California curb colors you confuse."
             ],
             [
               "2",
-              "Read explanations and the sign-color table.",
-              "Connect each answer to a rule."
+              "Run the full 28-sign picture round.",
+              "Connect each sign to a driver action."
             ],
             [
               "3",
@@ -7393,6 +7448,10 @@
       ],
       "body": [
         {
+          "heading": "Fast answer: California signs and colored curbs",
+          "text": "Use the five-question checkpoint when curb colors are the weak spot, or open the 28-question image round for regulatory, warning, school, railroad, work-zone, direction, and service signs. Both modes give an explanation after every answer and save missed questions in this browser."
+        },
+        {
           "heading": "Why road signs deserve their own practice",
           "text": "Road signs are fast-recognition questions. You often need to know the color, shape, and driver action before reading a long explanation."
         },
@@ -7407,8 +7466,10 @@
           "items": [
             {
               "label": "Curbs",
-              "title": "Mixing curb colors with sign colors",
-              "text": "A red curb is a stopping or parking rule, not a general warning sign."
+              "title": "Use the five-color decision check",
+              "text": "Separate passenger stops, time-limited parking, loading, prohibited stopping, and accessible parking before the full picture round.",
+              "href": "#practice",
+              "cta": "Start curb checkpoint"
             },
             {
               "label": "Warnings",
@@ -7437,7 +7498,7 @@
         },
         {
           "q": "What should I review if I miss sign-color questions?",
-          "a": "Review sign colors and shapes in the California Driver Handbook, then retake after a break."
+          "a": "Review sign colors and shapes in the California Driver Handbook. If the miss is a painted curb, use the official parking-at-colored-curbs section, then retake after a break."
         },
         {
           "q": "Do road sign questions guarantee permit test success?",
@@ -7448,6 +7509,14 @@
         {
           "label": "California DMV: California Driver's Handbook",
           "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/"
+        },
+        {
+          "label": "California DMV: Parking at colored curbs",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/navigating-the-roads-cont1/"
+        },
+        {
+          "label": "California DMV: Additional testing materials and road sign chart",
+          "url": "https://www.dmv.ca.gov/portal/driver-education-and-safety/educational-materials/additional-testing-materials/"
         },
         {
           "label": "California DMV: Driver education and safety",
@@ -7464,13 +7533,23 @@
       ],
       "quizModes": [
         {
+          "id": "ca-curb-checkpoint",
+          "label": "5-color curb check",
+          "short": "5 decisions",
+          "title": "California colored curb checkpoint",
+          "description": "Choose what a driver may do at white, green, yellow, red, and blue curbs using the current California Driver's Handbook rules.",
+          "kicker": "California-only decision check",
+          "quiz": "californiaCurbRules",
+          "passScore": 4
+        },
+        {
           "id": "signs",
-          "label": "Road Signs",
-          "short": "20 image questions",
+          "label": "Full CA signs",
+          "short": "28 image questions",
           "title": "California road signs image test",
-          "description": "Practice sign shapes, colors, warnings, regulatory signs, and driver actions with original images.",
+          "description": "Practice 28 sign shapes, colors, warnings, regulatory signs, intersections, and driver actions with original images.",
           "quiz": "californiaSigns",
-          "passScore": 16
+          "passScore": 23
         }
       ],
       "examBrief": {
@@ -7484,9 +7563,9 @@
             "note": "Use the handbook for exact state rules and final wording."
           },
           {
-            "label": "Practice target",
-            "value": "32 of 40 on mock exam",
-            "note": "This site uses an 80% practice benchmark for the full mock mode."
+            "label": "Official pass rule",
+            "value": "80%",
+            "note": "California DMV states that the knowledge-test passing score is 80%; exact test requirements can vary by applicant path."
           },
           {
             "label": "High-risk topics",
@@ -7507,8 +7586,8 @@
           },
           {
             "step": "2",
-            "title": "Run quick practice",
-            "text": "Use the 15-question mode to find obvious gaps without spending too long."
+            "title": "Check curb colors",
+            "text": "Use the five-color checkpoint to separate California parking decisions."
           },
           {
             "step": "3",
@@ -7517,8 +7596,8 @@
           },
           {
             "step": "4",
-            "title": "Finish with mock exam",
-            "text": "Use the 40-question mode only after reading explanations from missed questions."
+            "title": "Finish the image round",
+            "text": "Use the 28-sign mode after reading explanations from missed curb and sign questions."
           }
         ]
       },
@@ -7643,9 +7722,9 @@
         "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
         "items": [
           {
-            "label": "Common format",
-            "value": "36 questions / 30 correct",
-            "text": "Many Class C applicants see a 36-question knowledge test; check your DMV account for your exact requirement."
+            "label": "Official pass rule",
+            "value": "80%",
+            "text": "California DMV states that learner-permit knowledge tests use an 80% passing score. Check your application path for the exact test format."
           },
           {
             "label": "Official source",
@@ -7659,8 +7738,8 @@
           },
           {
             "label": "Practice target here",
-            "value": "32 of 40 on mock exam",
-            "text": "Aim above the minimum before scheduling or visiting DMV."
+            "value": "23 of 28 image signs",
+            "text": "The full sign round uses an 80% practice benchmark, rounded up."
           }
         ]
       },
@@ -7706,6 +7785,7 @@
       },
       "practiceTopics": null,
       "checklist": [
+        "Complete the five-color curb checkpoint before the full image round.",
         "Review California sign shapes before the image quiz.",
         "Say the driver action out loud before looking at answer choices.",
         "After a miss, review the matching shape/color group below.",
@@ -16929,6 +17009,73 @@
         "explanation": "Drivers entering a roundabout generally yield to vehicles already circulating."
       }
     ],
+    "californiaCurbRules": [
+      {
+        "q": "At a white curb in California, what may a driver generally do?",
+        "image": "curb-white",
+        "imageAlt": "California roadway with a white painted curb",
+        "choices": [
+          "Stop only long enough to pick up or drop off passengers",
+          "Park without a time limit",
+          "Load freight while leaving the vehicle unattended"
+        ],
+        "answer": 0,
+        "category": "California curb colors",
+        "explanation": "The California Driver's Handbook says a white curb is for stopping only long enough to pick up or drop off passengers."
+      },
+      {
+        "q": "What must a driver check before parking at a green curb in California?",
+        "image": "curb-green",
+        "imageAlt": "California roadway with a green painted curb",
+        "choices": [
+          "The posted or painted time limit",
+          "Whether the vehicle has hazard lights on",
+          "Whether a passenger remains in the vehicle"
+        ],
+        "answer": 0,
+        "category": "California curb colors",
+        "explanation": "A green curb allows parking for a limited time. The limit may be posted on a sign or painted on the curb."
+      },
+      {
+        "q": "A yellow curb in California is generally used for:",
+        "image": "curb-yellow",
+        "imageAlt": "California roadway with a yellow painted curb",
+        "choices": [
+          "Loading or unloading passengers or freight within the posted time",
+          "Unlimited public parking after dark",
+          "Parking only for disabled placard holders"
+        ],
+        "answer": 0,
+        "category": "California curb colors",
+        "explanation": "Yellow curbs are for loading and unloading passengers or freight. A noncommercial driver is usually required to stay with the vehicle."
+      },
+      {
+        "q": "What does a red curb generally mean in California?",
+        "image": "curb-red",
+        "imageAlt": "California roadway with a red painted curb",
+        "choices": [
+          "No stopping, standing, or parking",
+          "Passenger pickup only",
+          "Parking for the posted time limit"
+        ],
+        "answer": 0,
+        "category": "California curb colors",
+        "explanation": "A red curb means no stopping, standing, or parking. The handbook notes a limited exception for buses at a red zone marked for buses."
+      },
+      {
+        "q": "Who may park at a blue curb in California?",
+        "image": "curb-blue",
+        "imageAlt": "California roadway with a blue painted curb",
+        "choices": [
+          "A disabled person or their driver displaying the required placard or special plate",
+          "Any driver making a delivery",
+          "Any driver for less than five minutes"
+        ],
+        "answer": 0,
+        "category": "California curb colors",
+        "explanation": "Blue curb parking is reserved for a disabled person or someone driving that person when the required placard or special license plate is displayed."
+      }
+    ],
     "californiaSigns": [
       {
         "q": "What does this sign mean?",
@@ -17189,6 +17336,110 @@
         "answer": 0,
         "category": "Warning signs",
         "explanation": "Animal crossing signs warn that animals may enter the roadway unexpectedly."
+      },
+      {
+        "q": "What does this regulatory sign prohibit?",
+        "image": "no-right-turn",
+        "imageAlt": "no right turn regulatory sign",
+        "choices": [
+          "Turning right at this location",
+          "Driving straight through the intersection",
+          "Turning left after yielding"
+        ],
+        "answer": 0,
+        "category": "Turn signs",
+        "explanation": "The arrow inside a red circle and slash shows the movement you may not make."
+      },
+      {
+        "q": "What should a driver do at this sign?",
+        "image": "keep-right",
+        "imageAlt": "black and white Keep Right sign",
+        "choices": [
+          "Pass to the right of the divider or obstruction",
+          "Move into the left lane and stop",
+          "Turn right at the next intersection"
+        ],
+        "answer": 0,
+        "category": "Directional signs",
+        "explanation": "Keep Right tells drivers to pass to the right of a divider, island, or obstruction."
+      },
+      {
+        "q": "This sign warns that:",
+        "image": "two-way-traffic",
+        "imageAlt": "yellow two-way traffic warning sign",
+        "choices": [
+          "Opposing traffic begins or continues ahead",
+          "Both lanes travel in your direction",
+          "Passing is required before the next curve"
+        ],
+        "answer": 0,
+        "category": "Roadway signs",
+        "explanation": "The opposite arrows warn that vehicles will travel in both directions."
+      },
+      {
+        "q": "What road condition is ahead?",
+        "image": "divided-highway-ends",
+        "imageAlt": "yellow divided highway ends warning sign",
+        "choices": [
+          "The median or divider ends and opposing traffic will be closer",
+          "A divided highway begins",
+          "The roadway becomes one-way"
+        ],
+        "answer": 0,
+        "category": "Roadway signs",
+        "explanation": "Divided Highway Ends warns that the physical divider ends and two-way traffic continues."
+      },
+      {
+        "q": "What should you prepare for at this sign?",
+        "image": "hill-ahead",
+        "imageAlt": "yellow hill ahead warning sign",
+        "choices": [
+          "A steep grade that may require speed and gear adjustment",
+          "A mandatory parking area",
+          "A railroad crossing on level ground"
+        ],
+        "answer": 0,
+        "category": "Road condition signs",
+        "explanation": "Hill Ahead warns of a grade where drivers may need to adjust speed, spacing, or gear."
+      },
+      {
+        "q": "This sign warns of:",
+        "image": "bicycle-crossing",
+        "imageAlt": "yellow bicycle crossing warning sign",
+        "choices": [
+          "A place where bicyclists may enter or cross the roadway",
+          "A bicycle-only parking area",
+          "A road closed to motor vehicles"
+        ],
+        "answer": 0,
+        "category": "Bicycle signs",
+        "explanation": "Bicycle warning signs tell drivers to scan for bicyclists and be ready to yield or slow."
+      },
+      {
+        "q": "What intersection shape is shown?",
+        "image": "t-intersection",
+        "imageAlt": "yellow T intersection warning sign",
+        "choices": [
+          "The road ends at another road, requiring a left or right decision",
+          "A four-way intersection",
+          "A divided highway begins"
+        ],
+        "answer": 0,
+        "category": "Intersection signs",
+        "explanation": "A T-intersection sign warns that the road ends ahead, so prepare to turn left or right and yield as required."
+      },
+      {
+        "q": "What does this sign tell a driver to do?",
+        "image": "right-turn-only",
+        "imageAlt": "white Right Turn Only regulatory sign",
+        "choices": [
+          "Use the lane only to turn right",
+          "Turn right only when the light is red",
+          "Keep right but continue straight"
+        ],
+        "answer": 0,
+        "category": "Turn signs",
+        "explanation": "Right Turn Only requires traffic in that lane to turn right."
       }
     ],
     "newyork": [

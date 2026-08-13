@@ -218,3 +218,30 @@ Judgment boundary:
 3. Separate `august 22 sat time`, ticket, arrival, Bluebook setup, and expired registration queries. The pivot passes only if current test-day intent gains clicks or qualified engagement; impressions alone are not enough.
 4. In GA4 Organic Search, check `sat_august_plan_generated`, `sat_august_plan_saved`, `resource_download` with `resource=sat_august_2026_timeline`, and `study_next_step_click` with `action=official_august_sat_time`. Do not judge conversion before 10 landing sessions.
 5. After August 22, reuse the same URL for the September 4 score-release and retake-decision phase; do not create an overlapping score-date URL.
+
+## 2026-08-13 California state-value release
+
+Latest complete GSC date is 2026-08-10. The latest equal seven-day windows show a real efficiency gain but not broad coverage growth:
+
+- All site: 20 clicks / 1,325 impressions / 1.5% CTR / 31.6 average position, versus 8 / 1,622 / 0.5% / 36.6. Clicks rose 150% and ranking improved 5 positions, while impressions fell 18.3%.
+- Generic road-sign page: 5 clicks / 61 impressions / 8.2% CTR / 20.7 position, versus 0 / 49 / 0% / 23.6. Picture-practice intent is now a validated direction even though impressions grew 24.5%, just below the prior 30% hard line.
+- California road-sign page: 1 click / 53 impressions in the latest seven days, versus 0 / 49. GA4's unfiltered seven-day page card also showed California as the most-viewed page with 10 views; this is directional only, not an Organic Search conversion claim.
+- New York: 6 clicks / 228 impressions / 2.6% CTR / 21.1 position, versus 3 / 348 / 0.9% / 27.1. Most current clicks come from broad road-sign queries rather than New York-specific terms, so New York does not justify cloning the same page into more states.
+- Twenty-eight-day site total: 48 clicks / 5,615 impressions / 0.9% CTR / 33.1 position, about 1.71 clicks per day and still about 5.8 times short of 10 clicks per day.
+- GA4 with Session primary channel group = Organic Search for the latest 28-day report: 61 sessions, 36 engaged sessions, 59.02% engagement rate, 2m28s average engagement per session, 6.34 events per session, 387 events, and USD 0 revenue. Acquisition volume, not basic on-site engagement, remains the main constraint.
+
+Release boundary:
+
+- Keep the indexed California title and H1 unchanged.
+- Expand the shared California image bank from 20 to 28 original sign questions.
+- Add a separate five-question, five-color California curb checkpoint using current California DMV handbook rules for white, green, yellow, red, and blue curbs.
+- Replace the stale fixed 36-question / 30-correct statement with the current official 80% passing rule and tell users to confirm the exact format for their applicant path.
+- Add direct California DMV sources for colored-curb rules and additional road-sign testing materials.
+- Track the curb checkpoint through existing quiz events with `mode=ca-curb-checkpoint`; track the full image round with `mode=signs`; track the page PDF with `resource=ca_road_signs_pdf`.
+
+Evaluation boundary:
+
+- Before 2026-08-27, confirm deployment, crawl, event parameters, and usability only. Do not change the California title or copy from a short sample.
+- On or after 2026-08-27, compare equal 14-day page windows. Pass if California reaches at least 2 clicks and either impressions grow 30% without ranking loss or average position improves at least 5 positions; treat the current 1 click / 53 impressions latest-seven-day result as a directional baseline, not a release baseline.
+- Only judge product behavior after at least 10 Organic Search California quiz starters. Then require at least 25% of starters to reach halfway, at least 10% to complete, and at least 15% to produce a second tool action such as switching mode or downloading the PDF.
+- Do not build another state page from this release. If California gains only broad road-sign queries, strengthen the generic-to-state routing; if it gains California-specific curb or sign queries, deepen this existing URL before considering another state.
