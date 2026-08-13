@@ -6,7 +6,21 @@ from pathlib import Path
 from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = json.loads((ROOT / "content" / "site_data.json").read_text())
+
+
+def reject_duplicate_json_keys(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"Duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
+DATA = json.loads(
+    (ROOT / "content" / "site_data.json").read_text(),
+    object_pairs_hook=reject_duplicate_json_keys,
+)
 SITE = DATA["site"]
 TOOL_BY_SLUG = {tool["slug"]: tool for tool in DATA["tools"]}
 HUBS = DATA.get("hubs", [])

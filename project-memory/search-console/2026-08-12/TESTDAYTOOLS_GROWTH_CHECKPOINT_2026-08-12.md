@@ -284,3 +284,12 @@ Release boundary:
 - Do not change the generic page title, description, H1, quiz content, or canonical during this experiment.
 - Add `home_priority_path_click` with `path=road_signs_picture_test` to measure homepage acquisition separately from quiz engagement.
 - Evaluate no earlier than 2026-08-27 with equal 14-day windows. Primary search pass line: generic-page impressions increase at least 30% with average position no worse than 22, or the page gains at least 5 clicks while average position does not deteriorate by more than 3 positions. Product read: after at least 10 Organic Search landings, retain the established quiz-start, halfway, completion, and second-action thresholds.
+
+## 2026-08-13 duplicate metadata guard
+
+A post-release technical audit found two `lastUpdated` keys inside the homepage object in `content/site_data.json`. JSON accepts the later key silently, so the stale August 12 value overrode the intended August 13 value. The visible homepage date and sitemap `<lastmod>` therefore remained August 12 even though the new homepage routing was live.
+
+- Remove the stale duplicate key so the homepage and sitemap use August 13.
+- Load site data with an `object_pairs_hook` that raises on any duplicate JSON key instead of accepting silent overwrite.
+- This changes no indexed title, description, H1, canonical, quiz content, or experiment routing.
+- Treat this as metadata integrity, not a traffic-growth event. Confirm only that the live homepage date and sitemap `<lastmod>` are correct; do not restart the homepage experiment window.
