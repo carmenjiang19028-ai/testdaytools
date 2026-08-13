@@ -239,6 +239,27 @@ Release boundary:
 - Add direct California DMV sources for colored-curb rules and additional road-sign testing materials.
 - Track the curb checkpoint through existing quiz events with `mode=ca-curb-checkpoint`; track the full image round with `mode=signs`; track the page PDF with `resource=ca_road_signs_pdf`.
 
+## 2026-08-13 Florida SERP-intent experiment
+
+Latest complete GSC date is 2026-08-10. The Florida road-sign page has enough query-level evidence to isolate a search-result experiment without changing the practice product:
+
+- 28 days: 1 click / 419 impressions / 0.2% CTR / 30.8 average position.
+- `regulatory signs florida`: 0 clicks / 68 impressions / 0% CTR / 16.9 average position.
+- `florida regulatory signs`: 1 click / 17 impressions / 5.9% CTR / 15.5 average position.
+- `official right turn only traffic sign florida`: 0 clicks / 13 impressions / 0% CTR / 13.3 average position.
+- Latest seven days: 1 click / 111 impressions / 0.9% CTR / 31.3 average position; the two regulatory-sign query forms remained near position 16.
+
+This is not a whole-page CTR diagnosis: most of the page's impressions rank too low for a title change to matter. The experiment applies only to the query cluster already near positions 13-17. The existing title led with a long phrase and ended with `FDOT Sources`, while the search intent is a practice test. The canonical URL, H1/body structure, 24-question product, and official source links remain unchanged.
+
+Release boundary:
+
+- Change the title/H1 to `Florida Regulatory Signs: 24-Picture Practice Test`.
+- Shorten the description to lead with 24 picture questions and keep Right Turn Only, No Right Turn, One Way, speed limits, and FDOT/FLHSMV source context.
+- Do not add another Florida URL, more copy, or another quiz mode during this test.
+- Use the complete 14-day window ending no earlier than 2026-08-27. Compare the page and the three named queries with the preceding equal window.
+- Pass if `regulatory signs florida` reaches at least 1% CTR without average position falling beyond 20, or if the page gains at least 3 clicks while average position does not deteriorate by more than 3 positions.
+- If the near-page-one queries lose position materially, restore the prior title rather than adding text. If position improves but CTR remains below 1% after at least 100 query-cluster impressions, test the description only.
+
 Evaluation boundary:
 
 - Before 2026-08-27, confirm deployment, crawl, event parameters, and usability only. Do not change the California title or copy from a short sample.
