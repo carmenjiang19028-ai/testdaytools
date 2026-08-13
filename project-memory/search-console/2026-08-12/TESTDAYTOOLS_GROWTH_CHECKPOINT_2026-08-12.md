@@ -258,6 +258,14 @@ Release boundary:
 - Do not add another Florida URL, more copy, or another quiz mode during this test.
 - Use the complete 14-day window ending no earlier than 2026-08-27. Compare the page and the three named queries with the preceding equal window.
 - Pass if `regulatory signs florida` reaches at least 1% CTR without average position falling beyond 20, or if the page gains at least 3 clicks while average position does not deteriorate by more than 3 positions.
+- If the near-page-one queries lose position materially, restore the prior title rather than adding text. If position improves but CTR remains below 1% after at least 100 query-cluster impressions, test the description only.
+
+Evaluation boundary:
+
+- Before 2026-08-27, confirm deployment, crawl, event parameters, and usability only. Do not change the California title or copy from a short sample.
+- On or after 2026-08-27, compare equal 14-day page windows. Pass if California reaches at least 2 clicks and either impressions grow 30% without ranking loss or average position improves at least 5 positions; treat the current 1 click / 53 impressions latest-seven-day result as a directional baseline, not a release baseline.
+- Only judge product behavior after at least 10 Organic Search California quiz starters. Then require at least 25% of starters to reach halfway, at least 10% to complete, and at least 15% to produce a second tool action such as switching mode or downloading the PDF.
+- Do not build another state page from this release. If California gains only broad road-sign queries, strengthen the generic-to-state routing; if it gains California-specific curb or sign queries, deepen this existing URL before considering another state.
 
 ## 2026-08-13 homepage authority reallocation
 
@@ -276,11 +284,3 @@ Release boundary:
 - Do not change the generic page title, description, H1, quiz content, or canonical during this experiment.
 - Add `home_priority_path_click` with `path=road_signs_picture_test` to measure homepage acquisition separately from quiz engagement.
 - Evaluate no earlier than 2026-08-27 with equal 14-day windows. Primary search pass line: generic-page impressions increase at least 30% with average position no worse than 22, or the page gains at least 5 clicks while average position does not deteriorate by more than 3 positions. Product read: after at least 10 Organic Search landings, retain the established quiz-start, halfway, completion, and second-action thresholds.
-- If the near-page-one queries lose position materially, restore the prior title rather than adding text. If position improves but CTR remains below 1% after at least 100 query-cluster impressions, test the description only.
-
-Evaluation boundary:
-
-- Before 2026-08-27, confirm deployment, crawl, event parameters, and usability only. Do not change the California title or copy from a short sample.
-- On or after 2026-08-27, compare equal 14-day page windows. Pass if California reaches at least 2 clicks and either impressions grow 30% without ranking loss or average position improves at least 5 positions; treat the current 1 click / 53 impressions latest-seven-day result as a directional baseline, not a release baseline.
-- Only judge product behavior after at least 10 Organic Search California quiz starters. Then require at least 25% of starters to reach halfway, at least 10% to complete, and at least 15% to produce a second tool action such as switching mode or downloading the PDF.
-- Do not build another state page from this release. If California gains only broad road-sign queries, strengthen the generic-to-state routing; if it gains California-specific curb or sign queries, deepen this existing URL before considering another state.
