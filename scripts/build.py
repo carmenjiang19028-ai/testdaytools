@@ -1044,18 +1044,18 @@ def render_home_practice_panel():
 def render_home_road_sign_panel():
     links = [
         (
-            "FL",
-            "Florida regulatory signs",
-            "Browse all Florida regulatory traffic signs",
-            "florida-dmv-road-signs-practice.html",
-            "",
+            "Pic",
+            "40-picture road signs test",
+            "Start with the broad permit-test image round",
+            "road-signs-practice-test.html#practice",
+            "40",
         ),
         (
-            "Pic",
-            "Road signs pictures",
-            "View signs with clear practice prompts",
-            "road-signs-practice-test.html",
-            "",
+            "FL",
+            "Florida regulatory signs",
+            "Practice Florida rule signs and official source checks",
+            "florida-dmv-road-signs-practice.html",
+            "24",
         ),
         (
             "Cards",
@@ -1099,8 +1099,8 @@ def render_home_road_sign_panel():
     stats = "".join(
         f'<div><strong>{esc(value)}</strong><span>{esc(label)}</span></div>'
         for value, label in [
-            ("Florida", "first path"),
-            ("24", "picture questions"),
+            ("40", "picture questions"),
+            ("10", "question starter"),
             ("40/50", "Class E pass rule"),
         ]
     )
@@ -1110,17 +1110,17 @@ def render_home_road_sign_panel():
       <span>Quick diagnostic</span>
       <strong>0 / 4</strong>
     </div>
-    <span>Florida first</span>
+    <span>Pictures first</span>
   </div>
   {render_mini_sign_drill()}
   <div class="pocket-tool-list" aria-label="Fast road sign tools">{link_cards}</div>
   <div class="workbench-return">
     <div>
       <span>Best first click</span>
-      <strong>Florida regulatory signs</strong>
-      <p>Use this when you need Florida sign pictures, official source checks, and a missed-sign path.</p>
+      <strong>40-picture road signs test</strong>
+      <p>Start with the broad picture round, then use missed categories to choose regulatory, flashcard, or state-specific review.</p>
     </div>
-    <a href="florida-dmv-road-signs-practice.html#practice">Start Florida signs</a>
+    <a href="road-signs-practice-test.html#practice">Start picture test</a>
   </div>
   <div class="hero-stat-strip">{stats}</div>
 </aside>"""

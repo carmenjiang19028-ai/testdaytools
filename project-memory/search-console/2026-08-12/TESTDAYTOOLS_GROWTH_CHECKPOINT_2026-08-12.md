@@ -258,6 +258,24 @@ Release boundary:
 - Do not add another Florida URL, more copy, or another quiz mode during this test.
 - Use the complete 14-day window ending no earlier than 2026-08-27. Compare the page and the three named queries with the preceding equal window.
 - Pass if `regulatory signs florida` reaches at least 1% CTR without average position falling beyond 20, or if the page gains at least 3 clicks while average position does not deteriorate by more than 3 positions.
+
+## 2026-08-13 homepage authority reallocation
+
+Latest complete GSC date remains 2026-08-10. The generic picture-practice page is now the strongest proven evergreen acquisition path that can receive more internal prominence without changing its indexed experiment:
+
+- `road-signs-practice-test.html`, latest seven days: 5 clicks / 61 impressions / 8.2% CTR / 20.7 average position, versus 0 / 49 / 0% / 23.6 in the preceding seven days;
+- latest 28 days: 6 clicks / 204 impressions / 2.9% CTR / 18.8 average position;
+- the current top-query set includes broad permit-test sign intent, while the page itself already offers a 10-question starter, 40-picture full round, saved mistakes, and category-specific next steps;
+- Florida remains a separate near-page-one SERP experiment and is not removed from the homepage.
+
+Release boundary:
+
+- Reorder the homepage road-sign diagnostic so the generic 40-picture test is the first tool and primary call to action.
+- Replace `Florida first` and the Florida-specific best-first recommendation with a query-neutral `Pictures first` path.
+- Keep Florida as the second visible tool with its 24-question badge, preserving its discovery and title-test attribution.
+- Do not change the generic page title, description, H1, quiz content, or canonical during this experiment.
+- Add `home_priority_path_click` with `path=road_signs_picture_test` to measure homepage acquisition separately from quiz engagement.
+- Evaluate no earlier than 2026-08-27 with equal 14-day windows. Primary search pass line: generic-page impressions increase at least 30% with average position no worse than 22, or the page gains at least 5 clicks while average position does not deteriorate by more than 3 positions. Product read: after at least 10 Organic Search landings, retain the established quiz-start, halfway, completion, and second-action thresholds.
 - If the near-page-one queries lose position materially, restore the prior title rather than adding text. If position improves but CTR remains below 1% after at least 100 query-cluster impressions, test the description only.
 
 Evaluation boundary:

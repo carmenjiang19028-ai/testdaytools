@@ -296,9 +296,14 @@ function initAnalyticsEvents() {
         target,
         link_text: link.textContent,
       });
-      if (["/new-york-dmv-road-signs-practice.html", "/sat-august-22-2026-planning.html"].includes(target)) {
+      if (target.startsWith("/road-signs-practice-test.html") || ["/new-york-dmv-road-signs-practice.html", "/sat-august-22-2026-planning.html"].includes(target)) {
+        const priorityPath = target.includes("road-signs-practice-test")
+          ? "road_signs_picture_test"
+          : target.includes("new-york")
+            ? "new_york_road_signs"
+            : "august_sat_2026";
         trackToolEvent("home_priority_path_click", {
-          path: target.includes("new-york") ? "new_york_road_signs" : "august_sat_2026",
+          path: priorityPath,
           section: closestAnalyticsSection(link),
           target,
         });
