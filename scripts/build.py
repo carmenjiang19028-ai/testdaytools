@@ -1440,10 +1440,10 @@ def render_sat_august_readiness(tool, widget):
       <div class="sat-plan-actions">
         <button type="button" disabled data-august-plan-save>Save this plan</button>
         <a href="{esc(calendar.get('filename', 'sat-august-22-2026-timeline.ics'))}" download data-resource-download="{esc(calendar.get('resource', 'sat_august_2026_timeline'))}" data-august-calendar>Download key dates</a>
-        <a href="{esc(widget.get('registrationUrl', 'https://satsuite.collegeboard.org/sat/registration'))}" target="_blank" rel="noopener" data-august-register>Check official registration</a>
+        <a href="{esc(widget.get('registrationUrl', 'https://satsuite.collegeboard.org/dates/august-22-2026-sat-test-date'))}" target="_blank" rel="noopener" data-august-register>Check official time</a>
       </div>
       <p class="sat-saved-status" hidden data-august-saved-status></p>
-      <p class="sat-widget-note">No account, score, ID number, or personal information is requested. Confirm seat availability, accommodations, and your admission ticket in the official College Board flow.</p>
+      <p class="sat-widget-note">No account, score, ID number, or personal information is requested. Confirm accommodations, center details, and the exact arrival instruction on your admission ticket.</p>
     </aside>
   </div>
 </section>"""

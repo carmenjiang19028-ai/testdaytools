@@ -3221,7 +3221,7 @@ function initSatAugustReadiness() {
       trackToolEvent("study_next_step_click", { action: "download_august_sat_timeline", timeline_window: currentPlan?.window || currentWindow() });
     });
     registerLink?.addEventListener("click", () => {
-      trackToolEvent("study_next_step_click", { action: "official_august_sat_registration", timeline_window: currentPlan?.window || currentWindow() });
+      trackToolEvent("study_next_step_click", { action: "official_august_sat_time", timeline_window: currentPlan?.window || currentWindow() });
     });
 
     renderStatus();

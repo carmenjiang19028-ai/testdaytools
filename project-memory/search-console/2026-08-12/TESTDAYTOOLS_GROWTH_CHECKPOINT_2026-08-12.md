@@ -184,3 +184,37 @@ Operating boundary:
 - Do not send another message to these three recipients, regardless of silence.
 - Monitor only replies, bounces, public page changes, qualified Referral, and GSC external links.
 - The second batch sent 2026-08-09 remains untouched until its own seven-business-day window; do not reuse the first-batch timing.
+
+## 2026-08-13 August SAT time-intent pivot
+
+The latest complete GSC date remains 2026-08-09, so the established equal-window page judgments are unchanged. Fresh last-24-hours data provided a narrower, time-sensitive signal:
+
+- all site: 1 click / 224 impressions / 0.4% CTR / 30.3 average position;
+- `sat-august-22-2026-planning.html`: 0 clicks / 34 impressions / 0% CTR / 10.0 average position;
+- the visible page query was `august 22 sat time`;
+- College Board's official August 22 page lists 7:45 a.m. local, while its general test-day schedule says the admission ticket is authoritative for the exact address and arrival instruction.
+
+This is a search-intent phase change rather than enough evidence to declare a general CTR failure. The August 11 registration deadline has expired, but the indexed URL is now close to page one for a current test-time query. The existing URL was therefore updated instead of creating a competing page:
+
+- title and H1: `August 22 SAT 2026: Test Time, Ticket & Checklist`;
+- description and first screen now lead with arrival time, admission ticket, Bluebook setup, physical ID, device, and route checks;
+- expired registration actions now route missed-deadline users to the September 12 backup date;
+- the official action links to College Board's August 22 date page;
+- a direct time answer and matching FAQ were added from official sources;
+- GA4 `study_next_step_click` now records `action=official_august_sat_time` for the official-time path;
+- the canonical URL remains unchanged and no competing August SAT URL was created.
+
+Verification completed before release:
+
+- static build, JSON parse, Python compile, JavaScript syntax, and `git diff --check` passed;
+- all 63 HTML pages retained exactly one title, one H1, one canonical, and valid internal HTML targets;
+- desktop 1440x1000 and mobile 390x844 checks returned HTTP 200, no browser errors, no horizontal overflow, and the expected official link and backup guidance;
+- sitemap `lastmod` for the target URL is 2026-08-13.
+
+Judgment boundary:
+
+1. Do not change this page's title or body again before at least 48 hours of complete post-release GSC data are available.
+2. Through August 22, retain the existing pass line: at least 50 cumulative impressions and either 3 clicks or 4% CTR, with average position no worse than 12.
+3. Separate `august 22 sat time`, ticket, arrival, Bluebook setup, and expired registration queries. The pivot passes only if current test-day intent gains clicks or qualified engagement; impressions alone are not enough.
+4. In GA4 Organic Search, check `sat_august_plan_generated`, `sat_august_plan_saved`, `resource_download` with `resource=sat_august_2026_timeline`, and `study_next_step_click` with `action=official_august_sat_time`. Do not judge conversion before 10 landing sessions.
+5. After August 22, reuse the same URL for the September 4 score-release and retake-decision phase; do not create an overlapping score-date URL.

@@ -2084,19 +2084,19 @@
     {
       "slug": "sat-august-22-2026-planning",
       "category": "SAT",
-      "title": "August 22 SAT 2026: Deadline, Checklist & Score Date",
-      "description": "Check the August 11 late registration deadline, August 22 test-day timeline, September 4 score release, and build a free SAT readiness plan.",
-      "lastUpdated": "August 9, 2026",
-      "heroKicker": "August SAT deadlines and test-day plan",
-      "summary": "See the live registration status for the August 22, 2026 SAT, then turn your Bluebook, physical ID, and test-center logistics into a short readiness plan. Key dates include the August 11 late deadline and September 4 score release.",
+      "title": "August 22 SAT 2026: Test Time, Ticket & Checklist",
+      "description": "Check the August 22 SAT arrival time, Bluebook exam setup and admission ticket, what to bring, test-day timeline, and September 4 score release.",
+      "lastUpdated": "August 13, 2026",
+      "heroKicker": "August SAT time and final-week plan",
+      "summary": "The August 22, 2026 SAT is scheduled for 7:45 a.m. local check-in on College Board's date page. Use your admission ticket for the exact test-center address and arrival instruction, then finish Bluebook setup, physical ID, device, and route checks before test day.",
       "heroActions": [
         {
           "label": "Build readiness plan",
           "href": "#august-sat-readiness"
         },
         {
-          "label": "Check official registration",
-          "href": "https://satsuite.collegeboard.org/sat/registration"
+          "label": "Check official August date",
+          "href": "https://satsuite.collegeboard.org/dates/august-22-2026-sat-test-date"
         },
         {
           "label": "Test-day checklist",
@@ -2107,7 +2107,7 @@
         "learningResourceType": "Planning tool",
         "educationalUse": "Test preparation",
         "interactivityType": "mixed",
-        "dateModified": "2026-08-09",
+        "dateModified": "2026-08-13",
         "about": {
           "@type": "Thing",
           "name": "August 22, 2026 SAT"
@@ -2119,8 +2119,8 @@
           "value": "Saturday, August 22, 2026"
         },
         {
-          "label": "Late deadline",
-          "value": "August 11 at 11:59 p.m. ET"
+          "label": "Check-in time",
+          "value": "7:45 a.m. local; use your ticket"
         },
         {
           "label": "Bluebook setup",
@@ -2173,14 +2173,14 @@
         "type": "satAugustReadiness",
         "kicker": "Live August SAT readiness tool",
         "heading": "Build your August SAT readiness plan",
-        "intro": "Check the current registration window, then turn your device, physical ID, and route status into a short final-week plan. Nothing is submitted or stored outside this browser.",
+        "intro": "Use the current test-day window, then turn your device, physical ID, admission ticket, and route status into a short final-week plan. Nothing is submitted or stored outside this browser.",
         "regularDeadline": "2026-08-07T23:59:00-04:00",
         "lateDeadline": "2026-08-11T23:59:00-04:00",
         "setupStart": "2026-08-17T00:00:00",
         "testStart": "2026-08-22T00:00:00",
         "testEnd": "2026-08-23T00:00:00",
         "scoreDate": "2026-09-04T00:00:00",
-        "registrationUrl": "https://satsuite.collegeboard.org/sat/registration",
+        "registrationUrl": "https://satsuite.collegeboard.org/dates/august-22-2026-sat-test-date",
         "milestones": [
           {
             "date": "2026-08-11T23:59:00-04:00",
@@ -2249,8 +2249,8 @@
           "rows": [
             [
               "Not registered before August 11",
-              "Check official late-registration availability now.",
-              "The deadline is 11:59 p.m. ET; a listed date does not guarantee a seat."
+              "Use September 12 as the nearest listed backup date.",
+              "Its regular registration deadline is August 28 and late deadline is September 1."
             ],
             [
               "Registered, device not ready",
@@ -2307,8 +2307,12 @@
       ],
       "body": [
         {
-          "heading": "The late deadline is not the same as a guaranteed seat",
-          "text": "College Board lists August 11 at 11:59 p.m. ET as the late-registration and changes deadline. Test-center availability can still vary, so the official registration account is the final source for whether you can register or move centers."
+          "heading": "What time is the August 22, 2026 SAT?",
+          "text": "College Board's August 22 date page lists 7:45 a.m. local. Its standard weekend schedule says test centers generally open at 7:45 a.m., doors close at 8 a.m., and testing starts around 8:15-8:30 a.m. Your admission ticket is the final source because the center address and arrival instruction can differ."
+        },
+        {
+          "heading": "August registration closed on August 11",
+          "text": "College Board listed August 11 at 11:59 p.m. ET as the late-registration and changes deadline. If you missed it, use the September 12 or October 3 backup dates instead of planning around an unavailable August seat."
         },
         {
           "heading": "Exam setup creates the admission ticket",
@@ -2342,7 +2346,7 @@
         }
       ],
       "checklist": [
-        "Confirm August registration, test-center seat, and any requested changes before August 11 at 11:59 p.m. ET.",
+        "Open My SAT and confirm the August test-center address and arrival instruction on your admission ticket.",
         "Install or update Bluebook and confirm the College Board login works on the testing device.",
         "Verify an original physical photo ID that matches the name on the admission ticket.",
         "Complete Bluebook exam setup between August 17 and August 21, then print or email the admission ticket.",
@@ -2353,6 +2357,10 @@
         "Choose whether September 12 or October 3 is a realistic backup before its registration deadline."
       ],
       "faq": [
+        {
+          "q": "What time is the August 22, 2026 SAT?",
+          "a": "College Board's August 22 date page lists 7:45 a.m. local. Its standard weekend schedule says centers generally open at 7:45 a.m., doors close at 8 a.m., and testing starts around 8:15-8:30 a.m. Follow the arrival instruction on your admission ticket if it differs."
+        },
         {
           "q": "Is August 22, 2026 a confirmed SAT date?",
           "a": "Yes. College Board lists Saturday, August 22, 2026 as the first confirmed weekend SAT date of the 2026-27 cycle. Test-center availability must still be checked in the official registration account."
@@ -2383,6 +2391,10 @@
         }
       ],
       "sources": [
+        {
+          "label": "College Board: August 22, 2026 SAT test date and time",
+          "url": "https://satsuite.collegeboard.org/dates/august-22-2026-sat-test-date"
+        },
         {
           "label": "College Board SAT: Registration and August milestones",
           "url": "https://satsuite.collegeboard.org/sat/registration"
