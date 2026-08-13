@@ -1507,7 +1507,7 @@ def render_tool_widget(tool):
   </div>
 </section>"""
     if kind == "satGoalPlanner":
-        return f"""<section class="tool-block sat-widget" data-sat-goal-planner>
+        return f"""<section class="tool-block sat-widget" id="sat-goal-planner" data-sat-goal-planner>
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "SAT planning tool"))}</span>
     <h2>{esc(widget.get("heading", "SAT score goal planner"))}</h2>
@@ -1519,7 +1519,7 @@ def render_tool_widget(tool):
       <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1350" data-goal-target></label>
       <label>Weeks until test day <span>1 to 24</span><input type="number" min="1" max="24" value="8" data-goal-weeks></label>
       <label>Study hours per week <span>1 to 30</span><input type="number" min="1" max="30" value="6" data-goal-hours></label>
-      <button type="button" data-goal-button>Update plan</button>
+      <button type="button" data-goal-button>Build my weekly plan</button>
     </div>
     <aside class="sat-result-panel" aria-live="polite">
       <span>Planning readout</span>
@@ -1530,6 +1530,16 @@ def render_tool_widget(tool):
         <div><span>Points / week</span><strong data-goal-weekly>--</strong></div>
         <div><span>Total hours</span><strong data-goal-total-hours>--</strong></div>
       </div>
+      <ol class="sat-goal-plan" data-goal-plan>
+        <li><strong>Diagnose</strong><span>Use a recent timed practice score.</span></li>
+        <li><strong>Repair</strong><span>Choose one repeated weak area.</span></li>
+        <li><strong>Measure</strong><span>Retest after a focused study block.</span></li>
+      </ol>
+      <div class="sat-plan-actions">
+        <button type="button" data-goal-save>Save this plan</button>
+        <a href="sat-practice-test-review-template.html">Open review template</a>
+      </div>
+      <p class="sat-saved-status" hidden data-goal-saved-status></p>
       <p class="sat-widget-note">This planner is a study workload tool, not a prediction or guarantee.</p>
     </aside>
   </div>

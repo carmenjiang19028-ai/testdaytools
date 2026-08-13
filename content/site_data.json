@@ -3505,10 +3505,25 @@
     {
       "slug": "sat-score-goal-planner",
       "category": "SAT",
-      "title": "SAT Score Goal Planner",
-      "description": "Plan an SAT score target by comparing current score, target score, weeks until test day, and realistic weekly study hours.",
+      "title": "Free SAT Score Goal Planner: Build a Weekly Study Target",
+      "description": "Enter your current and target SAT scores, weeks until test day, and weekly study hours to calculate the score gap, points per week, and a focused study plan.",
       "heroKicker": "SAT planning tool",
-      "summary": "Use this planner to decide whether your target score fits the time you have. The output is a workload guide, not a guarantee.",
+      "summary": "Enter a current score, target score, weeks, and study hours to calculate the gap, weekly pace, and the next study block. The output is a workload guide, not a score guarantee.",
+      "lastUpdated": "August 13, 2026",
+      "heroActions": [
+        {
+          "label": "Build my SAT goal plan",
+          "href": "#sat-goal-planner"
+        },
+        {
+          "label": "See SAT test dates",
+          "href": "sat-test-dates-2026-2027.html"
+        },
+        {
+          "label": "Estimate a practice score",
+          "href": "digital-sat-score-calculator.html"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Tool type",
@@ -3716,8 +3731,8 @@
       "toolWidget": {
         "type": "satGoalPlanner",
         "kicker": "Interactive SAT planner",
-        "heading": "SAT score goal planner",
-        "intro": "Compare your current score, target score, weeks until test day, and realistic weekly study hours. Use the result to decide whether the plan needs focus, more time, or a different test date."
+        "heading": "Build your weekly SAT score goal plan",
+        "intro": "Enter your current and target scores, weeks until test day, and realistic weekly study hours. Get the score gap, points-per-week pace, total study time, and a concrete weekly plan."
       }
     },
     {

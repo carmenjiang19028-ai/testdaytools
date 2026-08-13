@@ -2761,14 +2761,22 @@ function initSatGoalPlanners() {
     const weekly = widget.querySelector("[data-goal-weekly]");
     const totalHours = widget.querySelector("[data-goal-total-hours]");
     const nextStep = widget.querySelector("[data-goal-next-step]");
+    const plan = widget.querySelector("[data-goal-plan]");
     const button = widget.querySelector("[data-goal-button]");
+    const saveButton = widget.querySelector("[data-goal-save]");
+    const savedStatus = widget.querySelector("[data-goal-saved-status]");
+    const storageKey = "testdaytools_sat_goal_plan_v1";
     const clamp = (value, min, max) => Math.min(Math.max(Number(value) || 0, min), max);
 
-    const render = () => {
-      const current = clamp(currentInput?.value, 400, 1600);
-      const target = clamp(targetInput?.value, 400, 1600);
-      const weeks = clamp(weeksInput?.value, 1, 24);
-      const hours = clamp(hoursInput?.value, 1, 30);
+    const readPlan = () => ({
+      current: clamp(currentInput?.value, 400, 1600),
+      target: clamp(targetInput?.value, 400, 1600),
+      weeks: clamp(weeksInput?.value, 1, 24),
+      hours: clamp(hoursInput?.value, 1, 30),
+    });
+
+    const render = (track = false) => {
+      const { current, target, weeks, hours } = readPlan();
       const scoreGap = Math.max(target - current, 0);
       const perWeek = Math.ceil(scoreGap / weeks / 10) * 10;
       const total = weeks * hours;
@@ -2790,10 +2798,59 @@ function initSatGoalPlanners() {
           nextStep.textContent = "High-pressure target. Consider a later test date, a smaller target, or more weekly practice time.";
         }
       }
+      if (plan) {
+        const weakBlock = scoreGap <= 80 ? "Review the two most repeated misses." : "Choose the weaker SAT section and one repeated question type.";
+        const practiceBlock = hours <= 3 ? "Protect two short focused sessions each week." : `Use about ${Math.max(2, Math.round(hours * 0.6))} hours for targeted repair before full-test work.`;
+        const checkBlock = weeks <= 2 ? "Use one timed check before test day and protect Bluebook setup." : "Run one timed checkpoint each week and update the inputs with new evidence.";
+        plan.innerHTML = `<li><strong>Focus</strong><span>${weakBlock}</span></li><li><strong>Weekly work</strong><span>${practiceBlock}</span></li><li><strong>Checkpoint</strong><span>${checkBlock}</span></li>`;
+      }
+      if (track) {
+        trackToolEvent("sat_goal_generated", {
+          score_gap: scoreGap,
+          weeks,
+          weekly_hours: hours,
+          points_per_week: perWeek,
+        });
+      }
     };
 
-    [currentInput, targetInput, weeksInput, hoursInput].forEach((input) => input?.addEventListener("input", render));
-    button?.addEventListener("click", render);
+    [currentInput, targetInput, weeksInput, hoursInput].forEach((input) => input?.addEventListener("input", () => render(false)));
+    button?.addEventListener("click", () => render(true));
+    saveButton?.addEventListener("click", () => {
+      const values = readPlan();
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(values));
+        if (savedStatus) {
+          savedStatus.hidden = false;
+          savedStatus.textContent = "Saved in this browser. Return here to update the same plan after your next timed practice test.";
+        }
+        trackToolEvent("sat_goal_saved", {
+          score_gap: Math.max(values.target - values.current, 0),
+          weeks: values.weeks,
+          weekly_hours: values.hours,
+        });
+      } catch (error) {
+        if (savedStatus) {
+          savedStatus.hidden = false;
+          savedStatus.textContent = "This browser blocked local saving. Your plan is still visible on this page.";
+        }
+      }
+    });
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (saved) {
+        if (currentInput) currentInput.value = clamp(saved.current, 400, 1600);
+        if (targetInput) targetInput.value = clamp(saved.target, 400, 1600);
+        if (weeksInput) weeksInput.value = clamp(saved.weeks, 1, 24);
+        if (hoursInput) hoursInput.value = clamp(saved.hours, 1, 30);
+        if (savedStatus) {
+          savedStatus.hidden = false;
+          savedStatus.textContent = "Saved plan loaded from this browser.";
+        }
+      }
+    } catch (error) {
+      // Ignore unavailable or malformed browser-local state.
+    }
     render();
   });
 }

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SAT Score Goal Planner</title>
-  <meta name="description" content="Plan an SAT score target by comparing current score, target score, weeks until test day, and realistic weekly study hours.">
+  <title>Free SAT Score Goal Planner: Build a Weekly Study Target</title>
+  <meta name="description" content="Enter your current and target SAT scores, weeks until test day, and weekly study hours to calculate the score gap, points per week, and a focused study plan.">
   <link rel="canonical" href="https://testdaytools.com/sat-score-goal-planner.html">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
@@ -16,8 +16,8 @@
     gtag('config', "G-ME9YY0NVEB");
   </script>
   <script src="assets/app.js" defer></script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"SAT Score Goal Planner","description":"Plan an SAT score target by comparing current score, target score, weeks until test day, and realistic weekly study hours.","url":"https://testdaytools.com/sat-score-goal-planner.html","publisher":{"@type":"Organization","name":"TestDayTools"},"isAccessibleForFree":true,"learningResourceType":"Practice test","educationalUse":"Practice","audience":{"@type":"EducationalAudience","educationalRole":"student"}}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"TestDayTools","item":"https://testdaytools.com/"},{"@type":"ListItem","position":2,"name":"SAT Score Goal Planner","item":"https://testdaytools.com/sat-score-goal-planner.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Free SAT Score Goal Planner: Build a Weekly Study Target","description":"Enter your current and target SAT scores, weeks until test day, and weekly study hours to calculate the score gap, points per week, and a focused study plan.","url":"https://testdaytools.com/sat-score-goal-planner.html","publisher":{"@type":"Organization","name":"TestDayTools"},"isAccessibleForFree":true,"learningResourceType":"Practice test","educationalUse":"Practice","audience":{"@type":"EducationalAudience","educationalRole":"student"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"TestDayTools","item":"https://testdaytools.com/"},{"@type":"ListItem","position":2,"name":"Free SAT Score Goal Planner: Build a Weekly Study Target","item":"https://testdaytools.com/sat-score-goal-planner.html"}]}</script>
 </head>
 <body class="tool-page">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -33,20 +33,21 @@
   <div>
     <div>
     <p class="eyebrow">SAT planning tool</p>
-    <h1>SAT Score Goal Planner</h1>
-    <p class="lede">Use this planner to decide whether your target score fits the time you have. The output is a workload guide, not a guarantee.</p>
-<p class="last-updated">Last updated: <time>May 13, 2026</time></p>
+    <h1>Free SAT Score Goal Planner: Build a Weekly Study Target</h1>
+    <p class="lede">Enter a current score, target score, weeks, and study hours to calculate the gap, weekly pace, and the next study block. The output is a workload guide, not a score guarantee.</p>
+<p class="last-updated">Last updated: <time>August 13, 2026</time></p>
+    <div class="hero-actions"><a href="#sat-goal-planner">Build my SAT goal plan</a><a href="sat-test-dates-2026-2027.html">See SAT test dates</a><a href="digital-sat-score-calculator.html">Estimate a practice score</a></div>
     </div>
   </div>
 </section>
 <section class="notice"><strong>Unofficial tool.</strong> TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency.</section>
 
 
-<section class="fact-section"><h2>Quick facts</h2><dl class="fact-grid"><div><dt>Tool type</dt><dd>Score gap planner</dd></div><div><dt>Best input</dt><dd>Recent timed practice score</dd></div><div><dt>Main output</dt><dd>Points per week</dd></div><div><dt>Best next step</dt><dd>Pick one weak section</dd></div></dl></section><section class="tool-block sat-widget" data-sat-goal-planner>
+<section class="fact-section"><h2>Quick facts</h2><dl class="fact-grid"><div><dt>Tool type</dt><dd>Score gap planner</dd></div><div><dt>Best input</dt><dd>Recent timed practice score</dd></div><div><dt>Main output</dt><dd>Points per week</dd></div><div><dt>Best next step</dt><dd>Pick one weak section</dd></div></dl></section><section class="tool-block sat-widget" id="sat-goal-planner" data-sat-goal-planner>
   <div class="tool-section-head">
     <span class="eyebrow">Interactive SAT planner</span>
-    <h2>SAT score goal planner</h2>
-    <p class="section-intro">Compare your current score, target score, weeks until test day, and realistic weekly study hours. Use the result to decide whether the plan needs focus, more time, or a different test date.</p>
+    <h2>Build your weekly SAT score goal plan</h2>
+    <p class="section-intro">Enter your current and target scores, weeks until test day, and realistic weekly study hours. Get the score gap, points-per-week pace, total study time, and a concrete weekly plan.</p>
   </div>
   <div class="sat-widget-grid">
     <div class="sat-input-panel">
@@ -54,7 +55,7 @@
       <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1350" data-goal-target></label>
       <label>Weeks until test day <span>1 to 24</span><input type="number" min="1" max="24" value="8" data-goal-weeks></label>
       <label>Study hours per week <span>1 to 30</span><input type="number" min="1" max="30" value="6" data-goal-hours></label>
-      <button type="button" data-goal-button>Update plan</button>
+      <button type="button" data-goal-button>Build my weekly plan</button>
     </div>
     <aside class="sat-result-panel" aria-live="polite">
       <span>Planning readout</span>
@@ -65,6 +66,16 @@
         <div><span>Points / week</span><strong data-goal-weekly>--</strong></div>
         <div><span>Total hours</span><strong data-goal-total-hours>--</strong></div>
       </div>
+      <ol class="sat-goal-plan" data-goal-plan>
+        <li><strong>Diagnose</strong><span>Use a recent timed practice score.</span></li>
+        <li><strong>Repair</strong><span>Choose one repeated weak area.</span></li>
+        <li><strong>Measure</strong><span>Retest after a focused study block.</span></li>
+      </ol>
+      <div class="sat-plan-actions">
+        <button type="button" data-goal-save>Save this plan</button>
+        <a href="sat-practice-test-review-template.html">Open review template</a>
+      </div>
+      <p class="sat-saved-status" hidden data-goal-saved-status></p>
       <p class="sat-widget-note">This planner is a study workload tool, not a prediction or guarantee.</p>
     </aside>
   </div>

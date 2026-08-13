@@ -293,3 +293,27 @@ A post-release technical audit found two `lastUpdated` keys inside the homepage 
 - Load site data with an `object_pairs_hook` that raises on any duplicate JSON key instead of accepting silent overwrite.
 - This changes no indexed title, description, H1, canonical, quiz content, or experiment routing.
 - Treat this as metadata integrity, not a traffic-growth event. Confirm only that the live homepage date and sitemap `<lastmod>` are correct; do not restart the homepage experiment window.
+
+## 2026-08-13 SAT goal-planner search experiment
+
+Latest complete GSC date is 2026-08-11. The 28-day page report exposed a separate opportunity outside all frozen DMV and August SAT experiments:
+
+- `sat-score-goal-planner.html`: 0 clicks / 36 impressions / 0% CTR / 8.6 average position;
+- the only visible non-anonymized query was `sat planner` at 0 clicks / 1 impression / position 27;
+- because page-level ranking is already on page one while individual low-volume queries are anonymized, this is a page-level snippet experiment, not a query-level diagnosis;
+- the existing page already had a working current-score, target-score, weeks, and study-hours calculator, so the shortest action is to make the result promise concrete rather than add another SAT URL.
+
+Release boundary:
+
+- Change the title to `Free SAT Score Goal Planner: Build a Weekly Study Target`.
+- Change the description and first screen to state the inputs and outputs: score gap, points per week, total hours, and a weekly study plan.
+- Keep the canonical URL and calculator model unchanged.
+- Add an explicit hero path to the planner, a generated three-step weekly plan, browser-local save, `sat_goal_generated`, and `sat_goal_saved`.
+- Do not change this page again before a complete 14-day post-release window ending no earlier than 2026-08-27.
+
+Pass and stop rules:
+
+1. Search pass: at least 2 clicks or CTR of at least 2% while average position remains 12 or better.
+2. Product pass: after at least 10 Organic Search landings, at least 20% fire `sat_goal_generated`; at least 10% fire `sat_goal_saved` or a second tool action.
+3. If average position remains in the top 10 but impressions stay below 50, classify the accessible demand as small and stop expanding this intent.
+4. If average position falls beyond 15, restore the prior title before adding copy; do not create a competing SAT planner URL.

@@ -3548,6 +3548,34 @@ h3 {
   font-size: 1.05rem;
 }
 
+.sat-goal-plan {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sat-goal-plan li {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.35fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.sat-goal-plan strong {
+  color: var(--blue-deep);
+}
+
+.sat-goal-plan span {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .sat-date-inputs {
   align-content: start;
 }
@@ -5219,6 +5247,7 @@ button:disabled {
   .sat-widget-grid,
   .sat-input-panel,
   .sat-band-grid,
+  .sat-goal-plan li,
   .sat-date-picks,
   .sat-milestone-grid,
   .sat-plan-actions,
