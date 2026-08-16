@@ -317,3 +317,16 @@ Pass and stop rules:
 2. Product pass: after at least 10 Organic Search landings, at least 20% fire `sat_goal_generated`; at least 10% fire `sat_goal_saved` or a second tool action.
 3. If average position remains in the top 10 but impressions stay below 50, classify the accessible demand as small and stop expanding this intent.
 4. If average position falls beyond 15, restore the prior title before adding copy; do not create a competing SAT planner URL.
+
+## 2026-08-16 daily review
+
+Fresh read from the signed-in Search Console and GA4 surfaces:
+
+- GSC 24-hour view through 2026-08-15: 0 clicks / 260 impressions / 0% CTR / 31.2 average position. The visible query set is still mixed across SAT dates and Florida signs; this is a short-window signal only.
+- GSC seven-day view: 10 clicks / 1,542 impressions / 0.6% CTR / 35.1 average position. GSC 28-day view: 43 clicks / 5,705 impressions / 0.8% CTR / 34.0 average position. The recent decline is real versus the prior checkpoint, but the 28-day level is still low-volume and does not isolate a release effect.
+- Current 28-day page leaders: New York road signs 18 clicks / 1,019 impressions / position 24; generic road-sign practice 7 / 211 / 21.2; Florida 1 / 443 / 31.5; California 1 / 203 / 44.0; cheat sheet 2 / 43. Traffic remains concentrated in New York and the generic picture-practice page. Florida has the clearest query opportunity but is too far down overall for a broad CTR conclusion; California has no evidence for expansion.
+- GA4 latest available acquisition window 2026-07-18 to 2026-08-14: Organic Search 55 sessions, 33 engaged sessions, 60% engagement rate, 2m40s average engagement, 6.38 events/session, 351 events, and USD 0 revenue. Referral was 3 sessions, 2 engaged, 66.67%, 1m23s average engagement, 10 events, and USD 0. These aggregates do not establish an event funnel without a page/event-filtered exploration.
+- MERLOT remains publicly reachable (HTTP 200). OER Commons remains unresolved from the external check because its public URL returned an anti-bot HTTP 403; do not classify that as approved or rejected. Gmail showed no replies from the Aug 9 Richard Sugden or Atglen messages. No new GSC external-link evidence was established.
+- HTTPS and PDF remain healthy: HTTP canonical redirects are already enforced, the cheat-sheet page returns 200, and the PDF returns 200. No code or SEO copy change is justified before the Aug 27 experiment boundary.
+
+Decision: hold the frozen Florida, homepage, and SAT planner experiments; do not add states or change titles. The shortest valid next action is to collect the equal 14-day windows after Aug 27 and then choose one winner based on impressions/rank plus Organic Search second-action data. Current organic pace is about 1.5 clicks/day, roughly 6.7 times below the 10-click/day gate; meaningful ad revenue remains $0 and is not yet a realistic outcome at this traffic level.
