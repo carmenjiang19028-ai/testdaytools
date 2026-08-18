@@ -6910,6 +6910,14 @@
           "a": "Most permit-test study programs include road signs, but the format and number of sign questions vary by state. Use this page for core sign recognition, then review your state driver handbook for exact rules."
         },
         {
+          "q": "Are there pictures on the permit test?",
+          "a": "Many state permit tests use pictures of traffic signs, but the exact mix and number of sign questions vary by state. Use this page to practice recognizing the sign and choosing the safest driver action, then confirm your state's format in its official handbook."
+        },
+        {
+          "q": "How many sign questions are on the permit test?",
+          "a": "There is no single nationwide number. Sign-question counts and scoring rules vary by state, so use the state practice page and official driver handbook for the exact permit-test format."
+        },
+        {
           "q": "Is this a DMV road signs permit-test practice page?",
           "a": "Yes. It is built as a free practice round for common DMV road-sign recognition, but it is not an official state test. Use it to practice sign meaning and driver action, then confirm exact wording in your state driver handbook."
         },
