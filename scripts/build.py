@@ -953,6 +953,7 @@ def render_tool_actions(tool):
             ("Open checklist", "#dmv-checklist"),
             ("Documents", "#documents-map"),
             ("State source finder", "#manual-finder"),
+            ("Passing score", "dmv-permit-test-passing-score-calculator.html?source=checklist_hero#score-calculator"),
             ("Practice hub", "dmv-practice.html#state-paths"),
         ]
     elif is_sign_page:
