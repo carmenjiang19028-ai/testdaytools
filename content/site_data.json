@@ -39,7 +39,7 @@
   "home": {
     "title": "Free DMV Road Signs Practice, Flashcards, and Permit Tools | TestDayTools",
     "description": "Choose 40-picture road sign practice, state road-sign pages, Florida regulatory signs, flashcards, shape lookup, permit practice, and test-day checklist tools from one DMV study hub.",
-    "lastUpdated": "August 13, 2026",
+    "lastUpdated": "August 24, 2026",
     "sections": [
       {
         "heading": "DMV and road signs practice",
@@ -325,8 +325,8 @@
           "label": "state sign paths"
         },
         {
-          "value": "24",
-          "label": "core sign images"
+          "value": "40",
+          "label": "picture questions"
         }
       ],
       "states": [
@@ -618,7 +618,7 @@
           "text": "Do not simply retake the same quiz. Decide whether the miss was a sign-family problem, a right-of-way rule, a direction-control sign, a speed sign, or a document and appointment misunderstanding, then open the matching drill or checklist."
         }
       ],
-      "lastUpdated": "July 30, 2026"
+      "lastUpdated": "August 24, 2026"
     },
     {
       "slug": "ap-tools",
@@ -680,11 +680,12 @@
       "description": "Digital SAT score tools, scoring explainers, score goal planners, study guides, Bluebook checklists, and 2026-2027 SAT date planning.",
       "heroKicker": "SAT tools hub",
       "summary": "Start with a score estimate or goal planner, then use the study guides and test-day checklists to turn SAT prep into a clear next action.",
+      "lastUpdated": "August 24, 2026",
       "primaryActions": [
         {
-          "label": "August 22",
-          "title": "August SAT Final Readiness Plan",
-          "text": "Check Bluebook setup, physical ID, test-center route, admission ticket, and the September 4 score date.",
+          "label": "After August",
+          "title": "August SAT Score and Retake Plan",
+          "text": "Check the September 4 score release, compare September and October retake dates, and plan around college deadlines.",
           "href": "sat-august-22-2026-planning.html"
         },
         {
@@ -1686,18 +1687,18 @@
       "slug": "sat-test-dates-2026-2027",
       "category": "SAT",
       "title": "SAT Test Dates 2026-2027: Deadlines and School Day 2027",
-      "description": "See confirmed SAT test dates and registration deadlines from August 2026 through June 2027, SAT School Day windows, and a free downloadable calendar.",
-      "lastUpdated": "July 30, 2026",
+      "description": "See the next SAT test dates and registration deadlines from September 2026 through June 2027, SAT School Day windows, and a free downloadable calendar.",
+      "lastUpdated": "August 24, 2026",
       "heroKicker": "Official dates, deadlines, and free calendar",
       "summary": "Compare all eight confirmed SAT weekend dates from August 2026 through June 2027, see each registration and late deadline, check the SAT School Day 2027 window, and download every date as one free calendar file.",
       "quickFacts": [
         {
           "label": "Next listed date",
-          "value": "August 22, 2026"
+          "value": "September 12, 2026"
         },
         {
           "label": "Best senior buffer",
-          "value": "August or September plus October backup"
+          "value": "September plus October backup"
         },
         {
           "label": "Best junior start",
@@ -1830,7 +1831,7 @@
               "August 22, 2026",
               "August 7, 2026",
               "August 11, 2026",
-              "Early senior testing before fall applications."
+              "Past date; use the score and retake plan before choosing another test."
             ],
             [
               "September 12, 2026",
