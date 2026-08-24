@@ -3606,10 +3606,10 @@ def render_dmv_requirements_finder():
     )
     rows = []
     for item in records:
-        next_links = f'<a href="{esc(item["permitUrl"])}">Practice</a>'
+        next_links = f'<a href="{esc(item["permitUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Practice</a>'
         if item["signUrl"] != item["permitUrl"]:
-            next_links += f' <a href="{esc(item["signUrl"])}">Road signs</a>'
-        next_links += f' <a href="{esc(item["checklistUrl"])}">Checklist</a>'
+            next_links += f' <a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
+        next_links += f' <a href="{esc(item["checklistUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="checklist">Checklist</a>'
         rows.append(f"""<tr data-requirements-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["format"] + " " + item["passRule"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
   <td>{esc(item["agency"])}</td>
@@ -3761,9 +3761,9 @@ def render_dmv_score_calculator():
     for item in records:
         official_format = f'{item["questions"]} questions' if item["questions"] else "Use current test length"
         required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
-        next_links = f'<a href="{esc(item["permitUrl"])}">Practice</a>'
+        next_links = f'<a href="{esc(item["permitUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Practice</a>'
         if item["signUrl"] != item["permitUrl"]:
-            next_links += f' <a href="{esc(item["signUrl"])}">Road signs</a>'
+            next_links += f' <a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
         rows.append(f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"] + " " + item["miss"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
   <td>{esc(official_format)}</td>

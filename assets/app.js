@@ -317,6 +317,14 @@ function initAnalyticsEvents() {
       });
     }
 
+    if (link.matches("[data-dmv-state-link]")) {
+      trackToolEvent("dmv_state_path_click", {
+        state: link.dataset.dmvState,
+        path: link.dataset.dmvPath,
+        target: analyticsPathFromHref(link.getAttribute("href")),
+      });
+    }
+
     if (isOfficialSourceLink(link)) {
       trackToolEvent("official_source_click", {
         target: analyticsPathFromHref(link.href),
