@@ -3606,13 +3606,17 @@ def render_dmv_requirements_finder():
     )
     rows = []
     for item in records:
+        next_links = f'<a href="{esc(item["permitUrl"])}">Practice</a>'
+        if item["signUrl"] != item["permitUrl"]:
+            next_links += f' <a href="{esc(item["signUrl"])}">Road signs</a>'
+        next_links += f' <a href="{esc(item["checklistUrl"])}">Checklist</a>'
         rows.append(f"""<tr data-requirements-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["format"] + " " + item["passRule"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
   <td>{esc(item["agency"])}</td>
   <td><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["manualLabel"])}</a></td>
   <td><strong>{esc(item["format"])}</strong><span>{esc(item["formatText"])}</span></td>
   <td><strong>{esc(item["passRule"])}</strong><span>{esc(item["passText"])}</span></td>
-  <td><a href="{esc(item["permitUrl"])}">Practice</a> <a href="{esc(item["checklistUrl"])}">Checklist</a></td>
+  <td>{next_links}</td>
 </tr>""")
     default = records[0]
     return f"""<section class="requirements-finder tool-block" id="requirements-finder" data-dmv-requirements>
@@ -3757,11 +3761,15 @@ def render_dmv_score_calculator():
     for item in records:
         official_format = f'{item["questions"]} questions' if item["questions"] else "Use current test length"
         required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
+        next_links = f'<a href="{esc(item["permitUrl"])}">Practice</a>'
+        if item["signUrl"] != item["permitUrl"]:
+            next_links += f' <a href="{esc(item["signUrl"])}">Road signs</a>'
         rows.append(f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"] + " " + item["miss"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
   <td>{esc(official_format)}</td>
   <td><strong>{esc(required)}</strong><span>{esc(item["rule"])}</span></td>
   <td>{esc(item["miss"])}</td>
+  <td>{next_links}</td>
   <td><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["manualLabel"])}</a></td>
 </tr>""")
     return f"""<section class="score-calculator tool-block" id="score-calculator" data-dmv-score-calculator>
@@ -3822,7 +3830,7 @@ def render_dmv_score_calculator():
     </div>
     <div class="source-matrix-scroll">
       <table>
-        <thead><tr><th>State</th><th>Format</th><th>Passing score</th><th>Can miss</th><th>Source</th></tr></thead>
+        <thead><tr><th>State</th><th>Format</th><th>Passing score</th><th>Can miss</th><th>Next practice</th><th>Source</th></tr></thead>
         <tbody>{"".join(rows)}</tbody>
       </table>
     </div>
