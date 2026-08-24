@@ -966,7 +966,10 @@ def render_tool_actions(tool):
         ]
         actions = [action for action in actions if action]
         if state:
+            actions.append(("Passing score", "dmv-permit-test-passing-score-calculator.html#score-calculator"))
             actions.append(("Test-day checklist", checklist_href_for_state(state)))
+        elif slug == "road-signs-practice-test":
+            actions.append(("Passing score", "dmv-permit-test-passing-score-calculator.html#score-calculator"))
     else:
         actions = [
             ("Start practice", "#practice"),
@@ -1157,19 +1160,18 @@ def render_home_pocket_tabs():
 
 def render_home_state_preview():
     state = find_dmv_state_by_label("Florida") or {}
-    source = state.get("manualUrl", "#")
     checklist = checklist_href_for_state(state) if state else "dmv-test-day-checklist.html?state=florida#dmv-checklist"
     return f"""<section class="home-state-preview" id="state-paths-preview">
   <div>
     <span>Choose your state DMV path</span>
-    <h2>Florida is ready first.</h2>
-    <p>Use the official source for final rules, then jump into Florida signs, Class E practice, score math, or the checklist.</p>
+    <h2>Pictures first. State next.</h2>
+    <p>Start with the broad picture round, then choose a state path for official rules, score context, and test-day details.</p>
   </div>
   <div class="home-state-preview-actions">
-    <a href="florida-dmv-road-signs-practice.html">Florida signs</a>
-    <a href="florida-dmv-permit-practice-test.html">Permit practice</a>
+    <a href="road-signs-practice-test.html#practice">Road signs pictures</a>
+    <a href="dmv-practice.html#state-paths">Choose your state</a>
     <a href="{esc(checklist)}">Checklist</a>
-    <a href="{esc(source)}" target="_blank" rel="noopener">Official source</a>
+    <a href="dmv-permit-test-requirements-by-state.html">Official rules</a>
   </div>
 </section>"""
 
@@ -2640,7 +2642,7 @@ def render_home_tool_roles():
         (
             "Road signs pictures",
             "Use for broad visual practice",
-            "Take the 24-question image quiz when you need a mixed road-sign round before choosing a focused weak-area drill.",
+            "Take the 40-question image quiz when you need a mixed road-sign round before choosing a focused weak-area drill.",
             "road-signs-practice-test.html",
         ),
         (
