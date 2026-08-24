@@ -49,4 +49,37 @@ DESCRIPTION:College Board lists September 4\, 2026 as the August SAT sco
  re release date.
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
+BEGIN:VEVENT
+UID:sat-august-2026-milestone-20260912@testdaytools.com
+DTSTAMP:20260809T000000Z
+DTSTART;VALUE=DATE:20260912
+DTEND;VALUE=DATE:20260913
+SUMMARY:SAT - September 12\, 2026
+DESCRIPTION:Regular registration deadline: August 28\, 2026. Late regist
+ ration and changes deadline: September 1\, 2026. Verify test-center avai
+ lability with College Board.
+URL:https://satsuite.collegeboard.org/sat/registration
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-august-2026-milestone-20261003@testdaytools.com
+DTSTAMP:20260809T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:SAT - October 3\, 2026
+DESCRIPTION:Regular registration deadline: September 18\, 2026. Late reg
+ istration and changes deadline: September 22\, 2026. Verify test-center
+  availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/registration
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-august-2026-milestone-20261107@testdaytools.com
+DTSTAMP:20260809T000000Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:SAT - November 7\, 2026
+DESCRIPTION:Regular registration deadline: October 23\, 2026. Late regis
+ tration and changes deadline: October 27\, 2026. Verify test-center avai
+ lability with College Board.
+URL:https://satsuite.collegeboard.org/sat/registration
+END:VEVENT
 END:VCALENDAR

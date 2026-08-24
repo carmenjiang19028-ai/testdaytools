@@ -4037,7 +4037,7 @@ def render_home():
         <a href="dmv-road-signs-cheat-sheet.html">Printable road signs cheat sheet</a>
         <a href="new-york-dmv-road-signs-practice.html">New York road signs</a>
         <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
-        <a href="sat-august-22-2026-planning.html">August 22 SAT plan</a>
+        <a href="sat-august-22-2026-planning.html">August SAT scores &amp; retake</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory traffic signs</a>
         <a href="dmv-road-sign-flashcards.html">Road sign flashcards</a>
       </div>

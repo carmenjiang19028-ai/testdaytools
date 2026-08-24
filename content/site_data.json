@@ -150,8 +150,8 @@
       },
       {
         "label": "August SAT",
-        "title": "August 22 SAT: Final Readiness Plan",
-        "text": "Registration has closed. Registered students can now check Bluebook setup, physical ID, test-center route, and the September 4 score date.",
+        "title": "August 22 SAT: Score Release and Retake Plan",
+        "text": "The test date has passed. Check the September 4 score release, compare upcoming retake dates, and make a decision around your college deadlines.",
         "href": "sat-august-22-2026-planning.html"
       }
     ],
@@ -170,8 +170,8 @@
       },
       {
         "label": "August SAT",
-        "title": "August 22 SAT Final Readiness Plan",
-        "text": "Bluebook setup, physical ID, test-center route, timeline download, and September 4 score date",
+        "title": "August 22 SAT Score Release and Retake Plan",
+        "text": "September 4 score release, retake dates, college deadlines, and next-step planning",
         "href": "sat-august-22-2026-planning.html"
       },
       {
@@ -2083,30 +2083,30 @@
     {
       "slug": "sat-august-22-2026-planning",
       "category": "SAT",
-      "title": "August 22 SAT 2026 Time: 7:45 Arrival & Checklist",
-      "description": "What time is the August 22 SAT? College Board lists 7:45 a.m. local. Check your ticket, Bluebook setup, ID, device, route, and September 4 score date.",
-      "lastUpdated": "August 19, 2026",
-      "heroKicker": "August 22 SAT time: 7:45 a.m. local",
-      "summary": "The August 22, 2026 SAT is scheduled for 7:45 a.m. local check-in on College Board's date page. Use your admission ticket for the exact test-center address and arrival instruction, then finish Bluebook setup, physical ID, device, and route checks before test day.",
+      "title": "August 22 SAT 2026 Scores and Retake Plan",
+      "description": "August 22 SAT scores are scheduled for September 4, 2026. Check the release timeline, compare September and October retake dates, and plan around college deadlines.",
+      "lastUpdated": "August 24, 2026",
+      "heroKicker": "August SAT score release and retake planning",
+      "summary": "The August 22, 2026 SAT is over. Use this page to prepare for the September 4 score release, compare the next SAT dates, and decide whether a retake fits your score goal and college deadlines.",
       "heroActions": [
         {
-          "label": "Build readiness plan",
+          "label": "Plan my next SAT date",
           "href": "#august-sat-readiness"
         },
         {
-          "label": "Check official August date",
-          "href": "https://satsuite.collegeboard.org/dates/august-22-2026-sat-test-date"
+          "label": "Check official score timeline",
+          "href": "https://satsuite.collegeboard.org/sat/scores"
         },
         {
-          "label": "Test-day checklist",
-          "href": "digital-sat-checklist.html"
+          "label": "Review SAT dates",
+          "href": "sat-test-dates-2026-2027.html"
         }
       ],
       "schema": {
         "learningResourceType": "Planning tool",
         "educationalUse": "Test preparation",
         "interactivityType": "mixed",
-        "dateModified": "2026-08-19",
+        "dateModified": "2026-08-24",
         "about": {
           "@type": "Thing",
           "name": "August 22, 2026 SAT"
@@ -2157,6 +2157,8 @@
           {
             "date": "2026-08-22",
             "title": "August 22, 2026 SAT",
+            "registrationDate": "2026-08-07",
+            "lateDate": "2026-08-11",
             "description": "Check the admission ticket for the test-center address and arrival time. College Board's standard sample schedule has doors opening at 7:45 a.m. and closing at 8 a.m.",
             "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
           },
@@ -2165,81 +2167,70 @@
             "title": "August 2026 SAT score release",
             "description": "College Board lists September 4, 2026 as the August SAT score release date.",
             "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
+          },
+          {
+            "date": "2026-09-12",
+            "title": "SAT - September 12, 2026",
+            "registrationDate": "2026-08-28",
+            "lateDate": "2026-09-01",
+            "description": "Regular registration deadline: August 28, 2026. Late registration and changes deadline: September 1, 2026. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2026-10-03",
+            "title": "SAT - October 3, 2026",
+            "registrationDate": "2026-09-18",
+            "lateDate": "2026-09-22",
+            "description": "Regular registration deadline: September 18, 2026. Late registration and changes deadline: September 22, 2026. Verify test-center availability with College Board."
+          },
+          {
+            "date": "2026-11-07",
+            "title": "SAT - November 7, 2026",
+            "registrationDate": "2026-10-23",
+            "lateDate": "2026-10-27",
+            "description": "Regular registration deadline: October 23, 2026. Late registration and changes deadline: October 27, 2026. Verify test-center availability with College Board."
           }
         ]
       },
       "toolWidget": {
-        "type": "satAugustReadiness",
-        "kicker": "Live August SAT readiness tool",
-        "heading": "Build your August SAT readiness plan",
-        "intro": "Use the current test-day window, then turn your device, physical ID, admission ticket, and route status into a short final-week plan. Nothing is submitted or stored outside this browser.",
-        "regularDeadline": "2026-08-07T23:59:00-04:00",
-        "lateDeadline": "2026-08-11T23:59:00-04:00",
-        "setupStart": "2026-08-17T00:00:00",
-        "testStart": "2026-08-22T00:00:00",
-        "testEnd": "2026-08-23T00:00:00",
-        "scoreDate": "2026-09-04T00:00:00",
-        "registrationUrl": "https://satsuite.collegeboard.org/dates/august-22-2026-sat-test-date",
-        "milestones": [
-          {
-            "date": "2026-08-11T23:59:00-04:00",
-            "label": "Aug 11",
-            "title": "Late registration and changes close",
-            "text": "11:59 p.m. ET; seats may be limited."
-          },
-          {
-            "date": "2026-08-17",
-            "label": "Aug 17-21",
-            "title": "Complete Bluebook exam setup",
-            "text": "Generate and save the admission ticket."
-          },
-          {
-            "date": "2026-08-22",
-            "label": "Aug 22",
-            "title": "SAT test day",
-            "text": "Follow the arrival time on your ticket."
-          },
-          {
-            "date": "2026-09-04",
-            "label": "Sep 4",
-            "title": "Scheduled score release",
-            "text": "Use the score to decide on a retake."
-          }
-        ]
+        "type": "satDatePlanner",
+        "kicker": "Interactive SAT date planner",
+        "heading": "Choose a retake date after August scores",
+        "intro": "Compare the next SAT administration with your preparation runway and college deadlines. The planner stays in this browser and does not ask for personal information.",
+        "sourceUrl": "https://satsuite.collegeboard.org/sat/dates-deadlines"
       },
       "timeline": {
-        "heading": "August 22 SAT final timeline",
+        "heading": "After August 22: score release and retake timeline",
         "items": [
           {
-            "label": "By August 11",
-            "title": "Finish registration or changes",
-            "text": "College Board lists August 11 at 11:59 p.m. ET as the late-registration, regular-cancellation, and changes deadline."
-          },
-          {
-            "label": "August 12-16",
-            "title": "Lock the device, ID, and route",
-            "text": "Resolve Bluebook login issues, verify a physical photo ID, and confirm how you will reach the test center."
-          },
-          {
-            "label": "August 17-21",
-            "title": "Complete exam setup",
-            "text": "Open Bluebook 1-5 days before the test, complete exam setup, and print or email the admission ticket."
-          },
-          {
             "label": "August 22",
-            "title": "Use the ticket's arrival time",
-            "text": "College Board's standard sample schedule has doors opening at 7:45 a.m. and closing at 8 a.m., but your admission ticket is authoritative."
+            "title": "Keep your test details and account access",
+            "text": "The administration has passed. Keep your admission details and College Board account access available while waiting for scores."
           },
           {
             "label": "September 4",
-            "title": "Review the score and retake decision",
-            "text": "Compare the released score with college deadlines before choosing September, October, or no retake."
+            "title": "Check the scheduled score release",
+            "text": "Review the score and section results in the official College Board account before deciding on another test date."
+          },
+          {
+            "label": "After scores arrive",
+            "title": "Compare the result with your college deadlines",
+            "text": "Check each college's score policy, application deadline, superscoring policy, and score-send timing before choosing a retake."
+          },
+          {
+            "label": "September 12",
+            "title": "Use the nearest listed retake window",
+            "text": "September 12 is the next confirmed weekend SAT. Check its registration deadline and seat availability before relying on it."
+          },
+          {
+            "label": "October 3 or later",
+            "title": "Choose more preparation runway when useful",
+            "text": "A later date may be better when the score gap is large or the September deadline does not leave enough study time."
           }
         ]
       },
       "tables": [
         {
-          "caption": "What should you do for the August 22 SAT now?",
+          "caption": "What should you do after the August 22 SAT?",
           "headers": [
             "Your status",
             "Immediate action",
@@ -2247,29 +2238,29 @@
           ],
           "rows": [
             [
-              "Not registered before August 11",
-              "Use September 12 as the nearest listed backup date.",
-              "Its regular registration deadline is August 28 and late deadline is September 1."
+              "Scores are not released yet",
+              "Wait for September 4, then compare the score with your target.",
+              "Use the official College Board account for the release and section details."
             ],
             [
-              "Registered, device not ready",
-              "Install Bluebook and resolve the account login before the setup window.",
-              "Exam setup and the ticket are available 1-5 days before test day."
+              "Score meets your goal",
+              "Check college score policies and decide whether a retake adds value.",
+              "Do not register again without checking application deadlines."
             ],
             [
-              "Registered, ID uncertain",
-              "Compare your physical ID with the current official requirements.",
-              "Digital IDs, photocopies, and names that do not match the ticket can cause admission problems."
+              "Score is below your goal",
+              "Compare September 12, October 3, and later dates with your study runway.",
+              "Check regular and late registration deadlines before choosing a date."
             ],
             [
-              "Registered and logistics ready",
-              "Protect sleep, complete exam setup, and do a short final review.",
-              "Check Bluebook, email, My SAT, and the center website for changes."
+              "Unsure about a retake",
+              "Use the date planner, then compare the likely score gain with the deadline cost.",
+              "A retake is optional when the current score already supports your plan."
             ],
             [
-              "Using a College Board loaned device",
-              "Follow the ticket and official device instructions.",
-              "College Board's sample schedule asks loaned-device students to arrive 30 minutes earlier."
+              "Applying later",
+              "Choose a later administration if more preparation time will produce a meaningful gain.",
+              "Confirm each college's final score policy and score-send timing."
             ]
           ]
         },
@@ -2306,87 +2297,86 @@
       ],
       "body": [
         {
-          "heading": "What time is the August 22, 2026 SAT?",
-          "text": "College Board's August 22 date page lists 7:45 a.m. local. Its standard weekend schedule says test centers generally open at 7:45 a.m., doors close at 8 a.m., and testing starts around 8:15-8:30 a.m. Your admission ticket is the final source because the center address and arrival instruction can differ."
+          "heading": "When are August 2026 SAT scores released?",
+          "text": "College Board lists Friday, September 4, 2026 as the scheduled score release date. Check the official account for the total score, section scores, and any score-reporting instructions."
         },
         {
-          "heading": "August registration closed on August 11",
-          "text": "College Board listed August 11 at 11:59 p.m. ET as the late-registration and changes deadline. If you missed it, use the September 12 or October 3 backup dates instead of planning around an unavailable August seat."
+          "heading": "How should you decide on a retake?",
+          "text": "Compare the released score with your target, each college's score policy, application deadline, and superscoring policy. A retake is useful only when the likely improvement fits the remaining timeline."
         },
         {
-          "heading": "Exam setup creates the admission ticket",
-          "text": "Registered students can open Bluebook 1-5 days before test day, complete exam setup, and then print or email the admission ticket. The ticket contains the center address and arrival instructions you should use."
+          "heading": "Which SAT date should come next?",
+          "text": "September 12 is the nearest listed weekend date, followed by October 3 and November 7. Use the planner above to compare registration deadlines with the preparation runway you actually have."
         },
         {
-          "heading": "A physical ID and a charged device are separate gates",
-          "text": "An admission ticket is not a substitute for acceptable physical photo identification. Bring the approved testing device fully charged, with Bluebook installed, and pack the power cord or permitted portable charger even though outlet access is not guaranteed."
+          "heading": "Where should you confirm the final answer?",
+          "text": "Use College Board for score release, registration, test dates, and score-sending rules. TestDayTools is an independent planning aid and does not access your account or guarantee a score."
         }
       ],
       "cardGroups": [
         {
-          "heading": "Common August SAT mistakes",
+          "heading": "Common post-test planning mistakes",
           "items": [
             {
-              "label": "Ticket",
-              "title": "Waiting until test morning for exam setup",
-              "text": "Complete setup during the 1-5 day window and keep an accessible copy of the ticket."
+              "label": "Score",
+              "title": "Making a retake decision before checking the score",
+              "text": "Wait for the official result and section breakdown before choosing another administration."
             },
             {
-              "label": "Identification",
-              "title": "Bringing a screenshot or digital ID",
-              "text": "College Board requires an original physical ID that meets its current rules and matches the admission ticket."
+              "label": "Deadline",
+              "title": "Ignoring the college application timeline",
+              "text": "Compare the next score release with each college's application and score-send deadline."
             },
             {
-              "label": "Arrival",
-              "title": "Using a generic arrival time instead of the ticket",
-              "text": "The standard schedule is only a reference. Follow the address and arrival instructions on your own ticket."
+              "label": "Retake",
+              "title": "Choosing the earliest date automatically",
+              "text": "More preparation time can be more valuable than a rushed retake when the score gap is large."
             }
           ]
         }
       ],
       "checklist": [
-        "Open My SAT and confirm the August test-center address and arrival instruction on your admission ticket.",
-        "Install or update Bluebook and confirm the College Board login works on the testing device.",
-        "Verify an original physical photo ID that matches the name on the admission ticket.",
-        "Complete Bluebook exam setup between August 17 and August 21, then print or email the admission ticket.",
-        "Check the ticket for the exact test-center address and arrival time.",
-        "Charge the device fully and pack a power cord or permitted portable charger.",
-        "Pack pencils or pens, an acceptable calculator if desired, a drink, and a snack.",
-        "Check Bluebook, email, My SAT, and the test-center website for closures or changes.",
-        "Choose whether September 12 or October 3 is a realistic backup before its registration deadline."
+        "Check the official College Board account on or after September 4 for the August score and section results.",
+        "Write down the score target and the gap that a retake would need to close.",
+        "Check each college's application deadline, score policy, superscoring policy, and score-send timing.",
+        "Compare September 12, October 3, and November 7 with the study time you can actually protect.",
+        "Check the regular and late registration deadline before relying on a retake date.",
+        "Choose a focused study area from the score breakdown instead of restarting every topic.",
+        "Use official College Board dates and score pages for the final registration and reporting decision.",
+        "Save your chosen next date in this browser or download the date calendar if useful."
       ],
       "faq": [
         {
-          "q": "What time is the August 22, 2026 SAT?",
-          "a": "College Board's August 22 date page lists 7:45 a.m. local. Its standard weekend schedule says centers generally open at 7:45 a.m., doors close at 8 a.m., and testing starts around 8:15-8:30 a.m. Follow the arrival instruction on your admission ticket if it differs."
-        },
-        {
-          "q": "Is August 22, 2026 a confirmed SAT date?",
-          "a": "Yes. College Board lists Saturday, August 22, 2026 as the first confirmed weekend SAT date of the 2026-27 cycle. Test-center availability must still be checked in the official registration account."
-        },
-        {
-          "q": "What is the late-registration deadline for the August 22 SAT?",
-          "a": "College Board lists Tuesday, August 11, 2026 at 11:59 p.m. ET as the deadline for changes, regular cancellation, and late registration for the August SAT."
-        },
-        {
-          "q": "When can I get the August SAT admission ticket?",
-          "a": "If you are registered, College Board says to open Bluebook 1-5 days before test day, complete exam setup, and then print the ticket or email it to yourself. For August 22, that window is August 17-21."
-        },
-        {
-          "q": "What time should I arrive for the August SAT?",
-          "a": "Use the arrival time on your admission ticket. College Board's standard sample schedule has test centers opening at 7:45 a.m. and doors closing at 8 a.m., but individual instructions can differ."
-        },
-        {
-          "q": "Can I use a digital photo ID for the SAT?",
-          "a": "No. College Board says an acceptable ID must be an original physical document. It must be valid, include a recognizable photo, and show the same full legal name as the admission ticket."
-        },
-        {
           "q": "When are August 2026 SAT scores released?",
-          "a": "College Board lists Friday, September 4, 2026 as the scheduled score release date for the August 22 SAT."
+          "a": "College Board lists Friday, September 4, 2026 as the scheduled score release date. Check the official account for the total score and section results."
         },
         {
-          "q": "What is the next SAT after August 22?",
-          "a": "The next confirmed weekend SAT is September 12, 2026. College Board lists August 28 as its regular registration deadline and September 1 as the late deadline."
+          "q": "What should I do after the August SAT?",
+          "a": "Wait for the official score, compare it with your target and college deadlines, then decide whether September 12, October 3, or a later date is useful."
+        },
+        {
+          "q": "What is the next SAT after August 22, 2026?",
+          "a": "The next confirmed weekend SAT is September 12, 2026. Check College Board for the current registration deadline, seat availability, and score release timing."
+        },
+        {
+          "q": "Should I retake the SAT after August 22?",
+          "a": "Compare the official score with your target, college score policies, application deadlines, and the study time available before choosing a retake."
+        },
+        {
+          "q": "Which SAT retake date should I choose?",
+          "a": "Choose the earliest date that leaves enough preparation time and still fits your college deadlines. Use the date planner to compare September, October, and later administrations."
+        },
+        {
+          "q": "Where do I check my August SAT score?",
+          "a": "Use the official College Board account on or after the scheduled September 4 release date. TestDayTools does not access or store score information."
+        },
+        {
+          "q": "What if my score already meets my goal?",
+          "a": "Check each college's score policy and application timeline before deciding whether a retake adds meaningful value."
+        },
+        {
+          "q": "What if my score is below my goal?",
+          "a": "Use the score breakdown to choose a focused study area, then compare the likely improvement with the preparation runway and registration deadline for the next date."
         }
       ],
       "sources": [
