@@ -69,6 +69,13 @@ function normalizeDmvState(value) {
     .replace(/\s+/g, "-");
 }
 
+function annotateDmvStateLink(link, option, path) {
+  if (!link || !option) return;
+  link.dataset.dmvStateLink = "true";
+  link.dataset.dmvState = option.dataset.state || option.value || option.textContent.trim();
+  link.dataset.dmvPath = path;
+}
+
 function localDayStamp(timestamp = Date.now()) {
   const date = new Date(timestamp);
   const year = date.getFullYear();
@@ -1149,9 +1156,18 @@ function initPracticeWorkbenches() {
       const selected = stateSelect?.selectedOptions?.[0];
       if (!selected) return;
       const stateName = selected.textContent.trim();
-      if (primary) primary.href = selected.dataset.practiceUrl || primary.href;
-      if (secondary) secondary.href = selected.dataset.signUrl || secondary.href;
-      if (checklist) checklist.href = selected.dataset.checklistUrl || checklist.href;
+      if (primary) {
+        primary.href = selected.dataset.practiceUrl || primary.href;
+        annotateDmvStateLink(primary, selected, "practice");
+      }
+      if (secondary) {
+        secondary.href = selected.dataset.signUrl || secondary.href;
+        annotateDmvStateLink(secondary, selected, "road_signs");
+      }
+      if (checklist) {
+        checklist.href = selected.dataset.checklistUrl || checklist.href;
+        annotateDmvStateLink(checklist, selected, "checklist");
+      }
       if (source) {
         source.href = selected.dataset.sourceUrl || source.href;
         source.textContent = selected.dataset.sourceLabel ? "Official source" : "Source finder";
@@ -2150,6 +2166,10 @@ function initDmvStudyPlanners() {
       setLink(signs, selected.dataset.signsUrl);
       setLink(checklist, selected.dataset.checklistUrl);
       setLink(score, selected.dataset.scoreUrl);
+      annotateDmvStateLink(practice, selected, "practice");
+      annotateDmvStateLink(signs, selected, "road_signs");
+      annotateDmvStateLink(checklist, selected, "checklist");
+      annotateDmvStateLink(score, selected, "score");
 
       const steps = buildSteps(stateName, days, weak, selected, perDay);
       planList.replaceChildren();
@@ -2242,9 +2262,18 @@ function initDmvRequirementsFinders() {
         source.href = option.dataset.sourceUrl || "#";
         source.textContent = option.dataset.sourceLabel || "Official source";
       }
-      if (practice) practice.href = option.dataset.practiceUrl || practice.href;
-      if (signs) signs.href = option.dataset.signUrl || signs.href;
-      if (checklist) checklist.href = option.dataset.checklistUrl || checklist.href;
+      if (practice) {
+        practice.href = option.dataset.practiceUrl || practice.href;
+        annotateDmvStateLink(practice, option, "practice");
+      }
+      if (signs) {
+        signs.href = option.dataset.signUrl || signs.href;
+        annotateDmvStateLink(signs, option, "road_signs");
+      }
+      if (checklist) {
+        checklist.href = option.dataset.checklistUrl || checklist.href;
+        annotateDmvStateLink(checklist, option, "checklist");
+      }
     };
 
     setStateFromQuery();
@@ -2349,8 +2378,14 @@ function initDmvScoreCalculators() {
         source.href = option.dataset.sourceUrl || "#";
         source.textContent = option.dataset.sourceLabel || "Official source";
       }
-      if (practice) practice.href = option.dataset.practiceUrl || practice.href;
-      if (checklist) checklist.href = option.dataset.checklistUrl || checklist.href;
+      if (practice) {
+        practice.href = option.dataset.practiceUrl || practice.href;
+        annotateDmvStateLink(practice, option, "practice");
+      }
+      if (checklist) {
+        checklist.href = option.dataset.checklistUrl || checklist.href;
+        annotateDmvStateLink(checklist, option, "checklist");
+      }
       const targetTotal = Number(officialQuestions) || 40;
       const targetCorrect = Number(officialCorrect) || thresholdFor(option, targetTotal);
       if (totalInput) totalInput.value = String(targetTotal);
@@ -2567,8 +2602,14 @@ function initDmvChecklists() {
       if (appointmentHint) appointmentHint.textContent = option.dataset.appointment || "Check appointment, payment, and arrival instructions before you leave.";
       if (retakeHint) retakeHint.textContent = option.dataset.retake || "Know what happens if you need another attempt.";
       if (manualLink) manualLink.href = option.dataset.manualUrl || "#";
-      if (permitLink) permitLink.href = option.dataset.permitUrl || permitLink.href;
-      if (signLink) signLink.href = option.dataset.signUrl || signLink.href;
+      if (permitLink) {
+        permitLink.href = option.dataset.permitUrl || permitLink.href;
+        annotateDmvStateLink(permitLink, option, "practice");
+      }
+      if (signLink) {
+        signLink.href = option.dataset.signUrl || signLink.href;
+        annotateDmvStateLink(signLink, option, "road_signs");
+      }
       load();
       render();
       loadDocumentPack();
