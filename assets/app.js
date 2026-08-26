@@ -990,6 +990,19 @@ function initQuizzes() {
       timerButton.addEventListener("click", toggleTimer);
     }
 
+    if (nextPlanAction) {
+      nextPlanAction.addEventListener("click", () => {
+        trackToolEvent("study_next_step_click", {
+          surface: "quiz_next_plan",
+          tool: quizLabel,
+          mode: quiz.dataset.modeId || "default",
+          state: quiz.dataset.state || "",
+          complete: quiz.classList.contains("is-complete"),
+          target: analyticsPathFromHref(nextPlanAction.href),
+        });
+      });
+    }
+
     questions.forEach((question, index) => {
       question.querySelectorAll("button").forEach((button) => {
         button.addEventListener("click", () => {
