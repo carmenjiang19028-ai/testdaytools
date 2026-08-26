@@ -1686,19 +1686,23 @@
     {
       "slug": "sat-test-dates-2026-2027",
       "category": "SAT",
-      "title": "SAT Test Dates 2026-2027: Deadlines and School Day 2027",
-      "description": "See the next SAT test dates and registration deadlines from September 2026 through June 2027, SAT School Day windows, and a free downloadable calendar.",
+      "title": "September 12 SAT 2026 Deadline + SAT Dates 2026-2027",
+      "description": "September 12 SAT registration deadline: August 28, 2026. Late registration: September 1. Compare all 2026-2027 SAT dates, School Day 2027, and use a free date planner.",
       "lastUpdated": "August 26, 2026",
-      "heroKicker": "Official dates, deadlines, and free calendar",
-      "summary": "Compare all eight confirmed SAT weekend dates from August 2026 through June 2027, see each registration and late deadline, check the SAT School Day 2027 window, and download every date as one free calendar file.",
+      "heroKicker": "Next deadline: August 28, 2026",
+      "summary": "Start with the September 12, 2026 SAT registration deadline, then compare every confirmed 2026-2027 weekend date, late deadline, SAT School Day 2027 window, and free calendar download.",
       "quickFacts": [
         {
           "label": "Next listed date",
           "value": "September 12, 2026"
         },
         {
-          "label": "Best senior buffer",
-          "value": "September plus October backup"
+          "label": "Regular registration",
+          "value": "August 28, 2026"
+        },
+        {
+          "label": "Late registration",
+          "value": "September 1, 2026"
         },
         {
           "label": "Best junior start",
@@ -1720,8 +1724,8 @@
           "resource": "sat_dates_2026_2027_calendar"
         },
         {
-          "label": "Official dates and registration",
-          "href": "https://satsuite.collegeboard.org/sat/dates-deadlines"
+          "label": "Check September 12 deadline",
+          "href": "https://satsuite.collegeboard.org/dates/september-12-2026-sat-test-date"
         }
       ],
       "calendarDownload": {
