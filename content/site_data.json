@@ -1789,8 +1789,8 @@
         ]
       },
       "countdown": {
-        "label": "Next listed SAT weekend date",
-        "date": "2026-08-22T07:45:00-04:00"
+        "label": "Next SAT weekend date",
+        "date": "2026-09-12T07:45:00-04:00"
       },
       "timeline": {
         "heading": "SAT registration planning timeline",
