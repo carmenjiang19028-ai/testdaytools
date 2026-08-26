@@ -3818,6 +3818,11 @@ def render_dmv_score_calculator():
         <span data-score-percent>0%</span>
         <strong data-score-status>Enter a practice score.</strong>
         <p data-score-message></p>
+        <div class="score-next-step" data-score-next hidden>
+          <strong data-score-next-title>Choose the next review step</strong>
+          <p data-score-next-copy></p>
+          <a href="{esc(default["permitUrl"])}" data-score-next-link data-dmv-state-link data-dmv-state="{esc(default["label"])}" data-dmv-path="practice">Continue practice</a>
+        </div>
       </div>
     </div>
   </div>

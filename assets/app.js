@@ -2306,6 +2306,11 @@ function initDmvScoreCalculators() {
     const percent = widget.querySelector("[data-score-percent]");
     const status = widget.querySelector("[data-score-status]");
     const message = widget.querySelector("[data-score-message]");
+    const nextStep = widget.querySelector("[data-score-next]");
+    const nextTitle = widget.querySelector("[data-score-next-title]");
+    const nextCopy = widget.querySelector("[data-score-next-copy]");
+    const nextLink = widget.querySelector("[data-score-next-link]");
+    let scoreChecked = false;
 
     const currentOption = () => stateSelect?.selectedOptions?.[0];
 
@@ -2366,6 +2371,22 @@ function initDmvScoreCalculators() {
           message.textContent = `${stateName} target met for this practice length. Cushion: ${cushion} question${cushion === 1 ? "" : "s"} above the target.`;
         }
       }
+      if (nextStep) nextStep.hidden = !scoreChecked;
+      if (nextTitle && nextCopy && nextLink) {
+        const stateName = option.dataset.state || option.textContent.trim();
+        const isBelowTarget = gap > 0;
+        nextTitle.textContent = isBelowTarget
+          ? `Build confidence with a focused ${stateName} practice round`
+          : "Turn this result into a final readiness check";
+        nextCopy.textContent = isBelowTarget
+          ? "Practice the state path, then return here to check the new result."
+          : "Review the official source and test-day details before relying on one practice score.";
+        nextLink.href = isBelowTarget
+          ? option.dataset.practiceUrl || nextLink.href
+          : option.dataset.checklistUrl || nextLink.href;
+        nextLink.textContent = isBelowTarget ? `Continue ${stateName} practice` : "Open test-day checklist";
+        annotateDmvStateLink(nextLink, option, isBelowTarget ? "practice" : "checklist");
+      }
     };
 
     const renderState = () => {
@@ -2399,6 +2420,7 @@ function initDmvScoreCalculators() {
     };
 
     stateSelect?.addEventListener("change", () => {
+      scoreChecked = false;
       renderState();
       trackToolEvent("study_state_change", {
         state: stateSelect.value,
@@ -2416,12 +2438,20 @@ function initDmvScoreCalculators() {
       renderScore();
     });
     checkScore?.addEventListener("click", () => {
+      scoreChecked = true;
       renderScore();
       const option = currentOption();
       trackToolEvent("dmv_score_checked", {
         state: option?.value || "unknown",
         practice_correct: Number(correctInput?.value) || 0,
         practice_total: Number(totalInput?.value) || 0,
+      });
+    });
+    nextLink?.addEventListener("click", () => {
+      trackToolEvent("study_next_step_click", {
+        state: currentOption()?.value || "unknown",
+        surface: "dmv_score_calculator",
+        target: analyticsPathFromHref(nextLink.href),
       });
     });
     setStateFromQuery();
