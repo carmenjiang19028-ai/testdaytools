@@ -2227,6 +2227,7 @@ function initDmvRequirementsFinders() {
     const practice = widget.querySelector("[data-requirements-practice]");
     const signs = widget.querySelector("[data-requirements-signs]");
     const checklist = widget.querySelector("[data-requirements-checklist]");
+    const score = widget.querySelector("[data-requirements-score]");
 
     const setStateFromQuery = () => {
       if (!stateSelect) return;
@@ -2273,6 +2274,10 @@ function initDmvRequirementsFinders() {
       if (checklist) {
         checklist.href = option.dataset.checklistUrl || checklist.href;
         annotateDmvStateLink(checklist, option, "checklist");
+      }
+      if (score) {
+        score.href = option.dataset.scoreUrl || score.href;
+        annotateDmvStateLink(score, option, "score");
       }
     };
 

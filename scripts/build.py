@@ -533,6 +533,7 @@ def dmv_requirement_records():
             "permitUrl": state.get("permitUrl", "dmv-practice.html"),
             "signUrl": state.get("signUrl", find_state_sign_href(state.get("label", ""))),
             "checklistUrl": checklist_href_for_state(state),
+            "scoreUrl": f"{DMV_SCORE_SLUG}.html?state={state.get('value', '')}#score-calculator",
             "format": format_value,
             "formatText": format_item.get("text") or state.get("format", ""),
             "passRule": pass_value,
@@ -3601,7 +3602,8 @@ def render_dmv_requirements_finder():
         f'data-practice-target="{esc(item["practiceTarget"])}" '
         f'data-practice-url="{esc(item["permitUrl"])}" '
         f'data-sign-url="{esc(item["signUrl"])}" '
-        f'data-checklist-url="{esc(item["checklistUrl"])}">{esc(item["label"])}</option>'
+        f'data-checklist-url="{esc(item["checklistUrl"])}" '
+        f'data-score-url="{esc(item["scoreUrl"])}">{esc(item["label"])}</option>'
         for item in records
     )
     rows = []
@@ -3610,6 +3612,7 @@ def render_dmv_requirements_finder():
         if item["signUrl"] != item["permitUrl"]:
             next_links += f' <a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
         next_links += f' <a href="{esc(item["checklistUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="checklist">Checklist</a>'
+        next_links += f' <a href="{esc(item["scoreUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="score">Score check</a>'
         rows.append(f"""<tr data-requirements-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["format"] + " " + item["passRule"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
   <td>{esc(item["agency"])}</td>
@@ -3638,6 +3641,7 @@ def render_dmv_requirements_finder():
         <a href="{esc(default["permitUrl"])}" data-requirements-practice>Practice test</a>
         <a href="{esc(default["signUrl"])}" data-requirements-signs>Road signs</a>
         <a href="{esc(default["checklistUrl"])}" data-requirements-checklist>Checklist</a>
+        <a href="{esc(default["scoreUrl"])}" data-requirements-score>Score check</a>
       </div>
     </aside>
     <div class="requirements-snapshot">
