@@ -13,6 +13,83 @@ function analyticsPathFromHref(href) {
   }
 }
 
+const VALUE_PATH_STORAGE_KEY = "tdt-value-path:v1";
+const VALUE_PATH_TIMEOUT_MS = 30 * 60 * 1000;
+const VALUE_PATH_EVENTS = new Set([
+  "quiz_start",
+  "resource_download",
+  "resource_print",
+  "study_state_change",
+  "study_next_step_click",
+  "sat_plan_generated",
+  "sat_plan_saved",
+  "sat_date_selected",
+  "sat_august_plan_generated",
+  "sat_august_plan_saved",
+  "dmv_score_checked",
+  "mastery_review_start",
+]);
+let pendingValueAction = null;
+
+function readValuePathState() {
+  try {
+    const saved = JSON.parse(window.sessionStorage.getItem(VALUE_PATH_STORAGE_KEY) || "null");
+    if (!saved || !Array.isArray(saved.actions)) return { actions: [], lastActionAt: 0 };
+    if (saved.lastActionAt && Date.now() - saved.lastActionAt > VALUE_PATH_TIMEOUT_MS) {
+      return { actions: [], lastActionAt: 0 };
+    }
+    return { actions: saved.actions.slice(-20), lastActionAt: Number(saved.lastActionAt) || 0 };
+  } catch (error) {
+    return { actions: [], lastActionAt: 0 };
+  }
+}
+
+function writeValuePathState(state) {
+  try {
+    window.sessionStorage.setItem(VALUE_PATH_STORAGE_KEY, JSON.stringify(state));
+  } catch (error) {
+    // Analytics remains optional when browser storage is blocked.
+  }
+}
+
+function queueValuePathAction(eventName, params) {
+  if (!VALUE_PATH_EVENTS.has(eventName)) return;
+  if (!pendingValueAction) {
+    pendingValueAction = {
+      events: [],
+      pagePath: params.page_path,
+      timer: window.setTimeout(flushValuePathAction, 0),
+    };
+  }
+  pendingValueAction.events.push(eventName);
+}
+
+function flushValuePathAction() {
+  const pending = pendingValueAction;
+  pendingValueAction = null;
+  if (!pending || typeof window.gtag !== "function") return;
+
+  const state = readValuePathState();
+  const actionName = [...new Set(pending.events)].join("+");
+  state.actions.push({ name: actionName, at: Date.now() });
+  state.actions = state.actions.slice(-20);
+  state.lastActionAt = Date.now();
+  writeValuePathState(state);
+
+  if (state.actions.length === 2) {
+    window.gtag("event", "study_value_milestone", {
+      page_path: pending.pagePath || window.location.pathname || "/",
+      milestone: "second_tool_action",
+      first_action: state.actions[0].name,
+      second_action: actionName,
+      action_index: 2,
+      transport_type: "beacon",
+    });
+  }
+}
+
+window.addEventListener("pagehide", flushValuePathAction);
+
 function trackToolEvent(eventName, params = {}) {
   if (typeof window.gtag !== "function") return;
   const safeParams = {
@@ -30,6 +107,7 @@ function trackToolEvent(eventName, params = {}) {
   });
 
   window.gtag("event", eventName, safeParams);
+  queueValuePathAction(eventName, safeParams);
 }
 
 function initScoreEntryTracking() {
@@ -424,6 +502,7 @@ function initQuizzes() {
     let quizStartedTracked = false;
     let quizHalfwayTracked = false;
     let quizCompletedTracked = false;
+    let tenQuestionsTracked = false;
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -606,6 +685,17 @@ function initQuizzes() {
         : answeredCount
         ? `Score: ${correctCount} of ${answeredCount} answered · ${percent}% correct`
         : "Score: 0 of 0 answered";
+
+      if (answeredCount >= 10 && !tenQuestionsTracked) {
+        tenQuestionsTracked = true;
+        trackToolEvent("study_value_milestone", {
+          milestone: "ten_questions_attempted",
+          tool: quizLabel,
+          mode: quiz.dataset.modeId || "default",
+          total: activeTotal,
+          answered: answeredCount,
+        });
+      }
 
       if (halfwayReached && !quizHalfwayTracked) {
         quizHalfwayTracked = true;
@@ -794,6 +884,7 @@ function initQuizzes() {
       quizStartedTracked = false;
       quizHalfwayTracked = false;
       quizCompletedTracked = false;
+      tenQuestionsTracked = false;
       questions.forEach((question) => {
         question.querySelectorAll("button").forEach((button) => {
           button.disabled = false;
