@@ -680,12 +680,12 @@
       "description": "Digital SAT score tools, scoring explainers, score goal planners, study guides, Bluebook checklists, and 2026-2027 SAT date planning.",
       "heroKicker": "SAT tools hub",
       "summary": "Start with a score estimate or goal planner, then use the study guides and test-day checklists to turn SAT prep into a clear next action.",
-      "lastUpdated": "August 24, 2026",
+      "lastUpdated": "September 1, 2026",
       "primaryActions": [
         {
           "label": "After August",
           "title": "August SAT Score and Retake Plan",
-          "text": "Check the September 4 score release, compare September and October retake dates, and plan around college deadlines.",
+          "text": "Check the September 4 score release, compare October and later retake dates, and plan around college deadlines.",
           "href": "sat-august-22-2026-planning.html"
         },
         {
@@ -1686,23 +1686,23 @@
     {
       "slug": "sat-test-dates-2026-2027",
       "category": "SAT",
-      "title": "September 12 SAT 2026 Deadline + SAT Dates 2026-2027",
-      "description": "September 12 SAT registration deadline: August 28, 2026. Late registration: September 1. Compare all 2026-2027 SAT dates, School Day 2027, and use a free date planner.",
-      "lastUpdated": "August 26, 2026",
-      "heroKicker": "Next deadline: August 28, 2026",
-      "summary": "Start with the September 12, 2026 SAT registration deadline, then compare every confirmed 2026-2027 weekend date, late deadline, SAT School Day 2027 window, and free calendar download.",
+      "title": "October 3 SAT 2026 Deadline + SAT Dates 2026-2027",
+      "description": "October 3 SAT registration deadline: September 18, 2026. Late registration: September 22. Compare all 2026-2027 SAT dates, School Day 2027, and use a free date planner.",
+      "lastUpdated": "September 1, 2026",
+      "heroKicker": "Next regular deadline: September 18, 2026",
+      "summary": "Start with the October 3, 2026 SAT registration deadline, then compare every confirmed 2026-2027 weekend date, late deadline, SAT School Day 2027 window, and free calendar download.",
       "quickFacts": [
         {
-          "label": "Next listed date",
-          "value": "September 12, 2026"
+          "label": "Next registration target",
+          "value": "October 3, 2026"
         },
         {
           "label": "Regular registration",
-          "value": "August 28, 2026"
+          "value": "September 18, 2026"
         },
         {
           "label": "Late registration",
-          "value": "September 1, 2026"
+          "value": "September 22, 2026"
         },
         {
           "label": "Best junior start",
@@ -1724,8 +1724,8 @@
           "resource": "sat_dates_2026_2027_calendar"
         },
         {
-          "label": "Check September 12 deadline",
-          "href": "https://satsuite.collegeboard.org/dates/september-12-2026-sat-test-date"
+          "label": "Check October 3 deadline",
+          "href": "https://satsuite.collegeboard.org/dates/october-3-2026-sat-test-date"
         }
       ],
       "calendarDownload": {
@@ -1794,7 +1794,7 @@
       },
       "countdown": {
         "label": "Next SAT weekend date",
-        "date": "2026-09-12T07:45:00-04:00"
+        "date": "2026-10-03T07:45:00-04:00"
       },
       "timeline": {
         "heading": "SAT registration planning timeline",
@@ -1841,7 +1841,7 @@
               "September 12, 2026",
               "August 28, 2026",
               "September 1, 2026",
-              "Retake buffer before October deadlines."
+              "Registration closes after September 1; registered students should switch to test-day preparation."
             ],
             [
               "October 3, 2026",
@@ -2003,14 +2003,14 @@
           "intro": "Use this as a quick decision aid before going to the official registration page.",
           "items": [
             {
-              "label": "Rising senior",
-              "title": "Use August if summer prep is real",
-              "text": "August is strongest when practice has already happened, not when it is only a good intention."
+              "label": "September registrant",
+              "title": "Switch to Bluebook setup",
+              "text": "If you are already registered for September 12, confirm your device, physical ID, admission ticket, and test-center details."
             },
             {
-              "label": "Senior fall",
-              "title": "Use October when early deadlines matter",
-              "text": "October often leaves more room than November for early action and early decision timelines."
+              "label": "October registration",
+              "title": "Register by September 18",
+              "text": "October 3 is the next regular registration target. College Board lists September 22 as the late deadline."
             },
             {
               "label": "Junior spring",
@@ -2089,14 +2089,14 @@
       "slug": "sat-august-22-2026-planning",
       "category": "SAT",
       "title": "August 22 SAT 2026 Scores and Retake Plan",
-      "description": "August 22 SAT scores are scheduled for September 4, 2026. Check the release timeline, compare September and October retake dates, and plan around college deadlines.",
-      "lastUpdated": "August 24, 2026",
+      "description": "August 22 SAT scores are scheduled for September 4, 2026. Check the release timeline, compare October and later retake dates, and plan around college deadlines.",
+      "lastUpdated": "September 1, 2026",
       "heroKicker": "August SAT score release and retake planning",
       "summary": "The August 22, 2026 SAT is over. Use this page to prepare for the September 4 score release, compare the next SAT dates, and decide whether a retake fits your score goal and college deadlines.",
       "heroActions": [
         {
           "label": "Plan my next SAT date",
-          "href": "#august-sat-readiness"
+          "href": "#sat-date-planner"
         },
         {
           "label": "Check official score timeline",
@@ -2111,7 +2111,7 @@
         "learningResourceType": "Planning tool",
         "educationalUse": "Test preparation",
         "interactivityType": "mixed",
-        "dateModified": "2026-08-24",
+        "dateModified": "2026-09-01",
         "about": {
           "@type": "Thing",
           "name": "August 22, 2026 SAT"
@@ -2222,9 +2222,9 @@
             "text": "Check each college's score policy, application deadline, superscoring policy, and score-send timing before choosing a retake."
           },
           {
-            "label": "September 12",
-            "title": "Use the nearest listed retake window",
-            "text": "September 12 is the next confirmed weekend SAT. Check its registration deadline and seat availability before relying on it."
+            "label": "September 1",
+            "title": "September registration closes",
+            "text": "College Board lists September 1 as the late-registration deadline for September 12. If that window is closed, compare October 3 with your score goal and college deadlines."
           },
           {
             "label": "October 3 or later",
@@ -2254,7 +2254,7 @@
             ],
             [
               "Score is below your goal",
-              "Compare September 12, October 3, and later dates with your study runway.",
+              "Compare October 3 and later dates with your study runway.",
               "Check regular and late registration deadlines before choosing a date."
             ],
             [
@@ -2280,7 +2280,7 @@
             [
               "September 12, 2026 SAT",
               "August 28 regular; September 1 late",
-              "You missed August registration or want the fastest listed retake."
+              "Late registration closes September 1; use this date only if College Board still shows an available seat."
             ],
             [
               "October 3, 2026 SAT",
@@ -2311,7 +2311,7 @@
         },
         {
           "heading": "Which SAT date should come next?",
-          "text": "September 12 is the nearest listed weekend date, followed by October 3 and November 7. Use the planner above to compare registration deadlines with the preparation runway you actually have."
+          "text": "October 3 is the next regular registration target after the September 12 late deadline closes. Use the planner above to compare October 3, November 7, and later dates with the preparation runway you actually have."
         },
         {
           "heading": "Where should you confirm the final answer?",
@@ -2344,7 +2344,7 @@
         "Check the official College Board account on or after September 4 for the August score and section results.",
         "Write down the score target and the gap that a retake would need to close.",
         "Check each college's application deadline, score policy, superscoring policy, and score-send timing.",
-        "Compare September 12, October 3, and November 7 with the study time you can actually protect.",
+        "Compare October 3, November 7, and later dates with the study time you can actually protect.",
         "Check the regular and late registration deadline before relying on a retake date.",
         "Choose a focused study area from the score breakdown instead of restarting every topic.",
         "Use official College Board dates and score pages for the final registration and reporting decision.",
@@ -2357,11 +2357,11 @@
         },
         {
           "q": "What should I do after the August SAT?",
-          "a": "Wait for the official score, compare it with your target and college deadlines, then decide whether September 12, October 3, or a later date is useful."
+          "a": "Wait for the official score, compare it with your target and college deadlines, then decide whether October 3 or a later date is useful."
         },
         {
           "q": "What is the next SAT after August 22, 2026?",
-          "a": "The next confirmed weekend SAT is September 12, 2026. Check College Board for the current registration deadline, seat availability, and score release timing."
+          "a": "September 12 is the next weekend SAT, but College Board lists September 1 as its late-registration deadline. After that window closes, October 3 is the next regular registration target."
         },
         {
           "q": "Should I retake the SAT after August 22?",
@@ -2369,7 +2369,7 @@
         },
         {
           "q": "Which SAT retake date should I choose?",
-          "a": "Choose the earliest date that leaves enough preparation time and still fits your college deadlines. Use the date planner to compare September, October, and later administrations."
+          "a": "Choose the earliest date that leaves enough preparation time and still fits your college deadlines. Use the date planner to compare October and later administrations."
         },
         {
           "q": "Where do I check my August SAT score?",
