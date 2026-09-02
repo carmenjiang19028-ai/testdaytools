@@ -38,7 +38,7 @@ DMV_SCORE_PAGE = {
     "category": "DMV",
     "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
     "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
-    "lastUpdated": "August 9, 2026",
+    "lastUpdated": "September 2, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
@@ -546,7 +546,7 @@ def dmv_requirement_records():
     return records
 
 
-def dmv_score_records():
+def dmv_score_records(include_supplemental=False):
     score_facts = {
         "california": {
             "questions": "",
@@ -604,9 +604,96 @@ def dmv_score_records():
             "miss": "10",
             "note": "New Jersey MVC describes a 50-question knowledge test with an 80% passing standard.",
         },
+        "georgia": {
+            "questions": 20,
+            "correct": 15,
+            "percent": 75,
+            "rule": "15 correct out of 20 on each part",
+            "miss": "5 on each part",
+            "note": "Georgia uses separate 20-question Road Rules and Road Signs tests. You need at least 15 correct on each part.",
+            "answer": "Georgia's knowledge exam has two 20-question parts. You need 15 correct on Road Rules and 15 correct on Road Signs, so you can miss up to 5 in each part.",
+        },
+        "ohio": {
+            "questions": 40,
+            "correct": 30,
+            "percent": 75,
+            "rule": "30 correct out of 40 questions",
+            "miss": "10",
+            "note": "Ohio BMV lists 40 multiple-choice questions and requires 75% correct, which means 30 correct answers.",
+        },
+        "virginia": {
+            "questions": 30,
+            "correct": 24,
+            "percent": 80,
+            "rule": "10 of 10 signs, then 24 of 30 general questions",
+            "miss": "0 signs; 6 general",
+            "note": "Virginia requires all 10 road-sign questions correct before the 30-question general section, where 24 correct are required.",
+            "answer": "Virginia has two parts. You cannot miss any of the 10 road-sign questions, then you can miss up to 6 of the 30 general-knowledge questions.",
+        },
+        "arizona": {
+            "questions": 30,
+            "correct": 24,
+            "percent": 80,
+            "rule": "24 correct out of 30 questions",
+            "miss": "6",
+            "note": "Arizona MVD lists a 30-question written permit test and requires a score of 80% or higher.",
+        },
     }
+    supplemental_requirements = [
+        {
+            "label": "Georgia",
+            "value": "georgia",
+            "agency": "Georgia DDS",
+            "manualLabel": "Georgia DDS Test and Exams Information",
+            "manualUrl": "https://dds.georgia.gov/testing-and-training/test-and-exams-information",
+            "permitUrl": "georgia-dds-road-signs-practice.html",
+            "signUrl": "georgia-dds-road-signs-practice.html",
+            "checklistUrl": "dmv-test-day-checklist.html",
+            "passRule": "15 correct out of 20 on each part",
+            "passText": "Confirm the current two-part knowledge exam rule with Georgia DDS.",
+        },
+        {
+            "label": "Ohio",
+            "value": "ohio",
+            "agency": "Ohio BMV",
+            "manualLabel": "Ohio BMV Knowledge Test",
+            "manualUrl": "https://www.bmv.ohio.gov/dl-gdl.aspx",
+            "permitUrl": "ohio-bmv-road-signs-practice.html",
+            "signUrl": "ohio-bmv-road-signs-practice.html",
+            "checklistUrl": "dmv-test-day-checklist.html",
+            "passRule": "75% or better",
+            "passText": "Confirm the current knowledge-test rule with Ohio BMV.",
+        },
+        {
+            "label": "Virginia",
+            "value": "virginia",
+            "agency": "Virginia DMV",
+            "manualLabel": "Virginia DMV Knowledge Exam",
+            "manualUrl": "https://www.dmv.virginia.gov/licenses-ids/exams/know-exam",
+            "permitUrl": "virginia-dmv-road-signs-practice.html",
+            "signUrl": "virginia-dmv-road-signs-practice.html",
+            "checklistUrl": "dmv-test-day-checklist.html",
+            "passRule": "10 of 10 signs, then 24 of 30 general questions",
+            "passText": "Confirm the current two-part knowledge exam rule with Virginia DMV.",
+        },
+        {
+            "label": "Arizona",
+            "value": "arizona",
+            "agency": "Arizona MVD",
+            "manualLabel": "Arizona MVD Permit Test",
+            "manualUrl": "https://azdot.gov/mvd/services/driver-license-ID/permit-test",
+            "permitUrl": "arizona-mvd-road-signs-practice.html",
+            "signUrl": "arizona-mvd-road-signs-practice.html",
+            "checklistUrl": "dmv-test-day-checklist.html",
+            "passRule": "80% or better",
+            "passText": "Confirm the current permit-test rule with Arizona MVD.",
+        },
+    ]
+    requirements = dmv_requirement_records()
+    if include_supplemental:
+        requirements.extend(supplemental_requirements)
     records = []
-    for requirement in dmv_requirement_records():
+    for requirement in requirements:
         fact = score_facts.get(requirement["value"], {})
         questions = fact.get("questions", "")
         correct = fact.get("correct", "")
@@ -621,6 +708,7 @@ def dmv_score_records():
             "miss": fact.get("miss", str(can_miss) if can_miss != "" else "Confirm with official source"),
             "canMiss": can_miss,
             "scoreNote": fact.get("note", requirement["passText"]),
+            "answer": fact.get("answer", ""),
         })
     return records
 
@@ -3741,7 +3829,7 @@ def render_dmv_requirements_page():
 
 
 def render_dmv_score_calculator():
-    records = dmv_score_records()
+    records = dmv_score_records(include_supplemental=True)
     if not records:
         return ""
     options = "".join(
@@ -3851,7 +3939,9 @@ def render_dmv_score_calculator():
 def render_dmv_score_answers(records):
     cards = []
     for item in records:
-        if isinstance(item["questions"], int) and isinstance(item["correct"], int):
+        if item.get("answer"):
+            answer = item["answer"]
+        elif isinstance(item["questions"], int) and isinstance(item["correct"], int):
             answer = (
                 f'{item["label"]} uses {item["questions"]} questions for this path. '
                 f'You need {item["correct"]} correct, so the basic miss limit is {item["miss"]}.'
@@ -3875,13 +3965,13 @@ def render_dmv_score_answers(records):
     return f"""<section class="content-section score-answer-section" id="state-score-answers">
   <span class="eyebrow">Direct answers by state</span>
   <h2>How many questions can you miss on each permit test?</h2>
-  <p class="section-intro">These seven paths use current official agency sources. Use the exact answer when a fixed test length is published; otherwise enter the question count shown for your test.</p>
+  <p class="section-intro">These state paths use current official agency sources. Use the exact answer when a fixed test length is published; otherwise enter the question count shown for your test.</p>
   <div class="score-answer-grid">{"".join(cards)}</div>
 </section>"""
 
 
 def render_dmv_score_page():
-    records = dmv_score_records()
+    records = dmv_score_records(include_supplemental=True)
     source_links = "".join(
         f'<li><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["manualLabel"])}</a></li>'
         for item in records
@@ -3894,6 +3984,10 @@ def render_dmv_score_page():
         {
             "q": "Why does New York mention road-sign questions separately?",
             "a": "New York's learner permit rule includes both an overall score and a road-sign condition. You need at least 14 correct overall and at least 2 of the 4 road-sign questions.",
+        },
+        {
+            "q": "Do Georgia and Virginia use one combined passing score?",
+            "a": "No. Georgia requires 15 correct on each of its two 20-question parts. Virginia requires all 10 sign questions correct before 24 correct answers on the 30-question general section.",
         },
         {
             "q": "Can a practice score guarantee I will pass?",
