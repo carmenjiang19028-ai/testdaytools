@@ -26,6 +26,8 @@ const VALUE_PATH_EVENTS = new Set([
   "sat_date_selected",
   "sat_august_plan_generated",
   "sat_august_plan_saved",
+  "sat_goal_generated",
+  "sat_goal_saved",
   "dmv_score_checked",
   "mastery_review_start",
 ]);
