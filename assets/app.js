@@ -19,6 +19,7 @@ const VALUE_PATH_EVENTS = new Set([
   "quiz_start",
   "resource_download",
   "resource_print",
+  "flashcard_mark",
   "study_state_change",
   "study_next_step_click",
   "sat_plan_generated",

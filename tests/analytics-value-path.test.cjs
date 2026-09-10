@@ -135,6 +135,27 @@ test("an expired activity window starts a new action count", () => {
   assert.equal(app.milestones()[0][2].first_action, "resource_download");
 });
 
+test("a PDF download followed by flashcard marking records the second action", () => {
+  const session = storage();
+  const first = loadApp({ session, pathname: "/dmv-road-signs-cheat-sheet.html" });
+  first.track("resource_download");
+  first.tick();
+  const next = loadApp({ session, pathname: "/dmv-road-sign-flashcards.html" });
+  next.track("page_view");
+  next.tick();
+  assert.equal(next.milestones().length, 0);
+  next.track("flashcard_mark", { status: "known" });
+  next.tick();
+  assert.equal(next.milestones().length, 1);
+  const milestone = next.milestones()[0][2];
+  assert.equal(milestone.first_action, "resource_download");
+  assert.equal(milestone.second_action, "flashcard_mark");
+  assert.equal(milestone.page_path, "/dmv-road-sign-flashcards.html");
+  next.track("flashcard_mark", { status: "review" });
+  next.tick();
+  assert.equal(next.milestones().length, 1);
+});
+
 test("a failed local save does not count as a completed action", () => {
   const local = { getItem: () => null, setItem() { throw new Error("Storage blocked"); } };
   const app = loadApp({ local });
