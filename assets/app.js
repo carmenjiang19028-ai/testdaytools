@@ -3046,6 +3046,20 @@ function initSatGoalPlanners() {
   });
 }
 
+function satRegistrationStatus(event, now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const datePart = (type) => parts.find((part) => part.type === type).value;
+  const easternDate = `${datePart("year")}-${datePart("month")}-${datePart("day")}`;
+  if (easternDate > event.lateDate) return "closed";
+  if (easternDate > event.registrationDate) return "late";
+  return "regular";
+}
+
 function initSatDatePlanners() {
   document.querySelectorAll("[data-sat-date-planner]").forEach((widget) => {
     const dataNode = widget.querySelector("[data-sat-date-data]");
@@ -3098,9 +3112,10 @@ function initSatDatePlanners() {
       return events.map(monthKey);
     };
     const registrationText = (event) => {
-      const regularPassed = dateAtNoon(event.registrationDate) < today;
-      if (regularPassed) return `Regular deadline passed; late deadline ${dateLabel(event.lateDate)}`;
-      return `Register by ${dateLabel(event.registrationDate)}; late deadline ${dateLabel(event.lateDate)}`;
+      if (satRegistrationStatus(event) === "late") {
+        return `Regular deadline passed; late deadline ${dateLabel(event.lateDate)} at 11:59 p.m. ET`;
+      }
+      return `Register by ${dateLabel(event.registrationDate)}; late deadline ${dateLabel(event.lateDate)} (both 11:59 p.m. ET)`;
     };
     const stageReason = (stage, deadline) => {
       if (stage === "junior_first") return "Spring gives a first-time junior room to review the score and test again.";
@@ -3117,7 +3132,7 @@ function initSatDatePlanners() {
       const wantsRetake = Boolean(retakeInput?.checked);
       const minimumDays = readinessDays[readiness] || readinessDays.focused;
       const valid = events
-        .filter((event) => dateAtNoon(event.lateDate) >= today && daysUntil(event.date) >= minimumDays)
+        .filter((event) => satRegistrationStatus(event) !== "closed" && daysUntil(event.date) >= minimumDays)
         .sort((a, b) => a.date.localeCompare(b.date));
       const priorities = preferredKeys(stage, deadline);
       const preferred = priorities

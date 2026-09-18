@@ -60,11 +60,21 @@ function loadApp({ session = storage(), local = storage(), pathname = "/sat-scor
     events,
     controls,
     track: (name, params) => context.trackToolEvent(name, params),
+    registrationStatus: (event, date) => context.satRegistrationStatus(event, date),
     tick() { while (timers.length) timers.shift()(); },
     advance(milliseconds) { now += milliseconds; },
     milestones: () => events.filter((event) => event[1] === "study_value_milestone"),
   };
 }
+
+test("SAT registration remains open until 11:59 p.m. Eastern on each deadline", () => {
+  const app = loadApp();
+  const event = { registrationDate: "2026-09-18", lateDate: "2026-09-22" };
+  assert.equal(app.registrationStatus(event, new Date("2026-09-19T03:59:00Z")), "regular");
+  assert.equal(app.registrationStatus(event, new Date("2026-09-19T04:01:00Z")), "late");
+  assert.equal(app.registrationStatus(event, new Date("2026-09-23T03:59:00Z")), "late");
+  assert.equal(app.registrationStatus(event, new Date("2026-09-23T04:01:00Z")), "closed");
+});
 
 test("SAT goal generation followed by a successful save records the second action", () => {
   const app = loadApp();
