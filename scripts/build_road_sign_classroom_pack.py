@@ -102,12 +102,11 @@ def sign_drawing(kind, size=72):
             d.add(Line(size * 0.44, size * 0.55, size * 0.62, size * 0.46, strokeColor=INK, strokeWidth=4))
             d.add(Line(size * 0.27, size * 0.28, size * 0.73, size * 0.28, strokeColor=INK, strokeWidth=4))
     elif kind == "railroad":
-        d.add(Circle(cx, cy, size * 0.38, fillColor=colors.white, strokeColor=INK, strokeWidth=2))
-        d.add(String(cx, size * 0.61, "RAILROAD", textAnchor="middle", fontName=BOLD, fontSize=6, fillColor=INK))
-        d.add(String(cx, size * 0.49, "CROSSING", textAnchor="middle", fontName=BOLD, fontSize=6, fillColor=INK))
-        d.add(Line(size * 0.28, size * 0.29, size * 0.72, size * 0.29, strokeColor=INK, strokeWidth=3))
-        d.add(Line(size * 0.34, size * 0.20, size * 0.66, size * 0.38, strokeColor=INK, strokeWidth=3))
-        d.add(Line(size * 0.66, size * 0.20, size * 0.34, size * 0.38, strokeColor=INK, strokeWidth=3))
+        d.add(Circle(cx, cy, size * 0.38, fillColor=YELLOW, strokeColor=INK, strokeWidth=2))
+        d.add(Line(size * 0.40, size * 0.24, size * 0.60, size * 0.76, strokeColor=INK, strokeWidth=4))
+        d.add(Line(size * 0.60, size * 0.24, size * 0.40, size * 0.76, strokeColor=INK, strokeWidth=4))
+        d.add(String(size * 0.25, size * 0.43, "R", textAnchor="middle", fontName=BOLD, fontSize=17, fillColor=INK))
+        d.add(String(size * 0.75, size * 0.43, "R", textAnchor="middle", fontName=BOLD, fontSize=17, fillColor=INK))
     return d
 
 
