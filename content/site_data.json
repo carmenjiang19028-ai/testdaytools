@@ -151,7 +151,7 @@
       {
         "label": "August SAT",
         "title": "August 22 SAT: Score Release and Retake Plan",
-        "text": "The test date has passed. Check the September 4 score release, compare upcoming retake dates, and make a decision around your college deadlines.",
+        "text": "Most August 22 scores are now available. Review your official score, compare upcoming retake dates, and decide around your college deadlines.",
         "href": "sat-august-22-2026-planning.html"
       }
     ],
@@ -171,7 +171,7 @@
       {
         "label": "August SAT",
         "title": "August 22 SAT Score Release and Retake Plan",
-        "text": "September 4 score release, retake dates, college deadlines, and next-step planning",
+        "text": "August score review, retake dates, college deadlines, and next-step planning",
         "href": "sat-august-22-2026-planning.html"
       },
       {
@@ -685,7 +685,7 @@
         {
           "label": "After August",
           "title": "August SAT Score and Retake Plan",
-          "text": "Check the September 4 score release, compare October and later retake dates, and plan around college deadlines.",
+          "text": "Review the August score in your College Board account, compare October and later retake dates, and plan around college deadlines.",
           "href": "sat-august-22-2026-planning.html"
         },
         {
@@ -2089,10 +2089,10 @@
       "slug": "sat-august-22-2026-planning",
       "category": "SAT",
       "title": "August 22 SAT 2026 Scores and Retake Plan",
-      "description": "August 22 SAT scores are scheduled for September 4, 2026. Check the release timeline, compare October and later retake dates, and plan around college deadlines.",
-      "lastUpdated": "September 1, 2026",
-      "heroKicker": "August SAT score release and retake planning",
-      "summary": "The August 22, 2026 SAT is over. Use this page to prepare for the September 4 score release, compare the next SAT dates, and decide whether a retake fits your score goal and college deadlines.",
+      "description": "Most August 22 SAT scores are now available. Review your official score, compare October and later retake dates, and plan around college deadlines.",
+      "lastUpdated": "September 18, 2026",
+      "heroKicker": "August SAT scores and retake planning",
+      "summary": "Most scores from the August 22, 2026 SAT are now available. Check your College Board account, compare the next SAT dates, and decide whether a retake fits your score goal and college deadlines.",
       "heroActions": [
         {
           "label": "Plan my next SAT date",
@@ -2100,7 +2100,7 @@
         },
         {
           "label": "Check official score timeline",
-          "href": "https://satsuite.collegeboard.org/sat/scores"
+          "href": "https://satsuite.collegeboard.org/scores/score-release-dates"
         },
         {
           "label": "Review SAT dates",
@@ -2111,7 +2111,7 @@
         "learningResourceType": "Planning tool",
         "educationalUse": "Test preparation",
         "interactivityType": "mixed",
-        "dateModified": "2026-09-01",
+        "dateModified": "2026-09-18",
         "about": {
           "@type": "Thing",
           "name": "August 22, 2026 SAT"
@@ -2204,17 +2204,17 @@
         "sourceUrl": "https://satsuite.collegeboard.org/sat/dates-deadlines"
       },
       "timeline": {
-        "heading": "After August 22: score release and retake timeline",
+        "heading": "After August 22: score review and retake timeline",
         "items": [
           {
             "label": "August 22",
             "title": "Keep your test details and account access",
-            "text": "The administration has passed. Keep your admission details and College Board account access available while waiting for scores."
+            "text": "The administration has passed. Keep your College Board account access available while reviewing your score report."
           },
           {
             "label": "September 4",
-            "title": "Check the scheduled score release",
-            "text": "Review the score and section results in the official College Board account before deciding on another test date."
+            "title": "Review available August scores",
+            "text": "Most August 22 scores are now available. Review your score and section results in the official College Board account; follow its guidance if yours is delayed."
           },
           {
             "label": "After scores arrive",
@@ -2222,9 +2222,9 @@
             "text": "Check each college's score policy, application deadline, superscoring policy, and score-send timing before choosing a retake."
           },
           {
-            "label": "September 1",
-            "title": "September registration closes",
-            "text": "College Board lists September 1 as the late-registration deadline for September 12. If that window is closed, compare October 3 with your score goal and college deadlines."
+            "label": "September 18",
+            "title": "October regular registration deadline",
+            "text": "College Board lists September 18 as the regular deadline for October 3 and September 22 as the late deadline. Both expire at 11:59 p.m. ET; confirm fees and seats with College Board."
           },
           {
             "label": "October 3 or later",
@@ -2243,9 +2243,9 @@
           ],
           "rows": [
             [
-              "Scores are not released yet",
-              "Wait for September 4, then compare the score with your target.",
-              "Use the official College Board account for the release and section details."
+              "Score is missing or delayed",
+              "Check your College Board account and its guidance for delayed scores.",
+              "Most August 22 scores are available; do not assume a missing score is final."
             ],
             [
               "Score meets your goal",
@@ -2270,7 +2270,7 @@
           ]
         },
         {
-          "caption": "August SAT backup dates",
+          "caption": "Remaining 2026 retake options after the August SAT",
           "headers": [
             "Plan",
             "Registration deadline",
@@ -2278,14 +2278,9 @@
           ],
           "rows": [
             [
-              "September 12, 2026 SAT",
-              "August 28 regular; September 1 late",
-              "Late registration closes September 1; use this date only if College Board still shows an available seat."
-            ],
-            [
               "October 3, 2026 SAT",
               "September 18 regular; September 22 late",
-              "You want more preparation time and your college deadlines allow it."
+              "College Board still offers registration, you have enough preparation time, and your college deadlines allow it."
             ],
             [
               "November 7, 2026 SAT",
@@ -2302,8 +2297,8 @@
       ],
       "body": [
         {
-          "heading": "When are August 2026 SAT scores released?",
-          "text": "College Board lists Friday, September 4, 2026 as the scheduled score release date. Check the official account for the total score, section scores, and any score-reporting instructions."
+          "heading": "When were August 2026 SAT scores released?",
+          "text": "College Board scheduled Friday, September 4, 2026 for the August 22 score release. Most scores are now available; check your official account for the total score, section scores, and any score-reporting instructions."
         },
         {
           "heading": "How should you decide on a retake?",
@@ -2311,7 +2306,7 @@
         },
         {
           "heading": "Which SAT date should come next?",
-          "text": "October 3 is the next regular registration target after the September 12 late deadline closes. Use the planner above to compare October 3, November 7, and later dates with the preparation runway you actually have."
+          "text": "October 3 is the next upcoming weekend SAT, with a September 18 regular and September 22 late registration deadline. Use the planner above to compare it with November 7 and later dates against the preparation runway you actually have."
         },
         {
           "heading": "Where should you confirm the final answer?",
@@ -2324,8 +2319,8 @@
           "items": [
             {
               "label": "Score",
-              "title": "Making a retake decision before checking the score",
-              "text": "Wait for the official result and section breakdown before choosing another administration."
+              "title": "Making a retake decision without reviewing the score",
+              "text": "Review the official result and section breakdown before choosing another administration."
             },
             {
               "label": "Deadline",
@@ -2341,7 +2336,7 @@
         }
       ],
       "checklist": [
-        "Check the official College Board account on or after September 4 for the August score and section results.",
+        "Check your official College Board account for the August score and section results; follow its guidance if the score is delayed.",
         "Write down the score target and the gap that a retake would need to close.",
         "Check each college's application deadline, score policy, superscoring policy, and score-send timing.",
         "Compare October 3, November 7, and later dates with the study time you can actually protect.",
@@ -2353,15 +2348,15 @@
       "faq": [
         {
           "q": "When are August 2026 SAT scores released?",
-          "a": "College Board lists Friday, September 4, 2026 as the scheduled score release date. Check the official account for the total score and section results."
+          "a": "College Board scheduled Friday, September 4, 2026 for the August 22 score release. Most scores are now available; check your official account for the total score and section results."
         },
         {
           "q": "What should I do after the August SAT?",
-          "a": "Wait for the official score, compare it with your target and college deadlines, then decide whether October 3 or a later date is useful."
+          "a": "Review your official score, compare it with your target and college deadlines, then decide whether October 3 or a later date is useful."
         },
         {
           "q": "What is the next SAT after August 22, 2026?",
-          "a": "September 12 is the next weekend SAT, but College Board lists September 1 as its late-registration deadline. After that window closes, October 3 is the next regular registration target."
+          "a": "September 12 has passed. October 3 is the next upcoming weekend SAT; College Board lists September 18 as its regular and September 22 as its late registration deadline."
         },
         {
           "q": "Should I retake the SAT after August 22?",
@@ -2373,7 +2368,7 @@
         },
         {
           "q": "Where do I check my August SAT score?",
-          "a": "Use the official College Board account on or after the scheduled September 4 release date. TestDayTools does not access or store score information."
+          "a": "Use your official College Board account. Most August 22 scores are now available; TestDayTools does not access or store score information."
         },
         {
           "q": "What if my score already meets my goal?",
@@ -2396,6 +2391,10 @@
         {
           "label": "College Board SAT: Dates and deadlines",
           "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
+        },
+        {
+          "label": "College Board: SAT score release dates",
+          "url": "https://satsuite.collegeboard.org/scores/score-release-dates"
         },
         {
           "label": "College Board SAT: What to bring",
