@@ -423,7 +423,7 @@ def render_mini_sign_drill():
   <p class="mini-drill-feedback" data-mini-drill-feedback>Answer four signs, then jump into the full practice path.</p>
   <div class="mini-drill-actions">
     <button type="button" data-mini-drill-next>Next sign</button>
-    <a href="road-signs-practice-test.html#practice" data-mini-drill-focus-link>Full road signs test</a>
+    <a href="road-signs-practice-test.html?mode=road-signs-core#practice" data-mini-drill-focus-link>Full road signs test</a>
   </div>
 </div>"""
 
@@ -1125,7 +1125,7 @@ def render_home_practice_panel():
   <div class="workbench-mode-links">
     <a href="dmv-permit-test-question-of-the-day.html"><span>Daily</span><strong>One question</strong></a>
     <a href="dmv-permit-test-mistake-log.html"><span>Mistakes</span><strong>Save weak areas</strong></a>
-    <a href="road-signs-practice-test.html"><span>Road signs</span><strong>40 image questions</strong></a>
+    <a href="road-signs-practice-test.html?mode=road-signs-core#practice"><span>Road signs</span><strong>40 image questions</strong></a>
     <a href="dmv-road-sign-flashcards.html"><span>Flashcards</span><strong>Visual sign deck</strong></a>
     <a href="dmv-permit-test-study-plan.html"><span>Study plan</span><strong>3 to 21 days</strong></a>
     <a href="regulatory-traffic-signs-practice-test.html"><span>Regulatory</span><strong>16 rule signs</strong></a>
@@ -1154,7 +1154,7 @@ def render_home_road_sign_panel():
             "Pic",
             "40-picture road signs test",
             "Start with the broad permit-test image round",
-            "road-signs-practice-test.html#practice",
+            "road-signs-practice-test.html?mode=road-signs-core#practice",
             "40",
         ),
         (
@@ -1227,7 +1227,7 @@ def render_home_road_sign_panel():
       <strong>40-picture road signs test</strong>
       <p>Start with the broad picture round, then use missed categories to choose regulatory, flashcard, or state-specific review.</p>
     </div>
-    <a href="road-signs-practice-test.html#practice">Start picture test</a>
+    <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Start picture test</a>
   </div>
   <div class="hero-stat-strip">{stats}</div>
 </aside>"""
@@ -1235,7 +1235,7 @@ def render_home_road_sign_panel():
 
 def render_home_pocket_tabs():
     tabs = [
-        ("Signs", "road-signs-practice-test.html#practice"),
+        ("Signs", "road-signs-practice-test.html?mode=road-signs-core#practice"),
         ("State", "#state-paths"),
         ("Score", "dmv-permit-test-passing-score-calculator.html?source=home_pocket_tab#score-calculator"),
         ("Docs", "dmv-test-day-checklist.html?state=florida#dmv-checklist"),
@@ -1257,7 +1257,7 @@ def render_home_state_preview():
     <p>Start with the broad picture round, then choose a state path for official rules, score context, and test-day details.</p>
   </div>
   <div class="home-state-preview-actions">
-    <a href="road-signs-practice-test.html#practice">Road signs pictures</a>
+    <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs pictures</a>
     <a href="dmv-practice.html#state-paths">Choose your state</a>
     <a href="{esc(checklist)}">Checklist</a>
     <a href="dmv-permit-test-requirements-by-state.html">Official rules</a>
@@ -2347,11 +2347,16 @@ def render_dmv_mode_tool(tool):
         f'<li><strong>{esc(mode["label"])}</strong><span>{esc(mode.get("description", ""))}</span></li>'
         for mode in modes
     )
+    mode_intro = (
+        "Choose a round, answer one picture at a time, and use saved misses to decide what to review next."
+        if tool.get("slug") == "road-signs-practice-test"
+        else "Start with a short diagnostic, switch to image-based signs, or run a longer mock exam when you want a realistic score check. Missed questions are saved on this device so the next step is obvious."
+    )
     return f"""<section class="dmv-mode-tool" id="practice" data-mode-tool>
   <div class="tool-section-head">
     <span class="eyebrow">DMV practice engine</span>
     <h2>Choose a practice mode</h2>
-    <p class="section-intro">Start with a short diagnostic, switch to image-based signs, or run a longer mock exam when you want a realistic score check. Missed questions are saved on this device so the next step is obvious.</p>
+    <p class="section-intro">{esc(mode_intro)}</p>
   </div>
   <div class="practice-flow">
     <span>1. Answer</span>
@@ -2617,7 +2622,7 @@ def render_dmv_journey_dashboard():
       <strong data-journey-title>Take the 10-question road-sign diagnostic</strong>
       <p data-journey-copy>One short round creates a real baseline and reveals the first category to review.</p>
       <div class="journey-actions">
-        <a href="road-signs-practice-test.html#practice" data-journey-primary>Start 10 questions</a>
+        <a href="road-signs-practice-test.html?mode=road-signs-starter#practice" data-journey-primary>Start 10 questions</a>
         <a href="{esc(default_state.get("manualUrl", "#"))}" target="_blank" rel="noopener" data-journey-source>Official state source</a>
       </div>
     </div>
@@ -2732,7 +2737,7 @@ def render_home_tool_roles():
             "Road signs pictures",
             "Use for broad visual practice",
             "Take the 40-question image quiz when you need a mixed road-sign round before choosing a focused weak-area drill.",
-            "road-signs-practice-test.html",
+            "road-signs-practice-test.html?mode=road-signs-core#practice",
         ),
         (
             "Flashcards",
@@ -2809,7 +2814,7 @@ def render_florida_dmv_cluster():
     )
     return f"""<section class="hub-primary florida-path-cluster" id="florida-dmv-path">
   <h2>Florida DMV quick path</h2>
-  <p class="section-intro">This is the fastest discovery route for the current DMV-first sprint: one Florida entry point, one signs drill, one checklist, one mistake log, and one requirements source.</p>
+  <p class="section-intro">Use this Florida DMV path to connect practice, road signs, documents, mistakes, and official requirements in one place.</p>
   <div class="hub-action-grid">{items}</div>
 </section>"""
 
@@ -4146,7 +4151,7 @@ def render_home():
       {render_last_updated(DATA["home"].get("lastUpdated"))}
       {render_home_pocket_tabs()}
       <div class="hero-actions home-quick-links">
-        <a href="road-signs-practice-test.html">Road signs with pictures</a>
+        <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs with pictures</a>
         <a href="dmv-road-signs-cheat-sheet.html">Printable road signs cheat sheet</a>
         <a href="new-york-dmv-road-signs-practice.html">New York road signs</a>
         <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>

@@ -1327,7 +1327,7 @@ function initMiniSignDrills() {
       if (!focusLink) return;
       const focus = bestMissedFocus();
       if (!focus) {
-        focusLink.href = "road-signs-practice-test.html#practice";
+        focusLink.href = "road-signs-practice-test.html?mode=road-signs-core#practice";
         focusLink.textContent = "Full road signs test";
         return;
       }
@@ -1773,7 +1773,7 @@ function initDmvJourneyDashboards() {
         kicker.textContent = `Start ${stateLabel} prep today`;
         title.textContent = "Take the 10-question road-sign diagnostic";
         copy.textContent = "A short first round creates a baseline and reveals which sign family or rule deserves the next ten minutes.";
-        primary.href = "road-signs-practice-test.html#practice";
+        primary.href = "road-signs-practice-test.html?mode=road-signs-starter#practice";
         primary.textContent = "Start 10 questions";
       } else if (mastery.attempted < 10) {
         kicker.textContent = "Finish the baseline";

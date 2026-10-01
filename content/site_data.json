@@ -103,7 +103,7 @@
       {
         "label": "Florida signs",
         "title": "Florida Regulatory Traffic Signs: Right Turn Only and More",
-        "text": "Practice the high-intent Florida sign cluster: regulatory traffic signs, official Right Turn Only traffic sign Florida checks, wrong-way signs, one-way arrows, and yellow warnings.",
+        "text": "Practice Florida regulatory signs, including Right Turn Only, wrong-way, one-way, and yellow warning signs, with official-source context.",
         "href": "florida-dmv-road-signs-practice.html"
       },
       {
@@ -113,10 +113,16 @@
         "href": "new-york-dmv-road-signs-practice.html"
       },
       {
-        "label": "Road signs",
+        "label": "Road signs quick",
+        "title": "Road Signs Quick Practice: 10 Questions",
+        "text": "Start with 10 picture questions to find the first sign family to review, with no account and progress saved only in this browser.",
+        "href": "road-signs-practice-test.html?mode=road-signs-starter#practice"
+      },
+      {
+        "label": "Road signs full",
         "title": "Road Signs Practice: 40 DMV Pictures",
-        "text": "Take the broad 40-picture road-sign quiz first, then route misses into regulatory signs, flashcards, shape/color lookup, or Florida source checks.",
-        "href": "road-signs-practice-test.html"
+        "text": "Run the full 40-picture road-sign test when you want a broad score check, then review misses by sign family.",
+        "href": "road-signs-practice-test.html?mode=road-signs-core#practice"
       },
       {
         "label": "Print",
