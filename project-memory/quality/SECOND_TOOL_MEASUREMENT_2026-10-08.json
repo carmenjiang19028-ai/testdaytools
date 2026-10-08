@@ -63,5 +63,18 @@
     "caveats": ["Client-side activity signal, not a GA4 session ID or server-verified outcome", "A download or print request does not prove a completed offline print or learning improvement", "Storage-blocked paths are conservatively undercounted", "No persistent identifier or personally identifying field added", "Custom dimension underlying parameter mappings have not been inspected; verify before claiming source-path attribution", "Do not add aliases to legacy milestone counts or treat an increase in total events as product/traffic growth"]
   },
   "verification": {"node_tests_passed": 27, "isolated_browser_paths_passed": 4, "external_analytics_requests_in_tests": "blocked", "page_content_or_search_metadata_changed": false},
-  "next_decision": "First verify new-event ingestion with the same Organic Search filter and inspect existing custom-dimension parameter mappings before grouping by first/second tool or origin path. Wait for enough complete days before judging cross-tool usage. Do not rewrite winning pages from this aggregate snapshot."
+  "follow_up_mapping_verification": {
+    "read_date": "2026-10-08",
+    "source": "https://analytics.google.com/analytics/web/#/a396601195p539983534/admin/customdefinitions/hub",
+    "method": "Read-only authenticated Custom definitions table; all three rows visible; no account change",
+    "registered_event_dimensions": {"Source Section": "source_section", "Target Path": "target_path", "Tool": "tool"},
+    "registered_descriptions": {"Source Section": "Page section that triggered the event.", "Target Path": "Destination path selected by the visitor.", "Tool": "Tool or feature that sent the event."},
+    "original_issue": "Initial deployment emitted section/target instead of source_section/target_path; only Tool mapped to its registered dimension. The target raw field also held the first page, not the destination.",
+    "correction": {"tool": "second meaningful tool family", "source_section": "first meaningful tool family, used as source context for this event only", "target_path": "second tool page, preserving destination semantics", "first_page_path": "first page, retained raw but not registered as a custom dimension"},
+    "compatibility": "Original section/target fields and all legacy events remain unchanged. No GA4 custom definition was created, edited, archived or repurposed at account level.",
+    "scope_caveat": "For study_second_tool_used only, Source Section groups first-tool family rather than a literal screen section. Filter to this event before grouping; do not mix these values with other events or claim that Target Path identifies the source page.",
+    "verification": {"node_tests_passed": 28, "isolated_browser_paths_passed": 4, "external_analytics_requests_in_tests": "blocked"},
+    "supersedes": "The initial mapping-unverified caveat remains historical to the 10:57 read; the mappings above are now directly verified. Actual new-event ingestion remains unverified."
+  },
+  "next_decision": "First verify new-event ingestion with the same Organic Search and study_second_tool_used filters. The verified Tool/Source Section/Target Path mappings can group destination family, first family and destination page, but cannot establish a strict GA4 session funnel or registered source-page attribution. Wait for enough complete days before judging cross-tool usage. Do not rewrite winning pages from this aggregate snapshot."
 }

@@ -69,6 +69,8 @@ async function quizPath(browser, viewport) {
     assert.equal(secondTool[0].params.first_tool, 'printable_resource');
     assert.equal(secondTool[0].params.second_tool, 'picture_quiz');
     assert.equal(secondTool[0].params.first_page_path, '/dmv-road-signs-cheat-sheet.html');
+    assert.equal(secondTool[0].params.source_section, 'printable_resource');
+    assert.equal(secondTool[0].params.target_path, '/road-signs-practice-test.html');
     assert.equal(tracked.filter(event => event.name === 'study_ten_questions_attempted').length, 1);
     await assertFits(page, 'Ten-question result');
     assert.deepEqual(errors, []);
@@ -93,6 +95,8 @@ async function flashcardPath(browser, viewport) {
     const secondTool = tracked.filter(event => event.name === 'study_second_tool_used');
     assert.equal(secondTool.length, 1);
     assert.equal(secondTool[0].params.second_tool, 'sign_flashcards');
+    assert.equal(secondTool[0].params.source_section, 'printable_resource');
+    assert.equal(secondTool[0].params.target_path, '/dmv-road-sign-flashcards.html');
     await assertFits(page, 'Marked flashcard');
     assert.deepEqual(errors, []);
     return { viewport, path: 'pdf-to-flashcards', status: 'passed' };

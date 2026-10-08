@@ -132,6 +132,8 @@ function flushValuePathAction() {
       second_action: second.action,
       first_resource: first.resource,
       tool: second.tool,
+      source_section: first.tool,
+      target_path: second.pagePath,
       section: first.tool,
       target: first.pagePath,
       activity_window: "browser_tab_30min",

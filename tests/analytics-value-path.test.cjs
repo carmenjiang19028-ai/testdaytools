@@ -220,6 +220,22 @@ test("repeat rounds and switching quiz pages are one tool; a flashcard action is
   assert.equal(deck.toolUses().length, 1, "The strict signal fires once per activity window");
 });
 
+test("cross-tool events populate the registered GA4 dimensions without swapping origin and destination", () => {
+  const session = storage();
+  const first = loadApp({ session, pathname: "/dmv-road-signs-cheat-sheet.html" });
+  first.track("resource_download");
+  first.tick();
+  const next = loadApp({ session, pathname: "/road-signs-practice-test.html" });
+  next.track("quiz_start");
+  next.tick();
+  const params = next.toolUses()[0][2];
+  assert.equal(params.tool, "picture_quiz");
+  assert.equal(params.source_section, "printable_resource");
+  assert.equal(params.target_path, "/road-signs-practice-test.html");
+  assert.equal(params.first_page_path, "/dmv-road-signs-cheat-sheet.html");
+  assert.equal(params.target, "/dmv-road-signs-cheat-sheet.html", "Preserve the original raw field");
+});
+
 test("calendar download and saving an SAT date plan stay within one tool", () => {
   const app = loadApp({ pathname: "/sat-test-dates-2026-2027.html" });
   app.track("sat_plan_generated");
