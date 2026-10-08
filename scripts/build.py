@@ -236,6 +236,16 @@ def render_analytics_tag():
   </script>"""
 
 
+def render_adsense_verification_tag():
+    publisher_id = SITE.get("adsenseVerification", {}).get("publisherId", "").strip()
+    if not publisher_id:
+        return ""
+    number = publisher_id.removeprefix("ca-pub-")
+    if not publisher_id.startswith("ca-pub-") or len(number) != 16 or not number.isascii() or not number.isdigit():
+        raise ValueError("Invalid AdSense verification publisher ID")
+    return f'  <meta name="google-adsense-account" content="{esc(publisher_id)}">\n'
+
+
 def page_shell(title, description, path, body, extra_class="", structured_data=None, social_image=None, indexable=True, extra_head=""):
     nav = "".join(
         f'<a href="{esc(href_for(item["href"]))}">{esc(item["label"])}</a>'
@@ -250,6 +260,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
     analytics_tag = render_analytics_tag()
     analytics_block = f"{analytics_tag}\n" if analytics_tag else ""
     robots_meta = "" if indexable else '  <meta name="robots" content="noindex,follow">\n'
+    adsense_verification_meta = render_adsense_verification_tag()
     social_image_url = url_for(f"/{social_image.lstrip('/')}") if social_image else ""
     social_meta = ""
     if social_image_url:
@@ -275,6 +286,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
+{adsense_verification_meta}\
 {robots_meta}\
 {social_meta}\
   <link rel="canonical" href="{esc(canonical)}">

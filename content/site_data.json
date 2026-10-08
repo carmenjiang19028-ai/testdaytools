@@ -8,6 +8,10 @@
     "analytics": {
       "ga4MeasurementId": "G-ME9YY0NVEB",
       "notes": "Use only a TestDayTools GA4 Measurement ID. Do not reuse CMPanda GTM, Google Ads, or conversion tags."
+    },
+    "adsenseVerification": {
+      "publisherId": "ca-pub-9419021437320877",
+      "notes": "Account ownership verification only. No advertising scripts or automatic ads are enabled."
     }
   },
   "navigation": [
