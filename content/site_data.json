@@ -2427,6 +2427,7 @@
       "slug": "digital-sat-checklist",
       "category": "SAT",
       "title": "Digital SAT Checklist",
+      "lastUpdated": "October 8, 2026",
       "description": "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics.",
       "heroKicker": "SAT checklist",
       "summary": "The digital SAT depends on both preparation and device readiness. Use this checklist before test day so you are not troubleshooting at the door.",
@@ -2450,12 +2451,12 @@
       ],
       "checklist": [
         "Install or update Bluebook on your approved device.",
-        "Complete exam setup when it becomes available.",
-        "Bring an acceptable photo ID.",
-        "Bring your admission ticket if required by your test center.",
+        "For SAT Weekend, complete Bluebook exam setup 1-5 days before test day.",
+        "For SAT Weekend, bring an acceptable physical photo ID, not an electronic copy.",
+        "For SAT Weekend, bring your current Bluebook admission ticket; a printed copy is preferred.",
         "Charge your device fully and bring the power cord.",
         "Bring an approved calculator or use the built-in calculator.",
-        "Pack pencils or pens for scratch work if your center provides paper.",
+        "Pack pencils or pens for scratch work.",
         "Know your test center route, parking, and arrival time.",
         "Restart your device the day before so updates are less likely to interrupt testing.",
         "Turn off unnecessary notifications before arriving at the test center.",
@@ -2650,6 +2651,7 @@
       "slug": "digital-sat-bluebook-checklist",
       "category": "SAT",
       "title": "Digital SAT Bluebook Checklist",
+      "lastUpdated": "October 8, 2026",
       "description": "A Bluebook-focused digital SAT checklist for approved devices, setup timing, battery life, admission ticket, and test-day troubleshooting.",
       "heroKicker": "Bluebook checklist",
       "summary": "Bluebook is part of the SAT test-day workflow. This checklist focuses on device approval, setup timing, battery planning, and the small technical issues that can derail a test morning.",
@@ -2806,7 +2808,7 @@
         "Complete exam setup when it becomes available.",
         "Charge the device fully and pack the charger.",
         "Confirm you can unlock the device without another device.",
-        "Print, save, or email the admission ticket if official instructions require it.",
+        "For SAT Weekend, bring your current Bluebook admission ticket; a printed copy is preferred.",
         "Close distracting apps and follow test center device instructions."
       ],
       "faq": [
@@ -5076,13 +5078,14 @@
       "slug": "sat-device-troubleshooting-guide",
       "category": "SAT",
       "title": "Digital SAT Device Troubleshooting Guide",
+      "lastUpdated": "October 8, 2026",
       "description": "Troubleshoot common Digital SAT device issues before test day, including Bluebook access, battery, approved devices, passwords, updates, and admission ticket setup.",
       "heroKicker": "SAT device help",
       "summary": "Most device problems are easier to prevent than fix on test morning. Use this guide before the final week so Bluebook, battery, password, and admission setup are ready.",
       "quickFacts": [
         {
-          "label": "Best time",
-          "value": "1-2 weeks before test"
+          "label": "College Board loaner",
+          "value": "Request 30+ days before"
         },
         {
           "label": "Core app",
@@ -5112,7 +5115,7 @@
         },
         {
           "heading": "Make a backup conversation early",
-          "text": "If you need a borrowed device or school-managed Chromebook, ask early. Test morning is too late to solve hardware access."
+          "text": "For SAT Weekend, first ask your school, family, or a friend about an approved device. If you need College Board device lending, register and submit the request at least 30 days before the test; a request does not guarantee approval. If approved, arrive 30 minutes before standard check-in to collect the loaner, complete Bluebook exam setup, and get your admission ticket."
         },
         {
           "heading": "Why device preparation is part of score preparation",
@@ -5151,7 +5154,7 @@
             ],
             [
               "Forgot password",
-              "Recover the account or device password before setup closes.",
+              "Recover the account or device password before test day.",
               "You may need both account and device access."
             ],
             [
@@ -5225,7 +5228,7 @@
             {
               "label": "Loaner",
               "title": "Ask early if you need a device",
-              "text": "Borrowing or school support usually requires lead time."
+              "text": "College Board device requests for SAT Weekend must be submitted at least 30 days before testing."
             },
             {
               "label": "Updates",
@@ -5241,7 +5244,8 @@
         "Confirm account and device passwords.",
         "Charge battery and pack charger.",
         "Avoid unnecessary updates after setup.",
-        "Arrange an approved backup device early if needed."
+        "Arrange an approved backup device early if needed.",
+        "If requesting a College Board loaner for SAT Weekend, submit the request at least 30 days before the test."
       ],
       "faq": [
         {
@@ -5281,6 +5285,10 @@
         {
           "label": "College Board SAT: What to bring and do",
           "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"
+        },
+        {
+          "label": "College Board SAT: Device lending",
+          "url": "https://satsuite.collegeboard.org/sat/device-lending"
         },
         {
           "label": "Bluebook",
