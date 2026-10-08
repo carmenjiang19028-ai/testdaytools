@@ -1441,6 +1441,15 @@ h3 {
   align-items: end;
 }
 
+.practice-score-check[data-score-section] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: center;
+}
+
+.practice-score-check[data-score-section][hidden] {
+  display: none;
+}
+
 .score-result {
   padding: 16px;
   border: 1px solid rgba(23, 107, 81, 0.26);
@@ -5254,6 +5263,7 @@ button:disabled {
   .score-stat-row,
   .score-answer-grid,
   .practice-score-check,
+  .practice-score-check[data-score-section],
   .sign-study-grid,
   .study-path-grid,
   .sign-group,

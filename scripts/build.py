@@ -38,7 +38,7 @@ DMV_SCORE_PAGE = {
     "category": "DMV",
     "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
     "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
-    "lastUpdated": "September 2, 2026",
+    "lastUpdated": "October 8, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
@@ -563,6 +563,9 @@ def dmv_score_records(include_supplemental=False):
             "rule": "14 correct out of 20, including at least 2 road-sign questions",
             "miss": "6 overall",
             "note": "New York has a separate road-sign condition: at least 2 of the 4 sign questions must be correct.",
+            "sectionQuestions": 4,
+            "sectionCorrect": 2,
+            "sectionIncluded": True,
         },
         "texas": {
             "questions": "",
@@ -612,6 +615,10 @@ def dmv_score_records(include_supplemental=False):
             "miss": "5 on each part",
             "note": "Georgia uses separate 20-question Road Rules and Road Signs tests. You need at least 15 correct on each part.",
             "answer": "Georgia's knowledge exam has two 20-question parts. You need 15 correct on Road Rules and 15 correct on Road Signs, so you can miss up to 5 in each part.",
+            "sectionQuestions": 20,
+            "sectionCorrect": 15,
+            "primaryScoreLabel": "Road rules correct",
+            "primaryTotalLabel": "Road rules questions",
         },
         "ohio": {
             "questions": 40,
@@ -629,6 +636,10 @@ def dmv_score_records(include_supplemental=False):
             "miss": "0 signs; 6 general",
             "note": "Virginia requires all 10 road-sign questions correct before the 30-question general section, where 24 correct are required.",
             "answer": "Virginia has two parts. You cannot miss any of the 10 road-sign questions, then you can miss up to 6 of the 30 general-knowledge questions.",
+            "sectionQuestions": 10,
+            "sectionCorrect": 10,
+            "primaryScoreLabel": "General knowledge correct",
+            "primaryTotalLabel": "General knowledge questions",
         },
         "arizona": {
             "questions": 30,
@@ -709,6 +720,11 @@ def dmv_score_records(include_supplemental=False):
             "canMiss": can_miss,
             "scoreNote": fact.get("note", requirement["passText"]),
             "answer": fact.get("answer", ""),
+            "sectionQuestions": fact.get("sectionQuestions", ""),
+            "sectionCorrect": fact.get("sectionCorrect", ""),
+            "sectionIncluded": fact.get("sectionIncluded", False),
+            "primaryScoreLabel": fact.get("primaryScoreLabel", "Practice correct"),
+            "primaryTotalLabel": fact.get("primaryTotalLabel", "Practice total"),
         })
     return records
 
@@ -3845,6 +3861,11 @@ def render_dmv_score_calculator():
         f'data-questions="{esc(item["questions"])}" '
         f'data-correct="{esc(item["correct"])}" '
         f'data-percent="{esc(item["percent"])}" '
+        f'data-section-questions="{esc(item["sectionQuestions"])}" '
+        f'data-section-correct="{esc(item["sectionCorrect"])}" '
+        f'data-section-included="{str(item["sectionIncluded"]).lower()}" '
+        f'data-primary-score-label="{esc(item["primaryScoreLabel"])}" '
+        f'data-primary-total-label="{esc(item["primaryTotalLabel"])}" '
         f'data-rule="{esc(item["rule"])}" '
         f'data-miss="{esc(item["miss"])}" '
         f'data-note="{esc(item["scoreNote"])}" '
@@ -3858,6 +3879,9 @@ def render_dmv_score_calculator():
     rows = []
     for item in records:
         official_format = f'{item["questions"]} questions' if item["questions"] else "Use current test length"
+        if item["sectionQuestions"] and not item["sectionIncluded"]:
+            primary_part = "rules" if item["value"] == "georgia" else "general"
+            official_format = f'{item["questions"]} {primary_part} + {item["sectionQuestions"]} signs'
         required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
         next_links = f'<a href="{esc(item["permitUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Practice</a>'
         if item["signUrl"] != item["permitUrl"]:
@@ -3892,20 +3916,27 @@ def render_dmv_score_calculator():
     </aside>
     <div class="score-panel">
       <div class="score-stat-row">
-        <article><span>Official length</span><strong data-score-questions>{esc(default["questions"] or "Use source")}</strong><p>Questions on the state knowledge test when the source gives a fixed number.</p></article>
+        <article><span data-score-length-label>Official length</span><strong data-score-questions>{esc(default["questions"] or "Use source")}</strong><p data-score-length-note>Questions on the state knowledge test when the source gives a fixed number.</p></article>
         <article><span>Need correct</span><strong data-score-correct>{esc(default["correct"] or default["rule"])}</strong><p>Minimum correct answers or percentage rule.</p></article>
         <article><span>Can miss</span><strong data-score-miss>{esc(default["miss"])}</strong><p>Exact when the question count and pass mark are fixed.</p></article>
       </div>
       <div class="practice-score-check">
         <div>
-          <label for="score-correct">Practice correct</label>
-          <input id="score-correct" type="number" min="0" max="100" value="{esc(default["correct"] or 28)}" data-score-input-correct>
+          <label for="score-correct" data-score-correct-label>Practice correct</label>
+          <input id="score-correct" type="number" min="0" max="100" step="1" value="{esc(default["correct"] or 28)}" data-score-input-correct>
         </div>
         <div>
-          <label for="score-total">Practice total</label>
-          <input id="score-total" type="number" min="1" max="100" value="{esc(default["questions"] or 40)}" data-score-input-total>
+          <label for="score-total" data-score-total-label>Practice total</label>
+          <input id="score-total" type="number" min="1" max="100" step="1" value="{esc(default["questions"] or 40)}" data-score-input-total>
         </div>
         <button type="button" data-score-use-official>Use official length</button>
+      </div>
+      <div class="practice-score-check" data-score-section hidden>
+        <div>
+          <label for="score-section-correct" data-score-section-label>Road signs correct</label>
+          <input id="score-section-correct" type="number" min="0" step="1" data-score-section-correct aria-describedby="score-section-note">
+        </div>
+        <p id="score-section-note" data-score-section-note></p>
       </div>
       <button class="score-check-submit" type="button" data-score-check>Check practice score</button>
       <div class="score-result" aria-live="polite">

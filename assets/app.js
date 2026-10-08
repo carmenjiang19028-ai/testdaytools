@@ -2408,6 +2408,14 @@ function initDmvScoreCalculators() {
     const miss = widget.querySelector("[data-score-miss]");
     const correctInput = widget.querySelector("[data-score-input-correct]");
     const totalInput = widget.querySelector("[data-score-input-total]");
+    const correctLabel = widget.querySelector("[data-score-correct-label]");
+    const totalLabel = widget.querySelector("[data-score-total-label]");
+    const lengthLabel = widget.querySelector("[data-score-length-label]");
+    const lengthNote = widget.querySelector("[data-score-length-note]");
+    const sectionBox = widget.querySelector("[data-score-section]");
+    const sectionInput = widget.querySelector("[data-score-section-correct]");
+    const sectionLabel = widget.querySelector("[data-score-section-label]");
+    const sectionNote = widget.querySelector("[data-score-section-note]");
     const useOfficial = widget.querySelector("[data-score-use-official]");
     const checkScore = widget.querySelector("[data-score-check]");
     const percent = widget.querySelector("[data-score-percent]");
@@ -2443,6 +2451,7 @@ function initDmvScoreCalculators() {
       const officialCorrect = Number(option?.dataset.correct) || 0;
       const requiredPercent = Number(option?.dataset.percent) || 0;
       if (officialQuestions && officialCorrect && total === officialQuestions) return officialCorrect;
+      if (officialQuestions && officialCorrect) return Math.ceil((total * officialCorrect) / officialQuestions);
       if (requiredPercent) return Math.ceil((total * requiredPercent) / 100);
       if (officialCorrect) return officialCorrect;
       return total;
@@ -2451,19 +2460,66 @@ function initDmvScoreCalculators() {
     const renderScore = () => {
       const option = currentOption();
       if (!option) return;
-      const total = Math.max(1, Math.min(100, Number(totalInput?.value) || 1));
-      const correct = Math.max(0, Math.min(total, Number(correctInput?.value) || 0));
-      if (correctInput && Number(correctInput.value) !== correct) correctInput.value = String(correct);
-      if (totalInput && Number(totalInput.value) !== total) totalInput.value = String(total);
+      const total = Number(totalInput?.value);
+      const correct = Number(correctInput?.value);
+      const validTotal = totalInput?.value.trim() !== "" && Number.isInteger(total) && total >= 1 && total <= 100;
+      const validCorrect = correctInput?.value.trim() !== "" && Number.isInteger(correct) && correct >= 0 && correct <= total;
+      totalInput?.setAttribute("aria-invalid", String(!validTotal));
+      correctInput?.setAttribute("aria-invalid", String(!validCorrect));
+      sectionInput?.setAttribute("aria-invalid", "false");
+      const invalidScore = (text) => {
+        if (percent) percent.textContent = "--";
+        if (status) status.textContent = "Check the question counts";
+        if (message) message.textContent = text;
+        if (nextStep) nextStep.hidden = true;
+        return null;
+      };
+      if (!validTotal || !validCorrect) {
+        return invalidScore("Enter a whole-number total from 1 to 100 and a correct-answer count from 0 to that total.");
+      }
+
+      const sectionQuestions = Number(option.dataset.sectionQuestions) || 0;
+      const sectionNeeded = Number(option.dataset.sectionCorrect) || 0;
+      const separateRule = sectionQuestions > 0;
+      const officialLength = total === Number(option.dataset.questions);
+      const checkSection = separateRule && officialLength;
+      const sectionValue = sectionInput?.value.trim() || "";
+      const sectionCorrect = Number(sectionValue);
+      const sectionKnown = checkSection && sectionValue !== "";
+      if (sectionBox) sectionBox.hidden = !checkSection;
+      if (sectionInput) sectionInput.max = String(sectionQuestions);
+      if (sectionLabel) sectionLabel.textContent = `Road signs correct (out of ${sectionQuestions})`;
+      if (sectionNote) {
+        sectionNote.textContent = option.dataset.sectionIncluded === "true"
+          ? `Need at least ${sectionNeeded} of ${sectionQuestions} signs correct, included in the total above.`
+          : `Need at least ${sectionNeeded} of ${sectionQuestions} signs correct in the separate section.`;
+      }
+      if (sectionKnown && (!Number.isInteger(sectionCorrect) || sectionCorrect < 0 || sectionCorrect > sectionQuestions)) {
+        sectionInput?.setAttribute("aria-invalid", "true");
+        return invalidScore(`Enter a whole-number road-sign score from 0 to ${sectionQuestions}.`);
+      }
+      // New York's sign answers are part of, not additional to, the overall score.
+      if (sectionKnown && option.dataset.sectionIncluded === "true"
+          && (sectionCorrect > correct || correct - sectionCorrect > total - sectionQuestions)) {
+        sectionInput?.setAttribute("aria-invalid", "true");
+        return invalidScore("The road-sign score and overall score do not match. Include the sign answers in the total correct count.");
+      }
 
       const needed = thresholdFor(option, total);
       const pct = Math.round((correct / total) * 100);
       const gap = Math.max(0, needed - correct);
+      const sectionGap = sectionKnown ? Math.max(0, sectionNeeded - sectionCorrect) : 0;
+      const incomplete = separateRule && (!checkSection || !sectionKnown);
+      const outcome = gap || sectionGap ? "below_target" : incomplete ? "section_unverified" : "target_met";
       if (percent) percent.textContent = `${pct}%`;
       if (status) {
         const cushion = correct - needed;
         status.textContent = gap
           ? `${gap} more correct answer${gap === 1 ? "" : "s"} needed`
+          : sectionGap
+            ? `${sectionGap} more road-sign answer${sectionGap === 1 ? "" : "s"} needed`
+          : incomplete
+            ? "Score target met; road-sign rule not checked"
           : cushion > 0
             ? "Above the selected state target"
             : "Meets the selected state target";
@@ -2477,23 +2533,32 @@ function initDmvScoreCalculators() {
           const cushion = correct - needed;
           message.textContent = `${stateName} target met for this practice length. Cushion: ${cushion} question${cushion === 1 ? "" : "s"} above the target.`;
         }
+        if (separateRule) {
+          const sectionMessage = !checkSection
+            ? "This custom-length round only checks the practice percentage. Use the official section length and enter the road-sign score to check both conditions."
+            : !sectionKnown
+              ? "Enter the road-sign score before treating the full practice result as meeting both conditions."
+              : `Road signs: ${sectionCorrect} of ${sectionQuestions} correct; at least ${sectionNeeded} required.`;
+          message.textContent = `${stateName} practice target: ${needed} of ${total} correct. ${sectionMessage}`;
+        }
       }
       if (nextStep) nextStep.hidden = !scoreChecked;
       if (nextTitle && nextCopy && nextLink) {
         const stateName = option.dataset.state || option.textContent.trim();
-        const isBelowTarget = gap > 0;
-        nextTitle.textContent = isBelowTarget
+        const needsPractice = outcome !== "target_met";
+        nextTitle.textContent = needsPractice
           ? `Build confidence with a focused ${stateName} practice round`
           : "Turn this result into a final readiness check";
-        nextCopy.textContent = isBelowTarget
+        nextCopy.textContent = needsPractice
           ? "Practice the state path, then return here to check the new result."
           : "Review the official source and test-day details before relying on one practice score.";
-        nextLink.href = isBelowTarget
+        nextLink.href = needsPractice
           ? option.dataset.practiceUrl || nextLink.href
           : option.dataset.checklistUrl || nextLink.href;
-        nextLink.textContent = isBelowTarget ? `Continue ${stateName} practice` : "Open test-day checklist";
-        annotateDmvStateLink(nextLink, option, isBelowTarget ? "practice" : "checklist");
+        nextLink.textContent = needsPractice ? `Continue ${stateName} practice` : "Open test-day checklist";
+        annotateDmvStateLink(nextLink, option, needsPractice ? "practice" : "checklist");
       }
+      return { outcome, sectionCorrect: sectionKnown ? sectionCorrect : null };
     };
 
     const renderState = () => {
@@ -2501,6 +2566,14 @@ function initDmvScoreCalculators() {
       if (!option) return;
       const officialQuestions = option.dataset.questions || "";
       const officialCorrect = option.dataset.correct || "";
+      if (correctLabel) correctLabel.textContent = option.dataset.primaryScoreLabel || "Practice correct";
+      if (totalLabel) totalLabel.textContent = option.dataset.primaryTotalLabel || "Practice total";
+      const separateSections = Number(option.dataset.sectionQuestions) > 0 && option.dataset.sectionIncluded !== "true";
+      if (lengthLabel) lengthLabel.textContent = separateSections ? option.dataset.primaryTotalLabel : "Official length";
+      if (lengthNote) lengthNote.textContent = separateSections
+        ? "Length of this section only. The road-sign section has its own passing requirement."
+        : "Questions on the state knowledge test when the source gives a fixed number.";
+      if (sectionInput) sectionInput.value = "";
       if (agency) agency.textContent = option.dataset.agency || "State agency";
       if (rule) rule.textContent = option.dataset.rule || "Confirm with official source";
       if (note) note.textContent = option.dataset.note || "Use the official source for the final passing rule.";
@@ -2536,6 +2609,7 @@ function initDmvScoreCalculators() {
     });
     correctInput?.addEventListener("input", renderScore);
     totalInput?.addEventListener("input", renderScore);
+    sectionInput?.addEventListener("input", renderScore);
     useOfficial?.addEventListener("click", () => {
       const option = currentOption();
       const officialQuestions = Number(option?.dataset.questions) || 0;
@@ -2546,12 +2620,15 @@ function initDmvScoreCalculators() {
     });
     checkScore?.addEventListener("click", () => {
       scoreChecked = true;
-      renderScore();
+      const result = renderScore();
+      if (!result) return;
       const option = currentOption();
       trackToolEvent("dmv_score_checked", {
         state: option?.value || "unknown",
         practice_correct: Number(correctInput?.value) || 0,
         practice_total: Number(totalInput?.value) || 0,
+        result: result.outcome,
+        road_sign_correct: result.sectionCorrect,
       });
     });
     nextLink?.addEventListener("click", () => {
