@@ -42,6 +42,22 @@ The script regenerates root HTML pages, `sitemap.xml`, and `robots.txt`.
 
 Canonical URLs are generated from the `site.url` value in `content/site_data.json`.
 
+SAT date planners use the registration dates in the calendar data. The August
+score page references the full-year schedule through `toolWidget.scheduleSource`;
+its archived August calendar file stays separate. Keep past dates as historical
+entries, not as upcoming registration targets.
+
+After a SAT schedule or planner change, build the site and run the browser checks
+with Playwright installed and Google Chrome available:
+
+```bash
+node --test tests/sat-date-planner.test.cjs
+```
+
+The checks cover both planners, Eastern-time deadline boundaries, saved-plan
+refresh, calendar downloads, and mobile/desktop layouts. Set
+`VERIFY_SCREENSHOTS_DIR` to retain local verification screenshots.
+
 After changing the printable road-sign sheet, regenerate its downloadable PDF:
 
 ```bash

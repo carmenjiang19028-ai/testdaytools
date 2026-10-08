@@ -3120,8 +3120,8 @@ function initSatDatePlanners() {
     const stageReason = (stage, deadline) => {
       if (stage === "junior_first") return "Spring gives a first-time junior room to review the score and test again.";
       if (stage === "junior_retake") return "This spring date leaves a later administration available if another retake is useful.";
-      if (deadline === "early") return "This fall date preserves more room before early application deadlines.";
-      if (deadline === "regular") return "This date fits a regular-decision timeline while keeping registration visible.";
+      if (deadline === "early") return "This date meets your study runway, but may be too late for early applications. Confirm each college's final accepted test date and score-send deadline.";
+      if (deadline === "regular") return "This date meets your study runway. Confirm that its score-release and score-send timing meet each college's regular-decision policy.";
       return "This is the earliest listed date that fits the preparation runway you selected.";
     };
 
@@ -3154,7 +3154,7 @@ function initSatDatePlanners() {
       }
 
       currentPlan = { stage, deadline, readiness, wantsRetake, primary, backup, createdAt: Date.now() };
-      if (headline) headline.textContent = `${primary.label} is the strongest fit`;
+      if (headline) headline.textContent = `${primary.label} matches your study runway`;
       if (reason) {
         reason.textContent = `${stageReason(stage, deadline)} It is ${daysUntil(primary.date)} days away, matching the ${minimumDays}+ day runway you chose.`;
       }

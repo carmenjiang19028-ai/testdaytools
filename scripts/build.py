@@ -1409,8 +1409,9 @@ def render_quick_facts(facts):
 
 
 def render_sat_date_planner(tool, widget):
+    schedule = TOOL_BY_SLUG[widget["scheduleSource"]] if widget.get("scheduleSource") else tool
     events = []
-    for event in tool.get("calendarDownload", {}).get("events", []):
+    for event in schedule.get("calendarDownload", {}).get("events", []):
         if not event.get("registrationDate") or not event.get("lateDate"):
             continue
         events.append({
