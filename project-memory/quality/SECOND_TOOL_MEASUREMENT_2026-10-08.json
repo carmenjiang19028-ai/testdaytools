@@ -1,0 +1,67 @@
+{
+  "verified_at_utc": "2026-10-08T10:57:02Z",
+  "scope": "Authenticated GA4 read-only page-level report and forward-only measurement repair",
+  "property": "TestDayTools / 539983534",
+  "source": "https://analytics.google.com/analytics/web/#/a396601195p539983534/reports/explorer",
+  "current_window": ["2026-09-10", "2026-10-07"],
+  "previous_window": ["2026-08-13", "2026-09-09"],
+  "filters": ["Session primary channel group exactly Organic Search", "Event name primary dimension", "Page path and screen class secondary dimension"],
+  "report_data_quality": "UI reports 100% of available data; last full calendar day is October 7, not proof processing is final",
+  "pages": [
+    {
+      "page_path": "/road-signs-practice-test.html",
+      "rows": [
+        {"event": "page_view", "count": 40, "users": 29, "previous_count": 12, "previous_users": 11},
+        {"event": "session_start", "count": 22, "users": 18, "previous_count": 6, "previous_users": 6},
+        {"event": "quiz_start", "count": 15, "users": 13, "previous_count": 5, "previous_users": 5},
+        {"event": "quiz_halfway", "count": 12, "users": 10, "previous_count": 3, "previous_users": 3},
+        {"event": "quiz_complete", "count": 11, "users": 9, "previous_count": 3, "previous_users": 3},
+        {"event": "study_next_step_click", "count": 10, "users": 6, "previous_count": 0, "previous_users": 0},
+        {"event": "study_value_milestone", "count": 18, "users": 13, "previous_count": 3, "previous_users": 3}
+      ],
+      "coverage": "Selected rows from the first 50 event/page combinations; absent rows are not asserted zero"
+    },
+    {
+      "page_path": "/dmv-road-signs-cheat-sheet.html",
+      "rows": [
+        {"event": "page_view", "count": 21, "users": 18, "previous_count": 19, "previous_users": 15},
+        {"event": "session_start", "count": 17, "users": 17, "previous_count": 16, "previous_users": 15},
+        {"event": "resource_download", "count": 8, "users": 8, "previous_count": 9, "previous_users": 6},
+        {"event": "resource_print", "count": 1, "users": 1, "previous_count": 0, "previous_users": 0},
+        {"event": "study_value_milestone", "count": 1, "users": 1, "previous_count": 3, "previous_users": 3}
+      ],
+      "coverage": "All nine event/page combinations after table search dmv-road-signs-cheat-sheet; no study_next_step_click row",
+      "duplicate_warning": "file_download also has 8 events/8 users; do not add it to resource_download"
+    },
+    {
+      "page_path": "/new-york-dmv-road-signs-practice.html",
+      "rows": [
+        {"event": "page_view", "count": 13, "users": 11, "previous_count": 8, "previous_users": 8},
+        {"event": "quiz_start", "count": 5, "users": 5, "previous_count": 3, "previous_users": 2},
+        {"event": "quiz_halfway", "count": 4, "users": 4, "previous_count": 3, "previous_users": 2},
+        {"event": "quiz_complete", "count": 4, "users": 4, "previous_count": 3, "previous_users": 2},
+        {"event": "study_value_milestone", "count": 3, "users": 3, "previous_count": 0, "previous_users": 0}
+      ],
+      "coverage": "Selected rows from the first 50 event/page combinations; absent rows are not asserted zero"
+    }
+  ],
+  "interpretation": [
+    "These page-level event/user totals are not a strict shared-cohort funnel or reliable return rate",
+    "Printable download users divided by page-view users is an aggregate proxy, not a landing-session conversion rate",
+    "Existing study_value_milestone combines second_tool_action and ten_questions_attempted; its user count is not all second-tool users",
+    "The secondary-dimension Custom menu currently exposes only Source Section, Target Path and Tool, not milestone",
+    "The legacy second_tool_action also includes navigation, state selection and repeating the same tool; retain it only as an action proxy"
+  ],
+  "new_measurement": {
+    "effective_from": "2026-10-08 deployment, not retroactive",
+    "events": ["study_second_tool_used", "study_ten_questions_attempted"],
+    "second_tool_rule": "One event after meaningful actions in two distinct tool families within one browser-tab 30-minute activity window",
+    "included_families": ["printable_resource", "picture_quiz", "sign_flashcards", "passing_score_calculator", "sat_goal_planner", "sat_date_planner", "sat_seasonal_planner"],
+    "excluded_as_new_tools": ["page views", "navigation clicks", "state selection", "mastery review navigation", "repeat quiz rounds", "switching state quiz pages", "saving/downloading the same SAT plan"],
+    "observed_custom_dimension_labels": ["Tool", "Source Section", "Target Path"],
+    "emitted_report_parameters": {"tool": "second tool family", "section": "first tool family", "target": "first page path"},
+    "caveats": ["Client-side activity signal, not a GA4 session ID or server-verified outcome", "A download or print request does not prove a completed offline print or learning improvement", "Storage-blocked paths are conservatively undercounted", "No persistent identifier or personally identifying field added", "Custom dimension underlying parameter mappings have not been inspected; verify before claiming source-path attribution", "Do not add aliases to legacy milestone counts or treat an increase in total events as product/traffic growth"]
+  },
+  "verification": {"node_tests_passed": 27, "isolated_browser_paths_passed": 4, "external_analytics_requests_in_tests": "blocked", "page_content_or_search_metadata_changed": false},
+  "next_decision": "First verify new-event ingestion with the same Organic Search filter and inspect existing custom-dimension parameter mappings before grouping by first/second tool or origin path. Wait for enough complete days before judging cross-tool usage. Do not rewrite winning pages from this aggregate snapshot."
+}

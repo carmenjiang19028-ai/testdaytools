@@ -64,6 +64,7 @@ function loadApp({ session = storage(), local = storage(), pathname = "/sat-scor
     tick() { while (timers.length) timers.shift()(); },
     advance(milliseconds) { now += milliseconds; },
     milestones: () => events.filter((event) => event[1] === "study_value_milestone"),
+    toolUses: () => events.filter((event) => event[1] === "study_second_tool_used"),
   };
 }
 
@@ -91,6 +92,7 @@ test("SAT goal generation followed by a successful save records the second actio
   assert.equal(milestone.second_action, "sat_goal_saved");
   assert.equal(milestone.page_path, "/sat-score-goal-planner.html");
   assert.equal(milestone.action_index, 2);
+  assert.equal(app.toolUses().length, 0, "Generating and saving the same plan is not a second tool");
 });
 
 test("restoring a saved plan and editing an input do not count as explicit actions", () => {
@@ -129,6 +131,9 @@ test("a goal plan can be the first action before navigating to another tool", ()
   assert.equal(next.milestones().length, 1);
   assert.equal(next.milestones()[0][2].first_action, "sat_goal_generated");
   assert.equal(next.milestones()[0][2].page_path, "/road-signs-practice-test.html");
+  assert.equal(next.toolUses().length, 1);
+  assert.equal(next.toolUses()[0][2].first_tool, "sat_goal_planner");
+  assert.equal(next.toolUses()[0][2].second_tool, "picture_quiz");
 });
 
 test("an expired activity window starts a new action count", () => {
@@ -161,9 +166,112 @@ test("a PDF download followed by flashcard marking records the second action", (
   assert.equal(milestone.first_action, "resource_download");
   assert.equal(milestone.second_action, "flashcard_mark");
   assert.equal(milestone.page_path, "/dmv-road-sign-flashcards.html");
+  assert.equal(next.toolUses().length, 1);
+  assert.equal(next.toolUses()[0][2].first_page_path, "/dmv-road-signs-cheat-sheet.html");
   next.track("flashcard_mark", { status: "review" });
   next.tick();
   assert.equal(next.milestones().length, 1);
+  assert.equal(next.toolUses().length, 1);
+});
+
+test("navigation and state selection are not another used tool after a download", () => {
+  const session = storage();
+  const first = loadApp({ session, pathname: "/dmv-road-signs-cheat-sheet.html" });
+  first.track("resource_download", { resource: "dmv_road_signs_cheat_sheet_pdf" });
+  first.tick();
+  first.track("study_next_step_click", { target: "/road-signs-practice-test.html" });
+  first.tick();
+  assert.equal(first.toolUses().length, 0);
+  const next = loadApp({ session, pathname: "/road-signs-practice-test.html" });
+  next.track("page_view");
+  next.track("study_state_change", { state: "new-york" });
+  next.track("mastery_review_start");
+  next.tick();
+  assert.equal(next.toolUses().length, 0);
+  next.track("quiz_start");
+  next.tick();
+  const use = next.toolUses()[0][2];
+  assert.equal(use.first_resource, "dmv_road_signs_cheat_sheet_pdf");
+  assert.equal(use.first_tool, "printable_resource");
+  assert.equal(use.tool, "picture_quiz");
+  assert.equal(use.target, "/dmv-road-signs-cheat-sheet.html");
+  assert.equal(use.activity_window, "browser_tab_30min");
+});
+
+test("repeat rounds and switching quiz pages are one tool; a flashcard action is a second", () => {
+  const session = storage();
+  const first = loadApp({ session, pathname: "/road-signs-practice-test.html" });
+  first.track("quiz_start");
+  first.tick();
+  first.track("quiz_start");
+  first.tick();
+  assert.equal(first.toolUses().length, 0);
+  const stateQuiz = loadApp({ session, pathname: "/new-york-dmv-road-signs-practice.html" });
+  stateQuiz.track("quiz_start");
+  stateQuiz.tick();
+  assert.equal(stateQuiz.toolUses().length, 0);
+  const deck = loadApp({ session, pathname: "/dmv-road-sign-flashcards.html" });
+  deck.track("flashcard_mark");
+  deck.tick();
+  assert.equal(deck.toolUses().length, 1);
+  assert.equal(deck.toolUses()[0][2].first_page_path, "/road-signs-practice-test.html");
+  deck.track("resource_download");
+  deck.tick();
+  assert.equal(deck.toolUses().length, 1, "The strict signal fires once per activity window");
+});
+
+test("calendar download and saving an SAT date plan stay within one tool", () => {
+  const app = loadApp({ pathname: "/sat-test-dates-2026-2027.html" });
+  app.track("sat_plan_generated");
+  app.tick();
+  app.track("sat_plan_saved");
+  app.tick();
+  app.track("sat_date_selected", { action: "calendar_download" });
+  app.track("resource_download", { resource: "sat_primary_date_calendar" });
+  app.tick();
+  assert.equal(app.toolUses().length, 0);
+});
+
+test("an expired window cannot carry an old tool into the next use", () => {
+  const app = loadApp();
+  app.track("resource_download");
+  app.tick();
+  app.advance(30 * 60 * 1000 + 1);
+  app.track("quiz_start");
+  app.tick();
+  assert.equal(app.toolUses().length, 0);
+  app.track("flashcard_mark");
+  app.tick();
+  assert.equal(app.toolUses()[0][2].first_tool, "picture_quiz");
+});
+
+test("legacy storage is readable but cannot retrospectively establish another used tool", () => {
+  const session = storage();
+  session.setItem("tdt-value-path:v1", JSON.stringify({ actions: [{ name: "resource_download", at: 999999 }], lastActionAt: 999999 }));
+  const app = loadApp({ session, pathname: "/road-signs-practice-test.html" });
+  app.track("quiz_start");
+  app.tick();
+  assert.equal(app.milestones().length, 1);
+  assert.equal(app.toolUses().length, 0);
+});
+
+test("multiple events from one gesture do not establish two used tools", () => {
+  const app = loadApp();
+  app.track("resource_download");
+  app.track("quiz_start");
+  app.tick();
+  assert.equal(app.toolUses().length, 0);
+});
+
+test("blocked session storage does not fabricate cross-page tool use", () => {
+  const session = { getItem: () => null, setItem() { throw new Error("Storage blocked"); } };
+  const first = loadApp({ session, pathname: "/dmv-road-signs-cheat-sheet.html" });
+  first.track("resource_download");
+  first.tick();
+  const next = loadApp({ session, pathname: "/road-signs-practice-test.html" });
+  next.track("quiz_start");
+  next.tick();
+  assert.equal(next.toolUses().length, 0);
 });
 
 test("a failed local save does not count as a completed action", () => {

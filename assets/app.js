@@ -34,16 +34,39 @@ const VALUE_PATH_EVENTS = new Set([
 ]);
 let pendingValueAction = null;
 
+function meaningfulToolUse(eventName, params) {
+  const pagePath = params.page_path || window.location.pathname || "/";
+  let tool = "";
+  if (eventName === "quiz_start") tool = "picture_quiz";
+  if (eventName === "flashcard_mark") tool = "sign_flashcards";
+  if (eventName === "dmv_score_checked") tool = "passing_score_calculator";
+  if (["sat_goal_generated", "sat_goal_saved"].includes(eventName)) tool = "sat_goal_planner";
+  if (["sat_plan_generated", "sat_plan_saved"].includes(eventName)) tool = "sat_date_planner";
+  if (["sat_august_plan_generated", "sat_august_plan_saved"].includes(eventName)) tool = "sat_seasonal_planner";
+  if (["resource_download", "resource_print"].includes(eventName)) {
+    tool = pagePath === "/sat-test-dates-2026-2027.html" ? "sat_date_planner"
+      : pagePath === "/sat-august-22-2026-planning.html" ? "sat_seasonal_planner"
+      : "printable_resource";
+  }
+  if (!tool) return null;
+  return { tool, pagePath, action: eventName, resource: params.resource || "" };
+}
+
 function readValuePathState() {
   try {
     const saved = JSON.parse(window.sessionStorage.getItem(VALUE_PATH_STORAGE_KEY) || "null");
-    if (!saved || !Array.isArray(saved.actions)) return { actions: [], lastActionAt: 0 };
+    if (!saved || !Array.isArray(saved.actions)) return { actions: [], toolUses: [], lastActionAt: 0 };
     if (saved.lastActionAt && Date.now() - saved.lastActionAt > VALUE_PATH_TIMEOUT_MS) {
-      return { actions: [], lastActionAt: 0 };
+      return { actions: [], toolUses: [], lastActionAt: 0 };
     }
-    return { actions: saved.actions.slice(-20), lastActionAt: Number(saved.lastActionAt) || 0 };
+    return {
+      actions: saved.actions.slice(-20),
+      toolUses: Array.isArray(saved.toolUses) ? saved.toolUses.filter((use) => use?.tool && use?.pagePath).slice(0, 10) : [],
+      secondToolTracked: saved.secondToolTracked === true,
+      lastActionAt: Number(saved.lastActionAt) || 0,
+    };
   } catch (error) {
-    return { actions: [], lastActionAt: 0 };
+    return { actions: [], toolUses: [], lastActionAt: 0 };
   }
 }
 
@@ -60,11 +83,14 @@ function queueValuePathAction(eventName, params) {
   if (!pendingValueAction) {
     pendingValueAction = {
       events: [],
+      toolUses: [],
       pagePath: params.page_path,
       timer: window.setTimeout(flushValuePathAction, 0),
     };
   }
   pendingValueAction.events.push(eventName);
+  const use = meaningfulToolUse(eventName, params);
+  if (use) pendingValueAction.toolUses.push(use);
 }
 
 function flushValuePathAction() {
@@ -77,6 +103,11 @@ function flushValuePathAction() {
   state.actions.push({ name: actionName, at: Date.now() });
   state.actions = state.actions.slice(-20);
   state.lastActionAt = Date.now();
+  // One gesture is one use; navigation and another mode of the same tool are not new tools.
+  const use = pending.toolUses[0];
+  if (use && !state.toolUses.some((previous) => previous.tool === use.tool)) state.toolUses.push(use);
+  const secondToolReached = state.toolUses.length >= 2 && !state.secondToolTracked;
+  if (secondToolReached) state.secondToolTracked = true;
   writeValuePathState(state);
 
   if (state.actions.length === 2) {
@@ -86,6 +117,24 @@ function flushValuePathAction() {
       first_action: state.actions[0].name,
       second_action: actionName,
       action_index: 2,
+      transport_type: "beacon",
+    });
+  }
+  if (secondToolReached) {
+    const first = state.toolUses[0];
+    const second = state.toolUses[1];
+    window.gtag("event", "study_second_tool_used", {
+      page_path: second.pagePath,
+      first_tool: first.tool,
+      second_tool: second.tool,
+      first_page_path: first.pagePath,
+      first_action: first.action,
+      second_action: second.action,
+      first_resource: first.resource,
+      tool: second.tool,
+      section: first.tool,
+      target: first.pagePath,
+      activity_window: "browser_tab_30min",
       transport_type: "beacon",
     });
   }
@@ -691,13 +740,15 @@ function initQuizzes() {
 
       if (answeredCount >= 10 && !tenQuestionsTracked) {
         tenQuestionsTracked = true;
-        trackToolEvent("study_value_milestone", {
+        const milestoneParams = {
           milestone: "ten_questions_attempted",
           tool: quizLabel,
           mode: quiz.dataset.modeId || "default",
           total: activeTotal,
           answered: answeredCount,
-        });
+        };
+        trackToolEvent("study_value_milestone", milestoneParams);
+        trackToolEvent("study_ten_questions_attempted", milestoneParams);
       }
 
       if (halfwayReached && !quizHalfwayTracked) {
