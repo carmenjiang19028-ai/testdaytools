@@ -24137,7 +24137,7 @@
       "slug": "about",
       "title": "About TestDayTools",
       "description": "Learn what TestDayTools is, how the site is maintained, and why all tools are unofficial.",
-      "lastUpdated": "July 14, 2026",
+      "lastUpdated": "October 12, 2026",
       "content": [
         {
           "heading": "What we make",
@@ -24146,6 +24146,10 @@
         {
           "heading": "How we work",
           "text": "Pages are built from simple data files so dates, FAQs, checklists, and practice questions can be updated without redesigning the site."
+        },
+        {
+          "heading": "AI-assisted production",
+          "text": "TestDayTools uses AI-assisted tools to help draft text, develop code, and create simplified study illustrations. The tools and questions are unofficial study material, not government test questions or professional instruction. Linked official sources remain the authority for rules and deadlines."
         },
         {
           "heading": "Editorial approach",
@@ -24191,7 +24195,7 @@
       "slug": "editorial-policy",
       "title": "Editorial Policy",
       "description": "How TestDayTools writes, checks, updates, and labels unofficial DMV, AP, and SAT tools.",
-      "lastUpdated": "July 14, 2026",
+      "lastUpdated": "October 12, 2026",
       "content": [
         {
           "heading": "Purpose",
@@ -24200,6 +24204,10 @@
         {
           "heading": "Original tools and questions",
           "text": "Practice questions, sign illustrations, checklists, and study flows are written for this site. DMV sign graphics are simplified original SVG illustrations used for recognition practice."
+        },
+        {
+          "heading": "AI assistance and its limits",
+          "text": "AI-assisted tools are used during content drafting, coding, and illustration work. Automated checks and comparisons with linked official sources support maintenance, but do not establish that every item has been reviewed by a qualified driving instructor or examiner. Corrections are welcome through the Contact page; where this site conflicts with an official source, use the official source."
         },
         {
           "heading": "User-confusion research",
