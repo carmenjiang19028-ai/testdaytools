@@ -752,7 +752,8 @@ h3 {
   background: white;
 }
 
-.preview-sign svg {
+.preview-sign svg,
+.preview-sign img {
   width: 100%;
   max-width: 96px;
   height: auto;
@@ -2776,7 +2777,8 @@ h3 {
   width: 88px;
 }
 
-.sign-thumb svg {
+.sign-thumb svg,
+.sign-thumb img {
   display: block;
   width: 100%;
   height: auto;
@@ -5888,9 +5890,11 @@ button:disabled {
 }
 
 .cheat-sign-visual,
-.cheat-sign-visual svg {
+.cheat-sign-visual svg,
+.cheat-sign-visual img {
   display: block;
   width: 92px;
+  height: auto;
 }
 
 .cheat-sign-card strong {
@@ -5999,7 +6003,8 @@ button:disabled {
   }
 
   .cheat-sign-visual,
-  .cheat-sign-visual svg {
+  .cheat-sign-visual svg,
+  .cheat-sign-visual img {
     width: 76px;
   }
 }
@@ -6047,7 +6052,8 @@ button:disabled {
   }
 
   .cheat-sign-visual,
-  .cheat-sign-visual svg {
+  .cheat-sign-visual svg,
+  .cheat-sign-visual img {
     width: 68px;
   }
 

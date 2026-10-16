@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import quote
+from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -59,12 +60,14 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 ROAD_SIGN_CHEAT_SHEET_SLUG = "dmv-road-signs-cheat-sheet"
+ROAD_SIGN_PICTURE_SLUG = "road-signs-practice-test"
+ROAD_SIGN_PICTURE_PREVIEW = "assets/road-signs-practice-test-preview.png"
 ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "slug": ROAD_SIGN_CHEAT_SHEET_SLUG,
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "September 18, 2026",
+    "lastUpdated": "October 16, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -156,6 +159,49 @@ def is_external_url(path):
     return str(path).startswith(("http://", "https://"))
 
 
+def road_sign_image_records():
+    records = {}
+    for group in TOOL_BY_SLUG[ROAD_SIGN_PICTURE_SLUG]["signLibrary"]["groups"]:
+        for sign in group["signs"]:
+            if sign["image"] not in SIGN_SVGS:
+                raise ValueError(f"Missing road sign artwork: {sign['image']}")
+            records.setdefault(sign["image"], sign)
+    return list(records.values())
+
+
+def road_sign_image_path(key):
+    if key not in SIGN_SVGS:
+        raise ValueError(f"Missing road sign artwork: {key}")
+    return f"assets/road-signs/{key}-road-sign.svg"
+
+
+def render_road_sign_image(key, label, lazy=True):
+    loading = ' loading="lazy"' if lazy else ""
+    return (
+        f'<img src="{esc(road_sign_image_path(key))}" alt="{esc(label)} road sign" '
+        f'width="220" height="160" decoding="async"{loading}>'
+    )
+
+
+def write_road_sign_images():
+    for sign in road_sign_image_records():
+        root = ElementTree.fromstring(SIGN_SVGS[sign["image"]])
+        root.attrib.pop("aria-hidden", None)
+        root.set("xmlns", "http://www.w3.org/2000/svg")
+        root.set("width", "220")
+        root.set("height", "160")
+        title = ElementTree.Element("title")
+        title.text = f"{sign['title']} road sign"
+        root.insert(0, title)
+        write(road_sign_image_path(sign["image"]), ElementTree.tostring(root, encoding="unicode") + "\n")
+
+
+def road_sign_images_for_page(path):
+    if path not in {f"/{ROAD_SIGN_PICTURE_SLUG}.html", f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html"}:
+        return []
+    return [road_sign_image_path(sign["image"]) for sign in road_sign_image_records()]
+
+
 def sitemap_lastmod():
     return format_lastmod(SITE["lastUpdated"])
 
@@ -211,12 +257,16 @@ def sitemap_priority(path):
 def sitemap_entry(path, lastmod):
     priority, changefreq = sitemap_priority(path)
     lastmod_line = f"\n    <lastmod>{esc(lastmod)}</lastmod>" if lastmod else ""
+    image_lines = "".join(
+        f"\n    <image:image><image:loc>{esc(url_for('/' + image))}</image:loc></image:image>"
+        for image in road_sign_images_for_page(path)
+    )
     return (
         "  <url>\n"
         f"    <loc>{esc(url_for(path))}</loc>"
         f"{lastmod_line}\n"
         f"    <changefreq>{esc(changefreq)}</changefreq>\n"
-        f"    <priority>{esc(priority)}</priority>\n"
+        f"    <priority>{esc(priority)}</priority>{image_lines}\n"
         "  </url>"
     )
 
@@ -363,12 +413,15 @@ def render_ad(label="future ad"):
     return f"<!-- Reserved {esc(label).lower()} slot. Real ads are intentionally disabled for the static launch. -->"
 
 
-def render_sign_preview_strip():
+def render_sign_preview_strip(external_images=False):
     signs = []
     for key, label in [("stop", "Stop"), ("yield", "Yield"), ("merge", "Merge")]:
         svg = SIGN_SVGS.get(key, "")
         if svg:
-            signs.append(f'<div class="preview-sign" role="img" aria-label="{esc(label)} road sign">{svg}</div>')
+            if external_images:
+                signs.append(f'<div class="preview-sign">{render_road_sign_image(key, label, lazy=False)}</div>')
+            else:
+                signs.append(f'<div class="preview-sign" role="img" aria-label="{esc(label)} road sign">{svg}</div>')
     return f'<div class="hero-sign-strip" aria-label="Road sign practice preview">{"".join(signs)}</div>'
 
 
@@ -1355,7 +1408,7 @@ def render_tool_hero_panel(tool):
     source = next((item["value"] for item in facts if item["label"].lower() == "official source"), "Official driver handbook")
     return f"""<aside class="tool-hero-panel" aria-label="Practice summary">
   <div class="panel-status"><span>Free practice</span><strong>Instant feedback</strong></div>
-  {render_sign_preview_strip()}
+  {render_sign_preview_strip(external_images=tool.get("slug") == ROAD_SIGN_PICTURE_SLUG)}
   <div class="panel-facts">{fact_rows}</div>
   <ol class="panel-mode-list">{mode_rows}</ol>
   <p class="panel-source">Use with: {esc(source)}</p>
@@ -1818,8 +1871,13 @@ def render_sign_library(tool):
             svg = SIGN_SVGS.get(item["image"], "")
             if not svg:
                 continue
+            visual = (
+                f'<div class="sign-thumb">{render_road_sign_image(item["image"], item["title"])}</div>'
+                if tool.get("slug") == ROAD_SIGN_PICTURE_SLUG
+                else f'<div class="sign-thumb" role="img" aria-label="{esc(item["title"])}">{svg}</div>'
+            )
             signs.append(f"""<article class="sign-tile">
-  <div class="sign-thumb" role="img" aria-label="{esc(item["title"])}">{svg}</div>
+  {visual}
   <div><strong>{esc(item["title"])}</strong><p>{esc(item["meaning"])}</p></div>
 </article>""")
         groups.append(f"""<article class="sign-group">
@@ -2516,6 +2574,10 @@ def render_tool(tool):
     canonical = url_for(f'/{tool["slug"]}.html')
     resource_schema = schema(tool["title"], tool["description"], canonical, page_type)
     resource_schema.update(tool.get("schema", {}))
+    social_image = None
+    if tool["slug"] == ROAD_SIGN_PICTURE_SLUG:
+        social_image = ROAD_SIGN_PICTURE_PREVIEW
+        resource_schema["image"] = url_for(f"/{social_image}")
     return page_shell(
         tool["title"],
         tool["description"],
@@ -2523,6 +2585,7 @@ def render_tool(tool):
         body,
         "tool-page",
         [resource_schema, breadcrumb_schema(tool["title"], canonical)],
+        social_image=social_image,
         indexable=tool.get("indexable", True),
     )
 
@@ -3057,7 +3120,7 @@ def render_road_sign_cheat_sheet_page():
         for sign in group.get("signs", []):
             sign_count += 1
             signs.append(f"""<article class="cheat-sign-card">
-  <div class="cheat-sign-visual" role="img" aria-label="{esc(sign['title'])} road sign">{SIGN_SVGS.get(sign["image"], "")}</div>
+  <div class="cheat-sign-visual">{render_road_sign_image(sign["image"], sign["title"], lazy=False)}</div>
   <div><strong>{esc(sign["title"])}</strong><p>{esc(sign["meaning"])}</p></div>
 </article>""")
         rendered_groups.append(f"""<section class="cheat-group">
@@ -3082,7 +3145,7 @@ def render_road_sign_cheat_sheet_page():
     </div>
     <aside class="tool-hero-panel" aria-label="Cheat sheet summary">
       <div class="panel-status"><span>Free resource</span><strong>No email required</strong></div>
-      {render_sign_preview_strip()}
+      {render_sign_preview_strip(external_images=True)}
       <div class="panel-facts"><div><span>Included</span><strong>{sign_count} original sign pictures</strong></div><div><span>Print layout</span><strong>Compact two-column study sheet</strong></div><div><span>Best next step</span><strong>Quiz the signs you cannot name quickly</strong></div></div>
     </aside>
   </div>
@@ -4251,6 +4314,7 @@ def write(path, content):
 
 
 def build():
+    write_road_sign_images()
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))
@@ -4271,7 +4335,7 @@ def build():
 
     urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"] if tool.get("indexable", True)] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
     sitemap_urls = "\n".join(sitemap_entry(path, lastmod_for_path(path)) for path in dict.fromkeys(urls))
-    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap_urls}\n</urlset>\n')
+    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{sitemap_urls}\n</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
 
 

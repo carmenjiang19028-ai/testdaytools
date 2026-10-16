@@ -71,6 +71,17 @@ The PDF builder uses an installed Chrome or Chromium binary and writes
 The classroom-pack builder uses ReportLab and writes
 `dmv-road-signs-classroom-worksheet.pdf` at the site root.
 
+The site build also exports the existing road-sign illustrations to
+`assets/road-signs/`. The picture-test and printable pages reuse these SVG files
+with image entries in the existing sitemap. Quiz artwork stays inline.
+After changing the artwork, rebuild the picture-test preview with Playwright:
+
+```bash
+node scripts/build_road_sign_preview.cjs
+python3 -m unittest discover -s tests -p 'test_*.py'
+node --test tests/road-sign-image-discovery.test.cjs
+```
+
 ## Local preview
 
 Open `index.html` directly, or run:
