@@ -1126,7 +1126,7 @@ def render_tool_actions(tool):
             ("Passing score", "dmv-permit-test-passing-score-calculator.html?source=checklist_hero#score-calculator"),
             ("Practice hub", "dmv-practice.html#state-paths"),
         ]
-    elif is_sign_page:
+    elif is_sign_page and (tool.get("quiz") or tool.get("quizModes")):
         actions = [
             ("Start image quiz", "#practice"),
             ("Focus paths", "#sign-focus") if resolve_sign_focus_shortcuts(tool) else None,
@@ -1140,6 +1140,12 @@ def render_tool_actions(tool):
             actions.append(("Test-day checklist", checklist_href_for_state(state)))
         elif slug == "road-signs-practice-test":
             actions.append(("Passing score", "dmv-permit-test-passing-score-calculator.html#score-calculator"))
+    elif is_sign_page:
+        actions = [
+            ("Nationwide picture quiz", "road-signs-practice-test.html?mode=road-signs-core#practice"),
+            ("State test details", "#official-details"),
+            ("Official sources", "#sources"),
+        ]
     else:
         actions = [
             ("Start practice", "#practice"),
@@ -1398,6 +1404,13 @@ def render_tool_hero_panel(tool):
   <ol class="panel-mode-list">{mode_rows}</ol>
   <p class="panel-source">Use with: {esc(source)}</p>
 </aside>"""
+    if tool.get("category") == "DMV" and "road-signs" in tool.get("slug", "") and not (tool.get("quiz") or tool.get("quizModes")):
+        return f"""<aside class="tool-hero-panel" aria-label="State guide summary">
+  <div class="panel-status"><span>State study guide</span><strong>Official sources</strong></div>
+  <div class="panel-facts">{fact_rows}</div>
+  <ol class="panel-mode-list"><li><span>Interactive practice</span><strong>Shared nationwide quiz</strong></li></ol>
+  <p class="panel-source">Use the official state links for current rules and test details.</p>
+</aside>"""
     modes = tool.get("quizModes", [])
     mode_rows = "".join(
         f'<li><span>{esc(mode["label"])}</span><strong>{quiz_question_count(mode)} questions</strong></li>'
@@ -1430,7 +1443,7 @@ def render_practice_console(tool):
         ]
         heading = "Test-day readiness console"
         intro = "This page is built for the final stretch: official source, state practice, road signs, saved mistakes, and logistics in one low-friction flow."
-    elif is_sign_page:
+    elif is_sign_page and (tool.get("quiz") or tool.get("quizModes")):
         items = [
             ("Step 1", "Identify the sign", "Use the image first, then read the choices."),
             ("Step 2", "Check shape and color", "Connect the sign to the study guide below."),
@@ -1439,6 +1452,15 @@ def render_practice_console(tool):
         ]
         heading = "Road sign lab built for visual practice"
         intro = "Road-sign pages should feel like a small image tool, not a plain article. Start the quiz, review misses, then use the sign guide without leaving the page."
+    elif is_sign_page:
+        items = [
+            ("1", "Confirm the state rule", "Use the linked agency page for the current format, pass threshold, and retake instructions."),
+            ("2", "Study from the state source", "Open the official handbook or sign reference linked on this guide."),
+            ("3", "Practice the shared picture set", "Use the nationwide quiz for interactive sign questions and explanations."),
+            ("4", "Return to the manual", "Check exact state wording before test day."),
+        ]
+        heading = "Study path for this state"
+        intro = "This guide combines state-specific exam details with official references and points to the shared picture quiz for interactive practice."
     else:
         items = [
             ("Mode", "Choose a round", "Quick practice, road signs, or a longer mock exam."),
@@ -1471,10 +1493,16 @@ def render_trust_strip(tool):
             official = fact.get("value", official)
             break
     updated = tool.get("lastUpdated", SITE["lastUpdated"])
+    if tool.get("category") == "DMV" and "road-signs" in tool.get("slug", "") and not (tool.get("quiz") or tool.get("quizModes")):
+        quality_note = "State-specific exam details"
+        privacy_note = "No answers collected on this guide"
+    else:
+        quality_note = "Original practice questions"
+        privacy_note = "Answers stay in this browser"
     return f"""<section class="trust-strip" aria-label="Practice trust notes">
   <div><span>Source context</span><strong>{esc(official)}</strong></div>
-  <div><span>Privacy</span><strong>Answers stay in this browser</strong></div>
-  <div><span>Quality check</span><strong>Original practice questions</strong></div>
+  <div><span>Privacy</span><strong>{esc(privacy_note)}</strong></div>
+  <div><span>Quality check</span><strong>{esc(quality_note)}</strong></div>
   <div><span>Updated</span><strong>{esc(updated)}</strong></div>
 </section>"""
 
@@ -2138,11 +2166,13 @@ def render_tool_links(slugs):
     return "".join(links)
 
 
-def render_sources(sources):
+def render_sources(sources, state_guide=False):
     if not sources:
         return ""
     items = "".join(f'<li><a href="{esc(src["url"])}">{esc(src["label"])}</a></li>' for src in sources)
-    return f'<section class="sources"><h2>Sources</h2><ul>{items}</ul></section>'
+    section_id = ' id="sources"' if state_guide else ""
+    heading = "Official sources" if state_guide else "Sources"
+    return f'<section class="sources"{section_id}><h2>{heading}</h2><ul>{items}</ul></section>'
 
 
 def render_faq(faq):
@@ -2511,8 +2541,9 @@ def render_tool(tool):
     exam_brief = render_exam_brief(tool)
     exam_details = render_exam_details(tool)
     practice_topics = render_topic_cards(tool)
-    sign_study = render_sign_study(tool)
-    sign_focus = render_sign_focus_shortcuts(tool)
+    has_quiz = bool(tool.get("quiz") or tool.get("quizModes"))
+    sign_study = render_sign_study(tool) if has_quiz else ""
+    sign_focus = render_sign_focus_shortcuts(tool) if has_quiz else ""
     sign_lookup = render_sign_lookup(tool) if is_sign_page else ""
     sign_library = render_sign_library(tool)
     practice_console = render_practice_console(tool)
@@ -2541,7 +2572,14 @@ def render_tool(tool):
         "" if dmv_quiz_first else quiz,
         render_ad(),
         render_faq(tool.get("faq")),
-        render_sources(tool.get("sources")),
+        render_sources(tool.get("sources"), state_guide=tool.get("slug") in {
+            "georgia-dds-road-signs-practice",
+            "north-carolina-dmv-road-signs-practice",
+            "ohio-bmv-road-signs-practice",
+            "virginia-dmv-road-signs-practice",
+            "michigan-sos-road-signs-practice",
+            "arizona-mvd-road-signs-practice",
+        }),
         render_related(tool.get("related"), tool.get("slug", "")),
     ]
     page_sections = "".join(section for section in dmv_sections + lower_sections if section)
@@ -4247,7 +4285,14 @@ def render_home():
     popular_section = f'<section class="home-popular"><h2>High-value tools</h2><div class="popular-list">{popular_items}</div></section>' if popular_items else ""
     cards = []
     for section in DATA["home"]["sections"]:
-        links = render_tool_links(section["links"])
+        if section.get("hubSlug"):
+            hub = next(hub for hub in HUBS if hub["slug"] == section["hubSlug"])
+            links = (
+                f'<a href="{esc(hub["slug"])}.html"><strong>{esc(hub["title"])}</strong>'
+                f'<span>{esc(hub["description"])}</span></a>'
+            )
+        else:
+            links = render_tool_links(section.get("links", []))
         cards.append(f'<section class="home-group"><h2>{esc(section["heading"])}</h2><div class="tool-grid">{links}</div></section>')
     body = f"""<section class="hero home-hero dmv-home-hero pocket-home-hero">
   <div class="home-hero-grid">
@@ -4262,7 +4307,6 @@ def render_home():
         <a href="dmv-road-signs-cheat-sheet.html">Printable road signs cheat sheet</a>
         <a href="new-york-dmv-road-signs-practice.html">New York road signs</a>
         <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
-        <a href="sat-august-22-2026-planning.html">August SAT scores &amp; retake</a>
         <a href="regulatory-traffic-signs-practice-test.html">Regulatory traffic signs</a>
         <a href="dmv-road-sign-flashcards.html">Road sign flashcards</a>
       </div>
@@ -4315,6 +4359,9 @@ def write(path, content):
 
 def build():
     write_road_sign_images()
+    publisher_id = SITE.get("adsenseVerification", {}).get("publisherId", "").removeprefix("ca-")
+    if publisher_id:
+        write("ads.txt", f"google.com, {publisher_id}, DIRECT, f08c47fec0942fa0\n")
     write("index.html", render_home())
     for hub in HUBS:
         write(f'{hub["slug"]}.html', render_hub(hub))

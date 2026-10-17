@@ -83,24 +83,11 @@
       },
       {
         "heading": "AP tools",
-        "links": [
-          "ap-score-release-date-2026",
-          "ap-scores-delayed-missing-2026",
-          "ap-credit-after-scores-guide",
-          "2026-ap-exam-schedule",
-          "ap-exam-day-checklist"
-        ]
+        "hubSlug": "ap-tools"
       },
       {
         "heading": "SAT tools",
-        "links": [
-          "digital-sat-score-calculator",
-          "sat-score-goal-planner",
-          "digital-sat-scoring-explained",
-          "sat-test-dates-2026-2027",
-          "digital-sat-bluebook-checklist",
-          "sat-score-release-guide"
-        ]
+        "hubSlug": "sat-tools"
       }
     ],
     "startHere": [
@@ -157,12 +144,6 @@
         "title": "Florida Permit: 40 of 50 Pass Score",
         "text": "Practice Florida Class E questions after signs, with FLHSMV context and the 40 of 50 passing score visible.",
         "href": "florida-dmv-permit-practice-test.html"
-      },
-      {
-        "label": "August SAT",
-        "title": "August 22 SAT: Score Release and Retake Plan",
-        "text": "Most August 22 scores are now available. Review your official score, compare upcoming retake dates, and decide around your college deadlines.",
-        "href": "sat-august-22-2026-planning.html"
       }
     ],
     "popular": [
@@ -177,12 +158,6 @@
         "title": "New York DMV Road Signs Practice",
         "text": "25 picture questions, official must-know sign coverage, checkpoint, and printable study sheet",
         "href": "new-york-dmv-road-signs-practice.html"
-      },
-      {
-        "label": "August SAT",
-        "title": "August 22 SAT Score Release and Retake Plan",
-        "text": "August score review, retake dates, college deadlines, and next-step planning",
-        "href": "sat-august-22-2026-planning.html"
       },
       {
         "label": "GA signs",
@@ -391,57 +366,57 @@
         },
         {
           "label": "Georgia",
-          "title": "Georgia Road Signs Practice",
-          "text": "Georgia DDS road-sign practice with 24 image questions and official signs, signals, and testing links.",
+          "title": "Georgia test and road-sign study guide",
+          "text": "Official Georgia DDS road-sign exam format, pass rule, and manual links; picture practice is in the shared quiz.",
           "href": "georgia-dds-road-signs-practice.html",
           "permitHref": "",
           "signHref": "georgia-dds-road-signs-practice.html",
-          "cta": "Start Georgia signs"
+          "cta": "Open Georgia guide"
         },
         {
           "label": "North Carolina",
-          "title": "North Carolina Road Signs Practice",
-          "text": "NCDMV road-sign practice focused on shape, color, meaning, regulatory signs, and warning signs.",
+          "title": "North Carolina test and road-sign study guide",
+          "text": "NCDMV handbook and traffic-sign test guidance; picture practice is in the shared quiz.",
           "href": "north-carolina-dmv-road-signs-practice.html",
           "permitHref": "",
           "signHref": "north-carolina-dmv-road-signs-practice.html",
-          "cta": "Start North Carolina signs"
+          "cta": "Open North Carolina guide"
         },
         {
           "label": "Ohio",
-          "title": "Ohio Road Signs Practice",
-          "text": "Ohio BMV sign recognition with 24 image questions and knowledge-test context.",
+          "title": "Ohio test and road-sign study guide",
+          "text": "Ohio BMV 40-question test and 75% pass context, manual links, and the shared picture quiz.",
           "href": "ohio-bmv-road-signs-practice.html",
           "permitHref": "",
           "signHref": "ohio-bmv-road-signs-practice.html",
-          "cta": "Start Ohio signs"
+          "cta": "Open Ohio guide"
         },
         {
           "label": "Virginia",
-          "title": "Virginia Road Signs Practice",
-          "text": "Virginia DMV sign practice with manual and two-part knowledge exam context.",
+          "title": "Virginia test and road-sign study guide",
+          "text": "Virginia DMV exam-study links and state context; picture practice is in the shared quiz.",
           "href": "virginia-dmv-road-signs-practice.html",
           "permitHref": "",
           "signHref": "virginia-dmv-road-signs-practice.html",
-          "cta": "Start Virginia signs"
+          "cta": "Open Virginia guide"
         },
         {
           "label": "Michigan",
-          "title": "Michigan Road Signs Practice",
-          "text": "Michigan SOS sign recognition with What Every Driver Must Know source links.",
+          "title": "Michigan test and road-sign study guide",
+          "text": "Michigan SOS manual links and knowledge-test study context; picture practice is in the shared quiz.",
           "href": "michigan-sos-road-signs-practice.html",
           "permitHref": "",
           "signHref": "michigan-sos-road-signs-practice.html",
-          "cta": "Start Michigan signs"
+          "cta": "Open Michigan guide"
         },
         {
           "label": "Arizona",
-          "title": "Arizona Road Signs Practice",
-          "text": "Arizona MVD sign practice with manual and 80% examination context.",
+          "title": "Arizona test and road-sign study guide",
+          "text": "Arizona MVD manual, three official practice tests, 80% pass rule, and the shared picture quiz.",
           "href": "arizona-mvd-road-signs-practice.html",
           "permitHref": "",
           "signHref": "arizona-mvd-road-signs-practice.html",
-          "cta": "Start Arizona signs"
+          "cta": "Open Arizona guide"
         }
       ],
       "modes": [
@@ -14309,29 +14284,21 @@
     {
       "slug": "georgia-dds-road-signs-practice",
       "category": "DMV",
-      "title": "Georgia Road Signs Practice Test",
-      "description": "Georgia road signs practice with 24 original picture questions, instant explanations, sign shape review, and official Georgia DDS source links.",
+      "title": "Georgia Road Signs Study Guide and Test Context",
+      "description": "Use official Georgia driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Georgia road signs",
-      "summary": "Practice Georgia road signs with 24 original sign pictures, then review regulatory, warning, school, work-zone, rail, guide, and service signs before checking the official Georgia DDS source.",
+      "summary": "Review Georgia-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
       "quickFacts": [
-        {
-          "label": "Question count",
-          "value": "24 image-based road sign questions"
-        },
-        {
-          "label": "Image source",
-          "value": "Original SVG illustrations"
-        },
-        {
-          "label": "Best use",
-          "value": "Fast sign recognition before official review"
-        },
         {
           "label": "Official source",
           "value": "Georgia DDS Drivers' Manual"
+        },
+        {
+          "label": "Interactive practice",
+          "value": "Shared nationwide road-sign picture quiz"
         }
       ],
-      "quiz": "roadSignsCore",
+      "quiz": null,
       "related": [
         "dmv-road-signs-cheat-sheet",
         "road-signs-practice-test",
@@ -14341,21 +14308,11 @@
         "dmv-permit-test-passing-score-calculator",
         "dmv-permit-test-requirements-by-state"
       ],
-      "quizModes": [
-        {
-          "id": "georgia-signs",
-          "label": "Road Signs",
-          "short": "24 images",
-          "title": "Georgia road signs image test",
-          "description": "24 image-based sign questions with explanations and official Georgia source links after practice.",
-          "quiz": "roadSignsCore",
-          "passScore": 19
-        }
-      ],
+      "quizModes": [],
       "examBrief": {
         "kicker": "Georgia sign practice",
-        "heading": "Georgia road signs, shapes, and driver actions",
-        "intro": "Start with the image quiz, review missed sign groups, then open the official Georgia DDS Drivers' Manual for the exact state wording.",
+        "heading": "Georgia road-sign study and official exam context",
+        "intro": "Review Georgia-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check Georgia DDS's current study materials for authoritative wording.",
         "facts": [
           {
             "label": "Official source",
@@ -14380,314 +14337,51 @@
         ],
         "path": [
           {
-            "step": "1",
-            "title": "Open the official source",
-            "text": "Read the Georgia DDS Drivers' Manual or official Georgia DDS test page before trusting any practice score."
+            "step": "01",
+            "title": "Read DDS Section 7",
+            "text": "Use the signs, signals, and markings section of the Drivers Manual."
           },
           {
-            "step": "2",
-            "title": "Run the image quiz",
-            "text": "Use the 24-question Georgia road-sign round to find slow recognition patterns."
+            "step": "02",
+            "title": "Check DDS exam details",
+            "text": "Confirm 15 of 20 on each test and current office / retest guidance."
           },
           {
-            "step": "3",
-            "title": "Review by shape and color",
-            "text": "Use the study guide and library below to separate regulatory, warning, school, rail, work-zone, guide, and service signs."
+            "step": "03",
+            "title": "Take the nationwide picture quiz",
+            "text": "Use the shared interactive sign question bank."
           },
           {
-            "step": "4",
-            "title": "Retake only the weak groups",
-            "text": "Use saved mistakes and focus filters instead of restarting random practice too soon."
+            "step": "04",
+            "title": "Review misses against DDS materials",
+            "text": "Use the explanation to find the sign family, then confirm state wording in the official manual."
           }
         ]
       },
-      "signLibrary": {
-        "kicker": "Georgia road sign library",
-        "heading": "Road signs to recognize before the Georgia permit test",
-        "intro": "Use this library after the Georgia image quiz. Review signs by type, then retake the round instead of memorizing answer positions.",
-        "groups": [
-          {
-            "label": "Regulatory traffic signs",
-            "text": "Georgia learners should recognize these signs state laws, restrictions, right-of-way rules, or required directions.",
-            "signs": [
-              {
-                "image": "stop",
-                "title": "Stop",
-                "meaning": "Come to a complete stop, yield, then proceed when safe."
-              },
-              {
-                "image": "yield",
-                "title": "Yield",
-                "meaning": "Slow and give the right of way when another road user has priority."
-              },
-              {
-                "image": "do-not-enter",
-                "title": "Do Not Enter",
-                "meaning": "Do not enter that roadway, ramp, or restricted direction."
-              },
-              {
-                "image": "wrong-way",
-                "title": "Wrong Way",
-                "meaning": "You are facing traffic; correct your direction safely."
-              },
-              {
-                "image": "one-way",
-                "title": "One Way",
-                "meaning": "Traffic moves only in the arrow direction."
-              },
-              {
-                "image": "no-u-turn",
-                "title": "No U-turn",
-                "meaning": "A U-turn is not allowed at that location."
-              },
-              {
-                "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
-              },
-              {
-                "image": "no-right-turn",
-                "title": "No Right Turn",
-                "meaning": "A right turn is not allowed from this approach."
-              },
-              {
-                "image": "no-turn-on-red",
-                "title": "No Turn on Red",
-                "meaning": "Stopping first is not enough; wait until the signal allows the turn."
-              },
-              {
-                "image": "keep-right",
-                "title": "Keep Right",
-                "meaning": "Stay to the right of an island, divider, or obstruction."
-              },
-              {
-                "image": "speed-limit",
-                "title": "Speed Limit",
-                "meaning": "The posted number is the legal maximum under normal conditions."
-              },
-              {
-                "image": "no-passing",
-                "title": "Do Not Pass",
-                "meaning": "Passing another vehicle is prohibited in this zone."
-              }
-            ]
-          },
-          {
-            "label": "Warning signs",
-            "text": "Georgia learners should recognize these signs warn about conditions that may require lower speed, more space, or extra scanning.",
-            "signs": [
-              {
-                "image": "merge",
-                "title": "Merge",
-                "meaning": "Traffic may join your lane; adjust speed and space."
-              },
-              {
-                "image": "lane-ends",
-                "title": "Lane Ends",
-                "meaning": "A lane will end and traffic must merge."
-              },
-              {
-                "image": "slippery",
-                "title": "Slippery When Wet",
-                "meaning": "Road traction may be reduced; avoid sudden maneuvers."
-              },
-              {
-                "image": "signal-ahead",
-                "title": "Signal Ahead",
-                "meaning": "Prepare for a traffic light ahead."
-              },
-              {
-                "image": "railroad",
-                "title": "Railroad Crossing Ahead",
-                "meaning": "Prepare for tracks and obey crossing controls."
-              },
-              {
-                "image": "roundabout",
-                "title": "Roundabout",
-                "meaning": "A circular intersection is ahead; slow and yield as required."
-              }
-            ]
-          },
-          {
-            "label": "School, work-zone, and service signs",
-            "text": "Georgia learners should recognize these signs flag special areas where driver attention, lower speed, or route information matters.",
-            "signs": [
-              {
-                "image": "school-crossing",
-                "title": "School Crossing",
-                "meaning": "Watch for children and obey school-zone rules."
-              },
-              {
-                "image": "pedestrian-crossing",
-                "title": "Pedestrian Crossing",
-                "meaning": "Watch for people crossing and be ready to yield."
-              },
-              {
-                "image": "work-zone",
-                "title": "Work Zone",
-                "meaning": "Expect temporary traffic control, workers, or lane changes."
-              },
-              {
-                "image": "hospital",
-                "title": "Hospital",
-                "meaning": "A hospital or medical service is nearby."
-              },
-              {
-                "image": "deer-crossing",
-                "title": "Animal Crossing",
-                "meaning": "Animals may enter the road; slow and scan shoulders."
-              }
-            ]
-          }
-        ]
-      },
-      "signStudy": {
-        "kicker": "Georgia sign study guide",
-        "heading": "Georgia road signs by shape, color, and driver action",
-        "intro": "Start with shape and color recognition, then use the official Georgia DDS Drivers' Manual for exact wording before test day.",
-        "groups": [
-          {
-            "label": "Regulatory",
-            "title": "Rules and required actions",
-            "text": "Regulatory traffic signs tell drivers what they must do, must not do, or must yield to at that location.",
-            "items": [
-              "Red and white signs often mean stop, yield, do not enter, wrong way, or a prohibited movement.",
-              "White rectangles with black text usually state rules such as speed limit, lane use, turn control, or parking limits.",
-              "On a permit test, translate the sign into an action: stop, yield, slow to the limit, stay one way, or do not turn."
-            ]
-          },
-          {
-            "label": "Warning",
-            "title": "Conditions that need attention",
-            "text": "Warning signs prepare drivers for curves, merges, lane endings, crossings, signals, animals, or road surfaces ahead.",
-            "items": [
-              "Yellow diamond signs usually call for speed control and extra scanning.",
-              "Railroad, pedestrian, school, and animal signs often test whether you know when to slow and look ahead.",
-              "Orange signs are temporary traffic-control signs for work zones and maintenance areas."
-            ]
-          },
-          {
-            "label": "Guide and service",
-            "title": "Information and destinations",
-            "text": "Guide and service signs help drivers choose routes, exits, hospitals, fuel, lodging, rest areas, and local destinations.",
-            "items": [
-              "Blue signs often point to driver services such as hospitals, fuel, food, or lodging.",
-              "Green signs commonly guide drivers to streets, exits, and destinations.",
-              "Brown signs are often used for parks, recreation, or cultural points of interest."
-            ]
-          }
-        ]
-      },
-      "practiceTopics": {
-        "kicker": "Georgia next review path",
-        "heading": "What to review after the Georgia road signs quiz",
-        "intro": "Use saved mistakes from the Georgia sign round to choose the next focused review.",
-        "items": [
-          {
-            "label": "If you miss red signs",
-            "title": "Review regulatory traffic signs",
-            "text": "Focus on stop, yield, do-not-enter, wrong-way, no-turn, one-way, speed, and no-passing rules.",
-            "review": "Retake the first half of the quiz."
-          },
-          {
-            "label": "If you miss yellow signs",
-            "title": "Review warning signs",
-            "text": "Focus on merge, lane ends, slippery road, railroad, roundabout, animal crossing, signal ahead, and pedestrian warnings.",
-            "review": "Slow down and name the hazard."
-          },
-          {
-            "label": "If you miss state wording",
-            "title": "Move into a state page",
-            "text": "Choose your state practice page for exact exam context, pass mark, official manual link, and mixed permit questions.",
-            "review": "Use the related state tools below."
-          }
-        ]
-      },
-      "tables": [
-        {
-          "caption": "Georgia road-sign weak areas to review",
-          "headers": [
-            "Category",
-            "What to review",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Regulatory signs",
-              "Stop, yield, do not enter, wrong way, one way, no-turn, speed, and no-passing signs.",
-              "These signs often define the required legal action."
-            ],
-            [
-              "Warning signs",
-              "Merge, lane ends, slippery road, divided highway, signal ahead, and animal crossing signs.",
-              "Yellow signs usually ask you to slow, scan, and prepare."
-            ],
-            [
-              "School, rail, and work zones",
-              "School crossing, railroad crossing, work-zone, flagger, and temporary control signs.",
-              "These signs involve vulnerable road users or changing traffic conditions."
-            ],
-            [
-              "Official wording",
-              "Georgia DDS Drivers' Manual, test pages, and current Georgia DDS instructions.",
-              "State wording and test rules can change, so the official source wins."
-            ]
-          ]
-        }
-      ],
+      "signLibrary": null,
+      "signStudy": null,
       "body": [
         {
-          "heading": "How to use the Georgia road signs page",
-          "text": "Answer the picture questions before reading the library. After each miss, review the shape, color, and driver action instead of only memorizing the correct choice."
+          "heading": "Why Georgia has two knowledge-test parts",
+          "text": "Georgia DDS describes separate Road Signs and Road Rules tests. The published minimum is 15 correct out of 20 on each part, so a strong score in one part does not replace the other."
         },
         {
-          "heading": "Why this is a road-sign page, not a full official manual",
-          "text": "This page trains visual sign recognition. It does not replace the Georgia DDS Drivers' Manual; use the official source for exact laws, documents, fees, appointments, and retest rules."
-        },
-        {
-          "heading": "When to move on from signs",
-          "text": "Move into broader permit practice only after common regulatory and warning signs feel automatic. If you still hesitate on sign shape or color, retake the focused group first."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Georgia road-sign study moves that save time",
-          "intro": "The goal is fast recognition plus official-source confirmation, not endless random clicking.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Score the first round honestly",
-              "text": "Do not look up signs mid-quiz; the misses are the useful part."
-            },
-            {
-              "label": "Pattern",
-              "title": "Name the shape before the sign",
-              "text": "Octagon, triangle, diamond, rectangle, pentagon, circle, and pennant clues reduce guessing."
-            },
-            {
-              "label": "Source",
-              "title": "Finish with the official page",
-              "text": "Open Georgia DDS guidance after practice so final state wording controls the test-day plan."
-            }
-          ]
+          "heading": "A practical Georgia study route",
+          "text": "Use Section 7 of the DDS Drivers Manual for signs and markings, then use DDS’s free non-commercial sample test. The actual DDS page also lists current test availability, appointment, retest, and language details."
         }
       ],
       "faq": [
         {
-          "q": "Is this Georgia road signs practice official?",
-          "a": "No. It is an independent TestDayTools practice page with original sign illustrations. Use Georgia DDS and the official source links for final wording."
+          "q": "What is the Georgia knowledge-test pass rule?",
+          "a": "DDS says you need at least 15 correct out of 20 on both the Road Signs Test and Road Rules Test."
         },
         {
-          "q": "Are the sign images copied from Georgia DDS?",
-          "a": "No. The images are simplified original SVG illustrations created for recognition practice."
+          "q": "Does Georgia require an appointment for the knowledge exam?",
+          "a": "The current DDS Test and Exams Information page says no appointment is needed for the knowledge exam. Check that page for current office details."
         },
         {
-          "q": "Should I memorize only the answer choices?",
-          "a": "No. Learn shape, color, sign family, and driver action so you can handle different wording on the real test."
-        },
-        {
-          "q": "What should I do after missing one Georgia road sign question?",
-          "a": "Read the explanation, review the matching sign group below, then retake the weak group later with the focus filter."
+          "q": "Where can I find official Georgia practice questions?",
+          "a": "Georgia DDS offers a free sample test for non-commercial licenses and permits and identifies the Drivers Manual as the source material."
         }
       ],
       "sources": [
@@ -14698,6 +14392,10 @@
         {
           "label": "Georgia DDS: Test and Exams Information",
           "url": "https://dds.georgia.gov/testing-and-training/test-and-exams-information"
+        },
+        {
+          "label": "Georgia DDS: Official Practice Test",
+          "url": "https://dds.georgia.gov/testing-and-training/practice-test"
         }
       ],
       "examDetails": {
@@ -14721,47 +14419,50 @@
             "text": "Start with Section 7 signs and signals, then review road rules before test day."
           },
           {
-            "label": "Practice target here",
-            "value": "19 of 24 image signs",
-            "text": "Use a stricter practice target before trusting recognition speed."
+            "label": "Interactive practice",
+            "value": "Shared nationwide quiz",
+            "text": "Use the shared picture question bank and read each answer explanation there."
+          },
+          {
+            "label": "Official availability",
+            "value": "Knowledge exam: 2 separate tests",
+            "text": "The DDS says each has 20 questions and requires 15 correct. It also says no appointment is required for this knowledge exam."
+          },
+          {
+            "label": "Official study path",
+            "value": "Drivers Manual + free DDS practice test",
+            "text": "DDS identifies the manual as the required source and links a free practice test."
+          },
+          {
+            "label": "Language access",
+            "value": "26 languages listed",
+            "text": "DDS lists the non-commercial Road Rules and Road Signs knowledge exams in 26 languages."
           }
         ]
       },
-      "checklist": [
-        "Review Georgia sign shapes before the image quiz.",
-        "Say the driver action out loud before looking at answer choices.",
-        "After a miss, review the matching shape/color group below.",
-        "Retake the road-sign round later instead of immediately guessing again.",
-        "Confirm final wording in the official Georgia DDS Drivers' Manual."
-      ],
-      "lastUpdated": "June 14, 2026"
+      "lastUpdated": "October 17, 2026",
+      "replacementSlug": "road-signs-practice-test",
+      "replacementLabel": "Practice with the shared nationwide quiz.",
+      "replacementText": "This page summarizes Georgia-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
     },
     {
       "slug": "north-carolina-dmv-road-signs-practice",
       "category": "DMV",
-      "title": "North Carolina Road Signs Practice Test",
-      "description": "North Carolina road signs practice with 24 original picture questions, instant explanations, sign shape review, and official NCDMV source links.",
+      "title": "North Carolina Road Signs Study Guide and Test Context",
+      "description": "Use official North Carolina driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "North Carolina road signs",
-      "summary": "Practice North Carolina road signs with 24 original sign pictures, then review regulatory, warning, school, work-zone, rail, guide, and service signs before checking the official NCDMV source.",
+      "summary": "Review North Carolina-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
       "quickFacts": [
-        {
-          "label": "Question count",
-          "value": "24 image-based road sign questions"
-        },
-        {
-          "label": "Image source",
-          "value": "Original SVG illustrations"
-        },
-        {
-          "label": "Best use",
-          "value": "Fast sign recognition before official review"
-        },
         {
           "label": "Official source",
           "value": "North Carolina Driver's Handbook"
+        },
+        {
+          "label": "Interactive practice",
+          "value": "Shared nationwide road-sign picture quiz"
         }
       ],
-      "quiz": "roadSignsCore",
+      "quiz": null,
       "related": [
         "dmv-road-signs-cheat-sheet",
         "road-signs-practice-test",
@@ -14770,21 +14471,11 @@
         "road-sign-shapes-and-colors-finder",
         "dmv-permit-test-requirements-by-state"
       ],
-      "quizModes": [
-        {
-          "id": "north-carolina-signs",
-          "label": "Road Signs",
-          "short": "24 images",
-          "title": "North Carolina road signs image test",
-          "description": "24 image-based sign questions with explanations and official North Carolina source links after practice.",
-          "quiz": "roadSignsCore",
-          "passScore": 19
-        }
-      ],
+      "quizModes": [],
       "examBrief": {
         "kicker": "North Carolina sign practice",
-        "heading": "North Carolina road signs, shapes, and driver actions",
-        "intro": "Start with the image quiz, review missed sign groups, then open the official North Carolina Driver's Handbook for the exact state wording.",
+        "heading": "North Carolina road-sign study and official exam context",
+        "intro": "Review North Carolina-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check NCDMV's current study materials for authoritative wording.",
         "facts": [
           {
             "label": "Official source",
@@ -14809,324 +14500,61 @@
         ],
         "path": [
           {
-            "step": "1",
-            "title": "Open the official source",
-            "text": "Read the North Carolina Driver's Handbook or official NCDMV test page before trusting any practice score."
+            "step": "01",
+            "title": "Study regulatory and warning signs",
+            "text": "NCDMV publishes separate official pages for both groups."
           },
           {
-            "step": "2",
-            "title": "Run the image quiz",
-            "text": "Use the 24-question North Carolina road-sign round to find slow recognition patterns."
+            "step": "02",
+            "title": "Practice color, shape, and explanation",
+            "text": "The NCDMV test description says applicants identify the sign by color and shape and explain it."
           },
           {
-            "step": "3",
-            "title": "Review by shape and color",
-            "text": "Use the study guide and library below to separate regulatory, warning, school, rail, work-zone, guide, and service signs."
+            "step": "03",
+            "title": "Use the shared picture quiz",
+            "text": "Open the nationwide quiz for questions and answer explanations."
           },
           {
-            "step": "4",
-            "title": "Retake only the weak groups",
-            "text": "Use saved mistakes and focus filters instead of restarting random practice too soon."
+            "step": "04",
+            "title": "Check current retake guidance",
+            "text": "NCDMV currently lists a seven-calendar-day wait for regular Class C test failures."
           }
         ]
       },
-      "signLibrary": {
-        "kicker": "North Carolina road sign library",
-        "heading": "Road signs to recognize before the North Carolina permit test",
-        "intro": "Use this library after the North Carolina image quiz. Review signs by type, then retake the round instead of memorizing answer positions.",
-        "groups": [
-          {
-            "label": "Regulatory traffic signs",
-            "text": "North Carolina learners should recognize these signs state laws, restrictions, right-of-way rules, or required directions.",
-            "signs": [
-              {
-                "image": "stop",
-                "title": "Stop",
-                "meaning": "Come to a complete stop, yield, then proceed when safe."
-              },
-              {
-                "image": "yield",
-                "title": "Yield",
-                "meaning": "Slow and give the right of way when another road user has priority."
-              },
-              {
-                "image": "do-not-enter",
-                "title": "Do Not Enter",
-                "meaning": "Do not enter that roadway, ramp, or restricted direction."
-              },
-              {
-                "image": "wrong-way",
-                "title": "Wrong Way",
-                "meaning": "You are facing traffic; correct your direction safely."
-              },
-              {
-                "image": "one-way",
-                "title": "One Way",
-                "meaning": "Traffic moves only in the arrow direction."
-              },
-              {
-                "image": "no-u-turn",
-                "title": "No U-turn",
-                "meaning": "A U-turn is not allowed at that location."
-              },
-              {
-                "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
-              },
-              {
-                "image": "no-right-turn",
-                "title": "No Right Turn",
-                "meaning": "A right turn is not allowed from this approach."
-              },
-              {
-                "image": "no-turn-on-red",
-                "title": "No Turn on Red",
-                "meaning": "Stopping first is not enough; wait until the signal allows the turn."
-              },
-              {
-                "image": "keep-right",
-                "title": "Keep Right",
-                "meaning": "Stay to the right of an island, divider, or obstruction."
-              },
-              {
-                "image": "speed-limit",
-                "title": "Speed Limit",
-                "meaning": "The posted number is the legal maximum under normal conditions."
-              },
-              {
-                "image": "no-passing",
-                "title": "Do Not Pass",
-                "meaning": "Passing another vehicle is prohibited in this zone."
-              }
-            ]
-          },
-          {
-            "label": "Warning signs",
-            "text": "North Carolina learners should recognize these signs warn about conditions that may require lower speed, more space, or extra scanning.",
-            "signs": [
-              {
-                "image": "merge",
-                "title": "Merge",
-                "meaning": "Traffic may join your lane; adjust speed and space."
-              },
-              {
-                "image": "lane-ends",
-                "title": "Lane Ends",
-                "meaning": "A lane will end and traffic must merge."
-              },
-              {
-                "image": "slippery",
-                "title": "Slippery When Wet",
-                "meaning": "Road traction may be reduced; avoid sudden maneuvers."
-              },
-              {
-                "image": "signal-ahead",
-                "title": "Signal Ahead",
-                "meaning": "Prepare for a traffic light ahead."
-              },
-              {
-                "image": "railroad",
-                "title": "Railroad Crossing Ahead",
-                "meaning": "Prepare for tracks and obey crossing controls."
-              },
-              {
-                "image": "roundabout",
-                "title": "Roundabout",
-                "meaning": "A circular intersection is ahead; slow and yield as required."
-              }
-            ]
-          },
-          {
-            "label": "School, work-zone, and service signs",
-            "text": "North Carolina learners should recognize these signs flag special areas where driver attention, lower speed, or route information matters.",
-            "signs": [
-              {
-                "image": "school-crossing",
-                "title": "School Crossing",
-                "meaning": "Watch for children and obey school-zone rules."
-              },
-              {
-                "image": "pedestrian-crossing",
-                "title": "Pedestrian Crossing",
-                "meaning": "Watch for people crossing and be ready to yield."
-              },
-              {
-                "image": "work-zone",
-                "title": "Work Zone",
-                "meaning": "Expect temporary traffic control, workers, or lane changes."
-              },
-              {
-                "image": "hospital",
-                "title": "Hospital",
-                "meaning": "A hospital or medical service is nearby."
-              },
-              {
-                "image": "deer-crossing",
-                "title": "Animal Crossing",
-                "meaning": "Animals may enter the road; slow and scan shoulders."
-              }
-            ]
-          }
-        ]
-      },
-      "signStudy": {
-        "kicker": "North Carolina sign study guide",
-        "heading": "North Carolina road signs by shape, color, and driver action",
-        "intro": "Start with shape and color recognition, then use the official North Carolina Driver's Handbook for exact wording before test day.",
-        "groups": [
-          {
-            "label": "Regulatory",
-            "title": "Rules and required actions",
-            "text": "Regulatory traffic signs tell drivers what they must do, must not do, or must yield to at that location.",
-            "items": [
-              "Red and white signs often mean stop, yield, do not enter, wrong way, or a prohibited movement.",
-              "White rectangles with black text usually state rules such as speed limit, lane use, turn control, or parking limits.",
-              "On a permit test, translate the sign into an action: stop, yield, slow to the limit, stay one way, or do not turn."
-            ]
-          },
-          {
-            "label": "Warning",
-            "title": "Conditions that need attention",
-            "text": "Warning signs prepare drivers for curves, merges, lane endings, crossings, signals, animals, or road surfaces ahead.",
-            "items": [
-              "Yellow diamond signs usually call for speed control and extra scanning.",
-              "Railroad, pedestrian, school, and animal signs often test whether you know when to slow and look ahead.",
-              "Orange signs are temporary traffic-control signs for work zones and maintenance areas."
-            ]
-          },
-          {
-            "label": "Guide and service",
-            "title": "Information and destinations",
-            "text": "Guide and service signs help drivers choose routes, exits, hospitals, fuel, lodging, rest areas, and local destinations.",
-            "items": [
-              "Blue signs often point to driver services such as hospitals, fuel, food, or lodging.",
-              "Green signs commonly guide drivers to streets, exits, and destinations.",
-              "Brown signs are often used for parks, recreation, or cultural points of interest."
-            ]
-          }
-        ]
-      },
-      "practiceTopics": {
-        "kicker": "North Carolina next review path",
-        "heading": "What to review after the North Carolina road signs quiz",
-        "intro": "Use saved mistakes from the North Carolina sign round to choose the next focused review.",
-        "items": [
-          {
-            "label": "If you miss red signs",
-            "title": "Review regulatory traffic signs",
-            "text": "Focus on stop, yield, do-not-enter, wrong-way, no-turn, one-way, speed, and no-passing rules.",
-            "review": "Retake the first half of the quiz."
-          },
-          {
-            "label": "If you miss yellow signs",
-            "title": "Review warning signs",
-            "text": "Focus on merge, lane ends, slippery road, railroad, roundabout, animal crossing, signal ahead, and pedestrian warnings.",
-            "review": "Slow down and name the hazard."
-          },
-          {
-            "label": "If you miss state wording",
-            "title": "Move into a state page",
-            "text": "Choose your state practice page for exact exam context, pass mark, official manual link, and mixed permit questions.",
-            "review": "Use the related state tools below."
-          }
-        ]
-      },
-      "tables": [
-        {
-          "caption": "North Carolina road-sign weak areas to review",
-          "headers": [
-            "Category",
-            "What to review",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Regulatory signs",
-              "Stop, yield, do not enter, wrong way, one way, no-turn, speed, and no-passing signs.",
-              "These signs often define the required legal action."
-            ],
-            [
-              "Warning signs",
-              "Merge, lane ends, slippery road, divided highway, signal ahead, and animal crossing signs.",
-              "Yellow signs usually ask you to slow, scan, and prepare."
-            ],
-            [
-              "School, rail, and work zones",
-              "School crossing, railroad crossing, work-zone, flagger, and temporary control signs.",
-              "These signs involve vulnerable road users or changing traffic conditions."
-            ],
-            [
-              "Official wording",
-              "North Carolina Driver's Handbook, test pages, and current NCDMV instructions.",
-              "State wording and test rules can change, so the official source wins."
-            ]
-          ]
-        }
-      ],
+      "signLibrary": null,
+      "signStudy": null,
       "body": [
         {
-          "heading": "How to use the North Carolina road signs page",
-          "text": "Answer the picture questions before reading the library. After each miss, review the shape, color, and driver action instead of only memorizing the correct choice."
+          "heading": "What North Carolina tests about signs",
+          "text": "NCDMV describes a separate traffic-sign task covering regulatory and warning signs. Applicants identify each sign by color and shape and explain it, so study should include both the visual cue and the driver action."
         },
         {
-          "heading": "Why this is a road-sign page, not a full official manual",
-          "text": "This page trains visual sign recognition. It does not replace the North Carolina Driver's Handbook; use the official source for exact laws, documents, fees, appointments, and retest rules."
-        },
-        {
-          "heading": "When to move on from signs",
-          "text": "Move into broader permit practice only after common regulatory and warning signs feel automatic. If you still hesitate on sign shape or color, retake the focused group first."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "North Carolina road-sign study moves that save time",
-          "intro": "The goal is fast recognition plus official-source confirmation, not endless random clicking.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Score the first round honestly",
-              "text": "Do not look up signs mid-quiz; the misses are the useful part."
-            },
-            {
-              "label": "Pattern",
-              "title": "Name the shape before the sign",
-              "text": "Octagon, triangle, diamond, rectangle, pentagon, circle, and pennant clues reduce guessing."
-            },
-            {
-              "label": "Source",
-              "title": "Finish with the official page",
-              "text": "Open NCDMV guidance after practice so final state wording controls the test-day plan."
-            }
-          ]
+          "heading": "Use the current handbook and sign pages",
+          "text": "The official NCDMV Handbooks page links the current handbook plus separate Regulatory Signs and Warning Signs references. Check those official pages for updates and current test instructions."
         }
       ],
       "faq": [
         {
-          "q": "Is this North Carolina road signs practice official?",
-          "a": "No. It is an independent TestDayTools practice page with original sign illustrations. Use NCDMV and the official source links for final wording."
+          "q": "How does North Carolina assess road signs?",
+          "a": "NCDMV says applicants identify regulatory and warning signs by color and shape and provide an explanation of each."
         },
         {
-          "q": "Are the sign images copied from NCDMV?",
-          "a": "No. The images are simplified original SVG illustrations created for recognition practice."
+          "q": "When can a regular Class C applicant retake a failed test?",
+          "a": "NCDMV says an applicant who fails the regular Class C knowledge or driving test may retake it after seven calendar days."
         },
         {
-          "q": "Should I memorize only the answer choices?",
-          "a": "No. Learn shape, color, sign family, and driver action so you can handle different wording on the real test."
-        },
-        {
-          "q": "What should I do after missing one North Carolina road sign question?",
-          "a": "Read the explanation, review the matching sign group below, then retake the weak group later with the focus filter."
+          "q": "Where are North Carolina’s official sign study materials?",
+          "a": "NCDMV’s Handbooks page links the Driver Handbook and separate Regulatory Signs and Warning Signs pages."
         }
       ],
       "sources": [
         {
-          "label": "NCDMV: Driver License Tests",
+          "label": "NCDMV: Driver License Tests (sign test format and retake guidance)",
           "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/driver-license-tests.aspx"
         },
         {
-          "label": "NCDMV: Driver's Handbook PDF",
-          "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Documents/driver-handbook.pdf"
+          "label": "NCDMV: Official Driver Handbook and separate signs pages",
+          "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/handbooks.aspx"
         }
       ],
       "examDetails": {
@@ -15150,47 +14578,45 @@
             "text": "Use the road-sign round to separate recognition errors from broader rule errors."
           },
           {
-            "label": "Practice target here",
-            "value": "19 of 24 image signs",
-            "text": "Use a stricter practice target before relying on fast sign recognition."
+            "label": "Interactive practice",
+            "value": "Shared nationwide quiz",
+            "text": "Use the shared picture question bank and read each answer explanation there."
+          },
+          {
+            "label": "Traffic-sign task",
+            "value": "Identify by color and shape, then explain",
+            "text": "NCDMV describes its sign test as identifying regulatory and warning signs by color and shape and explaining each."
+          },
+          {
+            "label": "Retest timing",
+            "value": "7 calendar days for regular Class C",
+            "text": "NCDMV says applicants who fail the regular Class C knowledge or driving test may retake after seven calendar days."
           }
         ]
       },
-      "checklist": [
-        "Review North Carolina sign shapes before the image quiz.",
-        "Say the driver action out loud before looking at answer choices.",
-        "After a miss, review the matching shape/color group below.",
-        "Retake the road-sign round later instead of immediately guessing again.",
-        "Confirm final wording in the official North Carolina Driver's Handbook."
-      ],
-      "lastUpdated": "June 14, 2026"
+      "lastUpdated": "October 17, 2026",
+      "replacementSlug": "road-signs-practice-test",
+      "replacementLabel": "Practice with the shared nationwide quiz.",
+      "replacementText": "This page summarizes North Carolina-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
     },
     {
       "slug": "ohio-bmv-road-signs-practice",
       "category": "DMV",
-      "title": "Ohio Road Signs Practice Test",
-      "description": "Ohio road signs practice with 24 original picture questions, instant explanations, sign shape review, and official Ohio BMV source links.",
+      "title": "Ohio Road Signs Study Guide and Test Context",
+      "description": "Use official Ohio driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Ohio road signs",
-      "summary": "Practice Ohio road signs with 24 original sign pictures, then review regulatory, warning, school, work-zone, rail, guide, and service signs before checking the official Ohio BMV source.",
+      "summary": "Review Ohio-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
       "quickFacts": [
-        {
-          "label": "Question count",
-          "value": "24 image-based road sign questions"
-        },
-        {
-          "label": "Image source",
-          "value": "Original SVG illustrations"
-        },
-        {
-          "label": "Best use",
-          "value": "Fast sign recognition before official review"
-        },
         {
           "label": "Official source",
           "value": "Ohio Driver Manual"
+        },
+        {
+          "label": "Interactive practice",
+          "value": "Shared nationwide road-sign picture quiz"
         }
       ],
-      "quiz": "roadSignsCore",
+      "quiz": null,
       "related": [
         "dmv-road-signs-cheat-sheet",
         "road-signs-practice-test",
@@ -15200,21 +14626,11 @@
         "dmv-permit-test-passing-score-calculator",
         "dmv-permit-test-requirements-by-state"
       ],
-      "quizModes": [
-        {
-          "id": "ohio-signs",
-          "label": "Road Signs",
-          "short": "24 images",
-          "title": "Ohio road signs image test",
-          "description": "24 image-based sign questions with explanations and official Ohio source links after practice.",
-          "quiz": "roadSignsCore",
-          "passScore": 19
-        }
-      ],
+      "quizModes": [],
       "examBrief": {
         "kicker": "Ohio sign practice",
-        "heading": "Ohio road signs, shapes, and driver actions",
-        "intro": "Start with the image quiz, review missed sign groups, then open the official Ohio Driver Manual for the exact state wording.",
+        "heading": "Ohio road-sign study and official exam context",
+        "intro": "Review Ohio-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check Ohio BMV's current study materials for authoritative wording.",
         "facts": [
           {
             "label": "Official source",
@@ -15239,319 +14655,56 @@
         ],
         "path": [
           {
-            "step": "1",
-            "title": "Open the official source",
-            "text": "Read the Ohio Driver Manual or official Ohio BMV test page before trusting any practice score."
+            "step": "01",
+            "title": "Read the Ohio Digest of Motor Vehicles",
+            "text": "BMV recommends it for regulations and traffic signs."
           },
           {
-            "step": "2",
-            "title": "Run the image quiz",
-            "text": "Use the 24-question Ohio road-sign round to find slow recognition patterns."
+            "step": "02",
+            "title": "Check the 40-question / 75% rule",
+            "text": "Use the BMV page for the current test and retake instructions."
           },
           {
-            "step": "3",
-            "title": "Review by shape and color",
-            "text": "Use the study guide and library below to separate regulatory, warning, school, rail, work-zone, guide, and service signs."
+            "step": "03",
+            "title": "Try the official BMV sample",
+            "text": "Use it for the agency’s own knowledge-test question format."
           },
           {
-            "step": "4",
-            "title": "Retake only the weak groups",
-            "text": "Use saved mistakes and focus filters instead of restarting random practice too soon."
+            "step": "04",
+            "title": "Practice visual recall here",
+            "text": "Use the nationwide picture quiz and read the explanation after each answer."
           }
         ]
       },
-      "signLibrary": {
-        "kicker": "Ohio road sign library",
-        "heading": "Road signs to recognize before the Ohio permit test",
-        "intro": "Use this library after the Ohio image quiz. Review signs by type, then retake the round instead of memorizing answer positions.",
-        "groups": [
-          {
-            "label": "Regulatory traffic signs",
-            "text": "Ohio learners should recognize these signs state laws, restrictions, right-of-way rules, or required directions.",
-            "signs": [
-              {
-                "image": "stop",
-                "title": "Stop",
-                "meaning": "Come to a complete stop, yield, then proceed when safe."
-              },
-              {
-                "image": "yield",
-                "title": "Yield",
-                "meaning": "Slow and give the right of way when another road user has priority."
-              },
-              {
-                "image": "do-not-enter",
-                "title": "Do Not Enter",
-                "meaning": "Do not enter that roadway, ramp, or restricted direction."
-              },
-              {
-                "image": "wrong-way",
-                "title": "Wrong Way",
-                "meaning": "You are facing traffic; correct your direction safely."
-              },
-              {
-                "image": "one-way",
-                "title": "One Way",
-                "meaning": "Traffic moves only in the arrow direction."
-              },
-              {
-                "image": "no-u-turn",
-                "title": "No U-turn",
-                "meaning": "A U-turn is not allowed at that location."
-              },
-              {
-                "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
-              },
-              {
-                "image": "no-right-turn",
-                "title": "No Right Turn",
-                "meaning": "A right turn is not allowed from this approach."
-              },
-              {
-                "image": "no-turn-on-red",
-                "title": "No Turn on Red",
-                "meaning": "Stopping first is not enough; wait until the signal allows the turn."
-              },
-              {
-                "image": "keep-right",
-                "title": "Keep Right",
-                "meaning": "Stay to the right of an island, divider, or obstruction."
-              },
-              {
-                "image": "speed-limit",
-                "title": "Speed Limit",
-                "meaning": "The posted number is the legal maximum under normal conditions."
-              },
-              {
-                "image": "no-passing",
-                "title": "Do Not Pass",
-                "meaning": "Passing another vehicle is prohibited in this zone."
-              }
-            ]
-          },
-          {
-            "label": "Warning signs",
-            "text": "Ohio learners should recognize these signs warn about conditions that may require lower speed, more space, or extra scanning.",
-            "signs": [
-              {
-                "image": "merge",
-                "title": "Merge",
-                "meaning": "Traffic may join your lane; adjust speed and space."
-              },
-              {
-                "image": "lane-ends",
-                "title": "Lane Ends",
-                "meaning": "A lane will end and traffic must merge."
-              },
-              {
-                "image": "slippery",
-                "title": "Slippery When Wet",
-                "meaning": "Road traction may be reduced; avoid sudden maneuvers."
-              },
-              {
-                "image": "signal-ahead",
-                "title": "Signal Ahead",
-                "meaning": "Prepare for a traffic light ahead."
-              },
-              {
-                "image": "railroad",
-                "title": "Railroad Crossing Ahead",
-                "meaning": "Prepare for tracks and obey crossing controls."
-              },
-              {
-                "image": "roundabout",
-                "title": "Roundabout",
-                "meaning": "A circular intersection is ahead; slow and yield as required."
-              }
-            ]
-          },
-          {
-            "label": "School, work-zone, and service signs",
-            "text": "Ohio learners should recognize these signs flag special areas where driver attention, lower speed, or route information matters.",
-            "signs": [
-              {
-                "image": "school-crossing",
-                "title": "School Crossing",
-                "meaning": "Watch for children and obey school-zone rules."
-              },
-              {
-                "image": "pedestrian-crossing",
-                "title": "Pedestrian Crossing",
-                "meaning": "Watch for people crossing and be ready to yield."
-              },
-              {
-                "image": "work-zone",
-                "title": "Work Zone",
-                "meaning": "Expect temporary traffic control, workers, or lane changes."
-              },
-              {
-                "image": "hospital",
-                "title": "Hospital",
-                "meaning": "A hospital or medical service is nearby."
-              },
-              {
-                "image": "deer-crossing",
-                "title": "Animal Crossing",
-                "meaning": "Animals may enter the road; slow and scan shoulders."
-              }
-            ]
-          }
-        ]
-      },
-      "signStudy": {
-        "kicker": "Ohio sign study guide",
-        "heading": "Ohio road signs by shape, color, and driver action",
-        "intro": "Start with shape and color recognition, then use the official Ohio Driver Manual for exact wording before test day.",
-        "groups": [
-          {
-            "label": "Regulatory",
-            "title": "Rules and required actions",
-            "text": "Regulatory traffic signs tell drivers what they must do, must not do, or must yield to at that location.",
-            "items": [
-              "Red and white signs often mean stop, yield, do not enter, wrong way, or a prohibited movement.",
-              "White rectangles with black text usually state rules such as speed limit, lane use, turn control, or parking limits.",
-              "On a permit test, translate the sign into an action: stop, yield, slow to the limit, stay one way, or do not turn."
-            ]
-          },
-          {
-            "label": "Warning",
-            "title": "Conditions that need attention",
-            "text": "Warning signs prepare drivers for curves, merges, lane endings, crossings, signals, animals, or road surfaces ahead.",
-            "items": [
-              "Yellow diamond signs usually call for speed control and extra scanning.",
-              "Railroad, pedestrian, school, and animal signs often test whether you know when to slow and look ahead.",
-              "Orange signs are temporary traffic-control signs for work zones and maintenance areas."
-            ]
-          },
-          {
-            "label": "Guide and service",
-            "title": "Information and destinations",
-            "text": "Guide and service signs help drivers choose routes, exits, hospitals, fuel, lodging, rest areas, and local destinations.",
-            "items": [
-              "Blue signs often point to driver services such as hospitals, fuel, food, or lodging.",
-              "Green signs commonly guide drivers to streets, exits, and destinations.",
-              "Brown signs are often used for parks, recreation, or cultural points of interest."
-            ]
-          }
-        ]
-      },
-      "practiceTopics": {
-        "kicker": "Ohio next review path",
-        "heading": "What to review after the Ohio road signs quiz",
-        "intro": "Use saved mistakes from the Ohio sign round to choose the next focused review.",
-        "items": [
-          {
-            "label": "If you miss red signs",
-            "title": "Review regulatory traffic signs",
-            "text": "Focus on stop, yield, do-not-enter, wrong-way, no-turn, one-way, speed, and no-passing rules.",
-            "review": "Retake the first half of the quiz."
-          },
-          {
-            "label": "If you miss yellow signs",
-            "title": "Review warning signs",
-            "text": "Focus on merge, lane ends, slippery road, railroad, roundabout, animal crossing, signal ahead, and pedestrian warnings.",
-            "review": "Slow down and name the hazard."
-          },
-          {
-            "label": "If you miss state wording",
-            "title": "Move into a state page",
-            "text": "Choose your state practice page for exact exam context, pass mark, official manual link, and mixed permit questions.",
-            "review": "Use the related state tools below."
-          }
-        ]
-      },
-      "tables": [
-        {
-          "caption": "Ohio road-sign weak areas to review",
-          "headers": [
-            "Category",
-            "What to review",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Regulatory signs",
-              "Stop, yield, do not enter, wrong way, one way, no-turn, speed, and no-passing signs.",
-              "These signs often define the required legal action."
-            ],
-            [
-              "Warning signs",
-              "Merge, lane ends, slippery road, divided highway, signal ahead, and animal crossing signs.",
-              "Yellow signs usually ask you to slow, scan, and prepare."
-            ],
-            [
-              "School, rail, and work zones",
-              "School crossing, railroad crossing, work-zone, flagger, and temporary control signs.",
-              "These signs involve vulnerable road users or changing traffic conditions."
-            ],
-            [
-              "Official wording",
-              "Ohio Driver Manual, test pages, and current Ohio BMV instructions.",
-              "State wording and test rules can change, so the official source wins."
-            ]
-          ]
-        }
-      ],
+      "signLibrary": null,
+      "signStudy": null,
       "body": [
         {
-          "heading": "How to use the Ohio road signs page",
-          "text": "Answer the picture questions before reading the library. After each miss, review the shape, color, and driver action instead of only memorizing the correct choice."
+          "heading": "Ohio knowledge-test format",
+          "text": "Ohio BMV says the knowledge test has 40 multiple-choice questions about motor-vehicle regulations and traffic signs; 75 percent correct is required to pass."
         },
         {
-          "heading": "Why this is a road-sign page, not a full official manual",
-          "text": "This page trains visual sign recognition. It does not replace the Ohio Driver Manual; use the official source for exact laws, documents, fees, appointments, and retest rules."
-        },
-        {
-          "heading": "When to move on from signs",
-          "text": "Move into broader permit practice only after common regulatory and warning signs feel automatic. If you still hesitate on sign shape or color, retake the focused group first."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Ohio road-sign study moves that save time",
-          "intro": "The goal is fast recognition plus official-source confirmation, not endless random clicking.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Score the first round honestly",
-              "text": "Do not look up signs mid-quiz; the misses are the useful part."
-            },
-            {
-              "label": "Pattern",
-              "title": "Name the shape before the sign",
-              "text": "Octagon, triangle, diamond, rectangle, pentagon, circle, and pennant clues reduce guessing."
-            },
-            {
-              "label": "Source",
-              "title": "Finish with the official page",
-              "text": "Open Ohio BMV guidance after practice so final state wording controls the test-day plan."
-            }
-          ]
+          "heading": "Plan a retake with the BMV rules",
+          "text": "After a failed in-person test, Ohio requires at least a 24-hour wait. Online testing is limited to two attempts in six months. Confirm the current process on the BMV page before scheduling."
         }
       ],
       "faq": [
         {
-          "q": "Is this Ohio road signs practice official?",
-          "a": "No. It is an independent TestDayTools practice page with original sign illustrations. Use Ohio BMV and the official source links for final wording."
+          "q": "How many questions are on Ohio’s knowledge test?",
+          "a": "Ohio BMV lists 40 multiple-choice questions covering regulations and traffic signs, with a 75-percent passing score."
         },
         {
-          "q": "Are the sign images copied from Ohio BMV?",
-          "a": "No. The images are simplified original SVG illustrations created for recognition practice."
+          "q": "How soon can I retake the Ohio test?",
+          "a": "The BMV says to wait at least 24 hours after a failure. Online attempts are limited to two in six months."
         },
         {
-          "q": "Should I memorize only the answer choices?",
-          "a": "No. Learn shape, color, sign family, and driver action so you can handle different wording on the real test."
-        },
-        {
-          "q": "What should I do after missing one Ohio road sign question?",
-          "a": "Read the explanation, review the matching sign group below, then retake the weak group later with the focus filter."
+          "q": "Which official Ohio practice materials are available?",
+          "a": "The BMV directs applicants to the Digest of Motor Vehicles and its sample driver-license knowledge test."
         }
       ],
       "sources": [
         {
-          "label": "Ohio BMV: Ohio Driver Manual",
+          "label": "Ohio BMV: Driver License and ID Cards (knowledge-test format and study links)",
           "url": "https://www.bmv.ohio.gov/forms-general.aspx"
         },
         {
@@ -15580,47 +14733,45 @@
             "text": "Use this page for signs, then review the manual for broader rules."
           },
           {
-            "label": "Practice target here",
-            "value": "19 of 24 image signs",
-            "text": "Use a stricter practice target before moving into mixed questions."
+            "label": "Interactive practice",
+            "value": "Shared nationwide quiz",
+            "text": "Use the shared picture question bank and read each answer explanation there."
+          },
+          {
+            "label": "Retest timing",
+            "value": "Wait at least 24 hours after failure",
+            "text": "Ohio BMV says in-person attempts are not limited; online tests are limited to two attempts per six months."
+          },
+          {
+            "label": "Official practice",
+            "value": "BMV sample knowledge test",
+            "text": "The BMV directs learners to the Digest of Motor Vehicles and an official sample driver license knowledge test."
           }
         ]
       },
-      "checklist": [
-        "Review Ohio sign shapes before the image quiz.",
-        "Say the driver action out loud before looking at answer choices.",
-        "After a miss, review the matching shape/color group below.",
-        "Retake the road-sign round later instead of immediately guessing again.",
-        "Confirm final wording in the official Ohio Driver Manual."
-      ],
-      "lastUpdated": "June 14, 2026"
+      "lastUpdated": "October 17, 2026",
+      "replacementSlug": "road-signs-practice-test",
+      "replacementLabel": "Practice with the shared nationwide quiz.",
+      "replacementText": "This page summarizes Ohio-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
     },
     {
       "slug": "virginia-dmv-road-signs-practice",
       "category": "DMV",
-      "title": "Virginia Road Signs Practice Test",
-      "description": "Virginia road signs practice with 24 original picture questions, instant explanations, sign shape review, and official Virginia DMV source links.",
+      "title": "Virginia Road Signs Study Guide and Test Context",
+      "description": "Use official Virginia driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Virginia road signs",
-      "summary": "Practice Virginia road signs with 24 original sign pictures, then review regulatory, warning, school, work-zone, rail, guide, and service signs before checking the official Virginia DMV source.",
+      "summary": "Review Virginia-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
       "quickFacts": [
-        {
-          "label": "Question count",
-          "value": "24 image-based road sign questions"
-        },
-        {
-          "label": "Image source",
-          "value": "Original SVG illustrations"
-        },
-        {
-          "label": "Best use",
-          "value": "Fast sign recognition before official review"
-        },
         {
           "label": "Official source",
           "value": "Virginia DMV Driver's Manual"
+        },
+        {
+          "label": "Interactive practice",
+          "value": "Shared nationwide road-sign picture quiz"
         }
       ],
-      "quiz": "roadSignsCore",
+      "quiz": null,
       "related": [
         "dmv-road-signs-cheat-sheet",
         "road-signs-practice-test",
@@ -15630,21 +14781,11 @@
         "dmv-permit-test-passing-score-calculator",
         "dmv-permit-test-requirements-by-state"
       ],
-      "quizModes": [
-        {
-          "id": "virginia-signs",
-          "label": "Road Signs",
-          "short": "24 images",
-          "title": "Virginia road signs image test",
-          "description": "24 image-based sign questions with explanations and official Virginia source links after practice.",
-          "quiz": "roadSignsCore",
-          "passScore": 19
-        }
-      ],
+      "quizModes": [],
       "examBrief": {
         "kicker": "Virginia sign practice",
-        "heading": "Virginia road signs, shapes, and driver actions",
-        "intro": "Start with the image quiz, review missed sign groups, then open the official Virginia DMV Driver's Manual for the exact state wording.",
+        "heading": "Virginia road-sign study and official exam context",
+        "intro": "Review Virginia-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check Virginia DMV's current study materials for authoritative wording.",
         "facts": [
           {
             "label": "Official source",
@@ -15669,314 +14810,51 @@
         ],
         "path": [
           {
-            "step": "1",
-            "title": "Open the official source",
-            "text": "Read the Virginia DMV Driver's Manual or official Virginia DMV test page before trusting any practice score."
+            "step": "01",
+            "title": "Study Section 2",
+            "text": "Virginia’s interactive manual dedicates Section 2 to signals, signs, and pavement markings."
           },
           {
-            "step": "2",
-            "title": "Run the image quiz",
-            "text": "Use the 24-question Virginia road-sign round to find slow recognition patterns."
+            "step": "02",
+            "title": "Master the separate sign section",
+            "text": "The DMV requires all 10 Part 1 sign answers correct."
           },
           {
-            "step": "3",
-            "title": "Review by shape and color",
-            "text": "Use the study guide and library below to separate regulatory, warning, school, rail, work-zone, guide, and service signs."
+            "step": "03",
+            "title": "Use the sample exam",
+            "text": "The manual also includes sample knowledge exams."
           },
           {
-            "step": "4",
-            "title": "Retake only the weak groups",
-            "text": "Use saved mistakes and focus filters instead of restarting random practice too soon."
+            "step": "04",
+            "title": "Check both pass thresholds",
+            "text": "Part 2 requires 24 of 30 general-knowledge answers correct."
           }
         ]
       },
-      "signLibrary": {
-        "kicker": "Virginia road sign library",
-        "heading": "Road signs to recognize before the Virginia permit test",
-        "intro": "Use this library after the Virginia image quiz. Review signs by type, then retake the round instead of memorizing answer positions.",
-        "groups": [
-          {
-            "label": "Regulatory traffic signs",
-            "text": "Virginia learners should recognize these signs state laws, restrictions, right-of-way rules, or required directions.",
-            "signs": [
-              {
-                "image": "stop",
-                "title": "Stop",
-                "meaning": "Come to a complete stop, yield, then proceed when safe."
-              },
-              {
-                "image": "yield",
-                "title": "Yield",
-                "meaning": "Slow and give the right of way when another road user has priority."
-              },
-              {
-                "image": "do-not-enter",
-                "title": "Do Not Enter",
-                "meaning": "Do not enter that roadway, ramp, or restricted direction."
-              },
-              {
-                "image": "wrong-way",
-                "title": "Wrong Way",
-                "meaning": "You are facing traffic; correct your direction safely."
-              },
-              {
-                "image": "one-way",
-                "title": "One Way",
-                "meaning": "Traffic moves only in the arrow direction."
-              },
-              {
-                "image": "no-u-turn",
-                "title": "No U-turn",
-                "meaning": "A U-turn is not allowed at that location."
-              },
-              {
-                "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
-              },
-              {
-                "image": "no-right-turn",
-                "title": "No Right Turn",
-                "meaning": "A right turn is not allowed from this approach."
-              },
-              {
-                "image": "no-turn-on-red",
-                "title": "No Turn on Red",
-                "meaning": "Stopping first is not enough; wait until the signal allows the turn."
-              },
-              {
-                "image": "keep-right",
-                "title": "Keep Right",
-                "meaning": "Stay to the right of an island, divider, or obstruction."
-              },
-              {
-                "image": "speed-limit",
-                "title": "Speed Limit",
-                "meaning": "The posted number is the legal maximum under normal conditions."
-              },
-              {
-                "image": "no-passing",
-                "title": "Do Not Pass",
-                "meaning": "Passing another vehicle is prohibited in this zone."
-              }
-            ]
-          },
-          {
-            "label": "Warning signs",
-            "text": "Virginia learners should recognize these signs warn about conditions that may require lower speed, more space, or extra scanning.",
-            "signs": [
-              {
-                "image": "merge",
-                "title": "Merge",
-                "meaning": "Traffic may join your lane; adjust speed and space."
-              },
-              {
-                "image": "lane-ends",
-                "title": "Lane Ends",
-                "meaning": "A lane will end and traffic must merge."
-              },
-              {
-                "image": "slippery",
-                "title": "Slippery When Wet",
-                "meaning": "Road traction may be reduced; avoid sudden maneuvers."
-              },
-              {
-                "image": "signal-ahead",
-                "title": "Signal Ahead",
-                "meaning": "Prepare for a traffic light ahead."
-              },
-              {
-                "image": "railroad",
-                "title": "Railroad Crossing Ahead",
-                "meaning": "Prepare for tracks and obey crossing controls."
-              },
-              {
-                "image": "roundabout",
-                "title": "Roundabout",
-                "meaning": "A circular intersection is ahead; slow and yield as required."
-              }
-            ]
-          },
-          {
-            "label": "School, work-zone, and service signs",
-            "text": "Virginia learners should recognize these signs flag special areas where driver attention, lower speed, or route information matters.",
-            "signs": [
-              {
-                "image": "school-crossing",
-                "title": "School Crossing",
-                "meaning": "Watch for children and obey school-zone rules."
-              },
-              {
-                "image": "pedestrian-crossing",
-                "title": "Pedestrian Crossing",
-                "meaning": "Watch for people crossing and be ready to yield."
-              },
-              {
-                "image": "work-zone",
-                "title": "Work Zone",
-                "meaning": "Expect temporary traffic control, workers, or lane changes."
-              },
-              {
-                "image": "hospital",
-                "title": "Hospital",
-                "meaning": "A hospital or medical service is nearby."
-              },
-              {
-                "image": "deer-crossing",
-                "title": "Animal Crossing",
-                "meaning": "Animals may enter the road; slow and scan shoulders."
-              }
-            ]
-          }
-        ]
-      },
-      "signStudy": {
-        "kicker": "Virginia sign study guide",
-        "heading": "Virginia road signs by shape, color, and driver action",
-        "intro": "Start with shape and color recognition, then use the official Virginia DMV Driver's Manual for exact wording before test day.",
-        "groups": [
-          {
-            "label": "Regulatory",
-            "title": "Rules and required actions",
-            "text": "Regulatory traffic signs tell drivers what they must do, must not do, or must yield to at that location.",
-            "items": [
-              "Red and white signs often mean stop, yield, do not enter, wrong way, or a prohibited movement.",
-              "White rectangles with black text usually state rules such as speed limit, lane use, turn control, or parking limits.",
-              "On a permit test, translate the sign into an action: stop, yield, slow to the limit, stay one way, or do not turn."
-            ]
-          },
-          {
-            "label": "Warning",
-            "title": "Conditions that need attention",
-            "text": "Warning signs prepare drivers for curves, merges, lane endings, crossings, signals, animals, or road surfaces ahead.",
-            "items": [
-              "Yellow diamond signs usually call for speed control and extra scanning.",
-              "Railroad, pedestrian, school, and animal signs often test whether you know when to slow and look ahead.",
-              "Orange signs are temporary traffic-control signs for work zones and maintenance areas."
-            ]
-          },
-          {
-            "label": "Guide and service",
-            "title": "Information and destinations",
-            "text": "Guide and service signs help drivers choose routes, exits, hospitals, fuel, lodging, rest areas, and local destinations.",
-            "items": [
-              "Blue signs often point to driver services such as hospitals, fuel, food, or lodging.",
-              "Green signs commonly guide drivers to streets, exits, and destinations.",
-              "Brown signs are often used for parks, recreation, or cultural points of interest."
-            ]
-          }
-        ]
-      },
-      "practiceTopics": {
-        "kicker": "Virginia next review path",
-        "heading": "What to review after the Virginia road signs quiz",
-        "intro": "Use saved mistakes from the Virginia sign round to choose the next focused review.",
-        "items": [
-          {
-            "label": "If you miss red signs",
-            "title": "Review regulatory traffic signs",
-            "text": "Focus on stop, yield, do-not-enter, wrong-way, no-turn, one-way, speed, and no-passing rules.",
-            "review": "Retake the first half of the quiz."
-          },
-          {
-            "label": "If you miss yellow signs",
-            "title": "Review warning signs",
-            "text": "Focus on merge, lane ends, slippery road, railroad, roundabout, animal crossing, signal ahead, and pedestrian warnings.",
-            "review": "Slow down and name the hazard."
-          },
-          {
-            "label": "If you miss state wording",
-            "title": "Move into a state page",
-            "text": "Choose your state practice page for exact exam context, pass mark, official manual link, and mixed permit questions.",
-            "review": "Use the related state tools below."
-          }
-        ]
-      },
-      "tables": [
-        {
-          "caption": "Virginia road-sign weak areas to review",
-          "headers": [
-            "Category",
-            "What to review",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Regulatory signs",
-              "Stop, yield, do not enter, wrong way, one way, no-turn, speed, and no-passing signs.",
-              "These signs often define the required legal action."
-            ],
-            [
-              "Warning signs",
-              "Merge, lane ends, slippery road, divided highway, signal ahead, and animal crossing signs.",
-              "Yellow signs usually ask you to slow, scan, and prepare."
-            ],
-            [
-              "School, rail, and work zones",
-              "School crossing, railroad crossing, work-zone, flagger, and temporary control signs.",
-              "These signs involve vulnerable road users or changing traffic conditions."
-            ],
-            [
-              "Official wording",
-              "Virginia DMV Driver's Manual, test pages, and current Virginia DMV instructions.",
-              "State wording and test rules can change, so the official source wins."
-            ]
-          ]
-        }
-      ],
+      "signLibrary": null,
+      "signStudy": null,
       "body": [
         {
-          "heading": "How to use the Virginia road signs page",
-          "text": "Answer the picture questions before reading the library. After each miss, review the shape, color, and driver action instead of only memorizing the correct choice."
+          "heading": "Virginia’s two-part knowledge exam",
+          "text": "Virginia DMV says Part 1 has 10 road-sign questions and all 10 must be correct. Part 2 has 30 general-knowledge questions and requires 24 correct."
         },
         {
-          "heading": "Why this is a road-sign page, not a full official manual",
-          "text": "This page trains visual sign recognition. It does not replace the Virginia DMV Driver's Manual; use the official source for exact laws, documents, fees, appointments, and retest rules."
-        },
-        {
-          "heading": "When to move on from signs",
-          "text": "Move into broader permit practice only after common regulatory and warning signs feel automatic. If you still hesitate on sign shape or color, retake the focused group first."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Virginia road-sign study moves that save time",
-          "intro": "The goal is fast recognition plus official-source confirmation, not endless random clicking.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Score the first round honestly",
-              "text": "Do not look up signs mid-quiz; the misses are the useful part."
-            },
-            {
-              "label": "Pattern",
-              "title": "Name the shape before the sign",
-              "text": "Octagon, triangle, diamond, rectangle, pentagon, circle, and pennant clues reduce guessing."
-            },
-            {
-              "label": "Source",
-              "title": "Finish with the official page",
-              "text": "Open Virginia DMV guidance after practice so final state wording controls the test-day plan."
-            }
-          ]
+          "heading": "Study signs in the Virginia manual",
+          "text": "The Virginia DMV manual page includes an interactive manual, sample questions, and a dedicated Signals, Signs and Pavement Markings section. Use that section before taking the official sample exam."
         }
       ],
       "faq": [
         {
-          "q": "Is this Virginia road signs practice official?",
-          "a": "No. It is an independent TestDayTools practice page with original sign illustrations. Use Virginia DMV and the official source links for final wording."
+          "q": "How many road-sign questions must I get right in Virginia?",
+          "a": "Virginia DMV requires all 10 questions in Part 1 to be correct. Part 2 is 30 general questions, with 24 correct required."
         },
         {
-          "q": "Are the sign images copied from Virginia DMV?",
-          "a": "No. The images are simplified original SVG illustrations created for recognition practice."
+          "q": "What is the Virginia retake rule for applicants under 18?",
+          "a": "The DMV says applicants under 18 must wait a full 15 days before retaking; adults may test once per day."
         },
         {
-          "q": "Should I memorize only the answer choices?",
-          "a": "No. Learn shape, color, sign family, and driver action so you can handle different wording on the real test."
-        },
-        {
-          "q": "What should I do after missing one Virginia road sign question?",
-          "a": "Read the explanation, review the matching sign group below, then retake the weak group later with the focus filter."
+          "q": "Where does Virginia publish sample questions?",
+          "a": "The DMV’s interactive Driver’s Manual contains practice questions and a dedicated signs and pavement-markings section."
         }
       ],
       "sources": [
@@ -15985,8 +14863,12 @@
           "url": "https://www.dmv.virginia.gov/licenses-ids/exams/practice-exam"
         },
         {
-          "label": "Virginia DMV: Driver's Manual PDF",
-          "url": "https://www.dmv.virginia.gov/sites/default/files/forms/dmv39.pdf"
+          "label": "Virginia DMV: Interactive Driver's Manual and road-sign section",
+          "url": "https://www.dmv.virginia.gov/licenses-ids/exams/manual"
+        },
+        {
+          "label": "Virginia DMV: The Knowledge Exam",
+          "url": "https://www.dmv.virginia.gov/licenses-ids/exams/know-exam"
         }
       ],
       "examDetails": {
@@ -16010,47 +14892,50 @@
             "text": "If a sign miss is visual, review shape and color before moving to broader law questions."
           },
           {
-            "label": "Practice target here",
-            "value": "19 of 24 image signs",
-            "text": "Use a stricter practice target before taking the official exam."
+            "label": "Interactive practice",
+            "value": "Shared nationwide quiz",
+            "text": "Use the shared picture question bank and read each answer explanation there."
+          },
+          {
+            "label": "Road-sign section",
+            "value": "10 of 10 correct required",
+            "text": "The Virginia DMV exam has a separate 10-question road-sign part; every answer must be correct."
+          },
+          {
+            "label": "General section",
+            "value": "24 of 30 correct required",
+            "text": "The second part has 30 general knowledge questions and requires 24 correct."
+          },
+          {
+            "label": "Retest rule",
+            "value": "Under 18: wait 15 days",
+            "text": "Virginia DMV says applicants under 18 must wait 15 days; adults may test once per day."
           }
         ]
       },
-      "checklist": [
-        "Review Virginia sign shapes before the image quiz.",
-        "Say the driver action out loud before looking at answer choices.",
-        "After a miss, review the matching shape/color group below.",
-        "Retake the road-sign round later instead of immediately guessing again.",
-        "Confirm final wording in the official Virginia DMV Driver's Manual."
-      ],
-      "lastUpdated": "June 14, 2026"
+      "lastUpdated": "October 17, 2026",
+      "replacementSlug": "road-signs-practice-test",
+      "replacementLabel": "Practice with the shared nationwide quiz.",
+      "replacementText": "This page summarizes Virginia-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
     },
     {
       "slug": "michigan-sos-road-signs-practice",
       "category": "DMV",
-      "title": "Michigan Road Signs Practice Test",
-      "description": "Michigan road signs practice with 24 original picture questions, instant explanations, sign shape review, and official Michigan Secretary of State source links.",
+      "title": "Michigan Road Signs Study Guide and Test Context",
+      "description": "Use official Michigan driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Michigan road signs",
-      "summary": "Practice Michigan road signs with 24 original sign pictures, then review regulatory, warning, school, work-zone, rail, guide, and service signs before checking the official Michigan Secretary of State source.",
+      "summary": "Review Michigan-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
       "quickFacts": [
-        {
-          "label": "Question count",
-          "value": "24 image-based road sign questions"
-        },
-        {
-          "label": "Image source",
-          "value": "Original SVG illustrations"
-        },
-        {
-          "label": "Best use",
-          "value": "Fast sign recognition before official review"
-        },
         {
           "label": "Official source",
           "value": "What Every Driver Must Know"
+        },
+        {
+          "label": "Interactive practice",
+          "value": "Shared nationwide road-sign picture quiz"
         }
       ],
-      "quiz": "roadSignsCore",
+      "quiz": null,
       "related": [
         "dmv-road-signs-cheat-sheet",
         "road-signs-practice-test",
@@ -16059,21 +14944,11 @@
         "road-sign-shapes-and-colors-finder",
         "dmv-permit-test-requirements-by-state"
       ],
-      "quizModes": [
-        {
-          "id": "michigan-signs",
-          "label": "Road Signs",
-          "short": "24 images",
-          "title": "Michigan road signs image test",
-          "description": "24 image-based sign questions with explanations and official Michigan source links after practice.",
-          "quiz": "roadSignsCore",
-          "passScore": 19
-        }
-      ],
+      "quizModes": [],
       "examBrief": {
         "kicker": "Michigan sign practice",
-        "heading": "Michigan road signs, shapes, and driver actions",
-        "intro": "Start with the image quiz, review missed sign groups, then open the official What Every Driver Must Know for the exact state wording.",
+        "heading": "Michigan road-sign study and official exam context",
+        "intro": "Review Michigan-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check Michigan SOS's current study materials for authoritative wording.",
         "facts": [
           {
             "label": "Official source",
@@ -16098,324 +14973,57 @@
         ],
         "path": [
           {
-            "step": "1",
-            "title": "Open the official source",
-            "text": "Read the What Every Driver Must Know or official Michigan Secretary of State test page before trusting any practice score."
+            "step": "01",
+            "title": "Open the October 2025 manual",
+            "text": "Michigan SOS lists What Every Driver Must Know as its complete driver manual."
           },
           {
-            "step": "2",
-            "title": "Run the image quiz",
-            "text": "Use the 24-question Michigan road-sign round to find slow recognition patterns."
+            "step": "02",
+            "title": "Choose a language edition",
+            "text": "The official page lists the manual in eight additional languages besides English."
           },
           {
-            "step": "3",
-            "title": "Review by shape and color",
-            "text": "Use the study guide and library below to separate regulatory, warning, school, rail, work-zone, guide, and service signs."
+            "step": "03",
+            "title": "Use the nationwide quiz",
+            "text": "Practice the shared picture bank and read the explanations."
           },
           {
-            "step": "4",
-            "title": "Retake only the weak groups",
-            "text": "Use saved mistakes and focus filters instead of restarting random practice too soon."
+            "step": "04",
+            "title": "Return to the official manual",
+            "text": "Confirm the current Michigan wording and requirements in the SOS publication."
           }
         ]
       },
-      "signLibrary": {
-        "kicker": "Michigan road sign library",
-        "heading": "Road signs to recognize before the Michigan permit test",
-        "intro": "Use this library after the Michigan image quiz. Review signs by type, then retake the round instead of memorizing answer positions.",
-        "groups": [
-          {
-            "label": "Regulatory traffic signs",
-            "text": "Michigan learners should recognize these signs state laws, restrictions, right-of-way rules, or required directions.",
-            "signs": [
-              {
-                "image": "stop",
-                "title": "Stop",
-                "meaning": "Come to a complete stop, yield, then proceed when safe."
-              },
-              {
-                "image": "yield",
-                "title": "Yield",
-                "meaning": "Slow and give the right of way when another road user has priority."
-              },
-              {
-                "image": "do-not-enter",
-                "title": "Do Not Enter",
-                "meaning": "Do not enter that roadway, ramp, or restricted direction."
-              },
-              {
-                "image": "wrong-way",
-                "title": "Wrong Way",
-                "meaning": "You are facing traffic; correct your direction safely."
-              },
-              {
-                "image": "one-way",
-                "title": "One Way",
-                "meaning": "Traffic moves only in the arrow direction."
-              },
-              {
-                "image": "no-u-turn",
-                "title": "No U-turn",
-                "meaning": "A U-turn is not allowed at that location."
-              },
-              {
-                "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
-              },
-              {
-                "image": "no-right-turn",
-                "title": "No Right Turn",
-                "meaning": "A right turn is not allowed from this approach."
-              },
-              {
-                "image": "no-turn-on-red",
-                "title": "No Turn on Red",
-                "meaning": "Stopping first is not enough; wait until the signal allows the turn."
-              },
-              {
-                "image": "keep-right",
-                "title": "Keep Right",
-                "meaning": "Stay to the right of an island, divider, or obstruction."
-              },
-              {
-                "image": "speed-limit",
-                "title": "Speed Limit",
-                "meaning": "The posted number is the legal maximum under normal conditions."
-              },
-              {
-                "image": "no-passing",
-                "title": "Do Not Pass",
-                "meaning": "Passing another vehicle is prohibited in this zone."
-              }
-            ]
-          },
-          {
-            "label": "Warning signs",
-            "text": "Michigan learners should recognize these signs warn about conditions that may require lower speed, more space, or extra scanning.",
-            "signs": [
-              {
-                "image": "merge",
-                "title": "Merge",
-                "meaning": "Traffic may join your lane; adjust speed and space."
-              },
-              {
-                "image": "lane-ends",
-                "title": "Lane Ends",
-                "meaning": "A lane will end and traffic must merge."
-              },
-              {
-                "image": "slippery",
-                "title": "Slippery When Wet",
-                "meaning": "Road traction may be reduced; avoid sudden maneuvers."
-              },
-              {
-                "image": "signal-ahead",
-                "title": "Signal Ahead",
-                "meaning": "Prepare for a traffic light ahead."
-              },
-              {
-                "image": "railroad",
-                "title": "Railroad Crossing Ahead",
-                "meaning": "Prepare for tracks and obey crossing controls."
-              },
-              {
-                "image": "roundabout",
-                "title": "Roundabout",
-                "meaning": "A circular intersection is ahead; slow and yield as required."
-              }
-            ]
-          },
-          {
-            "label": "School, work-zone, and service signs",
-            "text": "Michigan learners should recognize these signs flag special areas where driver attention, lower speed, or route information matters.",
-            "signs": [
-              {
-                "image": "school-crossing",
-                "title": "School Crossing",
-                "meaning": "Watch for children and obey school-zone rules."
-              },
-              {
-                "image": "pedestrian-crossing",
-                "title": "Pedestrian Crossing",
-                "meaning": "Watch for people crossing and be ready to yield."
-              },
-              {
-                "image": "work-zone",
-                "title": "Work Zone",
-                "meaning": "Expect temporary traffic control, workers, or lane changes."
-              },
-              {
-                "image": "hospital",
-                "title": "Hospital",
-                "meaning": "A hospital or medical service is nearby."
-              },
-              {
-                "image": "deer-crossing",
-                "title": "Animal Crossing",
-                "meaning": "Animals may enter the road; slow and scan shoulders."
-              }
-            ]
-          }
-        ]
-      },
-      "signStudy": {
-        "kicker": "Michigan sign study guide",
-        "heading": "Michigan road signs by shape, color, and driver action",
-        "intro": "Start with shape and color recognition, then use the official What Every Driver Must Know for exact wording before test day.",
-        "groups": [
-          {
-            "label": "Regulatory",
-            "title": "Rules and required actions",
-            "text": "Regulatory traffic signs tell drivers what they must do, must not do, or must yield to at that location.",
-            "items": [
-              "Red and white signs often mean stop, yield, do not enter, wrong way, or a prohibited movement.",
-              "White rectangles with black text usually state rules such as speed limit, lane use, turn control, or parking limits.",
-              "On a permit test, translate the sign into an action: stop, yield, slow to the limit, stay one way, or do not turn."
-            ]
-          },
-          {
-            "label": "Warning",
-            "title": "Conditions that need attention",
-            "text": "Warning signs prepare drivers for curves, merges, lane endings, crossings, signals, animals, or road surfaces ahead.",
-            "items": [
-              "Yellow diamond signs usually call for speed control and extra scanning.",
-              "Railroad, pedestrian, school, and animal signs often test whether you know when to slow and look ahead.",
-              "Orange signs are temporary traffic-control signs for work zones and maintenance areas."
-            ]
-          },
-          {
-            "label": "Guide and service",
-            "title": "Information and destinations",
-            "text": "Guide and service signs help drivers choose routes, exits, hospitals, fuel, lodging, rest areas, and local destinations.",
-            "items": [
-              "Blue signs often point to driver services such as hospitals, fuel, food, or lodging.",
-              "Green signs commonly guide drivers to streets, exits, and destinations.",
-              "Brown signs are often used for parks, recreation, or cultural points of interest."
-            ]
-          }
-        ]
-      },
-      "practiceTopics": {
-        "kicker": "Michigan next review path",
-        "heading": "What to review after the Michigan road signs quiz",
-        "intro": "Use saved mistakes from the Michigan sign round to choose the next focused review.",
-        "items": [
-          {
-            "label": "If you miss red signs",
-            "title": "Review regulatory traffic signs",
-            "text": "Focus on stop, yield, do-not-enter, wrong-way, no-turn, one-way, speed, and no-passing rules.",
-            "review": "Retake the first half of the quiz."
-          },
-          {
-            "label": "If you miss yellow signs",
-            "title": "Review warning signs",
-            "text": "Focus on merge, lane ends, slippery road, railroad, roundabout, animal crossing, signal ahead, and pedestrian warnings.",
-            "review": "Slow down and name the hazard."
-          },
-          {
-            "label": "If you miss state wording",
-            "title": "Move into a state page",
-            "text": "Choose your state practice page for exact exam context, pass mark, official manual link, and mixed permit questions.",
-            "review": "Use the related state tools below."
-          }
-        ]
-      },
-      "tables": [
-        {
-          "caption": "Michigan road-sign weak areas to review",
-          "headers": [
-            "Category",
-            "What to review",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Regulatory signs",
-              "Stop, yield, do not enter, wrong way, one way, no-turn, speed, and no-passing signs.",
-              "These signs often define the required legal action."
-            ],
-            [
-              "Warning signs",
-              "Merge, lane ends, slippery road, divided highway, signal ahead, and animal crossing signs.",
-              "Yellow signs usually ask you to slow, scan, and prepare."
-            ],
-            [
-              "School, rail, and work zones",
-              "School crossing, railroad crossing, work-zone, flagger, and temporary control signs.",
-              "These signs involve vulnerable road users or changing traffic conditions."
-            ],
-            [
-              "Official wording",
-              "What Every Driver Must Know, test pages, and current Michigan Secretary of State instructions.",
-              "State wording and test rules can change, so the official source wins."
-            ]
-          ]
-        }
-      ],
+      "signLibrary": null,
+      "signStudy": null,
       "body": [
         {
-          "heading": "How to use the Michigan road signs page",
-          "text": "Answer the picture questions before reading the library. After each miss, review the shape, color, and driver action instead of only memorizing the correct choice."
+          "heading": "Use Michigan’s current driver manual",
+          "text": "Michigan SOS lists What Every Driver Must Know as the complete driver manual and dates its current web and complete editions to October 2025."
         },
         {
-          "heading": "Why this is a road-sign page, not a full official manual",
-          "text": "This page trains visual sign recognition. It does not replace the What Every Driver Must Know; use the official source for exact laws, documents, fees, appointments, and retest rules."
-        },
-        {
-          "heading": "When to move on from signs",
-          "text": "Move into broader permit practice only after common regulatory and warning signs feel automatic. If you still hesitate on sign shape or color, retake the focused group first."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Michigan road-sign study moves that save time",
-          "intro": "The goal is fast recognition plus official-source confirmation, not endless random clicking.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Score the first round honestly",
-              "text": "Do not look up signs mid-quiz; the misses are the useful part."
-            },
-            {
-              "label": "Pattern",
-              "title": "Name the shape before the sign",
-              "text": "Octagon, triangle, diamond, rectangle, pentagon, circle, and pennant clues reduce guessing."
-            },
-            {
-              "label": "Source",
-              "title": "Finish with the official page",
-              "text": "Open Michigan Secretary of State guidance after practice so final state wording controls the test-day plan."
-            }
-          ]
+          "heading": "Choose a language before studying",
+          "text": "The official manual page provides the complete manual in English, Spanish, Arabic, Chinese, Dari, French, Pashto, Swahili, and Vietnamese. Use the official page to open the edition that works for you."
         }
       ],
       "faq": [
         {
-          "q": "Is this Michigan road signs practice official?",
-          "a": "No. It is an independent TestDayTools practice page with original sign illustrations. Use Michigan Secretary of State and the official source links for final wording."
+          "q": "Which Michigan manual should I use?",
+          "a": "Michigan SOS’s What Every Driver Must Know page lists the complete manual, with the web edition published October 2025."
         },
         {
-          "q": "Are the sign images copied from Michigan Secretary of State?",
-          "a": "No. The images are simplified original SVG illustrations created for recognition practice."
+          "q": "Is the Michigan manual available in other languages?",
+          "a": "The SOS page lists versions in Spanish, Arabic, Chinese, Dari, French, Pashto, Swahili, and Vietnamese, alongside English."
         },
         {
-          "q": "Should I memorize only the answer choices?",
-          "a": "No. Learn shape, color, sign family, and driver action so you can handle different wording on the real test."
-        },
-        {
-          "q": "What should I do after missing one Michigan road sign question?",
-          "a": "Read the explanation, review the matching sign group below, then retake the weak group later with the focus filter."
+          "q": "Does this page provide a Michigan-only quiz?",
+          "a": "No. The picture quiz is shared across states; this page focuses on Michigan’s official study source and state-specific exam context."
         }
       ],
       "sources": [
         {
-          "label": "Michigan SOS: What Every Driver Must Know",
+          "label": "Michigan SOS: What Every Driver Must Know (October 2025 manual page)",
           "url": "https://www.michigan.gov/sos/resources/forms/what-every-driver-must-know"
-        },
-        {
-          "label": "Michigan SOS: What Every Driver Must Know PDF",
-          "url": "https://www.michigan.gov/sos/-/media/Project/Websites/sos/Resources/Forms-and-publications/WEDMK/WEDMK.pdf"
         }
       ],
       "examDetails": {
@@ -16439,47 +15047,40 @@
             "text": "Use this page for image recognition, then return to the manual for exact legal wording."
           },
           {
-            "label": "Practice target here",
-            "value": "19 of 24 image signs",
-            "text": "Use a stricter practice target before relying on recognition speed."
+            "label": "Interactive practice",
+            "value": "Shared nationwide quiz",
+            "text": "Use the shared picture question bank and read each answer explanation there."
+          },
+          {
+            "label": "Current study source",
+            "value": "Manual published October 2025",
+            "text": "Michigan SOS lists the web edition and complete manual as published October 2025, with English and translated PDFs."
           }
         ]
       },
-      "checklist": [
-        "Review Michigan sign shapes before the image quiz.",
-        "Say the driver action out loud before looking at answer choices.",
-        "After a miss, review the matching shape/color group below.",
-        "Retake the road-sign round later instead of immediately guessing again.",
-        "Confirm final wording in the official What Every Driver Must Know."
-      ],
-      "lastUpdated": "June 14, 2026"
+      "lastUpdated": "October 17, 2026",
+      "replacementSlug": "road-signs-practice-test",
+      "replacementLabel": "Practice with the shared nationwide quiz.",
+      "replacementText": "This page summarizes Michigan-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
     },
     {
       "slug": "arizona-mvd-road-signs-practice",
       "category": "DMV",
-      "title": "Arizona Road Signs Practice Test",
-      "description": "Arizona road signs practice with 24 original picture questions, instant explanations, sign shape review, and official Arizona MVD source links.",
+      "title": "Arizona Road Signs Study Guide and Test Context",
+      "description": "Use official Arizona driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Arizona road signs",
-      "summary": "Practice Arizona road signs with 24 original sign pictures, then review regulatory, warning, school, work-zone, rail, guide, and service signs before checking the official Arizona MVD source.",
+      "summary": "Review Arizona-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
       "quickFacts": [
-        {
-          "label": "Question count",
-          "value": "24 image-based road sign questions"
-        },
-        {
-          "label": "Image source",
-          "value": "Original SVG illustrations"
-        },
-        {
-          "label": "Best use",
-          "value": "Fast sign recognition before official review"
-        },
         {
           "label": "Official source",
           "value": "Arizona Driver License Manual"
+        },
+        {
+          "label": "Interactive practice",
+          "value": "Shared nationwide road-sign picture quiz"
         }
       ],
-      "quiz": "roadSignsCore",
+      "quiz": null,
       "related": [
         "dmv-road-signs-cheat-sheet",
         "road-signs-practice-test",
@@ -16489,21 +15090,11 @@
         "dmv-permit-test-passing-score-calculator",
         "dmv-permit-test-requirements-by-state"
       ],
-      "quizModes": [
-        {
-          "id": "arizona-signs",
-          "label": "Road Signs",
-          "short": "24 images",
-          "title": "Arizona road signs image test",
-          "description": "24 image-based sign questions with explanations and official Arizona source links after practice.",
-          "quiz": "roadSignsCore",
-          "passScore": 19
-        }
-      ],
+      "quizModes": [],
       "examBrief": {
         "kicker": "Arizona sign practice",
-        "heading": "Arizona road signs, shapes, and driver actions",
-        "intro": "Start with the image quiz, review missed sign groups, then open the official Arizona Driver License Manual for the exact state wording.",
+        "heading": "Arizona road-sign study and official exam context",
+        "intro": "Review Arizona-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check Arizona MVD's current study materials for authoritative wording.",
         "facts": [
           {
             "label": "Official source",
@@ -16528,314 +15119,51 @@
         ],
         "path": [
           {
-            "step": "1",
-            "title": "Open the official source",
-            "text": "Read the Arizona Driver License Manual or official Arizona MVD test page before trusting any practice score."
+            "step": "01",
+            "title": "Study the Arizona Driver License Manual",
+            "text": "MVD says its official practice questions come from this manual."
           },
           {
-            "step": "2",
-            "title": "Run the image quiz",
-            "text": "Use the 24-question Arizona road-sign round to find slow recognition patterns."
+            "step": "02",
+            "title": "Use MVD practice tests 1–3",
+            "text": "Check knowledge with the three agency-listed practice tests."
           },
           {
-            "step": "3",
-            "title": "Review by shape and color",
-            "text": "Use the study guide and library below to separate regulatory, warning, school, rail, work-zone, guide, and service signs."
+            "step": "03",
+            "title": "Practice sign recognition here",
+            "text": "Use the nationwide picture quiz for answer-by-answer visual practice."
           },
           {
-            "step": "4",
-            "title": "Retake only the weak groups",
-            "text": "Use saved mistakes and focus filters instead of restarting random practice too soon."
+            "step": "04",
+            "title": "Confirm the official threshold",
+            "text": "MVD says the actual examination requires 80% or higher."
           }
         ]
       },
-      "signLibrary": {
-        "kicker": "Arizona road sign library",
-        "heading": "Road signs to recognize before the Arizona permit test",
-        "intro": "Use this library after the Arizona image quiz. Review signs by type, then retake the round instead of memorizing answer positions.",
-        "groups": [
-          {
-            "label": "Regulatory traffic signs",
-            "text": "Arizona learners should recognize these signs state laws, restrictions, right-of-way rules, or required directions.",
-            "signs": [
-              {
-                "image": "stop",
-                "title": "Stop",
-                "meaning": "Come to a complete stop, yield, then proceed when safe."
-              },
-              {
-                "image": "yield",
-                "title": "Yield",
-                "meaning": "Slow and give the right of way when another road user has priority."
-              },
-              {
-                "image": "do-not-enter",
-                "title": "Do Not Enter",
-                "meaning": "Do not enter that roadway, ramp, or restricted direction."
-              },
-              {
-                "image": "wrong-way",
-                "title": "Wrong Way",
-                "meaning": "You are facing traffic; correct your direction safely."
-              },
-              {
-                "image": "one-way",
-                "title": "One Way",
-                "meaning": "Traffic moves only in the arrow direction."
-              },
-              {
-                "image": "no-u-turn",
-                "title": "No U-turn",
-                "meaning": "A U-turn is not allowed at that location."
-              },
-              {
-                "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
-              },
-              {
-                "image": "no-right-turn",
-                "title": "No Right Turn",
-                "meaning": "A right turn is not allowed from this approach."
-              },
-              {
-                "image": "no-turn-on-red",
-                "title": "No Turn on Red",
-                "meaning": "Stopping first is not enough; wait until the signal allows the turn."
-              },
-              {
-                "image": "keep-right",
-                "title": "Keep Right",
-                "meaning": "Stay to the right of an island, divider, or obstruction."
-              },
-              {
-                "image": "speed-limit",
-                "title": "Speed Limit",
-                "meaning": "The posted number is the legal maximum under normal conditions."
-              },
-              {
-                "image": "no-passing",
-                "title": "Do Not Pass",
-                "meaning": "Passing another vehicle is prohibited in this zone."
-              }
-            ]
-          },
-          {
-            "label": "Warning signs",
-            "text": "Arizona learners should recognize these signs warn about conditions that may require lower speed, more space, or extra scanning.",
-            "signs": [
-              {
-                "image": "merge",
-                "title": "Merge",
-                "meaning": "Traffic may join your lane; adjust speed and space."
-              },
-              {
-                "image": "lane-ends",
-                "title": "Lane Ends",
-                "meaning": "A lane will end and traffic must merge."
-              },
-              {
-                "image": "slippery",
-                "title": "Slippery When Wet",
-                "meaning": "Road traction may be reduced; avoid sudden maneuvers."
-              },
-              {
-                "image": "signal-ahead",
-                "title": "Signal Ahead",
-                "meaning": "Prepare for a traffic light ahead."
-              },
-              {
-                "image": "railroad",
-                "title": "Railroad Crossing Ahead",
-                "meaning": "Prepare for tracks and obey crossing controls."
-              },
-              {
-                "image": "roundabout",
-                "title": "Roundabout",
-                "meaning": "A circular intersection is ahead; slow and yield as required."
-              }
-            ]
-          },
-          {
-            "label": "School, work-zone, and service signs",
-            "text": "Arizona learners should recognize these signs flag special areas where driver attention, lower speed, or route information matters.",
-            "signs": [
-              {
-                "image": "school-crossing",
-                "title": "School Crossing",
-                "meaning": "Watch for children and obey school-zone rules."
-              },
-              {
-                "image": "pedestrian-crossing",
-                "title": "Pedestrian Crossing",
-                "meaning": "Watch for people crossing and be ready to yield."
-              },
-              {
-                "image": "work-zone",
-                "title": "Work Zone",
-                "meaning": "Expect temporary traffic control, workers, or lane changes."
-              },
-              {
-                "image": "hospital",
-                "title": "Hospital",
-                "meaning": "A hospital or medical service is nearby."
-              },
-              {
-                "image": "deer-crossing",
-                "title": "Animal Crossing",
-                "meaning": "Animals may enter the road; slow and scan shoulders."
-              }
-            ]
-          }
-        ]
-      },
-      "signStudy": {
-        "kicker": "Arizona sign study guide",
-        "heading": "Arizona road signs by shape, color, and driver action",
-        "intro": "Start with shape and color recognition, then use the official Arizona Driver License Manual for exact wording before test day.",
-        "groups": [
-          {
-            "label": "Regulatory",
-            "title": "Rules and required actions",
-            "text": "Regulatory traffic signs tell drivers what they must do, must not do, or must yield to at that location.",
-            "items": [
-              "Red and white signs often mean stop, yield, do not enter, wrong way, or a prohibited movement.",
-              "White rectangles with black text usually state rules such as speed limit, lane use, turn control, or parking limits.",
-              "On a permit test, translate the sign into an action: stop, yield, slow to the limit, stay one way, or do not turn."
-            ]
-          },
-          {
-            "label": "Warning",
-            "title": "Conditions that need attention",
-            "text": "Warning signs prepare drivers for curves, merges, lane endings, crossings, signals, animals, or road surfaces ahead.",
-            "items": [
-              "Yellow diamond signs usually call for speed control and extra scanning.",
-              "Railroad, pedestrian, school, and animal signs often test whether you know when to slow and look ahead.",
-              "Orange signs are temporary traffic-control signs for work zones and maintenance areas."
-            ]
-          },
-          {
-            "label": "Guide and service",
-            "title": "Information and destinations",
-            "text": "Guide and service signs help drivers choose routes, exits, hospitals, fuel, lodging, rest areas, and local destinations.",
-            "items": [
-              "Blue signs often point to driver services such as hospitals, fuel, food, or lodging.",
-              "Green signs commonly guide drivers to streets, exits, and destinations.",
-              "Brown signs are often used for parks, recreation, or cultural points of interest."
-            ]
-          }
-        ]
-      },
-      "practiceTopics": {
-        "kicker": "Arizona next review path",
-        "heading": "What to review after the Arizona road signs quiz",
-        "intro": "Use saved mistakes from the Arizona sign round to choose the next focused review.",
-        "items": [
-          {
-            "label": "If you miss red signs",
-            "title": "Review regulatory traffic signs",
-            "text": "Focus on stop, yield, do-not-enter, wrong-way, no-turn, one-way, speed, and no-passing rules.",
-            "review": "Retake the first half of the quiz."
-          },
-          {
-            "label": "If you miss yellow signs",
-            "title": "Review warning signs",
-            "text": "Focus on merge, lane ends, slippery road, railroad, roundabout, animal crossing, signal ahead, and pedestrian warnings.",
-            "review": "Slow down and name the hazard."
-          },
-          {
-            "label": "If you miss state wording",
-            "title": "Move into a state page",
-            "text": "Choose your state practice page for exact exam context, pass mark, official manual link, and mixed permit questions.",
-            "review": "Use the related state tools below."
-          }
-        ]
-      },
-      "tables": [
-        {
-          "caption": "Arizona road-sign weak areas to review",
-          "headers": [
-            "Category",
-            "What to review",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Regulatory signs",
-              "Stop, yield, do not enter, wrong way, one way, no-turn, speed, and no-passing signs.",
-              "These signs often define the required legal action."
-            ],
-            [
-              "Warning signs",
-              "Merge, lane ends, slippery road, divided highway, signal ahead, and animal crossing signs.",
-              "Yellow signs usually ask you to slow, scan, and prepare."
-            ],
-            [
-              "School, rail, and work zones",
-              "School crossing, railroad crossing, work-zone, flagger, and temporary control signs.",
-              "These signs involve vulnerable road users or changing traffic conditions."
-            ],
-            [
-              "Official wording",
-              "Arizona Driver License Manual, test pages, and current Arizona MVD instructions.",
-              "State wording and test rules can change, so the official source wins."
-            ]
-          ]
-        }
-      ],
+      "signLibrary": null,
+      "signStudy": null,
       "body": [
         {
-          "heading": "How to use the Arizona road signs page",
-          "text": "Answer the picture questions before reading the library. After each miss, review the shape, color, and driver action instead of only memorizing the correct choice."
+          "heading": "Study before taking an Arizona practice test",
+          "text": "Arizona MVD says its practice-test questions are drawn from the Driver License Manual and advises applicants to study it thoroughly before the examination."
         },
         {
-          "heading": "Why this is a road-sign page, not a full official manual",
-          "text": "This page trains visual sign recognition. It does not replace the Arizona Driver License Manual; use the official source for exact laws, documents, fees, appointments, and retest rules."
-        },
-        {
-          "heading": "When to move on from signs",
-          "text": "Move into broader permit practice only after common regulatory and warning signs feel automatic. If you still hesitate on sign shape or color, retake the focused group first."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Arizona road-sign study moves that save time",
-          "intro": "The goal is fast recognition plus official-source confirmation, not endless random clicking.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Score the first round honestly",
-              "text": "Do not look up signs mid-quiz; the misses are the useful part."
-            },
-            {
-              "label": "Pattern",
-              "title": "Name the shape before the sign",
-              "text": "Octagon, triangle, diamond, rectangle, pentagon, circle, and pennant clues reduce guessing."
-            },
-            {
-              "label": "Source",
-              "title": "Finish with the official page",
-              "text": "Open Arizona MVD guidance after practice so final state wording controls the test-day plan."
-            }
-          ]
+          "heading": "Use the official pass target",
+          "text": "Arizona MVD states that 80 percent or higher is required to pass the actual examination. Its Practice Tests page lists three official driver-license practice tests."
         }
       ],
       "faq": [
         {
-          "q": "Is this Arizona road signs practice official?",
-          "a": "No. It is an independent TestDayTools practice page with original sign illustrations. Use Arizona MVD and the official source links for final wording."
+          "q": "What is Arizona’s official knowledge-test passing score?",
+          "a": "Arizona MVD states that 80 percent or higher is required to pass the actual examination."
         },
         {
-          "q": "Are the sign images copied from Arizona MVD?",
-          "a": "No. The images are simplified original SVG illustrations created for recognition practice."
+          "q": "Are Arizona’s official practice questions based on the manual?",
+          "a": "Yes. MVD says the practice-test questions are taken from the Arizona Driver License Manual."
         },
         {
-          "q": "Should I memorize only the answer choices?",
-          "a": "No. Learn shape, color, sign family, and driver action so you can handle different wording on the real test."
-        },
-        {
-          "q": "What should I do after missing one Arizona road sign question?",
-          "a": "Read the explanation, review the matching sign group below, then retake the weak group later with the focus filter."
+          "q": "How many official Arizona practice tests are listed?",
+          "a": "The MVD Practice Tests page lists Driver License Practice Tests 1, 2, and 3."
         }
       ],
       "sources": [
@@ -16869,20 +15197,26 @@
             "text": "Use this page to test visual recognition after reading the manual sections."
           },
           {
-            "label": "Practice target here",
-            "value": "19 of 24 image signs",
-            "text": "Use a stricter practice target before official testing."
+            "label": "Interactive practice",
+            "value": "Shared nationwide quiz",
+            "text": "Use the shared picture question bank and read each answer explanation there."
+          },
+          {
+            "label": "Official practice",
+            "value": "Three MVD practice tests",
+            "text": "Arizona MVD lists three driver-license practice tests whose questions are taken from the Driver License Manual."
+          },
+          {
+            "label": "Pass standard",
+            "value": "80% or higher",
+            "text": "Arizona MVD states that 80% or higher is required to pass the actual examination."
           }
         ]
       },
-      "checklist": [
-        "Review Arizona sign shapes before the image quiz.",
-        "Say the driver action out loud before looking at answer choices.",
-        "After a miss, review the matching shape/color group below.",
-        "Retake the road-sign round later instead of immediately guessing again.",
-        "Confirm final wording in the official Arizona Driver License Manual."
-      ],
-      "lastUpdated": "June 14, 2026"
+      "lastUpdated": "October 17, 2026",
+      "replacementSlug": "road-signs-practice-test",
+      "replacementLabel": "Practice with the shared nationwide quiz.",
+      "replacementText": "This page summarizes Arizona-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
     }
   ],
   "quizzes": {
