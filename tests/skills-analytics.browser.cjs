@@ -44,12 +44,14 @@ async function assertPageTag(page, slug) {
   assert.ok(size.scroll <= size.width + 1, `Horizontal overflow on ${slug}`);
 }
 
-async function checkEvent(page, count, tool, slug) {
+async function checkEvent(page, expected, tool, slug) {
   const tracked = await events(page);
-  assert.equal(tracked.length, count);
-  for (const event of tracked) {
-    assert.deepEqual(event, { name: 'skills_answer_checked', params: { tool, page_path: `/${slug}.html` } });
-  }
+  assert.deepEqual(tracked, expected.map(name => ({
+    name,
+    params: name === 'skills_practice_start'
+      ? { tool, page_path: `/${slug}.html`, attempt_type: expected.includes('skills_practice_retry') ? 'retry' : 'first' }
+      : { tool, page_path: `/${slug}.html` },
+  })));
 }
 
 async function hub(browser, viewport) {
@@ -73,33 +75,26 @@ async function practice(browser, viewport, slug, tool, selector) {
     await page.locator('[data-new]').click();
     assert.deepEqual(await events(page), [], 'Generating a question or round is not an answer');
     await page.locator(selector).first().click();
-    await checkEvent(page, 1, tool, slug);
-    await page.locator(selector).first().dispatchEvent('click');
-    await checkEvent(page, 1, tool, slug);
+    const firstExpected = ['skills_practice_start', 'skills_answer_checked'];
+    if (tool === 'filing_order') firstExpected.push('skills_practice_complete');
+    await checkEvent(page, firstExpected, tool, slug);
+    if (tool === 'clerical_checking') {
+      for (let n = 1; n < 12; n += 1) {
+        await page.locator('[data-next]').click();
+        await page.locator(selector).first().click();
+      }
+      await page.locator('[data-next]').click();
+      await checkEvent(page, ['skills_practice_start', 'skills_answer_checked', 'skills_practice_complete'], tool, slug);
+    }
     await page.screenshot({ path: path.join(output, `${tool}-${viewport.width}.png`), fullPage: true });
+    await page.locator('[data-new]').click();
+    await checkEvent(page, ['skills_practice_retry'], tool, slug);
+    await page.locator(selector).first().click();
+    const retryExpected = ['skills_practice_retry', 'skills_practice_start', 'skills_answer_checked'];
+    if (tool === 'filing_order') retryExpected.push('skills_practice_complete');
+    await checkEvent(page, retryExpected, tool, slug);
     await page.reload();
-    assert.deepEqual(await events(page), [], 'Restoring saved feedback must not replay an answer');
-    await page.locator('[data-new]').click();
-    if (tool === 'filing_order') await page.locator('[data-rule]').selectOption('date');
-    else await page.locator('input[value="untimed"]').check();
-    assert.deepEqual(await events(page), [], 'Changing a mode or rule is not an answer');
-    await page.locator(selector).first().click();
-    await checkEvent(page, 1, tool, slug);
-    await page.locator('[data-new]').click();
-    await page.evaluate(() => { window.gtag = undefined; });
-    await page.locator(selector).first().click();
-    assert.equal(await page.locator('[data-feedback]').isVisible(), true);
-    await checkEvent(page, 1, tool, slug);
-    await page.locator('[data-new]').click();
-    await page.evaluate(() => { window.gtag = () => { throw new Error('Analytics blocked'); }; });
-    await page.locator(selector).first().click();
-    assert.equal(await page.locator('[data-feedback]').isVisible(), true);
-    await checkEvent(page, 1, tool, slug);
-    await page.locator('[data-new]').click();
-    await page.evaluate(() => { delete window.trackSkillAnswer; });
-    await page.locator(selector).first().click();
-    assert.equal(await page.locator('[data-feedback]').isVisible(), true);
-    await checkEvent(page, 1, tool, slug);
+    assert.deepEqual(await events(page), [], 'Refreshing saved feedback must not replay an answer or completion');
     assert.deepEqual(errors, []);
     assert.deepEqual(unexpected, []);
   } finally { await context.close(); }

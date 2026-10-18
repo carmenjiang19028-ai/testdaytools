@@ -6,15 +6,30 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', "G-ME9YY0NVEB");
-window.trackSkillAnswer = function(tool) {
-  if (!['clerical_checking', 'filing_order'].includes(tool)) return;
+window.trackSkillEvent = function(name, tool, extra) {
+  if (!['skills_practice_start', 'skills_answer_checked', 'skills_practice_complete', 'skills_practice_retry'].includes(name)) return false;
+  if (!['clerical_checking', 'filing_order'].includes(tool)) return false;
   try {
     if (typeof window.gtag === 'function') {
-      window.gtag('event', 'skills_answer_checked', {tool: tool, page_path: window.location.pathname});
+      window.gtag('event', name, Object.assign({tool: tool, page_path: window.location.pathname}, extra || {}));
+      return true;
     }
   } catch (error) {
     // Analytics must not interrupt practice or send saved exercise data.
   }
+  return false;
+};
+window.trackSkillAnswer = function(tool) {
+  return window.trackSkillEvent('skills_answer_checked', tool);
+};
+window.trackSkillStart = function(tool, attemptType) {
+  return window.trackSkillEvent('skills_practice_start', tool, {attempt_type: attemptType || 'first'});
+};
+window.trackSkillComplete = function(tool) {
+  return window.trackSkillEvent('skills_practice_complete', tool);
+};
+window.trackSkillRetry = function(tool) {
+  return window.trackSkillEvent('skills_practice_retry', tool);
 };
 </script><style>
 :root{--ink:#17212f;--muted:#586678;--line:#d7e0ea;--paper:#fff;--soft:#f3f6f9;--blue:#155e9f;--blue-deep:#173e68;--green:#176b51;--gold:#8a650a;--red:#b73a35;--shadow:0 16px 36px rgba(23,33,47,.09)}
@@ -26,7 +41,7 @@ window.trackSkillAnswer = function(tool) {
 <body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="index.html" aria-label="TestDayTools home"><span class="brand-mark">T</span><span>TestDayTools</span></a><nav aria-label="Main navigation"><a href="skills-practice.html">Skills hub</a><a href="dmv-practice.html">DMV</a><a href="sat-tools.html">SAT</a><a href="ap-tools.html">AP</a></nav></header>
 <main id="main" class="skill-main"><section class="practice-layout"><div class="practice-panel"><p class="eyebrow">TOOL B · APPLY A RULE</p><h1>Filing order practice</h1><p class="lede">Read the rule first. Then choose which record should be filed first. Each round is freshly generated but reproducible from its seed.</p><div class="switches no-print"><label>Rule <select data-rule><option value="name">Name · last, first, ID</option><option value="alpha">Alphanumeric · chunks left to right</option><option value="date">Date · earliest first</option></select></label><button class="secondary" type="button" data-new>New question</button></div><div class="metric-grid" aria-live="polite"><div class="metric"><span>Completed</span><strong data-done>0</strong></div><div class="metric"><span>Correct</span><strong data-correct>0</strong></div><div class="metric"><span>Accuracy</span><strong data-accuracy>—</strong></div><div class="metric"><span>Seed</span><strong data-seed>—</strong></div></div><article class="question-card" data-question><p class="eyebrow">Question <span data-qnum>1</span> · <span data-rule-label>Name rule</span></p><p><strong data-prompt>Which record should be filed first?</strong></p><div class="table-wrap"><table class="records"><thead><tr><th>Record</th><th>Value</th></tr></thead><tbody data-records></tbody></table></div><div class="choice-grid no-print" data-choices></div><div class="feedback" data-feedback hidden></div></article><div class="result-panel"><h2>Explain the decision</h2><p data-explanation>Choose an answer to see the comparison path and rule check.</p><ul class="error-list" data-errors></ul></div></div><aside class="rule-panel"><h2>Published rules</h2><div data-rule-help><h3>Name</h3><p>Compare last name A–Z, then first name A–Z, then record ID A–Z. Ignore case; do not reverse the displayed fields.</p></div><p class="subtle">Alphanumeric compares left-to-right chunks: letters A–Z, then numeric value 0–9. A shorter exact prefix comes first; if numeric values tie, the shorter digit chunk comes first (so A-2 precedes A-02), then record ID A–Z. Dates use ISO <code>YYYY-MM-DD</code>, earliest first, then record ID.</p><p class="subtle">Answer verification uses an independent comparator and a stored seed, not the selected option’s position.</p></aside></section></main><footer class="site-footer">Original synthetic practice. No account, no real personal data, and progress stays in this browser. <a href="about.html">About TestDayTools</a></footer><script>(()=>{
 const KEY='tdt-skills-filing-v2', LEGACY_KEY='tdt-skills-filing-v1', SCHEMA=2;
-let seed=Date.now()%1000000, round=0, current=null, history=[];
+let seed=Date.now()%1000000, round=0, current=null, history=[], startedTracked=false, completeTracked=false, attemptType='first';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const rng=()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296};
 const pick=a=>a[Math.floor(rng()*a.length)];
@@ -45,8 +60,8 @@ function label(rule){return rule==='name'?'Name · last, first, ID':rule==='date
 function display(r,rule){return rule==='name'?`${r.last}, ${r.first} · ${r.id}`:rule==='date'?`${r.date} · ${r.id}`:`${r.code} · ${r.id}`}
 function explain(rule,good,bad){if(!bad)return'';if(rule==='name')return`The first record is ${display(good,rule)} because last name, then first name, then ID are compared A–Z. ${display(bad,rule)} comes later.`;if(rule==='date')return`${display(good,rule)} is earlier than ${display(bad,rule)} under ISO YYYY-MM-DD order, with record ID as a tie-break.`;return`${display(good,rule)} comes first under left-to-right alphanumeric chunks; compare letters before digits, numeric value, fewer leading zeros, and record ID.`}
 function render(){if(!current)return;let rule=current.rule;$('[data-qnum]').textContent=round+1;$('[data-rule-label]').textContent=label(rule);$('[data-seed]').textContent=current.seed;$('[data-records]').innerHTML=current.rows.map((r,j)=>`<tr><th scope="row">${String.fromCharCode(65+j)}</th><td>${display(r,rule)}</td></tr>`).join('');$('[data-choices]').innerHTML=current.rows.map((r,j)=>`<button class="choice" type="button" data-choice="${j}" ${current.answered!==null?'disabled':''}>File ${String.fromCharCode(65+j)} first</button>`).join('');$$('[data-choice]').forEach(b=>b.addEventListener('click',()=>answer(Number(b.dataset.choice))));let f=$('[data-feedback]');f.hidden=current.answered===null;if(current.answered!==null){let ok=current.answered===current.correct;$$('[data-choice]').forEach(b=>{let cls=Number(b.dataset.choice)===current.correct?'correct':Number(b.dataset.choice)===current.answered?'wrong':'';if(cls)b.classList.add(cls)});f.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong> ${explain(rule,current.rows[current.correct],current.rows[current.answered])}`}$('[data-done]').textContent=history.length;$('[data-correct]').textContent=history.filter(x=>x.ok).length;$('[data-accuracy]').textContent=history.length?`${Math.round(history.filter(x=>x.ok).length/history.length*100)}%`:'—';$('[data-explanation]').textContent=current.answered===null?'Choose an answer to see the comparison path and rule check.':explain(rule,current.rows[current.correct],current.rows[current.answered]);$('[data-errors]').innerHTML=history.filter(x=>!x.ok).slice(-5).reverse().map(x=>`<li>${x.rule}: chose ${String.fromCharCode(65+x.chosen)}; correct was ${String.fromCharCode(65+x.correct)}.</li>`).join('')||'<li>No filing error recorded yet.</li>'}
-function answer(n){if(!current||current.answered!==null||n<0||n>=current.rows.length)return;current.answered=n;history.push({questionId:current.questionId,ok:n===current.correct,rule:current.rule,chosen:n,correct:current.correct});save();render();if(typeof window.trackSkillAnswer==='function')window.trackSkillAnswer('filing_order')}
-function save(){localStorage.setItem(KEY,JSON.stringify({schema:SCHEMA,seed,round,current,history}))}
-function load(){let h=null;for(const key of [KEY,LEGACY_KEY]){try{h=JSON.parse(localStorage.getItem(key)||'null')}catch(e){h=null}if(h)break}if(h){seed=Number.isFinite(h.seed)?h.seed:seed;round=Number.isInteger(h.round)&&h.round>=0?h.round:0;history=validHistory(h.history);if(validCurrent(h.current)){current=h.current;let answerRecord=current.answered===null||history.some(x=>x.questionId===current.questionId&&x.chosen===current.answered&&x.correct===current.correct&&x.ok===(current.answered===current.correct));if(h.schema!==SCHEMA||!answerRecord){current.answered=null;current.questionId=questionId(current)}}else current=null;if(current){render();save()}else make()}else make()}
-$('[data-new]').addEventListener('click',()=>{round++;make()});$('[data-rule]').addEventListener('change',()=>{round++;make()});load()})();
+function answer(n){if(!current||current.answered!==null||n<0||n>=current.rows.length)return;if(!startedTracked&&typeof window.trackSkillStart==='function')startedTracked=window.trackSkillStart('filing_order',attemptType);current.answered=n;history.push({questionId:current.questionId,ok:n===current.correct,rule:current.rule,chosen:n,correct:current.correct});if(typeof window.trackSkillAnswer==='function')window.trackSkillAnswer('filing_order');if(!completeTracked&&typeof window.trackSkillComplete==='function')completeTracked=window.trackSkillComplete('filing_order');save();render()}
+function save(){localStorage.setItem(KEY,JSON.stringify({schema:SCHEMA,seed,round,current,history,startedTracked,completeTracked,attemptType}))}
+function load(){let h=null;for(const key of [KEY,LEGACY_KEY]){try{h=JSON.parse(localStorage.getItem(key)||'null')}catch(e){h=null}if(h)break}if(h){seed=Number.isFinite(h.seed)?h.seed:seed;round=Number.isInteger(h.round)&&h.round>=0?h.round:0;history=validHistory(h.history);startedTracked=!!h.startedTracked;completeTracked=!!h.completeTracked;attemptType=h.attemptType||'first';if(validCurrent(h.current)){current=h.current;let answerRecord=current.answered===null||history.some(x=>x.questionId===current.questionId&&x.chosen===current.answered&&x.correct===current.correct&&x.ok===(current.answered===current.correct));if(h.schema!==SCHEMA||!answerRecord){current.answered=null;current.questionId=questionId(current);startedTracked=false;completeTracked=false}}else current=null;if(current){render();save()}else make()}else make()}
+$('[data-new]').addEventListener('click',()=>{if(startedTracked&&typeof window.trackSkillRetry==='function')window.trackSkillRetry('filing_order');attemptType='retry';startedTracked=false;completeTracked=false;round++;make()});$('[data-rule]').addEventListener('change',()=>{if(startedTracked&&typeof window.trackSkillRetry==='function')window.trackSkillRetry('filing_order');attemptType='retry';startedTracked=false;completeTracked=false;round++;make()});load()})();
 </script></body></html>

@@ -20,15 +20,30 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){{dataLayer.push(arguments);}}
 gtag('js', new Date());
 gtag('config', {json.dumps(measurement_id)});
-window.trackSkillAnswer = function(tool) {{
-  if (!['clerical_checking', 'filing_order'].includes(tool)) return;
+window.trackSkillEvent = function(name, tool, extra) {{
+  if (!['skills_practice_start', 'skills_answer_checked', 'skills_practice_complete', 'skills_practice_retry'].includes(name)) return false;
+  if (!['clerical_checking', 'filing_order'].includes(tool)) return false;
   try {{
     if (typeof window.gtag === 'function') {{
-      window.gtag('event', 'skills_answer_checked', {{tool: tool, page_path: window.location.pathname}});
+      window.gtag('event', name, Object.assign({{tool: tool, page_path: window.location.pathname}}, extra || {{}}));
+      return true;
     }}
   }} catch (error) {{
     // Analytics must not interrupt practice or send saved exercise data.
   }}
+  return false;
+}};
+window.trackSkillAnswer = function(tool) {{
+  return window.trackSkillEvent('skills_answer_checked', tool);
+}};
+window.trackSkillStart = function(tool, attemptType) {{
+  return window.trackSkillEvent('skills_practice_start', tool, {{attempt_type: attemptType || 'first'}});
+}};
+window.trackSkillComplete = function(tool) {{
+  return window.trackSkillEvent('skills_practice_complete', tool);
+}};
+window.trackSkillRetry = function(tool) {{
+  return window.trackSkillEvent('skills_practice_retry', tool);
 }};
 </script>'''
 

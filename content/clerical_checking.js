@@ -5,6 +5,7 @@
   let seed = Date.now() % 1000000;
   let items = [], i = 0, answers = [], started = 0, elapsed = 0;
   let paused = false, mode = 'timed', timer = null;
+  let startedTracked = false, completeTracked = false, attemptType = 'first';
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const rng = () => {
@@ -25,7 +26,7 @@
       const right = isMatch ? `${leftName} · ${code}` : `${pick(names.filter((x) => x !== leftName))} · ${code.slice(0, -1)}${(Number(code.at(-1)) + 1) % 10}`;
       items.push({ left: `${leftName} · ${code}`, right, truth: isMatch ? 'match' : 'mismatch', why: isMatch ? 'All visible characters match.' : 'At least one visible character differs.' });
     }
-    i = 0; answers = []; elapsed = 0; paused = false; started = performance.now(); $('#pause').textContent = 'Pause'; render(); save();
+    i = 0; answers = []; elapsed = 0; paused = false; started = performance.now(); startedTracked = false; completeTracked = false; $('#pause').textContent = 'Pause'; render(); save();
   }
   function currentElapsed() { return elapsed + (started && !paused ? (performance.now() - started) / 1000 : 0); }
   function render() {
@@ -44,25 +45,25 @@
     const f = $('[data-feedback]'); f.hidden = !answers[i]; if (answers[i]) f.innerHTML = `<strong>${answers[i].ok ? 'Correct decision.' : 'Review this comparison.'}</strong> ${q.why}`;
     historyView();
   }
-  function answer(choice) { if (answers[i]) return; if (mode === 'timed' && currentElapsed() >= 90) { elapsed = 90; paused = true; render(); save(); return; } const q = items[i]; answers[i] = { choice, ok: choice === q.truth }; render(); save(); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); }
+  function answer(choice) { if (answers[i]) return; if (mode === 'timed' && currentElapsed() >= 90) { elapsed = 90; paused = true; render(); save(); return; } const q = items[i]; if (!startedTracked && typeof window.trackSkillStart === 'function') startedTracked = window.trackSkillStart('clerical_checking', attemptType); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
   function next() { if (i < N - 1) { i += 1; render(); save(); } else finish(); }
-  function finish() { if (answers.filter(Boolean).length < N) return; paused = true; recordRound(); render(); save(false); }
+  function finish() { if (answers.filter(Boolean).length < N || completeTracked) return; paused = true; recordRound(); if (typeof window.trackSkillComplete === 'function') completeTracked = window.trackSkillComplete('clerical_checking'); render(); save(false); }
   function historyView() {
     const h = JSON.parse(localStorage.getItem(STATS) || '{}');
     $('[data-history]').textContent = h.rounds ? `${h.rounds} saved round${h.rounds === 1 ? '' : 's'} · ${h.checks || 0} comparisons · ${h.correct || 0} correct.` : 'Not enough saved rounds yet.';
     const counts = h.errors || {};
     $('[data-errors]').innerHTML = Object.entries(counts).map(([k, v]) => `<li>${k.replace('_', ' ')}: ${v}</li>`).join('') || '<li>No error pattern recorded yet.</li>';
   }
-  function save(active = true) { localStorage.setItem(KEY, JSON.stringify({ seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active })); }
+  function save(active = true) { localStorage.setItem(KEY, JSON.stringify({ seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active, startedTracked, completeTracked, attemptType })); }
   function clear() { localStorage.removeItem(KEY); localStorage.removeItem(STATS); location.reload(); }
-  function load() { const h = JSON.parse(localStorage.getItem(KEY) || 'null'); if (h && h.roundActive && h.items) { seed = h.seed; items = h.items; i = h.i; answers = h.answers; elapsed = h.elapsed || 0; paused = true; mode = h.mode || 'timed'; $('#pause').textContent = 'Resume'; render(); } else make(); }
+  function load() { const h = JSON.parse(localStorage.getItem(KEY) || 'null'); if (h && h.roundActive && h.items) { seed = h.seed; items = h.items; i = h.i; answers = h.answers; elapsed = h.elapsed || 0; paused = true; mode = h.mode || 'timed'; startedTracked = !!h.startedTracked; completeTracked = !!h.completeTracked; attemptType = h.attemptType || 'first'; $('#pause').textContent = 'Resume'; render(); } else make(); }
   function recordRound() {
     const h = JSON.parse(localStorage.getItem(STATS) || '{}'); const errors = h.errors || {};
     answers.forEach((a, n) => { if (!a || a.ok) return; const k = a.choice === 'unsure' ? 'omission' : (items[n].truth === 'mismatch' && a.choice === 'match' ? 'false_match' : 'false_mismatch'); errors[k] = (errors[k] || 0) + 1; });
     localStorage.setItem(STATS, JSON.stringify({ rounds: (h.rounds || 0) + 1, checks: (h.checks || 0) + N, correct: (h.correct || 0) + answers.filter((x) => x && x.ok).length, errors }));
   }
   $$('[data-answer]').forEach((b) => b.addEventListener('click', () => answer(b.dataset.answer)));
-  $('[data-next]').addEventListener('click', next); $('[data-new]').addEventListener('click', make); $('[data-clear]').addEventListener('click', clear);
+  $('[data-next]').addEventListener('click', next); $('[data-new]').addEventListener('click', () => { if (startedTracked && typeof window.trackSkillRetry === 'function') window.trackSkillRetry('clerical_checking'); attemptType = 'retry'; make(); }); $('[data-clear]').addEventListener('click', clear);
   $('[data-pause]').addEventListener('click', () => { if (paused) { paused = false; started = performance.now(); $('#pause').textContent = 'Pause'; } else { elapsed = currentElapsed(); paused = true; $('#pause').textContent = 'Resume'; } render(); save(); });
   $$('input[name=mode]').forEach((x) => x.addEventListener('change', (e) => { mode = e.target.value; make(); }));
   document.addEventListener('visibilitychange', () => { if (document.hidden && !paused) { elapsed = currentElapsed(); paused = true; $('#pause').textContent = 'Resume'; render(); save(); } });

@@ -41,9 +41,13 @@ def test_missing_analytics_configuration_does_not_invent_an_account(monkeypatch,
     assert BUILDER.render_analytics_tag() == ""
 
 
-def test_custom_event_only_sends_tool_and_page_path():
+def test_custom_events_only_send_tool_page_path_and_attempt_type():
     tag = BUILDER.render_analytics_tag()
-    assert "'skills_answer_checked', {tool: tool, page_path: window.location.pathname}" in tag
+    assert "Object.assign({tool: tool, page_path: window.location.pathname}, extra || {})" in tag
+    assert "'skills_practice_start'" in tag
+    assert "'skills_practice_complete'" in tag
+    assert "'skills_practice_retry'" in tag
+    assert "attempt_type: attemptType || 'first'" in tag
     assert "['clerical_checking', 'filing_order'].includes(tool)" in tag
     assert "localStorage" not in tag
     assert "sessionStorage" not in tag
