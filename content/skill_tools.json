@@ -1,0 +1,22 @@
+{
+  "hub": {
+    "slug": "skills-practice",
+    "title": "Work skills practice tools",
+    "description": "Short, explainable practice for clerical checking and filing-order skills. Original synthetic data, saved locally in this browser.",
+    "updated": "October 18, 2026"
+  },
+  "tools": [
+    {
+      "slug": "clerical-checking-practice",
+      "title": "Clerical checking practice",
+      "description": "Compare synthetic names, numbers, and codes for exact matches or mismatches under time pressure.",
+      "kind": "checking"
+    },
+    {
+      "slug": "filing-practice",
+      "title": "Filing order practice",
+      "description": "Apply explicit name, alphanumeric, and date filing rules to freshly generated records.",
+      "kind": "filing"
+    }
+  ]
+}

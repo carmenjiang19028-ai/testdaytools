@@ -4304,6 +4304,7 @@ def render_home():
       {render_last_updated(DATA["home"].get("lastUpdated"))}
       {render_home_pocket_tabs()}
       <div class="hero-actions home-quick-links">
+        <a href="skills-practice.html">Work skills practice preview</a>
         <a href="road-sign-learning-loop.html">Road sign contrast lab</a>
         <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs with pictures</a>
         <a href="dmv-road-signs-cheat-sheet.html">Printable road signs cheat sheet</a>
@@ -4386,6 +4387,8 @@ def build():
     sitemap_urls = "\n".join(sitemap_entry(path, lastmod_for_path(path)) for path in dict.fromkeys(urls))
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{sitemap_urls}\n</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
+    from build_skill_tools import build as build_skill_tools
+    build_skill_tools()
 
 
 if __name__ == "__main__":
