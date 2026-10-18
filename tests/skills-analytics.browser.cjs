@@ -44,12 +44,12 @@ async function assertPageTag(page, slug) {
   assert.ok(size.scroll <= size.width + 1, `Horizontal overflow on ${slug}`);
 }
 
-async function checkEvent(page, expected, tool, slug) {
-  const tracked = await events(page);
+async function checkEvent(page, expected, tool, slug, attemptType = 'first', offset = 0) {
+  const tracked = (await events(page)).slice(offset);
   assert.deepEqual(tracked, expected.map(name => ({
     name,
     params: name === 'skills_practice_start'
-      ? { tool, page_path: `/${slug}.html`, attempt_type: expected.includes('skills_practice_retry') ? 'retry' : 'first' }
+      ? { tool, page_path: `/${slug}.html`, attempt_type: attemptType }
       : { tool, page_path: `/${slug}.html` },
   })));
 }
@@ -73,10 +73,13 @@ async function practice(browser, viewport, slug, tool, selector) {
   try {
     await assertPageTag(page, slug);
     await page.locator('[data-new]').click();
+    if (tool === 'filing_order') await page.locator('[data-rule]').selectOption('date');
     assert.deepEqual(await events(page), [], 'Generating a question or round is not an answer');
     await page.locator(selector).first().click();
     const firstExpected = ['skills_practice_start', 'skills_answer_checked'];
     if (tool === 'filing_order') firstExpected.push('skills_practice_complete');
+    await checkEvent(page, firstExpected, tool, slug);
+    await page.locator(selector).first().dispatchEvent('click');
     await checkEvent(page, firstExpected, tool, slug);
     if (tool === 'clerical_checking') {
       for (let n = 1; n < 12; n += 1) {
@@ -84,15 +87,19 @@ async function practice(browser, viewport, slug, tool, selector) {
         await page.locator(selector).first().click();
       }
       await page.locator('[data-next]').click();
-      await checkEvent(page, ['skills_practice_start', 'skills_answer_checked', 'skills_practice_complete'], tool, slug);
+      const completed = ['skills_practice_start', ...Array(12).fill('skills_answer_checked'), 'skills_practice_complete'];
+      await checkEvent(page, completed, tool, slug);
+      await page.locator('[data-next]').dispatchEvent('click');
+      await checkEvent(page, completed, tool, slug);
     }
     await page.screenshot({ path: path.join(output, `${tool}-${viewport.width}.png`), fullPage: true });
+    const beforeRetry = (await events(page)).length;
     await page.locator('[data-new]').click();
-    await checkEvent(page, ['skills_practice_retry'], tool, slug);
+    await checkEvent(page, ['skills_practice_retry'], tool, slug, 'retry', beforeRetry);
     await page.locator(selector).first().click();
     const retryExpected = ['skills_practice_retry', 'skills_practice_start', 'skills_answer_checked'];
     if (tool === 'filing_order') retryExpected.push('skills_practice_complete');
-    await checkEvent(page, retryExpected, tool, slug);
+    await checkEvent(page, retryExpected, tool, slug, 'retry', beforeRetry);
     await page.reload();
     assert.deepEqual(await events(page), [], 'Refreshing saved feedback must not replay an answer or completion');
     assert.deepEqual(errors, []);

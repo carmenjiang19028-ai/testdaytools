@@ -63,7 +63,7 @@
     localStorage.setItem(STATS, JSON.stringify({ rounds: (h.rounds || 0) + 1, checks: (h.checks || 0) + N, correct: (h.correct || 0) + answers.filter((x) => x && x.ok).length, errors }));
   }
   $$('[data-answer]').forEach((b) => b.addEventListener('click', () => answer(b.dataset.answer)));
-  $('[data-next]').addEventListener('click', next); $('[data-new]').addEventListener('click', () => { if (startedTracked && typeof window.trackSkillRetry === 'function') window.trackSkillRetry('clerical_checking'); attemptType = 'retry'; make(); }); $('[data-clear]').addEventListener('click', clear);
+  $('[data-next]').addEventListener('click', next); $('[data-new]').addEventListener('click', () => { if (startedTracked && typeof window.trackSkillRetry === 'function') window.trackSkillRetry('clerical_checking'); if (startedTracked) attemptType = 'retry'; make(); }); $('[data-clear]').addEventListener('click', clear);
   $('[data-pause]').addEventListener('click', () => { if (paused) { paused = false; started = performance.now(); $('#pause').textContent = 'Pause'; } else { elapsed = currentElapsed(); paused = true; $('#pause').textContent = 'Resume'; } render(); save(); });
   $$('input[name=mode]').forEach((x) => x.addEventListener('change', (e) => { mode = e.target.value; make(); }));
   document.addEventListener('visibilitychange', () => { if (document.hidden && !paused) { elapsed = currentElapsed(); paused = true; $('#pause').textContent = 'Resume'; render(); save(); } });
