@@ -2323,7 +2323,8 @@ def render_quiz(quiz_key, options=None):
             f'<button type="button" data-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(q["choices"])
         )
-        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}" data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
+        concept_attr = f' data-concept-id="{esc(q["conceptId"])}"' if q.get("conceptId") else ""
+        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>{visual_block}
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
@@ -4303,6 +4304,7 @@ def render_home():
       {render_last_updated(DATA["home"].get("lastUpdated"))}
       {render_home_pocket_tabs()}
       <div class="hero-actions home-quick-links">
+        <a href="road-sign-learning-loop.html">Road sign contrast lab</a>
         <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs with pictures</a>
         <a href="dmv-road-signs-cheat-sheet.html">Printable road signs cheat sheet</a>
         <a href="new-york-dmv-road-signs-practice.html">New York road signs</a>

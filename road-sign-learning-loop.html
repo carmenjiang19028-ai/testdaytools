@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Road Sign Learning Loop: Diagnose, Practice, Check | TestDayTools</title>
+  <meta name="description" content="A short DMV road-sign learning loop: identify weak distinctions, practice the action, then check the same idea with a new question. Progress stays in this browser.">
+  <link rel="canonical" href="https://testdaytools.com/road-sign-learning-loop.html">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME9YY0NVEB"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-ME9YY0NVEB');</script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body class="tool-page learning-loop-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="TestDayTools home"><span class="brand-mark">T</span><span>TestDayTools</span></a>
+    <nav aria-label="Main navigation"><a href="dmv-practice.html">DMV</a><a href="road-signs-practice-test.html">Road Signs</a><a href="dmv-test-day-checklist.html">Checklist</a><a href="dmv-permit-test-requirements-by-state.html">Requirements</a><a href="dmv-permit-test-passing-score-calculator.html?source=site_nav#score-calculator">Can I miss?</a><a href="about.html">About</a></nav>
+  </header>
+  <main id="main">
+    <section class="hero tool-hero learning-loop-hero">
+      <div class="tool-hero-grid"><div>
+        <p class="eyebrow">New: a complete study loop</p>
+        <h1>Find the sign distinction you miss, then prove it.</h1>
+        <p class="lede">This short contrast lab uses six signs already in the picture bank. You will compare easily-confused meanings, practice the driver action, and answer a new wording before recording this session as evidence.</p>
+        <div class="hero-actions"><a href="#learning-loop">Start the contrast lab</a><a href="road-signs-practice-test.html#practice">Return to full picture practice</a></div>
+      </div><aside class="tool-hero-panel"><div class="panel-status"><span>Private by default</span><strong>Saved in this browser</strong></div><div class="panel-facts"><div><span>Session</span><strong>3 contrasts · 6 signs</strong></div><div><span>Evidence</span><strong>Another practice question in phase 3</strong></div><div><span>Review</span><strong>Print your weak distinctions</strong></div></div></aside></div>
+    </section>
+    <section class="notice"><strong>Unofficial study aid.</strong> The sign meanings are based on the existing bank and the <a href="https://mutcd.fhwa.dot.gov/" target="_blank" rel="noopener">FHWA MUTCD</a>; the wording was checked against <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs" target="_blank" rel="noopener">Pennsylvania Driver’s Manual, Chapter 2: Signs</a> (regulatory and warning signs). Use your own state driver handbook for current rules and test format. This page does not predict a pass result or certify mastery.</section>
+    <section class="tool-block learning-loop" id="learning-loop" data-learning-loop>
+      <div class="learning-loop-progress" aria-live="polite"><span data-loop-phase-label>Phase 1 of 3 · Diagnose</span><strong data-loop-progress>0 of 3 contrasts</strong></div>
+      <div class="learning-loop-intro"><p class="eyebrow">Contrast lab · incremental addition</p><h2 data-loop-title>Which sign distinction needs work?</h2><p data-loop-copy>Choose the answer that best describes the sign pair. A miss opens targeted practice for that distinction; a correct answer moves to the next pair.</p></div>
+      <div class="learning-loop-stage" data-loop-stage></div>
+      <div class="learning-loop-actions"><button type="button" class="quiz-nav-button primary" data-loop-next disabled>Choose an answer</button><button type="button" class="quiz-nav-button" data-loop-reset>Restart session</button><button type="button" class="quiz-nav-button" data-loop-print>Print review</button></div>
+      <div class="learning-loop-status" data-loop-status aria-live="polite">Your answers stay on this device. “Evidence” here means this session’s responses, not official mastery.</div>
+    </section>
+    <section class="tool-block learning-loop-review" data-loop-review hidden>
+      <div class="tool-section-head"><p class="eyebrow">Your local review sheet</p><h2>Distinctions to revisit</h2><p class="section-intro">This list records only this session. It does not claim that you have or have not mastered an official exam topic.</p></div>
+      <div class="learning-review-grid" data-loop-review-list></div>
+    </section>
+    <section class="related"><h2>Keep studying</h2><div class="related-grid"><a class="related-card" href="road-signs-practice-test.html#practice"><span>Practice</span><strong>40-picture road signs test</strong><em>Use the existing question bank for a longer round.</em></a><a class="related-card" href="dmv-road-signs-cheat-sheet.html"><span>Print</span><strong>Road signs cheat sheet</strong><em>Review the sign meaning and shape/color cues.</em></a><a class="related-card" href="dmv-road-sign-flashcards.html"><span>Cards</span><strong>Road sign flashcards</strong><em>Use the existing browser-saved card review.</em></a></div></section>
+  </main>
+  <footer class="site-footer"><div><strong>TestDayTools</strong><p>Independent study tools. Your progress stays in this browser.</p></div><nav aria-label="Footer"><a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a></nav></footer>
+  <script>
+    (() => {
+      const signs = [
+        { id:'stop', label:'Stop', category:'Regulatory signs', image:'assets/road-signs/stop-road-sign.svg', distinction:'Stop vs. Yield', prompt:'What is the required action at this sign?', options:['Come to a complete stop, then yield before moving','Slow down and give way only when needed','Continue if the intersection looks clear'], answer:0, action:'Stop completely before yielding and proceeding when safe.', variant:'You approach an intersection with no visible traffic. What still applies?', variantOptions:['You must stop before deciding whether it is safe','You only stop if another vehicle is present','You may treat it as a yield sign'], variantAnswer:0 },
+        { id:'yield', label:'Yield', category:'Regulatory signs', image:'assets/road-signs/yield-road-sign.svg', distinction:'Stop vs. Yield', prompt:'What does this triangular sign ask a driver to do?', options:['Give the right of way when another road user has priority','Stop every time for a fixed count','Speed up to enter the lane first'], answer:0, action:'Slow and give the right of way when another road user has priority.', variant:'At a clear yield-controlled entrance, what should you do?', variantOptions:['Slow, check, and proceed when you have the right of way','Stop every time even when the road is empty','Ignore the sign if you are below the speed limit'], variantAnswer:0 },
+        { id:'do-not-enter', label:'Do Not Enter', category:'Regulatory signs', image:'assets/road-signs/do-not-enter-road-sign.svg', distinction:'Do Not Enter vs. Wrong Way', prompt:'What does this red-and-white sign tell you?', options:['Do not drive into this roadway or ramp','You are already facing traffic incorrectly','Traffic may enter only during daylight'], answer:0, action:'Do not enter that roadway, ramp, or restricted direction.', variant:'You see this sign at the mouth of a ramp. What is the safest response?', variantOptions:['Choose another legal route before entering','Enter slowly and look for a gap','Continue until a Wrong Way sign appears'], variantAnswer:0 },
+        { id:'wrong-way', label:'Wrong Way', category:'Regulatory signs', image:'assets/road-signs/wrong-way-road-sign.svg', distinction:'Do Not Enter vs. Wrong Way', prompt:'If you see this sign after turning, what is the safest action?', options:['Do not continue against traffic; stop or exit only when it is safe and legal','Keep driving until the next intersection','Make an immediate U-turn wherever you are'], answer:0, action:'Wrong Way warns that you may have entered a one-way street or ramp in the wrong direction. Do not continue against traffic; use a safe, legal way to stop or correct your route.', variant:'This sign appears after you have entered a roadway. What does that change?', variantOptions:['Treat it as an urgent direction problem; do not continue against traffic and correct the route safely','It means the road is closed only at night','It means you may continue if your signal is on'], variantAnswer:0 },
+        { id:'merge', label:'Merge', category:'Warning signs', image:'assets/road-signs/merge-road-sign.svg', distinction:'Merge vs. Lane Ends', prompt:'What should this yellow sign make you expect?', options:['Traffic entering or joining your lane','A mandatory stop at the next sign','A hospital entrance'], answer:0, action:'Check mirrors, manage speed, and leave space as traffic streams join.', variant:'You see the merge symbol before an on-ramp. What is the useful preparation?', variantOptions:['Look for joining traffic and make space as needed','Move onto the shoulder immediately','Assume the other lane must stop'], variantAnswer:0 },
+        { id:'lane-ends', label:'Lane Ends', category:'Warning signs', image:'assets/road-signs/lane-ends-road-sign.svg', distinction:'Merge vs. Lane Ends', prompt:'What does this yellow sign warn about?', options:['One lane on a multi-lane roadway will end ahead; follow the diagram and prepare to merge','A new lane begins for passing','Only buses may use the lane'], answer:0, action:'The indicated lane will end ahead; follow the sign diagram and prepare for a safe merge.', variant:'You see the lane-ends symbol before a work area. What should you expect?', variantOptions:['The indicated lane may end, so plan a safe merge without assuming which side from the generic symbol alone','The lane becomes a passing lane','Traffic in the other lane must stop'], variantAnswer:0 }
+      ];
+      const contrasts = {
+        'Stop vs. Yield': { prompt:'Which statement best distinguishes these two signs?', options:['Stop requires a complete stop; yield requires giving way when another road user has priority','Both signs require a complete stop every time','Yield gives you priority; stop only asks you to slow'], answer:0 },
+        'Do Not Enter vs. Wrong Way': { prompt:'Which statement best distinguishes these two signs?', options:['Do Not Enter warns before entry; Wrong Way signals that your direction is already wrong','Both signs mean the same thing only after a collision','Wrong Way is a parking restriction; Do Not Enter is a speed limit'], answer:0 },
+        'Merge vs. Lane Ends': { prompt:'Which statement best distinguishes these two signs?', options:['Merge warns that traffic may join; Lane Ends warns that the indicated lane will end ahead','Both signs require moving to the shoulder','Lane Ends means a new passing lane begins; Merge means stop'], answer:0 }
+      };
+      const conceptIds = {'Stop vs. Yield':'stop-yield','Do Not Enter vs. Wrong Way':'do-not-enter-wrong-way','Merge vs. Lane Ends':'merge-lane-ends'};
+      let requestedConcept = '';
+      let returnPath = 'road-signs-practice-test.html';
+      try {
+        const params = new URLSearchParams(window.location.search);
+        requestedConcept = params.get('concept') || '';
+        returnPath = (params.get('return') || returnPath).replace(/[^a-z0-9_.-]/gi, '') || returnPath;
+      } catch (e) {}
+      const allSessionSigns = signs.filter((_, index) => index % 2 === 0);
+      const matchingSigns = allSessionSigns.filter((sign) => conceptIds[sign.distinction] === requestedConcept);
+      const sessionSigns = matchingSigns.length ? matchingSigns : allSessionSigns;
+      const stateKey = `tdt-learning-loop:v1:${requestedConcept || 'all'}`;
+      const root = document.querySelector('[data-learning-loop]');
+      if (!root) return;
+      const stage = root.querySelector('[data-loop-stage]');
+      const next = root.querySelector('[data-loop-next]');
+      const status = root.querySelector('[data-loop-status]');
+      const title = root.querySelector('[data-loop-title]');
+      const copy = root.querySelector('[data-loop-copy]');
+      const phaseLabel = root.querySelector('[data-loop-phase-label]');
+      const progress = root.querySelector('[data-loop-progress]');
+      const review = document.querySelector('[data-loop-review]');
+      const reviewList = document.querySelector('[data-loop-review-list]');
+      let saved = { misses:[], phase:1, index:0, answers:{}, exposures:{} };
+      try { saved = Object.assign(saved, JSON.parse(localStorage.getItem(stateKey) || '{}')); } catch (e) {}
+      let phase = Number(saved.phase) || 1;
+      let index = Number(saved.index) || 0;
+      let answers = saved.answers || {};
+      let selected = null;
+      const current = () => sessionSigns[index];
+      const persist = () => { try { localStorage.setItem(stateKey, JSON.stringify({ misses:saved.misses || [], phase, index, answers, exposures:saved.exposures || {} })); } catch (e) {} };
+      const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+      const renderReview = () => { if (!review || !reviewList) return; review.hidden = !(saved.misses || []).length; reviewList.innerHTML = (saved.misses || []).map((item) => `<article class="learning-review-card"><img src="${esc(item.image)}" alt="${esc(item.label)}" width="110" height="80"><div><strong>${esc(item.distinction)}</strong><span>${esc(item.label)} · ${esc(item.category)}</span><p>${esc(item.action)}</p><small>Source context: FHWA MUTCD plus your state driver handbook.</small></div></article>`).join(''); };
+      const render = () => {
+        const sign = current(); selected = null;
+        const phaseNames = {1:'Diagnose',2:'Target practice',3:'Transfer check'};
+        phaseLabel.textContent = `Phase ${phase} of 3 · ${phaseNames[phase]}`;
+        progress.textContent = `${Math.min(index + (phase === 1 ? 0 : 1), sessionSigns.length)} of ${sessionSigns.length} contrasts`;
+        title.textContent = phase === 1 ? 'Which sign distinction needs work?' : phase === 2 ? `Practice the ${sign.distinction} distinction` : 'Can you use the idea in another practice question?';
+        copy.textContent = phase === 1 ? 'Choose the answer that best describes the sign pair. A miss opens targeted practice for that distinction; a correct answer moves to the next pair.' : phase === 2 ? 'Use the sign action, not just its label. This is the targeted repair step for the distinction selected in diagnosis.' : 'This is another practice question about the same sign idea. A correct answer here is evidence from this session, not an official mastery or pass prediction.';
+        const contrast = contrasts[sign.distinction];
+        const prompt = phase === 3 ? sign.variant : phase === 2 ? `What should the driver do after recognizing ${sign.label}?` : contrast.prompt;
+        const options = phase === 3 ? sign.variantOptions : phase === 2 ? [sign.action, 'Treat it as the other sign in this distinction', 'Ignore the sign if traffic appears light'] : contrast.options;
+        const pair = signs.filter((item) => item.distinction === sign.distinction).slice(0, 2);
+        const visual = phase === 1 ? pair.map((item) => `<figure><img src="${item.image}" alt="${esc(item.label)} road sign" width="220" height="160"><figcaption>${esc(item.label)}</figcaption></figure>`).join('') : `<figure><img src="${sign.image}" alt="${esc(sign.label)} road sign" width="220" height="160"><figcaption>${esc(sign.label)}</figcaption></figure>`;
+        stage.innerHTML = `<article class="learning-card"><div class="learning-card-visual learning-contrast-visual">${visual}</div><div class="learning-card-copy"><span>${esc(sign.category)} · ${esc(sign.distinction)}</span><h3>${esc(prompt)}</h3><div class="learning-options">${options.map((option, i) => `<button type="button" data-loop-option="${i}">${esc(option)}</button>`).join('')}</div><p class="learning-feedback" data-loop-feedback></p></div></article>`;
+        stage.querySelectorAll('[data-loop-option]').forEach((button) => button.addEventListener('click', () => { selected = Number(button.dataset.loopOption); stage.querySelectorAll('[data-loop-option]').forEach((item) => item.classList.toggle('is-selected', item === button)); next.disabled = false; next.textContent = phase === 3 && index === sessionSigns.length - 1 ? 'Finish and print review' : 'Continue'; }));
+        next.disabled = true; next.textContent = 'Choose an answer';
+        renderReview(); persist();
+      };
+      const advance = () => {
+        if (selected === null) return;
+        const sign = current();
+        const correct = selected === (phase === 3 ? sign.variantAnswer : phase === 2 ? 0 : contrasts[sign.distinction].answer);
+        const questionId = `${phase}:${conceptIds[sign.distinction]}:${sign.id}`;
+        answers[questionId] = correct;
+        saved.exposures = saved.exposures || {};
+        saved.exposures[questionId] = (Number(saved.exposures[questionId]) || 0) + 1;
+        if (!correct && phase === 1 && !(saved.misses || []).some((item) => item.id === sign.id)) saved.misses.push(sign);
+        const feedback = stage.querySelector('[data-loop-feedback]');
+        feedback.textContent = correct ? (phase === 3 ? 'Correct for this wording. This session has one piece of evidence.' : 'Good. Now apply the same distinction in the next step.') : `Not quite. ${sign.action}`;
+        const exposureNote = saved.exposures[questionId] > 1 ? 'This question has prior local exposure; it is not counted as a first attempt.' : 'Prior exposure outside this module is unknown.';
+        status.textContent = correct ? `Recorded locally. ${exposureNote}` : `Added to the local review sheet. ${exposureNote}`;
+        if (phase === 1 && !correct) phase = 2;
+        else if (phase === 1 && correct) { if (index < sessionSigns.length - 1) { index += 1; phase = 1; } else { phase = 3; } }
+        else if (phase === 2) phase = 3;
+        else if (index < sessionSigns.length - 1) { index += 1; phase = 1; }
+        else { next.disabled = true; next.textContent = 'Session complete'; title.textContent = 'Contrast lab complete'; copy.textContent = 'Review the distinctions below, print them if useful, then return to the existing full picture test. This result is not an official pass or mastery claim.'; stage.innerHTML = `<p class="learning-complete">You completed the available diagnosis, targeted practice for misses, and another practice question for ${sessionSigns.length} sign contrast${sessionSigns.length === 1 ? '' : 's'}. The site does not convert this into a pass prediction.</p><p><a class="info-card-link" href="${esc(returnPath)}#practice">Return to full picture practice</a></p>`; renderReview(); persist(); return; }
+        render();
+      };
+      root.querySelector('[data-loop-next]').addEventListener('click', advance);
+      root.querySelector('[data-loop-reset]').addEventListener('click', () => { saved = { misses:[], phase:1, index:0, answers:{}, exposures:{} }; phase=1; index=0; answers={}; status.textContent='Session reset. Nothing was uploaded.'; render(); });
+      root.querySelector('[data-loop-print]').addEventListener('click', () => { renderReview(); window.print(); });
+      render();
+    })();
+  </script>
+</body>
+</html>

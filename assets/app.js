@@ -630,7 +630,12 @@ function initQuizzes() {
       if (clearMistakesButton) clearMistakesButton.disabled = false;
       mistakesBox.innerHTML = savedMistakes
         .slice(0, 5)
-        .map((item) => `<article><strong>${escapeHtml(item.category)}</strong><span>${escapeHtml(item.prompt)}</span></article>`)
+        .map((item) => {
+          const compareLink = item.conceptId
+            ? `<a href="road-sign-learning-loop.html?concept=${encodeURIComponent(item.conceptId)}&return=road-signs-practice-test.html#learning-loop">Compare this distinction</a>`
+            : "";
+          return `<article><strong>${escapeHtml(item.category)}</strong><span>${escapeHtml(item.prompt)}</span>${compareLink}</article>`;
+        })
         .join("");
     };
 
@@ -638,7 +643,7 @@ function initQuizzes() {
       const prompt = questionPrompt(question);
       const category = question.dataset.category || "Review topic";
       savedMistakes = savedMistakes.filter((item) => item.prompt !== prompt);
-      savedMistakes.unshift({ prompt, category, savedAt: Date.now() });
+      savedMistakes.unshift({ prompt, category, conceptId: question.dataset.conceptId || "", savedAt: Date.now() });
       saveMistakes();
       renderMistakes();
     };
@@ -801,6 +806,13 @@ function initQuizzes() {
         .map(([category]) => category)
         .slice(0, 3);
 
+      const missedConceptIds = () => [...new Set(
+        activeSequence
+          .filter((index) => wrongAnswers.has(index))
+          .map((index) => questions[index].dataset.conceptId || "")
+          .filter(Boolean),
+      )];
+
       if (justCompleted && isDmvQuiz) {
         const pageName = window.location.pathname.split("/").pop() || "index.html";
         recordDmvSession({
@@ -860,10 +872,18 @@ function initQuizzes() {
           nextPlanAction.href = "#practice";
           nextPlanAction.textContent = answeredCount ? "Continue this round" : "Start this round";
         } else if (missedCount && signMiss) {
-          nextPlanTitle.textContent = `Review ${missed[0] || "missed signs"}`;
-          nextPlanCopy.textContent = "Use visual flashcards once, then return to the saved-mistake filter instead of restarting a random test.";
-          nextPlanAction.href = "dmv-road-sign-flashcards.html";
-          nextPlanAction.textContent = "Open sign flashcards";
+          const conceptIds = missedConceptIds();
+          if (conceptIds.length === 1) {
+            nextPlanTitle.textContent = "Compare the sign distinction you missed";
+            nextPlanCopy.textContent = "Use the two-sign comparison, then answer an action question and another practice question before returning to the full round.";
+            nextPlanAction.href = `road-sign-learning-loop.html?concept=${encodeURIComponent(conceptIds[0])}&return=${encodeURIComponent(window.location.pathname.split("/").pop() || "road-signs-practice-test.html")}#learning-loop`;
+            nextPlanAction.textContent = "Open targeted comparison";
+          } else {
+            nextPlanTitle.textContent = `Review ${missed[0] || "missed signs"}`;
+            nextPlanCopy.textContent = "Use visual flashcards once, then return to the saved-mistake filter instead of restarting a random test.";
+            nextPlanAction.href = "dmv-road-sign-flashcards.html";
+            nextPlanAction.textContent = "Open sign flashcards";
+          }
         } else if (missedCount) {
           nextPlanTitle.textContent = `Repair ${missed[0] || "the weak rule area"}`;
           nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";

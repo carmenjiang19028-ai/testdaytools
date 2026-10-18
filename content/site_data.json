@@ -21680,6 +21680,7 @@
         "q": "What should a driver do at this sign?",
         "image": "stop",
         "imageAlt": "Red octagon stop sign",
+        "conceptId": "stop-yield",
         "category": "Regulatory signs",
         "choices": [
           "Slow down only if traffic is present",
@@ -21694,6 +21695,7 @@
         "q": "This triangular sign means drivers should:",
         "image": "yield",
         "imageAlt": "Yield traffic sign",
+        "conceptId": "stop-yield",
         "category": "Regulatory signs",
         "choices": [
           "Let other traffic go first when needed",
@@ -21708,6 +21710,7 @@
         "q": "What does this red and white sign tell a driver?",
         "image": "do-not-enter",
         "imageAlt": "Do not enter sign",
+        "conceptId": "do-not-enter-wrong-way",
         "category": "Regulatory signs",
         "choices": [
           "The lane is for carpools only",
@@ -21722,6 +21725,7 @@
         "q": "If you see this sign after turning, what is the safest action?",
         "image": "wrong-way",
         "imageAlt": "Wrong way sign",
+        "conceptId": "do-not-enter-wrong-way",
         "category": "Regulatory signs",
         "choices": [
           "Keep driving until the next intersection",
@@ -21792,6 +21796,7 @@
         "q": "What should this yellow sign make you expect?",
         "image": "merge",
         "imageAlt": "Merge warning sign",
+        "conceptId": "merge-lane-ends",
         "category": "Warning signs",
         "choices": [
           "A mandatory stop",
@@ -21806,6 +21811,7 @@
         "q": "This sign warns that:",
         "image": "lane-ends",
         "imageAlt": "Lane ends warning sign",
+        "conceptId": "merge-lane-ends",
         "category": "Warning signs",
         "choices": [
           "A lane will end and traffic must merge",
