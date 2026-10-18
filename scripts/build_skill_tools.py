@@ -1,11 +1,36 @@
 #!/usr/bin/env python3
 """Build the local-only adult skills practice previews from content/skill_tools.json."""
 import json
+from html import escape
 from pathlib import Path
 from textwrap import dedent
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / "content" / "skill_tools.json").read_text())
+SITE = json.loads((ROOT / "content" / "site_data.json").read_text())["site"]
+
+
+def render_analytics_tag():
+    measurement_id = SITE.get("analytics", {}).get("ga4MeasurementId", "").strip()
+    if not measurement_id.startswith("G-"):
+        return ""
+    return f'''<script async src="https://www.googletagmanager.com/gtag/js?id={escape(measurement_id, quote=True)}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){{dataLayer.push(arguments);}}
+gtag('js', new Date());
+gtag('config', {json.dumps(measurement_id)});
+window.trackSkillAnswer = function(tool) {{
+  if (!['clerical_checking', 'filing_order'].includes(tool)) return;
+  try {{
+    if (typeof window.gtag === 'function') {{
+      window.gtag('event', 'skills_answer_checked', {{tool: tool, page_path: window.location.pathname}});
+    }}
+  }} catch (error) {{
+    // Analytics must not interrupt practice or send saved exercise data.
+  }}
+}};
+</script>'''
 
 BASE_CSS = dedent("""
   :root{--ink:#17212f;--muted:#586678;--line:#d7e0ea;--paper:#fff;--soft:#f3f6f9;--blue:#155e9f;--blue-deep:#173e68;--green:#176b51;--gold:#8a650a;--red:#b73a35;--shadow:0 16px 36px rgba(23,33,47,.09)}
@@ -18,7 +43,7 @@ BASE_CSS = dedent("""
 def shell(title, description, body, script="", canonical="skills-practice.html"):
     return dedent(f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} | TestDayTools</title><meta name="description" content="{description}"><link rel="canonical" href="https://testdaytools.com/{canonical}"><style>{BASE_CSS}</style></head>
+<title>{title} | TestDayTools</title><meta name="description" content="{description}"><link rel="canonical" href="https://testdaytools.com/{canonical}">{render_analytics_tag()}<style>{BASE_CSS}</style></head>
 <body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="index.html" aria-label="TestDayTools home"><span class="brand-mark">T</span><span>TestDayTools</span></a><nav aria-label="Main navigation"><a href="skills-practice.html">Skills hub</a><a href="dmv-practice.html">DMV</a><a href="sat-tools.html">SAT</a><a href="ap-tools.html">AP</a></nav></header>
 <main id="main" class="skill-main">{body}</main><footer class="site-footer">Original synthetic practice. No account, no real personal data, and progress stays in this browser. <a href="about.html">About TestDayTools</a></footer><script>{script}</script></body></html>''')
 

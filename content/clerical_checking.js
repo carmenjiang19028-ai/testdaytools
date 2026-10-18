@@ -44,7 +44,7 @@
     const f = $('[data-feedback]'); f.hidden = !answers[i]; if (answers[i]) f.innerHTML = `<strong>${answers[i].ok ? 'Correct decision.' : 'Review this comparison.'}</strong> ${q.why}`;
     historyView();
   }
-  function answer(choice) { if (answers[i]) return; if (mode === 'timed' && currentElapsed() >= 90) { elapsed = 90; paused = true; render(); save(); return; } const q = items[i]; answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
+  function answer(choice) { if (answers[i]) return; if (mode === 'timed' && currentElapsed() >= 90) { elapsed = 90; paused = true; render(); save(); return; } const q = items[i]; answers[i] = { choice, ok: choice === q.truth }; render(); save(); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); }
   function next() { if (i < N - 1) { i += 1; render(); save(); } else finish(); }
   function finish() { if (answers.filter(Boolean).length < N) return; paused = true; recordRound(); render(); save(false); }
   function historyView() {
