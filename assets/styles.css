@@ -5355,6 +5355,10 @@ button:disabled {
   }
 
   .home-page .home-quick-links {
+    display: flex;
+  }
+
+  .home-page .home-quick-links a:not([href="skills-practice.html"]) {
     display: none;
   }
 
@@ -5651,7 +5655,7 @@ button:disabled {
   }
 
   .home-page .home-quick-links {
-    display: none;
+    display: flex;
   }
 
   .home-group,
