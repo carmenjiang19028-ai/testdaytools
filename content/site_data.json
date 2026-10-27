@@ -6545,7 +6545,7 @@
           "label": "Permit starter",
           "short": "10 questions",
           "title": "DMV road signs permit-test starter",
-          "description": "Start with 10 high-signal road-sign questions before taking the full 40-picture round. This is the fastest path for visitors who came from a broad DMV road signs query.",
+          "description": "Start with 10 high-signal road-sign questions before taking the full 40-picture round.",
           "kicker": "Short road-sign round",
           "quiz": "roadSignsCore",
           "passScore": 8,
@@ -6857,7 +6857,7 @@
             {
               "label": "Road signs practice",
               "title": "Start with the image quiz",
-              "text": "Use this page when the query is broad. Answer pictures first, then let missed categories decide whether you need regulatory signs, warning signs, shape/color lookup, or flashcards.",
+              "text": "Answer pictures first, then let missed categories decide whether you need regulatory signs, warning signs, shape/color lookup, or flashcards.",
               "href": "#practice",
               "cta": "Start image quiz"
             },
