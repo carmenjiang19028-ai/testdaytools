@@ -45,6 +45,12 @@ async function advance(page) {
   await page.locator('[data-loop-next]').click();
 }
 
+async function optionOrder(page) {
+  return page.locator('[data-loop-option]').evaluateAll(buttons => buttons.map(button => ({
+    answer: Number(button.dataset.loopOption), text: button.textContent,
+  })));
+}
+
 async function capture(page, name) {
   if (!screenshots) return;
   await page.screenshot({ path: path.join(screenshots, `${name}.png`), fullPage: true });
@@ -256,4 +262,94 @@ test('unsubmitted selection does not become an answer after refresh', async () =
     assert.equal(state.submitted, false);
     assert.equal(await page.locator('[data-loop-next]').isDisabled(), true);
   } finally { await context.close(); }
+});
+
+for (const width of [1280, 390]) {
+  test(`${width}px: correct positions vary while each question order and grading survive refresh`, async () => {
+    const correctPositions = new Set();
+    for (const concept of ['stop-yield', 'do-not-enter-wrong-way', 'merge-lane-ends']) {
+      const { context, page, errors } = await open(width, concept);
+      try {
+        for (const phase of [1, 2, 3]) {
+          const order = await optionOrder(page);
+          assert.deepEqual(order.map(option => option.answer).sort(), [0, 1, 2]);
+          correctPositions.add(order.findIndex(option => option.answer === 0));
+          await page.reload();
+          assert.deepEqual(await optionOrder(page), order);
+          const answer = phase === 3 ? 0 : 1;
+          await check(page, answer);
+          assert.match(await page.locator('[data-loop-feedback]').textContent(), phase === 3 ? /Correct for this wording/ : /Not quite/);
+          const beforeReload = await saved(page, concept);
+          const selectedText = order.find(option => option.answer === answer).text;
+          await page.reload();
+          assert.deepEqual(await optionOrder(page), order);
+          assert.equal(await page.locator('[data-loop-option].is-selected').textContent(), selectedText);
+          const afterReload = await saved(page, concept);
+          assert.deepEqual(afterReload.answers, beforeReload.answers);
+          assert.deepEqual(afterReload.exposures, beforeReload.exposures);
+          if (concept === 'stop-yield' && phase === 1) await capture(page, `option-order-${width}`);
+          await advance(page);
+        }
+        assert.equal((await saved(page, concept)).completed, true);
+        assert.deepEqual(errors, []);
+      } finally { await context.close(); }
+    }
+    assert.deepEqual([...correctPositions].sort(), [0, 1, 2]);
+  });
+
+  test(`${width}px: selecting only the first displayed option cannot record an all-correct session`, async () => {
+    const { context, page } = await open(width);
+    try {
+      let state = await saved(page);
+      let checked = 0;
+      while (!state.completed && checked < 10) {
+        const answer = Number(await page.locator('[data-loop-option]').first().getAttribute('data-loop-option'));
+        await page.locator('[data-loop-option]').first().click();
+        await page.locator('[data-loop-next]').click();
+        assert.match(await page.locator('[data-loop-feedback]').textContent(), answer === 0 ? /Good|Correct for this wording/ : /Not quite/);
+        await advance(page);
+        state = await saved(page);
+        checked += 1;
+      }
+      assert.equal(state.completed, true);
+      assert.ok(Object.values(state.answers).includes(false));
+      assert.ok(Object.values(state.answers).includes(true));
+      assert.ok(state.misses.length > 0);
+      assert.ok(Object.values(state.exposures).every(count => count === 1));
+    } finally { await context.close(); }
+  });
+}
+
+test('a submitted prior-version answer keeps its meaning, highlight and feedback after reordering', async () => {
+  const legacy = { flowVersion: 2, misses: [], phase: 1, index: 0, submitted: true,
+    selectedOption: 0, completed: false, answers: { '1:stop-yield:stop': true },
+    exposures: { '1:stop-yield:stop': 1 } };
+  const { context, page } = await open(1280, 'stop-yield', legacy);
+  try {
+    assert.match(await page.locator('[data-loop-option].is-selected').textContent(), /Stop requires a complete stop/);
+    assert.match(await page.locator('[data-loop-feedback]').textContent(), /Good/);
+    const order = await optionOrder(page);
+    await page.reload();
+    assert.deepEqual(await optionOrder(page), order);
+    const state = await saved(page, 'stop-yield');
+    assert.deepEqual(state.answers, legacy.answers);
+    assert.deepEqual(state.exposures, legacy.exposures);
+    assert.equal(state.selectedOption, 0);
+    await advance(page);
+    assert.equal((await saved(page, 'stop-yield')).phase, 3);
+  } finally { await context.close(); }
+});
+
+test('the same question has the same order in full and concept-specific sessions', async () => {
+  const full = await open();
+  const focused = await open(1280, 'do-not-enter-wrong-way');
+  try {
+    await check(full.page); await advance(full.page);
+    await check(full.page); await advance(full.page);
+    assert.equal((await saved(full.page)).index, 1);
+    assert.deepEqual(await optionOrder(full.page), await optionOrder(focused.page));
+  } finally {
+    await full.context.close();
+    await focused.context.close();
+  }
 });

@@ -142,9 +142,12 @@
         const contrast = contrasts[sign.distinction];
         const prompt = phase === 3 ? sign.variant : phase === 2 ? `What should the driver do after recognizing ${sign.label}?` : contrast.prompt;
         const options = phase === 3 ? sign.variantOptions : phase === 2 ? [sign.action, 'Treat it as the other sign in this distinction', 'Ignore the sign if traffic appears light'] : contrast.options;
+        // Vary positions without changing semantic answer IDs or refresh order.
+        const offset = (allSessionSigns.indexOf(sign) + phase) % options.length;
+        const optionOrder = options.map((_, optionIndex) => (optionIndex + offset) % options.length);
         const pair = signs.filter((item) => item.distinction === sign.distinction).slice(0, 2);
         const visual = phase === 1 ? pair.map((item) => `<figure><img src="${item.image}" alt="${esc(item.label)} road sign" width="220" height="160"><figcaption>${esc(item.label)}</figcaption></figure>`).join('') : `<figure><img src="${sign.image}" alt="${esc(sign.label)} road sign" width="220" height="160"><figcaption>${esc(sign.label)}</figcaption></figure>`;
-        stage.innerHTML = `<article class="learning-card"><div class="learning-card-visual learning-contrast-visual">${visual}</div><div class="learning-card-copy"><span>${esc(sign.category)} · ${esc(sign.distinction)}</span><h3>${esc(prompt)}</h3><div class="learning-options">${options.map((option, i) => `<button type="button" data-loop-option="${i}">${esc(option)}</button>`).join('')}</div><p class="learning-feedback" data-loop-feedback role="status" aria-live="polite"></p></div></article>`;
+        stage.innerHTML = `<article class="learning-card"><div class="learning-card-visual learning-contrast-visual">${visual}</div><div class="learning-card-copy"><span>${esc(sign.category)} · ${esc(sign.distinction)}</span><h3>${esc(prompt)}</h3><div class="learning-options">${optionOrder.map((optionIndex) => `<button type="button" data-loop-option="${optionIndex}">${esc(options[optionIndex])}</button>`).join('')}</div><p class="learning-feedback" data-loop-feedback role="status" aria-live="polite"></p></div></article>`;
         stage.querySelectorAll('[data-loop-option]').forEach((button) => {
           button.disabled = submitted;
           button.classList.toggle('is-selected', Number(button.dataset.loopOption) === selected);
