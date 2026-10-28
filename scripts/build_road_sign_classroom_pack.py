@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 from pathlib import Path as FSPath
+import os
+import json
+import subprocess
+import tempfile
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -10,6 +14,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.platypus import (
     KeepTogether,
+    Image,
     PageBreak,
     Paragraph,
     SimpleDocTemplate,
@@ -17,7 +22,6 @@ from reportlab.platypus import (
     Table,
     TableStyle,
 )
-from reportlab.graphics.shapes import Circle, Drawing, Line, Path, Polygon, Rect, String
 
 
 ROOT = FSPath(__file__).resolve().parents[1]
@@ -32,6 +36,11 @@ GREEN = colors.HexColor("#176B51")
 RED = colors.HexColor("#C7312F")
 YELLOW = colors.HexColor("#F4C842")
 ORANGE = colors.HexColor("#F59E2E")
+CLASSROOM_SIGNS = {
+    "stop": "stop", "yield": "yield", "do-not-enter": "do-not-enter",
+    "speed-limit": "speed-limit", "merge": "merge", "school": "school-crossing",
+    "railroad": "railroad", "slippery": "slippery",
+}
 
 
 def register_fonts():
@@ -47,67 +56,11 @@ def register_fonts():
 FONT, BOLD = register_fonts()
 
 
-def sign_drawing(kind, size=72):
-    d = Drawing(size, size)
-    cx = cy = size / 2
-    if kind == "stop":
-        r = size * 0.38
-        points = []
-        for x, y in [
-            (cx - r * 0.42, cy + r), (cx + r * 0.42, cy + r),
-            (cx + r, cy + r * 0.42), (cx + r, cy - r * 0.42),
-            (cx + r * 0.42, cy - r), (cx - r * 0.42, cy - r),
-            (cx - r, cy - r * 0.42), (cx - r, cy + r * 0.42),
-        ]:
-            points.extend([x, y])
-        d.add(Polygon(points, fillColor=RED, strokeColor=colors.HexColor("#8E1F1D"), strokeWidth=2))
-        d.add(String(cx, cy - 5, "STOP", textAnchor="middle", fillColor=colors.white, fontName=BOLD, fontSize=13))
-    elif kind == "yield":
-        d.add(Polygon([cx, size * 0.12, size * 0.12, size * 0.82, size * 0.88, size * 0.82], fillColor=colors.white, strokeColor=RED, strokeWidth=5))
-    elif kind == "do-not-enter":
-        d.add(Circle(cx, cy, size * 0.37, fillColor=RED, strokeColor=RED))
-        d.add(Rect(size * 0.18, cy - size * 0.09, size * 0.64, size * 0.18, fillColor=colors.white, strokeColor=colors.white))
-    elif kind == "speed-limit":
-        d.add(Rect(size * 0.22, size * 0.08, size * 0.56, size * 0.84, fillColor=colors.white, strokeColor=INK, strokeWidth=2))
-        d.add(String(cx, size * 0.69, "SPEED", textAnchor="middle", fontName=BOLD, fontSize=7, fillColor=INK))
-        d.add(String(cx, size * 0.57, "LIMIT", textAnchor="middle", fontName=BOLD, fontSize=7, fillColor=INK))
-        d.add(String(cx, size * 0.24, "35", textAnchor="middle", fontName=BOLD, fontSize=20, fillColor=INK))
-    elif kind in {"merge", "school", "slippery", "work-zone"}:
-        fill = ORANGE if kind == "work-zone" else YELLOW
-        d.add(Polygon([cx, size * 0.06, size * 0.94, cy, cx, size * 0.94, size * 0.06, cy], fillColor=fill, strokeColor=INK, strokeWidth=2))
-        if kind == "merge":
-            d.add(Line(size * 0.38, size * 0.23, size * 0.38, size * 0.78, strokeColor=INK, strokeWidth=5))
-            path = Path()
-            path.moveTo(size * 0.68, size * 0.24)
-            path.curveTo(size * 0.68, size * 0.48, size * 0.55, size * 0.53, size * 0.43, size * 0.58)
-            path.strokeColor = INK
-            path.strokeWidth = 5
-            path.fillColor = None
-            d.add(path)
-        elif kind == "school":
-            d.add(Circle(size * 0.40, size * 0.66, size * 0.055, fillColor=INK, strokeColor=INK))
-            d.add(Circle(size * 0.61, size * 0.67, size * 0.055, fillColor=INK, strokeColor=INK))
-            d.add(Line(size * 0.39, size * 0.59, size * 0.30, size * 0.34, strokeColor=INK, strokeWidth=4))
-            d.add(Line(size * 0.61, size * 0.60, size * 0.69, size * 0.35, strokeColor=INK, strokeWidth=4))
-            d.add(Line(size * 0.38, size * 0.56, size * 0.54, size * 0.45, strokeColor=INK, strokeWidth=4))
-        elif kind == "slippery":
-            d.add(Rect(size * 0.30, size * 0.55, size * 0.40, size * 0.16, fillColor=INK, strokeColor=INK))
-            d.add(Circle(size * 0.39, size * 0.50, size * 0.045, fillColor=INK, strokeColor=INK))
-            d.add(Circle(size * 0.62, size * 0.50, size * 0.045, fillColor=INK, strokeColor=INK))
-            d.add(Line(size * 0.24, size * 0.31, size * 0.42, size * 0.39, strokeColor=INK, strokeWidth=3))
-            d.add(Line(size * 0.55, size * 0.31, size * 0.73, size * 0.39, strokeColor=INK, strokeWidth=3))
-        else:
-            d.add(Circle(size * 0.46, size * 0.67, size * 0.055, fillColor=INK, strokeColor=INK))
-            d.add(Line(size * 0.45, size * 0.59, size * 0.35, size * 0.37, strokeColor=INK, strokeWidth=4))
-            d.add(Line(size * 0.44, size * 0.55, size * 0.62, size * 0.46, strokeColor=INK, strokeWidth=4))
-            d.add(Line(size * 0.27, size * 0.28, size * 0.73, size * 0.28, strokeColor=INK, strokeWidth=4))
-    elif kind == "railroad":
-        d.add(Circle(cx, cy, size * 0.38, fillColor=YELLOW, strokeColor=INK, strokeWidth=2))
-        d.add(Line(size * 0.40, size * 0.24, size * 0.60, size * 0.76, strokeColor=INK, strokeWidth=4))
-        d.add(Line(size * 0.60, size * 0.24, size * 0.40, size * 0.76, strokeColor=INK, strokeWidth=4))
-        d.add(String(size * 0.25, size * 0.43, "R", textAnchor="middle", fontName=BOLD, fontSize=17, fillColor=INK))
-        d.add(String(size * 0.75, size * 0.43, "R", textAnchor="middle", fontName=BOLD, fontSize=17, fillColor=INK))
-    return d
+def sign_drawing(kind, size=72, image_dir=None):
+    if image_dir is None:
+        raise ValueError("Render the shared SVG assets before building the classroom pack")
+    image = FSPath(image_dir) / f"{CLASSROOM_SIGNS[kind]}.png"
+    return Image(str(image), width=size, height=size * 160 / 220, mask="auto")
 
 
 def footer(canvas, doc):
@@ -140,12 +93,12 @@ styles.add(ParagraphStyle(name="Smallx", parent=styles["BodyText"], fontName=FON
 styles.add(ParagraphStyle(name="Answer", parent=styles["BodyText"], fontName=FONT, fontSize=8.2, leading=10.6, textColor=INK, spaceAfter=4))
 
 
-def recognition_card(number, kind):
+def recognition_card(number, kind, image_dir):
     response = Paragraph(
         f"<b>{number}.</b> Sign name: ____________________<br/>Driver action: ________________________________",
         styles["Bodyx"],
     )
-    box = Table([[sign_drawing(kind, 65), response]], colWidths=[0.85 * inch, 2.45 * inch], rowHeights=[0.86 * inch])
+    box = Table([[sign_drawing(kind, 65, image_dir), response]], colWidths=[0.85 * inch, 2.45 * inch], rowHeights=[0.86 * inch])
     box.setStyle(TableStyle([
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ("BOX", (0, 0), (-1, -1), 0.7, LINE),
@@ -158,9 +111,10 @@ def recognition_card(number, kind):
     return box
 
 
-def build():
+def build_document(image_dir, output):
+    material = json.loads((ROOT / "content/road_sign_lessons.json").read_text())
     doc = SimpleDocTemplate(
-        str(OUTPUT), pagesize=letter, rightMargin=0.55 * inch, leftMargin=0.55 * inch,
+        str(output), pagesize=letter, rightMargin=0.55 * inch, leftMargin=0.55 * inch,
         topMargin=0.46 * inch, bottomMargin=0.62 * inch,
         title="DMV Road Signs Classroom Worksheet and Answer Key",
         author="TestDayTools",
@@ -177,7 +131,7 @@ def build():
     kinds = ["stop", "yield", "do-not-enter", "speed-limit", "merge", "school", "railroad", "slippery"]
     rows = []
     for i in range(0, len(kinds), 2):
-        rows.append([recognition_card(i + 1, kinds[i]), recognition_card(i + 2, kinds[i + 1])])
+        rows.append([recognition_card(i + 1, kinds[i], image_dir), recognition_card(i + 2, kinds[i + 1], image_dir)])
     grid = Table(rows, colWidths=[3.58 * inch, 3.58 * inch], rowHeights=[0.94 * inch] * 4, hAlign="LEFT")
     grid.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 7), ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4)]))
     story.append(grid)
@@ -279,7 +233,21 @@ def build():
     story.append(Paragraph("Source and use note", styles["H2x"]))
     story.append(Paragraph("The prompts and simplified illustrations are original TestDayTools study material. Use the FHWA Manual on Uniform Traffic Control Devices and the learner's official state driver handbook for final wording and state-specific rules. Teachers, libraries, driving schools, families, and other noncommercial educators may print and share this unmodified PDF when the TestDayTools credit and page URL remain visible. No resale, rebranding, or adaptation.", styles["Smallx"]))
 
+    story.append(Paragraph(f"Material check {material['checkedOn']}: the eight pictures reuse the web reference's SVG artwork, including the five-sided school sign. Picture/label consistency and the printed answer mapping were checked by TestDayTools with AI-assisted source comparison, not a driving-instructor assessment. Detailed scope and official-source links: testdaytools.com/dmv-road-signs-cheat-sheet.html#material-review", styles["Smallx"]))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
+
+
+def build():
+    with tempfile.TemporaryDirectory(prefix="testdaytools-classroom-") as directory:
+        subprocess.run([
+            os.environ.get("NODE_BIN", "node"), str(ROOT / "scripts/render_road_sign_materials.cjs"),
+            "art", directory, *CLASSROOM_SIGNS.values(),
+        ], check=True, timeout=90)
+        output = FSPath(directory) / OUTPUT.name
+        build_document(directory, output)
+        if output.stat().st_size < 10_000:
+            raise ValueError("Classroom PDF output is incomplete")
+        output.replace(OUTPUT)
     print(f"Built {OUTPUT.name} ({OUTPUT.stat().st_size:,} bytes).")
 
 

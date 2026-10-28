@@ -1,0 +1,33 @@
+.material-review, .contrast-lessons { margin: 28px 0; }
+.material-review { padding: 20px 0; border-top: 1px solid #cbd4d0; border-bottom: 1px solid #cbd4d0; }
+.material-review h2, .contrast-lessons h2 { font-size: 24px; }
+.material-review p, .material-review li, .contrast-lesson p, .contrast-lesson dd { max-width: 78ch; line-height: 1.65; }
+.material-review ul { padding-left: 22px; }
+.contrast-lesson { padding: 26px 0; border-top: 1px solid #cbd4d0; scroll-margin-top: 96px; }
+.contrast-lesson h3 { max-width: 65ch; font-size: 21px; line-height: 1.4; }
+.contrast-lesson-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 28px; align-items: start; }
+.contrast-scene { margin: 0; padding: 18px; background: #f4f7f5; border: 1px solid #d4dfd8; border-radius: 4px; }
+.contrast-sign-pair { display: grid; grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr); align-items: center; }
+.contrast-sign-pair img { width: 100%; height: auto; aspect-ratio: 220 / 160; object-fit: contain; }
+.contrast-sign-pair span { text-align: center; font-size: 14px; }
+.contrast-scene figcaption { margin-top: 14px; line-height: 1.65; }
+.contrast-reasoning { margin: 0; }
+.contrast-reasoning dt { font-weight: 700; margin-top: 14px; }
+.contrast-reasoning dt:first-child { margin-top: 0; }
+.contrast-reasoning dd { margin: 4px 0 0; }
+.contrast-trap { padding-left: 16px; border-left: 3px solid #b23c34; }
+.contrast-transfer { padding: 14px 0; border-top: 1px dashed #b7c7bc; }
+.contrast-transfer summary { cursor: pointer; font-weight: 700; line-height: 1.5; }
+.contrast-source { font-size: 14px; }
+.material-links { padding-left: 22px; line-height: 1.8; }
+@media (max-width: 680px) {
+  .contrast-lesson-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .contrast-scene { padding: 12px; }
+  .contrast-lesson h3 { font-size: 20px; }
+  .contrast-lesson { scroll-margin-top: 160px; }
+}
+@media print {
+  .contrast-lesson { break-inside: avoid; }
+  .material-review { font-size: 10px; margin: 12px 0; padding: 10px 0; }
+  .material-review h2 { font-size: 15px; }
+}

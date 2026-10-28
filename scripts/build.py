@@ -103,22 +103,22 @@ SIGN_SVGS = {
     "curb-blue": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect width="220" height="92" fill="#48515b"/><rect y="92" width="220" height="22" fill="#1469aa"/><rect y="114" width="220" height="46" fill="#d9dde2"/><path d="M20 58 H82 M138 58 H200" stroke="#f3c64d" stroke-width="6" stroke-linecap="round"/></svg>',
     "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
     "yield": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,148 202,18 18,18" fill="#fff" stroke="#c7312f" stroke-width="12"/><text x="110" y="76" text-anchor="middle" fill="#c7312f" font-size="28" font-weight="900" font-family="Arial, sans-serif">YIELD</text></svg>',
-    "do-not-enter": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="62" fill="#c7312f"/><rect x="54" y="66" width="112" height="28" rx="3" fill="#fff"/><text x="110" y="128" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">DO NOT ENTER</text></svg>',
+    "do-not-enter": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="62" fill="#c7312f"/><rect x="54" y="69" width="112" height="22" rx="3" fill="#fff"/><text x="110" y="57" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">DO NOT</text><text x="110" y="119" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ENTER</text></svg>',
     "wrong-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="40" y="42" width="140" height="76" rx="5" fill="#c7312f" stroke="#981f1d" stroke-width="5"/><text x="110" y="74" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WRONG</text><text x="110" y="104" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WAY</text></svg>',
     "no-u-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M140 112 V76 C140 38 90 38 90 76 V89" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M74 82 L90 108 L106 82 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
     "four-way-stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,8 138,8 184,42 202,94 174,138 46,138 18,94 36,42" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="86" text-anchor="middle" fill="#fff" font-size="34" font-weight="900" font-family="Arial, sans-serif">STOP</text><rect x="68" y="118" width="84" height="28" rx="4" fill="#fff" stroke="#222" stroke-width="3"/><text x="110" y="138" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">4-WAY</text></svg>',
     "no-right-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M88 112 V80 Q88 62 106 62 H140" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M134 46 L160 62 L134 78 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
     "no-left-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M132 112 V80 Q132 62 114 62 H80" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M86 46 L60 62 L86 78 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
     "no-turn-on-red": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="42" y="18" width="136" height="124" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="52" text-anchor="middle" fill="#111" font-size="22" font-weight="900" font-family="Arial, sans-serif">NO TURN</text><text x="110" y="82" text-anchor="middle" fill="#111" font-size="22" font-weight="900" font-family="Arial, sans-serif">ON RED</text><circle cx="110" cy="113" r="17" fill="#c7312f"/><line x1="65" y1="128" x2="155" y2="38" stroke="#c7312f" stroke-width="9" stroke-linecap="round"/></svg>',
-    "keep-right": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="42" y="20" width="136" height="120" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="48" text-anchor="middle" fill="#111" font-size="19" font-weight="900" font-family="Arial, sans-serif">KEEP</text><text x="110" y="70" text-anchor="middle" fill="#111" font-size="19" font-weight="900" font-family="Arial, sans-serif">RIGHT</text><path d="M94 124 C138 113 153 92 145 58" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M128 63 h34 l-18-26z" fill="#111"/><path d="M85 122 l18-48 18 48z" fill="#111"/></svg>',
+    "keep-right": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="42" y="20" width="136" height="120" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="43" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">KEEP RIGHT</text><path d="M113 125 C144 113 150 95 146 76" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/><path d="M132 80 h28 l-14-22z" fill="#111"/><path d="M78 124 l14-55 14 55z" fill="#111"/></svg>',
     "one-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="28" y="46" width="164" height="68" rx="6" fill="#111827"/><path d="M58 80 h78" stroke="#fff" stroke-width="12" stroke-linecap="round"/><path d="M126 50 170 80 126 110z" fill="#fff"/><text x="78" y="105" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ONE WAY</text></svg>',
     "right-turn-only": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="44" y="18" width="132" height="124" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><path d="M89 104 V72 Q89 49 112 49 H143" fill="none" stroke="#111" stroke-width="13" stroke-linecap="round"/><path d="M136 32 L160 49 L136 66 Z" fill="#111"/><text x="110" y="130" text-anchor="middle" fill="#111" font-size="23" font-weight="900" font-family="Arial, sans-serif">ONLY</text></svg>',
     "speed-limit": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="66" y="16" width="88" height="128" rx="4" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="48" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">SPEED</text><text x="110" y="68" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">LIMIT</text><text x="110" y="118" text-anchor="middle" fill="#111" font-size="48" font-weight="900" font-family="Arial, sans-serif">35</text></svg>',
     "school-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,12 190,54 172,142 48,142 30,54" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="84" cy="55" r="9" fill="#111"/><circle cx="130" cy="53" r="9" fill="#111"/><path d="M82 68 l-18 38 M82 68 l24 18 M130 66 l-18 42 M130 66 l26 18" stroke="#111" stroke-width="8" stroke-linecap="round"/><path d="M92 108 h56" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
     "pedestrian-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="112" cy="50" r="10" fill="#111"/><path d="M108 65 l-20 32 M109 66 l28 22 M92 98 l-18 24 M100 96 l34 28" stroke="#111" stroke-width="9" stroke-linecap="round"/></svg>',
     "merge": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M84 126 V38" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M136 126 C136 94 118 88 96 78" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M70 48 84 28 98 48z" fill="#111"/></svg>',
-    "lane-ends": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M82 126 V40 M138 126 C124 96 116 74 110 42" stroke="#111" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M68 50 82 30 96 50z" fill="#111"/></svg>',
-    "slippery": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M74 54 h72 v28 H74z" fill="#111"/><circle cx="90" cy="90" r="9" fill="#111"/><circle cx="132" cy="90" r="9" fill="#111"/><path d="M68 116 c18-18 38 18 56 0s36 16 52 0" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round"/></svg>',
+    "lane-ends": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M88 120 V41 M137 120 V91 L121 65 V41" stroke="#111" stroke-width="11" fill="none"/></svg>',
+    "slippery": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M84 65 L92 43 H128 L136 65 L141 72 V88 H79 V72 Z" fill="#111"/><path d="M96 49 H124 L128 62 H92 Z" fill="#f6d54a"/><path d="M84 85 V94 M136 85 V94" stroke="#111" stroke-width="8"/><path d="M89 96 C71 104 108 106 88 116 L97 124 M123 96 C105 104 142 106 122 116 L131 124" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/></svg>',
     "railroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="64" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M88 48 L132 112 M132 48 L88 112" stroke="#111" stroke-width="9" stroke-linecap="round"/><text x="63" y="91" text-anchor="middle" fill="#111" font-size="31" font-weight="900" font-family="Arial, sans-serif">R</text><text x="157" y="91" text-anchor="middle" fill="#111" font-size="31" font-weight="900" font-family="Arial, sans-serif">R</text></svg>',
     "work-zone": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f59e2e" stroke="#222" stroke-width="5"/><circle cx="104" cy="47" r="8" fill="#111"/><path d="M100 58 l-20 35 M101 60 l32 22 M85 94 h62 M76 118 h78" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
     "signal-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><rect x="88" y="36" width="44" height="88" rx="8" fill="#222"/><circle cx="110" cy="58" r="11" fill="#e53935"/><circle cx="110" cy="82" r="11" fill="#f4c430"/><circle cx="110" cy="106" r="11" fill="#22a35a"/></svg>',
@@ -194,6 +194,56 @@ def write_road_sign_images():
         title.text = f"{sign['title']} road sign"
         root.insert(0, title)
         write(road_sign_image_path(sign["image"]), ElementTree.tostring(root, encoding="unicode") + "\n")
+
+
+def road_sign_materials():
+    return json.loads((ROOT / "content/road_sign_lessons.json").read_text(), object_pairs_hook=reject_duplicate_json_keys)
+
+
+def render_material_review():
+    material = road_sign_materials()
+    sources = "".join(f'<li><a href="{esc(s["url"])}">{esc(s["label"])}</a></li>' for s in material["sources"])
+    return f'''<section class="material-review" id="material-review">
+  <h2>Material check: {esc(material["checkedOn"])}</h2>
+  <p>{esc(material["scope"])}</p><p>{esc(material["corrections"])}</p>
+  <p>{esc(material["responsibility"])}</p><ul>{sources}</ul>
+</section>'''
+
+
+def render_material_links():
+    links = "".join(f'<li><a href="road-sign-learning-loop.html#lesson-{esc(x["id"])}">{esc(x["title"])}</a></li>' for x in road_sign_materials()["lessons"])
+    return f'<section class="content-section"><h2>Understand the distinctions behind a missed sign</h2><ul class="material-links">{links}</ul></section>'
+
+
+def render_contrast_lessons():
+    material = road_sign_materials()
+    sources = {s["id"]: s for s in material["sources"]}
+    records = {s["image"]: s for s in road_sign_image_records()}
+    lessons = []
+    for lesson in material["lessons"]:
+        pictures = '<span>vs.</span>'.join(render_road_sign_image(key, records[key]["title"], lazy=False) for key in lesson["signs"])
+        source = sources[lesson["source"]]
+        lessons.append(f'''<article class="contrast-lesson" id="lesson-{esc(lesson["id"])}">
+  <h3>{esc(lesson["title"])}</h3><div class="contrast-lesson-grid">
+    <figure class="contrast-scene"><div class="contrast-sign-pair">{pictures}</div><figcaption>{esc(lesson["scene"])}</figcaption></figure>
+    <dl class="contrast-reasoning"><dt>The distinction</dt><dd>{esc(lesson["cue"])}</dd><dt>The decision</dt><dd>{esc(lesson["decision"])}</dd></dl>
+  </div>
+  <div class="contrast-trap"><h4>A tempting mistake</h4><p>{esc(lesson["mistake"])}</p><h4>Why that reasoning fails</h4><p>{esc(lesson["reason"])}</p></div>
+  <details class="contrast-transfer"><summary>Explain a changed situation</summary><p>{esc(lesson["transfer"])}</p><p>{esc(lesson["explanation"])}</p></details>
+  <p class="contrast-source">Source comparison: <a href="{esc(source["url"])}">{esc(source["label"])}</a> - {esc(lesson["sourceSections"])}. Checked {esc(material["checkedOn"])}.</p>
+</article>''')
+    return '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>' + "".join(lessons) + '</section>' + render_material_review()
+
+
+def write_contrast_lessons():
+    path = ROOT / "road-sign-learning-loop.html"
+    text = path.read_text()
+    start, end = "<!-- CORE MATERIAL LESSONS START -->", "<!-- CORE MATERIAL LESSONS END -->"
+    if text.count(start) != 1 or text.count(end) != 1:
+        raise ValueError("Expected one bounded lesson region in the existing contrast lab")
+    before, remainder = text.split(start)
+    _, after = remainder.split(end)
+    path.write_text(before + start + "\n" + render_contrast_lessons() + "\n" + end + after)
 
 
 def road_sign_images_for_page(path):
@@ -2570,6 +2620,7 @@ def render_tool(tool):
         body_sections,
         render_card_groups(tool.get("cardGroups")),
         render_checklist(tool.get("checklist")),
+        render_material_links() + render_material_review() if tool.get("slug") == ROAD_SIGN_PICTURE_SLUG else "",
         "" if dmv_quiz_first else quiz,
         render_ad(),
         render_faq(tool.get("faq")),
@@ -2626,6 +2677,7 @@ def render_tool(tool):
         [resource_schema, breadcrumb_schema(tool["title"], canonical)],
         social_image=social_image,
         indexable=tool.get("indexable", True),
+        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool["slug"] == ROAD_SIGN_PICTURE_SLUG else "",
     )
 
 
@@ -3221,6 +3273,7 @@ def render_road_sign_cheat_sheet_page():
   <footer class="printable-sheet-foot">
     <p><strong>Study loop:</strong> Cover the meanings, name each sign and driver action, circle misses, then retake the matching group at testdaytools.com/road-signs-practice-test.html.</p>
     <p><strong>Educational-use permission:</strong> Teachers, libraries, driving schools, and families may print and share this unmodified PDF for noncommercial education when the TestDayTools credit and page URL remain visible. No resale, rebranding, or adaptation.</p>
+    <p><strong>Material check {esc(road_sign_materials()["checkedOn"])}:</strong> Illustrations and labels checked for cross-material consistency; the web page records the scope and official sources. These simplified pictures are not an instructor assessment or a substitute for your state handbook.</p>
   </footer>
 </section>
 <section class="card-group">
@@ -3262,6 +3315,8 @@ def render_road_sign_cheat_sheet_page():
   <p>Teachers, libraries, driving schools, families, and other noncommercial educators may print and share the unmodified PDF for noncommercial educational use when the TestDayTools credit and this page URL remain visible. Do not sell, rebrand, adapt, or include the resource in a paid product, and do not imply endorsement by a DMV or government agency.</p>
   <p>This permission applies only to sharing the unmodified cheat-sheet PDF and classroom worksheet PDF. TestDayTools branding, site code, separate reuse of quiz questions, and separate reuse of the original illustrations are not included. All other rights are reserved.</p>
 </section>
+{render_material_links()}
+{render_material_review()}
 {render_sources([
   {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
 ])}
@@ -3300,7 +3355,7 @@ def render_road_sign_cheat_sheet_page():
         "tool-page road-sign-cheat-sheet-page",
         [resource_schema, breadcrumb_schema(ROAD_SIGN_CHEAT_SHEET_PAGE["title"], canonical)],
         social_image="assets/dmv-road-signs-cheat-sheet-preview.png",
-        extra_head=resource_link,
+        extra_head=resource_link + '<link rel="stylesheet" href="assets/road-sign-materials.css">',
     )
 
 
@@ -4362,6 +4417,7 @@ def write(path, content):
 
 def build():
     write_road_sign_images()
+    write_contrast_lessons()
     publisher_id = SITE.get("adsenseVerification", {}).get("publisherId", "").removeprefix("ca-")
     if publisher_id:
         write("ads.txt", f"google.com, {publisher_id}, DIRECT, f08c47fec0942fa0\n")

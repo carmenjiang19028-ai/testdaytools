@@ -1,10 +1,10 @@
 import unittest
 from xml.etree import ElementTree
 
-from reportlab.graphics.shapes import Circle, Line, String
+from unittest.mock import patch
 
 from scripts.build import SIGN_SVGS
-from scripts.build_road_sign_classroom_pack import YELLOW, sign_drawing
+from scripts.build_road_sign_classroom_pack import CLASSROOM_SIGNS, sign_drawing
 
 
 class RailroadAdvanceWarningSignTest(unittest.TestCase):
@@ -20,12 +20,10 @@ class RailroadAdvanceWarningSignTest(unittest.TestCase):
         self.assertEqual([letter.text for letter in letters], ["R", "R"])
 
     def test_classroom_pdf_icon_matches(self):
-        shapes = sign_drawing("railroad").contents
-        self.assertEqual(len(shapes), 5)
-        self.assertEqual([shape.text for shape in shapes if isinstance(shape, String)], ["R", "R"])
-        self.assertEqual(len([shape for shape in shapes if isinstance(shape, Line)]), 2)
-        circle = next(shape for shape in shapes if isinstance(shape, Circle))
-        self.assertEqual(circle.fillColor, YELLOW)
+        self.assertEqual(CLASSROOM_SIGNS["railroad"], "railroad")
+        with patch("scripts.build_road_sign_classroom_pack.Image") as image:
+            sign_drawing("railroad", 72, "/tmp/shared-signs")
+        image.assert_called_once_with("/tmp/shared-signs/railroad.png", width=72, height=72 * 160 / 220, mask="auto")
 
 
 class DoNotPassSignTest(unittest.TestCase):
