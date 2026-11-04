@@ -1531,6 +1531,7 @@
       "category": "AP",
       "title": "AP Exam Day Checklist",
       "description": "A practical AP exam day checklist covering what to bring, what to avoid, and how to prepare the night before.",
+      "lastUpdated": "November 4, 2026",
       "heroKicker": "AP checklist",
       "summary": "Use this unofficial AP exam day checklist to pack the basics, reduce morning stress, and avoid preventable testing-day issues.",
       "checklist": [
@@ -1543,9 +1544,35 @@
         "Water and snack for breaks, following school rules.",
         "Layered clothing for cold or warm testing rooms.",
         "Printed or saved room/check-in instructions from your school.",
-        "A simple lunch plan if you have morning and afternoon exams on the same day."
+        "A simple lunch plan if you have morning and afternoon exams on the same day.",
+        "Confirm your exam format and who supplies the testing device with your AP coordinator.",
+        "For a school-provided device, confirm Bluebook installation, pickup, and charging arrangements.",
+        "If bringing your own device, prepare an approved device with Bluebook, fully charge it, and pack its compatible charging cord.",
+        "For digital or hybrid AP, confirm you can sign in with your College Board student account without relying on a saved password.",
+        "If using a tablet, check the external keyboard rule for fully digital versus hybrid AP."
       ],
       "tables": [
+        {
+          "caption": "Digital or hybrid AP: confirm your device path",
+          "headers": [
+            "Device path",
+            "What to confirm"
+          ],
+          "rows": [
+            [
+              "Confirm the exam format",
+              "Ask your AP coordinator which format applies. Use these Bluebook steps for fully digital or hybrid AP; follow subject-specific instructions for other exam formats."
+            ],
+            [
+              "School provides the device",
+              "For a school-managed device, confirm when Bluebook will be installed, plus pickup and charging arrangements."
+            ],
+            [
+              "You bring your own device",
+              "Prepare an approved device with Bluebook. Fully charge it; pack a compatible charging cord or AC adapter. Ask your AP coordinator early if you need a device."
+            ]
+          ]
+        },
         {
           "caption": "AP exam day packing guide",
           "headers": [
@@ -1614,6 +1641,14 @@
       ],
       "body": [
         {
+          "heading": "Check Bluebook access before exam day",
+          "text": "For digital or hybrid AP, sign in with your College Board student account and look for the exam under Your Tests. Know your sign-in details: a saved password on the device is not enough on exam day. Try the exam preview when available. Prepare for 4 hours of battery use; bring the compatible power cord, but do not assume an outlet will be available."
+        },
+        {
+          "heading": "Fully digital and hybrid are not the same packing plan",
+          "text": "For fully digital AP, enter all answers in Bluebook. In hybrid AP, enter multiple-choice answers in Bluebook and write free-response answers in an exam booklet, so keep the required pens or pencils. On a tablet, an external keyboard is required for fully digital AP and recommended for hybrid AP; external keyboards are not permitted with a laptop. Check the current official instructions for your exam and approved accommodations."
+        },
+        {
           "heading": "Pack the night before",
           "text": "Put approved items in one bag and remove anything you do not need. Phones, smartwatches, notes, and unapproved devices can create serious problems in a testing room."
         },
@@ -1653,6 +1688,14 @@
         }
       ],
       "sources": [
+        {
+          "label": "College Board AP Students: What to bring on AP exam day",
+          "url": "https://apstudents.collegeboard.org/exam-policies-guidelines/what-to-bring-on-exam-day"
+        },
+        {
+          "label": "College Board Bluebook: AP exams and device preparation",
+          "url": "https://bluebook.collegeboard.org/students/ap-exams"
+        },
         {
           "label": "College Board AP Students: Exam policies",
           "url": "https://apstudents.collegeboard.org/exam-policies-guidelines"
