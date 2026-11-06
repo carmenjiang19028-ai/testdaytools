@@ -12088,7 +12088,7 @@
       "description": "Illinois road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
       "lastUpdated": "August 12, 2026",
       "heroKicker": "Illinois road signs",
-      "summary": "Drill Illinois road-sign recognition with original sign images, then review warning, regulatory, school, rail, and work-zone signs by category.",
+      "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the Illinois exam details below to plan the rest of your study.",
       "quickFacts": [
         {
           "label": "Question count",
@@ -12160,18 +12160,18 @@
           },
           {
             "step": "2",
-            "title": "Run quick practice",
-            "text": "Use the 15-question round to find obvious gaps without spending too long."
+            "title": "Take the image drill",
+            "text": "Answer the 20 sign questions here before checking the sign library."
           },
           {
             "step": "3",
-            "title": "Drill image signs",
-            "text": "Switch to Road Signs when visual recognition feels slow or uncertain."
+            "title": "Review missed signs",
+            "text": "Read the explanations and use the library to compare the signs you mixed up."
           },
           {
             "step": "4",
-            "title": "Finish with mock exam",
-            "text": "Use the 40-question mixed mode only after reading explanations from missed questions."
+            "title": "Retake the image drill",
+            "text": "Try the sign questions again without the library, then review other topics in the official handbook."
           }
         ]
       },
@@ -12348,9 +12348,9 @@
               "text": "Shape and color often reveal the action before you read the words."
             },
             {
-              "label": "Mock exam",
-              "title": "Use the long round late",
-              "text": "The 40-question mode is best after you have already fixed obvious misses."
+              "label": "Retake",
+              "title": "Explain the driver action",
+              "text": "On your next round, say what you would do before reading the answer choices."
             }
           ]
         }
@@ -12404,9 +12404,9 @@
             "text": "The official rule uses an 80 percent passing requirement."
           },
           {
-            "label": "Practice target here",
-            "value": "32 of 40 on mock exam",
-            "text": "This site uses a long mixed round to make the 80 percent target visible."
+            "label": "Practice target for this sign drill",
+            "value": "16 of 20 road signs",
+            "text": "This is a site practice target, not an official passing requirement."
           }
         ]
       },
@@ -12957,7 +12957,11 @@
       "description": "Pennsylvania road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
       "lastUpdated": "August 12, 2026",
       "heroKicker": "Pennsylvania road signs",
-      "summary": "Drill Pennsylvania road-sign recognition with original sign images, then review warning, regulatory, school, rail, and work-zone signs by category.",
+      "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the Pennsylvania exam details below to plan the rest of your study.",
+      "mixedPractice": {
+        "href": "pennsylvania-dmv-permit-practice-test.html?mode=mock#practice",
+        "target": "32 of 40"
+      },
       "quickFacts": [
         {
           "label": "Question count",
@@ -13029,18 +13033,18 @@
           },
           {
             "step": "2",
-            "title": "Run quick practice",
-            "text": "Use the 15-question round to find obvious gaps without spending too long."
+            "title": "Take the image drill",
+            "text": "Answer the 20 sign questions here before checking the sign library."
           },
           {
             "step": "3",
-            "title": "Drill image signs",
-            "text": "Switch to Road Signs when visual recognition feels slow or uncertain."
+            "title": "Review missed signs",
+            "text": "Read the explanations and use the library to compare the signs you mixed up."
           },
           {
             "step": "4",
-            "title": "Finish with mock exam",
-            "text": "Use the 40-question mixed mode only after reading explanations from missed questions."
+            "title": "Retake the image drill",
+            "text": "Try the sign questions again without the library, then review other topics in the official handbook."
           }
         ]
       },
@@ -13217,9 +13221,9 @@
               "text": "Shape and color often reveal the action before you read the words."
             },
             {
-              "label": "Mock exam",
-              "title": "Use the long round late",
-              "text": "The 40-question mode is best after you have already fixed obvious misses."
+              "label": "Retake",
+              "title": "Explain the driver action",
+              "text": "On your next round, say what you would do before reading the answer choices."
             }
           ]
         }
@@ -13273,9 +13277,9 @@
             "text": "PennDOT describes traffic signs, Pennsylvania driving laws, and safe-driving practices as test areas."
           },
           {
-            "label": "Practice target here",
-            "value": "32 of 40 on mock exam",
-            "text": "The longer mock mode gives extra repetition before the shorter official test."
+            "label": "Practice target for this sign drill",
+            "value": "16 of 20 road signs",
+            "text": "This is a site practice target, not an official passing requirement."
           }
         ]
       },
@@ -13826,7 +13830,11 @@
       "description": "New Jersey road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
       "lastUpdated": "August 12, 2026",
       "heroKicker": "New Jersey road signs",
-      "summary": "Drill New Jersey road-sign recognition with original sign images, then review warning, regulatory, school, rail, and work-zone signs by category.",
+      "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the New Jersey exam details below to plan the rest of your study.",
+      "mixedPractice": {
+        "href": "new-jersey-mvc-permit-practice-test.html?mode=mock#practice",
+        "target": "32 of 40"
+      },
       "quickFacts": [
         {
           "label": "Question count",
@@ -13898,18 +13906,18 @@
           },
           {
             "step": "2",
-            "title": "Run quick practice",
-            "text": "Use the 15-question round to find obvious gaps without spending too long."
+            "title": "Take the image drill",
+            "text": "Answer the 20 sign questions here before checking the sign library."
           },
           {
             "step": "3",
-            "title": "Drill image signs",
-            "text": "Switch to Road Signs when visual recognition feels slow or uncertain."
+            "title": "Review missed signs",
+            "text": "Read the explanations and use the library to compare the signs you mixed up."
           },
           {
             "step": "4",
-            "title": "Finish with mock exam",
-            "text": "Use the 40-question mixed mode only after reading explanations from missed questions."
+            "title": "Retake the image drill",
+            "text": "Try the sign questions again without the library, then review other topics in the official handbook."
           }
         ]
       },
@@ -14086,9 +14094,9 @@
               "text": "Shape and color often reveal the action before you read the words."
             },
             {
-              "label": "Mock exam",
-              "title": "Use the long round late",
-              "text": "The 40-question mode is best after you have already fixed obvious misses."
+              "label": "Retake",
+              "title": "Explain the driver action",
+              "text": "On your next round, say what you would do before reading the answer choices."
             }
           ]
         }
@@ -14142,9 +14150,9 @@
             "text": "MVC directs applicants to schedule the knowledge test after buying an examination permit."
           },
           {
-            "label": "Practice target here",
-            "value": "32 of 40 on mock exam",
-            "text": "Use the mock exam as a diagnostic before the MVC knowledge test."
+            "label": "Practice target for this sign drill",
+            "value": "16 of 20 road signs",
+            "text": "This is a site practice target, not an official passing requirement."
           }
         ]
       },

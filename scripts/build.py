@@ -2569,6 +2569,13 @@ def render_dmv_test_day_bridge(tool):
     if is_sign_page and (pair_slug == slug or (pair_tool and pair_tool.get("indexable") is False)):
         pair_href = "dmv-practice.html"
         pair_label = "DMV practice hub"
+    pair_title = "Continue practice loop"
+    pair_text = "Move between rules questions and image signs before the final review."
+    if mixed := tool.get("mixedPractice"):
+        pair_href = mixed["href"]
+        pair_label = "Separate mixed practice"
+        pair_title = "Open the 40-question mixed practice"
+        pair_text = f'Site practice target: {mixed["target"]}. This is separate from the 20-question sign drill.'
     checklist_href = checklist_href_for_state(state)
     return f"""<section class="dmv-test-day-bridge" id="test-day-path">
   <div>
@@ -2578,7 +2585,7 @@ def render_dmv_test_day_bridge(tool):
   </div>
   <div class="dmv-bridge-actions">
     <a href="{esc(checklist_href)}"><span>Checklist</span><strong>Open {esc(state["label"])} test-day checklist</strong><em>Plan ID, residency proof, forms, appointment, fees, signs, mistakes, and retake rules.</em></a>
-    <a href="{esc(pair_href)}"><span>{esc(pair_label)}</span><strong>Continue practice loop</strong><em>Move between rules questions and image signs before the final review.</em></a>
+    <a href="{esc(pair_href)}"><span>{esc(pair_label)}</span><strong>{esc(pair_title)}</strong><em>{esc(pair_text)}</em></a>
     <a href="{esc(state["manualUrl"])}" target="_blank" rel="noopener"><span>Official source</span><strong>{esc(state["manualLabel"])}</strong><em>Use the official source for exact wording and final requirements.</em></a>
   </div>
 </section>"""
