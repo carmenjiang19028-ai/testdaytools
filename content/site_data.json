@@ -608,27 +608,33 @@
     {
       "slug": "ap-tools",
       "title": "AP Score and Exam Day Tools",
-      "description": "AP score release timing, missing-score help, AP credit decisions, exam schedule, and exam-day checklist tools for 2026.",
+      "description": "Find College Board's official 2027 AP exam dates, an exam-day checklist, and 2026 schedule and score references.",
       "heroKicker": "AP tools hub",
-      "summary": "Use AP tools when you need a date, a decision checklist, or a next step after scores arrive.",
+      "summary": "Preparing for 2027 AP exams? Start with College Board's official schedule and the exam-day checklist. Use the 2026 pages for past dates and score help.",
       "primaryActions": [
         {
-          "label": "Score release",
-          "title": "AP Scores 2026 Release Date",
-          "text": "July 6 release timing, score-day checks, and first steps after scores appear.",
-          "href": "ap-score-release-date-2026.html"
-        },
-        {
-          "label": "Missing score",
-          "title": "College Board AP Scores Delayed",
-          "text": "College Board account checks, August 15 support checkpoint, and information to gather.",
-          "href": "ap-scores-delayed-missing-2026.html"
+          "label": "Current schedule",
+          "title": "Official 2027 AP Exam Dates",
+          "text": "See your subject's exam date, session, and late-testing dates on College Board.",
+          "href": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates"
         },
         {
           "label": "Exam day",
           "title": "AP Exam Day Checklist",
           "text": "Packing, calculator, room, and morning logistics in one checklist.",
           "href": "ap-exam-day-checklist.html"
+        },
+        {
+          "label": "2026 scores",
+          "title": "AP Scores 2026 Release Date",
+          "text": "Look up the past July 6 release and what to do with your scores.",
+          "href": "ap-score-release-date-2026.html"
+        },
+        {
+          "label": "2026 score help",
+          "title": "College Board AP Scores Delayed",
+          "text": "Check your account and find out what to gather if a 2026 score is still missing.",
+          "href": "ap-scores-delayed-missing-2026.html"
         }
       ],
       "sections": [
@@ -650,8 +656,8 @@
       ],
       "body": [
         {
-          "heading": "Why this hub exists",
-          "text": "AP search intent changes quickly around exam season and score release. This hub keeps the date-driven pages connected to practical next steps."
+          "heading": "2026 records and 2027 planning",
+          "text": "The 2026 schedule is an archive. For a 2027 exam, use the official schedule above and confirm when and where to report with your AP coordinator."
         },
         {
           "heading": "Official source still wins",
@@ -725,8 +731,8 @@
       ],
       "body": [
         {
-          "heading": "Why the SAT hub now has more depth",
-          "text": "The hub is organized around the full SAT workflow: estimate a practice score, understand scoring, choose a goal, review weak sections, confirm dates, and protect digital test-day logistics."
+          "heading": "From practice results to a study plan",
+          "text": "Use the scores reported after a Bluebook practice test to calculate the gap to your target. Then review missed questions, choose a focused drill, and check dates and test-day requirements."
         },
         {
           "heading": "Use official sources for final decisions",
@@ -1378,12 +1384,18 @@
       "slug": "2026-ap-exam-schedule",
       "category": "AP",
       "title": "2026 AP Exam Schedule",
-      "description": "A scan-friendly 2026 AP exam schedule with subject-by-subject morning and afternoon testing windows, plus exam day reminders.",
-      "heroKicker": "AP schedule",
-      "summary": "The regular 2026 AP Exams are scheduled for May 4-8 and May 11-15, 2026. Use this subject-by-subject table as a planning aid, then confirm your room, local start time, and late-testing rules with your school.",
+      "description": "Archived 2026 AP exam dates by subject. For upcoming exams, use College Board's official 2027 schedule.",
+      "heroKicker": "2026 AP schedule archive",
+      "summary": "The regular 2026 AP exams took place May 4-8 and May 11-15, 2026. The tables below are for historical reference only. If you are preparing for 2027, use the official schedule and confirm your reporting time and location with your school.",
+      "heroActions": [
+        {
+          "label": "View official 2027 AP exam dates",
+          "href": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates"
+        }
+      ],
       "tables": [
         {
-          "caption": "2026 AP exam schedule by date",
+          "caption": "2026 AP exam schedule by date (archive)",
           "headers": [
             "Date",
             "Morning 8 a.m. local time",
@@ -1443,7 +1455,7 @@
           ]
         },
         {
-          "caption": "Important AP timing notes",
+          "caption": "2026 AP timing notes (archive)",
           "headers": [
             "Item",
             "Date or time",
@@ -1480,8 +1492,8 @@
       ],
       "body": [
         {
-          "heading": "How to use this schedule",
-          "text": "Use this page as a planning overview, then confirm the exact subject-by-subject schedule with your school or the official AP exam calendar."
+          "heading": "Looking for upcoming exams?",
+          "text": "Do not use the 2026 dates or times to plan a 2027 exam. Use the official 2027 schedule above, then check the reporting instructions from your AP coordinator."
         },
         {
           "heading": "Avoid schedule mistakes",
@@ -1499,7 +1511,7 @@
       "faq": [
         {
           "q": "Is this the official AP exam calendar?",
-          "a": "No. This is an unofficial planning page that summarizes key windows. Use College Board and your school for official details."
+          "a": "No. This page is an unofficial archive of the 2026 schedule. Use College Board's current calendar and your school's instructions for upcoming exams."
         },
         {
           "q": "Can my school change my start time?",
@@ -1512,12 +1524,12 @@
       ],
       "sources": [
         {
-          "label": "College Board AP Students: Exam dates",
-          "url": "https://apstudents.collegeboard.org/exam-dates"
+          "label": "College Board AP Students: Archived 2026 exam dates",
+          "url": "https://apstudents.collegeboard.org/ap-exams-what-to-know/past-exam-dates/2026"
         },
         {
-          "label": "College Board AP Central: Late-testing schedule",
-          "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates/late-testing-dates"
+          "label": "College Board AP Central: Current 2027 exam dates",
+          "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates"
         }
       ],
       "related": [
@@ -4264,9 +4276,9 @@
       "slug": "sat-practice-test-review-template",
       "category": "SAT",
       "title": "SAT Practice Test Review Template",
-      "description": "Use this SAT practice test review template to turn a practice score into missed-question categories, timing notes, and a focused next study block.",
+      "description": "Copy a blank SAT practice test review record and see a filled example that turns one missed question into a focused next drill.",
       "heroKicker": "SAT review template",
-      "summary": "The biggest mistake after a practice test is starting another one too soon. Use this template to extract the score, section gap, missed question types, and next study action.",
+      "summary": "Copy the blank review record into your notes for a missed, guessed, or slow question. The filled example shows how to turn a specific mistake into a drill and a recheck.",
       "quickFacts": [
         {
           "label": "Best time",
@@ -4286,6 +4298,14 @@
         }
       ],
       "body": [
+        {
+          "heading": "Copy this blank review record",
+          "text": "Test / question: [ ]; Section / skill: [ ]; My answer: [ ]; Why I missed it: [ ]; Correct answer / reasoning: [ ]; Timing: [ ]; Next drill: [ ]; Recheck: [ ]."
+        },
+        {
+          "heading": "Filled review record: original algebra example",
+          "text": "Test / question: Original example, solve 3(x - 2) = 15; Section / skill: Math, linear equations; My answer: x = 3; Why I missed it: I divided by 3 to get x - 2 = 5, then subtracted 2 instead of adding it; Correct answer / reasoning: x = 7, since adding 2 to both sides gives 7 and 3(7 - 2) = 15; Timing: Finished quickly and skipped substitution; Next drill: Solve five equations with parentheses and check each answer by substitution; Recheck: Redo this problem tomorrow without notes."
+        },
         {
           "heading": "Review before retesting",
           "text": "A second practice test is less useful if the first one has not been reviewed. Spend enough time to understand why each miss happened."
@@ -4329,7 +4349,7 @@
       ],
       "tables": [
         {
-          "caption": "Practice test review template",
+          "caption": "What to record and why",
           "headers": [
             "Question",
             "Practical answer",
@@ -4554,7 +4574,7 @@
         },
         {
           "heading": "How this guide fits the full SAT workflow",
-          "text": "Use this page after the score calculator or an official practice test gives you a current score estimate. The gap determines whether you need maintenance, focused repair, or a longer runway. Then use section guides and the review template to decide exactly what each study week should contain."
+          "text": "Start with the score reported after an official Bluebook SAT practice test. Use the score calculator to compare that result with your target, then use the section guides and review template to choose what to practice each week."
         },
         {
           "heading": "What to do when the calendar is tight",
