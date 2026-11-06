@@ -22541,7 +22541,7 @@
         },
         {
           "heading": "Google Analytics",
-          "text": "The site uses Google Analytics 4 to measure basic site usage, including page views, traffic sources, device and browser information, approximate region, scrolling, downloads, tool actions, and outbound clicks. Google Analytics may use cookies or similar identifiers and process technical information under Google's own terms and privacy practices. TestDayTools uses these measurements to decide which study tools need improvement and does not send names, emails, driver's license numbers, account details, or test scores to Google Analytics."
+          "text": "The site uses Google Analytics 4 to understand how visitors find and use its study tools. Google Analytics may process page views, traffic sources, device and browser information, approximate region, scrolling, downloads, and outbound clicks. Google Analytics may use cookies or similar identifiers. Google processes this information under its own privacy practices. Some tool events include whether a response was correct, practice totals and correct or incorrect counts, or counts entered in the DMV passing-score checker. Planning events may include selected options and calculated values, such as the SAT score gap and weekly study targets. TestDayTools uses these measurements to improve the tools. These tool events do not include your selected answer text or the original SAT scores you enter."
         },
         {
           "heading": "Advertising",
