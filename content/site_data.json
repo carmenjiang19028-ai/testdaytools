@@ -664,7 +664,7 @@
       "title": "Digital SAT Tools, Score Guides, and Test-Day Checklists",
       "description": "Digital SAT score tools, scoring explainers, score goal planners, study guides, Bluebook checklists, and 2026-2027 SAT date planning.",
       "heroKicker": "SAT tools hub",
-      "summary": "Start with a score estimate or goal planner, then use the study guides and test-day checklists to turn SAT prep into a clear next action.",
+      "summary": "Start with your practice score gap or a goal plan, then use the study guides and test-day checklists to turn SAT prep into a clear next action.",
       "lastUpdated": "September 1, 2026",
       "primaryActions": [
         {
@@ -675,8 +675,8 @@
         },
         {
           "label": "Score tool",
-          "title": "Digital SAT Score Calculator",
-          "text": "Estimate a planning score band from practice correct counts.",
+          "title": "Digital SAT Score and Target Gap Calculator",
+          "text": "Compare your reported Bluebook practice scores with your target.",
           "href": "digital-sat-score-calculator.html"
         },
         {
@@ -3095,207 +3095,60 @@
     {
       "slug": "digital-sat-score-calculator",
       "category": "SAT",
-      "title": "Digital SAT Score Calculator and Planning Estimator",
-      "description": "Use an unofficial Digital SAT score calculator to turn practice correct counts into a planning score band, then learn why official SAT scoring is adaptive and scaled.",
+      "title": "Digital SAT Score and Target Gap Calculator",
+      "description": "Add your official SAT practice section scores, see the gap to your target, and compare the Reading and Writing or Math score needed if the other section stays fixed.",
       "heroKicker": "SAT score tool",
-      "summary": "Enter practice results for Reading and Writing and Math to estimate a rough planning score band. Then use the guide below to understand why official Digital SAT scores cannot be recreated from raw correct counts alone.",
+      "summary": "Use your Reading and Writing and Math scores from one completed Bluebook SAT practice test to check your total and plan toward a target.",
       "quickFacts": [
         {
-          "label": "Tool type",
-          "value": "Unofficial planning estimator"
+          "label": "Section scores",
+          "value": "200-800 each"
         },
         {
-          "label": "Best use",
-          "value": "Practice review and target setting"
+          "label": "Total score",
+          "value": "400-1600"
         },
         {
-          "label": "Not official",
-          "value": "Does not reproduce College Board scoring"
-        },
-        {
-          "label": "Next step",
-          "value": "Confirm with Bluebook practice scores"
+          "label": "Score source",
+          "value": "One scored Bluebook SAT practice test"
         }
       ],
       "body": [
         {
-          "heading": "Why this calculator uses a score band",
-          "text": "Digital SAT scoring depends on scaled scoring and adaptive modules, so two students with the same raw correct count may not receive the same official score. A planning band is more honest than a fake exact conversion."
+          "heading": "Worked example: 1320 to 1400",
+          "text": "A 620 in Reading and Writing and a 700 in Math add to 1320, 80 points short of 1400. If Math stays at 700, Reading and Writing needs 700. If Reading and Writing stays at 620, Math needs 780. Each is a separate scenario, not a recommendation to raise both sections by 80 points."
         },
         {
-          "heading": "How to use the estimate",
-          "text": "Use the band to decide whether your current practice is far below target, close to target, or already in a maintenance zone. Then review the exact questions you missed instead of chasing a single number."
+          "heading": "When one section cannot close the gap",
+          "text": "With 760 in Reading and Writing and 740 in Math, reaching 1550 through Reading and Writing alone would require 810, above the 800 maximum. Raising Math to 790 while keeping Reading and Writing at 760 fits the score scale. That arithmetic does not tell you how likely either improvement is."
         },
         {
-          "heading": "What the calculator cannot know",
-          "text": "It cannot know module difficulty, item parameters, equating, test form details, or your official score report. Treat it as a study planning aid, not as a prediction."
-        },
-        {
-          "heading": "Best workflow after estimating",
-          "text": "Write down the weaker section, review missed questions by category, take another timed practice set, and compare the official Bluebook practice score when available."
-        },
-        {
-          "heading": "How to read a large range without panicking",
-          "text": "A wide planning band usually means the next decision should be about diagnosis, not registration. Look at which section produced the lower band, then split that section into missed question types. A student who misses ten grammar questions needs a different plan from a student who misses ten evidence or inference questions, even if the total band looks similar."
-        },
-        {
-          "heading": "Use the calculator before and after official practice",
-          "text": "Before an official Bluebook practice test, the estimator helps set a realistic expectation and choose a target. After the practice test, compare the official score with your inputs. If the official score is lower than the estimate, timing, adaptive module difficulty, or careless errors may be hiding the real issue."
-        },
-        {
-          "heading": "When the estimate is close to a target score",
-          "text": "If the planning band overlaps the target, avoid random extra practice. Students in this zone usually gain more from consistency: finishing sections on time, checking repeated error types, and practicing the exact device setup that will be used on test day. A near-target student can lose points through fatigue, rushed second modules, or late Bluebook setup."
+          "heading": "Use the gap to choose what to review",
+          "text": "Compare the section targets with your missed-question patterns and available study time. Use the review template to log recurring errors, then check progress with another full-length Bluebook SAT practice test."
         }
-      ],
-      "tables": [
-        {
-          "caption": "Digital SAT score estimator rules",
-          "headers": [
-            "Question",
-            "Practical answer",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Can this estimate my exact score?",
-              "No. It returns a planning band, not an official score.",
-              "Exact digital SAT scoring is not a simple raw-score table."
-            ],
-            [
-              "Should I enter official practice results?",
-              "Yes, if you have them. Use section-level correct counts or close estimates.",
-              "Better inputs make the planning band more useful."
-            ],
-            [
-              "What if the gap is large?",
-              "Move from test-date planning to skill repair.",
-              "A large gap usually needs more than repeated full tests."
-            ],
-            [
-              "What if the band is already near target?",
-              "Protect timing, accuracy, and test-day setup.",
-              "Students near target often lose points through pacing or logistics."
-            ],
-            [
-              "Should I register based on this tool only?",
-              "No. Combine this estimate with official practice tests, deadlines, and readiness.",
-              "Registration costs money and creates pressure."
-            ]
-          ]
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Common mistakes to avoid",
-          "items": [
-            {
-              "label": "Accuracy",
-              "title": "Treating a band like an exact score",
-              "text": "An exact-looking unofficial number can create false confidence. Use ranges and official practice tests."
-            },
-            {
-              "label": "Review",
-              "title": "Ignoring the missed questions",
-              "text": "The useful data is not only the score. It is which question types you missed and why."
-            },
-            {
-              "label": "Timing",
-              "title": "Estimating without timed practice",
-              "text": "Untimed accuracy may overstate readiness for the real digital SAT."
-            }
-          ]
-        },
-        {
-          "heading": "Score-band action plan",
-          "intro": "Turn the range into one practical next move instead of treating it as a final verdict.",
-          "items": [
-            {
-              "label": "Below target",
-              "title": "Fix the weakest section first",
-              "text": "Choose one section and one error family for the next study block. A broad plan is slower than repairing the clearest recurring miss."
-            },
-            {
-              "label": "Near target",
-              "title": "Protect accuracy under timing",
-              "text": "Run shorter timed sets, then review every missed question before taking another full practice test."
-            },
-            {
-              "label": "Above target",
-              "title": "Move into maintenance",
-              "text": "Keep one weekly practice check and focus on sleep, device readiness, and avoiding preventable test-day mistakes."
-            }
-          ]
-        },
-        {
-          "heading": "Inputs that make the estimate more useful",
-          "items": [
-            {
-              "label": "Recent",
-              "title": "Use fresh practice data",
-              "text": "A result from last month may not represent your current score if you have changed topics or timing habits."
-            },
-            {
-              "label": "Timed",
-              "title": "Prefer timed sections",
-              "text": "Untimed work is useful for learning, but it can inflate readiness if pacing is still unstable."
-            },
-            {
-              "label": "Separate",
-              "title": "Enter sections separately",
-              "text": "A strong Math score can hide Reading and Writing weakness, and the reverse is also true."
-            }
-          ]
-        }
-      ],
-      "checklist": [
-        "Enter recent timed practice results.",
-        "Compare the planning band with your target.",
-        "Write down the weaker section.",
-        "Review every missed question before taking another full practice test.",
-        "Use official Bluebook practice scores for final readiness checks."
       ],
       "faq": [
         {
-          "q": "Is this Digital SAT score calculator official?",
-          "a": "No. It is an unofficial planning estimator for study decisions. Use College Board and Bluebook for official scores."
+          "q": "Where do I get my practice section scores?",
+          "a": "Take a full-length SAT practice test in Bluebook while signed in to your College Board student account. Open My Practice after finishing and use the reported Reading and Writing and Math scores from that same test. Short previews do not report scores."
         },
         {
-          "q": "Why does the Digital SAT not have a simple raw-score conversion chart?",
-          "a": "The digital test is adaptive and scaled, so raw correct counts alone cannot reproduce the official score."
+          "q": "Can I enter how many questions I answered correctly?",
+          "a": "No. Raw correct counts do not determine an official scaled score. Enter reported section scores from the same SAT practice test, not PSAT scores or a superscore assembled from different tests."
         },
         {
-          "q": "What should I do if my estimate is below target?",
-          "a": "Identify the weaker section, review missed question types, and use a focused study plan before taking another full practice test."
-        },
-        {
-          "q": "Can I use this before choosing an SAT date?",
-          "a": "Yes, as one input. Also check deadlines, practice history, test center availability, and device readiness."
-        },
-        {
-          "q": "What score should I target?",
-          "a": "Use your college list, scholarship goals, and prior practice results. A realistic target should include enough weeks to improve."
-        },
-        {
-          "q": "Why does this tool show a score range instead of one number?",
-          "a": "A range is more honest because official Digital SAT scoring depends on scaled scoring and adaptive module performance, not only raw correct counts."
-        },
-        {
-          "q": "How often should I recalculate my estimate?",
-          "a": "Use it after meaningful timed practice, not after every short drill. Weekly or biweekly checks usually create better decisions than daily score watching."
+          "q": "What if my practice total already meets or exceeds my target?",
+          "a": "The gap is zero and neither section needs an increase for this practice result. It does not guarantee your score on a later test."
         }
       ],
       "sources": [
         {
-          "label": "College Board SAT: Scores",
-          "url": "https://satsuite.collegeboard.org/sat/scores"
+          "label": "College Board SAT score ranges and section scores",
+          "url": "https://satsuite.collegeboard.org/scores/what-scores-mean"
         },
         {
-          "label": "Bluebook",
-          "url": "https://bluebook.collegeboard.org/"
-        },
-        {
-          "label": "College Board SAT practice tests",
-          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+          "label": "College Board: Full-length Bluebook practice and score access",
+          "url": "https://bluebook.collegeboard.org/students/practice"
         }
       ],
       "related": [
@@ -3304,10 +3157,10 @@
         "sat-practice-test-review-template"
       ],
       "toolWidget": {
-        "type": "satScoreEstimator",
-        "kicker": "Interactive SAT tool",
-        "heading": "Digital SAT score planning estimator",
-        "intro": "Enter section-level practice results to estimate a planning score band. Because official Digital SAT scoring is adaptive and scaled, this tool gives a range instead of a fake exact score."
+        "type": "satScoreCalculator",
+        "kicker": "SAT practice results",
+        "heading": "Calculate your SAT target gap",
+        "intro": "Enter the two reported scores from the same completed Bluebook SAT practice test. Use scores in steps of 10, not numbers of correct answers."
       }
     },
     {
@@ -3366,7 +3219,7 @@
         },
         {
           "heading": "How this guide connects to planning tools",
-          "text": "After reading the scoring explanation, use the score calculator as a rough planning range and the goal planner as a timeline check. The explanation keeps the tools honest: they are meant to guide study choices, not replace official score reports or College Board practice results."
+          "text": "Use the score calculator to compare your reported Bluebook practice scores with your target, and the goal planner to check your timeline. Neither tool replaces official score reports or predicts test-day performance."
         }
       ],
       "tables": [
@@ -3542,7 +3395,7 @@
           "href": "sat-test-dates-2026-2027.html"
         },
         {
-          "label": "Estimate a practice score",
+          "label": "Calculate my practice score gap",
           "href": "digital-sat-score-calculator.html"
         }
       ],

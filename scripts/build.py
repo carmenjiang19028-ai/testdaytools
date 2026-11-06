@@ -1731,30 +1731,30 @@ def render_tool_widget(tool):
         return render_sat_date_planner(tool, widget)
     if kind == "satAugustReadiness":
         return render_sat_august_readiness(tool, widget)
-    if kind == "satScoreEstimator":
-        return f"""<section class="tool-block sat-widget" data-sat-estimator>
+    if kind == "satScoreCalculator":
+        return f"""<section class="tool-block sat-widget" data-sat-score-calculator>
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "SAT score tool"))}</span>
-    <h2>{esc(widget.get("heading", "Digital SAT score planning estimator"))}</h2>
-    <p class="section-intro">{esc(widget.get("intro", "Enter section-level practice results to estimate a planning score band. This is not an official SAT score conversion."))}</p>
+    <h2>{esc(widget["heading"])}</h2>
+    <p class="section-intro">{esc(widget["intro"])} <a href="https://mypractice.collegeboard.org/">Find your scores in My Practice</a>.</p>
   </div>
   <div class="sat-widget-grid">
-    <div class="sat-input-panel">
-      <label>Reading and Writing correct <span>out of 54</span><input type="number" min="0" max="54" value="40" data-sat-rw></label>
-      <label>Math correct <span>out of 44</span><input type="number" min="0" max="44" value="32" data-sat-math></label>
-      <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1300" data-sat-target></label>
-      <button type="button" data-sat-estimate-button>Update estimate</button>
-    </div>
+    <form class="sat-input-panel" novalidate>
+      <label>Reading and Writing score <span>200 to 800</span><input type="number" inputmode="numeric" min="200" max="800" step="10" required data-sat-rw></label>
+      <label>Math score <span>200 to 800</span><input type="number" inputmode="numeric" min="200" max="800" step="10" required data-sat-math></label>
+      <label>Target total score <span>400 to 1600</span><input type="number" inputmode="numeric" min="400" max="1600" step="10" required data-sat-target></label>
+      <button type="submit">Calculate score gap</button>
+    </form>
     <aside class="sat-result-panel" aria-live="polite">
-      <span>Unofficial planning band</span>
-      <strong data-sat-total-band>Loading...</strong>
-      <p data-sat-next-step>Use this as a planning range, then confirm progress with official Bluebook practice scores.</p>
+      <span>Practice total</span>
+      <strong data-sat-total>--</strong>
+      <p data-sat-score-status>Enter both practice section scores and your target.</p>
       <div class="sat-band-grid">
-        <div><span>Reading & Writing</span><strong data-sat-rw-band>--</strong></div>
-        <div><span>Math</span><strong data-sat-math-band>--</strong></div>
         <div><span>Target gap</span><strong data-sat-gap>--</strong></div>
+        <div><span>R&amp;W if Math holds</span><strong data-sat-rw-needed>--</strong></div>
+        <div><span>Math if R&amp;W holds</span><strong data-sat-math-needed>--</strong></div>
       </div>
-      <p class="sat-widget-note">Digital SAT scoring is adaptive and scale-based, so raw correct counts cannot reproduce an official score.</p>
+      <p class="sat-widget-note">A section score above 800 is not possible. These are planning calculations, not test-day predictions.</p>
     </aside>
   </div>
 </section>"""

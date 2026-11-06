@@ -3035,58 +3035,53 @@ function initDmvChecklists() {
   });
 }
 
-function initSatScoreEstimators() {
-  document.querySelectorAll("[data-sat-estimator]").forEach((widget) => {
-    const rwInput = widget.querySelector("[data-sat-rw]");
-    const mathInput = widget.querySelector("[data-sat-math]");
-    const targetInput = widget.querySelector("[data-sat-target]");
-    const totalBand = widget.querySelector("[data-sat-total-band]");
-    const rwBand = widget.querySelector("[data-sat-rw-band]");
-    const mathBand = widget.querySelector("[data-sat-math-band]");
+function initSatScoreCalculators() {
+  document.querySelectorAll("[data-sat-score-calculator]").forEach((widget) => {
+    const form = widget.querySelector("form");
+    const inputs = [...form.querySelectorAll("input")];
+    const total = widget.querySelector("[data-sat-total]");
     const gap = widget.querySelector("[data-sat-gap]");
-    const nextStep = widget.querySelector("[data-sat-next-step]");
-    const button = widget.querySelector("[data-sat-estimate-button]");
+    const rwNeeded = widget.querySelector("[data-sat-rw-needed]");
+    const mathNeeded = widget.querySelector("[data-sat-math-needed]");
+    const status = widget.querySelector("[data-sat-score-status]");
+    const formatNeeded = (score) => score > 800 ? `${score} (over 800)` : String(score);
 
-    const clamp = (value, min, max) => Math.min(Math.max(Number(value) || 0, min), max);
-    const roundTen = (value) => Math.round(value / 10) * 10;
-    const sectionBand = (correct, total) => {
-      const percent = clamp(correct, 0, total) / total;
-      const center = 200 + (percent * 600);
-      const uncertainty = percent > 0.84 || percent < 0.25 ? 40 : 30;
-      return {
-        low: clamp(roundTen(center - uncertainty), 200, 800),
-        high: clamp(roundTen(center + uncertainty), 200, 800),
-        center: clamp(roundTen(center), 200, 800),
-      };
-    };
-    const formatBand = (band) => `${band.low}-${band.high}`;
-
-    const render = () => {
-      const rw = sectionBand(clamp(rwInput?.value, 0, 54), 54);
-      const math = sectionBand(clamp(mathInput?.value, 0, 44), 44);
-      const totalLow = rw.low + math.low;
-      const totalHigh = rw.high + math.high;
-      const target = clamp(targetInput?.value, 400, 1600);
-      const estimatedCenter = rw.center + math.center;
-      const targetGap = Math.max(target - estimatedCenter, 0);
-
-      if (totalBand) totalBand.textContent = `${totalLow}-${totalHigh}`;
-      if (rwBand) rwBand.textContent = formatBand(rw);
-      if (mathBand) mathBand.textContent = formatBand(math);
-      if (gap) gap.textContent = targetGap ? `${targetGap}+ points` : "On pace";
-      if (nextStep) {
-        if (!targetGap) {
-          nextStep.textContent = "Your practice inputs are near or above the target range. Protect timing, accuracy, and test-day logistics.";
-        } else if (targetGap <= 80) {
-          nextStep.textContent = "Close gap. Focus on the weaker section and review every missed practice question before adding new drills.";
-        } else {
-          nextStep.textContent = "Large gap. Use a longer runway, official practice tests, and section-specific review before choosing a test date.";
-        }
+    const render = (submitted = false) => {
+      const invalid = inputs.filter((input) => !input.validity.valid);
+      inputs.forEach((input) => {
+        const showError = !input.validity.valid &&
+          (submitted || input.value !== "" || input.validity.badInput);
+        if (showError) input.setAttribute("aria-invalid", "true");
+        else input.removeAttribute("aria-invalid");
+      });
+      if (invalid.length) {
+        [total, gap, rwNeeded, mathNeeded].forEach((output) => { output.textContent = "--"; });
+        status.textContent = submitted || invalid.some((input) => input.hasAttribute("aria-invalid"))
+          ? "Use 200 to 800 for each section and 400 to 1600 for the target, in steps of 10."
+          : "Enter both practice section scores and your target.";
+        if (submitted) invalid[0].focus();
+        return;
       }
+
+      const [rw, math, target] = inputs.map((input) => input.valueAsNumber);
+      const practiceTotal = rw + math;
+      const difference = target - practiceTotal;
+      total.textContent = String(practiceTotal);
+      gap.textContent = `${Math.max(difference, 0)} points`;
+      rwNeeded.textContent = difference > 0 ? formatNeeded(target - math) : "No increase";
+      mathNeeded.textContent = difference > 0 ? formatNeeded(target - rw) : "No increase";
+      status.textContent = difference === 0
+        ? "This practice total matches your target."
+        : difference < 0
+          ? `This practice total is ${-difference} points above your target.`
+          : "Each section target assumes the other score stays the same.";
     };
 
-    [rwInput, mathInput, targetInput].forEach((input) => input?.addEventListener("input", render));
-    button?.addEventListener("click", render);
+    form.addEventListener("input", () => render());
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      render(true);
+    });
     render();
   });
 }
@@ -3681,7 +3676,7 @@ initDmvRequirementsFinders();
 initDmvScoreCalculators();
 initScoreEntryTracking();
 initDmvChecklists();
-initSatScoreEstimators();
+initSatScoreCalculators();
 initSatGoalPlanners();
 initSatDatePlanners();
 initSatAugustReadiness();
