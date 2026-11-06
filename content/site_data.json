@@ -3395,7 +3395,7 @@
       "title": "Free SAT Score Goal Planner: Build a Weekly Study Target",
       "description": "Enter your current and target SAT scores, weeks until test day, and weekly study hours to calculate the score gap, points per week, and a focused study plan.",
       "heroKicker": "SAT planning tool",
-      "summary": "Enter a current score, target score, weeks, and study hours to calculate the gap, weekly pace, and the next study block. The output is a workload guide, not a score guarantee.",
+      "summary": "Enter a current score, target score, weeks, and study hours to calculate the gap and organize your next study block. The weekly gap is a planning reference, not a score prediction.",
       "lastUpdated": "August 13, 2026",
       "heroActions": [
         {
@@ -3422,7 +3422,7 @@
         },
         {
           "label": "Main output",
-          "value": "Points per week"
+          "value": "Weekly gap reference"
         },
         {
           "label": "Best next step",
@@ -3440,7 +3440,7 @@
         },
         {
           "heading": "Use weekly targets carefully",
-          "text": "Points per week is a planning signal. It does not mean every week will improve evenly, but it can show when a plan is too compressed."
+          "text": "The weekly gap divides the score gap by the weeks available and rounds up to a multiple of 10. Use it as a planning reference, not a prediction of how many points you will gain. Update your plan after a new timed practice test."
         },
         {
           "heading": "Make the next action concrete",

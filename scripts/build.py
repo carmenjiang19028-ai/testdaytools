@@ -1767,19 +1767,19 @@ def render_tool_widget(tool):
   </div>
   <div class="sat-widget-grid">
     <div class="sat-input-panel">
-      <label>Current total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1180" data-goal-current></label>
-      <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1350" data-goal-target></label>
-      <label>Weeks until test day <span>1 to 24</span><input type="number" min="1" max="24" value="8" data-goal-weeks></label>
-      <label>Study hours per week <span>1 to 30</span><input type="number" min="1" max="30" value="6" data-goal-hours></label>
+      <label>Current total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1180" required data-goal-current></label>
+      <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1350" required data-goal-target></label>
+      <label>Weeks until test day <span>1 to 24</span><input type="number" min="1" max="24" value="8" required data-goal-weeks></label>
+      <label>Study hours per week <span>1 to 30</span><input type="number" min="1" max="30" value="6" required data-goal-hours></label>
       <button type="button" data-goal-button>Build my weekly plan</button>
     </div>
     <aside class="sat-result-panel" aria-live="polite">
       <span>Planning readout</span>
       <strong data-goal-headline>Loading...</strong>
-      <p data-goal-next-step>Use the weekly target to decide whether the date, target score, or study plan needs to change.</p>
+      <p data-goal-next-step>Use the weekly gap as a planning reference, not a score prediction.</p>
       <div class="sat-band-grid">
         <div><span>Score gap</span><strong data-goal-gap>--</strong></div>
-        <div><span>Points / week</span><strong data-goal-weekly>--</strong></div>
+        <div><span>Weekly gap reference</span><strong data-goal-weekly>--</strong></div>
         <div><span>Total hours</span><strong data-goal-total-hours>--</strong></div>
       </div>
       <ol class="sat-goal-plan" data-goal-plan>

@@ -22,15 +22,24 @@ function control(value = "") {
   };
 }
 
+function plannerInput(value) {
+  return {
+    ...control(value),
+    validity: { valid: true },
+    get valueAsNumber() { return Number(this.value); },
+    removeAttribute() {},
+  };
+}
+
 function loadApp({ session = storage(), local = storage(), pathname = "/sat-score-goal-planner.html", analytics = true } = {}) {
   const events = [];
   const timers = [];
   let now = 1000000;
   const controls = new Map([
-    ["[data-goal-current]", control("1100")],
-    ["[data-goal-target]", control("1300")],
-    ["[data-goal-weeks]", control("8")],
-    ["[data-goal-hours]", control("5")],
+    ["[data-goal-current]", plannerInput("1100")],
+    ["[data-goal-target]", plannerInput("1300")],
+    ["[data-goal-weeks]", plannerInput("8")],
+    ["[data-goal-hours]", plannerInput("5")],
     ["[data-goal-button]", control()],
     ["[data-goal-save]", control()],
     ["[data-goal-saved-status]", control()],

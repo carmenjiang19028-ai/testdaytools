@@ -3088,10 +3088,7 @@ function initSatScoreCalculators() {
 
 function initSatGoalPlanners() {
   document.querySelectorAll("[data-sat-goal-planner]").forEach((widget) => {
-    const currentInput = widget.querySelector("[data-goal-current]");
-    const targetInput = widget.querySelector("[data-goal-target]");
-    const weeksInput = widget.querySelector("[data-goal-weeks]");
-    const hoursInput = widget.querySelector("[data-goal-hours]");
+    const inputs = ["current", "target", "weeks", "hours"].map((name) => [name, widget.querySelector(`[data-goal-${name}]`)]);
     const headline = widget.querySelector("[data-goal-headline]");
     const gap = widget.querySelector("[data-goal-gap]");
     const weekly = widget.querySelector("[data-goal-weekly]");
@@ -3102,37 +3099,42 @@ function initSatGoalPlanners() {
     const saveButton = widget.querySelector("[data-goal-save]");
     const savedStatus = widget.querySelector("[data-goal-saved-status]");
     const storageKey = "testdaytools_sat_goal_plan_v1";
-    const clamp = (value, min, max) => Math.min(Math.max(Number(value) || 0, min), max);
 
-    const readPlan = () => ({
-      current: clamp(currentInput?.value, 400, 1600),
-      target: clamp(targetInput?.value, 400, 1600),
-      weeks: clamp(weeksInput?.value, 1, 24),
-      hours: clamp(hoursInput?.value, 1, 30),
-    });
+    const readPlan = () => inputs.every(([, input]) => input.validity.valid)
+      ? Object.fromEntries(inputs.map(([name, input]) => [name, input.valueAsNumber]))
+      : null;
 
     const render = (track = false) => {
-      const { current, target, weeks, hours } = readPlan();
+      const values = readPlan();
+      inputs.forEach(([, input]) => {
+        if (input.validity.valid) input.removeAttribute("aria-invalid");
+        else input.setAttribute("aria-invalid", "true");
+      });
+      if (button) button.disabled = !values;
+      if (saveButton) saveButton.disabled = !values;
+      if (!values) {
+        if (headline) headline.textContent = "Enter valid scores, weeks, and study hours.";
+        if (nextStep) nextStep.textContent = "Use scores in steps of 10 and whole numbers for weeks and hours, within the ranges shown.";
+        [gap, weekly, totalHours].forEach((output) => { if (output) output.textContent = "--"; });
+        plan?.replaceChildren();
+        if (savedStatus) savedStatus.hidden = true;
+        return;
+      }
+      const { current, target, weeks, hours } = values;
       const scoreGap = Math.max(target - current, 0);
       const perWeek = Math.ceil(scoreGap / weeks / 10) * 10;
       const total = weeks * hours;
 
       if (headline) {
-        headline.textContent = scoreGap ? `${scoreGap} points over ${weeks} weeks` : "Target already reached";
+        headline.textContent = scoreGap ? `${scoreGap} points over ${weeks} ${weeks === 1 ? "week" : "weeks"}` : "Target already reached";
       }
       if (gap) gap.textContent = scoreGap ? `${scoreGap} points` : "0 points";
       if (weekly) weekly.textContent = scoreGap ? `${perWeek} points` : "Maintain";
       if (totalHours) totalHours.textContent = `${total} hours`;
       if (nextStep) {
-        if (!scoreGap) {
-          nextStep.textContent = "Use practice to maintain accuracy and avoid test-day logistics mistakes.";
-        } else if (perWeek <= 20 && hours >= 4) {
-          nextStep.textContent = "Reasonable sprint. Keep a weekly review loop and retest under timing.";
-        } else if (perWeek <= 40) {
-          nextStep.textContent = "Aggressive but possible for some students. Narrow the plan to the section with the clearest missed-question pattern.";
-        } else {
-          nextStep.textContent = "High-pressure target. Consider a later test date, a smaller target, or more weekly practice time.";
-        }
+        nextStep.textContent = scoreGap
+          ? "The weekly gap is the score gap divided by weeks, rounded up to a multiple of 10. It is a planning reference, not a score prediction. Recheck with timed practice."
+          : "Your entered score already meets your target. Use timed practice to check that it holds.";
       }
       if (plan) {
         const weakBlock = scoreGap <= 80 ? "Review the two most repeated misses." : "Choose the weaker SAT section and one repeated question type.";
@@ -3150,10 +3152,14 @@ function initSatGoalPlanners() {
       }
     };
 
-    [currentInput, targetInput, weeksInput, hoursInput].forEach((input) => input?.addEventListener("input", () => render(false)));
+    inputs.forEach(([, input]) => input.addEventListener("input", () => {
+      if (savedStatus) savedStatus.hidden = true;
+      render();
+    }));
     button?.addEventListener("click", () => render(true));
     saveButton?.addEventListener("click", () => {
       const values = readPlan();
+      if (!values) return;
       try {
         localStorage.setItem(storageKey, JSON.stringify(values));
         if (savedStatus) {
@@ -3174,12 +3180,12 @@ function initSatGoalPlanners() {
     });
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
-      if (saved) {
-        if (currentInput) currentInput.value = clamp(saved.current, 400, 1600);
-        if (targetInput) targetInput.value = clamp(saved.target, 400, 1600);
-        if (weeksInput) weeksInput.value = clamp(saved.weeks, 1, 24);
-        if (hoursInput) hoursInput.value = clamp(saved.hours, 1, 30);
-        if (savedStatus) {
+      if (saved && inputs.every(([name]) => Number.isFinite(saved[name]))) {
+        const defaults = inputs.map(([, input]) => input.value);
+        inputs.forEach(([name, input]) => { input.value = saved[name]; });
+        if (!readPlan()) {
+          inputs.forEach(([, input], index) => { input.value = defaults[index]; });
+        } else if (savedStatus) {
           savedStatus.hidden = false;
           savedStatus.textContent = "Saved plan loaded from this browser.";
         }
