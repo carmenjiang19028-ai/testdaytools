@@ -8548,8 +8548,8 @@
           },
           {
             "label": "Practice target",
-            "value": "32 of 40 on mock exam",
-            "note": "This site's mock mode doubles the official length for extra review."
+            "value": "20 of 25 image signs",
+            "note": "This unofficial full sign round has its own practice target, separate from the official permit-test pass rule."
           },
           {
             "label": "No account needed",
@@ -8565,8 +8565,8 @@
           },
           {
             "step": "2",
-            "title": "Run quick practice",
-            "text": "Use the 15-question round to find categories you need to reread."
+            "title": "Start with the short sign checks",
+            "text": "Use the four-sign checkpoint, then the 8-question NY starter to find signs and signals you need to review."
           },
           {
             "step": "3",
@@ -8575,10 +8575,15 @@
           },
           {
             "step": "4",
-            "title": "Take mock exam",
-            "text": "Use the 40-question mixed mode to check stamina and weak areas before test day."
+            "title": "Finish the full sign round",
+            "text": "Complete the 25-question Full NY signs round and use 20 correct as this site's practice target. For broader rules, open the separate 40-question mixed practice below."
           }
         ]
+      },
+      "mixedPractice": {
+        "href": "new-york-dmv-permit-practice-test.html?mode=mock#practice",
+        "target": "32 of 40",
+        "signQuestions": 25
       },
       "signLibrary": {
         "kicker": "Road sign library",
@@ -8742,8 +8747,8 @@
           },
           {
             "label": "Practice target here",
-            "value": "32 of 40 on mock exam",
-            "text": "The longer mock mode gives extra review beyond the official length."
+            "value": "20 of 25 image signs",
+            "text": "This target belongs to the unofficial 25-sign round, not the official permit-test passing rule."
           }
         ]
       },
@@ -10617,20 +10622,25 @@
           },
           {
             "step": "2",
-            "title": "Run quick practice",
-            "text": "Use the 15-question round to find obvious gaps without spending too long."
+            "title": "Run the source-check starter",
+            "text": "Use the 8-question Source-check starter to find regulatory and direction-control signs to review."
           },
           {
             "step": "3",
             "title": "Drill image signs",
-            "text": "Switch to Road Signs when visual recognition feels slow or uncertain."
+            "text": "Switch to Full Florida signs after reviewing missed starter questions."
           },
           {
             "step": "4",
-            "title": "Finish with mock exam",
-            "text": "Use the 40-question mixed mode only after reading explanations from missed questions."
+            "title": "Finish the full sign round",
+            "text": "Complete the 24-question Full Florida signs round, then open the separate 40-question mixed practice below for broader Florida rules."
           }
         ]
+      },
+      "mixedPractice": {
+        "href": "florida-dmv-permit-practice-test.html?mode=mock#practice",
+        "target": "32 of 40",
+        "signQuestions": 24
       },
       "signLibrary": {
         "kicker": "Florida road sign library",

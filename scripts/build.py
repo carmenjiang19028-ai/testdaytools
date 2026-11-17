@@ -2575,7 +2575,7 @@ def render_dmv_test_day_bridge(tool):
         pair_href = mixed["href"]
         pair_label = "Separate mixed practice"
         pair_title = "Open the 40-question mixed practice"
-        pair_text = f'Site practice target: {mixed["target"]}. This is separate from the 20-question sign drill.'
+        pair_text = f'Site practice target: {mixed["target"]}. This is separate from the {mixed.get("signQuestions", 20)}-question sign drill.'
     checklist_href = checklist_href_for_state(state)
     return f"""<section class="dmv-test-day-bridge" id="test-day-path">
   <div>
