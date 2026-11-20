@@ -8,7 +8,10 @@ from scripts.build import (
     DATA, SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
     render_contrast_lessons, render_crossing_shape_drill, render_passing_sign_drill, road_sign_group_practice_href, url_for,
 )
-from scripts.build_road_sign_classroom_pack import CLASSROOM_SIGNS
+from scripts.build_road_sign_classroom_pack import (
+    CLASSROOM_SIGNS, DECISION_CASES, DECISION_REVIEWED, FHWA_FLAGGER_URL,
+    PENNDOT_SIGNS_URL, TRANSFER_KEY, TRANSFER_PROMPT,
+)
 from scripts.road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -163,9 +166,26 @@ class CoreMaterialTests(unittest.TestCase):
     def test_classroom_embeds_all_eight_shared_pictures(self):
         pdf = PdfReader(ROOT / "dmv-road-signs-classroom-worksheet.pdf")
         self.assertEqual(len(list(pdf.pages[0].images)), 8)
-        text = pdf.pages[2].extract_text()
-        for answer in ["1. B -", "2. A -", "3. A -", "4. A -", "5. B -", "6. A -", "7. B -", "8. B -"]:
-            self.assertIn(answer, text)
+
+    def test_classroom_student_and_teacher_pages_match_decision_cases(self):
+        pdf = PdfReader(ROOT / "dmv-road-signs-classroom-worksheet.pdf")
+        student, teacher = [" ".join(pdf.pages[index].extract_text().split()) for index in (1, 2)]
+        self.assertIn(f"DECISION EDITION {DECISION_REVIEWED}", student)
+        self.assertIn(f"DECISION EDITION {DECISION_REVIEWED}", teacher)
+        self.assertEqual([answer for _, _, answer, _ in DECISION_CASES], [1, 0, 2, 0, 1, 0, 2, 1])
+        for number, (prompt, choices, answer, reason) in enumerate(DECISION_CASES, 1):
+            with self.subTest(number=number):
+                self.assertIn(prompt, student)
+                self.assertEqual(len(set(choices)), 3)
+                for letter, choice in zip("ABC", choices):
+                    self.assertIn(f"{letter}. {choice}", student)
+                self.assertIn(f"{number}. {'ABC'[answer]} - {reason}", teacher)
+                self.assertNotIn(reason, student)
+        self.assertIn(TRANSFER_PROMPT, student)
+        self.assertIn(TRANSFER_KEY, teacher)
+        self.assertNotIn(TRANSFER_KEY, student)
+        self.assertIn("meaning and action are both correct", teacher)
+        self.assertIn("Score 1 point for each correct choice", teacher)
 
     def test_printed_material_links_and_readable_fallback_match_online_practice(self):
         def uris(page):
@@ -184,6 +204,7 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual([uris(page) for page in reference.pages],
                          [{links[0], PRACTICE_URL}, {links[1]}, {links[2]}])
         self.assertEqual(uris(classroom.pages[0]), {PRACTICE_URL})
+        self.assertEqual(uris(classroom.pages[2]), {PENNDOT_SIGNS_URL, FHWA_FLAGGER_URL})
         for pdf in [reference, classroom]:
             self.assertIn(PRACTICE_DISPLAY, pdf.pages[0].extract_text())
             text = " ".join(" ".join(page.extract_text().split()) for page in pdf.pages)

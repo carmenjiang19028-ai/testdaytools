@@ -44,6 +44,70 @@ CLASSROOM_SIGNS = {
     "speed-limit": "speed-limit", "merge": "merge", "school": "school-crossing",
     "railroad": "railroad", "slippery": "slippery",
 }
+DECISION_REVIEWED = "2026-11-21"
+DECISION_CASES = [
+    (
+        "At STOP, you can see an empty intersection beyond the stop line. What comes first?",
+        ("Roll past the line while checking again.", "Stop before the line, then yield and proceed when safe.",
+         "Stop beyond the line where you have the best view."),
+        1, "A clear view changes the gap decision, not where or whether to stop.",
+    ),
+    (
+        "At YIELD, a pedestrian has started crossing your path. What should you do?",
+        ("Give way and stop if needed before proceeding.", "Keep rolling; only a STOP sign can require a full stop.",
+         "Stop for a fixed count, then enter even if the path stays blocked."),
+        0, "Giving way may require a stop. Counting seconds does not clear a conflict.",
+    ),
+    (
+        "A LANE ENDS warning and the markings show your lane will end. How should you prepare?",
+        ("Assume the warning only applies to traffic joining from a ramp.",
+         "Move across right away; the warning gives your lane priority.",
+         "Follow the markings and move into a safe gap."),
+        2, "Lane reduction means your lane ends, but the warning does not give you priority.",
+    ),
+    (
+        "A yellow-green diamond shows a person walking. People are near the crosswalk. What now?",
+        ("Slow, scan for crossing people, and be ready to yield.", "Treat the color alone as a school speed limit.",
+         "Stop at the warning sign itself, regardless of where the crossing is."),
+        0, "The symbol warns of pedestrians; the color alone does not set a speed limit.",
+    ),
+    (
+        "It is raining and you see SLIPPERY WHEN WET before a curve. What is the better response?",
+        ("Hold your speed until you feel the tires slip.", "Reduce speed before the curve and steer and brake smoothly.",
+         "Wait until you are turning, then brake firmly."),
+        1, "Slow before the curve. Sudden braking or steering on wet pavement can reduce control.",
+    ),
+    (
+        "You see a round railroad warning sign, but the tracks are not yet in view. What now?",
+        ("Look and listen for trains; prepare to stop and obey the crossing controls.",
+         "Wait for the tracks to come into view before you start checking.",
+         "Treat the round warning as the crossing itself."),
+        0, "The circle is an advance warning. Check before you reach the tracks.",
+    ),
+    (
+        "After an orange work-zone warning, a flagger faces you with a STOP paddle. What now?",
+        ("Proceed slowly if the lane looks open.",
+         "Stop briefly, then follow the previous vehicle without waiting for a signal.",
+         "Stop as directed and wait for the flagger to signal you through."),
+        2, "The orange sign warns; the flagger's paddle controls whether you may proceed.",
+    ),
+    (
+        "A red slash crosses a right-turn arrow. The light is green. May you turn right?",
+        ("Yes, if you yield first.", "No. Follow a permitted movement and choose another route.",
+         "Yes; the slash applies only while the light is red."),
+        1, "NO RIGHT TURN is not NO TURN ON RED. Green does not cancel the posted prohibition.",
+    ),
+]
+TRANSFER_PROMPT = (
+    "Now your lane continues, but a ramp joins from the right. What should you watch for, "
+    "and why does a MERGE warning not require you to leave your lane?"
+)
+TRANSFER_KEY = (
+    "Watch for joining traffic and leave space. The warning does not say that your lane ends; "
+    "use the actual lane markings and traffic conditions before changing lanes."
+)
+PENNDOT_SIGNS_URL = "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"
+FHWA_FLAGGER_URL = "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part6r1.pdf"
 
 
 def register_fonts():
@@ -52,6 +116,7 @@ def register_fonts():
     if regular.exists() and bold.exists():
         pdfmetrics.registerFont(TTFont("TDT-Regular", regular))
         pdfmetrics.registerFont(TTFont("TDT-Bold", bold))
+        pdfmetrics.registerFontFamily("TDT-Regular", normal="TDT-Regular", bold="TDT-Bold")
         return "TDT-Regular", "TDT-Bold"
     return "Helvetica", "Helvetica-Bold"
 
@@ -170,38 +235,31 @@ def build_document(image_dir, output):
     story += title_block(
         "Driver-Action Decision Round",
         "Circle one answer. The goal is not only to name a sign; it is to choose the safest action.",
-        "Student worksheet - page 2",
+        f"Student worksheet - page 2 - decision edition {DECISION_REVIEWED}",
     )
-    questions = [
-        ("1", "A red octagon is ahead. What should you do?", "A. Slow only if traffic is present", "B. Stop completely, then yield", "C. Continue if the road looks clear"),
-        ("2", "A triangular red-and-white sign is ahead. What is the best response?", "A. Give right of way when needed", "B. Stop for exactly five seconds", "C. Speed up to merge first"),
-        ("3", "A lane ends warning sign appears on your side. What should you do?", "A. Merge early when safe", "B. Stop in the lane", "C. Pass on the shoulder"),
-        ("4", "A pedestrian crossing sign is ahead. What should you do?", "A. Watch the crosswalk and prepare to yield", "B. Honk and keep speed", "C. Use the opposing lane"),
-        ("5", "A Slippery When Wet sign appears during rain. What is safest?", "A. Brake hard to test traction", "B. Lower speed and make smooth inputs", "C. Use cruise control"),
-        ("6", "A round railroad warning sign appears. What should you expect?", "A. Tracks and crossing controls", "B. A bus-only lane", "C. A tunnel"),
-        ("7", "An orange diamond sign appears. What does the color usually signal?", "A. Permanent service information", "B. Work zone or temporary traffic control", "C. A speed increase"),
-        ("8", "A red circle and slash covers a turn arrow. What does it mean?", "A. The movement is recommended", "B. The movement is prohibited", "C. The route is scenic"),
-    ]
     q_rows = []
-    for number, prompt, a, b, c in questions:
+    letters = "ABC"
+    for number, (prompt, options, _, _) in enumerate(DECISION_CASES, 1):
+        choices = "<br/>".join(f"{letter}. {option}" for letter, option in zip(letters, options))
         q_rows.append([
             Paragraph(f"<b>{number}</b>", styles["Bodyx"]),
-            Paragraph(f"<b>{prompt}</b><br/>{a}<br/>{b}<br/>{c}", styles["Bodyx"]),
+            Paragraph(f"<b>{prompt}</b><br/>{choices}", styles["Bodyx"]),
         ])
-    q_table = Table(q_rows, colWidths=[0.35 * inch, 6.8 * inch], rowHeights=[0.72 * inch] * 8)
+    q_table = Table(q_rows, colWidths=[0.35 * inch, 6.8 * inch])
     q_table.setStyle(TableStyle([
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ("LINEBELOW", (0, 0), (-1, -2), 0.5, LINE),
         ("BACKGROUND", (0, 0), (0, -1), SOFT),
         ("LEFTPADDING", (0, 0), (-1, -1), 6),
         ("RIGHTPADDING", (0, 0), (-1, -1), 6),
-        ("TOPPADDING", (0, 0), (-1, -1), 2),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+        ("TOPPADDING", (0, 0), (-1, -1), 4),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
     ]))
     story.append(q_table)
     story.append(Spacer(1, 8))
     story.append(Paragraph("Transfer check", styles["H2x"]))
-    story.append(Paragraph("Write one sentence: A sign is useful only when I can connect the picture to ________________________________________________.", styles["Bodyx"]))
+    story.append(Paragraph(TRANSFER_PROMPT, styles["Bodyx"]))
+    story.append(Paragraph("_" * 104 + "<br/>" + "_" * 104, styles["Bodyx"]))
     story.append(Spacer(1, 10))
     score_box = Table([[Paragraph("Recognition check", styles["Bodyx"]), "____ / 8", Paragraph("Decision round", styles["Bodyx"]), "____ / 8", Paragraph("Next review date", styles["Bodyx"]), "____________"]], colWidths=[1.2 * inch, 0.65 * inch, 1.1 * inch, 0.65 * inch, 1.1 * inch, 1.25 * inch], rowHeights=[0.34 * inch])
     score_box.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.6, LINE), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("BACKGROUND", (0, 0), (-1, -1), SOFT), ("LEFTPADDING", (0, 0), (-1, -1), 5)]))
@@ -211,14 +269,14 @@ def build_document(image_dir, output):
     story += title_block(
         "Answer Key and 10-Minute Teaching Plan",
         "Use the explanations to reteach the action, not only the sign name. Verify state-specific wording in the official driver handbook.",
-        "Teacher / facilitator key - page 3",
+        f"Teacher / facilitator key - page 3 - decision edition {DECISION_REVIEWED}",
     )
     recognition = [
         ("1. Stop", "Come to a complete stop, yield, then proceed when safe."),
         ("2. Yield", "Slow and give right of way when another road user has priority."),
         ("3. Do Not Enter", "Do not enter the roadway, ramp, or restricted direction."),
         ("4. Speed Limit", "Do not exceed the posted legal maximum under normal conditions."),
-        ("5. Merge", "Check mirrors, adjust speed and space, and merge smoothly when safe."),
+        ("5. Merge", "Expect joining traffic. Watch for conflicts and leave space; your lane might continue."),
         ("6. School Crossing", "Slow, scan for children, and obey posted school-zone controls."),
         ("7. Railroad Crossing Ahead", "Prepare for tracks and obey lights, gates, or a crossbuck."),
         ("8. Slippery When Wet", "Reduce speed and avoid sudden steering or braking."),
@@ -227,24 +285,25 @@ def build_document(image_dir, output):
     answer_table = Table(answer_cells, colWidths=[3.55 * inch, 3.55 * inch])
     answer_table.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.6, LINE), ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 7), ("RIGHTPADDING", (0, 0), (-1, -1), 7), ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6)]))
     story.append(Paragraph("Recognition check", styles["H2x"]))
+    story.append(Paragraph("Score 1 point per picture when the meaning and action are both correct. Accept equivalent wording.", styles["Bodyx"]))
     story.append(answer_table)
     story.append(Spacer(1, 8))
     story.append(Paragraph("Decision round", styles["H2x"]))
+    story.append(Paragraph("Score 1 point for each correct choice. Use the reason to discuss a wrong answer.", styles["Bodyx"]))
     decisions = [
-        "1. B - Stop completely, then yield.", "2. A - Give right of way when needed.",
-        "3. A - Merge early when safe.", "4. A - Watch the crosswalk and prepare to yield.",
-        "5. B - Lower speed and make smooth inputs.", "6. A - Expect tracks and crossing controls.",
-        "7. B - Orange signals a work zone or temporary traffic control.", "8. B - The movement is prohibited.",
+        f"<b>{number}. {letters[answer]}</b> - {reason}"
+        for number, (_, _, answer, reason) in enumerate(DECISION_CASES, 1)
     ]
     decision_table = Table([[Paragraph(x, styles["Answer"]) for x in decisions[i:i + 2]] for i in range(0, 8, 2)], colWidths=[3.55 * inch, 3.55 * inch])
     decision_table.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.6, LINE), ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 7), ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5)]))
     story.append(decision_table)
+    story.append(Paragraph(f"<b>Transfer check (unscored):</b> {TRANSFER_KEY}", styles["Bodyx"]))
     story.append(Spacer(1, 8))
     story.append(Paragraph("10-minute teaching plan", styles["H2x"]))
     plan = [
         ("2 min", "Silent scan", "Students name each sign without reading the answer choices."),
         ("3 min", "Action language", "Ask for verbs: stop, yield, merge, slow, watch, or do not enter."),
-        ("3 min", "Decision round", "Students circle answers, then explain one choice to a partner."),
+        ("3 min", "Decision round", "Choose two cases. Students explain one decision to a partner; assign the others for follow-up."),
         ("2 min", "Targeted next step", "Circle up to three weak signs. Scan or open the link on page 1 and choose the matching quiz group."),
     ]
     plan_table = Table([[Paragraph(f"<b>{a}</b>", styles["Bodyx"]), Paragraph(f"<b>{b}</b>", styles["Bodyx"]), Paragraph(c, styles["Bodyx"])] for a, b, c in plan], colWidths=[0.65 * inch, 1.25 * inch, 5.2 * inch])
@@ -252,9 +311,11 @@ def build_document(image_dir, output):
     story.append(plan_table)
     story.append(Spacer(1, 8))
     story.append(Paragraph("Source and use note", styles["H2x"]))
-    story.append(Paragraph("The prompts and simplified illustrations are original TestDayTools study material. Use the FHWA Manual on Uniform Traffic Control Devices and the learner's official state driver handbook for final wording and state-specific rules. Teachers, libraries, driving schools, families, and other noncommercial educators may print and share this unmodified PDF when the TestDayTools credit and page URL remain visible. No resale, rebranding, or adaptation.", styles["Smallx"]))
+    story.append(Paragraph(f'Decisions checked {DECISION_REVIEWED}: <link href="{PENNDOT_SIGNS_URL}" color="#155E9F"><u>PennDOT: Signs</u></link>; '
+                           f'<link href="{FHWA_FLAGGER_URL}" color="#155E9F"><u>FHWA MUTCD: Flagger Procedures, 6D.05</u></link>. '
+                           "Use the learner's official handbook for local rules. Prompts and simplified illustrations are original. Teachers, libraries, driving schools, families, and other noncommercial educators may print and share this unmodified PDF when the TestDayTools credit and page URL remain visible. No resale, rebranding, or adaptation.", styles["Smallx"]))
 
-    story.append(Paragraph(f"Material check {material['checkedOn']}: the eight pictures reuse the web reference's SVG artwork, including the five-sided school sign. Picture/label consistency and the printed answer mapping were checked by TestDayTools with AI-assisted source comparison, not a driving-instructor assessment. Detailed scope and official-source links: testdaytools.com/dmv-road-signs-cheat-sheet.html#material-review", styles["Smallx"]))
+    story.append(Paragraph(f"Material check {material['checkedOn']}: all eight pictures use the web reference's SVG art. TestDayTools checked the picture and label mapping with AI-assisted source comparison, not a driving-instructor assessment. Details: testdaytools.com/dmv-road-signs-cheat-sheet.html#material-review", styles["Smallx"]))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
 
 
