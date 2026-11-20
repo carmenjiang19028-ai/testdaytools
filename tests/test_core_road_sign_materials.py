@@ -32,6 +32,25 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual(len(polygon.attrib["points"].split()), 5)
         self.assertTrue(all(key in SIGN_SVGS for key in CLASSROOM_SIGNS.values()))
 
+    def test_school_warning_color_is_consistent_in_inline_art_and_recall_cue(self):
+        school = ET.fromstring(SIGN_SVGS["school-crossing"]).find("polygon")
+        # FHWA MUTCD 7B.01(05): fluorescent yellow-green, not general warning yellow.
+        self.assertEqual(school.attrib["fill"], "#c7e644")
+        self.assertIn("#f6d54a", SIGN_SVGS["merge"])
+        cues = json.loads((ROOT / "content/road_sign_recall_cues.json").read_text())
+        self.assertIn("yellow-green", cues["school-crossing"])
+        self.assertIn(cues["school-crossing"], (ROOT / "dmv-road-sign-flashcards.html").read_text())
+        marker = f'points="{school.attrib["points"]}" fill="'
+        affected = set()
+        for path in ROOT.glob("*.html"):
+            text = path.read_text()
+            if marker in text:
+                affected.add(path.name)
+                self.assertEqual(text.count(marker), text.count(marker + '#c7e644"'), path.name)
+            self.assertNotIn("yellow school crossing sign", text, path.name)
+        self.assertIn("road-signs-practice-test.html", affected)
+        self.assertIn("dmv-road-sign-flashcards.html", affected)
+
     def test_do_not_enter_has_two_legible_lines(self):
         text = ET.fromstring(SIGN_SVGS["do-not-enter"]).findall("text")
         self.assertEqual([t.text for t in text], ["DO NOT", "ENTER"])

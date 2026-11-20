@@ -15509,7 +15509,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -16042,7 +16042,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -17394,7 +17394,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -17689,7 +17689,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -18357,7 +18357,7 @@
       {
         "q": "For Florida practice, what should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -18600,7 +18600,7 @@
       {
         "q": "For Florida practice, what should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -19164,7 +19164,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -19459,7 +19459,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -20283,7 +20283,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
@@ -21142,7 +21142,7 @@
       {
         "q": "What should you expect near this sign?",
         "image": "school-crossing",
-        "imageAlt": "yellow school crossing sign",
+        "imageAlt": "yellow-green school crossing sign",
         "choices": [
           "Children may be crossing nearby",
           "A hospital entrance is ahead",
