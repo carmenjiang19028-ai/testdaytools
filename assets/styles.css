@@ -4554,6 +4554,11 @@ button:disabled {
   background: #f8fafc;
 }
 
+.quiz :is(.question h3, .feedback, [data-quiz-result])[tabindex="-1"]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
 .quiz-controls {
   display: flex;
   justify-content: space-between;

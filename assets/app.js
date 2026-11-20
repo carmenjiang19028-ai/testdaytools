@@ -516,6 +516,7 @@ function initCountdowns() {
 }
 
 function initQuizzes() {
+  const siteHeader = document.querySelector(".site-header");
   document.querySelectorAll("[data-quiz]").forEach((quiz) => {
     const questions = Array.from(quiz.querySelectorAll(".question"));
     const score = quiz.querySelector(".quiz-score");
@@ -583,6 +584,25 @@ function initQuizzes() {
       question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
 
     const getActiveQuestionIndex = () => activeSequence[activePosition];
+
+    const focusQuizContent = (target, start = target) => {
+      if (!target || !start) return;
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+      const headerBottom = Math.max(0, siteHeader?.getBoundingClientRect().bottom ?? 0);
+      const targetRect = target.getBoundingClientRect();
+      const startTop = start.getBoundingClientRect().top;
+      const top = targetRect.bottom - startTop + 24 > window.innerHeight - headerBottom ? targetRect.top : startTop;
+      const bottom = targetRect.bottom;
+      if (top < headerBottom + 8 || bottom > window.innerHeight - 8) {
+        window.scrollBy(0, top - headerBottom - 12);
+      }
+    };
+
+    const focusActiveQuestion = () => {
+      const question = questions[getActiveQuestionIndex()];
+      focusQuizContent(question?.querySelector("h3"), question);
+    };
 
     const roundHref = (focus = "all") => {
       const pageName = window.location.pathname.split("/").pop() || "index.html";
@@ -701,6 +721,7 @@ function initQuizzes() {
         button.addEventListener("click", () => {
           activePosition = Number(button.dataset.quizJump) || 0;
           renderActiveQuestion();
+          focusActiveQuestion();
         });
       });
     };
@@ -1147,6 +1168,7 @@ function initQuizzes() {
       prevButton.addEventListener("click", () => {
         activePosition = Math.max(0, activePosition - 1);
         renderActiveQuestion();
+        focusActiveQuestion();
       });
     }
 
@@ -1155,10 +1177,10 @@ function initQuizzes() {
         if (activePosition < activeSequence.length - 1) {
           activePosition += 1;
           renderActiveQuestion();
+          focusActiveQuestion();
           return;
         }
-        const summary = quiz.querySelector(".quiz-summary");
-        if (summary) summary.scrollIntoView({ behavior: "smooth", block: "center" });
+        focusQuizContent(result);
       });
     }
 
@@ -1217,12 +1239,7 @@ function initQuizzes() {
           filterSelect.value = "all";
           resetQuiz();
           applyFocusFilter("all");
-          const firstQuestion = questions[getActiveQuestionIndex()]?.querySelector("h3");
-          if (firstQuestion) {
-            firstQuestion.tabIndex = -1;
-            firstQuestion.focus({ preventScroll: true });
-            quiz.scrollIntoView({ block: "start" });
-          }
+          focusActiveQuestion();
         }
       });
     }
@@ -1286,6 +1303,7 @@ function initQuizzes() {
           feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.explanation}`;
           renderScore();
           renderActiveQuestion();
+          focusQuizContent(feedback);
           saveRecentPractice();
         });
       });
