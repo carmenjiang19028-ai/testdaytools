@@ -532,10 +532,9 @@ function initCountdowns() {
   });
 }
 
-function shuffleQuizChoices(question) {
-  const group = question.querySelector(".choices");
+function shuffleChoiceButtons(group) {
   if (!group) return;
-  const choices = Array.from(group.querySelectorAll("[data-choice]"));
+  const choices = Array.from(group.children);
   for (let index = choices.length - 1; index > 0; index -= 1) {
     const swap = Math.floor(Math.random() * (index + 1));
     [choices[index], choices[swap]] = [choices[swap], choices[index]];
@@ -577,7 +576,8 @@ function initQuizzes() {
     const passScore = Number(quiz.dataset.passScore) || questions.length;
     const quizLabel = quiz.dataset.quizLabel || "practice round";
     const isDmvQuiz = quiz.dataset.domain === "dmv";
-    if (isDmvQuiz) questions.forEach(shuffleQuizChoices);
+    const shuffleChoices = () => questions.forEach(question => shuffleChoiceButtons(question.querySelector(".choices")));
+    if (isDmvQuiz) shuffleChoices();
     const sheetFocuses = new Map(
       questions.filter((question) => question.dataset.sheetFocus)
         .map((question) => [question.dataset.sheetFocus, question.dataset.sheetLabel]),
@@ -1321,7 +1321,7 @@ function initQuizzes() {
     if (resetButton) {
       resetButton.addEventListener("click", () => {
         const draft = readRecentPractice()?.draft;
-        if (isDmvQuiz) questions.forEach(shuffleQuizChoices);
+        if (isDmvQuiz) shuffleChoices();
         resetQuiz();
         if (draft?.scope === roundHref()) saveRecentPractice();
       });
@@ -2183,27 +2183,17 @@ function initDmvDailyQuestions() {
     const title = widget.querySelector("[data-daily-title]");
     const note = widget.querySelector("[data-daily-note]");
     const nextButton = widget.querySelector("[data-daily-next]");
-    const dayNumber = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
+    const today = new Date();
+    const dayNumber = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / DAY_MS);
+    const dateText = today.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     let offset = 0;
 
-    const resetCard = (card) => {
-      card.dataset.answered = "false";
-      card.querySelectorAll("[data-daily-choice]").forEach((button) => {
-        button.disabled = false;
-        button.classList.remove("is-correct", "is-wrong");
-      });
-      const feedback = card.querySelector("[data-daily-feedback]");
-      const explanation = card.querySelector("[data-daily-explanation]");
-      if (feedback) feedback.textContent = "";
-      if (explanation) explanation.hidden = true;
-    };
-
-    const visibleCards = () => {
-      const selectedState = stateSelect?.value || "all";
-      if (selectedState === "all") return cards;
-      const stateCards = cards.filter((card) => card.dataset.state === selectedState);
-      return stateCards.length ? stateCards : cards.filter((card) => card.dataset.state === "all");
-    };
+    if (stateSelect) {
+      const requested = new URLSearchParams(window.location.search).get("state");
+      const preferred = normalizeDmvState(requested ?? readDmvJourney().state);
+      if (Array.from(stateSelect.options).some(option => option.value === preferred)) stateSelect.value = preferred;
+    }
+    const visibleCards = () => cards.filter(card => card.dataset.state === (stateSelect?.value || "all"));
 
     const render = () => {
       const matches = visibleCards();
@@ -2214,17 +2204,18 @@ function initDmvDailyQuestions() {
         card.hidden = !isActive;
         card.classList.toggle("is-active", isActive);
         card.setAttribute("aria-hidden", isActive ? "false" : "true");
-        if (isActive) resetCard(card);
       });
 
       const stateName = active.dataset.stateLabel || stateSelect?.selectedOptions?.[0]?.textContent?.trim() || "DMV";
       const category = active.dataset.category || "Permit basics";
-      if (dateLabel) dateLabel.textContent = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      if (dateLabel) dateLabel.textContent = offset ? `${dateText} · Extra practice` : `${dateText} · Today's question`;
       if (title) title.textContent = `${stateName}: ${category}`;
-      if (note) note.textContent = "Answer first, then use the explanation to choose the next practice path.";
+      if (note) note.textContent = `Prompt ${offset + 1} of ${matches.length}`;
+      return active;
     };
 
     cards.forEach((card) => {
+      shuffleChoiceButtons(card.querySelector(".daily-choice-grid"));
       card.querySelectorAll("[data-daily-choice]").forEach((button) => {
         button.addEventListener("click", () => {
           if (card.dataset.answered === "true") return;
@@ -2241,10 +2232,13 @@ function initDmvDailyQuestions() {
           const feedback = card.querySelector("[data-daily-feedback]");
           const explanation = card.querySelector("[data-daily-explanation]");
           if (explanation) explanation.hidden = false;
+          card.querySelector("[data-daily-source]")?.removeAttribute("hidden");
           if (feedback) {
             feedback.textContent = correct
-              ? "Correct. Open the full practice path if you want a longer round."
-              : "Not quite. Review the explanation, then practice this topic.";
+              ? "Correct."
+              : "Not quite. Review the explanation below.";
+            feedback.tabIndex = -1;
+            feedback.focus();
           }
         });
       });
@@ -2255,8 +2249,14 @@ function initDmvDailyQuestions() {
       render();
     });
     nextButton?.addEventListener("click", () => {
-      offset += 1;
-      render();
+      const count = visibleCards().length;
+      if (count < 2) return;
+      offset = (offset + 1) % count;
+      const heading = render()?.querySelector("h3");
+      if (heading) {
+        heading.tabIndex = -1;
+        heading.focus();
+      }
     });
     render();
   });

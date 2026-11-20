@@ -1,0 +1,152 @@
+const assert = require("node:assert/strict");
+const { before, after, test } = require("node:test");
+const path = require("node:path");
+const { chromium } = require("playwright");
+
+const root = path.resolve(__dirname, "..");
+const origin = "http://testdaytools.test";
+const daily = origin + "/dmv-permit-test-question-of-the-day.html";
+const current = page => page.locator("[data-daily-card].is-active");
+const stateSelect = page => page.locator("[data-daily-state]");
+const activeQuiz = page => page.locator("[data-mode-panel].is-active [data-quiz], [data-quiz]:not([data-mode-panel] [data-quiz])");
+const next = page => page.locator("[data-daily-next]").click();
+let browser;
+before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
+after(async () => { await browser?.close(); });
+
+async function withSite(width, run) {
+  const context = await browser.newContext({ viewport: { width, height: 800 }, timezoneId: "America/Los_Angeles" });
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    await context.route(origin + "/**", route => {
+      const name = new URL(route.request().url()).pathname.slice(1);
+      return route.fulfill({ path: path.join(root, name) });
+    });
+    const page = await context.newPage();
+    const errors = [];
+    page.on("pageerror", error => errors.push(error.message));
+    await page.clock.setFixedTime(new Date("2026-11-20T16:30:00Z"));
+    await run(page);
+    assert.deepEqual(errors, []);
+  } finally { await context.close(); }
+}
+
+for (const width of [390, 1280]) {
+  test(`${width}px: Texas and Illinois deep links override a saved state and route licensing facts separately from signs`, () =>
+    withSite(width, async page => {
+      await page.addInitScript(() => localStorage.setItem("tdt-dmv-journey:v1", JSON.stringify({ state: "florida" })));
+      for (const [state, category, rule] of [
+        ["texas", "Learner license rules", /dps\.texas\.gov\/section\/driver-license\/texas-learners-license-teen/],
+        ["illinois", "Exam readiness", /passing-score-calculator\.html\?state=illinois#score-calculator/],
+      ]) {
+        await page.goto(daily + "?state=" + state);
+        assert.equal(await stateSelect(page).inputValue(), state);
+        const cards = page.locator(`[data-daily-card][data-state="${state}"]`);
+        assert.equal(await cards.count(), 2);
+        assert.equal(await current(page).getAttribute("data-state"), state);
+        const factLink = cards.filter({ has: page.locator(`[data-daily-practice][href]:not([href*="#practice"])`) }).locator("[data-daily-practice]");
+        assert.match(await factLink.getAttribute("href"), rule, category);
+        if (await current(page).getAttribute("data-category") === category) await next(page);
+        const signLink = current(page).locator("[data-daily-practice]");
+        const focus = await current(page).getAttribute("data-category");
+        assert.match(await signLink.getAttribute("href"), new RegExp(`^${state}-dmv-road-signs-practice\\.html\\?focus=`));
+        await signLink.click();
+        await page.waitForLoadState("load");
+        const quiz = activeQuiz(page);
+        assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), focus);
+      }
+      await page.goto(daily);
+      assert.equal(await stateSelect(page).inputValue(), "florida");
+      await page.goto(daily + "?state=unsupported");
+      assert.equal(await stateSelect(page).inputValue(), "all");
+      assert.equal(await current(page).getAttribute("data-state"), "all");
+    }));
+
+  test(`${width}px: the three sourced decks rotate without erasing feedback and reach the exact practice topic`, () =>
+    withSite(width, async page => {
+      for (const state of ["florida", "pennsylvania", "new-jersey"]) {
+        await page.goto(daily + "?state=" + state);
+        const question = current(page);
+        const prompts = new Set();
+        let focusedCase;
+        for (let i = 0; i < 5; i++) {
+          const prompt = await question.locator("h3").textContent();
+          prompts.add(prompt);
+          if (await question.locator("[data-daily-source]").count()) {
+            const source = question.locator("[data-daily-source] a");
+            const feedback = question.locator("[data-daily-feedback]");
+            const target = new URL(await question.locator("[data-daily-practice]").getAttribute("href"), daily);
+            assert.equal(target.searchParams.get("mode"), "mock");
+            assert.equal(target.searchParams.get("focus"), await question.getAttribute("data-category"));
+            assert.equal(await source.isVisible(), false);
+            const correct = await question.getAttribute("data-answer");
+            await question.locator(`[data-daily-choice]:not([data-daily-choice="${correct}"])`).first().click();
+            assert.match(await feedback.textContent(), /^Not quite\./);
+            assert.equal(await question.locator("[data-daily-explanation]").isVisible(), true);
+            assert.equal(await source.isVisible(), true);
+            await feedback.press("Tab");
+            assert.equal(await source.evaluate(link => link === document.activeElement), true);
+            focusedCase = { prompt, target };
+          }
+          await next(page);
+        }
+        assert.equal(prompts.size, 5);
+        assert.match(await page.locator("[data-daily-note]").textContent(), /Prompt 1 of 5/);
+        assert.ok(focusedCase);
+        for (let i = 0; i < 5 && await question.locator("h3").textContent() !== focusedCase.prompt; i++) await next(page);
+        assert.equal(await question.locator("h3").textContent(), focusedCase.prompt);
+        assert.match(await question.locator("[data-daily-feedback]").textContent(), /^Not quite\./);
+        assert.equal(await question.locator("[data-daily-choice]:enabled").count(), 0);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+        await question.locator("[data-daily-practice]").click();
+        const quiz = page.locator("[data-mode-panel=mock].is-active [data-quiz]");
+        assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), focusedCase.target.searchParams.get("focus"));
+        assert.equal(await quiz.locator(".question h3").filter({ hasText: focusedCase.prompt }).count(), 1);
+      }
+    }));
+}
+
+test("national visitors get only common signs and the daily prompt changes at local midnight", () =>
+  withSite(390, async page => {
+    await page.clock.setFixedTime(new Date("2026-11-21T07:59:00Z"));
+    await page.goto(daily);
+    assert.equal(await stateSelect(page).inputValue(), "all");
+    assert.equal(await page.locator("[data-daily-card]").count(), 27);
+    const prompts = new Set();
+    for (let i = 0; i < 4; i++) {
+      assert.equal(await current(page).getAttribute("data-state"), "all");
+      prompts.add(await current(page).locator("h3").textContent());
+      await next(page);
+    }
+    assert.equal(prompts.size, 4);
+    const previous = await current(page).locator("h3").textContent();
+    assert.match(await page.locator("[data-daily-date]").textContent(), /Nov 20.*Today's question/);
+    await page.clock.setFixedTime(new Date("2026-11-21T08:01:00Z"));
+    await page.reload();
+    assert.match(await page.locator("[data-daily-date]").textContent(), /Nov 21.*Today's question/);
+    assert.notEqual(await current(page).locator("h3").textContent(), previous);
+  }));
+
+test("all daily practice destinations honor their authored topic or state", () =>
+  withSite(390, async page => {
+    await page.goto(daily);
+    const hrefs = await page.locator("[data-daily-practice]").evaluateAll(links => links.map(link => link.getAttribute("href")));
+    const external = new Set();
+    for (const href of new Set(hrefs)) {
+      const url = new URL(href, daily);
+      if (url.origin !== origin) {
+        external.add(url.hostname);
+        continue;
+      }
+      const response = await page.goto(url.href);
+      assert.ok(response?.ok(), href);
+      if (url.hash === "#practice") {
+        assert.equal(await activeQuiz(page).locator("[data-quiz-filter]").inputValue(), url.searchParams.get("focus"), href);
+      } else if (url.hash === "#score-calculator") {
+        assert.equal(await page.locator("#score-calculator select").first().inputValue(), url.searchParams.get("state"), href);
+      } else {
+        assert.match(await page.locator("main h1").textContent(), /Florida Class E/);
+      }
+    }
+    assert.deepEqual([...external].sort(), ["www.dps.texas.gov", "www.nj.gov"]);
+  }));

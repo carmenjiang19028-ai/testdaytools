@@ -1116,38 +1116,65 @@ def dmv_daily_question_records():
         ("california", "California", "californiaSigns", 2, "california-dmv-road-signs-practice.html#practice"),
         ("new-york", "New York", "newyork", 0, "new-york-dmv-permit-practice-test.html#practice"),
         ("new-york", "New York", "newyorkSigns", 3, "new-york-dmv-road-signs-practice.html#practice"),
-        ("texas", "Texas", "texas", 1, "texas-dmv-permit-practice-test.html#practice"),
+        ("texas", "Texas", "texas", 1, "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen"),
         ("texas", "Texas", "texasSigns", 4, "texas-dmv-road-signs-practice.html#practice"),
-        ("florida", "Florida", "florida", 1, "florida-dmv-permit-practice-test.html#practice"),
+        ("florida", "Florida", "florida", 1, "florida-class-e-knowledge-exam-tlsae.html"),
         ("florida", "Florida", "floridaSigns", 5, "florida-dmv-road-signs-practice.html#practice"),
-        ("illinois", "Illinois", "illinois", 1, "illinois-dmv-permit-practice-test.html#practice"),
+        ("illinois", "Illinois", "illinois", 1, "dmv-permit-test-passing-score-calculator.html?state=illinois#score-calculator"),
         ("illinois", "Illinois", "illinoisSigns", 6, "illinois-dmv-road-signs-practice.html#practice"),
-        ("pennsylvania", "Pennsylvania", "pennsylvania", 1, "pennsylvania-dmv-permit-practice-test.html#practice"),
+        ("pennsylvania", "Pennsylvania", "pennsylvania", 1, "dmv-permit-test-passing-score-calculator.html?state=pennsylvania#score-calculator"),
         ("pennsylvania", "Pennsylvania", "pennsylvaniaSigns", 7, "pennsylvania-dmv-road-signs-practice.html#practice"),
-        ("new-jersey", "New Jersey", "newjersey", 1, "new-jersey-mvc-permit-practice-test.html#practice"),
+        ("new-jersey", "New Jersey", "newjersey", 1, "https://www.nj.gov/mvc/license/knowledgetest.htm"),
         ("new-jersey", "New Jersey", "newjerseySigns", 8, "new-jersey-mvc-road-signs-practice.html#practice"),
         ("all", "National mix", "roadSignsCore", 9, "road-signs-practice-test.html#practice"),
         ("all", "National mix", "regulatorySignsCore", 4, "regulatory-traffic-signs-practice-test.html#practice"),
     ]
+    sourced_sets = [
+        ("florida", "Florida", "floridaMock", "florida-dmv"),
+        ("pennsylvania", "Pennsylvania", "pennsylvaniaMock", "pennsylvania-dmv"),
+        ("new-jersey", "New Jersey", "newjerseyMock", "new-jersey-mvc"),
+    ]
+    for state, label, bank, prefix in sourced_sets:
+        plan.extend(
+            (state, label, bank, index, f"{prefix}-permit-practice-test.html#practice")
+            for index, question in enumerate(DATA["quizzes"][bank]) if question.get("source")
+        )
+    other_labels = {
+        "texas": "Check Texas learner-license rules",
+        "illinois": "Check the Illinois passing score",
+        "florida": "Review the Florida Class E steps",
+        "pennsylvania": "Check the Pennsylvania passing score",
+        "newjersey": "Review the MVC testing steps",
+    }
     records = []
     for index, (state_value, state_label, quiz_key, question_index, practice) in enumerate(plan):
         questions = DATA["quizzes"].get(quiz_key, [])
         if not questions:
             continue
-        question = questions[question_index % len(questions)]
+        question = questions[question_index]
+        category = question.get("category", "Permit basics")
+        if practice.endswith("#practice"):
+            params = {"focus": category}
+            if quiz_key.endswith("Mock"):
+                params["mode"] = "mock"
+            elif quiz_key in ("california", "newyork"):
+                params["mode"] = "quick"
+            practice = f'{practice.removesuffix("#practice")}?{urlencode(params)}#practice'
         records.append({
             "id": f"daily-{index + 1}",
             "state": state_value,
             "stateLabel": state_label,
             "quiz": quiz_key,
             "practice": resolve_internal_href(practice),
-            "category": question.get("category", "Permit basics"),
+            "practiceLabel": other_labels.get(quiz_key, "Practice this topic"),
+            "category": category,
             "q": question.get("q", "Practice question"),
             "choices": question.get("choices", []),
             "answer": question.get("answer", 0),
             "explanation": question.get("explanation", ""),
             "image": question.get("image", ""),
             "imageAlt": question.get("imageAlt", "Road sign illustration"),
+            "source": question.get("source"),
         })
     return records
 
@@ -3859,6 +3886,12 @@ def render_dmv_daily_question_page():
             for choice_index, choice in enumerate(record.get("choices", []))
         )
         visual_html = f"  {visual}\n" if visual else ""
+        source = record["source"]
+        source_link = (
+            f'\n  <p data-daily-source hidden><a href="{esc(source["url"])}" target="_blank" rel="noopener noreferrer">{esc(source["label"])}</a></p>'
+            if source else ""
+        )
+        external = ' target="_blank" rel="noopener noreferrer"' if is_external_url(record["practice"]) else ""
         cards.append(f"""<article class="daily-question-card{" is-active" if index == 0 else ""}" data-daily-card data-state="{esc(record["state"])}" data-state-label="{esc(record["stateLabel"])}" data-category="{esc(record["category"])}" data-answer="{esc(record["answer"])}" data-practice-url="{esc(record["practice"])}" {"hidden" if index else ""}>
   <div class="daily-question-meta">
     <span>{esc(record["stateLabel"])}</span>
@@ -3867,15 +3900,15 @@ def render_dmv_daily_question_page():
 {visual_html}  <h3>{esc(record["q"])}</h3>
   <div class="daily-choice-grid">{choices}</div>
   <p class="daily-question-feedback" data-daily-feedback aria-live="polite"></p>
-  <p class="daily-question-explanation" data-daily-explanation hidden>{esc(record["explanation"])}</p>
-  <a href="{esc(record["practice"])}" data-daily-practice>Practice this topic</a>
+  <p class="daily-question-explanation" data-daily-explanation hidden>{esc(record["explanation"])}</p>{source_link}
+  <a href="{esc(record["practice"])}" data-daily-practice{external}>{esc(record["practiceLabel"])}</a>
 </article>""")
     cards_html = "".join(cards)
     state_options = """<option value="all">National mix</option>
 <option value="california">California</option>
 <option value="new-york">New York</option>
 <option value="texas">Texas</option>
-<option value="florida" selected>Florida</option>
+<option value="florida">Florida</option>
 <option value="illinois">Illinois</option>
 <option value="pennsylvania">Pennsylvania</option>
 <option value="new-jersey">New Jersey</option>"""
@@ -3897,7 +3930,7 @@ def render_dmv_daily_question_page():
   <div>
     <p class="eyebrow">DMV question of the day</p>
     <h1>DMV permit test question of the day.</h1>
-    <p class="lede">Answer one state-aware DMV practice question, check the explanation, then jump into the matching full practice tool.</p>
+      <p class="lede">Answer one DMV practice question, then use the explanation to open a matching drill or check the rule that applies.</p>
     {render_last_updated()}
     <div class="hero-actions">
       <a href="#daily-question">Answer today</a>
@@ -3919,13 +3952,13 @@ def render_dmv_daily_question_page():
   <div class="tool-section-head">
     <span class="eyebrow">Daily warm-up</span>
     <h2>Answer today&apos;s DMV permit-test question</h2>
-    <p class="section-intro">Choose a state focus, answer the prompt, then open the full practice path if the explanation feels slow.</p>
+    <p class="section-intro">Use the national mix for common road signs, or choose your state for local rules and practice.</p>
   </div>
   <div class="daily-question-controls">
     <label>State focus <select data-daily-state>{state_options}</select></label>
     <div>
       <span data-daily-date>Today&apos;s question</span>
-      <strong data-daily-title>Florida daily warm-up</strong>
+      <strong data-daily-title>National sign warm-up</strong>
       <p data-daily-note>One fast check before a full practice round.</p>
     </div>
     <button type="button" data-daily-next>Show another</button>
