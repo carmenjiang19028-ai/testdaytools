@@ -13,6 +13,19 @@ const targets = [
   ["florida-dmv-road-signs-practice.html", "Work zone signs", "signs"],
   ["regulatory-traffic-signs-practice-test.html", "Permit-test strategy", "regulatory-signs-core"],
 ];
+const reviewPaths = [
+  ["california-dmv-permit-practice-test", "california-dmv-road-signs-practice", "practice", "ca-curb-checkpoint"],
+  ["california-dmv-road-signs-practice", "california-dmv-road-signs-practice", "practice", "ca-curb-checkpoint"],
+  ["new-york-dmv-permit-practice-test", "new-york-dmv-road-signs-practice", "new-york-right-on-red"],
+  ["new-york-dmv-road-signs-practice", "new-york-dmv-road-signs-practice", "practice", "ny-four-sign-checkpoint"],
+  ["florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "practice", "florida-regulatory-starter"],
+  ["florida-dmv-road-signs-practice", "road-sign-learning-loop", "lesson-do-not-enter-wrong-way"],
+  ["illinois-dmv-road-signs-practice", "illinois-dmv-road-signs-practice", "illinois-school-zone"],
+  ["pennsylvania-dmv-permit-practice-test", "pennsylvania-dmv-permit-practice-test", "practice", "signs"],
+  ["pennsylvania-dmv-road-signs-practice", "road-sign-learning-loop", "lesson-merge-lane-ends"],
+  ["new-jersey-mvc-permit-practice-test", "new-jersey-mvc-permit-practice-test", "practice", "signs"],
+  ["new-jersey-mvc-road-signs-practice", "regulatory-traffic-signs-practice-test", "practice", null, "Lane and direction signs"],
+];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome" }); });
 after(async () => { await browser?.close(); });
@@ -36,6 +49,34 @@ const urlFor = (file, params = {}) => {
 };
 const mode = page => page.locator("[data-mode-panel].is-active");
 const filter = page => mode(page).locator("[data-quiz-filter]");
+
+for (const width of [390, 1280]) {
+  test(`${width}px: study-guide next steps open all eleven intended lessons or drills`, () =>
+    open(width, async page => {
+      for (const [from, to, anchor, expectedMode, focus] of reviewPaths) {
+        await page.goto(urlFor(`${from}.html`).href);
+        const introduction = page.locator("#sign-study .tool-section-head");
+        assert.doesNotMatch(await introduction.innerText(), /search.result competitors/i, from);
+        const link = introduction.getByRole("link");
+        if (from === "new-york-dmv-permit-practice-test" && process.env.VERIFY_SCREENSHOTS_DIR) {
+          fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+          await introduction.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `study-guide-${width}.png`) });
+        }
+        await link.click();
+        await page.waitForURL(url => url.pathname.endsWith(`/${to}.html`) && url.hash === `#${anchor}`);
+        assert.equal(await page.locator(`#${anchor}`).isVisible(), true, from);
+        if (expectedMode) {
+          assert.equal(await mode(page).getAttribute("data-mode-panel"), expectedMode, from);
+          await mode(page).locator(".question.is-active").waitFor({ state: "visible" });
+        }
+        if (focus) {
+          assert.equal(await filter(page).inputValue(), focus, from);
+          assert.equal(await mode(page).locator(".question.is-active").getAttribute("data-category"), focus, from);
+        }
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false, from);
+      }
+    }));
+}
 
 test("the shape guide reaches school and pedestrian questions on mobile", () =>
   open(390, async page => {

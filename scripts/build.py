@@ -2219,6 +2219,10 @@ def render_sign_study(tool):
     study = tool.get("signStudy")
     if not study:
         return ""
+    review = study.get("reviewLink")
+    review_link = (
+        f'\n    <p><a class="info-card-link" href="{esc(review["href"])}">{esc(review["label"])}</a></p>' if review else ""
+    )
     groups = []
     for group in study.get("groups", []):
         items = "".join(f'<li>{esc(item)}</li>' for item in group.get("items", []))
@@ -2232,7 +2236,7 @@ def render_sign_study(tool):
   <div class="tool-section-head">
     <span class="eyebrow">{esc(study.get("kicker", "Sign study guide"))}</span>
     <h2>{esc(study["heading"])}</h2>
-    <p class="section-intro">{esc(study.get("intro", ""))}</p>
+    <p class="section-intro">{esc(study.get("intro", ""))}</p>{review_link}
   </div>
   <div class="sign-study-grid">{"".join(groups)}</div>
 </section>"""

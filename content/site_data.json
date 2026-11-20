@@ -6340,7 +6340,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "California signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "If a parking question confused you, name the curb color and say what you may do there. Then check the posted signs: the color is only the first clue.",
+        "reviewLink": {
+          "label": "Practice the five curb colors",
+          "href": "california-dmv-road-signs-practice.html?mode=ca-curb-checkpoint#practice"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -7696,7 +7700,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "California signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "A color can tell you what kind of restriction to look for, but it does not tell you its hours. When you review a curb, look for both the paint and the posted restriction.",
+        "reviewLink": {
+          "label": "Retake the curb-color check",
+          "href": "?mode=ca-curb-checkpoint#practice"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -8140,7 +8148,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "New York signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "If you missed a turning question, separate three details: what the light shows, what the sign says, and where the intersection is. An answer about a sign alone does not settle all three.",
+        "reviewLink": {
+          "label": "Compare New York right-on-red cases",
+          "href": "new-york-dmv-road-signs-practice.html#new-york-right-on-red"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -8817,7 +8829,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "New York signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "Before opening the sign library, take the four-picture checkpoint. For every miss, say the action the driver should take, then find the shape, words, or symbol that tells you to take it.",
+        "reviewLink": {
+          "label": "Retake the four-sign checkpoint",
+          "href": "?mode=ny-four-sign-checkpoint#practice"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -10445,7 +10461,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Florida signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "If a mixed question came down to a sign, pull it out of the full round. Ask whether the sign warns of a hazard or tells you what you must do; then explain the action in your own words.",
+        "reviewLink": {
+          "label": "Open the Florida regulatory starter",
+          "href": "florida-dmv-road-signs-practice.html?mode=florida-regulatory-starter#practice"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -11220,7 +11240,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Florida regulatory signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns to tell regulatory signs from warning signs before retaking the image round.",
+        "intro": "If you confuse Do Not Enter and Wrong Way, picture where your car is: still before the entrance, or already facing the wrong direction. The signs call for different responses.",
+        "reviewLink": {
+          "label": "Compare Do Not Enter and Wrong Way",
+          "href": "road-sign-learning-loop.html#lesson-do-not-enter-wrong-way"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -12547,7 +12571,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Illinois signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "A school warning tells you to look for children. To decide whether a lower limit applies in an Illinois school zone, also check the posted rule and the conditions in the scene.",
+        "reviewLink": {
+          "label": "Try the Illinois school-zone cases",
+          "href": "#illinois-school-zone"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -12983,7 +13011,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Pennsylvania signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "Sort misses from your mixed round into sign recognition and driving decisions. If it was a sign, name its clue and the action first, then retake just the picture questions.",
+        "reviewLink": {
+          "label": "Retake the Pennsylvania sign questions",
+          "href": "?mode=signs#practice"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -13420,7 +13452,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Pennsylvania signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "If a lane diagram tripped you up, trace both lines before reading the choices. Check whether a second stream of traffic joins your lane or whether one lane actually disappears.",
+        "reviewLink": {
+          "label": "Compare Merge and Lane Ends",
+          "href": "road-sign-learning-loop.html#lesson-merge-lane-ends"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -13856,7 +13892,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "New Jersey signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "If you missed a picture in the mixed round, redo the sign questions separately. Describe what the sign changes about a driver's next move, even if you cannot recall its exact name.",
+        "reviewLink": {
+          "label": "Retake the New Jersey sign questions",
+          "href": "?mode=signs#practice"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -14293,7 +14333,11 @@
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "New Jersey signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "When you miss an arrow sign, ask what it controls: traffic on the whole road, or only the movement from your lane. Use the words and the position of the arrow to check your answer.",
+        "reviewLink": {
+          "label": "Practice lane and direction signs",
+          "href": "regulatory-traffic-signs-practice-test.html?focus=Lane%20and%20direction%20signs#practice"
+        },
         "groups": [
           {
             "label": "Shapes",

@@ -98,6 +98,15 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn('data-total="20" data-pass-score="16"', page)
         self.assertNotIn("Search-result competitors", page)
 
+    def test_active_pages_do_not_contain_internal_sign_study_copy(self):
+        sitemap = ElementTree.parse(ROOT / "sitemap.xml")
+        locations = sitemap.findall("m:url/m:loc", {"m": "http://www.sitemaps.org/schemas/sitemap/0.9"})
+        self.assertTrue(locations)
+        for loc in locations:
+            name = urlsplit(loc.text).path.lstrip("/") or "index.html"
+            with self.subTest(page=name):
+                self.assertNotIn("Search-result competitors", (ROOT / name).read_text())
+
     def test_full_mixed_benchmark_matches_an_available_quiz(self):
         records = dmv_requirement_records()
         self.assertEqual(len(records), 7)
