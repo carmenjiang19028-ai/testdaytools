@@ -11300,11 +11300,15 @@
       "slug": "florida-dmv-permit-documents-checklist",
       "category": "DMV",
       "title": "Florida Learner Permit Documents and Appointment Checklist",
-      "description": "Florida learner permit document checklist for identity, Social Security number, residential address, appointment, fee, Class E exam result, TLSAE course, and first permit issuance reminders.",
+      "description": "Prepare for a Florida learner permit visit: check two proofs of address, parent consent, online test proctoring, and which appointment to book after the Class E exam.",
       "heroKicker": "Florida permit documents",
-      "summary": "Use this Florida-specific checklist after practice or after passing the Class E Knowledge Exam. It separates what to bring, what to verify, online or provider result checks, and what may still require a service-center step.",
-      "lastUpdated": "November 20, 2026",
+      "summary": "Before your Florida learner permit visit, find your address-proof route, check which forms a parent needs to sign, and confirm whether you are booking the knowledge test or applying after passing it.",
+      "lastUpdated": "November 21, 2026",
       "heroActions": [
+        {
+          "label": "Find your document route",
+          "href": "#florida-document-route"
+        },
         {
           "label": "Check course requirements",
           "href": "florida-class-e-knowledge-exam-tlsae.html#florida-course-path"
@@ -11324,105 +11328,72 @@
       ],
       "quickFacts": [
         {
-          "label": "Official source",
-          "value": "FLHSMV What to Bring"
+          "label": "Address",
+          "value": "Two accepted Florida proofs"
         },
         {
-          "label": "Core documents",
-          "value": "Identity, SSN, residential address"
+          "label": "Under 18",
+          "value": "Parent or guardian consent"
         },
         {
-          "label": "Best use",
-          "value": "Before appointment or permit issuance"
-        },
-        {
-          "label": "Related exam",
-          "value": "Florida Class E Knowledge Exam"
-        }
-      ],
-      "examDetails": {
-        "kicker": "Document context",
-        "heading": "Florida permit documents are a separate readiness check",
-        "intro": "A learner can be ready for the knowledge exam but still not ready for the permit visit. Use FLHSMV What to Bring as the final document source.",
-        "items": [
-          {
-            "label": "Identity",
-            "value": "Proof of identity",
-            "text": "Use FLHSMV What to Bring to choose acceptable identity and date-of-birth documents for your applicant path."
-          },
-          {
-            "label": "SSN",
-            "value": "Social Security number",
-            "text": "Confirm whether your path needs Social Security number evidence or another official document route."
-          },
-          {
-            "label": "Address",
-            "value": "Residential address",
-            "text": "Check the accepted residential address documents and whether parent or guardian documents apply."
-          },
-          {
-            "label": "Visit path",
-            "value": "Appointment, fee, and issuance",
-            "text": "Confirm the local office, county tax collector, approved provider record, fee, appointment, and any random re-test risk before assuming an exam pass completes the permit."
-          }
-        ]
-      },
-      "body": [
-        {
-          "heading": "Why this page exists",
-          "text": "Real Florida learner questions often begin after a pass or course completion: what happens next, what documents are needed, and whether an office visit is still required. A state-specific checklist is more useful than a generic document paragraph."
-        },
-        {
-          "heading": "Use this before you leave home",
-          "text": "Open the official What to Bring page, match the document categories to your situation, and keep the Class E exam result, course requirement, age or consent rule, appointment, and payment step separate."
+          "label": "Online test as a minor",
+          "value": "Separate proctoring form"
         }
       ],
       "cardGroups": [
         {
-          "heading": "Florida document and appointment checks",
-          "intro": "Use these cards as a pre-visit route. The official FLHSMV source decides the exact document list.",
+          "id": "florida-document-route",
+          "heading": "Choose the steps that apply to your visit",
+          "intro": "Start with your identity documents, then follow one address route. Consent, exam proctoring, and an address certification serve different purposes; one does not automatically replace another.",
           "items": [
             {
               "label": "Identity",
-              "title": "Verify accepted identity documents",
-              "text": "Do not rely on a school ID or casual document list. Match your document to the official FLHSMV What to Bring categories.",
+              "title": "Match the official document list",
+              "text": "Use the official list for your applicant category to check identity, lawful presence, and Social Security number proof if issued. If your current legal name differs from the identity document, check which original or certified records link the names.",
               "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
               "cta": "FLHSMV What to Bring"
             },
             {
-              "label": "SSN",
-              "title": "Check Social Security number evidence",
-              "text": "If your document path involves Social Security number evidence or an exception, confirm the official rule before the visit.",
-              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/document-help/",
-              "cta": "FLHSMV document help"
+              "label": "Address: own documents",
+              "title": "Bring two accepted proofs in your name",
+              "text": "Both must show where you live in Florida. Check the complete address, including the apartment number, and check the office's list before relying on a particular document or date.",
+              "href": "https://www.hillstaxfl.gov/drivers-license-id/document-requirements/",
+              "cta": "Hillsborough address checklist"
             },
             {
-              "label": "Address",
-              "title": "Prepare residential address proof",
-              "text": "Address documents are easy to overlook. Check how many documents apply, whose name can be used, and whether your current address matches.",
-              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
-              "cta": "FLHSMV What to Bring"
+              "label": "Address: parent or guardian",
+              "title": "Confirm the minor's family-document route",
+              "text": "If you are 16 and both proofs are in your parent's name, ask your issuing office what proves the relationship. For example, Hillsborough lists two proofs in the parent or guardian's name plus proof of relationship, without requiring Form 71120 for that route. Check your office before assuming it uses the same process.",
+              "href": "https://www.hillstaxfl.gov/drivers-license-id/document-requirements/",
+              "cta": "Hillsborough minor address instructions"
             },
             {
-              "label": "Appointment",
-              "title": "Confirm where permit issuance happens",
-              "text": "Passing a knowledge exam does not automatically answer office, county tax collector, approved provider, fee, photo, or first-issuance questions.",
-              "href": "florida-class-e-knowledge-exam-tlsae.html",
-              "cta": "Class E step map"
+              "label": "Address: another household member",
+              "title": "Check the certification route",
+              "text": "If you cannot provide two approved proofs in your name and live with the person whose documents you plan to use, ask about Certification of Address (HSMV 71120). For this route, the official form lists one property or lease document and one accepted supporting document in the certifier's name. The certifier signs before a notary or issuing staff. Two utility bills alone do not meet the form's two categories.",
+              "href": "https://www.hillstaxfl.gov/forms/",
+              "cta": "Official forms directory: find HSMV 71120"
+            },
+            {
+              "label": "Under 18",
+              "title": "Prepare parental consent for the application",
+              "text": "HSMV 71142 is the application consent. Arrange for a parent or legal guardian to sign in front of licensing staff or follow the office's notarization instructions if they cannot attend. This is separate from witnessing an online exam.",
+              "href": "https://www.hillstaxfl.gov/drivers-license-id/class-e-learner-driver-license/",
+              "cta": "Learner requirements and parental consent form"
             },
             {
               "label": "Online exam",
-              "title": "Verify result flow and proctor form",
-              "text": "If the Class E test was online, check provider instructions, the Parent Proctoring Form, and how the result is submitted before relying on the pass alone.",
-              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/driver-license-exams/",
-              "cta": "FLHSMV exam page"
+              "title": "If you tested online as a minor, check both forms",
+              "text": "HSMV 71144 confirms that a parent or legal guardian witnessed the online exam. The form requires a notarized or examiner-witnessed signature. An electronic pass does not replace this form or the application consent. Confirm result submission with your testing provider.",
+              "href": "https://www.hillstaxfl.gov/forms/",
+              "cta": "Official forms directory: find the proctoring form"
             },
             {
-              "label": "Third-party pass",
-              "title": "Know the random re-test risk",
-              "text": "FLHSMV warns that authorized third-party exam passes may still be selected for a mandatory random re-test before issuance. Treat this as a planning check.",
-              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/driver-license-exams/",
-              "cta": "FLHSMV re-test note"
+              "label": "Appointment",
+              "title": "Book for the step you are actually on",
+              "text": "For example, Orange County directs learners who have not passed to book the written test, and learners who already passed to book a driver license appointment. Choose your own office's equivalent. A pass does not issue the permit or replace vision and hearing checks; an authorized third-party pass can still be selected for a retest.",
+              "href": "https://www.octaxcol.com/about-driver-licenses/first-time-drivers/",
+              "cta": "Orange County appointment example"
             }
           ]
         }
@@ -11431,10 +11402,10 @@
         "Open FLHSMV What to Bring before choosing documents.",
         "Prepare proof of identity and date of birth.",
         "Confirm Social Security number evidence or the official alternative path.",
-        "Prepare residential address documents that match your situation.",
+        "Prepare two approved address proofs and any supporting family or certification documents for your route.",
         "Keep TLSAE or DETS course completion separate from the Class E Knowledge Exam result.",
-        "If the Class E exam was online, confirm provider result submission and Parent Proctoring Form requirements.",
-        "Confirm appointment, office or provider path, fees, age or consent rules, and first permit issuance steps.",
+        "If under 18, prepare parental consent. If you took the exam online as a minor, also check the separate proctoring form and provider result submission.",
+        "Confirm the local appointment type, fees, vision and hearing checks, and permit issuance steps.",
         "If a third-party administrator handled the exam, know that FLHSMV may select the applicant for a random re-test before issuance.",
         "Bring glasses or contacts if you normally use them for distance vision."
       ],
@@ -11449,7 +11420,7 @@
         },
         {
           "q": "Do I need to bring a paper certificate after passing the Florida Class E exam online?",
-          "a": "FLHSMV says online test results are submitted automatically, but applicants should still confirm provider instructions, Parent Proctoring Form requirements, identity documents, Social Security number, residential address, fees, and local issuance steps."
+          "a": "Confirm the provider has submitted the result. For a minor, the Parent Proctoring form (HSMV 71144) is separate from the test result and from the parental consent form (HSMV 71142). Follow the issuing office's instructions for each form."
         },
         {
           "q": "Can a Florida third-party exam pass still lead to another test?",
@@ -11470,8 +11441,16 @@
           "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/"
         },
         {
-          "label": "FLHSMV: Document Help",
-          "url": "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/document-help/"
+          "label": "FLHSMV: Certification of Address (HSMV 71120)",
+          "url": "https://www.flhsmv.gov/pdf/forms/71120.pdf"
+        },
+        {
+          "label": "FLHSMV: Parental Consent (HSMV 71142)",
+          "url": "https://www.flhsmv.gov/pdf/forms/71142.pdf"
+        },
+        {
+          "label": "FLHSMV: Parent Proctoring (HSMV 71144)",
+          "url": "https://www.flhsmv.gov/pdf/forms/71144.pdf"
         },
         {
           "label": "FLHSMV: Class E Knowledge Exam and Driving Skills Test",

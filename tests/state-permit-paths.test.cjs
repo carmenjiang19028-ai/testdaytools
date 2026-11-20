@@ -14,11 +14,56 @@ const azTeen = "https://azdot.gov/mvd/services/driver-services/teen-drivers/perm
 const gaExam = "https://dds.georgia.gov/testing-and-training/test-and-exams-information";
 const gaLanguages = "https://dds.georgia.gov/list-languages";
 const ohPermit = "https://www.bmv.ohio.gov/dl-gdl.aspx";
+const floridaDocuments = "florida-dmv-permit-documents-checklist";
+const hillsboroughAddress = "https://www.hillstaxfl.gov/drivers-license-id/document-requirements/";
+const hillsboroughForms = "https://www.hillstaxfl.gov/forms/";
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
 
 for (const width of [390, 1280]) {
+  test(`${width}px: Florida document routes distinguish address, consent, proctor and appointment`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, (route) => route.abort());
+      const page = await context.newPage();
+      await page.goto(file(floridaDocuments));
+      await page.getByRole("link", { name: "Find your document route", exact: true }).press("Enter");
+      await page.waitForURL(`${file(floridaDocuments)}#florida-document-route`);
+      const section = page.locator("#florida-document-route");
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height, `heading at ${heading.y}px must clear ${header.height}px navigation`);
+      assert.equal(await section.getByRole("article").count(), 7);
+      for (const [name, guidance, href] of [
+        ["Bring two accepted proofs in your name", /including the apartment number/, hillsboroughAddress],
+        ["Confirm the minor's family-document route", /Hillsborough lists two proofs.*proof of relationship.*Check your office/, hillsboroughAddress],
+        ["Check the certification route", /71120.*one property or lease document and one accepted supporting document.*Two utility bills alone do not meet/, hillsboroughForms],
+        ["Prepare parental consent for the application", /71142.*sign in front of licensing staff.*separate from witnessing/, "https://www.hillstaxfl.gov/drivers-license-id/class-e-learner-driver-license/"],
+        ["If you tested online as a minor, check both forms", /71144.*notarized or examiner-witnessed signature.*does not replace/, hillsboroughForms],
+        ["Book for the step you are actually on", /Orange County.*book the written test.*book a driver license appointment.*your own office/, "https://www.octaxcol.com/about-driver-licenses/first-time-drivers/"],
+      ]) {
+        const card = section.getByRole("article").filter({ has: page.getByRole("heading", { name, exact: true }) });
+        assert.match(await card.innerText(), guidance);
+        assert.equal(await card.getByRole("link").getAttribute("href"), href);
+      }
+      for (const form of ["71120", "71142", "71144"]) {
+        assert.equal(await page.locator(`.sources a[href="https://www.flhsmv.gov/pdf/forms/${form}.pdf"]`).count(), 1);
+      }
+      assert.equal(await page.locator("main :is(form, input:not([type=checkbox]), textarea)").count(), 0);
+      const addressCheck = page.getByRole("checkbox", { name: /Prepare two approved address proofs/ });
+      await addressCheck.check();
+      assert.equal(await addressCheck.isChecked(), true);
+      await page.locator("#florida-document-route").evaluate((element) => element.scrollIntoView());
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      if (process.env.PERMIT_PATH_SHOTS) {
+        await page.screenshot({ path: path.join(process.env.PERMIT_PATH_SHOTS, `${floridaDocuments}-${width}.png`) });
+      }
+    } finally {
+      await context.close();
+    }
+  });
+
   for (const [slug, link, id, cases] of [
     ["california-dmv-permit-practice-test", "First permit or renewal?", "california-permit-path", [
       [/driver-education proof.*Renewal eLearning does not replace it/, caPermit],
