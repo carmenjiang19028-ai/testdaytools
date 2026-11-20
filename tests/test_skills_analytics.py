@@ -17,11 +17,21 @@ class Scripts(HTMLParser):
     def __init__(self):
         super().__init__()
         self.sources = []
+        self.footer = False
+        self.footer_links = []
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if tag == "script" and attrs.get("src"):
             self.sources.append(attrs["src"])
+        if tag == "footer":
+            self.footer = True
+        if self.footer and tag == "a" and attrs.get("href"):
+            self.footer_links.append(attrs["href"])
+
+    def handle_endtag(self, tag):
+        if tag == "footer":
+            self.footer = False
 
 
 @pytest.mark.parametrize("slug", ["skills-practice", "clerical-checking-practice", "filing-practice"])
@@ -33,12 +43,18 @@ def test_skills_pages_have_one_existing_google_tag_and_no_ad_script(slug):
     assert html.count(f"gtag('config', {json.dumps(MEASUREMENT_ID)})") == 1
     assert "adsbygoogle" not in html
     assert "window.trackSkillAnswer = function(tool)" in html
+    assert scripts.footer_links.count("privacy.html") == 1
+    assert "Google Analytics measures limited usage." in html
+    assert "No account, no real personal data" not in html
 
 
 @pytest.mark.parametrize("analytics", [{}, {"ga4MeasurementId": ""}, {"ga4MeasurementId": "not-configured"}])
 def test_missing_analytics_configuration_does_not_invent_an_account(monkeypatch, analytics):
     monkeypatch.setattr(BUILDER, "SITE", {"analytics": analytics})
     assert BUILDER.render_analytics_tag() == ""
+    page = BUILDER.shell("Practice", "Fictional records", "<h1>Practice</h1>")
+    assert "Google Analytics measures limited usage." not in page
+    assert 'href="privacy.html"' in page
 
 
 def test_custom_events_only_send_tool_page_path_and_attempt_type():
