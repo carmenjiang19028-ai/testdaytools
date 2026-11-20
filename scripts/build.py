@@ -2287,6 +2287,7 @@ def render_card_groups(groups):
         return ""
     output = []
     for group in groups:
+        anchor = f' id="{esc(group["id"])}"' if group.get("id") else ""
         intro = f'<p class="section-intro">{esc(group["intro"])}</p>' if group.get("intro") else ""
         cards = []
         for item in group.get("items", []):
@@ -2297,7 +2298,7 @@ def render_card_groups(groups):
             cards.append(
                 f'<article class="info-card"><span>{esc(item.get("label", ""))}</span><h3>{esc(item["title"])}</h3><p>{esc(item["text"])}</p>{source_link}</article>'
             )
-        output.append(f'<section class="card-group"><h2>{esc(group["heading"])}</h2>{intro}<div class="card-grid">{"".join(cards)}</div></section>')
+        output.append(f'<section class="card-group"{anchor}><h2>{esc(group["heading"])}</h2>{intro}<div class="card-grid">{"".join(cards)}</div></section>')
     return "".join(output)
 
 

@@ -9896,6 +9896,7 @@
       "description": "Practice Florida Class E permit questions with quick rounds, road-sign pictures, mock exam mode, FLHSMV links, and the 40 of 50 passing score context.",
       "heroKicker": "Florida permit practice",
       "summary": "Practice Florida Class E permit-test topics, see the 40 of 50 passing score context, then separate TLSAE or DETS, the Class E Knowledge Exam, and learner permit documents or office issuance.",
+      "lastUpdated": "November 20, 2026",
       "heroActions": [
         {
           "label": "Start practice",
@@ -10266,11 +10267,11 @@
           "heading": "Florida Class E exam confusion map",
           "items": [
             {
-              "label": "TLSAE or DETS course",
-              "title": "Course requirement, not the knowledge exam",
-              "text": "Treat the required course as a separate licensing step. Completing a course does not mean you have passed the Class E Knowledge Exam.",
-              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/education-courses/driver-improvement-schools/traffic-law-substance-abuse-education-tlsae-find-approved-listing-tlsae-course-providers/",
-              "cta": "FLHSMV course source"
+              "label": "Driver education",
+              "title": "Choose the right course before you enroll",
+              "text": "First-time applicants under 18 ordinarily take DETS. Applicants 18 and older ordinarily take TLSAE unless an exception applies. Neither course is a Class E exam pass.",
+              "href": "florida-class-e-knowledge-exam-tlsae.html#florida-course-path",
+              "cta": "Check the Florida course paths"
             },
             {
               "label": "Class E Knowledge Exam",
@@ -10453,8 +10454,8 @@
           },
           {
             "label": "First-time step",
-            "value": "TLSAE may be required",
-            "text": "First-time Florida applicants may need Traffic Law and Substance Abuse Education before licensing."
+            "value": "Course depends on age",
+            "text": "Check the Florida course paths before enrolling: DETS for most first-time applicants under 18, TLSAE for most first-time adults."
           }
         ]
       },
@@ -10573,7 +10574,7 @@
       "category": "DMV",
       "title": "Florida Regulatory Signs: 24-Picture Practice Test",
       "description": "Practice Florida regulatory signs with 24 picture questions, including Right Turn Only, No Right Turn, One Way, speed limits, and FDOT/FLHSMV sources.",
-      "lastUpdated": "August 13, 2026",
+      "lastUpdated": "November 20, 2026",
       "heroKicker": "Florida regulatory signs practice",
       "summary": "Practice 24 Florida regulatory traffic sign pictures, starting with the official-source sign groups Florida learners search for most: stop, yield, do not enter, wrong way, one way, Right Turn Only and No Right Turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check Florida traffic signs with FDOT and FLHSMV before reviewing yellow warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "heroActions": [
@@ -10592,6 +10593,10 @@
         {
           "label": "Florida handbook",
           "href": "https://www.flhsmv.gov/resources/handbooks-manuals/"
+        },
+        {
+          "label": "Check course requirements",
+          "href": "florida-class-e-knowledge-exam-tlsae.html#florida-course-path"
         },
         {
           "label": "Shape/color guide",
@@ -11232,8 +11237,8 @@
           },
           {
             "label": "First-time step",
-            "value": "TLSAE may be required",
-            "text": "First-time Florida applicants may need Traffic Law and Substance Abuse Education before licensing."
+            "value": "Course depends on age",
+            "text": "Use the Class E map before choosing a course. DETS is the usual first-time path under 18; TLSAE is the usual first-time adult path."
           }
         ]
       },
@@ -11297,8 +11302,13 @@
       "title": "Florida Class E Knowledge Exam vs TLSAE/DETS Course",
       "description": "A Florida DMV learner-permit confusion map that separates TLSAE or DETS course requirements, the Class E Knowledge Exam, online testing, documents, and permit issuance steps.",
       "heroKicker": "Florida Class E confusion map",
-      "summary": "Use this page when Florida learner-permit prep feels like one mixed-up task. The course, Class E Knowledge Exam, practice study, documents, and learner permit issuance step are related, but they are not the same thing.",
+      "summary": "Check which driver education course applies before enrolling. Then handle the separate Class E Knowledge Exam and learner-permit documents.",
+      "lastUpdated": "November 20, 2026",
       "heroActions": [
+        {
+          "label": "Choose a course",
+          "href": "#florida-course-path"
+        },
         {
           "label": "Practice Florida",
           "href": "florida-dmv-permit-practice-test.html"
@@ -11346,7 +11356,7 @@
           {
             "label": "TLSAE or DETS",
             "value": "Course step",
-            "text": "A required course can be part of the first-time driver path, but finishing it is not the same as passing the Class E Knowledge Exam."
+            "text": "Under 18 and applying for the first time: start with DETS. Age 18 or older: start with TLSAE unless an exception applies. Completion does not pass the Class E Knowledge Exam."
           },
           {
             "label": "Class E Knowledge Exam",
@@ -11377,8 +11387,8 @@
       },
       "body": [
         {
-          "heading": "Why Florida learners confuse these steps",
-          "text": "Forum questions often mix the course, knowledge exam, online testing, and permit appointment into one sentence. That is understandable because they all belong to the learner-permit path, but each one answers a different question."
+          "heading": "Keep three records separate",
+          "text": "An approved course completion answers the education requirement. The Class E Knowledge Exam is a separate result. Your documents and office visit determine whether the learner's license can be issued."
         },
         {
           "heading": "How this page should be used",
@@ -11387,15 +11397,43 @@
       ],
       "cardGroups": [
         {
+          "id": "florida-course-path",
+          "heading": "Which Florida driver education course should you take?",
+          "intro": "Check your age and licensing history before paying for a course. A practice score or test result does not determine which course you need.",
+          "items": [
+            {
+              "label": "Under 18, first license",
+              "title": "Start with the 6-hour DETS course",
+              "text": "For a first Florida learner's license when you have never been licensed elsewhere, use an approved Driver Education Traffic Safety (DETS) course. Check whether your school already offers a qualifying program. A new 4-hour TLSAE course is not a substitute for this path.",
+              "href": "https://www.fldoe.org/schools/healthy-schools/driver-ed.stml",
+              "cta": "Florida Department of Education: DETS"
+            },
+            {
+              "label": "Age 18 or older, first license",
+              "title": "Start with the 4-hour TLSAE course",
+              "text": "Adult first-time applicants ordinarily need Traffic Law and Substance Abuse Education (TLSAE). Under Florida law, prior licensing in another jurisdiction or a qualifying Florida Department of Education driver education course can exempt an adult from TLSAE.",
+              "href": "https://www.pinellastaxcollector.gov/driver-license/learners-permit/",
+              "cta": "Pinellas Tax Collector: adult course and provider list"
+            },
+            {
+              "label": "Prior license or course",
+              "title": "Verify your record before enrolling again",
+              "text": "Ask the issuing office whether your current permit, out-of-state license, or completed school course meets your requirement. The transition for minors who completed TLSAE before August 1, 2025 was limited to one year from course completion; do not rely on that certificate to qualify now.",
+              "href": "https://octaxcol.com/about-driver-licenses/first-time-drivers/",
+              "cta": "Read the official transition guidance"
+            }
+          ]
+        },
+        {
           "heading": "Florida learner-permit confusion map",
           "intro": "Use this as a routing map before you schedule, test, or retake practice questions.",
           "items": [
             {
-              "label": "I finished TLSAE or DETS",
+              "label": "I finished the required course",
               "title": "Next question: did you pass the knowledge exam?",
               "text": "A course completion is not a practice score and not the Class E Knowledge Exam result. Move to official exam eligibility and study readiness.",
-              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/education-courses/driver-improvement-schools/traffic-law-substance-abuse-education-tlsae-find-approved-listing-tlsae-course-providers/",
-              "cta": "FLHSMV TLSAE source"
+              "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/",
+              "cta": "FLHSMV Class E exam rules"
             },
             {
               "label": "I passed the Class E exam",
@@ -11485,6 +11523,18 @@
       ],
       "sources": [
         {
+          "label": "Florida Statutes 322.095: TLSAE and adult exceptions",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0300-0399/0322/Sections/0322.095.html"
+        },
+        {
+          "label": "Florida Statutes 322.1615: learner's license and education",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0300-0399/0322/Sections/0322.1615.html"
+        },
+        {
+          "label": "Pinellas County Tax Collector: first-time course requirements by age",
+          "url": "https://www.pinellastaxcollector.gov/driver-license/learners-permit/"
+        },
+        {
           "label": "FLHSMV: Class E Knowledge Exam and Driving Skills Test",
           "url": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
         },
@@ -11516,10 +11566,11 @@
       "description": "Florida learner permit document checklist for identity, Social Security number, residential address, appointment, fee, Class E exam result, TLSAE course, and first permit issuance reminders.",
       "heroKicker": "Florida permit documents",
       "summary": "Use this Florida-specific checklist after practice or after passing the Class E Knowledge Exam. It separates what to bring, what to verify, online or provider result checks, and what may still require a service-center step.",
+      "lastUpdated": "November 20, 2026",
       "heroActions": [
         {
-          "label": "Class E map",
-          "href": "florida-class-e-knowledge-exam-tlsae.html"
+          "label": "Check course requirements",
+          "href": "florida-class-e-knowledge-exam-tlsae.html#florida-course-path"
         },
         {
           "label": "Permit practice",

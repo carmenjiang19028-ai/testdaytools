@@ -51,6 +51,39 @@ const mode = page => page.locator("[data-mode-panel].is-active");
 const filter = page => mode(page).locator("[data-quiz-filter]");
 
 for (const width of [390, 1280]) {
+  test(`${width}px: Florida course paths distinguish age and land clear of the sticky header`, () =>
+    open(width, async page => {
+      const slug = "florida-class-e-knowledge-exam-tlsae";
+      for (const [from, label] of [
+        [slug, "Choose a course"],
+        ["florida-dmv-permit-practice-test", "Check the Florida course paths"],
+        ["florida-dmv-road-signs-practice", "Check course requirements"],
+        ["florida-dmv-permit-documents-checklist", "Check course requirements"],
+      ]) {
+        await page.goto(urlFor(`${from}.html`).href);
+        await page.getByRole("link", {name: label, exact: true}).click();
+        await page.waitForURL(url => url.pathname.endsWith(`/${slug}.html`) && url.hash === "#florida-course-path");
+        const group = page.locator("#florida-course-path");
+        const h = await group.getByRole("heading", {level: 2}).boundingBox();
+        const header = await page.locator(".site-header").boundingBox();
+        assert.ok(h && header && h.y >= header.y + header.height, from);
+        const cards = group.locator("article");
+        assert.equal(await cards.count(), 3);
+        assert.match(await cards.nth(0).innerText(), /6-hour DETS/);
+        assert.match(await cards.nth(0).getByRole("link").getAttribute("href"), /^https:\/\/www\.fldoe\.org\//);
+        assert.match(await cards.nth(1).innerText(), /4-hour TLSAE/);
+        assert.match(await cards.nth(1).getByRole("link").getAttribute("href"), /^https:\/\/www\.pinellastaxcollector\.gov\//);
+        assert.match(await cards.nth(2).innerText(), /Verify your record/);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false, from);
+        if (from === slug && process.env.VERIFY_SCREENSHOTS_DIR) {
+          fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, {recursive: true});
+          await page.screenshot({path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `course-arrival-${width}.png`)});
+        }
+      }
+    }));
+}
+
+for (const width of [390, 1280]) {
   test(`${width}px: study-guide next steps open all eleven intended lessons or drills`, () =>
     open(width, async page => {
       for (const [from, to, anchor, expectedMode, focus] of reviewPaths) {

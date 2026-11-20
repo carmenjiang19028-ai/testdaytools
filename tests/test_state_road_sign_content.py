@@ -138,6 +138,23 @@ class StateRoadSignContentTest(unittest.TestCase):
         permit = (ROOT / "new-jersey-mvc-permit-practice-test.html").read_text()
         self.assertIn(f'href="{slug}.html#new-jersey-move-over"', permit)
 
+    def test_florida_course_paths_separate_course_and_exam(self):
+        slug = "florida-class-e-knowledge-exam-tlsae"
+        course_paths = next(group for group in self.tools[slug]["cardGroups"] if group.get("id") == "florida-course-path")
+        teen, adult, other = course_paths["items"]
+        self.assertIn("Under 18", teen["label"])
+        self.assertIn("is not a substitute", teen["text"])
+        self.assertIn("18 or older", adult["label"])
+        self.assertIn("another jurisdiction", adult["text"])
+        self.assertIn("one year from course completion", other["text"])
+        complete = self.tools[slug]["cardGroups"][1]["items"][0]
+        self.assertIn("class-e-knowledge-exam-driving-skills-test", complete["href"])
+        for name in ("florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "florida-dmv-permit-documents-checklist"):
+            with self.subTest(page=name):
+                page = (ROOT / f"{name}.html").read_text()
+                self.assertIn(f'href="{slug}.html#florida-course-path"', page)
+                self.assertNotIn("TLSAE may be required", page)
+
     def test_active_pages_do_not_contain_internal_sign_study_copy(self):
         sitemap = ElementTree.parse(ROOT / "sitemap.xml")
         locations = sitemap.findall("m:url/m:loc", {"m": "http://www.sitemaps.org/schemas/sitemap/0.9"})
