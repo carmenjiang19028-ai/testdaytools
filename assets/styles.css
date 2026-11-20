@@ -607,6 +607,12 @@ h3 {
   color: white;
 }
 
+.mini-drill-actions [data-mini-drill-next]:disabled {
+  border-color: var(--line);
+  background: #f4f7fb;
+  color: var(--muted);
+}
+
 .workbench-router {
   display: grid;
   gap: 10px;
@@ -4698,11 +4704,14 @@ button:disabled {
 .pocket-diagnostic .mini-choices button {
   min-height: 48px;
   padding: 11px 13px;
-  border-color: #d8e1eb;
-  background: #fff;
   color: #33435a;
   font-weight: 750;
   box-shadow: 0 1px 0 rgba(23, 33, 47, 0.03);
+}
+
+.pocket-diagnostic .mini-choices button:not(.is-correct):not(.is-wrong) {
+  border-color: #d8e1eb;
+  background: #fff;
 }
 
 .pocket-diagnostic .mini-drill-actions {

@@ -1382,11 +1382,12 @@ function initPracticeWorkbenches() {
 function initMiniSignDrills() {
   document.querySelectorAll("[data-mini-sign-drill]").forEach((drill) => {
     const questions = Array.from(drill.querySelectorAll("[data-mini-question]"));
+    if (!questions.length) return;
     const scoreLabel = drill.querySelector("[data-mini-drill-score]");
     const feedback = drill.querySelector("[data-mini-drill-feedback]");
     const nextButton = drill.querySelector("[data-mini-drill-next]");
     const focusLink = drill.querySelector("[data-mini-drill-focus-link]");
-    const missedFocus = {};
+    let missedFocus = {};
     let activeIndex = 0;
     let correct = 0;
     let answered = 0;
@@ -1408,15 +1409,21 @@ function initMiniSignDrills() {
       focusLink.textContent = `Practice ${focus.toLowerCase()}`;
     };
 
-    const showQuestion = () => {
+    const updateNextButton = () => {
+      if (!nextButton) return;
+      nextButton.disabled = questions[activeIndex].dataset.answered !== "true";
+      nextButton.textContent = answered === questions.length ? "Restart drill" : "Next sign";
+    };
+
+    const showQuestion = ({ focus = false } = {}) => {
       questions.forEach((question, index) => {
         const active = index === activeIndex;
         question.classList.toggle("is-active", active);
         question.setAttribute("aria-hidden", active ? "false" : "true");
       });
-      if (nextButton) {
-        nextButton.textContent = activeIndex === questions.length - 1 ? "Review path" : "Next sign";
-      }
+      if (feedback) feedback.textContent = "Choose the driver's action.";
+      updateNextButton();
+      if (focus) questions[activeIndex].querySelector("[data-mini-prompt]")?.focus({ preventScroll: true });
     };
 
     const updateScore = () => {
@@ -1449,25 +1456,37 @@ function initMiniSignDrills() {
             choice.disabled = true;
           });
           if (feedback) {
-            feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.miniExplanation}`;
+            const result = answered === questions.length ? ` Round complete: ${correct} correct out of ${questions.length}.` : "";
+            feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.miniExplanation}${result}`;
           }
           updateScore();
           updateFocusLink();
+          updateNextButton();
+          nextButton?.focus({ preventScroll: true });
         });
       });
     });
 
     nextButton?.addEventListener("click", () => {
-      if (activeIndex < questions.length - 1) {
+      if (questions[activeIndex].dataset.answered !== "true") return;
+      if (answered < questions.length) {
         activeIndex += 1;
-        showQuestion();
-        return;
+      } else {
+        activeIndex = 0;
+        correct = 0;
+        answered = 0;
+        missedFocus = {};
+        questions.forEach((question) => {
+          delete question.dataset.answered;
+          question.querySelectorAll("[data-mini-choice]").forEach((choice) => {
+            choice.disabled = false;
+            choice.classList.remove("is-correct", "is-wrong");
+          });
+        });
+        updateScore();
+        updateFocusLink();
       }
-      if (feedback) {
-        feedback.textContent = answered
-          ? `Mini diagnostic complete: ${correct} of ${questions.length}. Open the full practice test or pick a state below.`
-          : "Answer the mini diagnostic first, then choose a full practice path.";
-      }
+      showQuestion({ focus: true });
     });
 
     updateScore();

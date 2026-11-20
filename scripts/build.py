@@ -561,7 +561,7 @@ def render_mini_sign_drill():
   <div class="mini-sign" role="img" aria-label="{esc(item["alt"])}">{svg}</div>
   <div>
     <span>Question {index + 1} of {len(items)}</span>
-    <strong>{esc(item["prompt"])}</strong>
+    <strong tabindex="-1" data-mini-prompt>{esc(item["prompt"])}</strong>
     <div class="mini-choices">{choices}</div>
   </div>
 </article>""")
@@ -571,9 +571,9 @@ def render_mini_sign_drill():
     <strong data-mini-drill-score>0/{len(items)}</strong>
   </div>
   <div class="mini-question-stage">{"".join(cards)}</div>
-  <p class="mini-drill-feedback" data-mini-drill-feedback>Answer four signs, then jump into the full practice path.</p>
+  <p class="mini-drill-feedback" data-mini-drill-feedback role="status">Choose the driver's action.</p>
   <div class="mini-drill-actions">
-    <button type="button" data-mini-drill-next>Next sign</button>
+    <button type="button" data-mini-drill-next disabled>Next sign</button>
     <a href="road-signs-practice-test.html?mode=road-signs-core#practice" data-mini-drill-focus-link>Full road signs test</a>
   </div>
 </div>"""
