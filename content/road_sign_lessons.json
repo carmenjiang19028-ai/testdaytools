@@ -3,6 +3,14 @@
   "responsibility": "TestDayTools: AI-assisted drafting, illustration maintenance and comparison with the official sources below. This is not a driving-instructor assessment or a study of learning outcomes.",
   "scope": "Checked the consistency of the 31 shared illustrations and labels, the eight classroom illustrations and answer-key mapping, and the three linked contrast lessons. Simplified pictures teach recognition, not sign manufacturing specifications or every state's traffic law.",
   "corrections": "The classroom school sign now uses the shared five-sided artwork. Do Not Enter lettering stays on its red background; the Keep Right arrow no longer crosses its lettering. Lane Ends retains two lane-boundary strokes without a merge arrow, and Slippery When Wet retains a vehicle and two skid tracks. The classroom pack and web reference now use the same exported sign pictures.",
+  "artFollowup": {
+    "date": "2026-11-21",
+    "change": "Corrected Stop Ahead to show an upward arrow over a plain red octagon. It warns of a separate stop sign. Corrected Two-Way Traffic to show the left arrow pointing down and the right arrow pointing up, so the illustration matches the keep-right action.",
+    "figures": [
+      {"label": "FHWA MUTCD Figure 2C-8, W3-1", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=33"},
+      {"label": "Figure 2C-11, W6-3", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=38"}
+    ]
+  },
   "sources": [
     {"id": "pa", "label": "PennDOT Driver's Manual, Chapter 2: Signs", "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"},
     {"id": "ny", "label": "New York DMV: Road Signs You Must Know", "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"}

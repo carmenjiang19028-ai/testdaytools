@@ -6180,7 +6180,7 @@
       "description": "Take a DMV road signs permit-test practice round with 40 picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and state-specific source checks.",
       "heroKicker": "Road signs practice test",
       "summary": "Take 40 DMV road-sign picture questions for permit-test practice, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and state-specific source checks to choose the next drill.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "quickFacts": [
         {
           "label": "Practice size",
@@ -6402,12 +6402,12 @@
               {
                 "image": "two-way-traffic",
                 "title": "Two-Way Traffic",
-                "meaning": "Opposing traffic begins ahead; stay right and expect oncoming vehicles."
+                "meaning": "The left arrow points down and the right arrow up. Keep right and expect oncoming traffic."
               },
               {
                 "image": "stop-ahead",
                 "title": "Stop Ahead",
-                "meaning": "A stop sign is ahead; begin slowing so you can stop completely."
+                "meaning": "The arrow above a red octagon warns of a separate stop sign ahead. Slow now; stop at the actual control."
               },
               {
                 "image": "bicycle-crossing",
@@ -22294,12 +22294,12 @@
           "The road becomes a divided highway"
         ],
         "answer": 2,
-        "explanation": "Two-Way Traffic warns that vehicles will travel in opposite directions. Stay right and expect oncoming traffic."
+        "explanation": "The left arrow points toward you and the right arrow points ahead. Keep right and expect oncoming traffic on the other side."
       },
       {
         "q": "What should you begin doing when you see this warning sign?",
         "image": "stop-ahead",
-        "imageAlt": "Yellow stop ahead warning sign",
+        "imageAlt": "Yellow diamond with a black upward arrow above a plain red octagon",
         "category": "Advance warning signs",
         "choices": [
           "Prepare to stop completely at the stop sign ahead",
@@ -22308,7 +22308,7 @@
           "Speed up before traffic reaches the stop sign"
         ],
         "answer": 0,
-        "explanation": "Stop Ahead gives advance notice when a stop sign may not be visible soon enough. Begin slowing so you can make a complete stop at the actual stop sign."
+        "explanation": "The arrow above the red octagon warns of a stop sign ahead. Begin slowing here; make the complete stop at the actual intersection control, not beside the yellow warning sign."
       },
       {
         "q": "What hazard does this bicycle sign warn about?",

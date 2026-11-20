@@ -66,6 +66,48 @@ test('all eight classroom PDF images exactly preserve rendered shared SVG pixels
 });
 
 for (const width of [1280, 390]) {
+  test(`${width}px: two corrected warnings agree in quiz, flashcards, and print`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    const local = name => pathToFileURL(path.join(root, name + '.html')).href;
+    try {
+      await page.goto(local('road-signs-practice-test') + '?mode=road-signs-core#practice');
+      const quiz = page.locator('[data-mode-panel="road-signs-core"] [data-quiz]');
+      const target = quiz.locator('.question[data-flashcard-key="stop-ahead"]');
+      await quiz.locator(`[data-quiz-jump="${await target.getAttribute('data-question-index')}"]`).click();
+      const diagram = target.getByRole('img', { name: /upward arrow above a plain red octagon/ });
+      const arrow = await diagram.locator('path').boundingBox();
+      const octagon = await diagram.locator('polygon[fill="#c7312f"]').boundingBox();
+      assert.ok(arrow.y + arrow.height < octagon.y);
+      assert.equal(await diagram.locator('text').count(), 0);
+      await target.getByRole('button', { name: 'Prepare to stop completely at the stop sign ahead' }).click();
+      assert.match(await target.locator('.feedback').innerText(), /^Correct\..+not beside the yellow warning sign/);
+      await page.goto(local('dmv-road-sign-flashcards'));
+      await page.getByRole('searchbox', { name: 'Search cards' }).fill('stop ahead');
+      const card = page.locator('[data-flashcard][data-card-id="stop-ahead"]');
+      assert.equal(await card.isVisible(), true);
+      assert.equal(await card.getByRole('img', { name: /black upward arrow above a plain red octagon/ }).isVisible(), true);
+      await card.getByRole('button', { name: 'Reveal answer', exact: true }).click();
+      assert.match(await card.innerText(), /Slow now; stop at the actual control/);
+      await page.getByRole('searchbox', { name: 'Search cards' }).fill('two-way traffic');
+      const twoWay = page.locator('[data-flashcard][data-card-id="two-way-traffic"]');
+      assert.equal(await twoWay.getByRole('img', { name: /pointing down on the left and up on the right/ }).isVisible(), true);
+      await twoWay.getByRole('button', { name: 'Reveal answer', exact: true }).click();
+      assert.match(await twoWay.innerText(), /Keep right and expect oncoming traffic/);
+      await page.goto(local('dmv-road-signs-cheat-sheet') + '#printable-sheet');
+      await page.emulateMedia({ media: 'print' });
+      const printCard = page.locator('.cheat-sign-card').filter({ has: page.getByRole('img', { name: 'Stop Ahead road sign', exact: true }) });
+      assert.match(await printCard.innerText(), /above a red octagon.*Slow now/);
+      const art = printCard.getByRole('img');
+      assert.equal(await art.getAttribute('src'), 'assets/road-signs/stop-ahead-road-sign.svg');
+      await art.evaluate(img => img.decode());
+      if (process.env.STOP_AHEAD_SHOTS) {
+        await printCard.screenshot({ path: path.join(process.env.STOP_AHEAD_SHOTS, `stop-ahead-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: compare the two passing signs and still score the rectangular sign correctly`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route(/^https?:/, route => route.abort());

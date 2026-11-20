@@ -59,7 +59,7 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
     "category": "DMV",
     "title": "Road Sign Flashcards: DMV Pictures for Fast Review",
     "description": "Flip DMV road sign flashcards for regulatory, warning, school, work-zone, and service signs. Save review cards in your browser. No signup.",
-    "lastUpdated": "November 20, 2026",
+    "lastUpdated": "November 21, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 ROAD_SIGN_CHEAT_SHEET_SLUG = "dmv-road-signs-cheat-sheet"
@@ -70,7 +70,7 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "November 20, 2026",
+    "lastUpdated": "November 21, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -140,8 +140,8 @@ SIGN_SVGS = {
     "crossroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 125 V36 M68 80 H152" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
     "side-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M96 126 V36 M96 78 H150" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
     "t-intersection": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 126 V67 M66 58 H154" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
-    "two-way-traffic": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M88 119 V47 M132 41 V113" fill="none" stroke="#111" stroke-width="10" stroke-linecap="round"/><path d="M72 52 l16-24 16 24z M116 108 l16 24 16-24z" fill="#111"/></svg>',
-    "stop-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><polygon points="92,45 128,45 151,63 151,97 128,115 92,115 69,97 69,63" fill="none" stroke="#111" stroke-width="7"/><text x="110" y="88" text-anchor="middle" fill="#111" font-size="23" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
+    "two-way-traffic": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M92 53 V105 M128 107 V55" fill="none" stroke="#111" stroke-width="10"/><path d="M92 122 L77 100 H107 Z M128 38 L143 60 H113 Z" fill="#111"/></svg>',
+    "stop-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 25 L137 52 H118 V64 H102 V52 H83 Z" fill="#111"/><polygon points="98,74 122,74 137,89 137,111 122,126 98,126 83,111 83,89" fill="#c7312f" stroke="#fff" stroke-width="2"/></svg>',
     "bicycle-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="76" cy="103" r="22" fill="none" stroke="#111" stroke-width="7"/><circle cx="146" cy="103" r="22" fill="none" stroke="#111" stroke-width="7"/><path d="M76 103 l28-44 25 44 H76 l20-31 h31 l19 31 M101 48 h21" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 }
 
@@ -209,10 +209,13 @@ def road_sign_materials():
 def render_material_review():
     material = road_sign_materials()
     sources = "".join(f'<li><a href="{esc(s["url"])}">{esc(s["label"])}</a></li>' for s in material["sources"])
+    followup = material["artFollowup"]
+    figures = " and ".join(f'<a href="{esc(figure["url"])}">{esc(figure["label"])}</a>' for figure in followup["figures"])
     return f'''<section class="material-review" id="material-review">
   <h2>Material check: {esc(material["checkedOn"])}</h2>
   <p>{esc(material["scope"])}</p><p>{esc(material["corrections"])}</p>
   <p>{esc(material["responsibility"])}</p><ul>{sources}</ul>
+  <p><strong>{esc(followup["date"])}:</strong> {esc(followup["change"])} {figures}.</p>
 </section>'''
 
 

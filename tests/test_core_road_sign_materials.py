@@ -63,6 +63,34 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual([t.text for t in text], ["DO NOT", "ENTER"])
         self.assertEqual([t.attrib["y"] for t in text], ["57", "119"])
 
+    def test_stop_ahead_uses_symbol_not_lettering_and_print_preserves_the_action(self):
+        art = ET.fromstring(SIGN_SVGS["stop-ahead"])
+        diamond, symbol = art.findall("polygon")
+        self.assertEqual(diamond.attrib["fill"], "#f6d54a")
+        self.assertEqual(len(diamond.attrib["points"].split()), 4)
+        self.assertEqual(symbol.attrib["fill"], "#c7312f")
+        self.assertEqual(len(symbol.attrib["points"].split()), 8)
+        self.assertEqual(art.find("path").attrib["fill"], "#111")
+        self.assertIsNone(art.find(".//text"))
+        self.assertEqual(ET.fromstring(SIGN_SVGS["stop"]).find("text").text, "STOP")
+        question = next(q for q in DATA["quizzes"]["roadSignsChallenge"] if q["image"] == "stop-ahead")
+        self.assertEqual(question["choices"][question["answer"]], "Prepare to stop completely at the stop sign ahead")
+        self.assertIn("not beside the yellow warning sign", question["explanation"])
+        pdf = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")
+        self.assertIn("Slow now; stop at the actual control.", " ".join(pdf.pages[1].extract_text().split()))
+
+    def test_two_way_traffic_leaves_the_upward_arrow_on_the_drivers_right(self):
+        art = ET.fromstring(SIGN_SVGS["two-way-traffic"])
+        heads = art.find("path[@fill='#111']").attrib["d"].split("M")[1:]
+        left, right = [list(map(int, head.replace("L", " ").replace("H", " ").replace("Z", " ").split())) for head in heads]
+        self.assertLess(left[0], right[0])
+        self.assertGreater(left[1], left[3])
+        self.assertLess(right[1], right[3])
+        for path in ROOT.glob("*.html"):
+            self.assertNotIn('M72 52 l16-24 16 24z M116 108 l16 24 16-24z', path.read_text(), path.name)
+        pdf = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")
+        self.assertIn("The left arrow points down and the right arrow up.", " ".join(pdf.pages[1].extract_text().split()))
+
     def test_no_turn_on_red_uses_unobscured_lettering_and_signal_below(self):
         art = ET.fromstring(SIGN_SVGS["no-turn-on-red"])
         lettering = art.findall(".//text")
