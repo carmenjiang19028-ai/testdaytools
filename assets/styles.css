@@ -206,6 +206,7 @@ main > section,
   #sat-arrival-cases,
   #ap-credit-cases,
   #ap-credit-note,
+  #score-section-correct,
   #sat-fall-2027 { scroll-margin-top: 10rem; }
 }
 
@@ -1497,13 +1498,13 @@ h3 {
 
 .score-result {
   padding: 16px;
-  border: 1px solid rgba(23, 107, 81, 0.26);
+  border: 1px solid var(--line);
   border-radius: 8px;
-  background: #eef8f3;
+  background: var(--blue-soft);
 }
 
 .score-result > [data-score-percent] {
-  color: var(--green);
+  color: var(--blue-deep);
   font-size: 2rem;
   font-weight: 900;
 }
@@ -1534,6 +1535,12 @@ h3 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+
+@media (min-width: 960px) {
+  .score-query-guide .score-answer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .score-answer-card {

@@ -41,7 +41,7 @@ DMV_SCORE_PAGE = {
     "category": "DMV",
     "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
     "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
-    "lastUpdated": "November 20, 2026",
+    "lastUpdated": "November 21, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
@@ -802,6 +802,8 @@ def dmv_score_records(include_supplemental=False):
             "sectionCorrect": 15,
             "primaryScoreLabel": "Road rules correct",
             "primaryTotalLabel": "Road rules questions",
+            "primaryTopic": "road rules",
+            "officialPracticeUrl": "https://dds.georgia.gov/testing-and-training/practice-test",
         },
         "ohio": {
             "questions": 40,
@@ -823,6 +825,8 @@ def dmv_score_records(include_supplemental=False):
             "sectionCorrect": 10,
             "primaryScoreLabel": "General knowledge correct",
             "primaryTotalLabel": "General knowledge questions",
+            "primaryTopic": "general knowledge",
+            "officialPracticeUrl": "https://www.dmv.virginia.gov/licenses-ids/exams/practice-exam",
         },
         "arizona": {
             "questions": 30,
@@ -908,6 +912,8 @@ def dmv_score_records(include_supplemental=False):
             "sectionIncluded": fact.get("sectionIncluded", False),
             "primaryScoreLabel": fact.get("primaryScoreLabel", "Practice correct"),
             "primaryTotalLabel": fact.get("primaryTotalLabel", "Practice total"),
+            "primaryTopic": fact.get("primaryTopic", ""),
+            "officialPracticeUrl": fact.get("officialPracticeUrl", ""),
         })
     return records
 
@@ -4523,6 +4529,9 @@ def render_dmv_score_calculator():
         f'data-note="{esc(item["scoreNote"])}" '
         f'data-source-url="{esc(item["manualUrl"])}" '
         f'data-source-label="{esc(item["manualLabel"])}" '
+        f'data-sign-url="{esc(item["signUrl"])}" '
+        f'data-primary-topic="{esc(item["primaryTopic"])}" '
+        f'data-official-practice-url="{esc(item["officialPracticeUrl"])}" '
         f'data-mixed-practice-url="{esc(item.get("mixedPracticeUrl", ""))}" '
         f'data-mixed-questions="{esc(item.get("mixedQuestions", ""))}" '
         f'data-mixed-correct="{esc(item.get("mixedCorrect", ""))}" '
@@ -4729,17 +4738,19 @@ def render_dmv_score_page():
 {render_dmv_score_calculator()}
 {render_dmv_score_answers(records)}
 <section class="content-section score-query-guide">
-  <span class="eyebrow">Common score questions</span>
-  <h2>DMV knowledge test passing score: what do you need?</h2>
-  <p>There is no single national DMV knowledge-test passing score. Your state may use a fixed number of correct answers or a percentage. Choose the state and test length above, then use the official source link to verify the rule for your applicant path.</p>
+  <h2>Three practice scores that need different next steps</h2>
   <div class="score-answer-grid">
     <article class="score-answer-card">
-      <h3>What score do you need to pass the permit test?</h3>
-      <p>Use the state-specific rule, not a national average. This calculator shows the published target where the state source gives one and lets you calculate the target for a percentage rule.</p>
+      <h3>New York: 14 of 20, but only 1 of 4 signs</h3>
+      <p>The overall target is met, but the sign requirement is not. The one sign answer is already included in the 14; do not add it again. Review signs before repeating the whole test.</p>
     </article>
     <article class="score-answer-card">
-      <h3>What percent do you need to pass a permit test?</h3>
-      <p>Some states publish a percentage, while others publish a fixed number of correct answers. Enter the current test length when the rule is percentage-based, and confirm the final wording with the linked agency source.</p>
+      <h3>Georgia: 14 of 20 on rules and 18 of 20 on signs</h3>
+      <p>The 32 correct answers combined do not replace Georgia's two 15-of-20 requirements. Keep the sign score and practice the road rules you missed.</p>
+    </article>
+    <article class="score-answer-card">
+      <h3>Virginia: 9 of 10 signs, no general score</h3>
+      <p>Virginia requires all 10 signs before the general section. Leave the general score blank if you only took signs. A section not taken is not a score of zero.</p>
     </article>
   </div>
 </section>

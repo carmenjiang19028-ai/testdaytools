@@ -23,6 +23,8 @@ const check = (page) => page.locator("[data-score-check]").click();
 const correctInput = (page) => page.locator("[data-score-input-correct]");
 const totalInput = (page) => page.locator("[data-score-input-total]");
 const useLength = (page) => page.locator("[data-score-use-official]");
+const nextLink = (page) => page.locator("[data-score-next-link]");
+const resultMessage = (page) => page.locator("[data-score-message]");
 const tracked = (page) => page.evaluate(() => (window.dataLayer || [])
   .filter((entry) => entry[0] === "event" && entry[1] === "dmv_score_checked")
   .map((entry) => entry[2]));
@@ -74,10 +76,16 @@ test("New York requires the included sign score, with no false full-target resul
     await correctInput(page).fill("14");
     await check(page);
     assert.match(await score(page), /not checked/);
-    assert.match(await page.locator("[data-score-next-link]").getAttribute("href"), /practice/);
+    assert.equal(await nextLink(page).getAttribute("href"), "#score-section-correct");
+    assert.equal(await nextLink(page).getAttribute("data-dmv-state-link"), null);
+    await nextLink(page).press("Enter");
+    await page.waitForURL(/#score-section-correct$/);
+    assert.equal(await page.evaluate(() => document.activeElement.id), "score-section-correct");
     await page.locator("[data-score-section-correct]").fill("1");
     await check(page);
     assert.match(await score(page), /1 more road-sign answer needed/);
+    assert.equal(await nextLink(page).getAttribute("href"), "new-york-dmv-road-signs-practice.html#practice");
+    assert.equal(await nextLink(page).getAttribute("data-dmv-path"), "road_signs");
     await page.locator("[data-score-section-correct]").fill("2");
     await check(page);
     assert.match(await score(page), /^Meets/);
@@ -94,8 +102,16 @@ test("New York requires the included sign score, with no false full-target resul
 });
 
 for (const rule of [
-  { state: "georgia", correct: "15", signs: "15", failingSigns: "14", label: "Road rules correct" },
-  { state: "virginia", correct: "24", signs: "10", failingSigns: "9", label: "General knowledge correct" },
+  {
+    state: "georgia", correct: "15", signs: "15", failingSigns: "14", label: "Road rules correct",
+    guide: "georgia-dds-road-signs-practice.html", topic: "road rules",
+    sample: "https://dds.georgia.gov/testing-and-training/practice-test",
+  },
+  {
+    state: "virginia", correct: "24", signs: "10", failingSigns: "9", label: "General knowledge correct",
+    guide: "virginia-dmv-road-signs-practice.html", topic: "general knowledge",
+    sample: "https://www.dmv.virginia.gov/licenses-ids/exams/practice-exam",
+  },
 ]) {
   test(`${rule.state}: each required section must reach its own target`, async () => {
     const { context, page } = await openScore();
@@ -107,15 +123,55 @@ for (const rule of [
       await page.locator("[data-score-input-correct]").fill(rule.correct);
       await check(page);
       assert.match(await score(page), /not checked/);
+      assert.equal(await nextLink(page).getAttribute("href"), "#score-section-correct");
       await page.locator("[data-score-section-correct]").fill(rule.failingSigns);
       await check(page);
       assert.match(await score(page), /more road-sign/);
+      assert.equal(await nextLink(page).getAttribute("href"), rule.guide);
       await page.locator("[data-score-section-correct]").fill(rule.signs);
       await check(page);
       assert.match(await score(page), /^Meets/);
       await page.locator("[data-score-input-correct]").fill(String(Number(rule.correct) - 1));
       await check(page);
       assert.match(await score(page), /1 more correct answer needed/);
+      assert.equal(await nextLink(page).getAttribute("href"), rule.sample);
+      assert.match(await page.locator("[data-score-percent]").innerText(), new RegExp(`on ${rule.topic}`));
+      assert.match(await page.locator("[data-score-next-title]").innerText(), new RegExp(rule.topic));
+      await page.locator("[data-score-section-correct]").fill(rule.failingSigns);
+      await check(page);
+      assert.equal(await nextLink(page).getAttribute("href"), rule.guide);
+      assert.match(await page.locator("[data-score-next-copy]").innerText(), /also needs work/);
+    } finally { await context.close(); }
+  });
+
+  test(`${rule.state}: a sign-only result does not invent a score for the other section`, async () => {
+    const { context, page } = await openScore({ width: 390, height: 844 });
+    try {
+      await page.locator("[data-score-state]").selectOption(rule.state);
+      await useLength(page).click();
+      const signs = page.locator("[data-score-section-correct]");
+      await signs.fill(rule.failingSigns);
+      await check(page);
+      assert.match(await score(page), /1 more road-sign answer needed/);
+      assert.match(await resultMessage(page).innerText(), new RegExp(`No ${rule.topic} score entered`));
+      assert.match(await page.locator("[data-score-percent]").innerText(), /on signs/);
+      assert.equal(await nextLink(page).getAttribute("href"), rule.guide);
+      await signs.fill(rule.signs);
+      await check(page);
+      assert.equal(await score(page), "Road-sign target met; one section not checked");
+      assert.equal(await nextLink(page).getAttribute("href"), rule.sample);
+      assert.equal(await correctInput(page).inputValue(), "");
+      assert.equal((await tracked(page)).length, 0);
+      await signs.fill("999");
+      await check(page);
+      assert.match(await resultMessage(page).innerText(), /whole-number road-sign score/);
+      assert.equal(await nextLink(page).isVisible(), false);
+      assert.equal((await tracked(page)).length, 0);
+      await signs.fill(rule.signs);
+      await correctInput(page).fill(rule.correct);
+      await check(page);
+      assert.match(await score(page), /^Meets/);
+      assert.equal((await tracked(page)).length, 1);
     } finally { await context.close(); }
   });
 }
@@ -131,6 +187,24 @@ test("custom-length rounds do not establish separate official section targets", 
     assert.match(await score(page), /not checked/);
     assert.match(await page.locator("[data-score-message]").textContent(), /only checks the practice percentage/);
     assert.equal((await tracked(page))[0].result, "section_unverified");
+  } finally { await context.close(); }
+});
+
+test("the New York result opens the four-sign checkpoint at mobile width", async () => {
+  const { context, page } = await openScore({ width: 390, height: 844 });
+  try {
+    await page.locator("[data-score-state]").selectOption("new-york");
+    await useLength(page).click();
+    await correctInput(page).fill("14");
+    await page.locator("[data-score-section-correct]").fill("1");
+    await check(page);
+    const examples = page.locator(".score-query-guide");
+    assert.equal(await examples.locator("article").count(), 3);
+    assert.match(await examples.innerText(), /A section not taken is not a score of zero/);
+    await nextLink(page).click();
+    await page.waitForURL(/new-york-dmv-road-signs-practice\.html#practice$/);
+    assert.ok(await page.locator("#practice").isVisible());
+    assert.match(await page.locator("#practice").innerText(), /4-sign checkpoint/i);
   } finally { await context.close(); }
 });
 
