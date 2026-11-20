@@ -549,6 +549,8 @@ function shuffleChoiceButtons(group) {
   group.append(...choices);
 }
 
+const MISSED_SIGN_CARDS_KEY = "tdt-missed-sign-cards";
+
 function initQuizzes() {
   const siteHeader = document.querySelector(".site-header");
   document.querySelectorAll("[data-quiz]").forEach((quiz) => {
@@ -577,6 +579,7 @@ function initQuizzes() {
     const nextPlanTitle = quiz.querySelector("[data-quiz-next-title]");
     const nextPlanCopy = quiz.querySelector("[data-quiz-next-copy]");
     const nextPlanAction = quiz.querySelector("[data-quiz-next-action]");
+    const missedCardsAction = quiz.querySelector("[data-quiz-missed-cards]");
     const masteryDue = quiz.querySelector("[data-quiz-mastery-due]");
     const masteryLearning = quiz.querySelector("[data-quiz-mastery-learning]");
     const masteryReliable = quiz.querySelector("[data-quiz-mastery-reliable]");
@@ -607,6 +610,7 @@ function initQuizzes() {
     let quizCompletedTracked = false;
     let tenQuestionsTracked = false;
     let nextRoundFocus = "";
+    let missedCardIds = [];
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -866,6 +870,15 @@ function initQuizzes() {
       const leftCount = Math.max(activeTotal - answeredCount, 0);
       const percent = answeredCount ? Math.round((correctCount / answeredCount) * 100) : 0;
       const complete = activeTotal > 0 && answeredCount === activeTotal;
+      if (missedCardsAction) {
+        missedCardIds = complete
+          ? [...new Set(missedIndexes.map(index => questions[index].dataset.flashcardKey).filter(Boolean))]
+          : [];
+        missedCardsAction.hidden = !missedCardIds.length;
+        if (missedCardIds.length) {
+          missedCardsAction.textContent = `Review ${missedCardIds.length} missed sign card${missedCardIds.length === 1 ? "" : "s"}`;
+        }
+      }
       const halfwayReached = activeTotal > 1 && answeredCount >= Math.ceil(activeTotal / 2);
       const focus = filterSelect?.value || "all";
       const focusedDmv = isDmvQuiz && focus !== "all";
@@ -1403,6 +1416,16 @@ function initQuizzes() {
       });
     }
 
+    missedCardsAction?.addEventListener("click", () => {
+      if (!missedCardIds.length) return;
+      try {
+        // Keep the missed sign IDs in this tab, not in the URL or analytics.
+        window.sessionStorage.setItem(MISSED_SIGN_CARDS_KEY, JSON.stringify({ mode, signIds: missedCardIds }));
+      } catch (error) {
+        // The deck still opens normally when this browser blocks storage.
+      }
+    });
+
     questions.forEach((question, index) => {
       question.querySelectorAll("button").forEach((button) => {
         button.addEventListener("click", () => {
@@ -1780,6 +1803,9 @@ function initRoadSignFlashcards() {
     const visibleCount = deck.querySelector("[data-flashcard-visible]");
     const message = deck.querySelector("[data-flashcard-message]");
     const empty = deck.querySelector("[data-flashcard-empty]");
+    const missedSummary = deck.querySelector("[data-flashcard-missed-summary]");
+    const missedNote = deck.querySelector("[data-flashcard-missed-note]");
+    const missedReturn = deck.querySelector("[data-flashcard-missed-return]");
     const announcement = deck.querySelector("[data-flashcard-announcement]");
     const storageKey = "tdt-road-sign-flashcards";
     let known = new Set();
@@ -1811,6 +1837,28 @@ function initRoadSignFlashcards() {
     };
 
     const cardId = (card) => card?.dataset.cardId || "";
+    const fromMissedQuiz = window.location.hash === "#missed-sign-cards";
+    const missedCardIds = new Set();
+    if (fromMissedQuiz) {
+      try {
+        const selection = JSON.parse(window.sessionStorage.getItem(MISSED_SIGN_CARDS_KEY) || "null");
+        if (["road-signs-starter", "road-signs-core"].includes(selection?.mode) && Array.isArray(selection.signIds)) {
+          const supportedIds = new Set(cards.map(cardId));
+          selection.signIds.filter(id => supportedIds.has(id)).forEach(id => missedCardIds.add(id));
+          if (missedCardIds.size && filterSelect) {
+            const option = new Option("Missed in this round", "missed");
+            filterSelect.append(option);
+            filterSelect.value = option.value;
+          }
+          if (missedCardIds.size && missedReturn) {
+            const query = new URLSearchParams({ mode: selection.mode, focus: "saved" });
+            missedReturn.href = `road-signs-practice-test.html?${query}#practice`;
+          }
+        }
+      } catch (error) {
+        // An absent or invalid handoff must not stop regular flashcard practice.
+      }
+    }
     const activeCard = () => cards[activeIndexes[activePosition]];
     const answerToggle = (card) => card?.querySelector("[data-flashcard-flip]");
     const isRevealed = (card) => answerToggle(card)?.getAttribute("aria-expanded") === "true";
@@ -1846,6 +1894,15 @@ function initRoadSignFlashcards() {
       if (knownCount) knownCount.textContent = String(known.size);
       if (reviewCount) reviewCount.textContent = String(review.size);
       if (visibleCount) visibleCount.textContent = String(total);
+      if (fromMissedQuiz && missedSummary && missedNote) {
+        const showMissed = filterSelect?.value === "missed";
+        missedSummary.hidden = Boolean(missedCardIds.size) && !showMissed;
+        const note = showMissed
+          ? total ? `Missed sign card ${activePosition + 1} of ${total}. Your quiz score is unchanged.` : "No missed sign cards match this search."
+          : "No matching cards from a quiz are available in this tab. The regular deck is shown.";
+        if (missedNote.textContent !== note) missedNote.textContent = note;
+        if (missedReturn) missedReturn.hidden = !showMissed;
+      }
       if (empty) {
         empty.hidden = total !== 0;
         empty.textContent = filterSelect?.value === "review" && !review.size
@@ -1870,6 +1927,7 @@ function initRoadSignFlashcards() {
         .map((card, index) => ({ card, index }))
         .filter(({ card }) => {
           const matchesFilter = filter === "review" ? review.has(cardId(card))
+            : filter === "missed" ? missedCardIds.has(cardId(card))
             : filter === "all" || card.dataset.cardFilter === filter;
           const matchesSearch = !term || (card.dataset.cardQuery || "").includes(term);
           return matchesFilter && matchesSearch;

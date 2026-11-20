@@ -142,6 +142,97 @@ test("uncovered image misses go back to the exact saved questions", () =>
   }));
 
 for (const width of [390, 1280]) {
+  test(`${width}px: finish picture practice, study only matched cards, then retry the saved questions`, () =>
+    withSite(width, async (page, quiz) => {
+      await open(page, signs, { mode: "road-signs-starter", focus: "Regulatory signs" });
+      const review = quiz.locator("[data-quiz-missed-cards]");
+      assert.equal(await review.isVisible(), false);
+      await finish(quiz, async q => ["stop", "no-passing"].includes(await q.getAttribute("data-flashcard-key")));
+      assert.equal(await review.innerText(), "Review 2 missed sign cards");
+      assert.equal(await nextStudy(quiz).getAttribute("href"), signs + "?mode=road-signs-starter&focus=saved#practice");
+      await review.click();
+      await page.waitForURL("**/dmv-road-sign-flashcards.html#missed-sign-cards");
+      await page.locator("[data-flashcard-filter] option[value=missed]:checked").waitFor({ state: "attached" });
+      assert.deepEqual(await page.evaluate(() => JSON.parse(sessionStorage.getItem("tdt-missed-sign-cards"))),
+        { mode: "road-signs-starter", signIds: ["stop", "no-passing"] });
+      const group = page.locator("[data-flashcard-filter]");
+      const current = page.locator(".flashcard.is-active");
+      assert.equal(await group.inputValue(), "missed");
+      assert.equal(await page.locator("[data-flashcard-visible]").innerText(), "2");
+      assert.equal(await current.getAttribute("data-card-id"), "stop");
+      const banner = await page.locator("[data-flashcard-missed-summary]").boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      const picture = await current.locator(".flashcard-sign").boundingBox();
+      assert.ok(banner.y >= header.y + header.height && picture.y + picture.height <= 870);
+      const secondTool = () => page.evaluate(() => (window.dataLayer || [])
+        .filter(event => event[0] === "event" && event[1] === "study_second_tool_used")
+        .map(event => event[2]));
+      assert.deepEqual(await secondTool(), []);
+      const directory = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (directory) {
+        fs.mkdirSync(directory, { recursive: true });
+        await page.screenshot({ path: path.join(directory, `missed-sign-cards-${width}.png`) });
+      }
+      await page.locator("[data-flashcard-next]").click();
+      assert.equal(await current.getAttribute("data-card-id"), "no-passing");
+      await current.getByRole("button", { name: "Reveal answer" }).click();
+      await page.getByRole("button", { name: "I know this" }).click();
+      assert.equal(await page.locator("[data-flashcard-visible]").innerText(), "2");
+      await page.waitForFunction(() => window.dataLayer.some(event => event[1] === "study_second_tool_used"),
+        undefined, { timeout: 2000 });
+      const uses = await secondTool();
+      assert.equal(uses.length, 1);
+      assert.equal(uses[0].second_tool, "sign_flashcards");
+      assert.doesNotMatch(JSON.stringify(uses), /signIds|no-passing/);
+      await group.selectOption("all");
+      assert.equal(await page.locator("[data-flashcard-visible]").innerText(), "31");
+      assert.equal(await page.locator("[data-flashcard-missed-return]").isVisible(), false);
+      await page.reload();
+      assert.equal(await group.inputValue(), "missed");
+      assert.equal(await page.locator("[data-flashcard-visible]").innerText(), "2");
+      await page.getByRole("link", { name: "Retry saved questions from this mode" }).click();
+      await page.waitForURL("**/road-signs-practice-test.html?mode=road-signs-starter&focus=saved#practice");
+      assert.match(await quiz.locator("[data-quiz-position]").innerText(), /1 of 2/);
+      assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "saved");
+      assert.equal(await review.isVisible(), false);
+    }));
+}
+
+test("unmatched sign art does not open an unrelated card; duplicates open one card", () =>
+  withSite(1280, async (page, quiz) => {
+    await open(page, signs, { mode: "road-signs-core", focus: "Warning signs" });
+    const review = quiz.locator("[data-quiz-missed-cards]");
+    await finish(quiz, async q => !(await q.getAttribute("data-flashcard-key")));
+    assert.equal(await quiz.locator("[data-quiz-missed]").first().innerText(), "1");
+    assert.equal(await review.isVisible(), false);
+    assert.match(await nextStudy(quiz).getAttribute("href"), /focus=saved/);
+    await open(page, signs, { mode: "road-signs-core" });
+    await finish(quiz, async q => (await q.getAttribute("data-flashcard-key")) === "merge");
+    assert.equal(await quiz.locator("[data-quiz-missed]").first().innerText(), "3");
+    assert.equal(await review.innerText(), "Review 1 missed sign card");
+    await review.click();
+    await page.waitForURL("**/dmv-road-sign-flashcards.html#missed-sign-cards");
+    await page.locator("[data-flashcard-filter] option[value=missed]:checked").waitFor({ state: "attached" });
+    assert.equal(await page.locator(".flashcard.is-active").getAttribute("data-card-id"), "merge");
+    assert.deepEqual(await page.evaluate(() => JSON.parse(sessionStorage.getItem("tdt-missed-sign-cards"))),
+      { mode: "road-signs-core", signIds: ["merge"] });
+  }));
+
+test("a direct card link without the local handoff leaves the regular deck available", () =>
+  withSite(390, async (page) => {
+    await page.addInitScript(() => Object.defineProperty(window, "sessionStorage", {
+      get() { throw new Error("blocked in test"); },
+    }));
+    await page.goto(origin + "/dmv-road-sign-flashcards.html#missed-sign-cards");
+    assert.equal(await page.locator("[data-flashcard-filter]").inputValue(), "all");
+    assert.equal(await page.locator("[data-flashcard-visible]").innerText(), "31");
+    assert.match(await page.locator("[data-flashcard-missed-note]").innerText(), /regular deck/);
+    assert.equal(await page.locator("[data-flashcard-missed-return]").isVisible(), false);
+    await page.locator(".flashcard.is-active").getByRole("button", { name: "Reveal answer" }).click();
+    assert.equal(await page.getByRole("button", { name: "Review again" }).isEnabled(), true);
+  }));
+
+for (const width of [390, 1280]) {
   test(`${width}px: contrast practice returns to the original starter mode and its missed signs`, () =>
     withSite(width, async (page, quiz) => {
       await open(page, signs, { mode: "road-signs-starter", focus: "Regulatory signs" });

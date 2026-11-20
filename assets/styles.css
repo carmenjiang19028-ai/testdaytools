@@ -207,6 +207,8 @@ main > section,
   #ap-credit-cases,
   #ap-credit-note,
   #score-section-correct,
+  #flashcards,
+  #missed-sign-cards,
   #sat-fall-2027 { scroll-margin-top: 10rem; }
 }
 
@@ -2163,6 +2165,22 @@ h3 {
 
 .flashcard-stage {
   margin-top: 14px;
+}
+
+.flashcard-missed-summary {
+  max-width: 720px;
+  margin: 0 auto 14px;
+}
+
+.flashcard-missed-summary p {
+  margin: 0 0 6px;
+  font-weight: 750;
+}
+
+.flashcard-missed-summary div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
 }
 
 .flashcard {
@@ -5337,6 +5355,17 @@ button:disabled {
 
 .quiz-next-plan a {
   width: 100%;
+}
+
+.quiz-next-plan [data-quiz-missed-cards] {
+  margin-top: 8px;
+  border-color: var(--line);
+  background: var(--paper);
+  color: var(--blue);
+}
+
+.quiz-next-plan [data-quiz-missed-cards][hidden] {
+  display: none;
 }
 
 @media (max-width: 760px) {

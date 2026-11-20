@@ -2641,6 +2641,7 @@ def render_quiz(quiz_key, options=None):
         for group in options.get("sheetFocusGroups", [])
         for sign in group["signs"]
     }
+    flashcard_keys = options.get("flashcardKeys", set())
     cards = []
     for index, q in enumerate(questions):
         category = q.get("category", "Permit basics")
@@ -2653,12 +2654,13 @@ def render_quiz(quiz_key, options=None):
         concept_attr = f' data-concept-id="{esc(q["conceptId"])}"' if q.get("conceptId") else ""
         sheet = sheet_focus_by_image.get(q.get("image"))
         sheet_attr = f' data-sheet-focus="{esc(sheet[0])}" data-sheet-label="{esc(sheet[1])}"' if sheet else ""
+        flashcard_attr = f' data-flashcard-key="{esc(q["image"])}"' if visual and q.get("image") in flashcard_keys else ""
         source = q.get("source")
         source_link = (
             f'\n  <p data-quiz-source hidden><a href="{esc(source["url"])}" target="_blank" rel="noopener noreferrer">{esc(source["label"])}</a></p>'
             if source else ""
         )
-        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr}{sheet_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
+        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr}{sheet_attr}{flashcard_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>{visual_block}
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
@@ -2682,6 +2684,10 @@ def render_quiz(quiz_key, options=None):
     <p>Missed questions are due now. After the first correct answer, check again in 24 hours. A correct answer when due moves a question to weekly review. This is not an exam result.</p>
   </div>"""
     review_button_label = "Review due" if is_dmv else "Review mistakes"
+    missed_cards_link = (
+        '\n    <a href="dmv-road-sign-flashcards.html#missed-sign-cards" data-quiz-missed-cards hidden>Review missed sign cards</a>'
+        if flashcard_keys else ""
+    )
     summary = f"""<aside class="quiz-summary" aria-live="polite">
   <p class="quiz-kicker">Practice status</p>
   <div>
@@ -2720,7 +2726,7 @@ def render_quiz(quiz_key, options=None):
     <span>Next study block</span>
     <strong data-quiz-next-title>Finish this round first</strong>
     <p data-quiz-next-copy>Your score and missed categories will choose the next useful activity.</p>
-    <a href="#practice" data-quiz-next-action>Continue this round</a>
+    <a href="#practice" data-quiz-next-action>Continue this round</a>{missed_cards_link}
   </div>
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>"""
@@ -2794,6 +2800,7 @@ def render_dmv_mode_tool(tool):
         quiz_options["state"] = state_value
         quiz_options["domain"] = "dmv"
         if tool.get("slug") == ROAD_SIGN_PICTURE_SLUG:
+            quiz_options["flashcardKeys"] = {record["id"] for record in road_sign_flashcard_records()}
             quiz_options["sheetFocusGroups"] = [
                 group for group in tool["signLibrary"]["groups"]
                 if group["practice"]["mode"] == mode["id"] and group["practice"].get("focus")
@@ -3928,7 +3935,13 @@ def render_road_sign_flashcards_page():
     <div><span>Review</span><strong data-flashcard-review>0</strong></div>
     <div><span>Visible</span><strong data-flashcard-visible>{len(records)}</strong></div>
   </div>
-  <div class="flashcard-stage">{"".join(cards)}</div>
+  <div class="flashcard-stage" id="missed-sign-cards">
+    <div class="flashcard-missed-summary" data-flashcard-missed-summary hidden>
+      <p data-flashcard-missed-note role="status"></p>
+      <div><a data-flashcard-missed-return hidden>Retry saved questions from this mode</a><a href="#flashcards">Change sign group</a></div>
+    </div>
+    {"".join(cards)}
+  </div>
   <div class="flashcard-announcement" data-flashcard-announcement role="status"></div>
   <p class="flashcard-empty" data-flashcard-empty hidden>No cards match this filter yet.</p>
   <div class="flashcard-actions">
