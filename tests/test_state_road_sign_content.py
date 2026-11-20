@@ -98,6 +98,27 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn('data-total="20" data-pass-score="16"', page)
         self.assertNotIn("Search-result competitors", page)
 
+    def test_pennsylvania_school_bus_cases_include_effective_date_and_both_roadways(self):
+        slug = "pennsylvania-dmv-road-signs-practice"
+        lesson = self.tools[slug]["stateRulePractice"]
+        page = (ROOT / f"{slug}.html").read_text()
+        asset = lesson["imageAsset"]
+        svg = ElementTree.parse(ROOT / asset["src"]).getroot()
+        self.assertEqual(svg.get("viewBox"), f'0 0 {asset["width"]} {asset["height"]}')
+        painted, divided, amber = lesson["scenarios"]
+        self.assertIn("Drivers in both directions must stop", painted["answer"])
+        self.assertIn("10 feet through October 21, 2027", painted["answer"])
+        self.assertIn("15 feet on October 22, 2027", painted["answer"])
+        self.assertIn("children to reach safety", painted["answer"])
+        self.assertIn("Only the driver on the opposite roadway", divided["answer"])
+        self.assertIn("same roadway and must stop", divided["answer"])
+        self.assertIn("Slow down and be ready to stop", amber["answer"])
+        self.assertEqual(len(lesson["sources"]), 3)
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('data-total="20" data-pass-score="16"', page)
+        permit = (ROOT / "pennsylvania-dmv-permit-practice-test.html").read_text()
+        self.assertIn(f'href="{slug}.html#pennsylvania-school-bus"', permit)
+
     def test_active_pages_do_not_contain_internal_sign_study_copy(self):
         sitemap = ElementTree.parse(ROOT / "sitemap.xml")
         locations = sitemap.findall("m:url/m:loc", {"m": "http://www.sitemaps.org/schemas/sitemap/0.9"})

@@ -12628,6 +12628,7 @@
       "description": "Pennsylvania permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official PennDOT source links.",
       "heroKicker": "Pennsylvania permit practice",
       "summary": "Practice Pennsylvania permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the Pennsylvania Driver's Manual.",
+      "lastUpdated": "November 20, 2026",
       "quickFacts": [
         {
           "label": "Official source",
@@ -12942,9 +12943,11 @@
               "text": "Shape and color often reveal the action before you read the words."
             },
             {
-              "label": "Mock exam",
-              "title": "Use the long round late",
-              "text": "The 40-question mode is best after you have already fixed obvious misses."
+              "label": "Pennsylvania school buses",
+              "title": "Check which traffic must stop for a school bus",
+              "text": "Compare the same bus on a road with painted lines and on a highway with a concrete median. Then check when the new stopping distance takes effect.",
+              "href": "pennsylvania-dmv-road-signs-practice.html#pennsylvania-school-bus",
+              "cta": "Try the school bus cases"
             }
           ]
         }
@@ -13121,9 +13124,49 @@
       "category": "DMV",
       "title": "Pennsylvania DMV Road Signs Practice",
       "description": "Pennsylvania road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "lastUpdated": "August 12, 2026",
+      "lastUpdated": "November 20, 2026",
       "heroKicker": "Pennsylvania road signs",
       "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the Pennsylvania exam details below to plan the rest of your study.",
+      "stateRulePractice": {
+        "id": "pennsylvania-school-bus",
+        "linkLabel": "PA school bus cases",
+        "heading": "Who must stop for a school bus in Pennsylvania?",
+        "imageAsset": {
+          "src": "assets/road-sign-materials/pennsylvania-school-bus-roads.svg",
+          "width": 360,
+          "height": 288
+        },
+        "imageLabel": "Both drawings show a stopped bus with red lights and an extended stop arm, plus arrows for traffic behind the bus and for opposing traffic. Road A has painted center lines only. Road B has a concrete median.",
+        "caption": "Compare these two original road diagrams. The bus is stopped with red lights flashing and its stop arm out in both. These cases are separate from the 20-question sign score.",
+        "scenarios": [
+          {
+            "question": "On road A, you are approaching the bus from the opposite direction. Does the double yellow line mean you can keep going?",
+            "answer": "No. Painted lines do not make separate roadways. Drivers in both directions must stop. The minimum distance before reaching the bus is 10 feet through October 21, 2027; under Act 89 it becomes 15 feet on October 22, 2027. Wait for the red lights to stop flashing, the arm to retract, and children to reach safety."
+          },
+          {
+            "question": "On road B, a concrete median separates the directions. Who may proceed cautiously: the driver behind the bus or the driver on the opposite roadway?",
+            "answer": "Only the driver on the opposite roadway may proceed without stopping for the bus. Slow down and be alert. The driver behind the bus is on the same roadway and must stop. More lanes alone do not create the exception."
+          },
+          {
+            "question": "Before either red-light scene, the bus is still moving on road A and begins flashing amber lights. What should you do?",
+            "answer": "Slow down and be ready to stop. Amber warns that the bus is preparing to stop; it is not a signal to speed up or squeeze past."
+          }
+        ],
+        "sources": [
+          {
+            "label": "PennDOT Driver's Manual: School Buses",
+            "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/special-circumstances-and-emergencies"
+          },
+          {
+            "label": "PennDOT: Current distance and October 2027 change",
+            "url": "https://www.pa.gov/agencies/penndot/news-and-media/newsroom/statewide/2026/shapiro-administration--law-enforcement-agencies-highlight-opera"
+          },
+          {
+            "label": "75 Pa.C.S. section 3345 and Act 89 effective-date note",
+            "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/75/00.033.045.000..HTM"
+          }
+        ]
+      },
       "mixedPractice": {
         "href": "pennsylvania-dmv-permit-practice-test.html?mode=mock#practice",
         "target": "32 of 40"

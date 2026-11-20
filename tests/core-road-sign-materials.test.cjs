@@ -14,6 +14,7 @@ const localRules = [
   ['illinois-dmv-road-signs-practice', 'illinois-school-zone', 'Illinois school zones', 2, [[20, 16]]],
   ['new-york-dmv-road-signs-practice', 'new-york-right-on-red', 'NY right on red', 3, [[4, 2], [8, 6], [25, 20]]],
   ['texas-dmv-road-signs-practice', 'texas-work-zone-panels', 'Texas work-zone cases', 3, [[20, 16]]],
+  ['pennsylvania-dmv-road-signs-practice', 'pennsylvania-school-bus', 'PA school bus cases', 3, [[20, 16]]],
 ];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });
@@ -104,6 +105,12 @@ for (const width of [1280, 390]) {
       await context.route(/^https?:/, route => route.abort());
       const page = await context.newPage();
       try {
+        if (id === 'pennsylvania-school-bus') {
+          await page.goto(pathToFileURL(path.join(root, 'pennsylvania-dmv-permit-practice-test.html')).href);
+          await page.getByRole('link', {name: 'Try the school bus cases', exact: true}).click();
+          await page.waitForURL(url => url.pathname.endsWith(`/${slug}.html`) && url.hash === `#${id}`);
+          await page.locator(`#${id}`).getByRole('heading', {level: 2}).waitFor();
+        }
         await page.goto(pathToFileURL(path.join(root, `${slug}.html`)).href);
         const lesson = page.locator(`#${id}`);
         await page.getByRole('link', {name: label, exact: true}).click();
@@ -112,6 +119,10 @@ for (const width of [1280, 390]) {
         const header = await page.locator('.site-header').boundingBox();
         assert.ok(heading.y >= header.y + header.height);
         assert(await lesson.getByRole('img').evaluate(img => img.complete && img.naturalWidth > 0));
+        if (id === 'pennsylvania-school-bus' && process.env.VERIFY_SCREENSHOTS_DIR) {
+          fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+          await page.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `school-bus-arrival-${width}.png`) });
+        }
         const cases = await lesson.locator('details').all();
         assert.equal(cases.length, count);
         for (const item of cases) {

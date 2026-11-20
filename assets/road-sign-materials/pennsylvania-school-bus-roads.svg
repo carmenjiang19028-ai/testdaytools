@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="288" viewBox="0 0 360 288">
+  <defs>
+    <g id="stopped-bus">
+      <rect width="91" height="28" rx="7" fill="#f3bc38" stroke="#151d22" stroke-width="2"/>
+      <path d="M12 5h55v18H12z" fill="#27343b"/>
+      <path d="M77 5v18" stroke="#27343b" stroke-width="5"/>
+      <circle cx="4" cy="6" r="3" fill="#ff5c55"/>
+      <circle cx="4" cy="22" r="3" fill="#ff5c55"/>
+      <path d="M22 28v8" stroke="#e95049" stroke-width="3"/>
+      <path d="M18 34h8l4 4v6l-4 4h-8l-4-4v-6z" fill="#c52829" stroke="#fff" stroke-width="1"/>
+    </g>
+    <path id="right-arrow" d="M0 0h27m-7-6 7 6-7 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </defs>
+  <g font-family="sans-serif">
+    <text x="8" y="24" font-size="23" font-weight="bold" fill="#18242b">A: Painted center lines</text>
+    <rect x="8" y="34" width="344" height="100" rx="4" fill="#33414a"/>
+    <path d="M8 90h344m-344 4h344" stroke="#f9ce55" stroke-width="2"/>
+    <use href="#right-arrow" transform="translate(180 55) scale(-1 1)"/>
+    <use href="#stopped-bus" transform="translate(143 41) scale(-1 1)"/>
+    <use href="#right-arrow" x="52" y="113"/>
+    <g fill="#fff" font-size="19">
+      <text x="197" y="62">Behind bus</text>
+      <text x="97" y="120">Opposing traffic</text>
+    </g>
+    <text x="8" y="166" font-size="23" font-weight="bold" fill="#18242b">B: Concrete median</text>
+    <rect x="8" y="176" width="344" height="104" rx="4" fill="#33414a"/>
+    <rect x="8" y="233" width="344" height="14" fill="#b7c3c6" stroke="#17232a" stroke-width="2"/>
+    <path d="M8 236h344" stroke="#e6eded" stroke-width="2"/>
+    <use href="#right-arrow" transform="translate(180 198) scale(-1 1)"/>
+    <use href="#stopped-bus" transform="translate(143 184) scale(-1 1)"/>
+    <use href="#right-arrow" x="52" y="263"/>
+    <g fill="#fff" font-size="19">
+      <text x="197" y="205">Behind bus</text>
+      <text x="97" y="270">Opposing traffic</text>
+    </g>
+  </g>
+</svg>
