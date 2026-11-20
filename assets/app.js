@@ -587,7 +587,7 @@ function initQuizzes() {
     let quizHalfwayTracked = false;
     let quizCompletedTracked = false;
     let tenQuestionsTracked = false;
-    let restartFullRound = false;
+    let nextRoundFocus = "";
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -600,6 +600,13 @@ function initQuizzes() {
 
     const questionPrompt = (question) =>
       question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
+
+    const questionSign = (question) => question.querySelector(".question-visual .sign-art");
+    const mistakeId = (question) => JSON.stringify([
+      questionMasteryId(question, quiz.dataset.state),
+      question.dataset.category || "Review topic",
+      questionSign(question)?.getAttribute("aria-label") || "",
+    ]);
 
     const getActiveQuestionIndex = () => activeSequence[activePosition];
 
@@ -684,10 +691,17 @@ function initQuizzes() {
     const loadMistakes = () => {
       try {
         const stored = window.localStorage.getItem(storageKey);
-        savedMistakes = stored ? JSON.parse(stored) : [];
-        if (!Array.isArray(savedMistakes)) savedMistakes = [];
+        const entries = stored ? JSON.parse(stored) : [];
+        if (!Array.isArray(entries)) return;
+        savedMistakes = entries.filter(item => typeof item?.prompt === "string").map((item) => {
+          if (typeof item.questionId === "string" && item.questionId) return item;
+          // Older entries know only the prompt and category; do not guess when they match more than one item.
+          const matching = questions.filter(question => questionPrompt(question) === item.prompt &&
+            (question.dataset.category || "Review topic") === item.category);
+          return matching.length === 1 ? { ...item, questionId: mistakeId(matching[0]) } : item;
+        });
       } catch (error) {
-        savedMistakes = [];
+        // Keep this round usable even when browser storage cannot be read.
       }
     };
 
@@ -721,15 +735,16 @@ function initQuizzes() {
     const rememberMistake = (question) => {
       const prompt = questionPrompt(question);
       const category = question.dataset.category || "Review topic";
-      savedMistakes = savedMistakes.filter((item) => item.prompt !== prompt);
-      savedMistakes.unshift({ prompt, category, conceptId: question.dataset.conceptId || "", savedAt: Date.now() });
+      const questionId = mistakeId(question);
+      savedMistakes = savedMistakes.filter((item) => item.questionId !== questionId);
+      savedMistakes.unshift({ questionId, prompt, category, conceptId: question.dataset.conceptId || "", savedAt: Date.now() });
       saveMistakes();
       renderMistakes();
     };
 
     const resolveMistake = (question) => {
-      const prompt = questionPrompt(question);
-      const nextMistakes = savedMistakes.filter((item) => item.prompt !== prompt);
+      const questionId = mistakeId(question);
+      const nextMistakes = savedMistakes.filter((item) => item.questionId !== questionId);
       if (nextMistakes.length === savedMistakes.length) return;
       savedMistakes = nextMistakes;
       saveMistakes();
@@ -822,7 +837,7 @@ function initQuizzes() {
       const focusedDmv = isDmvQuiz && focus !== "all";
       const effectivePassScore = isDmvQuiz ? passScore : Math.min(passScore, Math.max(activeTotal - 1, 1));
       const practiceTargetMet = !focusedDmv && correctCount >= effectivePassScore;
-      restartFullRound = complete && focusedDmv && !missedCount;
+      nextRoundFocus = complete && focusedDmv && !missedCount ? "all" : "";
       const resultText = !activeTotal
         ? "No questions selected"
         : complete
@@ -897,12 +912,6 @@ function initQuizzes() {
         .map(([category]) => category)
         .slice(0, 3);
 
-      const missedConceptIds = () => [...new Set(
-        missedIndexes
-          .map((index) => questions[index].dataset.conceptId || "")
-          .filter(Boolean),
-      )];
-
       if (justCompleted && isDmvQuiz) {
         recordDmvSession({
           label: focusedDmv ? `${quizLabel} (${filterSelect.selectedOptions[0].textContent})` : quizLabel,
@@ -963,7 +972,8 @@ function initQuizzes() {
 
       if (nextPlanTitle && nextPlanCopy && nextPlanAction && isDmvQuiz) {
         const state = normalizeDmvState(quiz.dataset.state || readDmvJourney().state);
-        const signMiss = missed.some((category) => /sign|warning|regulatory|turn|speed|road|railroad|school/i.test(category));
+        const missedQuestions = missedIndexes.map(index => questions[index]);
+        const imageMisses = missedQuestions.filter(questionSign);
         if (!complete) {
           nextPlanTitle.textContent = answeredCount ? "Finish the current evidence" : "Create a real baseline";
           nextPlanCopy.textContent = answeredCount
@@ -971,12 +981,12 @@ function initQuizzes() {
             : "Answer this round before choosing another tool. The next action will use your real misses.";
           nextPlanAction.href = "#practice";
           nextPlanAction.textContent = answeredCount ? "Continue this round" : "Start this round";
-        } else if (missedCount && signMiss) {
-          const conceptIds = missedConceptIds();
-          if (conceptIds.length === 1) {
+        } else if (missedCount && imageMisses.length === missedCount) {
+          const concept = imageMisses[0].dataset.conceptId;
+          if (concept && imageMisses.every(question => question.dataset.conceptId === concept)) {
             nextPlanTitle.textContent = "Compare the sign distinction you missed";
             nextPlanCopy.textContent = "Use the two-sign comparison, then answer an action question and another practice question before returning to the full round.";
-            nextPlanAction.href = `road-sign-learning-loop.html?concept=${encodeURIComponent(conceptIds[0])}&return=${encodeURIComponent(window.location.pathname.split("/").pop() || "road-signs-practice-test.html")}#learning-loop`;
+            nextPlanAction.href = `road-sign-learning-loop.html?concept=${encodeURIComponent(concept)}&return=${encodeURIComponent(window.location.pathname.split("/").pop() || "road-signs-practice-test.html")}#learning-loop`;
             nextPlanAction.textContent = "Open targeted comparison";
           } else {
             nextPlanTitle.textContent = `Review ${missed[0] || "missed signs"}`;
@@ -984,12 +994,18 @@ function initQuizzes() {
             nextPlanAction.href = "dmv-road-sign-flashcards.html";
             nextPlanAction.textContent = "Open sign flashcards";
           }
+        } else if (imageMisses.length) {
+          nextRoundFocus = "saved";
+          nextPlanTitle.textContent = "Review both sign and rule mistakes";
+          nextPlanCopy.textContent = "Retry the saved questions in this mode. Use the explanations to separate sign recognition from driving rules.";
+          nextPlanAction.href = roundHref("saved");
+          nextPlanAction.textContent = "Retry saved questions";
         } else if (missedCount) {
           nextPlanTitle.textContent = `Repair ${missed[0] || "the weak rule area"}`;
           nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";
           nextPlanAction.href = `dmv-permit-test-study-plan.html?${new URLSearchParams(state ? { state, focus: "rules" } : { focus: "rules" })}#study-plan`;
           nextPlanAction.textContent = "Build a focused plan";
-        } else if (restartFullRound) {
+        } else if (nextRoundFocus === "all") {
           nextPlanTitle.textContent = "Practice all questions";
           nextPlanCopy.textContent = "A clean focus set is useful, but it does not cover all of the topics in this practice round.";
           nextPlanAction.href = roundHref();
@@ -1169,9 +1185,8 @@ function initQuizzes() {
         return;
       }
       if (value === "saved") {
-        loadMistakes();
-        const prompts = new Set(savedMistakes.map((item) => item.prompt));
-        const savedIndexes = allQuestionIndexes().filter((index) => prompts.has(questionPrompt(questions[index])));
+        const ids = new Set(savedMistakes.map(item => item.questionId));
+        const savedIndexes = allQuestionIndexes().filter(index => ids.has(mistakeId(questions[index])));
         resetQuiz();
         setActiveSequence(
           savedIndexes,
@@ -1343,11 +1358,12 @@ function initQuizzes() {
           complete: quiz.classList.contains("is-complete"),
           target: analyticsPathFromHref(nextPlanAction.href),
         });
-        if (restartFullRound && filterSelect && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        if (nextRoundFocus && filterSelect && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
           event.preventDefault();
-          filterSelect.value = "all";
-          resetQuiz();
-          applyFocusFilter("all");
+          const focus = nextRoundFocus;
+          filterSelect.value = focus;
+          if (focus === "all") resetQuiz();
+          applyFocusFilter(focus);
           focusActiveQuestion();
         }
       });
