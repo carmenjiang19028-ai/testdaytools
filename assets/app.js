@@ -3323,6 +3323,94 @@ function initSatScoreCalculators() {
   });
 }
 
+function initSatSuperscoreComparisons() {
+  document.querySelectorAll("[data-sat-superscore]").forEach((widget) => {
+    const form = widget.querySelector("form");
+    const result = widget.querySelector(".sat-superscore-result");
+    const sittings = Array.from(form.querySelectorAll("[data-superscore-sitting]"), (row, index) => ({
+      label: `Sitting ${index + 1}`,
+      inputs: Array.from(row.querySelectorAll("input")),
+    }));
+    const policy = form.querySelector("[data-superscore-policy]");
+    const output = (name) => widget.querySelector(`[data-superscore-${name}]`);
+    const single = output("single");
+    const combined = output("combined");
+    const singleSource = output("single-source");
+    const combinedSource = output("combined-source");
+    const status = output("status");
+    const guidance = output("guidance");
+    const format = (score) => score.toLocaleString("en-US");
+    const labels = (records) => records.map(record => record.label).join(" / ");
+
+    const render = (submitted = false) => {
+      let firstError;
+      const records = [];
+      for (const [index, sitting] of sittings.entries()) {
+        const active = index === 0 || sitting.inputs.some(input => input.value !== "" || input.validity.badInput);
+        const invalid = input => active && (input.value === "" || !input.validity.valid);
+        for (const input of sitting.inputs) {
+          const error = invalid(input);
+          if (error && (submitted || input.value !== "" || input.validity.badInput)) input.setAttribute("aria-invalid", "true");
+          else input.removeAttribute("aria-invalid");
+          if (error && !firstError) firstError = { input, label: sitting.label };
+        }
+        if (!active || sitting.inputs.some(invalid)) continue;
+        const [rw, math] = sitting.inputs.map(input => input.valueAsNumber);
+        records.push({ label: sitting.label, rw, math, total: rw + math });
+      }
+      if (firstError) {
+        single.textContent = "--";
+        combined.textContent = "--";
+        singleSource.textContent = "";
+        combinedSource.textContent = "";
+        guidance.textContent = "";
+        status.textContent = submitted || sittings.some(sitting => sitting.inputs.some(input => input.value !== "" || input.validity.badInput))
+          ? `${firstError.label}: enter both scores, 200 to 800 in steps of 10, or leave an optional sitting blank.`
+          : "Enter the two scores from sitting 1 to begin.";
+        if (submitted) firstError.input.focus();
+        return false;
+      }
+
+      const best = Math.max(...records.map(record => record.total));
+      const rw = Math.max(...records.map(record => record.rw));
+      const math = Math.max(...records.map(record => record.math));
+      const gain = rw + math - best;
+      const repeatedBest = records.filter(record => record.rw === rw && record.math === math);
+      single.textContent = format(best);
+      singleSource.textContent = labels(records.filter(record => record.total === best));
+      combined.textContent = format(rw + math);
+      combinedSource.textContent = `${rw} Reading and Writing (${labels(records.filter(record => record.rw === rw))}) + ${math} Math (${labels(records.filter(record => record.math === math))})`;
+      status.textContent = records.length === 1 ? "One sitting entered. Add another to compare test dates."
+        : gain === 0 ? "Combining the highest sections does not increase the best single-date total."
+        : `Combining the sections is ${gain} points higher than your best single-date total.`;
+
+      if (policy.value === "single") {
+        guidance.textContent = "Use the single-date total for this comparison. Confirm which complete reports the college requires.";
+      } else if (policy.value === "combined") {
+        guidance.textContent = repeatedBest.length
+          ? `One date can supply both highs: ${labels(repeatedBest)}. Confirm whether the college also requires other dates.`
+          : "The highs come from different dates. If official reports are required, use complete reports that include both highs. Check whether the college also requires other dates.";
+      } else {
+        guidance.textContent = "Verify the college's evaluation and reporting policies before using the combined number or ordering reports.";
+      }
+      return true;
+    };
+
+    form.addEventListener("input", () => render());
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      if (render(true)) result.focus();
+    });
+    form.addEventListener("reset", event => {
+      event.preventDefault();
+      sittings.forEach(sitting => sitting.inputs.forEach(input => { input.value = ""; }));
+      policy.value = "unknown";
+      render();
+    });
+    render();
+  });
+}
+
 function initSatGoalPlanners() {
   document.querySelectorAll("[data-sat-goal-planner]").forEach((widget) => {
     const inputs = ["current", "target", "weeks", "hours"].map((name) => [name, widget.querySelector(`[data-goal-${name}]`)]);
@@ -3968,6 +4056,7 @@ initDmvScoreCalculators();
 initScoreEntryTracking();
 initDmvChecklists();
 initSatScoreCalculators();
+initSatSuperscoreComparisons();
 initSatGoalPlanners();
 initSatDatePlanners();
 initSatAnticipatedFall();

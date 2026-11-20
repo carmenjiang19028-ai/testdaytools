@@ -3969,7 +3969,13 @@
       "title": "SAT Superscore and Score Choice Guide",
       "description": "Understand SAT superscoring, score choice, official score sending, and how to decide whether a retake is useful for your college list.",
       "heroKicker": "SAT score sending",
-      "summary": "A retake is most valuable when it can improve the section a college will actually use. This guide helps you think through superscoring and score sending without guessing policies.",
+      "summary": "Compare your best single-date SAT total with your highest two sections, then check which number your college uses and which complete test reports it requires.",
+      "lastUpdated": "November 20, 2026",
+      "heroActions": [
+        {"label": "Compare SAT scores", "href": "#sat-superscore-compare"},
+        {"label": "Check score deadlines", "href": "sat-score-release-guide.html"}
+      ],
+      "toolWidget": {"type": "satSuperscoreComparison"},
       "quickFacts": [
         {
           "label": "Main concept",
@@ -3990,47 +3996,40 @@
       ],
       "body": [
         {
-          "heading": "Superscoring is college-specific",
-          "text": "Some colleges combine best section scores across test dates, while others may use different rules. Check each college rather than assuming one universal policy."
+          "heading": "One student's two score reports",
+          "text": "In the worked example, the 1,360 second sitting is the best single SAT. The 680 Reading and Writing score from sitting 1 and the 710 Math score from sitting 2 add to 1,390. That is a 30-point difference for a college that combines these dates. No score report in the example contains a 1,390 total."
         },
         {
-          "heading": "Score Choice is not the same as strategy",
-          "text": "Being able to choose scores does not mean every score should be sent. Start with the college's policy and deadline."
+          "heading": "Score Choice sends complete sittings",
+          "text": "College Board sends SAT scores by test date, not by section. You cannot send only the 680 from sitting 1 and only the 710 from sitting 2. If a college needs official reports to use both highs in this example, the two complete sittings contain that evidence. Follow the institution's instructions if it asks for all dates or accepts self-reported scores first."
         },
         {
-          "heading": "Retake only with a section plan",
-          "text": "If one section is clearly holding back your superscore, a targeted retake can make sense. If both sections are flat, broader review may be needed."
+          "heading": "Check evaluation and reporting separately",
+          "text": "First check how the college evaluates the SAT: highest sections across dates, one sitting, or another rule. Then check how it wants the scores reported: self-report or official reports, selected dates or all dates. A school can combine the highest sections and still require complete reports."
         },
         {
-          "heading": "Keep a score-send checklist",
-          "text": "For each college, record whether scores are required, optional, self-reported, superscored, or due by a specific date."
+          "heading": "Two policy examples, not a college list",
+          "text": "Yale's undergraduate testing page permits SAT superscores; Georgetown's first-year preparation page says it does not accept superscores. The same score reports can therefore produce different comparisons. Use the links in Sources to confirm the rule for your program and application round before sending scores."
         },
         {
-          "heading": "Why superscoring changes retake strategy",
-          "text": "If a college superscores, a retake can be valuable even when only one section is likely to improve. The decision becomes less about beating the entire previous total and more about raising the section that would strengthen the combined best score."
+          "heading": "Make a retake earn its place",
+          "text": "Write down the section gain that would help under the verified policy. For a college considering one sitting, a stronger section alone does not guarantee a better total. Make sure the college accepts the next test date and that scores can arrive by its receipt deadline. A target is not a prediction."
         },
         {
-          "heading": "What to verify before relying on superscore strategy",
-          "text": "Policies vary by college and can change. Confirm whether the school accepts superscores, whether self-reported scores are allowed, and whether all scores or selected scores are required. A strong strategy starts with each college policy, not a generic assumption."
-        },
-        {
-          "heading": "How to decide whether to send a score",
-          "text": "Compare the score with the college profile, program expectations, scholarship rules, and application timeline. Sending is not always the same decision as retaking. Some students should send a usable score while still preparing for one more attempt."
-        },
-        {
-          "heading": "How to avoid overtesting",
-          "text": "Superscoring can make retakes useful, but it can also tempt students into testing repeatedly without a new plan. Before each retake, name the section score you are trying to improve, the evidence that improvement is possible, and the application deadline that makes the retake worthwhile."
-        },
-        {
-          "heading": "How this guide fits the full SAT workflow",
-          "text": "Use this guide after you have official scores, not only practice scores. Compare each section score with your college list, then use the score goal planner to decide whether another test date has a specific purpose. A retake is stronger when it is aimed at one section and one deadline."
-        },
-        {
-          "heading": "What to do after a superscore decision",
-          "text": "Once the decision is clear, make the next action concrete: send a score, register for a retake, or stop testing and shift time to applications. A superscore plan is only useful when it reduces uncertainty and protects time for essays, recommendation requests, schoolwork, and other application tasks."
+          "heading": "Keep one record per college",
+          "text": "College and round: ____ | Evaluation rule: ____ | Self-report or official reports: ____ | Selected or all dates: ____ | Last accepted test and receipt deadline: ____ | Official policy URL and date checked: ____."
         }
       ],
       "tables": [
+        {
+          "caption": "Worked example: same scores, two evaluation methods",
+          "headers": ["Score record", "Reading and Writing", "Math", "Total"],
+          "rows": [
+            ["Sitting 1", "680", "640", "1,320"],
+            ["Sitting 2", "650", "710", "1,360"],
+            ["Highest sections combined", "680 (sitting 1)", "710 (sitting 2)", "1,390 (not one test date)"]
+          ]
+        },
         {
           "caption": "Superscore decision table",
           "headers": [
@@ -4067,70 +4066,6 @@
           ]
         }
       ],
-      "cardGroups": [
-        {
-          "heading": "Common mistakes to avoid",
-          "items": [
-            {
-              "label": "Policy",
-              "title": "Using one rule for every college",
-              "text": "SAT reporting policies vary across schools and can change."
-            },
-            {
-              "label": "Retake",
-              "title": "Retaking without a section target",
-              "text": "A superscore strategy works best when you know which section needs improvement."
-            },
-            {
-              "label": "Deadline",
-              "title": "Ignoring score arrival timing",
-              "text": "A later score is useful only if the school accepts it in time."
-            }
-          ]
-        },
-        {
-          "heading": "Superscore decision map",
-          "intro": "Use this before paying for another test date or score send.",
-          "items": [
-            {
-              "label": "One weak section",
-              "title": "Retake may be efficient",
-              "text": "Focus the plan around the section that would improve the superscore."
-            },
-            {
-              "label": "Both weak sections",
-              "title": "Use a broader repair plan",
-              "text": "A retake is still possible, but the study plan needs more than one section target."
-            },
-            {
-              "label": "Policy unclear",
-              "title": "Verify directly",
-              "text": "Check the college admissions page before making score-send decisions."
-            }
-          ]
-        },
-        {
-          "heading": "Information to save",
-          "items": [
-            {
-              "label": "Date",
-              "title": "Test dates and section scores",
-              "text": "Keep a simple record of each official test and practice milestone."
-            },
-            {
-              "label": "Policy",
-              "title": "College-specific score rules",
-              "text": "Record whether the college superscores and whether it requires all scores."
-            },
-            {
-              "label": "Deadline",
-              "title": "Application timing",
-              "text": "A later score only helps if it arrives before the relevant deadline."
-            }
-          ]
-        }
-      ],
-      "checklist": [],
       "faq": [
         {
           "q": "What is SAT superscoring?",
@@ -4145,16 +4080,8 @@
           "a": "Not automatically. Check each college's rules for score choice, all scores, self-reporting, and official reports."
         },
         {
-          "q": "Can superscoring make a retake worth it?",
-          "a": "Yes, if one section has clear room to improve and the college uses superscoring."
-        },
-        {
-          "q": "Do all colleges superscore the SAT?",
-          "a": "No. Many do, but policies differ. Always confirm with each college before relying on a superscore plan."
-        },
-        {
-          "q": "Should I retake if only one SAT section is weak?",
-          "a": "Possibly. If your target colleges superscore, improving one section can raise the combined best score."
+          "q": "Can I send just one SAT section from each date?",
+          "a": "No. College Board sends complete test sittings. A college that superscores can use the highest sections from the reports it receives or allows you to self-report."
         },
         {
           "q": "Can superscoring make a lower total score useful?",
@@ -4163,12 +4090,24 @@
       ],
       "sources": [
         {
-          "label": "College Board SAT: Sending scores",
-          "url": "https://satsuite.collegeboard.org/sat/scores/send-scores-to-colleges"
+          "label": "College Board: Why SAT score sends include the whole test date",
+          "url": "https://satsuite.collegeboard.org/help-center/can-i-choose-send-only-part-my-sat-score"
         },
         {
-          "label": "College Board SAT: Scores",
-          "url": "https://satsuite.collegeboard.org/sat/scores"
+          "label": "College Board: How to send scores and check a college's reporting requirements",
+          "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores"
+        },
+        {
+          "label": "College Board: SAT section and total score ranges",
+          "url": "https://satsuite.collegeboard.org/scores/what-scores-mean"
+        },
+        {
+          "label": "Yale Undergraduate Admissions: Standardized testing",
+          "url": "https://admissions.yale.edu/standardized-testing"
+        },
+        {
+          "label": "Georgetown Undergraduate Admissions: First-year testing requirements",
+          "url": "https://uadmissions.georgetown.edu/apply/first-year-applicants/how-to-prepare/"
         }
       ],
       "related": [

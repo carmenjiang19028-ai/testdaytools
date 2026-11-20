@@ -1847,6 +1847,50 @@ def render_sat_august_readiness(tool, widget):
 </section>"""
 
 
+def render_sat_superscore_comparison():
+    sittings = []
+    for number in range(1, 4):
+        required = " required" if number == 1 else ""
+        optional = " (optional)" if number > 1 else ""
+        sittings.append(f"""<fieldset class="sat-superscore-sitting" data-superscore-sitting>
+        <legend>Sitting {number}{optional}</legend>
+        <label>Reading and Writing<input type="number" inputmode="numeric" min="200" max="800" step="10"{required}></label>
+        <label>Math<input type="number" inputmode="numeric" min="200" max="800" step="10"{required}></label>
+      </fieldset>""")
+    return f"""<section class="tool-block sat-widget" id="sat-superscore-compare" data-sat-superscore>
+  <div class="tool-section-head">
+    <h2>Compare up to three official SAT sittings</h2>
+    <p class="section-intro">Use the two reported section scores for each date (200 to 800, in tens). Do not enter PSAT or practice scores.</p>
+  </div>
+  <div class="sat-widget-grid">
+    <form class="sat-input-panel sat-superscore-form" autocomplete="off" novalidate>
+      {"".join(sittings)}
+      <label class="sat-superscore-policy">College evaluation policy
+        <select data-superscore-policy>
+          <option value="unknown">Not verified</option>
+          <option value="combined">Combines highest sections</option>
+          <option value="single">Uses a single test date</option>
+        </select>
+      </label>
+      <div class="sat-plan-actions sat-superscore-actions">
+        <button type="submit">Compare scores</button>
+        <button type="reset">Clear scores</button>
+      </div>
+    </form>
+    <aside class="sat-result-panel sat-superscore-result" aria-label="SAT score comparison" aria-live="polite" tabindex="-1">
+      <p data-superscore-status>Enter the two scores from sitting 1 to begin.</p>
+      <dl>
+        <div><dt>Best single-date total</dt><dd><strong data-superscore-single>--</strong><span data-superscore-single-source></span></dd></div>
+        <div><dt>Highest sections combined</dt><dd><strong data-superscore-combined>--</strong><span data-superscore-combined-source></span></dd></div>
+      </dl>
+      <p data-superscore-guidance></p>
+      <p class="sat-widget-note">This comparison does not send scores or save the numbers you enter. College Board sends complete test dates, and each college sets its reporting requirements.</p>
+    </aside>
+  </div>
+  <noscript><p>Use the worked score comparison below if the interactive form is unavailable.</p></noscript>
+</section>"""
+
+
 def render_tool_widget(tool):
     widget = tool.get("toolWidget")
     if not widget:
@@ -1860,6 +1904,8 @@ def render_tool_widget(tool):
         return render_sat_date_planner(tool, widget)
     if kind == "satAugustReadiness":
         return render_sat_august_readiness(tool, widget)
+    if kind == "satSuperscoreComparison":
+        return render_sat_superscore_comparison()
     if kind == "satScoreCalculator":
         return f"""<section class="tool-block sat-widget" data-sat-score-calculator>
   <div class="tool-section-head">

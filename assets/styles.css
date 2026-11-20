@@ -3616,6 +3616,67 @@ h3 {
   overflow-wrap: anywhere;
 }
 
+.sat-superscore-form {
+  align-content: start;
+}
+
+.sat-superscore-sitting,
+.sat-superscore-policy,
+.sat-superscore-actions {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.sat-superscore-sitting {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  margin: 0;
+  padding: 8px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.sat-superscore-sitting legend {
+  padding-right: 8px;
+  color: var(--blue-deep);
+  font-weight: 800;
+}
+
+.sat-superscore-sitting label {
+  align-content: end;
+  font-size: 0.9rem;
+}
+
+.sat-superscore-form input[aria-invalid] {
+  border-color: var(--red);
+}
+
+.sat-superscore-actions button[type="reset"] {
+  background: var(--paper);
+  color: var(--blue-deep);
+}
+
+.sat-superscore-result dl > div {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.sat-superscore-result dd {
+  margin: 0;
+}
+
+.sat-superscore-result dd strong {
+  display: block;
+  color: var(--blue-deep);
+  font-size: 1.65rem;
+}
+
+.sat-superscore-result dd span {
+  display: block;
+  color: var(--muted);
+}
+
 .sat-result-panel [data-goal-headline] {
   font-size: 1.8rem;
   line-height: 1.12;
