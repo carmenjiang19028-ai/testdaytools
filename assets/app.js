@@ -259,6 +259,11 @@ function questionMasteryId(question, state = "") {
   return `${normalizeDmvState(state) || "general"}|${masteryToken(prompt)}|${masteryToken(answer)}`;
 }
 
+function isDmvReviewDue(record, now) {
+  const dueAt = Number(record?.dueAt);
+  return Number.isFinite(dueAt) && dueAt > 0 && dueAt <= now;
+}
+
 function getDmvMasterySummary(state = "") {
   const selectedState = normalizeDmvState(state);
   const now = Date.now();
@@ -267,8 +272,8 @@ function getDmvMasterySummary(state = "") {
     return !selectedState || itemState === selectedState || itemState === "general";
   });
   const learning = items.filter((item) => !Number(item.reliableAt));
-  const dueItems = learning
-    .filter((item) => Number(item.dueAt) <= now)
+  const dueItems = items
+    .filter((item) => isDmvReviewDue(item, now))
     .sort((a, b) => Number(a.dueAt) - Number(b.dueAt) || Number(a.updatedAt) - Number(b.updatedAt));
   return {
     attempted: items.length,
@@ -367,7 +372,7 @@ function recordDmvAnswer({ correct, category, state }) {
   saveDmvJourney(journey);
 }
 
-function recordDmvSession({ label, href, total, correct, missed, weak, state }) {
+function recordDmvSession({ label, href, total, correct, missed, weak, state, mode, fullRound, practiceTargetMet }) {
   const journey = readDmvJourney();
   const selectedState = normalizeDmvState(state || journey.state);
   if (selectedState) journey.state = selectedState;
@@ -385,6 +390,9 @@ function recordDmvSession({ label, href, total, correct, missed, weak, state }) 
     percent,
     weak: Array.isArray(weak) ? weak.slice(0, 3) : [],
     state: selectedState,
+    mode,
+    fullRound,
+    practiceTargetMet,
     completedAt: Date.now(),
   });
   saveDmvJourney(journey);
@@ -595,7 +603,7 @@ function initQuizzes() {
       const now = Date.now();
       return masteryRecords()
         .map((record, index) => ({ index, record }))
-        .filter(({ record }) => record && !Number(record.reliableAt) && Number(record.dueAt) <= now)
+        .filter(({ record }) => isDmvReviewDue(record, now))
         .map(({ index }) => index);
     };
 
@@ -604,9 +612,7 @@ function initQuizzes() {
       const currentRecords = masteryRecords();
       const now = Date.now();
       const records = currentRecords.filter(Boolean);
-      const dueCount = currentRecords.filter(
-        (record) => record && !Number(record.reliableAt) && Number(record.dueAt) <= now
-      ).length;
+      const dueCount = records.filter((record) => isDmvReviewDue(record, now)).length;
       const reliableCount = records.filter((record) => Number(record.reliableAt)).length;
       const learningCount = records.length - reliableCount;
       if (masteryDue) masteryDue.textContent = String(dueCount);
@@ -844,6 +850,9 @@ function initQuizzes() {
           missed: missedCount,
           weak: missed,
           state: quiz.dataset.state,
+          mode: quiz.dataset.modeId,
+          fullRound: !focusedDmv,
+          practiceTargetMet,
         });
       }
 
@@ -1034,7 +1043,7 @@ function initQuizzes() {
         setActiveSequence(
           dueIndexes,
           dueIndexes.length
-            ? "Due questions loaded. Two correct rounds are required before a question becomes reliable."
+            ? "Due questions loaded, including any weekly checks for reliable questions."
             : "No questions are due in this mode. Continue with a focused round or return when the next review opens."
         );
         return;
@@ -1880,9 +1889,13 @@ function initDmvJourneyDashboards() {
       const mastery = getDmvMasterySummary(state);
       const baselineCount = Math.min(mastery.attempted, 10);
       const twoWeeksAgo = Date.now() - 14 * 86400000;
-      const passes = stateSessions.filter(
-        (session) => Number(session.completedAt) >= twoWeeksAgo && Number(session.total) >= 10 && Number(session.percent) >= 80,
-      ).length;
+      const permitPage = option.dataset.mixedPracticeUrl || "";
+      const targetRounds = stateSessions.filter((session) => (
+        permitPage && session.state === state && session.mode === "mock" &&
+        session.fullRound === true && session.practiceTargetMet === true &&
+        String(session.href || "").split(/[?#]/, 1)[0] === permitPage &&
+        Number(session.completedAt) >= twoWeeksAgo
+      )).length;
       const readyCount = checklistCount(state);
       const weak = recent
         ? recent.weak?.[0] || ""
@@ -1907,8 +1920,9 @@ function initDmvJourneyDashboards() {
       } else {
         setStep("review", "Waiting", false, false);
       }
-      setStep("passes", `${Math.min(passes, 2)} of 2`, passes >= 2, baselineCount >= 10 && passes < 2 && !mastery.due);
-      setStep("ready", `${readyCount} of 12`, readyCount >= 12, passes >= 2 && readyCount < 12);
+      setStep("passes", permitPage ? `${Math.min(targetRounds, 2)} of 2` : "Not available", targetRounds >= 2, Boolean(permitPage) && baselineCount >= 10 && targetRounds < 2 && !mastery.due);
+      const checklistNext = targetRounds >= 2 || (!permitPage && baselineCount >= 10 && !mastery.due);
+      setStep("ready", `${readyCount} of 12`, readyCount >= 12, checklistNext && readyCount < 12);
 
       if (recent && recentBox) {
         recentBox.hidden = false;
@@ -1935,8 +1949,8 @@ function initDmvJourneyDashboards() {
 
       if (mastery.due && mastery.dueItem) {
         kicker.textContent = "Review queue ready";
-        title.textContent = `Repair ${mastery.due} due ${mastery.due === 1 ? "question" : "questions"}`;
-        copy.textContent = "Return to the exact questions that still need evidence. Two correct rounds are required before they count as reliable.";
+        title.textContent = `Review ${mastery.due} due ${mastery.due === 1 ? "question" : "questions"}`;
+        copy.textContent = "Revisit these missed or scheduled questions. Reliable questions come back for a weekly check.";
         primary.href = mastery.dueItem.href || option.dataset.practiceUrl || "dmv-practice.html";
         primary.textContent = "Start due review";
       } else if (!mastery.attempted) {
@@ -1957,16 +1971,22 @@ function initDmvJourneyDashboards() {
         copy.textContent = `Use the ${stateLabel} practice path and official source to fix the rule, then retake a focused round.`;
         primary.href = option.dataset.practiceUrl || "dmv-practice.html";
         primary.textContent = `Review ${stateLabel} rules`;
-      } else if (passes < 2) {
-        kicker.textContent = "Confirm the result";
-        title.textContent = "Pass one more focused round";
-        copy.textContent = "Two recent 80%+ rounds are a better readiness signal than one clean attempt.";
-        primary.href = option.dataset.practiceUrl || "dmv-practice.html";
-        primary.textContent = `Take ${stateLabel} practice`;
+      } else if (!permitPage) {
+        kicker.textContent = "Use your state handbook";
+        title.textContent = `Confirm ${stateLabel} exam requirements`;
+        copy.textContent = "This path includes sign practice but not a full state mixed round. Check the official handbook and confirm the documents, appointment, and rules for your test.";
+        primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
+        primary.textContent = "Open test-day checklist";
+      } else if (targetRounds < 2) {
+        kicker.textContent = "Check the full practice set";
+        title.textContent = targetRounds ? "Meet the practice target once more" : "Meet the full practice target";
+        copy.textContent = "Use the full mixed practice for your state. Focused, signs-only and warm-up rounds do not count here. This is a study benchmark, not an official exam result.";
+        primary.href = `${permitPage}?mode=mock#practice`;
+        primary.textContent = `Start ${stateLabel} mixed practice`;
       } else if (readyCount < 12) {
         kicker.textContent = "Move from score to test day";
         title.textContent = `Finish the ${stateLabel} readiness checklist`;
-        copy.textContent = "Your practice evidence is strong enough to shift attention to official rules, documents, appointment details, and arrival logistics.";
+        copy.textContent = "You met both practice targets. Confirm the official exam rules, documents, appointment details, and arrival logistics before test day.";
         primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
         primary.textContent = "Continue checklist";
       } else {

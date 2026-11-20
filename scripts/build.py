@@ -2877,11 +2877,18 @@ def render_dmv_journey_dashboard():
     default_state = next((state for state in states if state.get("value") == "florida"), states[0])
     options = []
     for state in states:
+        permit = find_dmv_permit_tool_for_state(state) or {}
+        mixed_page = (
+            f'{permit["slug"]}.html'
+            if permit.get("indexable", True) and any(mode["id"] == "mock" for mode in permit.get("quizModes", []))
+            else ""
+        )
         options.append(
             f'<option value="{esc(state.get("value", ""))}" '
             f'data-label="{esc(state.get("label", ""))}" '
             f'data-agency="{esc(state.get("agency", "State agency"))}" '
             f'data-practice-url="{esc(state.get("permitUrl", "dmv-practice.html"))}" '
+            f'data-mixed-practice-url="{esc(mixed_page)}" '
             f'data-sign-url="{esc(state.get("signUrl", find_state_sign_href(state.get("label", ""))))}" '
             f'data-checklist-url="{esc(checklist_href_for_state(state))}" '
             f'data-source-url="{esc(state.get("manualUrl", "#"))}" '
@@ -2892,7 +2899,7 @@ def render_dmv_journey_dashboard():
     <div>
       <p class="eyebrow">Saved on this device</p>
       <h2 id="dmv-journey-title">Your DMV study path</h2>
-      <p class="section-intro">Build evidence of readiness instead of taking random quizzes: answer today, fix weak areas, pass two focused rounds, then finish test-day logistics.</p>
+      <p class="section-intro">Build a baseline, revisit weak areas, meet your state's mixed-practice targets, and confirm test-day logistics.</p>
     </div>
     <label class="journey-state-control">Your state
       <select data-journey-state>{"".join(options)}</select>
@@ -2921,7 +2928,7 @@ def render_dmv_journey_dashboard():
   <div class="journey-steps" aria-label="DMV readiness milestones">
     <article data-journey-step="warmup"><span>1</span><div><strong>Build a 10-question baseline</strong><p>Attempt 10 different questions.</p></div><b data-journey-step-status>Not started</b></article>
     <article data-journey-step="review"><span>2</span><div><strong>Repair the weak area</strong><p>Use misses to choose signs or state rules.</p></div><b data-journey-step-status>Waiting</b></article>
-    <article data-journey-step="passes"><span>3</span><div><strong>Pass two focused rounds</strong><p>Two 10+ question results at 80%+ are stronger than one lucky score.</p></div><b data-journey-step-status>0 of 2</b></article>
+    <article data-journey-step="passes"><span>3</span><div><strong>Meet two mixed-practice targets</strong><p>Two full sets for this state in 14 days. Older scores without a recorded round type stay in history but do not count here.</p></div><b data-journey-step-status>0 of 2</b></article>
     <article data-journey-step="ready"><span>4</span><div><strong>Finish test-day readiness</strong><p>Confirm documents, source, and visit logistics.</p></div><b data-journey-step-status>0 items</b></article>
   </div>
   <div class="journey-recent" data-journey-recent hidden>
