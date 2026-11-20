@@ -641,13 +641,20 @@ function initQuizzes() {
       focusQuizContent(question?.querySelector("h3"), question);
     };
 
+    const pageName = window.location.pathname.split("/").pop() || "index.html";
+    const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
+
     const roundHref = (focus = "all") => {
-      const pageName = window.location.pathname.split("/").pop() || "index.html";
-      const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
       const params = new URLSearchParams();
       if (mode) params.set("mode", mode);
       if (focus !== "all") params.set("focus", focus);
       return `${pageName}${params.size ? `?${params}` : ""}#practice`;
+    };
+
+    const comparisonHref = (concept) => {
+      const params = new URLSearchParams({ concept, return: pageName });
+      if (mode) params.set("return_mode", mode);
+      return `road-sign-learning-loop.html?${params}#learning-loop`;
     };
 
     const roundSignature = () => draftSignature ??= JSON.stringify(questions.map((question) => [
@@ -723,7 +730,7 @@ function initQuizzes() {
 
     const saveMistakes = () => {
       try {
-        window.localStorage.setItem(storageKey, JSON.stringify(savedMistakes.slice(0, 12)));
+        window.localStorage.setItem(storageKey, JSON.stringify(savedMistakes.slice(0, Math.max(12, questions.length))));
       } catch (error) {
         // Browser storage can be unavailable in private modes; the quiz still works without it.
       }
@@ -737,15 +744,19 @@ function initQuizzes() {
         return;
       }
       if (clearMistakesButton) clearMistakesButton.disabled = false;
-      mistakesBox.innerHTML = savedMistakes
-        .slice(0, 5)
+      const previewCount = 5;
+      const preview = savedMistakes
+        .slice(0, previewCount)
         .map((item) => {
           const compareLink = item.conceptId
-            ? `<a href="road-sign-learning-loop.html?concept=${encodeURIComponent(item.conceptId)}&return=road-signs-practice-test.html#learning-loop">Compare this distinction</a>`
+            ? `<a href="${escapeHtml(comparisonHref(item.conceptId))}">Compare this distinction</a>`
             : "";
           return `<article><strong>${escapeHtml(item.category)}</strong><span>${escapeHtml(item.prompt)}</span>${compareLink}</article>`;
         })
         .join("");
+      mistakesBox.innerHTML = preview + (savedMistakes.length > previewCount
+        ? `<span>Showing ${previewCount} of ${savedMistakes.length} saved entries. Choose Saved mistakes to retry questions still in this round.</span>`
+        : "");
     };
 
     const rememberMistake = (question) => {
@@ -997,25 +1008,23 @@ function initQuizzes() {
             : "Answer this round before choosing another tool. The next action will use your real misses.";
           nextPlanAction.href = "#practice";
           nextPlanAction.textContent = answeredCount ? "Continue this round" : "Start this round";
-        } else if (missedCount && imageMisses.length === missedCount) {
+        } else if (imageMisses.length) {
+          const allVisual = imageMisses.length === missedCount;
           const concept = imageMisses[0].dataset.conceptId;
-          if (concept && imageMisses.every(question => question.dataset.conceptId === concept)) {
+          if (allVisual && concept && imageMisses.every(question => question.dataset.conceptId === concept)) {
             nextPlanTitle.textContent = "Compare the sign distinction you missed";
-            nextPlanCopy.textContent = "Use the two-sign comparison, then answer an action question and another practice question before returning to the full round.";
-            nextPlanAction.href = `road-sign-learning-loop.html?concept=${encodeURIComponent(concept)}&return=${encodeURIComponent(window.location.pathname.split("/").pop() || "road-signs-practice-test.html")}#learning-loop`;
+            nextPlanCopy.textContent = "Work through the sign comparison and its action questions, then come back to retry the saved mistakes from this round.";
+            nextPlanAction.href = comparisonHref(concept);
             nextPlanAction.textContent = "Open targeted comparison";
           } else {
-            nextPlanTitle.textContent = `Review ${missed[0] || "missed signs"}`;
-            nextPlanCopy.textContent = "Use visual flashcards once, then return to the saved-mistake filter instead of restarting a random test.";
-            nextPlanAction.href = "dmv-road-sign-flashcards.html";
-            nextPlanAction.textContent = "Open sign flashcards";
+            nextRoundFocus = "saved";
+            nextPlanTitle.textContent = allVisual ? "Retry the signs you missed" : "Review both sign and rule mistakes";
+            nextPlanCopy.textContent = allVisual
+              ? "Re-answer the saved picture questions in this round. Before choosing, name the clue you see and what it tells you to do."
+              : "Retry the saved questions in this mode. Use the explanations to separate sign recognition from driving rules.";
+            nextPlanAction.href = roundHref("saved");
+            nextPlanAction.textContent = "Retry saved questions";
           }
-        } else if (imageMisses.length) {
-          nextRoundFocus = "saved";
-          nextPlanTitle.textContent = "Review both sign and rule mistakes";
-          nextPlanCopy.textContent = "Retry the saved questions in this mode. Use the explanations to separate sign recognition from driving rules.";
-          nextPlanAction.href = roundHref("saved");
-          nextPlanAction.textContent = "Retry saved questions";
         } else if (missedCount) {
           nextPlanTitle.textContent = `Repair ${missed[0] || "the weak rule area"}`;
           nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";
@@ -1208,7 +1217,7 @@ function initQuizzes() {
         setActiveSequence(
           savedIndexes,
           savedIndexes.length
-            ? "Saved mistakes loaded. Re-answer these questions, then clear the mistake bank when they feel easy."
+            ? "Saved mistakes loaded. Answer a question correctly to remove it from your saved list."
             : "No saved mistakes for this mode yet. Answer questions first or switch back to all categories."
         );
         return;

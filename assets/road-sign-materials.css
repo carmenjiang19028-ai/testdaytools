@@ -17,9 +17,10 @@
 .learning-loop-page .learning-record { border-top: 1px solid #ccd4d9; padding: 16px 0; }
 .learning-loop-page .learning-record-answer { margin: 12px 0; }
 .learning-loop-page textarea { width: 100%; min-height: 180px; }
-.learning-loop-page [data-loop-stage] { scroll-margin-top: 90px; }
+.learning-loop-page [data-loop-title], .learning-loop-page [data-loop-stage] { scroll-margin-top: 90px; }
+.learning-loop-page .learning-loop-stage.is-complete { min-height: 0; }
 @media (max-width: 700px) {
-  .learning-loop-page [data-loop-stage] { scroll-margin-top: 150px; }
+  .learning-loop-page [data-loop-title], .learning-loop-page [data-loop-stage] { scroll-margin-top: 150px; }
   .worked-examples[id] { scroll-margin-top: 160px; }
 }
 @media print {

@@ -7,7 +7,7 @@ const { chromium } = require('playwright');
 let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });
 after(async () => { await browser.close(); });
-async function open(width, concept = '', seed) {
+async function open(width, concept = '', seed, returnParams = {}) {
   const context = await browser.newContext({ viewport: { width, height: 850 } });
   await context.route(/^https?:/, route => route.abort());
   if (seed) await context.addInitScript(seed);
@@ -16,6 +16,7 @@ async function open(width, concept = '', seed) {
   page.on('pageerror', e => errors.push(e.message));
   const url = pathToFileURL(path.resolve('road-sign-learning-loop.html'));
   if (concept) url.searchParams.set('concept', concept);
+  for (const [name, value] of Object.entries(returnParams)) url.searchParams.set(name, value);
   await page.goto(url.href);
   return { context, page, errors };
 }
@@ -24,6 +25,24 @@ test('targeted session contains only its three questions', async () => {
   for (let i = 0; i < 3; i++) { await answer(page); await page.locator('[data-loop-next]').click(); }
   assert.equal(Object.keys((await state(page, 'merge-lane-ends')).answers).length, 3);
   await context.close();
+});
+test('legacy study sheet links keep their destination even with a return mode', async () => {
+  const { page, context } = await open(1280, 'merge-lane-ends', undefined, {
+    return: 'dmv-road-signs-cheat-sheet.html', return_mode: 'road-signs-core',
+  });
+  try {
+    for (let i = 0; i < 3; i++) { await answer(page); await page.locator('[data-loop-next]').click(); }
+    assert.equal(await page.getByRole('link', { name: 'Return to the study sheet' }).getAttribute('href'), 'dmv-road-signs-cheat-sheet.html');
+  } finally { await context.close(); }
+});
+test('unrecognized return mode leaves the plain picture practice link usable', async () => {
+  const { page, context } = await open(1280, 'merge-lane-ends', undefined, {
+    return: 'road-signs-practice-test.html', return_mode: 'not-a-picture-round',
+  });
+  try {
+    for (let i = 0; i < 3; i++) { await answer(page); await page.locator('[data-loop-next]').click(); }
+    assert.equal(await page.getByRole('link', { name: 'Return to picture practice' }).getAttribute('href'), 'road-signs-practice-test.html#practice');
+  } finally { await context.close(); }
 });
 test('keyboard works', async () => {
   const { page, context } = await open(1280);

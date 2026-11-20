@@ -126,7 +126,7 @@ test("mixed image and text misses return to this mode's saved questions", () =>
     assert.equal(await quiz.locator(".question.is-active h3:focus").count(), 1);
   }));
 
-test("a targeted lesson covers all the current misses, not just one of them", () =>
+test("uncovered image misses go back to the exact saved questions", () =>
   withSite(1280, async (page, quiz) => {
     await open(page, signs, { mode: "road-signs-starter", focus: "Regulatory signs" });
     const sameConcept = async q => (await q.getAttribute("data-concept-id")) === "stop-yield";
@@ -134,5 +134,60 @@ test("a targeted lesson covers all the current misses, not just one of them", ()
     assert.match(await nextStudy(quiz).getAttribute("href"), /concept=stop-yield&return=/);
     await quiz.locator("[data-quiz-reset]").click();
     await finish(quiz, async q => await sameConcept(q) || !(await q.getAttribute("data-concept-id")));
-    assert.equal(await nextStudy(quiz).getAttribute("href"), "dmv-road-sign-flashcards.html");
+    assert.equal(await nextStudy(quiz).getAttribute("href"), signs + "?mode=road-signs-starter&focus=saved#practice");
+    const missed = await quiz.locator("[data-quiz-missed]").first().textContent();
+    await nextStudy(quiz).click();
+    assert.match(await quiz.locator("[data-quiz-position]").textContent(), new RegExp(` of ${missed}$`));
+    assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "saved");
+  }));
+
+for (const width of [390, 1280]) {
+  test(`${width}px: contrast practice returns to the original starter mode and its missed signs`, () =>
+    withSite(width, async (page, quiz) => {
+      await open(page, signs, { mode: "road-signs-starter", focus: "Regulatory signs" });
+      await finish(quiz, async q => (await q.getAttribute("data-concept-id")) === "stop-yield");
+      const action = nextStudy(quiz);
+      const card = mistakes(quiz).first().getByRole("link", { name: "Compare this distinction" });
+      assert.equal(await card.getAttribute("href"), await action.getAttribute("href"));
+      await action.click();
+      await page.waitForURL("**/road-sign-learning-loop.html?*#learning-loop");
+      for (let i = 0; i < 3; i++) {
+        await page.locator('[data-loop-option="0"]').click();
+        await page.locator("[data-loop-next]").click();
+        await page.locator("[data-loop-next]").click();
+      }
+      const retry = page.locator("[data-loop-stage] a");
+      assert.equal(await retry.getAttribute("href"), signs + "?mode=road-signs-starter&focus=saved#practice");
+      assert.equal(await retry.textContent(), "Retry saved mistakes in this round");
+      assert.equal(await page.locator("[data-loop-title]:focus").textContent(), "Review your decisions");
+      const header = await page.locator(".site-header").boundingBox();
+      const heading = await page.locator("[data-loop-title]").boundingBox();
+      const retryBox = await retry.boundingBox();
+      assert.ok(heading.y >= header.y + header.height && retryBox.y + retryBox.height < 870);
+      const directory = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (directory) {
+        await page.screenshot({ path: path.join(directory, `comparison-return-${width}.png`) });
+      }
+      await retry.click();
+      await page.waitForURL("**/road-signs-practice-test.html?mode=road-signs-starter&focus=saved#practice");
+      assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "saved");
+      assert.match(await quiz.locator("[data-quiz-position]").textContent(), /1 of 2/);
+      assert.equal(await activeQuestion(quiz).getAttribute("data-concept-id"), "stop-yield");
+      await answer(quiz, true);
+      await page.reload();
+      assert.match(await quiz.locator("[data-quiz-position]").textContent(), /1 of 1/);
+    }));
+}
+
+test("all forty misses survive refresh and the saved focus can revisit them", () =>
+  withSite(1280, async (page, quiz) => {
+    await open(page, signs, { mode: "road-signs-core" });
+    await finish(quiz, () => true);
+    assert.match(await quiz.locator("[data-quiz-result]").textContent(), /^0 of 40 correct/);
+    await open(page, signs, { mode: "road-signs-core", focus: "saved" });
+    assert.match(await quiz.locator("[data-quiz-position]").textContent(), /1 of 40/);
+    assert.match(await quiz.locator("[data-quiz-mistakes]").textContent(), /Showing 5 of 40/);
+    await answer(quiz, true);
+    await page.reload();
+    assert.match(await quiz.locator("[data-quiz-position]").textContent(), /1 of 39/);
   }));

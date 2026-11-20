@@ -11,7 +11,14 @@
   const returnValue = params.get('return') || 'road-signs-practice-test.html';
   const returnPath = /^[a-z0-9-]+\.html$/.test(returnValue) ? returnValue : 'road-signs-practice-test.html';
   const fromSheet = returnPath === 'dmv-road-signs-cheat-sheet.html';
-  const returnHref = fromSheet ? returnPath : `${returnPath}#practice`;
+  const returnMode = params.get('return_mode');
+  const fromRound = returnValue === 'road-signs-practice-test.html' &&
+    ['road-signs-starter', 'road-signs-core'].includes(returnMode);
+  const returnHref = fromRound
+    ? `${returnPath}?${new URLSearchParams({ mode: returnMode, focus: 'saved' })}#practice`
+    : fromSheet ? returnPath : `${returnPath}#practice`;
+  const returnLabel = fromRound ? 'Retry saved mistakes in this round' :
+    fromSheet ? 'Return to the study sheet' : 'Return to picture practice';
   const key = `tdt-learning-loop:v2:${lessons.length && requested ? requested : 'all'}`;
   const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const get = name => root.querySelector(`[data-loop-${name}]`);
@@ -91,16 +98,18 @@
   const render = () => {
     persist();
     renderReport();
+    const complete = state.index === steps.length;
+    stage.classList.toggle('is-complete', complete);
     get('progress').textContent = `${answeredCount()} of ${questions.length} questions`;
     get('status').textContent = storageAvailable
       ? 'Saved only in this browser. Repeated practice is not a pass prediction.'
       : 'Browser storage is unavailable. This round still works, but may not survive a refresh.';
     get('print').disabled = answeredCount() === 0;
-    if (state.index === steps.length) {
+    if (complete) {
       get('phase-label').textContent = 'Session complete';
       get('title').textContent = 'Review your decisions';
       get('copy').textContent = 'Use the record below to explain the choices you missed before continuing your review.';
-      stage.innerHTML = `<p class="learning-complete">You answered all ${selectedLessons.length * 2} sign situations across ${selectedLessons.length} distinction${selectedLessons.length === 1 ? '' : 's'}. This is a record of this practice, not certified mastery.</p><p><a href="${esc(returnHref)}">${fromSheet ? 'Return to the study sheet' : 'Return to picture practice'}</a></p>`;
+      stage.innerHTML = `<p class="learning-complete">You answered all ${selectedLessons.length * 2} sign situations across ${selectedLessons.length} distinction${selectedLessons.length === 1 ? '' : 's'}. This is a record of this practice, not certified mastery.</p><p><a href="${esc(returnHref)}">${returnLabel}</a></p>`;
       next.disabled = true;
       next.textContent = 'Session complete';
       return;
@@ -149,8 +158,13 @@
     state.index += step.phase === 1 && state.answers[step.question.id].correct ? 2 : 1;
     selected = null;
     render();
-    stage.querySelector('[data-loop-question-title]')?.focus({ preventScroll: true });
-    stage.scrollIntoView({ block: 'start', behavior: 'instant' });
+    const complete = state.index === steps.length;
+    const heading = complete ? get('title') : stage.querySelector('[data-loop-question-title]');
+    if (heading) {
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    }
+    (complete ? heading : stage)?.scrollIntoView({ block: 'start', behavior: 'instant' });
   });
   get('reset').addEventListener('click', () => {
     state = { version: curriculum.version, index: 0, answers: {}, exposures: {} };
