@@ -56,6 +56,43 @@ test('all eight classroom PDF images exactly preserve rendered shared SVG pixels
 });
 
 for (const width of [1280, 390]) {
+  test(`${width}px: Illinois rendered warning signs match the shared art cues`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'illinois-dmv-road-signs-practice.html')).href + '#sign-library');
+      const library = page.locator('#sign-library');
+      const lane = library.getByRole('img', {name: 'Lane Ends', exact: true});
+      const slippery = library.getByRole('img', {name: 'Slippery When Wet', exact: true});
+      assert.equal(await lane.locator('path[stroke-dasharray]').count(), 1);
+      assert.equal(await lane.locator('path[fill="none"]').count(), 2);
+      assert.equal(await lane.locator('polygon').count(), 1);
+      assert.equal(await slippery.locator('path').last().evaluate(path => (path.getAttribute('d').match(/M/g) || []).length), 2);
+      const setBack = await lane.locator('svg').evaluate(svg => {
+        const outline = svg.querySelector('polygon');
+        for (const path of svg.querySelectorAll('path')) {
+          const length = path.getTotalLength();
+          const radius = Number(path.getAttribute('stroke-width')) / 2 + 2.5;
+          for (let i = 0; i <= 160; i++) {
+            const p = path.getPointAtLength(length * i / 160);
+            for (let j = 0; j < 16; j++) {
+              const a = j * Math.PI / 8;
+              if (!outline.isPointInFill(new DOMPoint(p.x + radius * Math.cos(a), p.y + radius * Math.sin(a)))) return false;
+            }
+          }
+        }
+        return true;
+      });
+      assert.equal(setBack, true);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lane.locator('..').screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `lane-ends-${width}.png`) });
+        await slippery.locator('..').screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `slippery-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: Illinois school cases are keyboard-readable and separate from the quiz`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 }, javaScriptEnabled: false });
     await context.route(/^https?:/, route => route.abort());

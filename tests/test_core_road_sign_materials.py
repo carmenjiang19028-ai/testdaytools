@@ -75,9 +75,23 @@ class CoreMaterialTests(unittest.TestCase):
 
     def test_lane_reduction_retains_boundaries_without_merge_arrow(self):
         paths = ET.fromstring(SIGN_SVGS["lane-ends"]).findall("path")
-        self.assertEqual(len(paths), 1)
+        self.assertEqual(len(paths), 2)
         self.assertEqual(paths[0].attrib["d"].count("M"), 2)
-        self.assertEqual(paths[0].attrib["fill"], "none")
+        self.assertEqual(paths[1].attrib["stroke-dasharray"], "6 4")
+        self.assertTrue(all(path.attrib["fill"] == "none" for path in paths))
+
+    def test_public_inline_warning_art_excludes_superseded_signs(self):
+        for path in ROOT.glob("*.html"):
+            text = path.read_text()
+            if '<meta name="robots" content="noindex' in text:
+                continue
+            with self.subTest(page=path.name):
+                self.assertNotIn("M82 126 V40 M138 126 C124 96 116 74 110 42", text)
+                self.assertNotIn("M88 120 V41 M137 120 V91 L121 65 V41", text)
+                self.assertNotIn("M68 116 c18-18 38 18 56", text)
+                for sign in ("lane-ends", "slippery"):
+                    marker = ET.fromstring(SIGN_SVGS[sign]).find("path").attrib["d"]
+                    self.assertEqual(text.count(marker), text.count(SIGN_SVGS[sign]))
 
     def test_slippery_has_vehicle_and_two_separate_skid_tracks(self):
         paths = ET.fromstring(SIGN_SVGS["slippery"]).findall("path")
