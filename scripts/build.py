@@ -2632,8 +2632,8 @@ def render_quiz(quiz_key, options=None):
     mastery_panel = "" if not is_dmv else """<div class="quiz-mastery" data-quiz-mastery>
     <div><span>Due review</span><strong data-quiz-mastery-due>0</strong></div>
     <div><span>Learning</span><strong data-quiz-mastery-learning>0</strong></div>
-    <div><span>Reliable</span><strong data-quiz-mastery-reliable>0</strong></div>
-    <p>Two correct rounds move a question to reliable. Misses return to the review queue.</p>
+    <div><span>Weekly review</span><strong data-quiz-mastery-reliable>0</strong></div>
+    <p>Missed questions are due now. After the first correct answer, check again in 24 hours. A correct answer when due moves a question to weekly review. This is not an exam result.</p>
   </div>"""
     review_button_label = "Review due" if is_dmv else "Review mistakes"
     summary = f"""<aside class="quiz-summary" aria-live="polite">
@@ -3146,7 +3146,7 @@ def render_dmv_journey_dashboard():
       <div><dt>Completed</dt><dd data-journey-sessions>0 rounds</dd></div>
       <div><dt>Study streak</dt><dd data-journey-streak>0 days</dd></div>
       <div><dt>Review due</dt><dd data-journey-due>0 questions</dd></div>
-      <div><dt>Reliable</dt><dd data-journey-reliable>0 questions</dd></div>
+      <div><dt>Weekly review</dt><dd data-journey-reliable>0 questions</dd></div>
     </dl>
   </div>
   <div class="journey-steps" aria-label="DMV readiness milestones">

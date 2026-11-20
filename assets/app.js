@@ -306,7 +306,14 @@ function recordQuestionMastery({ question, correct, state, label, mode }) {
   const id = questionMasteryId(question, state);
   const now = Date.now();
   const previous = mastery.items[id] || {};
-  const correctStreak = correct ? (Number(previous.correctStreak) || 0) + 1 : 0;
+  const priorCorrect = Number(previous.correctStreak) || 0;
+  const priorDue = Number(previous.dueAt);
+  // Immediate retries are practice, not a separate recall at the scheduled time.
+  const scheduledRecall = priorCorrect > 0 && isDmvReviewDue(previous, now);
+  const correctStreak = correct ? Math.max(1, priorCorrect + Number(scheduledRecall)) : 0;
+  const dueAt = !correct ? now
+    : priorCorrect > 0 && Number.isFinite(priorDue) && priorDue > now ? priorDue
+    : now + (correctStreak >= 2 ? 7 : 1) * DAY_MS;
   const becameReliable = correctStreak >= 2 && !Number(previous.reliableAt);
   const pageName = window.location.pathname.split("/").pop() || "dmv-practice.html";
   mastery.items[id] = {
@@ -318,7 +325,7 @@ function recordQuestionMastery({ question, correct, state, label, mode }) {
     attempts: (Number(previous.attempts) || 0) + 1,
     misses: (Number(previous.misses) || 0) + (correct ? 0 : 1),
     correctStreak,
-    dueAt: correct ? now + (correctStreak >= 2 ? 7 * DAY_MS : DAY_MS) : now,
+    dueAt,
     reliableAt: correctStreak >= 2 ? Number(previous.reliableAt) || now : 0,
     updatedAt: now,
   };
@@ -1205,7 +1212,7 @@ function initQuizzes() {
         setActiveSequence(
           dueIndexes,
           dueIndexes.length
-            ? "Due questions loaded, including any weekly checks for reliable questions."
+            ? "Due questions loaded, including any scheduled weekly checks."
             : "No questions are due in this mode. Continue with a focused round or return when the next review opens."
         );
         return;
@@ -2108,7 +2115,7 @@ function initDmvJourneyDashboards() {
       if (mastery.due && mastery.dueItem) {
         kicker.textContent = "Review queue ready";
         title.textContent = `Review ${mastery.due} due ${mastery.due === 1 ? "question" : "questions"}`;
-        copy.textContent = "Revisit these missed or scheduled questions. Reliable questions come back for a weekly check.";
+        copy.textContent = "Retry misses now. For a question you answered correctly, return when its next check is due rather than repeating it immediately.";
         primary.href = mastery.dueItem.href || option.dataset.practiceUrl || "dmv-practice.html";
         primary.textContent = "Start due review";
       } else if (!mastery.attempted) {

@@ -105,7 +105,7 @@ for (const width of [390, 1280]) {
     }));
 }
 
-test("reliable questions return on the exact weekly due date and reschedule after review", () =>
+test("immediate repeats cannot skip the next-day review, and an on-time recall schedules the weekly check", () =>
   withSite(390, async (page) => {
     const practice = "/road-signs-practice-test.html?mode=road-signs-starter#practice";
     await page.goto(origin + practice);
@@ -115,17 +115,23 @@ test("reliable questions return on the exact weekly due date and reschedule afte
       const correct = await current.getAttribute("data-answer");
       await current.locator(`button[data-choice="${correct}"]`).click();
     }
+    const record = () => page.evaluate((key) => Object.values(JSON.parse(localStorage.getItem(key)).items)[0], masteryKey);
     await answerCurrent();
+    assert.equal((await record()).dueAt, now + day);
     await round.locator("[data-quiz-reset]").click();
     await answerCurrent();
-    const record = () => page.evaluate((key) => Object.values(JSON.parse(localStorage.getItem(key)).items)[0], masteryKey);
-    assert.equal((await record()).reliableAt, now);
-    assert.equal((await record()).dueAt, now + 7 * day);
-    await page.clock.setFixedTime(now + 7 * day - 1);
+    assert.equal((await record()).attempts, 2);
+    assert.equal((await record()).correctStreak, 1);
+    assert.equal((await record()).reliableAt, 0);
+    assert.equal((await record()).dueAt, now + day);
+    await page.clock.setFixedTime(now + day - 1);
+    await round.locator("[data-quiz-reset]").click();
+    await answerCurrent();
+    assert.equal((await record()).dueAt, now + day, "early practice must not postpone the original due time");
     await page.goto(origin + "/index.html");
     assert.equal(await page.locator("[data-journey-due]").textContent(), "0 questions");
 
-    await page.clock.setFixedTime(now + 7 * day);
+    await page.clock.setFixedTime(now + day);
     await page.reload();
     assert.equal(await page.locator("[data-journey-due]").textContent(), "1 question");
     const route = page.locator("[data-journey-review-link]");
@@ -137,9 +143,84 @@ test("reliable questions return on the exact weekly due date and reschedule afte
     assert.equal(await round.locator("[data-quiz-mastery-due]").textContent(), "1");
     await answerCurrent();
     assert.equal(await round.locator("[data-quiz-mastery-due]").textContent(), "0");
-    assert.equal((await record()).dueAt, now + 14 * day);
+    assert.equal((await record()).reliableAt, now + day);
+    assert.equal((await record()).dueAt, now + 8 * day);
+    if (process.env.VERIFY_SCREENSHOTS_DIR) {
+      const panel = round.locator("[data-quiz-mastery]");
+      await panel.evaluate(element => element.scrollIntoView({ block: "center" }));
+      await panel.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, "weekly-390.png") });
+    }
+    await page.clock.setFixedTime(now + 4 * day);
+    await page.goto(origin + practice);
+    await answerCurrent();
+    assert.equal((await record()).dueAt, now + 8 * day, "an early weekly answer does not reset the timer");
+
+    await page.clock.setFixedTime(now + 8 * day);
+    await page.goto(origin + "/dmv-practice.html");
+    assert.equal(await page.locator("[data-journey-due]").textContent(), "1 question");
+    await route.click();
+    await answerCurrent();
+    assert.equal((await record()).dueAt, now + 15 * day);
     await page.goto(origin + "/dmv-practice.html");
     assert.equal(await page.locator("[data-journey-due]").textContent(), "0 questions");
+    assert.equal(await page.locator("[data-journey-reliable]").locator("..").locator("dt").textContent(), "Weekly review");
+  }));
+
+test("an incorrect answer is due now and its immediate correction requires a later recall", () =>
+  withSite(1280, async (page) => {
+    await page.goto(origin + "/road-signs-practice-test.html?mode=road-signs-starter#practice");
+    const round = page.locator("[data-mode-panel].is-active [data-quiz]");
+    const current = round.locator(".question.is-active");
+    const answer = await current.getAttribute("data-answer");
+    const correct = current.locator(`[data-choice="${answer}"]`);
+    const record = () => page.evaluate((key) => Object.values(JSON.parse(localStorage.getItem(key)).items)[0], masteryKey);
+    await current.locator(`[data-choice]:not([data-choice="${answer}"])`).first().click();
+    assert.equal((await record()).dueAt, now);
+    await round.locator("[data-quiz-review-mistakes]").click();
+    await correct.click();
+    assert.equal((await record()).misses, 1);
+    assert.equal((await record()).dueAt, now + day);
+    await round.locator("[data-quiz-reset]").click();
+    await correct.click();
+    assert.equal((await record()).reliableAt, 0);
+    assert.equal((await record()).dueAt, now + day);
+    assert.match(await round.locator("[data-quiz-mastery]").innerText(), /24 hours/);
+    assert.match(await round.locator("[data-quiz-mastery]").innerText(), /not an exam result/);
+  }));
+
+test("an existing weekly item's date is preserved until it is checked or missed", () =>
+  withSite(1280, async (page) => {
+    const practice = "/road-signs-practice-test.html?mode=road-signs-starter#practice";
+    await page.goto(origin + practice);
+    const round = page.locator("[data-mode-panel].is-active [data-quiz]");
+    const current = round.locator(".question.is-active");
+    const answer = await current.getAttribute("data-answer");
+    const correct = current.locator(`[data-choice="${answer}"]`);
+    await correct.click();
+    await page.evaluate(({ key, now, day }) => {
+      const saved = JSON.parse(localStorage.getItem(key));
+      Object.assign(Object.values(saved.items)[0], { correctStreak: 2, reliableAt: now, dueAt: now + 7 * day });
+      localStorage.setItem(key, JSON.stringify(saved));
+    }, { key: masteryKey, now, day });
+    const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)), masteryKey);
+    const legacy = await read();
+    await page.clock.setFixedTime(now + day);
+    await page.reload();
+    assert.deepEqual(await read(), legacy);
+    assert.equal(await round.locator("[data-quiz-mastery-reliable]").textContent(), "1");
+    if (process.env.VERIFY_SCREENSHOTS_DIR) {
+      const panel = round.locator("[data-quiz-mastery]");
+      await panel.evaluate(element => element.scrollIntoView({ block: "center" }));
+      await panel.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, "weekly-1280.png") });
+    }
+    await correct.click();
+    assert.equal(Object.values((await read()).items)[0].dueAt, now + 7 * day);
+    await round.locator("[data-quiz-reset]").click();
+    await current.locator(`[data-choice]:not([data-choice="${answer}"])`).first().click();
+    const missed = Object.values((await read()).items)[0];
+    assert.equal(missed.reliableAt, 0);
+    assert.equal(missed.dueAt, now + day);
+    assert.equal(await round.locator("[data-quiz-mastery-due]").textContent(), "1");
   }));
 
 test("Texas and Illinois do not substitute a signs-only page for mixed practice", () =>
