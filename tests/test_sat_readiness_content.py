@@ -39,6 +39,33 @@ class SATReadinessContentTest(unittest.TestCase):
         self.assertIn(loaner, page)
         self.assertNotIn("Test morning is too late to solve hardware access", page)
 
+    def test_device_check_precedes_loan_deadline_on_both_checklists(self):
+        for slug in CHECKLISTS:
+            with self.subTest(slug=slug):
+                tool = TOOLS[slug]
+                page = (ROOT / f"{slug}.html").read_text()
+                self.assertIn("30+", tool["timeline"]["items"][0]["label"])
+                self.assertIn("at least 30 days", page)
+                self.assertIn("1-5 days", page)
+                self.assertIn("SAT School Day", page)
+                self.assertIn("at pickup", page)
+                self.assertIn('href="sat-device-troubleshooting-guide.html#sat-device-cases"', page)
+                self.assertNotIn("2 weeks out", page)
+                self.assertNotIn("1-2 weeks before", page)
+
+    def test_device_guide_covers_current_requirements_and_three_fictional_cases(self):
+        tool = TOOLS["sat-device-troubleshooting-guide"]
+        page = (ROOT / "sat-device-troubleshooting-guide.html").read_text()
+        self.assertIn(render_examples(tool), page)
+        self.assertIn('id="sat-device-cases"', page)
+        self.assertEqual(page.count("<summary>Show reasoning</summary>"), 3)
+        for requirement in ("Windows 11 24H2", "macOS 15", "iPadOS 18", "ChromeOS 144", "Verified Mode"):
+            self.assertIn(requirement, page)
+        self.assertIn("non-family adult verification", page)
+        self.assertIn("after timed testing has started", page)
+        self.assertIn("complete exam setup on that replacement", page)
+        self.assertIn("how-do-i-complete-device-swap", page)
+
     def test_corrections_leave_search_titles_and_descriptions_intact(self):
         expected = {
             "digital-sat-checklist": ("Digital SAT Checklist", "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics."),
@@ -49,7 +76,7 @@ class SATReadinessContentTest(unittest.TestCase):
             with self.subTest(slug=slug):
                 self.assertEqual(TOOLS[slug]["title"], title)
                 self.assertEqual(TOOLS[slug]["description"], description)
-                self.assertEqual(TOOLS[slug]["lastUpdated"], "October 8, 2026")
+                self.assertEqual(TOOLS[slug]["lastUpdated"], "November 20, 2026")
 
     def test_score_release_cases_distinguish_official_and_illustrative_dates(self):
         tool = TOOLS["sat-score-release-guide"]

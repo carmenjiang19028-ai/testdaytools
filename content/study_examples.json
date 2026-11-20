@@ -1,4 +1,44 @@
 {
+  "sat-device-troubleshooting-guide": {
+    "id": "sat-device-cases",
+    "heading": "Three Bluebook device problems to solve before the SAT",
+    "intro": "These examples are fictional. Check the requirements for your actual device and follow your school's instructions for SAT School Day.",
+    "examples": [
+      {
+        "title": "Your Windows 10 laptop is not ready, and the SAT is in 18 days",
+        "question": "You can study on your Windows 10 laptop, but it does not meet the current Windows requirement for Bluebook. Can you count on a College Board loaner for this weekend date?",
+        "steps": [
+          "Do not plan to test on Windows 10. Check an alternative device now: for example, ask your school or someone you know about a supported device you can prepare before test day.",
+          "The standard College Board loaner deadline for this date has already passed. If you cannot arrange an approved device, check College Board's help or a later date before assuming you can test."
+        ],
+        "mistake": "Opening a prep website does not show that the device can run the test. The lending deadline is separate from the registration and exam-setup windows.",
+        "check": "What changes if the test is 36 days away and you still have no approved device?",
+        "answer": "You have time to follow the SAT Weekend lending steps: register, complete the request in My SAT at least 30 days before testing, and arrange the required non-family adult verification. A request still does not guarantee approval."
+      },
+      {
+        "title": "Your school-managed Chromebook fails Verified Mode",
+        "question": "Your school Chromebook opens Bluebook, but Test Your Device shows Verified Mode is not enabled. What should you do?",
+        "steps": [
+          "Tell your school's technology team what Bluebook reported. The school manages installation and Verified Mode; a student cannot prepare the Chromebook by installing the app independently.",
+          "After the school fixes it, run Test Your Device again. If it cannot be fixed in time, ask the school about an approved replacement and how to prepare it."
+        ],
+        "mistake": "Being school-managed and opening the app are not enough. Do not assume a personal Chromebook is an acceptable backup.",
+        "check": "What if this is SAT School Day rather than SAT Weekend?",
+        "answer": "Follow your school's device and sign-in instructions. The College Board request process for a weekend loaner does not replace the school's plan."
+      },
+      {
+        "title": "You need a replacement after generating your admission ticket",
+        "question": "You completed SAT Weekend exam setup on a borrowed Mac. Two days before testing, it breaks. A supported iPad is available. Is your earlier ticket enough to prepare the iPad?",
+        "steps": [
+          "Check the replacement against current Bluebook requirements. Open the app and run Test Your Device on the iPad.",
+          "Sign in and complete exam setup on that replacement. Check that you have your current admission ticket for test day. Do not assume the old device's setup carried over."
+        ],
+        "mistake": "A ticket is not proof that the replacement device is ready. Setup must be completed on the device you use.",
+        "check": "What if the device fails after timed testing has started?",
+        "answer": "Tell your proctor immediately. Let staff direct any device swap; do not start another test or independently switch devices."
+      }
+    ]
+  },
   "ap-scores-delayed-missing-2026": {
     "id": "missing-score-cases",
     "heading": "Three missing-score cases",

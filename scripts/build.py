@@ -2918,7 +2918,8 @@ def render_tool(tool):
     sign_lookup = render_sign_lookup(tool) if is_sign_page else ""
     sign_library = render_sign_library(tool)
     practice_console = render_practice_console(tool)
-    body_sections = render_examples(tool) + "".join(
+    examples = render_examples(tool)
+    body_sections = examples + "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
         for section in tool.get("body", [])
     )
@@ -2992,7 +2993,8 @@ def render_tool(tool):
     if tool["slug"] == ROAD_SIGN_PICTURE_SLUG:
         social_image = ROAD_SIGN_PICTURE_PREVIEW
         resource_schema["image"] = url_for(f"/{social_image}")
-    extra_head = '<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or sign_recall or tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide", "sat-score-release-guide") else ""
+    styled_examples = tool.get("category") == "SAT" and examples
+    extra_head = '<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or sign_recall or styled_examples or tool["slug"] == ROAD_SIGN_PICTURE_SLUG else ""
     if widget.get("type") == "virginiaKnowledgeRetest":
         extra_head += '<script src="assets/virginia-retest.js" defer></script>'
     return page_shell(

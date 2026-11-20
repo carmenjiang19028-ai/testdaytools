@@ -2387,10 +2387,14 @@
       "slug": "digital-sat-checklist",
       "category": "SAT",
       "title": "Digital SAT Checklist",
-      "lastUpdated": "October 8, 2026",
+      "lastUpdated": "November 20, 2026",
       "description": "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics.",
       "heroKicker": "SAT checklist",
       "summary": "The digital SAT depends on both preparation and device readiness. Use this checklist before test day so you are not troubleshooting at the door.",
+      "heroActions": [
+        {"label": "Check device options", "href": "sat-device-troubleshooting-guide.html#sat-device-cases"},
+        {"label": "Bluebook setup checklist", "href": "digital-sat-bluebook-checklist.html"}
+      ],
       "quickFacts": [
         {
           "label": "Core task",
@@ -2410,8 +2414,8 @@
         }
       ],
       "checklist": [
-        "Install or update Bluebook on your approved device.",
-        "For SAT Weekend, complete Bluebook exam setup 1-5 days before test day.",
+        "For SAT Weekend, check your device and open Bluebook at least 30 days before test day. If you need College Board lending, the request is due at least 30 days before testing.",
+        "For SAT Weekend, complete Bluebook exam setup 1-5 days before test day on the device you will use. If College Board approved a test-center loaner, complete setup at pickup instead.",
         "For SAT Weekend, bring an acceptable physical photo ID, not an electronic copy.",
         "For SAT Weekend, bring your current Bluebook admission ticket; a printed copy is preferred.",
         "Charge your device fully and bring the power cord.",
@@ -2432,14 +2436,14 @@
           ],
           "rows": [
             [
-              "1-2 weeks before",
-              "Install or update Bluebook and confirm your device meets requirements.",
-              "Last-minute device problems are harder to solve."
+              "At least 30 days before",
+              "Check compatibility and open Bluebook on the intended device. Arrange another approved device now if needed.",
+              "College Board's SAT Weekend lending deadline is at least 30 days before testing."
             ],
             [
-              "Several days before",
-              "Complete exam setup when available and confirm your test center details.",
-              "You want login and setup issues solved before test morning."
+              "1-5 days before",
+              "Complete SAT Weekend exam setup on the device you will bring and confirm the test center.",
+              "Setup generates the admission ticket. An approved College Board loaner is set up at pickup."
             ],
             [
               "Night before",
@@ -2488,14 +2492,14 @@
         "heading": "Digital SAT readiness timeline",
         "items": [
           {
-            "label": "2 weeks",
+            "label": "30+ days",
             "title": "Confirm device and Bluebook",
-            "text": "Make sure the device is allowed, updated early, and able to open Bluebook."
+            "text": "Check the operating system and open Bluebook early enough to arrange a supported replacement or request a College Board loaner."
           },
           {
-            "label": "3-5 days",
+            "label": "1-5 days",
             "title": "Complete exam setup",
-            "text": "Resolve sign-in, admission, and test-center details before the final night."
+            "text": "Set up SAT Weekend on the actual test device and get your ticket. Set up at pickup instead if using an approved College Board loaner."
           },
           {
             "label": "Night before",
@@ -2512,7 +2516,7 @@
       "body": [
         {
           "heading": "Device readiness matters",
-          "text": "Do not wait until the morning of the test to open Bluebook. Run through setup, check your operating system, and make sure you know your device password."
+          "text": "An installed app is not the same as exam setup. Use Bluebook's device check and confirm you can sign in before the formal setup window. SAT School Day students should follow their school's device and sign-in instructions rather than the SAT Weekend timeline."
         },
         {
           "heading": "What not to bring",
@@ -2599,6 +2603,14 @@
         {
           "label": "College Board SAT: What to bring and do",
           "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"
+        },
+        {
+          "label": "College Board: SAT device readiness and setup timing",
+          "url": "https://satsuite.collegeboard.org/sat/device-readiness"
+        },
+        {
+          "label": "College Board: SAT Weekend borrowing deadline and pickup",
+          "url": "https://satsuite.collegeboard.org/sat/device-lending"
         }
       ],
       "related": [
@@ -2611,10 +2623,14 @@
       "slug": "digital-sat-bluebook-checklist",
       "category": "SAT",
       "title": "Digital SAT Bluebook Checklist",
-      "lastUpdated": "October 8, 2026",
+      "lastUpdated": "November 20, 2026",
       "description": "A Bluebook-focused digital SAT checklist for approved devices, setup timing, battery life, admission ticket, and test-day troubleshooting.",
       "heroKicker": "Bluebook checklist",
       "summary": "Bluebook is part of the SAT test-day workflow. This checklist focuses on device approval, setup timing, battery planning, and the small technical issues that can derail a test morning.",
+      "heroActions": [
+        {"label": "Resolve a device problem", "href": "sat-device-troubleshooting-guide.html#sat-device-cases"},
+        {"label": "Official device requirements", "href": "https://bluebook.collegeboard.org/students/prepare-your-device/approved-devices"}
+      ],
       "quickFacts": [
         {
           "label": "App",
@@ -2622,7 +2638,7 @@
         },
         {
           "label": "Setup window",
-          "value": "Complete exam setup before test day"
+          "value": "SAT Weekend: 1-5 days before, or at approved loaner pickup"
         },
         {
           "label": "Battery target",
@@ -2637,19 +2653,19 @@
         "heading": "Bluebook setup timeline",
         "items": [
           {
-            "label": "2 weeks out",
+            "label": "30+ days before",
             "title": "Confirm approved device",
-            "text": "Check whether your device type and operating system can run Bluebook."
+            "text": "Check your operating system and run Test Your Device in Bluebook. An SAT Weekend lending request must be submitted at least 30 days before testing if you need a College Board device."
           },
           {
-            "label": "1 week out",
-            "title": "Open Bluebook",
-            "text": "Sign in, check app access, and resolve password or update issues."
+            "label": "After the device check",
+            "title": "Resolve installation or access",
+            "text": "On a school-managed Chromebook, contact school technology staff about app deployment or Verified Mode. Do not wait for the test center to fix management settings."
           },
           {
             "label": "1-5 days",
             "title": "Complete exam setup",
-            "text": "Use Bluebook to complete setup and handle admission ticket instructions."
+            "text": "For SAT Weekend, complete exam setup on the device you will bring and get the current admission ticket. If College Board approved a loaner at the test center, complete those steps at pickup."
           },
           {
             "label": "Test day",
@@ -2669,8 +2685,8 @@
           "rows": [
             [
               "Is your device allowed?",
-              "Confirm it is a supported Windows or Mac device, iPad, or school-managed Chromebook.",
-              "Personal Chromebooks and phones are not supported for Bluebook testing."
+              "Check both the device type and the current software requirements. Open Test Your Device in Bluebook.",
+              "A school-managed Chromebook needs Verified Mode. A personal Chromebook or a phone is not a testing device."
             ],
             [
               "Can it hold a charge?",
@@ -2704,8 +2720,8 @@
           "rows": [
             [
               "Bluebook will not open",
-              "Restart device and confirm the app is installed or updated.",
-              "Official Bluebook help or test center staff."
+              "Check approved-device requirements first. If this is a managed Chromebook, ask the school to check installation and Verified Mode.",
+              "School technology staff for a managed device; Bluebook support for an unresolved personal-device issue."
             ],
             [
               "Forgot College Board password",
@@ -2732,7 +2748,7 @@
         },
         {
           "heading": "Approved devices matter",
-          "text": "College Board says Bluebook can run on Windows or Mac devices, iPads, and school-managed Chromebooks, but not personal Chromebooks or mobile phones."
+          "text": "Approved device types include eligible Windows laptops and tablets, Mac laptops, iPads, and school-managed Chromebooks. Software versions and settings also matter. For SAT School Day, follow your school's instructions rather than assuming the SAT Weekend setup or lending process applies."
         },
         {
           "heading": "Battery planning is part of readiness",
@@ -2765,7 +2781,7 @@
         "Confirm your device type is supported for Bluebook.",
         "Install or update Bluebook well before test day.",
         "Sign in with your College Board account before the final night.",
-        "Complete exam setup when it becomes available.",
+        "For SAT Weekend, complete exam setup 1-5 days before testing on your test device, or at pickup if you have an approved College Board loaner.",
         "Charge the device fully and pack the charger.",
         "Confirm you can unlock the device without another device.",
         "For SAT Weekend, bring your current Bluebook admission ticket; a printed copy is preferred.",
@@ -2792,7 +2808,15 @@
       "sources": [
         {
           "label": "Bluebook: Approved devices",
-          "url": "https://bluebook.collegeboard.org/students/approved-devices"
+          "url": "https://bluebook.collegeboard.org/students/prepare-your-device/approved-devices"
+        },
+        {
+          "label": "College Board: SAT device readiness and setup timing",
+          "url": "https://satsuite.collegeboard.org/sat/device-readiness"
+        },
+        {
+          "label": "College Board: SAT Weekend device lending",
+          "url": "https://satsuite.collegeboard.org/sat/device-lending"
         },
         {
           "label": "College Board SAT: What to bring and do",
@@ -4813,22 +4837,26 @@
       "slug": "sat-device-troubleshooting-guide",
       "category": "SAT",
       "title": "Digital SAT Device Troubleshooting Guide",
-      "lastUpdated": "October 8, 2026",
+      "lastUpdated": "November 20, 2026",
       "description": "Troubleshoot common Digital SAT device issues before test day, including Bluebook access, battery, approved devices, passwords, updates, and admission ticket setup.",
       "heroKicker": "SAT device help",
-      "summary": "Most device problems are easier to prevent than fix on test morning. Use this guide before the final week so Bluebook, battery, password, and admission setup are ready.",
+      "summary": "Find the next step if your SAT device is unsupported, your school-managed Chromebook fails its check, or you have to change devices after exam setup.",
+      "heroActions": [
+        {"label": "Find your device case", "href": "#sat-device-cases"},
+        {"label": "Official device requirements", "href": "https://bluebook.collegeboard.org/students/prepare-your-device/approved-devices"}
+      ],
       "quickFacts": [
         {
           "label": "College Board loaner",
-          "value": "Request 30+ days before"
+          "value": "SAT Weekend: request 30+ days before"
         },
         {
           "label": "Core app",
-          "value": "Bluebook"
+          "value": "Run Test Your Device in Bluebook"
         },
         {
-          "label": "Common issue",
-          "value": "Password or update surprise"
+          "label": "Exam setup",
+          "value": "Use the device you will test on"
         },
         {
           "label": "Do not use",
@@ -4838,42 +4866,40 @@
       "body": [
         {
           "heading": "Start with approved-device rules",
-          "text": "Before troubleshooting, confirm that your device type is allowed for Bluebook. Unsupported devices cannot be fixed by last-minute settings changes."
+          "text": "Check the device type, operating system, and launch settings before troubleshooting. A practice result is not an approval for test day. The table is a November 20, 2026 snapshot of minimum software versions; verify current requirements, storage and battery guidance with Bluebook."
         },
         {
           "heading": "Open Bluebook before the final night",
-          "text": "Make sure the app launches, your account works, and the device can be unlocked without another device."
+          "text": "For SAT Weekend, College Board recommends downloading and opening Bluebook at least 30 days ahead. Run Test Your Device on the machine you expect to bring. If a supported personal device still fails, note the error and ask Bluebook support. For SAT School Day, follow your school's directions for the device, app and sign-in."
         },
         {
           "heading": "Avoid last-minute system changes",
-          "text": "Operating system updates, storage cleanup, and password resets should happen early enough to test Bluebook afterward."
+          "text": "If the device is already compatible and Bluebook passes its check, avoid unnecessary operating system changes close to testing. If a required upgrade or app fix is needed, confirm it with Bluebook or school technology staff and run the check again after the change."
         },
         {
           "heading": "Make a backup conversation early",
-          "text": "For SAT Weekend, first ask your school, family, or a friend about an approved device. If you need College Board device lending, register and submit the request at least 30 days before the test; a request does not guarantee approval. If approved, arrive 30 minutes before standard check-in to collect the loaner, complete Bluebook exam setup, and get your admission ticket."
+          "text": "For SAT Weekend, first ask your school, family, or a friend about an approved device. If you need College Board device lending, register and submit the request in My SAT at least 30 days before the test. Arrange verification by an adult who is not a family member, such as a teacher or counselor. A request does not guarantee approval. If approved, arrive 30 minutes before standard check-in to collect the loaner, complete Bluebook exam setup, and get your admission ticket."
         },
         {
-          "heading": "Why device preparation is part of score preparation",
-          "text": "The Digital SAT depends on a working approved device, Bluebook access, battery life, and a stable test setup. A student can know the content and still lose focus if the device plan is uncertain. Treat setup checks as part of studying, not as paperwork."
+          "heading": "Changing devices before test day",
+          "text": "Complete SAT Weekend exam setup 1-5 days before testing on the approved device you will actually use, unless you have an approved College Board pickup loaner. If you change devices before arrival, open Bluebook and complete setup on the replacement; bring your current admission ticket. A ticket from earlier setup does not prepare the new device."
         },
         {
-          "heading": "What to test before exam week",
-          "text": "Open Bluebook on the exact device you plan to use, confirm updates, check storage and battery behavior, and make sure you know the login. If you use an external keyboard, mouse, or charger, verify that the setup is allowed and practical for the test center."
-        },
-        {
-          "heading": "What to do if something changes",
-          "text": "If your device breaks, school loaner rules change, or Bluebook does not open, do not wait until test morning. Check official device guidance, contact your school or test coordinator when relevant, and make a backup plan early enough to avoid panic."
-        },
-        {
-          "heading": "How to build a calm backup plan",
-          "text": "A backup plan does not mean expecting failure. It means knowing who to contact, which device you can use, what charger you need, and when Bluebook must be checked. Clear logistics reduce stress so the exam feels like practice rather than a technical surprise."
-        },
-        {
-          "heading": "How this guide fits the full SAT workflow",
-          "text": "Use this page early in the planning process and again during the final week. Device readiness is separate from score readiness, but both affect the result. Pair it with the timing guide so the student enters test day with a practiced pacing plan and a stable Bluebook setup."
+          "heading": "If Bluebook fails after the test starts",
+          "text": "Get the proctor's attention and follow their instructions. Do not switch devices or start another test yourself. The proctor can determine whether a supervised Bluebook device swap is appropriate."
         }
       ],
       "tables": [
+        {
+          "caption": "Bluebook minimum software versions checked November 20, 2026",
+          "headers": ["Testing device", "Minimum software", "Important condition"],
+          "rows": [
+            ["Windows laptop or tablet", "Windows 11 24H2", "Windows 10, Windows S mode and Windows 11 SE are unsupported."],
+            ["Mac laptop", "macOS 15", "Check Bluebook before installing an optional major update."],
+            ["iPad", "iPadOS 18", "Keep at least 250 MB available and check the iPad you will take."],
+            ["School-managed Chromebook", "ChromeOS 144", "School-installed Bluebook and Verified Mode are required. Personal Chromebooks and ChromeOS Flex are unsupported."]
+          ]
+        },
         {
           "caption": "Digital SAT device troubleshooting table",
           "headers": [
@@ -4884,8 +4910,8 @@
           "rows": [
             [
               "Bluebook will not open",
-              "Restart, update early, and check official Bluebook guidance.",
-              "You need the app working before test day."
+              "Check compatibility first. Ask school technology staff if a managed device still fails.",
+              "Unsupported software or school settings cannot be fixed by repeatedly reopening the app."
             ],
             [
               "Forgot password",
@@ -4910,77 +4936,12 @@
           ]
         }
       ],
-      "cardGroups": [
-        {
-          "heading": "Common mistakes to avoid",
-          "items": [
-            {
-              "label": "Timing",
-              "title": "Waiting until the night before",
-              "text": "Device problems need time, especially if you must borrow equipment."
-            },
-            {
-              "label": "Access",
-              "title": "Relying on a phone for passwords",
-              "text": "You should be able to unlock and use the test device directly."
-            },
-            {
-              "label": "Updates",
-              "title": "Changing the system after setup",
-              "text": "Unnecessary late updates can change permissions or app behavior."
-            }
-          ]
-        },
-        {
-          "heading": "Device-readiness checklist",
-          "intro": "These checks reduce avoidable stress before test day.",
-          "items": [
-            {
-              "label": "Approved",
-              "title": "Confirm the device is allowed",
-              "text": "Use official Bluebook device guidance before relying on a laptop or tablet."
-            },
-            {
-              "label": "Working",
-              "title": "Open Bluebook successfully",
-              "text": "Do a real app check, not just a memory of using it before."
-            },
-            {
-              "label": "Charged",
-              "title": "Plan battery and charger",
-              "text": "Know how the device behaves during a long session."
-            }
-          ]
-        },
-        {
-          "heading": "Backup planning",
-          "items": [
-            {
-              "label": "Login",
-              "title": "Know account access",
-              "text": "Account issues are easier to solve before test morning."
-            },
-            {
-              "label": "Loaner",
-              "title": "Ask early if you need a device",
-              "text": "College Board device requests for SAT Weekend must be submitted at least 30 days before testing."
-            },
-            {
-              "label": "Updates",
-              "title": "Avoid last-minute changes",
-              "text": "Unexpected system updates can interrupt an otherwise ready setup."
-            }
-          ]
-        }
-      ],
       "checklist": [
-        "Confirm device is supported.",
-        "Open Bluebook before test week.",
-        "Confirm account and device passwords.",
-        "Charge battery and pack charger.",
-        "Avoid unnecessary updates after setup.",
-        "Arrange an approved backup device early if needed.",
-        "If requesting a College Board loaner for SAT Weekend, submit the request at least 30 days before the test."
+        "Check the current device type and operating system requirements.",
+        "Run Test Your Device in Bluebook on the device you plan to bring.",
+        "For SAT Weekend, make any College Board loaner request at least 30 days ahead.",
+        "Use the actual SAT Weekend testing device for exam setup 1-5 days before, or set up an approved College Board loaner at pickup.",
+        "Check you can sign in, then charge the device and pack the permitted charger."
       ],
       "faq": [
         {
@@ -4997,7 +4958,7 @@
         },
         {
           "q": "When should I complete device setup?",
-          "a": "Do it before test day when official setup becomes available, then avoid unnecessary changes."
+          "a": "For SAT Weekend, complete exam setup 1-5 days before testing on your approved device. If College Board has approved a test-center loaner, complete setup at pickup instead. Follow school instructions for SAT School Day."
         },
         {
           "q": "Should I install Bluebook right before the SAT?",
@@ -5015,7 +4976,7 @@
       "sources": [
         {
           "label": "Bluebook: Approved devices",
-          "url": "https://bluebook.collegeboard.org/students/approved-devices"
+          "url": "https://bluebook.collegeboard.org/students/prepare-your-device/approved-devices"
         },
         {
           "label": "College Board SAT: What to bring and do",
@@ -5026,8 +4987,24 @@
           "url": "https://satsuite.collegeboard.org/sat/device-lending"
         },
         {
-          "label": "Bluebook",
-          "url": "https://bluebook.collegeboard.org/"
+          "label": "College Board: SAT device readiness and setup timing",
+          "url": "https://satsuite.collegeboard.org/sat/device-readiness"
+        },
+        {
+          "label": "College Board: Chromebook installation by schools",
+          "url": "https://satsuite.collegeboard.org/digital/help-center/can-students-use-bluebook-take-digital-sat-chromebook"
+        },
+        {
+          "label": "Bluebook: Personal device checks before testing",
+          "url": "https://bluebook.collegeboard.org/students/prepare-your-device/prepare-a-personal-device"
+        },
+        {
+          "label": "Bluebook: Same-device setup and system requirements",
+          "url": "https://bluebook.collegeboard.org/technology/devices/requirements/windows"
+        },
+        {
+          "label": "Bluebook: Staff-supervised device swaps",
+          "url": "https://bluebook.collegeboard.org/help-center/how-do-i-complete-device-swap"
         }
       ],
       "related": [
