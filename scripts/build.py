@@ -50,7 +50,7 @@ ROAD_SIGN_SHAPES_PAGE = {
     "category": "DMV",
     "title": "Road Sign Shapes and Colors: DMV Meaning Finder",
     "description": "Search road sign shapes and colors by meaning, action, and category, including yellow warning signs, red regulatory signs, brown guide signs, and DMV examples.",
-    "lastUpdated": "November 20, 2026",
+    "lastUpdated": "November 21, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
 ROAD_SIGN_FLASHCARDS_SLUG = "dmv-road-sign-flashcards"
@@ -129,8 +129,8 @@ SIGN_SVGS = {
     "railroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="64" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M88 48 L132 112 M132 48 L88 112" stroke="#111" stroke-width="9" stroke-linecap="round"/><text x="63" y="91" text-anchor="middle" fill="#111" font-size="31" font-weight="900" font-family="Arial, sans-serif">R</text><text x="157" y="91" text-anchor="middle" fill="#111" font-size="31" font-weight="900" font-family="Arial, sans-serif">R</text></svg>',
     "work-zone": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f59e2e" stroke="#222" stroke-width="5"/><circle cx="104" cy="47" r="8" fill="#111"/><path d="M100 58 l-20 35 M101 60 l32 22 M85 94 h62 M76 118 h78" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
     "signal-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><rect x="88" y="36" width="44" height="88" rx="8" fill="#222"/><circle cx="110" cy="58" r="11" fill="#e53935"/><circle cx="110" cy="82" r="11" fill="#f4c430"/><circle cx="110" cy="106" r="11" fill="#22a35a"/></svg>',
-    "divided-highway": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M82 55 C74 77 75 98 81 111 M139 114 C145 92 144 72 138 52" stroke="#111" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M65 98 L84 118 L98 98 Z M122 59 L136 38 L154 56 Z" fill="#111"/><path d="M101 43 H119 V76 L110 91 L101 76 Z" fill="#111"/></svg>',
-    "divided-highway-ends": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M82 48 C76 71 74 92 81 110 M139 113 C145 94 144 73 138 54" stroke="#111" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M65 98 L84 118 L98 98 Z M122 59 L136 38 L154 56 Z" fill="#111"/><path d="M110 69 L119 84 V121 H101 V84 Z" fill="#111"/></svg>',
+    "divided-highway": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M99 43 H121 C121 63 117 76 110 76 C103 76 99 63 99 43 Z" fill="#111"/><g><path d="M81 57 V65 C81 80 96 88 96 105 V114" stroke="#111" stroke-width="10" fill="none"/><polygon points="96,127 82,109 110,109" fill="#111"/></g><g><path d="M124 115 V105 C124 88 139 80 139 65 V57" stroke="#111" stroke-width="10" fill="none"/><polygon points="139,45 125,63 153,63" fill="#111"/></g></svg>',
+    "divided-highway-ends": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M99 117 H121 C121 97 117 84 110 84 C103 84 99 97 99 117 Z" fill="#111"/><g><path d="M96 45 V55 C96 72 81 80 81 95 V103" stroke="#111" stroke-width="10" fill="none"/><polygon points="81,115 67,97 95,97" fill="#111"/></g><g><path d="M139 103 V95 C139 80 124 72 124 55 V46" stroke="#111" stroke-width="10" fill="none"/><polygon points="124,33 110,51 138,51" fill="#111"/></g></svg>',
     "hill-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M58 52 L162 116" stroke="#111" stroke-width="10" stroke-linecap="round"/><rect x="82" y="63" width="54" height="31" rx="4" fill="#111" transform="rotate(31 109 79)"/><circle cx="89" cy="93" r="9" fill="#f6d54a" stroke="#111" stroke-width="5"/><circle cx="129" cy="117" r="9" fill="#f6d54a" stroke="#111" stroke-width="5"/></svg>',
     "no-passing": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="69" y="13" width="82" height="134" rx="3" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="51" text-anchor="middle" fill="#111" font-size="24" font-weight="900" font-family="Arial, sans-serif">DO</text><text x="110" y="91" text-anchor="middle" fill="#111" font-size="24" font-weight="900" font-family="Arial, sans-serif">NOT</text><text x="110" y="131" text-anchor="middle" fill="#111" font-size="24" font-weight="900" font-family="Arial, sans-serif">PASS</text></svg>',
     "roundabout": f'<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>{ROUNDABOUT_SYMBOL}</svg>',
@@ -3514,6 +3514,32 @@ def render_passing_sign_drill():
 </section>"""
 
 
+def render_divided_highway_drill():
+    return f"""<section class="content-section shape-crossing-drill" id="divided-highway-check" aria-labelledby="divided-highway-heading">
+  <h2 id="divided-highway-heading">Does the median begin or end?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair">
+        <span role="img" aria-label="Sign A: arrows farther apart at the top, with the median at the top">{SIGN_SVGS["divided-highway"]}</span>
+        <span aria-hidden="true">/</span>
+        <span role="img" aria-label="Sign B: arrows closer together at the top, with the median at the bottom">{SIGN_SVGS["divided-highway-ends"]}</span>
+      </div>
+      <figcaption><strong>A:</strong> Divider at the top. <strong>B:</strong> Divider at the bottom.</figcaption>
+    </figure>
+    <div>
+      <p>You are already driving beside a raised median. Which sign warns that the divider will disappear ahead?</p>
+      <details class="contrast-transfer">
+        <summary>Check where the arrows move</summary>
+        <p><strong>B, Divided Highway Ends.</strong> Follow the upward arrow on the right: it moves inward as the divider drops out. Be ready for oncoming traffic across a center line instead of across a physical barrier.</p>
+        <p><strong>A, Divided Highway.</strong> The upward arrow bends away from the center toward the top, where the divider begins. Stay in the lane marked for your direction. This is a warning, not a Keep Right sign at an island.</p>
+      </details>
+      <p><a class="info-card-link" href="california-dmv-road-signs-practice.html?mode=signs#practice">Practice both signs in the full California picture set</a></p>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=25">FHWA Figure 2C-6: W6-1 and W6-2</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=26">FHWA Sections 2C.20 and 2C.21</a></p>
+    </div>
+  </div>
+</section>"""
+
+
 def render_road_sign_shapes_page():
     records = road_sign_shape_records()
     stats = "".join(
@@ -3596,16 +3622,17 @@ def render_road_sign_shapes_page():
   <div class="tool-section-head">
     <span class="eyebrow">Permit-test method</span>
     <h2>Read the sign before you read the answer choices</h2>
-  <p class="section-intro">The fastest road-sign questions usually follow the same sequence: color, shape, category, driver action. Use this when you remember yellow diamond, red regulatory, brown guide, octagon, pennant, or a lane-control symbol.</p>
+    <p class="section-intro">Read the color, shape and symbol, then name the driver action. If two signs share the same shape and color, compare what their symbols show. <a href="#divided-highway-check">Try the median signs</a>.</p>
   </div>
   <div class="task-console-grid">{decision_cards}</div>
 </section>
 {render_road_sign_shapes_finder()}
 {render_crossing_shape_drill()}
 {render_passing_sign_drill()}
+{render_divided_highway_drill()}
 <section class="content-section">
   <h2>Shape and color traps that slow learners down</h2>
-  <p>Many missed road-sign questions are not about rare signs. They happen when a learner treats every red sign as Stop, every white sign as Speed Limit, or every yellow sign as a generic warning. Use red panels for entry control, red slashes for prohibited movements, white rectangles for rules such as One Way or Keep Right, and pennants for no-passing zones.</p>
+  <p>Color narrows the possibilities but cannot tell you the action by itself. Red panels can mark different entry controls, red slashes show prohibited movements, and a pennant is not an arrow telling you to move right.</p>
 </section>
 <section class="card-group">
   <h2>Practice by the clue you remember</h2>

@@ -6004,7 +6004,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -7364,7 +7364,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -7813,7 +7813,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -8479,7 +8479,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               },
               {
                 "image": "divided-highway-ends",
@@ -8821,7 +8821,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -9369,7 +9369,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -9840,7 +9840,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -10608,7 +10608,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -11678,7 +11678,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -12181,7 +12181,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -12580,7 +12580,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -13105,7 +13105,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -13504,7 +13504,7 @@
               {
                 "image": "divided-highway",
                 "title": "Divided Highway",
-                "meaning": "A divided roadway begins or changes ahead."
+                "meaning": "A physical median or barrier will separate opposing traffic ahead."
               }
             ]
           },
@@ -15844,7 +15844,7 @@
       {
         "q": "What does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -15852,7 +15852,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead."
       },
       {
         "q": "This sign means drivers should not:",
@@ -15948,7 +15948,7 @@
       {
         "q": "What road condition is ahead?",
         "image": "divided-highway-ends",
-        "imageAlt": "yellow divided highway ends warning sign",
+        "imageAlt": "Yellow diamond with opposing arrows closer at the top and a divider between them at the bottom",
         "choices": [
           "The median or divider ends and opposing traffic will be closer",
           "A divided highway begins",
@@ -15956,7 +15956,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided Highway Ends warns that the physical divider ends and two-way traffic continues."
+        "explanation": "The upward arrow on the right bends toward the center as the divider ends. Prepare for oncoming traffic across the center line without a physical barrier."
       },
       {
         "q": "What should you prepare for at this sign?",
@@ -16377,7 +16377,7 @@
       {
         "q": "What does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -16385,7 +16385,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead."
       },
       {
         "q": "This sign means drivers should not:",
@@ -16481,7 +16481,7 @@
       {
         "q": "What does this sign mean?",
         "image": "divided-highway-ends",
-        "imageAlt": "yellow divided highway ends warning sign",
+        "imageAlt": "Yellow diamond with opposing arrows closer at the top and a divider between them at the bottom",
         "choices": [
           "The median ends and opposing traffic will no longer be separated",
           "A divided highway begins ahead",
@@ -16489,7 +16489,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided Highway Ends warns that the physical divider ends and opposing traffic will share an undivided roadway."
+        "explanation": "The upward arrow on the right bends toward the center as the divider ends. Prepare for oncoming traffic across the center line without a physical barrier."
       },
       {
         "q": "What should a driver prepare for at this sign?",
@@ -17729,7 +17729,7 @@
       {
         "q": "What does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -17737,7 +17737,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout. This page uses original artwork; verify final rules in the Texas Driver Handbook."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead. Check the Texas Driver Handbook for local rules."
       },
       {
         "q": "This sign means drivers should not:",
@@ -18692,7 +18692,7 @@
       {
         "q": "What does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -18700,7 +18700,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead. Check the Official Florida Driver License Handbook for local rules."
       },
       {
         "q": "This sign warns drivers about:",
@@ -19502,7 +19502,7 @@
       {
         "q": "For Illinois practice, what does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -19510,7 +19510,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout. This page uses original artwork; verify final rules in the Illinois Rules of the Road."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead. Check the Illinois Rules of the Road for local rules."
       },
       {
         "q": "This sign means drivers should not:",
@@ -20361,7 +20361,7 @@
       {
         "q": "What does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -20369,7 +20369,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout. This page uses original artwork; verify final rules in the Pennsylvania Driver's Manual."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead. Check the Pennsylvania Driver's Manual for local rules."
       },
       {
         "q": "This sign means drivers should not:",
@@ -21223,7 +21223,7 @@
       {
         "q": "What does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -21231,7 +21231,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout. This page uses original artwork; verify final rules in the New Jersey Driver Manual."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead. Check the New Jersey Driver Manual for local rules."
       },
       {
         "q": "For New Jersey practice, this sign means drivers should not:",
@@ -21518,7 +21518,7 @@
       {
         "q": "What does this sign warn about?",
         "image": "divided-highway",
-        "imageAlt": "yellow divided highway sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "choices": [
           "A divided roadway or median begins",
           "A bridge is closed",
@@ -21526,7 +21526,7 @@
         ],
         "answer": 0,
         "category": "Roadway signs",
-        "explanation": "Divided highway signs warn that a median or divider changes the roadway layout. This page uses original artwork; verify final rules in the New Jersey Driver Manual."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead. Check the New Jersey Driver Manual for local rules."
       },
       {
         "q": "For New Jersey practice, this sign means drivers should not:",
@@ -22053,7 +22053,7 @@
       {
         "q": "What does this divided-highway sign indicate?",
         "image": "divided-highway",
-        "imageAlt": "Divided highway warning sign",
+        "imageAlt": "Yellow diamond with opposing arrows wider at the top and a divider between them at the top",
         "category": "Warning signs",
         "choices": [
           "The road becomes gravel",
@@ -22062,7 +22062,7 @@
           "All traffic must turn left"
         ],
         "answer": 1,
-        "explanation": "This sign warns that the roadway will be divided by a median or barrier ahead."
+        "explanation": "The upward arrow on the right bends outward beside the divider shown at the top. A physical median will separate traffic ahead."
       },
       {
         "q": "What should you expect after this circular warning sign?",

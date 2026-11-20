@@ -196,6 +196,58 @@ for (const width of [1280, 390]) {
     } finally { await context.close(); }
   });
 
+  test(`${width}px: distinguish the median signs and apply both cues in the picture quiz`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    page.setDefaultTimeout(6000);
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'road-sign-shapes-and-colors-finder.html')).href);
+      await page.getByRole('link', { name: 'Try the median signs', exact: true }).click();
+      assert.equal(new URL(page.url()).hash, '#divided-highway-check');
+      const compare = page.locator('#divided-highway-check');
+      const heading = await compare.getByRole('heading').boundingBox();
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      const pair = compare.locator('.contrast-sign-pair [role="img"] > svg');
+      assert.equal(await pair.count(), 2);
+      const metrics = await pair.evaluateAll(signs => signs.map(sign => {
+        const median = sign.querySelector(':scope > path').getBBox();
+        const [left, right] = [...sign.querySelectorAll('g')].map(arrow => {
+          const shaft = arrow.querySelector('path');
+          const tail = shaft.getPointAtLength(0);
+          const tip = arrow.querySelector('polygon').points.getItem(0);
+          return {tailX: tail.x, tailY: tail.y, tipX: tip.x, tipY: tip.y};
+        });
+        return {medianY: median.y + median.height / 2, left, right};
+      }));
+      assert.ok(metrics.every(({left, right}) => left.tipY > left.tailY && right.tipY < right.tailY));
+      assert.ok(metrics[0].medianY < 80 && metrics[0].right.tipX > metrics[0].right.tailX);
+      assert.ok(metrics[1].medianY > 80 && metrics[1].right.tipX < metrics[1].right.tailX);
+      const detail = compare.locator('details');
+      assert.equal(await detail.locator('p').first().isVisible(), false);
+      await detail.locator('summary').press('Enter');
+      assert.match(await detail.innerText(), /B, Divided Highway Ends\..*instead of across a physical barrier/s);
+      assert.match(await detail.innerText(), /A, Divided Highway\..*warning, not a Keep Right sign/s);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+      if (process.env.MEDIAN_SIGN_SHOTS) await compare.screenshot({path: path.join(process.env.MEDIAN_SIGN_SHOTS, `median-${width}.png`)});
+      await compare.getByRole('link', {name: 'Practice both signs in the full California picture set'}).click();
+      assert.equal(new URL(page.url()).searchParams.get('mode'), 'signs');
+      const quiz = page.locator('[data-mode-panel="signs"] [data-quiz]');
+      for (const [cue, answer, feedback] of [
+        ['wider at the top', 'A divided roadway or median begins', /bends outward/],
+        ['closer at the top', 'The median or divider ends and opposing traffic will be closer', /bends toward the center/],
+      ]) {
+        const question = quiz.locator('.question').filter({has: page.locator(`[role="img"][aria-label*="${cue}"]`)});
+        await quiz.locator(`[data-quiz-jump="${await question.getAttribute('data-question-index')}"]`).click();
+        await question.getByRole('button', {name: answer, exact: true}).click();
+        const reply = await question.locator('.feedback').innerText();
+        assert.match(reply, /^Correct\./);
+        assert.match(reply, feedback);
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: printed study links point to live groups and the scan lands below the header`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 840 } });
     await context.route(/^https?:/, route => route.abort());
