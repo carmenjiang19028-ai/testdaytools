@@ -66,6 +66,55 @@ test('all eight classroom PDF images exactly preserve rendered shared SVG pixels
 });
 
 for (const width of [1280, 390]) {
+  test(`${width}px: roundabout arrows run counterclockwise and bicycle stays inside the sign`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    const local = name => pathToFileURL(path.join(root, name + '.html')).href;
+    try {
+      await page.goto(local('road-signs-practice-test') + '?mode=road-signs-core#practice');
+      const quiz = page.locator('[data-mode-panel="road-signs-core"] [data-quiz]');
+      const signs = [
+        ['roundabout', 'Yellow diamond with three counterclockwise arrows', 'Slow down and look for traffic already circulating', /yield to traffic already circulating.*counterclockwise/],
+        ['bicycle-crossing', 'Yellow diamond with a black bicycle symbol', 'Bicyclists may enter or cross the roadway', /fluorescent yellow-green background can give the same warning/],
+      ];
+      for (const [key, description, answer, reason] of signs) {
+        const question = quiz.locator(`.question[data-flashcard-key="${key}"]`).filter({ has: page.locator(`[role="img"][aria-label="${description}"]`) });
+        await quiz.locator(`[data-quiz-jump="${await question.getAttribute('data-question-index')}"]`).click();
+        const svg = question.getByRole('img', { name: description, exact: true }).locator('svg');
+        if (key === 'roundabout') {
+          const directions = await svg.evaluate(el => [...el.querySelectorAll('g')].map(group => {
+            const arc = group.querySelector('path'), pts = group.querySelector('polygon').points;
+            const length = arc.getTotalLength(), from = arc.getPointAtLength(length / 2), to = arc.getPointAtLength(length / 2 + 1);
+            const before = arc.getPointAtLength(length - 1), end = arc.getPointAtLength(length);
+            const tip = pts.getItem(0), b1 = pts.getItem(1), b2 = pts.getItem(2);
+            const turn = (from.x - 110) * (to.y - from.y) - (from.y - 80) * (to.x - from.x);
+            const forward = (tip.x - (b1.x + b2.x) / 2) * (end.x - before.x) + (tip.y - (b1.y + b2.y) / 2) * (end.y - before.y);
+            return { turn, forward, rotation: group.transform.baseVal.getItem(0).angle };
+          }));
+          assert.deepEqual(directions.map(d => d.rotation), [0, 120, 240]);
+          assert.ok(directions.every(d => d.turn < 0 && d.forward > 0));
+        } else {
+          const wheelsAndFrameInside = await svg.evaluate(el => [...el.querySelectorAll('circle,path')].every(shape => {
+            const { x, y, width, height } = shape.getBBox(), margin = Number(shape.getAttribute('stroke-width')) / 2;
+            return [x - margin, x + width + margin].every(a => [y - margin, y + height + margin].every(b => Math.abs(a - 110) / 80 + Math.abs(b - 80) / 66 < 0.96));
+          }));
+          assert.equal(wheelsAndFrameInside, true);
+        }
+        await question.getByRole('button', { name: answer, exact: true }).click();
+        assert.match(await question.locator('.feedback').innerText(), /^Correct\./);
+        assert.match(await question.locator('.feedback').innerText(), reason);
+      }
+      await page.goto(local('dmv-road-sign-flashcards'));
+      await page.getByRole('searchbox', { name: 'Search cards' }).fill('roundabout');
+      const card = page.locator('[data-flashcard][data-card-id="roundabout"]');
+      assert.equal(await card.getByRole('img', { name: /three black arrows curving counterclockwise/ }).isVisible(), true);
+      await card.getByRole('button', { name: 'Reveal answer', exact: true }).click();
+      assert.match(await card.innerText(), /yield before entering a roundabout/);
+      if (process.env.WARNING_ART_SHOTS) await card.screenshot({ path: path.join(process.env.WARNING_ART_SHOTS, `roundabout-${width}.png`) });
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: two corrected warnings agree in quiz, flashcards, and print`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route(/^https?:/, route => route.abort());

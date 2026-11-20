@@ -5,10 +5,12 @@
   "corrections": "The classroom school sign now uses the shared five-sided artwork. Do Not Enter lettering stays on its red background; the Keep Right arrow no longer crosses its lettering. Lane Ends retains two lane-boundary strokes without a merge arrow, and Slippery When Wet retains a vehicle and two skid tracks. The classroom pack and web reference now use the same exported sign pictures.",
   "artFollowup": {
     "date": "2026-11-21",
-    "change": "Corrected Stop Ahead to show an upward arrow over a plain red octagon. It warns of a separate stop sign. Corrected Two-Way Traffic to show the left arrow pointing down and the right arrow pointing up, so the illustration matches the keep-right action.",
+    "change": "Corrected Stop Ahead to show an upward arrow over a plain red octagon, and Two-Way Traffic to show the left arrow down and the right arrow up. The circular-intersection drawing now uses three counterclockwise arrows. The bicycle silhouette fits inside its diamond; a fluorescent yellow-green version can carry the same warning.",
     "figures": [
       {"label": "FHWA MUTCD Figure 2C-8, W3-1", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=33"},
-      {"label": "Figure 2C-11, W6-3", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=38"}
+      {"label": "Figure 2C-11, W6-3", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=38"},
+      {"label": "Figure 2C-10, W2-6", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=35"},
+      {"label": "Figure 2C-14, W11-1", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=47"}
     ]
   },
   "sources": [

@@ -91,6 +91,22 @@ class CoreMaterialTests(unittest.TestCase):
         pdf = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")
         self.assertIn("The left arrow points down and the right arrow up.", " ".join(pdf.pages[1].extract_text().split()))
 
+    def test_roundabout_and_bicycle_figures_replace_old_art_on_sitemap_pages(self):
+        circle = ET.fromstring(SIGN_SVGS["roundabout"])
+        self.assertEqual(len(circle.findall("g/path")), 3)
+        self.assertEqual(len(circle.findall("g/polygon")), 3)
+        marks = ('M83 63 a36 36', 'cx="76" cy="103" r="22"')
+        sitemap = ET.parse(ROOT / "sitemap.xml")
+        for loc in sitemap.findall("./{*}url/{*}loc"):
+            path = loc.text.removeprefix("https://testdaytools.com/") or "index.html"
+            html = (ROOT / path).read_text()
+            for mark in marks:
+                self.assertNotIn(mark, html, path)
+        pdf = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")
+        page = " ".join(pdf.pages[1].extract_text().split())
+        self.assertIn("Follow the arrows counterclockwise.", page)
+        self.assertIn("Yellow-green can carry the same warning.", page)
+
     def test_no_turn_on_red_uses_unobscured_lettering_and_signal_below(self):
         art = ET.fromstring(SIGN_SVGS["no-turn-on-red"])
         lettering = art.findall(".//text")

@@ -6372,7 +6372,7 @@
               {
                 "image": "roundabout",
                 "title": "Roundabout",
-                "meaning": "A circular intersection is ahead; slow and yield as required."
+                "meaning": "Slow and yield before entering a roundabout. Follow the arrows counterclockwise."
               },
               {
                 "image": "curve",
@@ -6412,7 +6412,7 @@
               {
                 "image": "bicycle-crossing",
                 "title": "Bicycle Crossing",
-                "meaning": "Bicyclists may enter or cross the road; slow and scan carefully."
+                "meaning": "Watch for bicycles entering or crossing. Yellow-green can carry the same warning."
               }
             ]
           },
@@ -22313,7 +22313,7 @@
       {
         "q": "What hazard does this bicycle sign warn about?",
         "image": "bicycle-crossing",
-        "imageAlt": "Yellow bicycle crossing warning sign",
+        "imageAlt": "Yellow diamond with a black bicycle symbol",
         "category": "Crossing signs",
         "choices": [
           "A bicycle-only parking area",
@@ -22322,12 +22322,12 @@
           "Bicycles have a separate speed limit"
         ],
         "answer": 1,
-        "explanation": "A Bicycle warning sign alerts drivers to possible bicycle entry or crossing activity. Slow down, scan carefully, and allow safe space."
+        "explanation": "The bicycle symbol warns that bicyclists may enter or cross. Scan both sides and slow down. A fluorescent yellow-green background can give the same warning; use the symbol and any plaque to identify the hazard."
       },
       {
         "q": "At a roundabout warning sign, which action should come first?",
         "image": "roundabout",
-        "imageAlt": "Roundabout warning sign",
+        "imageAlt": "Yellow diamond with three counterclockwise arrows",
         "category": "Intersection warning signs",
         "choices": [
           "Choose an exit after entering at full speed",
@@ -22336,7 +22336,7 @@
           "Turn left around the central island"
         ],
         "answer": 2,
-        "explanation": "A roundabout warning sign means a circular intersection is ahead. Reduce speed, follow lane markings, and yield as required before entering."
+        "explanation": "Slow before the entry and yield to traffic already circulating. When it is safe, enter to the right and follow the lane markings counterclockwise. The warning is not permission to enter ahead of circulating traffic."
       },
       {
         "q": "Why is a school crossing sign a speed-control clue?",
