@@ -7,6 +7,57 @@ const fs = require('node:fs');
 let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });
 after(async () => { await browser.close(); });
+for (const [file, nextAnchor] of [['road-signs-practice-test.html', '#practice'], ['dmv-road-signs-cheat-sheet.html', '']]) {
+  for (const width of [390, 1280]) {
+    test(`${file} at ${width}px: choose a pair, practice it, then return`, async () => {
+      const context = await browser.newContext({ viewport: { width, height: 900 } });
+      await context.route(/^https?:/, route => route.abort());
+      try {
+        const page = await context.newPage();
+        await page.goto(pathToFileURL(path.resolve(file)).href);
+        const choices = page.getByRole('region', { name: 'Practice a confusing sign pair' });
+        const links = choices.getByRole('link');
+        assert.deepEqual(await links.allTextContents(), ['Stop vs. Yield', 'Do Not Enter vs. Wrong Way', 'Merge vs. Lane Ends']);
+        for (const [i, concept] of ['stop-yield', 'do-not-enter-wrong-way', 'merge-lane-ends'].entries()) {
+          const url = new URL(await links.nth(i).getAttribute('href'), page.url());
+          assert.equal(url.searchParams.get('concept'), concept);
+          assert.equal(url.searchParams.get('return'), file);
+        }
+        if (!nextAnchor) {
+          assert.equal(await choices.evaluate(el => !!(el.compareDocumentPosition(document.querySelector('#printable-sheet')) & Node.DOCUMENT_POSITION_FOLLOWING)), true);
+          assert.equal(await page.getByRole('link', { name: 'Download PDF', exact: true }).count(), 1);
+          await page.emulateMedia({ media: 'print' });
+          assert.equal(await choices.isVisible(), false);
+          assert.equal(await page.locator('#printable-sheet').isVisible(), true);
+          await page.emulateMedia({ media: 'screen' });
+        }
+        if (process.env.VERIFY_SCREENSHOTS_DIR) {
+          fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+          await choices.evaluate(section => {
+            const header = document.querySelector('.site-header').getBoundingClientRect().height;
+            window.scrollTo(0, section.getBoundingClientRect().top + scrollY - header - 12);
+          });
+          await page.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `${file}-${width}-contrast-entry.png`) });
+        }
+        await links.nth(1).click();
+        await page.waitForURL(/road-sign-learning-loop\.html\?/);
+        assert.equal(await page.locator('[data-loop-question]').getAttribute('data-loop-question'), 'entry-direction-distinction');
+        assert.match(await page.locator('[data-loop-progress]').textContent(), /0 of 3 questions/);
+        for (let i = 0; i < 3; i++) {
+          await page.locator('[data-loop-option="0"]').click();
+          await page.locator('[data-loop-next]').click();
+          await page.locator('[data-loop-next]').click();
+        }
+        const returnLink = page.getByRole('link', { name: nextAnchor ? 'Return to picture practice' : 'Return to the study sheet', exact: true });
+        assert.equal(await returnLink.getAttribute('href'), `${file}${nextAnchor}`);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+        await returnLink.click();
+        await page.waitForURL(url => url.pathname.endsWith(`/${file}`) && url.hash === nextAnchor);
+        assert.equal(await page.locator(nextAnchor || '#printable-sheet').count(), 1);
+      } finally { await context.close(); }
+    });
+  }
+}
 for (const width of [390, 1280]) {
   test(`${width}: all six situations with external requests blocked`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });

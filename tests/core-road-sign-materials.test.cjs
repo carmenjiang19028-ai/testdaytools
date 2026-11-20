@@ -92,7 +92,9 @@ for (const width of [1280, 390]) {
           }
           assert.equal(await page.evaluate(() => localStorage.getItem('tdt-learning-loop:v1:all')), oldState);
           assert.equal(await page.locator('.contrast-sign-pair img').count(), 6);
-        } else { assert.equal(await page.locator('.material-links a').count(), 3); }
+        } else {
+          assert.equal(await page.locator('.material-links a[href^="road-sign-learning-loop.html#lesson-"]').count(), 3);
+        }
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
         assert.equal(overflow, false);
         if (process.env.VERIFY_SCREENSHOTS_DIR) {

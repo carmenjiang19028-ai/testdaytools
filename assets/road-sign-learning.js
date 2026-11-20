@@ -10,6 +10,8 @@
   const selectedLessons = lessons.length ? lessons : curriculum.lessons;
   const returnValue = params.get('return') || 'road-signs-practice-test.html';
   const returnPath = /^[a-z0-9-]+\.html$/.test(returnValue) ? returnValue : 'road-signs-practice-test.html';
+  const fromSheet = returnPath === 'dmv-road-signs-cheat-sheet.html';
+  const returnHref = fromSheet ? returnPath : `${returnPath}#practice`;
   const key = `tdt-learning-loop:v2:${lessons.length && requested ? requested : 'all'}`;
   const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const get = name => root.querySelector(`[data-loop-${name}]`);
@@ -97,8 +99,8 @@
     if (state.index === steps.length) {
       get('phase-label').textContent = 'Session complete';
       get('title').textContent = 'Review your decisions';
-      get('copy').textContent = 'Use the record below to explain the choices you missed before returning to a mixed round.';
-      stage.innerHTML = `<p class="learning-complete">You answered all ${selectedLessons.length * 2} sign situations across ${selectedLessons.length} distinction${selectedLessons.length === 1 ? '' : 's'}. This is a record of this practice, not certified mastery.</p><p><a href="${esc(returnPath)}#practice">Return to picture practice</a></p>`;
+      get('copy').textContent = 'Use the record below to explain the choices you missed before continuing your review.';
+      stage.innerHTML = `<p class="learning-complete">You answered all ${selectedLessons.length * 2} sign situations across ${selectedLessons.length} distinction${selectedLessons.length === 1 ? '' : 's'}. This is a record of this practice, not certified mastery.</p><p><a href="${esc(returnHref)}">${fromSheet ? 'Return to the study sheet' : 'Return to picture practice'}</a></p>`;
       next.disabled = true;
       next.textContent = 'Session complete';
       return;

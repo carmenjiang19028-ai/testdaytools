@@ -3,7 +3,7 @@ import html
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -213,6 +213,19 @@ def render_material_review():
 def render_material_links():
     links = "".join(f'<li><a href="road-sign-learning-loop.html#lesson-{esc(x["id"])}">{esc(x["title"])}</a></li>' for x in road_sign_materials()["lessons"])
     return f'<section class="content-section"><h2>Understand the distinctions behind a missed sign</h2><ul class="material-links">{links}</ul></section>'
+
+
+def render_contrast_practice_links(return_page):
+    links = []
+    for lesson in road_sign_materials()["lessons"]:
+        query = urlencode({"concept": lesson["id"], "return": return_page})
+        label = lesson["title"].split(":", 1)[0]
+        links.append(f'<li><a href="road-sign-learning-loop.html?{esc(query)}">{esc(label)}</a></li>')
+    return f'''<section class="content-section" aria-labelledby="contrast-practice-heading">
+  <h2 id="contrast-practice-heading">Practice a confusing sign pair</h2>
+  <p>Choose the pair you mix up. Explain how the signs change the driver's decision, then try two short situations before returning to your study material.</p>
+  <ul class="material-links">{"".join(links)}</ul>
+</section>'''
 
 
 def render_contrast_lessons():
@@ -1525,6 +1538,9 @@ def render_practice_console(tool):
         ]
         heading = "Road sign lab built for visual practice"
         intro = "Road-sign pages should feel like a small image tool, not a plain article. Start the quiz, review misses, then use the sign guide without leaving the page."
+        if slug == ROAD_SIGN_PICTURE_SLUG:
+            heading = "Review the reason behind a missed sign"
+            intro = "Name the driver action before reading the choices. If two signs lead you to different answers, practice that pair before retaking a mixed round."
     elif is_sign_page:
         items = [
             ("1", "Confirm the state rule", "Use the linked agency page for the current format, pass threshold, and retake instructions."),
@@ -2700,7 +2716,7 @@ def render_tool(tool):
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
 {replacement_notice_block}\
 {render_trust_strip(tool)}
-{practice_console}{test_day_bridge}
+{practice_console}{render_contrast_practice_links(f'{ROAD_SIGN_PICTURE_SLUG}.html') if tool['slug'] == ROAD_SIGN_PICTURE_SLUG else ''}{test_day_bridge}
 {page_sections}"""
     page_type = "LearningResource" if tool.get("category") in ("DMV", "SAT", "AP") else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')
@@ -3284,6 +3300,7 @@ def render_road_sign_cheat_sheet_page():
   </div>
 </section>
 <section class="notice"><strong>Unofficial study resource.</strong> {esc(SITE["disclaimer"])}</section>
+{render_contrast_practice_links(f'{ROAD_SIGN_CHEAT_SHEET_SLUG}.html')}
 <section class="printable-road-sign-sheet" id="printable-sheet">
   <header class="printable-sheet-head">
     <div><p class="eyebrow">TestDayTools printable reference</p><h2>DMV road signs and meanings</h2></div>
