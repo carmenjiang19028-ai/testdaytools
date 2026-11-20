@@ -57,6 +57,7 @@ for (const state of states) {
         assert.equal(await mixed.getAttribute("href"), `${state.slug}-permit-practice-test.html?mode=mock#practice`);
         await mixed.click();
         const quiz = page.locator("[data-mode-panel=mock].is-active [data-quiz]");
+        await quiz.waitFor({ state: "visible" });
         assert.equal(await quiz.locator(".question").count(), 40);
         assert.equal(await quiz.getAttribute("data-pass-score"), "32");
         assert.equal(await page.locator("[data-mode-button=mock]").getAttribute("aria-selected"), "true");

@@ -543,7 +543,6 @@ function initQuizzes() {
     const answered = new Set();
     const correctAnswers = new Set();
     const wrongAnswers = new Set();
-    const missedCategories = {};
     const storageKey = `tdt-mistakes:${window.location.pathname}:${quiz.dataset.modeId || quizLabel}`;
     const recentPracticeKey = "tdt-recent-practice";
     let savedMistakes = [];
@@ -557,6 +556,7 @@ function initQuizzes() {
     let quizHalfwayTracked = false;
     let quizCompletedTracked = false;
     let tenQuestionsTracked = false;
+    let restartFullRound = false;
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -571,6 +571,15 @@ function initQuizzes() {
       question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
 
     const getActiveQuestionIndex = () => activeSequence[activePosition];
+
+    const roundHref = (focus = "all") => {
+      const pageName = window.location.pathname.split("/").pop() || "index.html";
+      const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
+      const params = new URLSearchParams();
+      if (mode) params.set("mode", mode);
+      if (focus !== "all") params.set("focus", focus);
+      return `${pageName}${params.size ? `?${params}` : ""}#practice`;
+    };
 
     const masteryRecords = () => {
       if (!isDmvQuiz) return [];
@@ -731,12 +740,17 @@ function initQuizzes() {
       const activeTotal = activeSequence.length;
       const answeredCount = activeSequence.filter((index) => answered.has(index)).length;
       const correctCount = activeSequence.filter((index) => correctAnswers.has(index)).length;
-      const missedCount = activeSequence.filter((index) => wrongAnswers.has(index)).length;
+      const missedIndexes = activeSequence.filter((index) => wrongAnswers.has(index));
+      const missedCount = missedIndexes.length;
       const leftCount = Math.max(activeTotal - answeredCount, 0);
       const percent = answeredCount ? Math.round((correctCount / answeredCount) * 100) : 0;
       const complete = activeTotal > 0 && answeredCount === activeTotal;
       const halfwayReached = activeTotal > 1 && answeredCount >= Math.ceil(activeTotal / 2);
-      const effectivePassScore = Math.min(passScore, Math.max(activeTotal - 1, 1));
+      const focus = filterSelect?.value || "all";
+      const focusedDmv = isDmvQuiz && focus !== "all";
+      const effectivePassScore = isDmvQuiz ? passScore : Math.min(passScore, Math.max(activeTotal - 1, 1));
+      const practiceTargetMet = !focusedDmv && correctCount >= effectivePassScore;
+      restartFullRound = complete && focusedDmv && !missedCount;
       const resultText = !activeTotal
         ? "No questions selected"
         : complete
@@ -782,7 +796,7 @@ function initQuizzes() {
           answered: answeredCount,
           correct: correctCount,
           missed: missedCount,
-          passed: correctCount >= effectivePassScore,
+          passed: practiceTargetMet,
         });
       }
 
@@ -801,23 +815,26 @@ function initQuizzes() {
       });
       quiz.classList.toggle("is-complete", complete);
 
-      const missed = Object.entries(missedCategories)
+      const missedCategories = new Map();
+      missedIndexes.forEach((index) => {
+        const category = questions[index].dataset.category || "Review topic";
+        missedCategories.set(category, (missedCategories.get(category) || 0) + 1);
+      });
+      const missed = [...missedCategories]
         .sort((a, b) => b[1] - a[1])
         .map(([category]) => category)
         .slice(0, 3);
 
       const missedConceptIds = () => [...new Set(
-        activeSequence
-          .filter((index) => wrongAnswers.has(index))
+        missedIndexes
           .map((index) => questions[index].dataset.conceptId || "")
           .filter(Boolean),
       )];
 
       if (justCompleted && isDmvQuiz) {
-        const pageName = window.location.pathname.split("/").pop() || "index.html";
         recordDmvSession({
-          label: quizLabel,
-          href: `${pageName}#practice`,
+          label: focusedDmv ? `${quizLabel} (${filterSelect.selectedOptions[0].textContent})` : quizLabel,
+          href: roundHref(focus),
           total: activeTotal,
           correct: correctCount,
           missed: missedCount,
@@ -845,7 +862,15 @@ function initQuizzes() {
         next.textContent = "Choose all categories or answer questions first, then review saved mistakes.";
       } else if (!answeredCount) {
         next.textContent = `Answer ${quizLabel} questions first, then review weak areas.`;
-      } else if (complete && correctCount >= effectivePassScore) {
+      } else if (complete && focusedDmv) {
+        next.textContent = missedCount
+          ? `Focused review: revisit ${missed.join(", ")}. This is not a full-round score.`
+          : "Focused review: no misses in this set. Try all questions before judging your overall readiness.";
+      } else if (complete && isDmvQuiz) {
+        next.textContent = practiceTargetMet
+          ? `Practice target met: ${passScore} of ${activeTotal} required for this round. This is not an official exam result.`
+          : `Practice target: ${passScore} of ${activeTotal} for this round. Review ${missed.join(", ") || "the questions you missed"} before trying again.`;
+      } else if (complete && practiceTargetMet) {
         next.textContent = `Practice pass for this mode. Review explanations, then confirm rules in the official manual.`;
       } else if (complete && correctCount >= Math.max(effectivePassScore - 3, 1)) {
         next.textContent = missed.length
@@ -889,6 +914,11 @@ function initQuizzes() {
           nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";
           nextPlanAction.href = state ? `dmv-permit-test-study-plan.html?state=${encodeURIComponent(state)}` : "dmv-permit-test-study-plan.html";
           nextPlanAction.textContent = "Build a focused plan";
+        } else if (restartFullRound) {
+          nextPlanTitle.textContent = "Practice all questions";
+          nextPlanCopy.textContent = "A clean focus set is useful, but it does not cover all of the topics in this practice round.";
+          nextPlanAction.href = roundHref();
+          nextPlanAction.textContent = "Start full practice round";
         } else if (state) {
           nextPlanTitle.textContent = "Move from score to test-day readiness";
           nextPlanCopy.textContent = "A clean round is useful evidence. Now confirm official rules, documents, and visit logistics for your state.";
@@ -954,7 +984,6 @@ function initQuizzes() {
       answered.clear();
       correctAnswers.clear();
       wrongAnswers.clear();
-      Object.keys(missedCategories).forEach((key) => delete missedCategories[key]);
       activePosition = 0;
       toolMessage = "";
       quizStartedTracked = false;
@@ -1158,7 +1187,7 @@ function initQuizzes() {
     }
 
     if (nextPlanAction) {
-      nextPlanAction.addEventListener("click", () => {
+      nextPlanAction.addEventListener("click", (event) => {
         trackToolEvent("study_next_step_click", {
           surface: "quiz_next_plan",
           tool: quizLabel,
@@ -1167,6 +1196,18 @@ function initQuizzes() {
           complete: quiz.classList.contains("is-complete"),
           target: analyticsPathFromHref(nextPlanAction.href),
         });
+        if (restartFullRound && filterSelect && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+          event.preventDefault();
+          filterSelect.value = "all";
+          resetQuiz();
+          applyFocusFilter("all");
+          const firstQuestion = questions[getActiveQuestionIndex()]?.querySelector("h3");
+          if (firstQuestion) {
+            firstQuestion.tabIndex = -1;
+            firstQuestion.focus({ preventScroll: true });
+            quiz.scrollIntoView({ block: "start" });
+          }
+        }
       });
     }
 
@@ -1194,8 +1235,6 @@ function initQuizzes() {
           }
           if (!isCorrect) {
             wrongAnswers.add(index);
-            const category = question.dataset.category || "this topic";
-            missedCategories[category] = (missedCategories[category] || 0) + 1;
             rememberMistake(question);
           }
           if (isDmvQuiz) {
