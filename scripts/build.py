@@ -2720,11 +2720,17 @@ def render_state_rule_practice(lesson):
     sources = " &middot; ".join(
         f'<a href="{esc(source["url"])}">{esc(source["label"])}</a>' for source in lesson["sources"]
     )
+    asset = lesson.get("imageAsset")
+    image = (
+        f'<img src="{esc(asset["src"])}" alt="{esc(lesson["imageLabel"])}" width="{int(asset["width"])}" height="{int(asset["height"])}">'
+        if asset
+        else render_road_sign_image(lesson["image"], lesson["imageLabel"], lazy=False)
+    )
     return f"""<section class="content-section state-sign-lesson" id="{anchor}" aria-labelledby="{anchor}-heading">
   <h2 id="{anchor}-heading">{esc(lesson["heading"])}</h2>
   <div class="contrast-lesson-grid">
     <figure class="contrast-scene">
-      {render_road_sign_image(lesson["image"], lesson["imageLabel"], lazy=False)}
+      {image}
       <figcaption>{esc(lesson["caption"])}</figcaption>
     </figure>
     <div>

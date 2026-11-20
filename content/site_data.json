@@ -9424,6 +9424,38 @@
       "description": "Texas road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
       "heroKicker": "Texas road signs",
       "summary": "Drill Texas road-sign recognition with original sign images, then review warning, regulatory, school, rail, and work-zone signs by category.",
+      "stateRulePractice": {
+        "id": "texas-work-zone-panels",
+        "linkLabel": "Texas work-zone cases",
+        "heading": "Which way should you go in a Texas work zone?",
+        "imageAsset": {
+          "src": "assets/road-sign-materials/texas-work-zone-panels.svg",
+          "width": 320,
+          "height": 164
+        },
+        "imageLabel": "A: a wide barricade with stripes descending from upper left to lower right. B: an upright panel with stripes descending from upper right to lower left.",
+        "caption": "Two original drawings of temporary traffic-control devices. Read the stripe direction from the driver's view. These cases do not count toward the 20-question sign score.",
+        "scenarios": [
+          {
+            "question": "A wide barricade like A blocks part of your lane. You can see an open lane on the right. Which side does A direct you toward?",
+            "answer": "Right. Follow a stripe from its higher end to its lower end: A descends toward your right. Slow down, check traffic, and move to the open lane only when safe. The stripes show the intended side, not permission to cut into another lane."
+          },
+          {
+            "question": "At the next work zone you see a narrow upright panel like B. Does its shape change how you read the stripes?",
+            "answer": "No. The slope works the same on a vertical panel. B descends toward your left, so the panel directs traffic to the left. Do not assume every orange-and-white device sends you right."
+          },
+          {
+            "question": "You can see the intended route around a barricade, but a flagger holds up a STOP paddle. What do you do?",
+            "answer": "Stop in your lane and wait for the flagger to direct you forward. Do not go around the device just because the intended path looks open."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Texas DPS Driver Handbook, Chapter 5, p. 36: Channelizing Devices, Passing Traffic, and Flag Person",
+            "url": "https://www.dps.texas.gov/Internetforms/Forms/DL-7.pdf"
+          }
+        ]
+      },
       "quickFacts": [
         {
           "label": "Question count",
@@ -9506,7 +9538,7 @@
           },
           {
             "step": "4",
-            "title": "Move to mixed Texas rules",
+            "title": "Review rules beyond road signs",
             "text": "After reaching the 16-of-20 practice target, use the daily Texas question path for right-of-way, speed, alcohol, and safe-driving review."
           }
         ]
@@ -9704,7 +9736,9 @@
             {
               "label": "Barricade stripes",
               "title": "Review the side traffic should pass",
-              "text": "Use the stripe slope to decide whether traffic belongs to the left or right of a work-zone device, then reopen the Chapter 5 channelizing-device section."
+              "text": "Compare a barricade with a vertical panel, then decide what to do if a flagger stops you.",
+              "href": "#texas-work-zone-panels",
+              "cta": "Try the three work-zone cases"
             },
             {
               "label": "English sign text",
@@ -9774,14 +9808,14 @@
           {
             "label": "Practice target here",
             "value": "16 of 20 image signs",
-            "text": "Use this 80 percent practice target as a confidence check, then review any slow category before moving to mixed Texas rules."
+            "text": "This is a sign-only practice benchmark, not the Texas DPS passing score or evidence of readiness for the full knowledge exam."
           }
         ]
       },
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Texas signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "After a missed sign, use its shape, color, or markings to explain the action before trying the picture again.",
         "groups": [
           {
             "label": "Shapes",
@@ -9837,7 +9871,7 @@
         "Retake the road-sign round later instead of immediately guessing again.",
         "Confirm final wording in the Texas Driver Handbook."
       ],
-      "lastUpdated": "July 27, 2026"
+      "lastUpdated": "November 20, 2026"
     },
     {
       "slug": "florida-dmv-permit-practice-test",

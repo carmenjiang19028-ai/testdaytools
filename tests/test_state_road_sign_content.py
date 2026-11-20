@@ -2,6 +2,7 @@ import json
 import unittest
 from pathlib import Path
 from urllib.parse import urlsplit
+from xml.etree import ElementTree
 from scripts.build import dmv_requirement_records, render_state_rule_practice
 
 
@@ -71,6 +72,31 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn("Do not turn in the direction of a steady red arrow", arrow["answer"])
         self.assertIn(render_state_rule_practice(lesson), page)
         self.assertIn('href="#new-york-right-on-red"', page)
+
+    def test_texas_work_zone_drawing_and_answers_agree(self):
+        slug = "texas-dmv-road-signs-practice"
+        lesson = self.tools[slug]["stateRulePractice"]
+        page = (ROOT / f"{slug}.html").read_text()
+        asset = lesson["imageAsset"]
+        svg = ElementTree.parse(ROOT / asset["src"]).getroot()
+        ns = {"s": "http://www.w3.org/2000/svg"}
+        self.assertEqual(svg.get("viewBox"), f'0 0 {asset["width"]} {asset["height"]}')
+        self.assertEqual(
+            [(pattern.get("id"), pattern.get("patternTransform")) for pattern in svg.findall(".//s:pattern", ns)],
+            [("down-right", "rotate(-45)"), ("down-left", "rotate(45)")],
+        )
+        self.assertEqual([rect.get("fill") for rect in svg.findall("s:rect", ns)], ["url(#down-right)", "url(#down-left)"])
+        self.assertIn("lower right", lesson["imageLabel"])
+        self.assertIn("lower left", lesson["imageLabel"])
+        barricade, panel, flagger = lesson["scenarios"]
+        self.assertIn("A descends toward your right", barricade["answer"])
+        self.assertIn("B descends toward your left", panel["answer"])
+        self.assertIn("Stop in your lane and wait", flagger["answer"])
+        self.assertIn("Chapter 5, p. 36", lesson["sources"][0]["label"])
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('href="#texas-work-zone-panels"', page)
+        self.assertIn('data-total="20" data-pass-score="16"', page)
+        self.assertNotIn("Search-result competitors", page)
 
     def test_full_mixed_benchmark_matches_an_available_quiz(self):
         records = dmv_requirement_records()
