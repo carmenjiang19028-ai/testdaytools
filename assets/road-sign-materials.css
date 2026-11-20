@@ -9,14 +9,18 @@
 .learning-loop-page .learning-loop-intro h2 { font-size: 20px; }
 .learning-loop-page .learning-card-visual { min-height: 0; }
 .worked-examples { margin: 24px 0; }
+.worked-examples[id] { scroll-margin-top: 96px; }
 .worked-examples p, .worked-examples li { max-width: 78ch; }
 .worked-examples article { border-top: 1px solid #ccd4d9; padding: 16px 0; }
+.worked-examples[id] details { padding: 8px 0; }
+.worked-examples[id] summary { cursor: pointer; font-weight: 700; }
 .learning-loop-page .learning-record { border-top: 1px solid #ccd4d9; padding: 16px 0; }
 .learning-loop-page .learning-record-answer { margin: 12px 0; }
 .learning-loop-page textarea { width: 100%; min-height: 180px; }
 .learning-loop-page [data-loop-stage] { scroll-margin-top: 90px; }
 @media (max-width: 700px) {
   .learning-loop-page [data-loop-stage] { scroll-margin-top: 150px; }
+  .worked-examples[id] { scroll-margin-top: 160px; }
 }
 @media print {
   .learning-loop-page .site-header, .learning-loop-page .site-footer,

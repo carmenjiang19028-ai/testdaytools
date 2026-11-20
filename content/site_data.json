@@ -2893,7 +2893,12 @@
       "title": "SAT Score Release Guide",
       "description": "Understand how SAT score release usually works, what to check before scores arrive, and how to think about sending scores.",
       "heroKicker": "SAT scores",
-      "summary": "SAT score release timing depends on the administration. This unofficial guide helps you prepare your account, college list, and next-step decisions before scores post.",
+      "summary": "A score appearing in your College Board account is not the same as a college receiving it. Compare release, reporting rules, and the deadline before you pay to send a score or register for a retake.",
+      "heroActions": [
+        {"label": "Compare three deadline cases", "href": "#score-deadline-cases"},
+        {"label": "Official release dates", "href": "https://satsuite.collegeboard.org/scores/score-release-dates"}
+      ],
+      "lastUpdated": "November 20, 2026",
       "quickFacts": [
         {
           "label": "Where scores post",
@@ -2940,7 +2945,7 @@
       "body": [
         {
           "heading": "Where scores appear",
-          "text": "SAT scores appear in the student's College Board account after processing. Some scores may take longer if additional review or matching is needed."
+          "text": "Check the official release table for your administration. SAT Weekend lists dates by test sitting; School Day has separate release batches. Check your College Board account for actual availability rather than assuming the scheduled date guarantees your score has posted."
         },
         {
           "heading": "After scores post",
@@ -2951,54 +2956,16 @@
           "text": "Look at the total score, section scores, and your original goal. A score that feels disappointing may still be useful for some colleges, scholarships, or a superscore strategy."
         },
         {
-          "heading": "Use deadlines to decide on sending",
-          "text": "Before sending any score, check each college's current testing policy, deadline, and score choice rules. Some colleges accept self-reported scores at first, while others require official reports."
+          "heading": "Record one deadline per college",
+          "text": "Copy this into your own notes: College/program: ___ | Latest accepted SAT sitting: ___ | Self-report or official report: ___ | What must happen by the deadline (submitted, received or matched): ___ | Deadline and time zone: ___ | Score available: ___ | Confirmed fallback: ___. Keep your account and scores private."
+        },
+        {
+          "heading": "Free score sends have a separate clock",
+          "text": "For SAT Weekend, College Board lets you use or change up to four free sends through nine days after testing. For SAT School Day, choose them during setup or within three days after testing as instructed by your school. These windows can close before you see your score; check the college's policy before choosing recipients."
         },
         {
           "heading": "Plan retakes with evidence",
           "text": "A retake is most useful when you know what you will change. Use your score report and practice history to pick a focused improvement plan instead of simply registering again."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Common SAT score mistakes",
-          "items": [
-            {
-              "label": "Sending",
-              "title": "Sending before checking policy",
-              "text": "Some colleges are test optional, some superscore, and some want official reports. Check first."
-            },
-            {
-              "label": "Retake",
-              "title": "Registering again with no new plan",
-              "text": "A retake is more useful when it targets a section, content area, or timing issue."
-            },
-            {
-              "label": "Stress",
-              "title": "Comparing screenshots with friends",
-              "text": "Use your goals and college list. Another student's score does not decide your next step."
-            }
-          ]
-        },
-        {
-          "heading": "How to interpret your score",
-          "items": [
-            {
-              "label": "Meets target",
-              "title": "Move to reporting decisions",
-              "text": "Check which colleges need the official score and whether scholarships have separate rules."
-            },
-            {
-              "label": "Close to target",
-              "title": "Look for superscore value",
-              "text": "If one section is strong, a later test may help only if colleges on your list superscore."
-            },
-            {
-              "label": "Below target",
-              "title": "Find the reason before retesting",
-              "text": "Separate content gaps, timing issues, test-day problems, and unrealistic practice conditions."
-            }
-          ]
         }
       ],
       "checklist": [
@@ -3102,18 +3069,26 @@
       ],
       "sources": [
         {
-          "label": "College Board SAT: Getting scores",
-          "url": "https://satsuite.collegeboard.org/sat/scores"
+          "label": "College Board: Student SAT score release dates",
+          "url": "https://satsuite.collegeboard.org/scores/score-release-dates"
         },
         {
-          "label": "College Board SAT: Sending scores",
-          "url": "https://satsuite.collegeboard.org/sat/scores/send-scores-to-colleges"
+          "label": "College Board: SAT Weekend score reporting and standard delivery",
+          "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores/weekend"
+        },
+        {
+          "label": "College Board: Rush reporting and its limits",
+          "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores/additional/rush-reporting"
+        },
+        {
+          "label": "College Board: Free score send windows",
+          "url": "https://satsuite.collegeboard.org/help-center/there-fee-sending-scores"
         }
       ],
       "related": [
         "sat-test-dates-2026-2027",
-        "digital-sat-checklist",
-        "ap-score-release-date-2026"
+        "sat-superscore-guide",
+        "sat-score-goal-planner"
       ]
     },
     {

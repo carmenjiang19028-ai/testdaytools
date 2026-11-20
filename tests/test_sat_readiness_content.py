@@ -1,6 +1,7 @@
 import json
 import unittest
 from pathlib import Path
+from scripts.build import render_examples
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,6 +50,21 @@ class SATReadinessContentTest(unittest.TestCase):
                 self.assertEqual(TOOLS[slug]["title"], title)
                 self.assertEqual(TOOLS[slug]["description"], description)
                 self.assertEqual(TOOLS[slug]["lastUpdated"], "October 8, 2026")
+
+    def test_score_release_cases_distinguish_official_and_illustrative_dates(self):
+        tool = TOOLS["sat-score-release-guide"]
+        examples = json.loads((ROOT / "content/study_examples.json").read_text())[tool["slug"]]
+        page = (ROOT / "sat-score-release-guide.html").read_text()
+        self.assertIn("December 18, 2026", examples["intro"])
+        self.assertIn("fictional", examples["intro"])
+        self.assertEqual(len(examples["examples"]), 3)
+        self.assertIn(render_examples(tool), page)
+        self.assertIn('href="#score-deadline-cases"', page)
+        self.assertIn("Deadline and time zone: ___", page)
+        self.assertIn("nine days after testing", page)
+        self.assertIn("three days after testing", page)
+        self.assertEqual({source["url"].rsplit("/", 1)[-1] for source in tool["sources"]},
+                         {"score-release-dates", "weekend", "rush-reporting", "there-fee-sending-scores"})
 
 
 if __name__ == "__main__":
