@@ -1891,6 +1891,36 @@ def render_sat_superscore_comparison():
 </section>"""
 
 
+def render_sat_arrival_timing():
+    return """<section class="tool-block sat-widget" id="sat-arrival-plan" aria-labelledby="sat-arrival-heading" data-sat-arrival>
+  <div class="tool-section-head">
+    <h2 id="sat-arrival-heading">Work backward from your confirmed arrival time</h2>
+    <p class="section-intro">Use the arrival time from your admission ticket, loaner instructions, or school. Do not enter the doors-close time or the test start time instead.</p>
+  </div>
+  <div data-arrival-controls hidden>
+    <div class="sat-widget-grid">
+      <form class="sat-input-panel sat-arrival-form" autocomplete="off" novalidate>
+        <label>Confirmed arrival time <span>Test site's local time</span><input type="time" step="60" required data-arrival-time></label>
+        <label>Travel to the site <span>Minutes</span><input type="number" inputmode="numeric" min="0" max="720" step="1" required data-arrival-travel></label>
+        <label>Parking and walking <span>Minutes</span><input type="number" inputmode="numeric" min="0" max="180" step="1" required data-arrival-walk></label>
+        <label>Extra buffer <span>Minutes</span><input type="number" inputmode="numeric" min="0" max="180" step="1" required data-arrival-buffer></label>
+        <button type="submit">Calculate departure</button>
+      </form>
+      <aside class="sat-result-panel" aria-label="Arrival plan">
+        <p role="status" data-arrival-status>Enter your confirmed arrival time and the three durations.</p>
+        <ol class="sat-goal-plan" data-arrival-result hidden>
+          <li><strong>Leave by</strong><span data-arrival-depart></span></li>
+          <li><strong>Reach the site</strong><span data-arrival-site></span></li>
+          <li><strong>Reach check-in area</strong><span data-arrival-target></span></li>
+        </ol>
+        <p class="sat-widget-note">An early target may mean waiting outside until staff open the doors. These are route estimates, not check-in or dismissal times.</p>
+      </aside>
+    </div>
+  </div>
+  <noscript><p>Subtract your travel, walking time, and buffer from the confirmed arrival time. See the worked examples below.</p></noscript>
+</section>"""
+
+
 def render_tool_widget(tool):
     widget = tool.get("toolWidget")
     if not widget:
@@ -1906,6 +1936,8 @@ def render_tool_widget(tool):
         return render_sat_august_readiness(tool, widget)
     if kind == "satSuperscoreComparison":
         return render_sat_superscore_comparison()
+    if kind == "satArrivalTiming":
+        return render_sat_arrival_timing()
     if kind == "satScoreCalculator":
         return f"""<section class="tool-block sat-widget" data-sat-score-calculator>
   <div class="tool-section-head">
@@ -2997,6 +3029,8 @@ def render_tool(tool):
     extra_head = '<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or sign_recall or styled_examples or tool["slug"] == ROAD_SIGN_PICTURE_SLUG else ""
     if widget.get("type") == "virginiaKnowledgeRetest":
         extra_head += '<script src="assets/virginia-retest.js" defer></script>'
+    if widget.get("type") == "satArrivalTiming":
+        extra_head += '<script src="assets/sat-arrival.js" defer></script>'
     return page_shell(
         tool["title"],
         tool["description"],

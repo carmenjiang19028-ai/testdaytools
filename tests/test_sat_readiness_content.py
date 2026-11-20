@@ -1,4 +1,7 @@
 import json
+from datetime import datetime
+from html import escape
+from xml.etree import ElementTree
 import unittest
 from pathlib import Path
 from scripts.build import render_examples
@@ -16,10 +19,12 @@ class SATReadinessContentTest(unittest.TestCase):
             with self.subTest(slug=slug):
                 items = [item for item in TOOLS[slug]["checklist"] if "admission ticket" in item]
                 self.assertEqual(len(items), 1)
-                self.assertIn("For SAT Weekend, bring", items[0])
+                self.assertIn("For SAT Weekend with a device you bring, carry", items[0])
                 self.assertIn("printed copy is preferred", items[0])
-                self.assertNotIn("if", items[0])
-                self.assertIn(items[0], (ROOT / f"{slug}.html").read_text())
+                self.assertIn("approved College Board loaner, get the ticket at pickup after setup", items[0])
+                self.assertIn("For approved paper testing", items[0])
+                self.assertNotIn("if the test center", items[0])
+                self.assertIn(escape(items[0]), (ROOT / f"{slug}.html").read_text())
 
     def test_weekend_setup_and_physical_id_are_explicit(self):
         items = TOOLS["digital-sat-checklist"]["checklist"]
@@ -71,12 +76,18 @@ class SATReadinessContentTest(unittest.TestCase):
             "digital-sat-checklist": ("Digital SAT Checklist", "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics."),
             "digital-sat-bluebook-checklist": ("Digital SAT Bluebook Checklist", "A Bluebook-focused digital SAT checklist for approved devices, setup timing, battery life, admission ticket, and test-day troubleshooting."),
             "sat-device-troubleshooting-guide": ("Digital SAT Device Troubleshooting Guide", "Troubleshoot common Digital SAT device issues before test day, including Bluebook access, battery, approved devices, passwords, updates, and admission ticket setup."),
+            "sat-test-day-timing-guide": ("SAT Test Day Timing Guide", "Plan SAT test morning timing, arrival margin, check-in, breaks, device setup, pacing, and post-test next steps."),
+        }
+        sitemap = {
+            item.findtext("{*}loc"): item.findtext("{*}lastmod")
+            for item in ElementTree.parse(ROOT / "sitemap.xml").getroot()
         }
         for slug, (title, description) in expected.items():
             with self.subTest(slug=slug):
                 self.assertEqual(TOOLS[slug]["title"], title)
                 self.assertEqual(TOOLS[slug]["description"], description)
-                self.assertEqual(TOOLS[slug]["lastUpdated"], "November 20, 2026")
+                last_updated = datetime.strptime(TOOLS[slug]["lastUpdated"], "%B %d, %Y").date().isoformat()
+                self.assertEqual(sitemap[f"https://testdaytools.com/{slug}.html"], last_updated)
 
     def test_score_release_cases_distinguish_official_and_illustrative_dates(self):
         tool = TOOLS["sat-score-release-guide"]

@@ -2387,13 +2387,14 @@
       "slug": "digital-sat-checklist",
       "category": "SAT",
       "title": "Digital SAT Checklist",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "description": "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics.",
       "heroKicker": "SAT checklist",
       "summary": "The digital SAT depends on both preparation and device readiness. Use this checklist before test day so you are not troubleshooting at the door.",
       "heroActions": [
         {"label": "Check device options", "href": "sat-device-troubleshooting-guide.html#sat-device-cases"},
-        {"label": "Bluebook setup checklist", "href": "digital-sat-bluebook-checklist.html"}
+        {"label": "Bluebook setup checklist", "href": "digital-sat-bluebook-checklist.html"},
+        {"label": "Plan your departure", "href": "sat-test-day-timing-guide.html#sat-arrival-plan"}
       ],
       "quickFacts": [
         {
@@ -2417,7 +2418,7 @@
         "For SAT Weekend, check your device and open Bluebook at least 30 days before test day. If you need College Board lending, the request is due at least 30 days before testing.",
         "For SAT Weekend, complete Bluebook exam setup 1-5 days before test day on the device you will use. If College Board approved a test-center loaner, complete setup at pickup instead.",
         "For SAT Weekend, bring an acceptable physical photo ID, not an electronic copy.",
-        "For SAT Weekend, bring your current Bluebook admission ticket; a printed copy is preferred.",
+        "For SAT Weekend with a device you bring, carry your current Bluebook admission ticket; a printed copy is preferred. With an approved College Board loaner, get the ticket at pickup after setup. For approved paper testing, follow your coordinator's instructions instead.",
         "Charge your device fully and bring the power cord.",
         "Bring an approved calculator or use the built-in calculator.",
         "Pack pencils or pens for scratch work.",
@@ -2447,7 +2448,7 @@
             ],
             [
               "Night before",
-              "Charge your device, pack the charger, ID, admission ticket, and calculator.",
+              "Charge the device you will bring and pack the charger, ID, and calculator. Pack the admission ticket when it has already been issued.",
               "A complete bag reduces morning decisions."
             ],
             [
@@ -2623,7 +2624,7 @@
       "slug": "digital-sat-bluebook-checklist",
       "category": "SAT",
       "title": "Digital SAT Bluebook Checklist",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "description": "A Bluebook-focused digital SAT checklist for approved devices, setup timing, battery life, admission ticket, and test-day troubleshooting.",
       "heroKicker": "Bluebook checklist",
       "summary": "Bluebook is part of the SAT test-day workflow. This checklist focuses on device approval, setup timing, battery planning, and the small technical issues that can derail a test morning.",
@@ -2767,7 +2768,7 @@
             {
               "label": "Ticket",
               "title": "Skipping exam setup",
-              "text": "Admission ticket instructions are tied to setup, so do not wait until test morning."
+              "text": "Do not wait until test morning to set up a device you will bring. With an approved College Board loaner, complete that step at pickup."
             },
             {
               "label": "Updates",
@@ -2784,7 +2785,7 @@
         "For SAT Weekend, complete exam setup 1-5 days before testing on your test device, or at pickup if you have an approved College Board loaner.",
         "Charge the device fully and pack the charger.",
         "Confirm you can unlock the device without another device.",
-        "For SAT Weekend, bring your current Bluebook admission ticket; a printed copy is preferred.",
+        "For SAT Weekend with a device you bring, carry your current Bluebook admission ticket; a printed copy is preferred. With an approved College Board loaner, get the ticket at pickup after setup. For approved paper testing, follow your coordinator's instructions instead.",
         "Close distracting apps and follow test center device instructions."
       ],
       "faq": [
@@ -2802,7 +2803,7 @@
         },
         {
           "q": "When do I print my SAT admission ticket?",
-          "a": "College Board says students registered for an upcoming SAT can complete exam setup in Bluebook 1-5 days before test day and then print or email the admission ticket."
+          "a": "When bringing a device for SAT Weekend, complete Bluebook setup 1-5 days before testing, then print the generated ticket. An approved College Board loaner is set up at pickup, where the ticket is generated instead. Follow your coordinator for approved paper testing."
         }
       ],
       "sources": [
@@ -4613,223 +4614,159 @@
       "category": "SAT",
       "title": "SAT Test Day Timing Guide",
       "description": "Plan SAT test morning timing, arrival margin, check-in, breaks, device setup, pacing, and post-test next steps.",
+      "lastUpdated": "November 21, 2026",
       "heroKicker": "SAT test day",
-      "summary": "SAT test day is not only about content. Timing, arrival, device setup, breaks, and pacing all affect how calmly you can use what you studied.",
+      "summary": "Start with the arrival time you were given, budget travel and walking time, and calculate when to leave. Then plan how to use the time inside each Bluebook module.",
+      "heroActions": [
+        {"label": "Plan your departure", "href": "#sat-arrival-plan"},
+        {"label": "See arrival examples", "href": "#sat-arrival-cases"},
+        {"label": "Official test-day schedule", "href": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"}
+      ],
+      "toolWidget": {"type": "satArrivalTiming"},
       "quickFacts": [
         {
-          "label": "Main task",
-          "value": "Arrive with margin"
+          "label": "Time to use",
+          "value": "Confirmed arrival, not the test start"
         },
         {
-          "label": "Digital risk",
-          "value": "Device or setup delay"
+          "label": "College Board device loan",
+          "value": "Use the earlier loaner instructions"
         },
         {
-          "label": "Pacing cue",
-          "value": "Do not overcheck early"
-        },
-        {
-          "label": "Best prep",
-          "value": "Run logistics the night before"
+          "label": "Standard testing and break",
+          "value": "2 hours 24 minutes, before check-in and dismissal time"
         }
       ],
       "body": [
         {
-          "heading": "Build a morning timeline",
-          "text": "Work backward from arrival time. Include wake-up, breakfast, travel, parking or drop-off, check-in, device setup, and a buffer."
+          "heading": "Arrival, closing time, and testing start are different",
+          "text": "College Board's sample SAT Weekend schedule has regular check-in at 7:45 a.m. and doors closing at 8:00 a.m. Your ticket may give another time; plan from its arrival instruction, not the later closing time. For an approved loaner, use the earlier time you were given; do not subtract another 30 minutes if it already includes early pickup."
         },
         {
-          "heading": "Protect device setup time",
-          "text": "A digital test needs a charged device, power cord, Bluebook readiness, and the ability to follow staff instructions without rushing."
+          "heading": "Finish marked questions before leaving that module",
+          "text": "Suppose a Reading and Writing question is taking too long and Bluebook shows six minutes left. Make your best choice, mark it, and review other unanswered items in that module. Return if time remains. The next module has its own clock: once you move forward, unused time and marked questions do not carry over."
         },
         {
-          "heading": "Pacing starts early",
-          "text": "Many students lose time by overchecking early questions. Use practice to decide when to move on and when to return."
-        },
-        {
-          "heading": "Breaks are part of performance",
-          "text": "Use breaks to reset, not to panic-review. Know what items are allowed and follow test center instructions."
-        },
-        {
-          "heading": "Why timing practice belongs before test week",
-          "text": "Timing is a skill, not a last-minute reminder. Students should know how long they can spend on early questions, when to mark and move, and how to recover from a difficult item without losing the rest of the module."
-        },
-        {
-          "heading": "How to practice recovery after a hard question",
-          "text": "During timed sets, intentionally mark hard questions and continue. Review later whether skipping protected the section score. The goal is to prevent one difficult problem from stealing time from several easier ones."
-        },
-        {
-          "heading": "How test-day logistics affect timing",
-          "text": "Device charging, Bluebook setup, admission documents, approved calculator habits, and break routines all affect mental bandwidth. A student who arrives prepared has more attention left for pacing and accuracy."
-        },
-        {
-          "heading": "How to use practice results to set pacing rules",
-          "text": "After each timed module, record where time pressure began. If the issue starts early, simplify your first-pass strategy. If it appears late, rehearse marking hard questions sooner. Timing rules should come from your own practice data, not from a generic minute-per-question target alone."
-        },
-        {
-          "heading": "How this guide fits the full SAT workflow",
-          "text": "Use this guide after content review is already underway. Timing work turns knowledge into usable test performance, especially near the target score. Pair it with the device troubleshooting guide in the final week so pacing, login, battery, and arrival plans are all settled before test morning."
-        },
-        {
-          "heading": "What to do during the final practice test",
-          "text": "Treat the final full practice as a rehearsal, not a cram session. Use the same device, calculator habits, break routine, pacing checkpoints, and marking strategy that you expect to use on test day. Afterward, adjust only small details so the real exam does not become an experiment."
+          "heading": "Plan pickup separately",
+          "text": "The standard timed sections and break total 144 minutes. Desk check-in, actual start time, answer submission, and staff dismissal can make your visit longer. For accommodations or School Day, use your coordinator's instructions, not a standard end-time estimate. After the test, note general pacing problems, such as rushed final minutes; do not reproduce real exam questions."
         }
       ],
       "tables": [
         {
-          "caption": "SAT test day timing table",
+          "caption": "Standard SAT module time, not a dismissal schedule",
           "headers": [
-            "Question",
-            "Practical answer",
-            "Why it matters"
+            "Part",
+            "Timed minutes",
+            "Planning implication"
           ],
           "rows": [
             [
-              "Night before",
-              "Pack ID, device, charger, calculator, ticket details, and snacks if allowed.",
-              "Morning decisions create stress."
+              "Reading and Writing",
+              "32 + 32",
+              "Check marked items before leaving each module."
             ],
             [
-              "Morning",
-              "Wake with enough time for food and travel.",
-              "Rushing can affect focus before the first question."
+              "Break between sections",
+              "10",
+              "Follow staff instructions. Do not use your phone or notes."
             ],
             [
-              "Arrival",
-              "Arrive early and follow check-in instructions.",
-              "Late arrival can create avoidable problems."
+              "Math",
+              "35 + 35",
+              "Save time for your own checks within each module."
             ],
             [
-              "During sections",
-              "Use pacing checkpoints from practice.",
-              "The digital format rewards steady attention."
-            ],
-            [
-              "After test",
-              "Write down what felt hard before memory fades.",
-              "This helps if a retake becomes necessary."
+              "Standard subtotal",
+              "144 including the break",
+              "Does not include check-in or dismissal; accommodated schedules vary."
             ]
           ]
         }
       ],
       "cardGroups": [
         {
-          "heading": "Common mistakes to avoid",
+          "id": "sat-arrival-cases",
+          "heading": "Worked SAT arrival plans",
+          "intro": "These examples use the same 32-minute trip, 8-minute walk, and 10-minute buffer. Only the confirmed arrival instruction changes.",
           "items": [
             {
-              "label": "Arrival",
-              "title": "Planning to arrive exactly on time",
-              "text": "A small delay can become a major stressor. Build margin."
+              "label": "SAT Weekend",
+              "title": "My ticket says 7:45 a.m.",
+              "text": "Leave by 6:55 a.m., reach the site at 7:27 a.m., and get to the check-in area at 7:35 a.m. The final 10 minutes are your buffer, not extra exam time.",
+              "href": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect",
+              "cta": "Official Weekend instructions"
             },
             {
-              "label": "Device",
-              "title": "Charging only to almost full",
-              "text": "A full charge and charger are part of the test-day kit."
+              "label": "Approved College Board loaner",
+              "title": "My pickup instruction says 7:15 a.m.",
+              "text": "Leave by 6:25 a.m. and reach the check-in area at 7:05 a.m. Use 7:15 as the confirmed time because pickup is already included. Complete exam setup at the center on the loaned device.",
+              "href": "sat-device-troubleshooting-guide.html#sat-device-cases",
+              "cta": "Check loaner setup steps"
             },
             {
-              "label": "Pacing",
-              "title": "Spending too long on one early question",
-              "text": "A hard early item should not consume time needed for later questions."
-            }
-          ]
-        },
-        {
-          "heading": "Timing risks to rehearse",
-          "intro": "Practice these before the real exam so they feel normal.",
-          "items": [
-            {
-              "label": "Stuck",
-              "title": "One question takes too long",
-              "text": "Mark it, move on, and return only if time remains."
-            },
-            {
-              "label": "Rushed",
-              "title": "End-of-module guessing",
-              "text": "Practice checkpoints so you notice pacing trouble earlier."
-            },
-            {
-              "label": "Fatigue",
-              "title": "Accuracy drops late",
-              "text": "Use full-length practice occasionally to rehearse energy and focus."
-            }
-          ]
-        },
-        {
-          "heading": "Final-week checks",
-          "items": [
-            {
-              "label": "Device",
-              "title": "Run Bluebook and charge fully",
-              "text": "Do this before test morning, not in the check-in line."
-            },
-            {
-              "label": "Route",
-              "title": "Confirm arrival plan",
-              "text": "Travel uncertainty creates timing stress before the exam begins."
-            },
-            {
-              "label": "Break",
-              "title": "Plan food and water",
-              "text": "Small logistics choices can affect focus in later modules."
+              "label": "School Day or another schedule",
+              "title": "I have a school reporting time instead of a Weekend ticket",
+              "text": "Use the time and location your school or testing coordinator gives you. Weekend defaults are not a substitute. If accommodations change your schedule or you are approved to test on paper without a Bluebook ticket, confirm what's required directly with the coordinator.",
+              "href": "https://satsuite.collegeboard.org/in-school-assessments/what-to-bring",
+              "cta": "Official School Day preparation"
             }
           ]
         }
       ],
       "checklist": [
-        "Pack approved materials the night before.",
-        "Charge device and pack charger.",
-        "Confirm route and arrival time.",
-        "Bring acceptable ID.",
-        "Use pacing checkpoints from timed practice."
+        "On test morning, check Bluebook or your school messages for a location or timing change.",
+        "Pack the materials required for your administration, such as your SAT Weekend admission ticket and acceptable ID.",
+        "Charge your approved device and pack its charger if bringing your own.",
+        "Choose a departure time with travel, walking, and a buffer."
       ],
       "faq": [
         {
           "q": "What time should I arrive for the SAT?",
-          "a": "Follow your admission and test center instructions, and give yourself extra travel margin."
+          "a": "Follow the confirmed arrival instruction from your ticket, approved loaner notice, or school. Plan to reach the check-in area earlier than that time, not just the parking lot."
         },
         {
-          "q": "What should I pack the night before?",
-          "a": "ID, device, charger, admission details, calculator if allowed, and other permitted items from official guidance."
+          "q": "Can I return to a question after I move to the next SAT module?",
+          "a": "No. Bluebook lets you revisit questions while time remains within the current module, but not after you move on."
         },
         {
-          "q": "Should I study on test morning?",
-          "a": "Keep it light. Protect calm, logistics, and arrival rather than cramming new material."
+          "q": "If my loaner instructions say to arrive at 7:15, do I subtract another 30 minutes?",
+          "a": "No. Enter the confirmed 7:15 pickup time as given, then subtract your travel, walking, and buffer once."
         },
         {
-          "q": "What should I do after the test?",
-          "a": "Write down timing and content issues while fresh, then wait for official scores before making major decisions."
-        },
-        {
-          "q": "Should I skip hard SAT questions?",
-          "a": "Temporarily skipping can be smart if a question is taking too long. Mark it and return if time remains."
-        },
-        {
-          "q": "How do I avoid rushing at the end of a module?",
-          "a": "Practice pacing checkpoints in timed sets so you know earlier when to speed up or move on."
-        },
-        {
-          "q": "Should I change pacing strategy on test day?",
-          "a": "Avoid major test-day changes. Use the pacing strategy you have practiced, then make small adjustments only when the module demands it."
+          "q": "Does 2 hours 24 minutes tell me when to arrange pickup?",
+          "a": "No. That is standard testing time plus the normal break, not time from arrival to dismissal. Ask the site or school about pickup, particularly if you have accommodations."
         }
       ],
       "sources": [
         {
-          "label": "College Board SAT: What to bring and do",
-          "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"
+          "label": "College Board: SAT Weekend arrival and test-day schedule",
+          "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
         },
         {
-          "label": "Bluebook",
-          "url": "https://bluebook.collegeboard.org/"
+          "label": "College Board: SAT timing and structure",
+          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
         },
         {
-          "label": "Bluebook approved devices",
-          "url": "https://bluebook.collegeboard.org/students/approved-devices"
+          "label": "Bluebook: Time and module navigation",
+          "url": "https://bluebook.collegeboard.org/help-center/how-does-timing-work-bluebook"
+        },
+        {
+          "label": "College Board: School Day preparation",
+          "url": "https://satsuite.collegeboard.org/in-school-assessments/what-to-bring"
+        },
+        {
+          "label": "College Board: Using approved accommodations",
+          "url": "https://satsuite.collegeboard.org/sat/accommodations/using-accommodations"
+        },
+        {
+          "label": "College Board: SAT Weekend coordinator manual and paper testing",
+          "url": "https://satsuite.collegeboard.org/media/pdf/sat-test-coordinator-manual.pdf"
         }
       ],
       "related": [
-        "sat-august-22-2026-planning",
         "digital-sat-checklist",
         "digital-sat-bluebook-checklist",
+        "sat-device-troubleshooting-guide",
         "sat-score-release-guide"
       ]
     },

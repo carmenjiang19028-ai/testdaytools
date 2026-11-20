@@ -202,6 +202,8 @@ main > section,
   #michigan-left-practice,
   #michigan-test-path,
   #sat-date-planner,
+  #sat-arrival-plan,
+  #sat-arrival-cases,
   #sat-fall-2027 { scroll-margin-top: 10rem; }
 }
 
@@ -3600,6 +3602,18 @@ h3 {
 
 .sat-result-panel {
   padding: 18px;
+}
+
+.sat-arrival-form {
+  align-content: start;
+}
+
+.sat-arrival-form input[aria-invalid] {
+  border-color: var(--red);
+}
+
+[data-arrival-result][hidden] {
+  display: none;
 }
 
 .sat-result-panel > span,
