@@ -1064,7 +1064,7 @@ function initQuizzes() {
       if (!filterSelect) return;
       let initialFocus = "";
       try {
-        initialFocus = new URLSearchParams(window.location.search).get("focus") || "";
+        initialFocus = (new URLSearchParams(window.location.search).get("focus") || "").trim();
       } catch (error) {
         initialFocus = "";
       }
@@ -1317,14 +1317,25 @@ function initModeTools() {
       });
     });
 
-    let requestedMode = "";
+    let params;
     try {
-      requestedMode = new URLSearchParams(window.location.search).get("mode") || "";
+      params = new URLSearchParams(window.location.search);
     } catch (error) {
-      requestedMode = "";
+      return;
     }
+    const requestedMode = params.get("mode");
     if (requestedMode && buttons.some((button) => button.dataset.modeButton === requestedMode)) {
       activate(requestedMode);
+      return;
+    }
+    const focus = (params.get("focus") || "").trim().toLowerCase();
+    if (!focus || ["all", "saved", "due"].includes(focus)) return;
+    // Quiz filters are populated before modes initialize, including study-sheet groups.
+    const matchingPanel = panels.find((panel) =>
+      Array.from(panel.querySelectorAll("[data-quiz-filter] option")).some((option) => option.value.toLowerCase() === focus)
+    );
+    if (matchingPanel) {
+      activate(matchingPanel.dataset.modePanel);
     }
   });
 }
