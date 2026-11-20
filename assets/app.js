@@ -532,6 +532,17 @@ function initCountdowns() {
   });
 }
 
+function shuffleQuizChoices(question) {
+  const group = question.querySelector(".choices");
+  if (!group) return;
+  const choices = Array.from(group.querySelectorAll("[data-choice]"));
+  for (let index = choices.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [choices[index], choices[swap]] = [choices[swap], choices[index]];
+  }
+  group.append(...choices);
+}
+
 function initQuizzes() {
   const siteHeader = document.querySelector(".site-header");
   document.querySelectorAll("[data-quiz]").forEach((quiz) => {
@@ -566,6 +577,7 @@ function initQuizzes() {
     const passScore = Number(quiz.dataset.passScore) || questions.length;
     const quizLabel = quiz.dataset.quizLabel || "practice round";
     const isDmvQuiz = quiz.dataset.domain === "dmv";
+    if (isDmvQuiz) questions.forEach(shuffleQuizChoices);
     const sheetFocuses = new Map(
       questions.filter((question) => question.dataset.sheetFocus)
         .map((question) => [question.dataset.sheetFocus, question.dataset.sheetLabel]),
@@ -642,7 +654,10 @@ function initQuizzes() {
       questionPrompt(question), question.dataset.answer, question.dataset.explanation,
       question.dataset.category, question.dataset.sheetFocus,
       question.querySelector(".sign-art [role=img]")?.getAttribute("aria-label"),
-      ...Array.from(question.querySelectorAll("[data-choice]"), button => button.textContent),
+      // Drafts use authored choice IDs, not the current display order.
+      ...Array.from(question.querySelectorAll("[data-choice]"))
+        .sort((left, right) => Number(left.dataset.choice) - Number(right.dataset.choice))
+        .map(button => button.textContent),
     ]));
 
     const showCheckedAnswer = (index, button) => {
@@ -1304,6 +1319,7 @@ function initQuizzes() {
     if (resetButton) {
       resetButton.addEventListener("click", () => {
         const draft = readRecentPractice()?.draft;
+        if (isDmvQuiz) questions.forEach(shuffleQuizChoices);
         resetQuiz();
         if (draft?.scope === roundHref()) saveRecentPractice();
       });
