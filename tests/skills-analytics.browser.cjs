@@ -121,6 +121,112 @@ async function expired(browser, viewport) {
   } finally { await context.close(); }
 }
 
+async function checkingQuality(browser, viewport) {
+  const { context, page, errors, unexpected } = await isolatedPage(browser, viewport);
+  try {
+    await assertPageTag(page, 'clerical-checking-practice');
+    const rounds = await page.evaluate(() => Array.from({ length: 40 }, () => {
+      document.querySelector('[data-new]').click();
+      return JSON.parse(localStorage.getItem('tdt-skills-checking-v1')).items;
+    }));
+    for (const round of rounds) {
+      assert.equal(round.length, 12);
+      assert.equal(new Set(round.map(q => q.left)).size, 12);
+      const kinds = new Set();
+      let exact = 0;
+      for (const q of round) {
+        const [leftName, leftCode] = q.left.split(' · ');
+        const [rightName, rightCode] = q.right.split(' · ');
+        const nameDiffers = leftName !== rightName, codeDiffers = leftCode !== rightCode;
+        assert.equal(nameDiffers && codeDiffers, false);
+        assert.equal(q.truth, nameDiffers || codeDiffers ? 'mismatch' : 'match');
+        if (!nameDiffers && !codeDiffers) exact++;
+        if (nameDiffers) kinds.add('name');
+        if (codeDiffers) {
+          const changes = [...leftCode].flatMap((c, i) => c !== rightCode[i] ? [i] : []);
+          if (changes.length === 1) {
+            assert.match(leftCode[changes[0]] + rightCode[changes[0]], /^\d\d$/);
+            kinds.add('digit');
+          } else {
+            assert.equal(changes.length, 2);
+            const [a, b] = changes;
+            assert.equal(a + 1, b);
+            assert.equal(leftCode[a] + leftCode[b], rightCode[b] + rightCode[a]);
+            kinds.add('swap');
+          }
+        }
+      }
+      assert.ok(exact >= 5 && exact <= 7);
+      assert.deepEqual([...kinds].sort(), ['digit', 'name', 'swap']);
+    }
+    const next = page.locator('[data-next]');
+    const match = page.getByRole('button', { name: 'Match exactly' });
+    const pause = page.locator('[data-pause]');
+    await pause.click();
+    assert.equal(await page.locator('#left').innerText(), 'Paused');
+    assert.equal(await match.isDisabled(), true);
+    assert.equal(await next.isDisabled(), true);
+    await match.dispatchEvent('click');
+    assert.deepEqual(await events(page), []);
+    await page.getByRole('button', { name: 'Resume', exact: true }).click();
+    assert.equal(await match.isEnabled(), true);
+
+    await page.getByRole('radio', { name: 'Untimed' }).check();
+    const records = await page.evaluate(() => JSON.parse(localStorage.getItem('tdt-skills-checking-v1')).items);
+    const [sourceCell, copyCell] = await page.locator('.compare-cell').all();
+    const sourceBox = await sourceCell.boundingBox(), copyBox = await copyCell.boundingBox();
+    if (viewport.width > 760) {
+      assert.equal(sourceBox.y, copyBox.y);
+      assert.ok(sourceBox.x + sourceBox.width < copyBox.x);
+    } else {
+      assert.equal(sourceBox.x, copyBox.x);
+      assert.ok(sourceBox.y + sourceBox.height < copyBox.y);
+    }
+    let shownSwap = false;
+    for (let i = 0; i < records.length; i++) {
+      const { left, right, truth, why } = records[i];
+      assert.equal(await page.locator('mark').count(), 0);
+      await page.locator(`[data-answer="${truth}"]`).click();
+      assert.equal(await page.locator('#left').innerText(), left);
+      assert.equal(await page.locator('#right').innerText(), right);
+      assert.equal(await page.locator('[data-feedback]').innerText(), `Correct decision. ${why}`);
+      if (!shownSwap && why.includes('trade places')) {
+        assert.deepEqual(await page.locator('mark').allTextContents(), await page.evaluate(() => {
+          const a = document.querySelector('#left').textContent, b = document.querySelector('#right').textContent;
+          const first = [...a].findIndex((c, j) => c !== b[j]);
+          return [a.slice(first, first + 2), b.slice(first, first + 2)];
+        }));
+        await page.screenshot({ path: path.join(output, `clerical-near-match-${viewport.width}.png`), fullPage: true });
+        shownSwap = true;
+      }
+      if (i < records.length - 1) await next.click();
+    }
+    assert.equal(shownSwap, true);
+    await page.evaluate(() => { window.trackSkillComplete = undefined; });
+    await next.click();
+    await next.dispatchEvent('click');
+    assert.equal(await next.innerText(), 'Round saved');
+    assert.match(await page.locator('[data-history]').innerText(), /^1 saved round.*12 comparisons.*12 correct/);
+
+    await page.evaluate(() => {
+      localStorage.setItem('tdt-skills-checking-v1', JSON.stringify({ seed: 37, items: [
+        { left: 'Avery Chen · KLM-552', right: 'Drew Carter · KLM-553', truth: 'mismatch', why: 'At least one visible character differs.' },
+        { left: 'Morgan Ellis · AX-2049', right: 'Morgan Ellis · AX-2049', truth: 'match', why: 'All visible characters match.' },
+      ], answers: [{ choice: 'mismatch', ok: true }], i: 0, roundActive: true, elapsed: 30, mode: 'untimed', startedTracked: true }));
+    });
+    await page.reload();
+    assert.equal(await page.getByRole('radio', { name: 'Untimed' }).isChecked(), true);
+    assert.equal(await page.locator('[data-done]').innerText(), '1 / 12');
+    assert.match(await page.locator('[data-feedback]').innerText(), /Name: Avery Chen versus Drew Carter\. Record code: KLM-552 versus KLM-553/);
+    assert.deepEqual(await events(page), []);
+    await page.getByRole('button', { name: 'Resume', exact: true }).click();
+    await next.click();
+    assert.equal(await page.locator('#left').innerText(), 'Morgan Ellis · AX-2049');
+    assert.deepEqual(errors, []);
+    assert.deepEqual(unexpected, []);
+  } finally { await context.close(); }
+}
+
 (async () => {
   fs.mkdirSync(output, { recursive: true });
   const browser = await chromium.launch({ headless: true, ...(process.env.CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.CHROMIUM_EXECUTABLE_PATH } : {}) });
@@ -131,6 +237,7 @@ async function expired(browser, viewport) {
       await practice(browser, viewport, 'clerical-checking-practice', 'clerical_checking', '[data-answer]'); passed++;
       await practice(browser, viewport, 'filing-practice', 'filing_order', '[data-choice]'); passed++;
       await expired(browser, viewport); passed++;
+      await checkingQuality(browser, viewport); passed++;
     }
     console.log(JSON.stringify({ status: 'passed', scenarios: passed, externalAnalyticsRequestsSent: 0, screenshots: output }));
   } finally { await browser.close(); }
