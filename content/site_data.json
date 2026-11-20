@@ -747,9 +747,23 @@
       "category": "AP",
       "title": "AP Scores 2026: Release Date, Score Meaning, and Next Steps",
       "description": "AP scores 2026 started July 6. See how to view scores, understand 3/4/5 results, send score reports, compare AP credit, and handle missing scores.",
-      "lastUpdated": "July 11, 2026",
-      "heroKicker": "AP scores after release",
-      "summary": "2026 AP scores started releasing Monday, July 6, 2026. Use this score guide to view results, understand what your score can mean, send official score reports, compare AP credit or placement policies, and decide what to do if a score is delayed.",
+      "lastUpdated": "November 20, 2026",
+      "heroKicker": "2026 release archive",
+      "summary": "2026 AP scores started releasing Monday, July 6, 2026. That release has passed. If a 2026 score is still missing, check your original College Board account and contact AP Services for Students. For a future exam year, check the official AP calendar.",
+      "heroActions": [
+        {
+          "label": "View AP scores on College Board",
+          "href": "https://apstudents.collegeboard.org/view-scores"
+        },
+        {
+          "label": "Troubleshoot a missing 2026 score",
+          "href": "ap-scores-delayed-missing-2026.html"
+        },
+        {
+          "label": "Check the current AP calendar",
+          "href": "https://apstudents.collegeboard.org/calendar"
+        }
+      ],
       "quickFacts": [
         {
           "label": "Release starts",
@@ -765,69 +779,10 @@
         },
         {
           "label": "If delayed",
-          "value": "Wait for official updates before contacting support"
+          "value": "The August 15, 2026 checkpoint has passed; contact AP Services"
         }
       ],
-      "countdown": {
-        "label": "AP score release status",
-        "date": "2026-07-06T08:00:00-04:00"
-      },
-      "timeline": {
-        "heading": "AP score release and next-step timeline",
-        "items": [
-          {
-            "label": "Release week",
-            "title": "View scores safely",
-            "text": "Sign in through College Board, avoid duplicate accounts, and keep full score screenshots private."
-          },
-          {
-            "label": "Same day",
-            "title": "Understand the score",
-            "text": "Connect each 3, 4, or 5 to the exact college, subject, department, and placement policy before changing plans."
-          },
-          {
-            "label": "Same week",
-            "title": "Decide whether to send scores",
-            "text": "Use official score-sending tools when a college requires an official report, and check deadlines before waiting."
-          },
-          {
-            "label": "After August 15",
-            "title": "Escalate missing scores",
-            "text": "If a current-year score still has not appeared, use official support guidance."
-          }
-        ]
-      },
       "tables": [
-        {
-          "caption": "AP score release day plan",
-          "headers": [
-            "When",
-            "What to do",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Before July 6",
-              "Make sure you can sign in to your College Board account and recover your password if needed.",
-              "Most score-day stress comes from account access problems, not from the scores themselves."
-            ],
-            [
-              "Morning of July 6",
-              "Check scores from a private device and avoid repeated rapid refreshes if the site is busy.",
-              "Scores can roll out during the day, and heavy traffic can make the official site slower."
-            ],
-            [
-              "After scores appear",
-              "Save a private copy for your own records, then check each college's AP credit policy before making schedule decisions.",
-              "A score can mean different credit or placement outcomes at different colleges."
-            ],
-            [
-              "If a score is missing",
-              "Confirm your exam, account, and school details, then use official College Board support channels.",
-              "Missing or delayed scores usually need official account-level help."
-            ]
-          ]
-        },
         {
           "caption": "After AP scores arrive",
           "headers": [
@@ -943,7 +898,7 @@
       "faq": [
         {
           "q": "Are all 2026 AP scores released at the exact same minute?",
-          "a": "No. Scores are scheduled to become available starting July 6, 2026, but individual access can vary during the day."
+          "a": "July 6, 2026 was the start of the release, not a guarantee that every result would be visible at a particular hour."
         },
         {
           "q": "Can this site show my AP score?",
@@ -955,7 +910,7 @@
         },
         {
           "q": "What should I do if one AP score is missing?",
-          "a": "Check whether the exam was late-tested or processed separately, then use official College Board support if the score still does not appear."
+          "a": "For a 2026 score that is still missing, check the account used for AP and contact AP Services for Students. Use the missing-score guide above to distinguish a missing result from a college reporting problem."
         },
         {
           "q": "Do colleges automatically receive my AP scores?",
@@ -974,6 +929,10 @@
         {
           "label": "College Board AP Students: Sending scores",
           "url": "https://apstudents.collegeboard.org/sending-scores"
+        },
+        {
+          "label": "College Board: Scores not yet available",
+          "url": "https://apstudents.collegeboard.org/help-center/some-my-scores-are-not-yet-available-what-do-i-do"
         }
       ],
       "related": [
@@ -987,80 +946,69 @@
       "category": "AP",
       "title": "College Board AP Scores Delayed or Missing 2026",
       "description": "Use this unofficial College Board AP checklist if a 2026 U.S. AP score is delayed, missing, or not yet visible in your College Board account.",
-      "lastUpdated": "June 24, 2026",
+      "lastUpdated": "November 20, 2026",
       "heroKicker": "College Board AP score help",
-      "summary": "For College Board AP Exams in the U.S., if one 2026 AP score is missing, do not create a new account or panic-refresh. Some scores take longer to process, and College Board points students to AP Services if current-year scores are not received by August 15.",
+      "summary": "Still missing a 2026 College Board AP result? The August 15 support checkpoint has passed. Check where the result is missing: in your own College Board account or only at your college. Those two problems have different next steps.",
+      "heroActions": [
+        {
+          "label": "Check your College Board score report",
+          "href": "https://apstudents.collegeboard.org/view-scores"
+        },
+        {
+          "label": "Read the official missing-score guidance",
+          "href": "https://apstudents.collegeboard.org/help-center/some-my-scores-are-not-yet-available-what-do-i-do"
+        },
+        {
+          "label": "See worked cases",
+          "href": "#missing-score-cases"
+        }
+      ],
       "quickFacts": [
         {
           "label": "First check",
           "value": "Same College Board account used for AP"
         },
         {
-          "label": "Common cause",
-          "value": "Late testing or account matching"
+          "label": "Score missing in your account",
+          "value": "Contact AP Services for Students"
         },
         {
-          "label": "Key date",
-          "value": "August 15 support checkpoint"
+          "label": "Score missing only at college",
+          "value": "Check the recipient and delivery status"
         },
         {
           "label": "Do not do",
           "value": "Create a duplicate account"
         }
       ],
-      "timeline": {
-        "heading": "Missing AP score action timeline",
-        "items": [
-          {
-            "label": "Release day",
-            "title": "Check calmly",
-            "text": "Confirm whether all exams are missing or only one score is not yet visible."
-          },
-          {
-            "label": "Same week",
-            "title": "Verify account details",
-            "text": "Check email, name, school, and whether you used the same account for AP enrollment."
-          },
-          {
-            "label": "Before Aug. 15",
-            "title": "Watch for updates",
-            "text": "Some current-year scores can arrive later because of testing or processing circumstances."
-          },
-          {
-            "label": "After Aug. 15",
-            "title": "Contact official support",
-            "text": "Use AP Services for Students if a current-year score still has not arrived."
-          }
-        ]
-      },
       "tables": [
         {
-          "caption": "Why an AP score may be delayed",
+          "caption": "Where is the score missing?",
           "headers": [
-            "Situation",
-            "What it can mean",
-            "Best next step"
+            "What you see",
+            "What to check",
+            "Who can help next"
           ],
           "rows": [
             [
-              "Only one exam is missing",
-              "That subject may have a separate processing or matching issue.",
-              "Wait for official updates and keep exam details handy."
+              "One 2026 exam is missing from your College Board report",
+              "Note the subject, test date, school and whether you late-tested. The other results do not establish why this one is absent.",
+              "Contact AP Services for Students through College Board. The August 15 checkpoint for 2026 has passed."
             ],
             [
-              "All AP scores are missing",
-              "You may be in the wrong account or have an account access issue.",
-              "Recover the original account before creating anything new."
+              "No AP results are visible after signing in",
+              "Verify that this is the same account you used for My AP. Try recovering the original account before creating anything new.",
+              "Use College Board Account Help for sign-in issues. If the original account is accessible but results are missing, contact AP Services."
             ],
             [
-              "You late-tested",
-              "Late testing can affect when a score becomes available.",
-              "Check whether classmates from the same late test are also waiting."
+              "Your College Board report shows the score, but your college does not",
+              "Confirm the correct recipient, whether you placed an order and what the official order history shows.",
+              "If the report was made available to the right college, ask its admissions or registrar office whether it has matched and processed it. Check the deadline or next enrollment step with that office."
             ],
             [
-              "Older scores are missing",
-              "Older scores may involve archived records or multiple accounts.",
-              "Use official AP support or archived-score guidance."
+              "You are checking a result from a different year",
+              "Check College Board's current score guidance rather than applying the 2026 release schedule to another year.",
+              "Use College Board's score help for missing prior-year exams or archived records."
             ]
           ]
         },
@@ -1097,46 +1045,16 @@
       ],
       "body": [
         {
-          "heading": "This page is for College Board AP scores",
-          "text": "Use this checklist for U.S. College Board Advanced Placement exam scores. It is focused on AP score release, delayed scores, missing scores, account matching, and AP Services for Students."
+          "heading": "Prepare a short note for official support",
+          "text": "Copy into a private note: Exam and year: ___; regular or late test and date: ___; school that administered it: ___; what appears in my score report: ___; account checks already tried: ___. If your college is waiting, record the recipient, order status and the college's deadline separately. Send these details only through the official channel that needs them; never include your password."
         },
         {
-          "heading": "Not AP EAMCET or state entrance results",
-          "text": "If you searched for AP EAMCET 2026 result delay, Andhra Pradesh entrance results, or another non-College Board exam, this page is not the right source. Use the official state exam authority for those results."
-        },
-        {
-          "heading": "Do the simple checks first",
-          "text": "Most students should start by confirming they are in the same College Board account used for AP registration and class enrollment. A duplicate account can make matching slower, not faster."
-        },
-        {
-          "heading": "Know the difference between delayed and missing",
-          "text": "A delayed score may still be processing. A missing score after the official support checkpoint needs direct help from AP Services. This site cannot see private score records."
+          "heading": "When you already designated a recipient",
+          "text": "College Board says delayed scores can follow a report automatically for a college or university designated to receive scores from that exam year. That does not add a new recipient or tell you when a college will post credit. Check the order history and the college's deadline before paying for a duplicate report."
         },
         {
           "heading": "If a college is waiting",
-          "text": "Check whether the college needs official AP scores right away or whether placement can be updated later. Contact the college directly for deadline-specific instructions."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Common mistakes when a score is missing",
-          "items": [
-            {
-              "label": "Account",
-              "title": "Creating a duplicate account",
-              "text": "This can make the matching problem worse. Recover the existing account first."
-            },
-            {
-              "label": "Timing",
-              "title": "Assuming one missing score is lost",
-              "text": "Some scores arrive later because of late testing or processing review."
-            },
-            {
-              "label": "College",
-              "title": "Relying on a screenshot",
-              "text": "If a college requires official scores, use the official score-send process."
-            }
-          ]
+          "text": "Ask whether you can register for an appropriate course while the score or credit is pending and how to update placement once the result is processed. Do not assume a temporary plan, deadline exception or credit award without the college's confirmation."
         }
       ],
       "checklist": [
@@ -1145,16 +1063,12 @@
         "Look for emails or account messages about score updates.",
         "Write down the exact exam name and testing situation.",
         "Avoid posting personal score or account screenshots online.",
-        "Contact AP Services after the official checkpoint if the score still has not appeared."
+        "If your 2026 result is missing from the right account, contact AP Services. If it is visible and the report reached the right college, ask that college about processing."
       ],
       "faq": [
         {
           "q": "Why is one AP score missing but the others are visible?",
           "a": "One score can take longer because of late testing, processing, or record matching. College Board says some scores may take longer and that students will be emailed when a score is added."
-        },
-        {
-          "q": "Is this page about AP EAMCET result delays?",
-          "a": "No. This page is only for U.S. College Board Advanced Placement score delays or missing AP scores. It is not about AP EAMCET or other state entrance exam results."
         },
         {
           "q": "Should I make a new College Board account?",
@@ -1172,10 +1086,14 @@
       "sources": [
         {
           "label": "College Board AP Students: View your scores",
-          "url": "https://apstudents.collegeboard.org/view-scores/calendar"
+          "url": "https://apstudents.collegeboard.org/view-scores"
         },
         {
-          "label": "College Board AP Students: Sending scores",
+          "label": "College Board: Scores not yet available",
+          "url": "https://apstudents.collegeboard.org/help-center/some-my-scores-are-not-yet-available-what-do-i-do"
+        },
+        {
+          "label": "College Board: Score send history and delivery status",
           "url": "https://apstudents.collegeboard.org/sending-scores"
         }
       ],

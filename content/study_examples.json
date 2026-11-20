@@ -1,4 +1,44 @@
 {
+  "ap-scores-delayed-missing-2026": {
+    "id": "missing-score-cases",
+    "heading": "Three missing-score cases",
+    "intro": "Fictional examples using the 2026 release. Start by checking your own College Board score report, then verify any college requirement directly.",
+    "examples": [
+      {
+        "title": "One result is missing from your account",
+        "question": "It is November 2026. You see AP English Language in your original College Board account, but AP Chemistry from a late-testing date is still absent. What would you do first?",
+        "steps": [
+          "Write down the subject, late-testing date and school. Note that another 2026 score appears in the same account.",
+          "The August 15 support checkpoint has passed. Contact AP Services for Students with those facts. Ask whether it can locate the Chemistry exam record."
+        ],
+        "mistake": "Late testing might explain an initial delay, but it does not identify what is holding this specific score now.",
+        "check": "What if you cannot sign in to the account you used for AP?",
+        "answer": "Use College Board's account recovery help first. Creating another account can complicate matching."
+      },
+      {
+        "title": "Your college has not posted a visible score",
+        "question": "Your AP Biology score appears in College Board. Your order history shows the report was made available to the correct college, but its student portal has not posted the credit. Would another report address the problem?",
+        "steps": [
+          "Check that the reporting recipient matches the college you attend and that the report includes the Biology result.",
+          "Ask the college's registrar or admissions office whether it matched the report and when its placement or credit decision is due."
+        ],
+        "mistake": "Available to the recipient does not mean processed by the college. Paying for another report would not confirm that processing occurred.",
+        "check": "What if your order history shows a different college?",
+        "answer": "Confirm the correct recipient and the required report with your college. A report sent to one college is not delivery to another."
+      },
+      {
+        "title": "Placement is due while a score is still pending",
+        "question": "Your college already received a 2026 AP report with the available results, but you need the missing Calculus result for placement. Registration opens next week. Can you count on an automatic update in time?",
+        "steps": [
+          "Check that the college was designated to receive your scores from that exam year. College Board can send a delayed score automatically once it becomes available.",
+          "Contact AP Services about the absent 2026 result and ask the college how to register while placement is pending. Keep the two conversations separate."
+        ],
+        "mistake": "Automatic sending has no guaranteed date for the score to appear or the college to apply it. Ordering another report does not create the absent score.",
+        "check": "What if the college confirms it accepts an alternative placement test?",
+        "answer": "Check its deadline and how the result would affect registration. Follow the confirmed option while you resolve the AP record with AP Services."
+      }
+    ]
+  },
   "sat-score-release-guide": {
     "id": "score-deadline-cases",
     "heading": "Three application deadlines, three different decisions",

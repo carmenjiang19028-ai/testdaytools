@@ -194,6 +194,7 @@ main > section,
 @media (max-width: 760px) {
   #florida-course-path,
   #virginia-knowledge-retest,
+  #missing-score-cases,
   #sat-date-planner,
   #sat-fall-2027 { scroll-margin-top: 10rem; }
 }
