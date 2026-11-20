@@ -191,6 +191,10 @@ main > section,
   scroll-margin-top: 86px;
 }
 
+@media (max-width: 760px) {
+  #sat-date-planner { scroll-margin-top: 10rem; }
+}
+
 .site-header {
   min-height: 66px;
   display: flex;

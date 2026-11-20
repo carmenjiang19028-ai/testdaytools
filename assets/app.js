@@ -3197,7 +3197,7 @@ function initSatGoalPlanners() {
   });
 }
 
-function satRegistrationStatus(event, now = new Date()) {
+function satEasternDate(now) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/New_York",
     year: "numeric",
@@ -3205,7 +3205,11 @@ function satRegistrationStatus(event, now = new Date()) {
     day: "2-digit",
   }).formatToParts(now);
   const datePart = (type) => parts.find((part) => part.type === type).value;
-  const easternDate = `${datePart("year")}-${datePart("month")}-${datePart("day")}`;
+  return `${datePart("year")}-${datePart("month")}-${datePart("day")}`;
+}
+
+function satRegistrationStatus(event, now = new Date()) {
+  const easternDate = satEasternDate(now);
   if (easternDate > event.lateDate) return "closed";
   if (easternDate > event.registrationDate) return "late";
   return "regular";
@@ -3241,15 +3245,14 @@ function initSatDatePlanners() {
     }
     if (!events.length) return;
 
-    const dateAtNoon = (value) => new Date(`${value}T12:00:00`);
-    const dateLabel = (value) => dateAtNoon(value).toLocaleDateString("en-US", {
+    // SAT dates are calendar days, not local instants or elapsed hours across DST.
+    const calendarDay = (value) => Date.parse(`${value}T00:00:00Z`);
+    const dateLabel = (value) => new Date(calendarDay(value)).toLocaleDateString("en-US", {
+      timeZone: "UTC",
       month: "long",
       day: "numeric",
       year: "numeric",
     });
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const daysUntil = (value) => Math.ceil((dateAtNoon(value).getTime() - today.getTime()) / DAY_MS);
     const monthKey = (event) => `${event.date.slice(0, 4)}-${event.date.slice(5, 7)}`;
     const readinessDays = { ready: 14, focused: 42, starting: 70 };
     const preferredKeys = (stage, deadline) => {
@@ -3262,28 +3265,43 @@ function initSatDatePlanners() {
       }
       return events.map(monthKey);
     };
-    const registrationText = (event) => {
-      if (satRegistrationStatus(event) === "late") {
+    const registrationText = (event, now) => {
+      if (satRegistrationStatus(event, now) === "late") {
         return `Regular deadline passed; late deadline ${dateLabel(event.lateDate)} at 11:59 p.m. ET`;
       }
       return `Register by ${dateLabel(event.registrationDate)}; late deadline ${dateLabel(event.lateDate)} (both 11:59 p.m. ET)`;
     };
     const stageReason = (stage, deadline) => {
-      if (stage === "junior_first") return "Spring gives a first-time junior room to review the score and test again.";
-      if (stage === "junior_retake") return "This spring date leaves a later administration available if another retake is useful.";
+      if (stage === "junior_first" || stage === "junior_retake") return "Use the preparation time to review practice results before committing to this test.";
       if (deadline === "early") return "This date meets your study runway, but may be too late for early applications. Confirm each college's final accepted test date and score-send deadline.";
       if (deadline === "regular") return "This date meets your study runway. Confirm that its score-release and score-send timing meet each college's regular-decision policy.";
       return "This is the earliest listed date that fits the preparation runway you selected.";
     };
 
+    const clearPlan = (message, detail) => {
+      currentPlan = null;
+      if (headline) headline.textContent = message;
+      if (reason) reason.textContent = detail;
+      if (picks) picks.hidden = true;
+      if (saveButton) {
+        saveButton.disabled = true;
+        saveButton.textContent = "Save this plan";
+      }
+      if (calendarButton) calendarButton.disabled = true;
+      if (savedStatus) savedStatus.hidden = true;
+    };
+
     const buildPlan = ({ track = true } = {}) => {
+      const now = new Date();
+      const today = calendarDay(satEasternDate(now));
+      const daysUntil = (value) => (calendarDay(value) - today) / DAY_MS;
       const stage = stageSelect?.value || "other";
       const deadline = deadlineSelect?.value || "unsure";
       const readiness = readinessSelect?.value || "focused";
       const wantsRetake = Boolean(retakeInput?.checked);
       const minimumDays = readinessDays[readiness] || readinessDays.focused;
       const valid = events
-        .filter((event) => satRegistrationStatus(event) !== "closed" && daysUntil(event.date) >= minimumDays)
+        .filter((event) => satRegistrationStatus(event, now) !== "closed" && daysUntil(event.date) >= minimumDays)
         .sort((a, b) => a.date.localeCompare(b.date));
       const priorities = preferredKeys(stage, deadline);
       const preferred = priorities
@@ -3295,25 +3313,20 @@ function initSatDatePlanners() {
         : null;
 
       if (!primary) {
-        currentPlan = null;
-        if (headline) headline.textContent = "No listed date fits that runway";
-        if (reason) reason.textContent = "Shorten the preparation runway or check College Board for a later testing year.";
-        if (picks) picks.hidden = true;
-        if (saveButton) saveButton.disabled = true;
-        if (calendarButton) calendarButton.disabled = true;
+        clearPlan("No listed date fits that runway", "Check College Board for later dates, or choose a shorter runway only if it fits your preparation.");
         return;
       }
 
       currentPlan = { stage, deadline, readiness, wantsRetake, primary, backup, createdAt: Date.now() };
       if (headline) headline.textContent = `${primary.label} matches your study runway`;
       if (reason) {
-        reason.textContent = `${stageReason(stage, deadline)} It is ${daysUntil(primary.date)} days away, matching the ${minimumDays}+ day runway you chose.`;
+        reason.textContent = `${stageReason(stage, deadline)} It is ${daysUntil(primary.date)} calendar days away (U.S. Eastern time), meeting the ${minimumDays}-day minimum you chose.`;
       }
       if (primaryDate) primaryDate.textContent = primary.label;
-      if (primaryDeadline) primaryDeadline.textContent = registrationText(primary);
+      if (primaryDeadline) primaryDeadline.textContent = registrationText(primary, now);
       if (backupDate) backupDate.textContent = backup?.label || (wantsRetake ? "No later listed date" : "Not requested");
       if (backupDeadline) {
-        backupDeadline.textContent = backup ? registrationText(backup) : "You can rebuild the plan whenever your timeline changes.";
+        backupDeadline.textContent = backup ? registrationText(backup, now) : "You can rebuild the plan whenever your timeline changes.";
       }
       if (picks) picks.hidden = false;
       if (saveButton) saveButton.disabled = false;
@@ -3331,6 +3344,9 @@ function initSatDatePlanners() {
       }
     };
 
+    [stageSelect, deadlineSelect, readinessSelect, retakeInput].forEach((input) => {
+      input?.addEventListener("change", () => clearPlan("Build a plan for these choices", "Build again before saving or downloading a date."));
+    });
     buildButton?.addEventListener("click", () => buildPlan());
     saveButton?.addEventListener("click", () => {
       if (!currentPlan) return;
@@ -3360,7 +3376,7 @@ function initSatDatePlanners() {
       if (!currentPlan) return;
       const event = currentPlan.primary;
       const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
-      const nextDay = new Date(dateAtNoon(event.date).getTime() + DAY_MS).toISOString().slice(0, 10).replace(/-/g, "");
+      const nextDay = new Date(calendarDay(event.date) + DAY_MS).toISOString().slice(0, 10).replace(/-/g, "");
       const startDay = event.date.replace(/-/g, "");
       const escapeIcs = (value) => String(value).replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\n/g, "\\n");
       const ics = [
@@ -3409,7 +3425,10 @@ function initSatDatePlanners() {
         if (retakeInput) retakeInput.checked = Boolean(saved.wantsRetake);
         buildPlan({ track: false });
         if (savedStatus && currentPlan) {
-          savedStatus.textContent = `Saved in this browser: ${currentPlan.primary.label}${currentPlan.backup ? ` with ${currentPlan.backup.label} as backup` : ""}.`;
+          const datesUnchanged = currentPlan.primary.date === saved.primary.date && currentPlan.backup?.date === saved.backup?.date;
+          savedStatus.textContent = datesUnchanged
+            ? `Saved in this browser: ${currentPlan.primary.label}${currentPlan.backup ? ` with ${currentPlan.backup.label} as backup` : ""}.`
+            : "A new date suggestion replaced the old result on screen. This suggestion is not saved yet.";
           savedStatus.hidden = false;
         }
       }
