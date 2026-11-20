@@ -193,6 +193,23 @@ function initScoreEntryTracking() {
 const DMV_JOURNEY_STORAGE_KEY = "tdt-dmv-journey:v1";
 const DMV_MASTERY_STORAGE_KEY = "tdt-dmv-mastery:v1";
 const DAY_MS = 86400000;
+const RECENT_PRACTICE_KEY = "tdt-recent-practice";
+
+function readRecentPractice() {
+  try {
+    return JSON.parse(window.localStorage.getItem(RECENT_PRACTICE_KEY) || "null");
+  } catch (error) {
+    return null;
+  }
+}
+
+function recentPracticeHref(progress) {
+  if (typeof progress?.href !== "string" || !/^[a-z0-9-]+\.html(?:\?[^#]*)?#practice$/.test(progress.href)) return "";
+  if (!progress.draft) return progress.href;
+  const href = new URL(progress.href, window.location.href);
+  href.searchParams.set("resume", "1");
+  return href.pathname.split("/").pop() + href.search + href.hash;
+}
 
 function normalizeDmvState(value) {
   return String(value || "")
@@ -556,8 +573,9 @@ function initQuizzes() {
     const answered = new Set();
     const correctAnswers = new Set();
     const wrongAnswers = new Set();
+    const pickedAnswers = new Map();
     const storageKey = `tdt-mistakes:${window.location.pathname}:${quiz.dataset.modeId || quizLabel}`;
-    const recentPracticeKey = "tdt-recent-practice";
+    let draftSignature;
     let savedMistakes = [];
     let activeSequence = questions.map((_, index) => index);
     let activePosition = 0;
@@ -611,6 +629,28 @@ function initQuizzes() {
       if (mode) params.set("mode", mode);
       if (focus !== "all") params.set("focus", focus);
       return `${pageName}${params.size ? `?${params}` : ""}#practice`;
+    };
+
+    const roundSignature = () => draftSignature ??= JSON.stringify(questions.map((question) => [
+      questionPrompt(question), question.dataset.answer, question.dataset.explanation,
+      question.dataset.category, question.dataset.sheetFocus,
+      question.querySelector(".sign-art [role=img]")?.getAttribute("aria-label"),
+      ...Array.from(question.querySelectorAll("[data-choice]"), button => button.textContent),
+    ]));
+
+    const showCheckedAnswer = (index, button) => {
+      const question = questions[index];
+      const picked = Number(button.dataset.choice);
+      const isCorrect = picked === Number(question.dataset.answer);
+      pickedAnswers.set(index, picked);
+      answered.add(index);
+      (isCorrect ? correctAnswers : wrongAnswers).add(index);
+      button.classList.add(isCorrect ? "is-correct" : "is-wrong");
+      question.querySelector(`[data-choice="${question.dataset.answer}"]`)?.classList.add("is-correct");
+      question.querySelectorAll("[data-choice]").forEach(choice => { choice.disabled = true; });
+      const feedback = question.querySelector(".feedback");
+      if (feedback) feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.explanation}`;
+      return { isCorrect, feedback };
     };
 
     const masteryRecords = () => {
@@ -722,6 +762,7 @@ function initQuizzes() {
           activePosition = Number(button.dataset.quizJump) || 0;
           renderActiveQuestion();
           focusActiveQuestion();
+          saveMovedCursor();
         });
       });
     };
@@ -988,25 +1029,34 @@ function initQuizzes() {
 
     const saveRecentPractice = () => {
       try {
-        const pageName = window.location.pathname.split("/").pop() || "index.html";
         const selectedFocus = filterSelect?.value || "all";
-        const activeTotal = activeSequence.length || questions.length;
-        const answeredCount = activeSequence.filter((index) => answered.has(index)).length;
+        const activeTotal = activeSequence.length;
+        const picks = activeSequence.filter(index => pickedAnswers.has(index)).map(index => [index, pickedAnswers.get(index)]);
+        const answeredCount = picks.length;
         const correctCount = activeSequence.filter((index) => correctAnswers.has(index)).length;
         const missedCount = activeSequence.filter((index) => wrongAnswers.has(index)).length;
-        const hasFocus = selectedFocus && selectedFocus !== "all" && selectedFocus !== "saved";
-        const href = hasFocus
-          ? `${pageName}?focus=${encodeURIComponent(selectedFocus)}#practice`
-          : `${pageName}#practice`;
-        const label = hasFocus ? `${quizLabel} · ${selectedFocus}` : quizLabel;
+        const label = selectedFocus === "all" ? quizLabel : `${quizLabel} · ${filterSelect.selectedOptions[0].textContent}`;
+        const draft = isDmvQuiz && answeredCount > 0 && answeredCount < activeTotal ? {
+          version: 1,
+          scope: roundHref(),
+          signature: roundSignature(),
+          sequence: activeSequence,
+          position: activePosition,
+          picks,
+          halfway: quizHalfwayTracked,
+          ten: tenQuestionsTracked,
+          completed: quizCompletedTracked,
+        } : undefined;
 
-        window.localStorage.setItem(recentPracticeKey, JSON.stringify({
+        window.localStorage.setItem(RECENT_PRACTICE_KEY, JSON.stringify({
           label,
-          href,
+          href: roundHref(selectedFocus),
+          state: quiz.dataset.state || "",
           answered: answeredCount,
           total: activeTotal,
           correct: correctCount,
           missed: missedCount,
+          draft,
           updatedAt: Date.now(),
         }));
       } catch (error) {
@@ -1014,10 +1064,59 @@ function initQuizzes() {
       }
     };
 
+    const saveMovedCursor = () => {
+      if (isDmvQuiz && activeSequence.some(index => pickedAnswers.has(index))) saveRecentPractice();
+    };
+
+    const restoreRecentPractice = () => {
+      if (!isDmvQuiz) return;
+      const requested = new URLSearchParams(window.location.search);
+      const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel || null;
+      if (requested.get("resume") !== "1" || requested.get("mode") !== mode) return;
+      const progress = readRecentPractice();
+      const focus = filterSelect?.value || "all";
+      const draft = progress?.href === roundHref(focus) ? progress.draft : null;
+      const canUseDraft = draft?.version === 1 && draft.scope === roundHref() &&
+        draft.signature === roundSignature() && Array.isArray(draft.sequence) && Array.isArray(draft.picks);
+      if (canUseDraft) {
+        const sequence = new Set(draft.sequence);
+        const picks = new Map();
+        if (sequence.size === draft.sequence.length && draft.picks.length > 0 && draft.picks.length < sequence.size &&
+            Number.isInteger(draft.position) && draft.position >= 0 && draft.position < sequence.size &&
+            draft.sequence.every(index => Number.isInteger(index) && questions[index])) {
+          for (const pick of draft.picks) {
+            if (!Array.isArray(pick)) break;
+            const [index, value] = pick;
+            if (!sequence.has(index) || !Number.isInteger(value) || picks.has(index)) break;
+            const button = questions[index].querySelector(`[data-choice="${value}"]`);
+            if (!button) break;
+            picks.set(index, button);
+          }
+          if (picks.size === draft.picks.length) {
+            activeSequence = draft.sequence;
+            activePosition = draft.position;
+            // Restore the saved display without replaying answered-question side effects.
+            picks.forEach((button, index) => showCheckedAnswer(index, button));
+            quizStartedTracked = true;
+            quizHalfwayTracked = draft.halfway === true || picks.size >= Math.ceil(sequence.size / 2);
+            tenQuestionsTracked = draft.ten === true || picks.size >= 10;
+            quizCompletedTracked = draft.completed === true;
+            toolMessage = "Unfinished round restored from this browser.";
+            renderScore();
+            renderActiveQuestion();
+            return;
+          }
+        }
+      }
+      toolMessage = "This saved round is no longer available. You can start a fresh round here.";
+      renderScore();
+    };
+
     const resetQuiz = () => {
       answered.clear();
       correctAnswers.clear();
       wrongAnswers.clear();
+      pickedAnswers.clear();
       activePosition = 0;
       toolMessage = "";
       quizStartedTracked = false;
@@ -1114,6 +1213,7 @@ function initQuizzes() {
         [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
       }
       setActiveSequence(shuffled, shuffled.length ? "Question order shuffled for this focus area." : "");
+      saveMovedCursor();
     };
 
     const renderTimer = () => {
@@ -1169,6 +1269,7 @@ function initQuizzes() {
         activePosition = Math.max(0, activePosition - 1);
         renderActiveQuestion();
         focusActiveQuestion();
+        saveMovedCursor();
       });
     }
 
@@ -1178,6 +1279,7 @@ function initQuizzes() {
           activePosition += 1;
           renderActiveQuestion();
           focusActiveQuestion();
+          saveMovedCursor();
           return;
         }
         focusQuizContent(result);
@@ -1185,7 +1287,11 @@ function initQuizzes() {
     }
 
     if (resetButton) {
-      resetButton.addEventListener("click", resetQuiz);
+      resetButton.addEventListener("click", () => {
+        const draft = readRecentPractice()?.draft;
+        resetQuiz();
+        if (draft?.scope === roundHref()) saveRecentPractice();
+      });
     }
 
     if (clearMistakesButton) {
@@ -1198,7 +1304,10 @@ function initQuizzes() {
     }
 
     if (filterSelect) {
-      filterSelect.addEventListener("change", () => applyFocusFilter(filterSelect.value));
+      filterSelect.addEventListener("change", () => {
+        applyFocusFilter(filterSelect.value);
+        saveMovedCursor();
+      });
     }
 
     if (shuffleButton) {
@@ -1257,17 +1366,12 @@ function initQuizzes() {
               total: activeSequence.length || questions.length,
             });
           }
-          answered.add(index);
           toolMessage = "";
 
-          const isCorrect = Number(button.dataset.choice) === Number(question.dataset.answer);
-          button.classList.add(isCorrect ? "is-correct" : "is-wrong");
+          const { isCorrect, feedback } = showCheckedAnswer(index, button);
           if (isCorrect) {
-            correctAnswers.add(index);
             resolveMistake(question);
-          }
-          if (!isCorrect) {
-            wrongAnswers.add(index);
+          } else {
             rememberMistake(question);
           }
           if (isDmvQuiz) {
@@ -1293,14 +1397,6 @@ function initQuizzes() {
             renderMasteryStats();
           }
 
-          const correctButton = question.querySelector(`[data-choice="${question.dataset.answer}"]`);
-          if (correctButton) correctButton.classList.add("is-correct");
-          question.querySelectorAll("button").forEach((item) => {
-            item.disabled = true;
-          });
-
-          const feedback = question.querySelector(".feedback");
-          feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.explanation}`;
           renderScore();
           renderActiveQuestion();
           focusQuizContent(feedback);
@@ -1311,6 +1407,7 @@ function initQuizzes() {
     loadMistakes();
     populateFilterOptions();
     applyInitialFocus();
+    restoreRecentPractice();
     renderMistakes();
     renderMasteryStats();
     renderTimer();
@@ -1797,15 +1894,9 @@ function initRecentPracticeCards() {
     const title = card.querySelector("[data-recent-practice-title]");
     const meta = card.querySelector("[data-recent-practice-meta]");
     const link = card.querySelector("[data-recent-practice-link]");
-    let progress = null;
-
-    try {
-      progress = JSON.parse(window.localStorage.getItem("tdt-recent-practice") || "null");
-    } catch (error) {
-      progress = null;
-    }
-
-    if (!progress || !progress.href) return;
+    const progress = readRecentPractice();
+    const href = recentPracticeHref(progress);
+    if (!href) return;
 
     const answered = Number(progress.answered) || 0;
     const total = Number(progress.total) || 0;
@@ -1814,13 +1905,14 @@ function initRecentPracticeCards() {
 
     if (title) title.textContent = progress.label || "Recent practice";
     if (meta) {
-      meta.textContent = total
+      const counts = total
         ? `${answered} of ${total} answered · ${correct} correct · ${missed} missed`
         : `${correct} correct · ${missed} missed`;
+      meta.textContent = progress.draft ? `${counts} · Saved in this browser` : `Last result: ${counts}`;
     }
     if (link) {
-      link.href = progress.href;
-      link.textContent = answered ? "Continue practice" : "Start practice";
+      link.href = href;
+      link.textContent = progress.draft ? "Resume unfinished round" : "Open practice set";
     }
   });
 }
@@ -1904,6 +1996,11 @@ function initDmvJourneyDashboards() {
       const accuracyToday = answeredToday ? Math.round((correctToday / answeredToday) * 100) : 0;
       const stateSessions = journey.sessions.filter((session) => !session.state || session.state === state);
       const recent = stateSessions[0] || null;
+      const recentPractice = readRecentPractice();
+      const draftState = normalizeDmvState(recentPractice?.state);
+      const resumeHref = recentPractice?.draft && (!draftState || draftState === "general" || draftState === state)
+        ? recentPracticeHref(recentPractice)
+        : "";
       const mastery = getDmvMasterySummary(state);
       const baselineCount = Math.min(mastery.attempted, 10);
       const twoWeeksAgo = Date.now() - 14 * 86400000;
@@ -1981,8 +2078,8 @@ function initDmvJourneyDashboards() {
         kicker.textContent = "Finish the baseline";
         title.textContent = `${10 - mastery.attempted} different questions left before switching tools`;
         copy.textContent = "Attempt different questions so the weak-area recommendation cannot be inflated by repeating one familiar item.";
-        primary.href = recent?.href || option.dataset.practiceUrl || "road-signs-practice-test.html#practice";
-        primary.textContent = "Continue practice";
+        primary.href = resumeHref || recent?.href || option.dataset.practiceUrl || "road-signs-practice-test.html#practice";
+        primary.textContent = resumeHref ? "Resume unfinished round" : "Open baseline practice";
       } else if (missedToday && weak) {
         kicker.textContent = "Best next study block";
         title.textContent = `Repair ${weak}`;

@@ -1338,7 +1338,7 @@ def render_home_practice_panel():
     <div>
       <span>Recent practice</span>
       <strong data-recent-practice-title>No saved progress on this device yet</strong>
-      <p data-recent-practice-meta>Start a road signs round to save a return point.</p>
+      <p data-recent-practice-meta>Your most recent unfinished DMV round is saved only in this browser.</p>
     </div>
     <a href="road-signs-practice-test.html#practice" data-recent-practice-link>Start road signs</a>
   </div>

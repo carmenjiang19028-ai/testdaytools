@@ -603,7 +603,7 @@
           "text": "Do not simply retake the same quiz. Decide whether the miss was a sign-family problem, a right-of-way rule, a direction-control sign, a speed sign, or a document and appointment misunderstanding, then open the matching drill or checklist."
         }
       ],
-      "lastUpdated": "August 24, 2026"
+      "lastUpdated": "November 20, 2026"
     },
     {
       "slug": "ap-tools",
@@ -22856,7 +22856,7 @@
       "slug": "privacy",
       "title": "Privacy Policy",
       "description": "Privacy policy for TestDayTools, including browser storage, Google Analytics, hosting logs, and future advertising disclosures.",
-      "lastUpdated": "July 31, 2026",
+      "lastUpdated": "November 20, 2026",
       "content": [
         {
           "heading": "Personal information",
@@ -22867,8 +22867,8 @@
           "text": "Practice quiz answers are checked in your browser. They are not submitted to a server by this static site."
         },
         {
-          "heading": "Checklist and mistake-log storage",
-          "text": "Some tools can remember selected states, checked items, or saved weak areas in your browser's local storage. This is meant only for convenience on the same device and is not an official DMV record."
+          "heading": "Local practice and checklist storage",
+          "text": "Some tools remember selected states, checked items, or saved weak areas in your browser's local storage. The most recent unfinished DMV round can save selected answers and the current question locally so you can resume. Restoring a round does not send those answers to the site or to Google Analytics. These records are for use in this browser only and are not official DMV records."
         },
         {
           "heading": "No driver's license data",
