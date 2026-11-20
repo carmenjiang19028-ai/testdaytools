@@ -5771,6 +5771,7 @@
       "category": "DMV",
       "title": "California DMV Permit Practice Test",
       "description": "California DMV permit practice with quick questions, original road-sign images, a mock exam, official knowledge-test and instruction-permit links, and weak-area feedback.",
+      "lastUpdated": "November 20, 2026",
       "heroKicker": "California DMV",
       "summary": "Practice California DMV permit topics with quick questions, original road-sign images, and a 40-question mock exam, then confirm the instruction permit, testing option, and document step on official DMV pages.",
       "quickFacts": [
@@ -7147,7 +7148,7 @@
       "description": "California DMV road signs practice with 28 original image questions, a five-color curb checkpoint, instant explanations, and official handbook guidance.",
       "heroKicker": "California road signs",
       "summary": "Practice California DMV road signs with 28 original image prompts, then use a five-color curb checkpoint to turn handbook rules into quick parking decisions.",
-      "lastUpdated": "August 13, 2026",
+      "lastUpdated": "November 20, 2026",
       "heroActions": [
         {
           "label": "Start 5-color checkpoint",
@@ -7649,6 +7650,7 @@
       "category": "DMV",
       "title": "New York DMV Permit Practice Test",
       "description": "New York DMV permit practice with official pass-rule context, quick questions, original road-sign images, a 40-question mock exam, and weak-area feedback.",
+      "lastUpdated": "November 20, 2026",
       "heroKicker": "New York DMV",
       "summary": "Practice New York DMV permit questions with quick review, image-based road signs, and a 40-question mock exam that keeps the official pass rule visible.",
       "quickFacts": [

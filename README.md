@@ -38,7 +38,14 @@ Edit `content/site_data.json`, then run:
 python3 scripts/build.py
 ```
 
-The script regenerates root HTML pages, `sitemap.xml`, and `robots.txt`.
+The script regenerates active HTML pages (including the three skills pages),
+`sitemap.xml`, and `robots.txt`. Retired noindex pages are kept as checked-in
+snapshots; the build does not edit them. Before publishing, verify checked-in
+outputs without editing them:
+
+```bash
+python3 scripts/build.py --check
+```
 
 Canonical URLs are generated from the `site.url` value in `content/site_data.json`.
 

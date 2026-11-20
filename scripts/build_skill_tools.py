@@ -80,12 +80,23 @@ def write(path, value):
     target = ROOT / path
     target.write_text(value)
 
-def build():
-    write("skills-practice.html", shell(DATA["hub"]["title"], DATA["hub"]["description"], HUB_BODY))
+def render_pages():
+    hub = DATA["hub"]
+    checking_tool, filing_tool = DATA["tools"]
+    hub_path = f'{hub["slug"]}.html'
+    checking_path = f'{checking_tool["slug"]}.html'
+    filing_path = f'{filing_tool["slug"]}.html'
     checking = CHECKING_BODY.replace('data-left', 'id="left"').replace('data-right', 'id="right"').replace('data-pause', 'id="pause" data-pause')
-    write("clerical-checking-practice.html", shell("Clerical checking practice", DATA["tools"][0]["description"], checking, CHECKING_JS, "clerical-checking-practice.html"))
-    filing = FILING_BODY
-    write("filing-practice.html", shell("Filing order practice", DATA["tools"][1]["description"], filing, FILING_JS, "filing-practice.html"))
+    return {
+        hub_path: shell(hub["title"], hub["description"], HUB_BODY, canonical=hub_path),
+        checking_path: shell(checking_tool["title"], checking_tool["description"], checking, CHECKING_JS, checking_path),
+        filing_path: shell(filing_tool["title"], filing_tool["description"], FILING_BODY, FILING_JS, filing_path),
+    }
+
+
+def build():
+    for path, page in render_pages().items():
+        write(path, page)
 
 if __name__ == "__main__":
     build()

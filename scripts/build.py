@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import html
 import json
 from datetime import datetime, timedelta
@@ -187,7 +188,8 @@ def render_road_sign_image(key, label, lazy=True):
     )
 
 
-def write_road_sign_images():
+def write_road_sign_images(output=None):
+    output = output or write
     for sign in road_sign_image_records():
         root = ElementTree.fromstring(SIGN_SVGS[sign["image"]])
         root.attrib.pop("aria-hidden", None)
@@ -197,7 +199,7 @@ def write_road_sign_images():
         title = ElementTree.Element("title")
         title.text = f"{sign['title']} road sign"
         root.insert(0, title)
-        write(road_sign_image_path(sign["image"]), ElementTree.tostring(root, encoding="unicode") + "\n")
+        output(road_sign_image_path(sign["image"]), ElementTree.tostring(root, encoding="unicode") + "\n")
 
 
 def road_sign_materials():
@@ -252,21 +254,22 @@ def render_contrast_lessons():
     return '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>' + "".join(lessons) + '</section>' + render_material_review()
 
 
-def write_contrast_lessons():
-    path = ROOT / "road-sign-learning-loop.html"
-    text = path.read_text()
+def write_contrast_lessons(output=None):
+    output = output or write
+    filename = "road-sign-learning-loop.html"
+    text = (ROOT / filename).read_text()
     start, end = "<!-- CORE MATERIAL LESSONS START -->", "<!-- CORE MATERIAL LESSONS END -->"
     if text.count(start) != 1 or text.count(end) != 1:
         raise ValueError("Expected one bounded lesson region in the existing contrast lab")
     before, remainder = text.split(start)
     _, after = remainder.split(end)
-    path.write_text(before + start + "\n" + render_contrast_lessons() + "\n" + end + after)
-    text = path.read_text()
+    text = before + start + "\n" + render_contrast_lessons() + "\n" + end + after
     start, end = '<!-- CASE DATA START -->', '<!-- CASE DATA END -->'
     if start in text:
         before, rest = text.split(start, 1)
         _, after = rest.split(end, 1)
-        path.write_text(before + start + '\n' + render_case_data() + '\n' + end + after)
+        text = before + start + '\n' + render_case_data() + '\n' + end + after
+    output(filename, text)
 
 
 def render_case_data():
@@ -344,8 +347,9 @@ def sitemap_priority(path):
     return "0.6", "weekly"
 
 
-def sitemap_entry(path, lastmod):
-    priority, changefreq = sitemap_priority(path)
+def sitemap_entry(path, lastmod, *, priority=None):
+    default_priority, changefreq = sitemap_priority(path)
+    priority = priority or default_priority
     lastmod_line = f"\n    <lastmod>{esc(lastmod)}</lastmod>" if lastmod else ""
     image_lines = "".join(
         f"\n    <image:image><image:loc>{esc(url_for('/' + image))}</image:loc></image:image>"
@@ -4770,41 +4774,90 @@ def render_trust(page):
 def write(path, content):
     target = ROOT / path
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(content)
+    target.write_bytes(content.encode("utf-8"))
 
 
-def build():
-    write_road_sign_images()
-    write_contrast_lessons()
+def build(output=None):
+    if __package__:
+        from . import build_skill_tools
+    else:
+        import build_skill_tools
+
+    output = output or write
+    write_road_sign_images(output)
+    write_contrast_lessons(output)
     publisher_id = SITE.get("adsenseVerification", {}).get("publisherId", "").removeprefix("ca-")
     if publisher_id:
-        write("ads.txt", f"google.com, {publisher_id}, DIRECT, f08c47fec0942fa0\n")
-    write("index.html", render_home())
-    for hub in HUBS:
-        write(f'{hub["slug"]}.html', render_hub(hub))
-    write(f"{DMV_DAILY_SLUG}.html", render_dmv_daily_question_page())
-    write(f"{DMV_MISTAKE_LOG_SLUG}.html", render_dmv_mistake_log_page())
-    write(f"{DMV_STUDY_PLAN_SLUG}.html", render_dmv_study_plan_page())
-    write(f"{ROAD_SIGN_FLASHCARDS_SLUG}.html", render_road_sign_flashcards_page())
-    write(f"{ROAD_SIGN_CHEAT_SHEET_SLUG}.html", render_road_sign_cheat_sheet_page())
-    write(f"{ROAD_SIGN_SHAPES_SLUG}.html", render_road_sign_shapes_page())
-    write(f"{DMV_SCORE_SLUG}.html", render_dmv_score_page())
-    write(f"{DMV_REQUIREMENTS_SLUG}.html", render_dmv_requirements_page())
-    for tool in DATA["tools"]:
-        write(f'{tool["slug"]}.html', render_tool(tool))
-        if tool.get("calendarDownload"):
-            write(tool["calendarDownload"]["filename"], render_calendar_file(tool["calendarDownload"]))
-    for page in DATA["trustPages"]:
-        write(f'{page["slug"]}.html', render_trust(page))
+        output("ads.txt", f"google.com, {publisher_id}, DIRECT, f08c47fec0942fa0\n")
+    output("index.html", render_home())
+    urls = {"/": lastmod_for_path("/")}
 
-    urls = ["/"] + [f'/{hub["slug"]}.html' for hub in HUBS] + [f"/{DMV_DAILY_SLUG}.html", f"/{DMV_MISTAKE_LOG_SLUG}.html", f"/{DMV_STUDY_PLAN_SLUG}.html", f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html", f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html", f"/{ROAD_SIGN_SHAPES_SLUG}.html", f"/{DMV_SCORE_SLUG}.html", f"/{DMV_REQUIREMENTS_SLUG}.html"] + [f'/{tool["slug"]}.html' for tool in DATA["tools"] if tool.get("indexable", True)] + [f'/{page["slug"]}.html' for page in DATA["trustPages"]]
-    sitemap_urls = "\n".join(sitemap_entry(path, lastmod_for_path(path)) for path in dict.fromkeys(urls))
-    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{sitemap_urls}\n</urlset>\n')
-    write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
-    from build_skill_tools import build as build_skill_tools
-    build_skill_tools()
+    def emit_page(slug, page):
+        output(f"{slug}.html", page)
+        path = f"/{slug}.html"
+        urls[path] = lastmod_for_path(path)
+
+    for hub in HUBS:
+        emit_page(hub["slug"], render_hub(hub))
+    renderers = (
+        (DMV_DAILY_SLUG, render_dmv_daily_question_page),
+        (DMV_MISTAKE_LOG_SLUG, render_dmv_mistake_log_page),
+        (DMV_STUDY_PLAN_SLUG, render_dmv_study_plan_page),
+        (ROAD_SIGN_FLASHCARDS_SLUG, render_road_sign_flashcards_page),
+        (ROAD_SIGN_CHEAT_SHEET_SLUG, render_road_sign_cheat_sheet_page),
+        (ROAD_SIGN_SHAPES_SLUG, render_road_sign_shapes_page),
+        (DMV_SCORE_SLUG, render_dmv_score_page),
+        (DMV_REQUIREMENTS_SLUG, render_dmv_requirements_page),
+    )
+    for slug, render in renderers:
+        emit_page(slug, render())
+    for tool in DATA["tools"]:
+        # Retired noindex pages are checked-in snapshots, not build outputs.
+        if not tool.get("indexable", True):
+            continue
+        emit_page(tool["slug"], render_tool(tool))
+        if tool.get("calendarDownload"):
+            output(tool["calendarDownload"]["filename"], render_calendar_file(tool["calendarDownload"]))
+
+    skill_pages = build_skill_tools.render_pages()
+    skill_lastmod = format_lastmod(build_skill_tools.DATA["hub"]["updated"])
+    for filename, page in skill_pages.items():
+        output(filename, page)
+        urls[f"/{filename}"] = skill_lastmod
+    for page in DATA["trustPages"]:
+        emit_page(page["slug"], render_trust(page))
+
+    sitemap_urls = "\n".join(
+        sitemap_entry(path, lastmod, priority="0.7" if path[1:] in skill_pages else None)
+        for path, lastmod in urls.items()
+    )
+    output("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{sitemap_urls}\n</urlset>\n')
+    output("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['url'].rstrip('/')}/sitemap.xml\n")
+
+
+def check_build():
+    drift = []
+    count = 0
+
+    def compare(path, content):
+        nonlocal count
+        count += 1
+        target = ROOT / path
+        if not target.is_file() or target.read_bytes() != content.encode("utf-8"):
+            drift.append(path)
+
+    build(compare)
+    return count, drift
 
 
 if __name__ == "__main__":
-    build()
-    print("Built static site pages.")
+    parser = argparse.ArgumentParser(description="Build the static site.")
+    parser.add_argument("--check", action="store_true", help="Report stale or missing outputs without editing files.")
+    if parser.parse_args().check:
+        count, drift = check_build()
+        if drift:
+            raise SystemExit("Regenerate the changed outputs before publishing:\n  " + "\n  ".join(drift))
+        print(f"Verified {count} generated outputs; no files changed.")
+    else:
+        build()
+        print("Built static site pages.")
