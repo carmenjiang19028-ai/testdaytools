@@ -10454,9 +10454,9 @@
         ]
       },
       "checklist": [
-        "Complete any required TLSAE step before expecting to finish the license process.",
+        "Check which education course applies to your age and licensing history before enrolling. Course completion does not replace the Class E Knowledge Exam.",
         "Read the Florida handbook sections on traffic controls, right of way, speed, crashes, and impaired driving.",
-        "Practice until 40 of 50 feels realistic, not lucky.",
+        "Use 32 of 40 as the target for this site's mixed practice. The actual Florida Class E Knowledge Exam requires 40 of 50; the two results are not interchangeable.",
         "Bring the identification and parental-consent documents required for your age and application type.",
         "If testing online through an approved provider, confirm age eligibility and proctoring rules.",
         "If testing online, confirm provider result submission and Parent Proctoring Form requirements before the permit visit.",
@@ -11286,6 +11286,10 @@
           "text": "An approved course completion answers the education requirement. The Class E Knowledge Exam is a separate result. Your documents and office visit determine whether the learner's license can be issued."
         },
         {
+          "heading": "Prepare for the English-language knowledge exam",
+          "text": "Florida's published testing policy requires English for driver license exams, including the Class E Knowledge Exam, under the statewide update effective February 6, 2026. A translated study guide is not a translated exam. While practicing, pause on words that change the required action: prohibited means not allowed; yield means give the right of way; except signals a case that does not follow the general rule. If you need to discuss testing arrangements, confirm them with your test provider before booking."
+        },
+        {
           "heading": "How this page should be used",
           "text": "Start by identifying which step is blocking you. If the issue is study readiness, use the Florida practice and signs pages. If the issue is what happens after passing, use the documents checklist and FLHSMV What to Bring."
         }
@@ -11419,11 +11423,15 @@
       "sources": [
         {
           "label": "Florida Statutes 322.095: TLSAE and adult exceptions",
-          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0300-0399/0322/Sections/0322.095.html"
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/0322.095"
         },
         {
           "label": "Florida Statutes 322.1615: learner's license and education",
-          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0300-0399/0322/Sections/0322.1615.html"
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/322.1615"
+        },
+        {
+          "label": "Hillsborough County Tax Collector: Florida's statewide English testing policy",
+          "url": "https://www.hillstaxfl.gov/news/statewide-policy-change-all-florida-driver-license-exams-to-be-administered-in-english-only-beginning-february-6/"
         },
         {
           "label": "Pinellas County Tax Collector: first-time course requirements by age",
@@ -18344,15 +18352,15 @@
         "explanation": "The official FLHSMV page describes those three core areas for the Class E Knowledge Exam."
       },
       {
-        "q": "If you have never had a driver license before applying in Florida, what course may be required first?",
+        "q": "A 16-year-old applying for a first Florida learner's license has never been licensed elsewhere and has not taken driver education. Which course is required for this path?",
         "choices": [
-          "Traffic Law and Substance Abuse Education (TLSAE)",
-          "A commercial truck course",
-          "A motorcycle safety course only"
+          "An approved 6-hour Driver Education Traffic Safety (DETS) course",
+          "The adult 4-hour TLSAE course instead of DETS",
+          "No course if the applicant passes the Class E exam"
         ],
         "answer": 0,
         "category": "Florida licensing",
-        "explanation": "FLHSMV states that first-time Florida applicants must complete a TLSAE course before applying for a license."
+        "explanation": "For this under-18 first-license path, the Florida Department of Education lists approved DETS. Completing the course and passing the Class E Knowledge Exam are separate requirements."
       },
       {
         "q": "A pedestrian is crossing at an unmarked crosswalk at an intersection. You should:",
@@ -18825,15 +18833,15 @@
         "explanation": "The official FLHSMV page describes those three core areas for the Class E Knowledge Exam."
       },
       {
-        "q": "If you have never had a driver license before applying in Florida, what course may be required first?",
+        "q": "A 22-year-old applying for a first Florida driver license has never been licensed elsewhere and has not completed a qualifying Florida driver education course. Which course requirement normally applies?",
         "choices": [
-          "Traffic Law and Substance Abuse Education (TLSAE)",
-          "A commercial truck course",
-          "A motorcycle safety course only"
+          "An approved 4-hour Traffic Law and Substance Abuse Education (TLSAE) course",
+          "The same 6-hour DETS course as a first-time teen applicant",
+          "No course if the applicant passes the Class E exam"
         ],
         "answer": 0,
         "category": "Florida licensing",
-        "explanation": "FLHSMV states that first-time Florida applicants must complete a TLSAE course before applying for a license."
+        "explanation": "Florida Statutes section 322.095 applies TLSAE to adult applicants unless an exemption applies, such as prior licensing in another jurisdiction or a qualifying Florida Department of Education course. Passing the Class E exam does not count as completing TLSAE."
       },
       {
         "q": "For Florida practice, what action is prohibited by this sign?",

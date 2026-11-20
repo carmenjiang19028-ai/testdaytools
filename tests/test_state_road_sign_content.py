@@ -169,6 +169,27 @@ class StateRoadSignContentTest(unittest.TestCase):
                 self.assertIn(f'href="{slug}.html#florida-course-path"', page)
                 self.assertNotIn("TLSAE may be required", page)
 
+    def test_florida_scored_course_questions_match_the_current_paths(self):
+        for bank, age, answer in (("florida", "16-year-old", "DETS"), ("floridaMock", "22-year-old", "TLSAE")):
+            with self.subTest(bank=bank):
+                item, = [q for q in self.data["quizzes"][bank] if q.get("category") == "Florida licensing"]
+                self.assertIn(age, item["q"])
+                self.assertIn(answer, item["choices"][item["answer"]])
+                self.assertIn("Class E", item["explanation"])
+                self.assertEqual(len(item["choices"]), 3)
+        page = (ROOT / "florida-dmv-permit-practice-test.html").read_text()
+        self.assertNotIn("first-time Florida applicants must complete a TLSAE course", page)
+        self.assertIn("Use 32 of 40 as the target for this site", page)
+        self.assertIn("Knowledge Exam requires 40 of 50", page)
+
+    def test_florida_exam_language_guidance_is_sourced_and_not_a_course_rule(self):
+        page = (ROOT / "florida-class-e-knowledge-exam-tlsae.html").read_text()
+        self.assertIn("statewide update effective February 6, 2026", page)
+        self.assertIn("A translated study guide is not a translated exam", page)
+        self.assertIn("https://www.hillstaxfl.gov/news/statewide-policy-change-", page)
+        self.assertIn("https://www.flsenate.gov/Laws/Statutes/2026/0322.095", page)
+        self.assertIn("https://www.flsenate.gov/Laws/Statutes/2026/322.1615", page)
+
     def test_michigan_manual_edition_and_testing_choices_do_not_overlap(self):
         slug = "michigan-sos-road-signs-practice"
         tool = self.tools[slug]

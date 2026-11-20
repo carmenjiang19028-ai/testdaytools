@@ -83,3 +83,32 @@ for (const state of states) {
       }));
   }
 }
+
+for (const width of [390, 1280]) {
+  test(`Florida ${width}px grades the teen and adult course scenarios separately`, () =>
+    withSigns(states[1], width, async (page) => {
+      const file = pathToFileURL(path.join(root, "florida-dmv-permit-practice-test.html"));
+      for (const [mode, age, course, total, target] of [
+        ["quick", "16-year-old", /6-hour.*DETS/, 15, 12],
+        ["mock", "22-year-old", /4-hour.*TLSAE/, 40, 32],
+      ]) {
+        file.searchParams.set("mode", mode);
+        await page.goto(file.href);
+        const quiz = page.locator(`[data-mode-panel="${mode}"].is-active [data-quiz]`);
+        assert.equal(await quiz.locator(".question").count(), total);
+        assert.equal(await quiz.getAttribute("data-pass-score"), String(target));
+        await quiz.getByRole("button", { name: "Go to question 3", exact: true }).click();
+        const q = quiz.locator(".question.is-active");
+        assert.ok((await q.locator("h3").textContent()).includes(age));
+        await q.getByRole("button", { name: /No course if the applicant passes/ }).click();
+        assert.match(await q.locator(".feedback").textContent(), /^Not quite\..*Class E/);
+        const good = q.locator("button.is-correct");
+        assert.match(await good.textContent(), course);
+        await quiz.locator("[data-quiz-reset]").click();
+        await quiz.getByRole("button", { name: "Go to question 3", exact: true }).click();
+        await q.getByRole("button", { name: course }).first().click();
+        assert.match(await q.locator(".feedback").textContent(), /^Correct\./);
+        assert.deepEqual(await quiz.locator("[data-quiz-correct]").allTextContents(), ["1", "1"]);
+      }
+    }));
+}
