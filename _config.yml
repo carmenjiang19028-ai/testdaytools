@@ -1,0 +1,8 @@
+# Keep build inputs and project records in Git, outside the published site.
+exclude:
+  - content
+  - project-memory
+  - scripts
+  - tests
+  - README.md
+  - design-qa.md
