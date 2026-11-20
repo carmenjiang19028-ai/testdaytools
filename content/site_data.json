@@ -5019,7 +5019,7 @@
       "category": "DMV",
       "title": "DMV Test Day Checklist: Documents, ID, and State Manual Finder",
       "description": "Use a free DMV test-day checklist for documents, ID, residency proof, state official-source links, permit practice, road-sign review, and saved readiness progress.",
-      "lastUpdated": "August 19, 2026",
+      "lastUpdated": "November 21, 2026",
       "heroKicker": "DMV documents and test day",
       "summary": "Choose your state, open the official driver manual or source page, then save a checklist for documents, ID, residency proof, appointment, fees, practice score, road signs, mistakes, and test-day logistics.",
       "quickFacts": [
@@ -5053,12 +5053,12 @@
             "manualUrl": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/",
             "permitUrl": "california-dmv-permit-practice-test.html",
             "signUrl": "california-dmv-road-signs-practice.html",
-            "format": "Use the California Driver's Handbook and your application instructions for the current knowledge-test format.",
+            "format": "Knowledge test for original licenses",
             "focus": "Signs, right of way, lane rules, pedestrians, and safe following distance.",
             "agency": "California DMV",
             "documents": "Confirm your application path, identity document, residency proof, and any parent or school forms required for your age.",
             "appointment": "Check whether your office visit or test needs an appointment, and confirm payment method before leaving home.",
-            "retake": "Review California DMV rules for retesting, waiting periods, and fees if you do not pass on the first try."
+            "retake": "An original license applicant has three knowledge-test attempts before reapplying. Minors wait seven days after a failed knowledge test, not counting the failure day. See the California Driver's Handbook, Section 3."
           },
           {
             "label": "New York",
@@ -5687,9 +5687,16 @@
       "category": "DMV",
       "title": "California DMV Permit Practice Test",
       "description": "California DMV permit practice with quick questions, original road-sign images, a mock exam, official knowledge-test and instruction-permit links, and weak-area feedback.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "heroKicker": "California DMV",
       "summary": "Practice California DMV permit topics with quick questions, original road-sign images, and a 40-question mock exam, then confirm the instruction permit, testing option, and document step on official DMV pages.",
+      "heroActions": [
+        {"label": "Start practice", "href": "#practice"},
+        {"label": "First permit or renewal?", "href": "#california-permit-path"},
+        {"label": "Official test facts", "href": "#official-details"},
+        {"label": "Study by topic", "href": "#practice-topics"},
+        {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=california#dmv-checklist"}
+      ],
       "quickFacts": [
         {
           "label": "Practice modes",
@@ -5797,8 +5804,8 @@
           "text": "One job is learning signs, right of way, lane use, speed, and safety rules. The other job is confirming the California instruction permit application path, testing option, identity documents, and any under-18 requirements that apply before DMV day."
         },
         {
-          "heading": "Do not confuse test access with permit issuance",
-          "text": "California DMV may offer different knowledge-test paths for different applicants, but passing or preparing for a test is not the whole permit process. Use official DMV pages to confirm whether your situation uses online testing, eLearning, or an office step."
+          "heading": "Use the test path for your application",
+          "text": "Applying online is not the same as testing online. For an original license, use the test options shown by DMV after you apply and plan the office steps listed on its permit page. Do not prepare for the renewal-only eLearning course as a substitute for a first knowledge test."
         }
       ],
       "cardGroups": [
@@ -5823,29 +5830,30 @@
           ]
         },
         {
-          "heading": "California DMV permit confusion map",
-          "intro": "Use practice questions for diagnosis, then use official California DMV pages for the process details that practice tests cannot decide for you.",
+          "id": "california-permit-path",
+          "heading": "California first permit, renewal, or retake?",
+          "intro": "Choose the case that matches your application. These are California DMV steps; the scores from this practice tool do not complete any of them.",
           "items": [
             {
-              "label": "Knowledge test",
-              "title": "Practice questions are only the study layer",
-              "text": "This page helps you find weak areas, but California DMV controls the official testing path, retake rules, and final wording.",
-              "href": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/preparing-for-knowledge-and-drive-tests/",
-              "cta": "California DMV test source"
-            },
-            {
-              "label": "Instruction permit",
-              "title": "Permit issuance is a separate checklist",
-              "text": "Before test day, confirm the application path, documents, fees, and parent or guardian details if they apply to your age.",
+              "label": "First permit",
+              "title": "I am 16 and applying for the first time",
+              "text": "Use the under-18 instruction permit path: bring the required driver-education proof, get the parent or guardian signature, and plan the DMV document, vision, and photo steps. Study the handbook for the knowledge test. Renewal eLearning does not replace it.",
               "href": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/",
-              "cta": "California DMV permit source"
+              "cta": "Official first-permit steps"
             },
             {
-              "label": "Study order",
-              "title": "Start with visual and right-of-way mistakes",
-              "text": "If a short round feels shaky, move to road signs, right of way, lane rules, parking, and safe-speed categories before another mock exam.",
-              "href": "california-dmv-road-signs-practice.html",
-              "cta": "California signs practice"
+              "label": "Renewal",
+              "title": "My Class C renewal notice requires a knowledge test",
+              "text": "If your noncommercial Class C renewal offers eLearning, it can satisfy the knowledge-test requirement. Follow the renewal application and DMV's instructions for any remaining steps. If there is no knowledge-test requirement on the notice, do not assume you need the course.",
+              "href": "https://www.dmv.ca.gov/portal/driver-education-and-safety/online-learning-and-tests/",
+              "cta": "Official eLearning eligibility"
+            },
+            {
+              "label": "Knowledge retake",
+              "title": "I am under 18 and did not pass the knowledge test",
+              "text": "Leave seven days before trying again, excluding the date you failed. Use that time to review the topics you missed. An original license applicant has three knowledge-test attempts before needing to reapply. This is not the behind-the-wheel retest rule.",
+              "href": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/the-testing-process/",
+              "cta": "Official knowledge retake rules"
             }
           ]
         }
@@ -5876,6 +5884,10 @@
           "a": "No. Treat the knowledge test, instruction permit application, documents, fees, and any age-based requirements as related but separate steps. Confirm the current path on California DMV pages."
         },
         {
+          "q": "Can I use California DMV eLearning for my first permit?",
+          "a": "No. California DMV limits eLearning to eligible noncommercial Class C renewal applicants. First-time applicants should follow the original-license testing steps instead."
+        },
+        {
           "q": "What should I study first for the California permit test?",
           "a": "Start with road signs, traffic signals, right of way, lane rules, speed, parking, road conditions, and impaired-driving rules, then use missed categories to decide what to reread."
         }
@@ -5896,6 +5908,14 @@
         {
           "label": "California DMV: Instruction Permits",
           "url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/"
+        },
+        {
+          "label": "California DMV: Knowledge testing and retakes",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/the-testing-process/"
+        },
+        {
+          "label": "California DMV: Renewal eLearning eligibility",
+          "url": "https://www.dmv.ca.gov/portal/driver-education-and-safety/online-learning-and-tests/"
         }
       ],
       "related": [
@@ -6122,8 +6142,8 @@
       },
       "examDetails": {
         "kicker": "Real test details",
-        "heading": "California permit test facts people look for first",
-        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "heading": "California knowledge test and practice scores",
+        "intro": "The California DMV passing rule and the benchmark for this site's 40-question round are separate, even though both use 80%.",
         "items": [
           {
             "label": "Official pass rule",
@@ -6137,8 +6157,8 @@
           },
           {
             "label": "Where to start",
-            "value": "DMV application and account",
-            "text": "California offers online services for many applicants, but eligibility can vary."
+            "value": "Original license application",
+            "text": "Start your application with California DMV and follow its testing instructions. Only eligible Class C renewals can use eLearning."
           },
           {
             "label": "Practice target here",
@@ -6194,7 +6214,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "California permit topics to study after each quiz",
-        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "intro": "If your misses involve both signs and parking, start with the curb-color checkpoint. If they involve yielding or intersections, choose right of way instead.",
         "items": [
           {
             "label": "Topic 1",
@@ -6247,7 +6267,7 @@
         ]
       },
       "checklist": [
-        "Confirm whether your California knowledge test can be taken online or must be completed at DMV.",
+        "For a first permit, follow the testing instructions on your original license application, not the renewal eLearning instructions.",
         "Bring the identification and residency documents required for your application type.",
         "Read the California Driver Handbook sections on signs, lanes, speed, parking, and alcohol rules.",
         "Practice road signs until you can answer without reading all choices slowly.",
@@ -7566,7 +7586,7 @@
       "category": "DMV",
       "title": "New York DMV Permit Practice Test",
       "description": "New York DMV permit practice with official pass-rule context, quick questions, original road-sign images, a 40-question mock exam, and weak-area feedback.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "heroKicker": "New York DMV",
       "summary": "Practice New York DMV permit questions with quick review, image-based road signs, and a 40-question mock exam that keeps the official pass rule visible.",
       "quickFacts": [
@@ -7931,8 +7951,8 @@
       },
       "examDetails": {
         "kicker": "Real test details",
-        "heading": "New York permit test facts people look for first",
-        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "heading": "New York's overall score and road-sign minimum",
+        "intro": "Check both official minimums. Fourteen correct overall with only one correct road-sign answer is not enough to pass.",
         "items": [
           {
             "label": "Official format",
@@ -8003,7 +8023,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "New York permit topics to study after each quiz",
-        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "intro": "If you missed a sign, practice recognizing it before reading the choices. If you misread a red signal instead, use the New York right-on-red cases to compare NYC and other locations.",
         "items": [
           {
             "label": "Topic 1",
@@ -9707,7 +9727,7 @@
       "description": "Practice Florida Class E permit questions with quick rounds, road-sign pictures, mock exam mode, FLHSMV links, and the 40 of 50 passing score context.",
       "heroKicker": "Florida permit practice",
       "summary": "Practice Florida Class E permit-test topics, see the 40 of 50 passing score context, then separate TLSAE or DETS, the Class E Knowledge Exam, and learner permit documents or office issuance.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "heroActions": [
         {
           "label": "Start practice",
@@ -10245,8 +10265,8 @@
       ],
       "examDetails": {
         "kicker": "Real test details",
-        "heading": "Florida permit test facts people look for first",
-        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "heading": "Florida Class E exam and first-time course requirements",
+        "intro": "The 40-of-50 mark is for the official Class E exam, not the course or the 40-question round here. Check your course path separately before enrolling.",
         "items": [
           {
             "label": "Official format",
@@ -10317,7 +10337,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "Florida permit topics to study after each quiz",
-        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "intro": "Review missed traffic control, safe driving, or right-of-way topics before repeating the mixed round. If your miss was about DETS, TLSAE, or prior schooling, use the Class E map above instead.",
         "items": [
           {
             "label": "Topic 1",
@@ -12498,7 +12518,7 @@
       "description": "Pennsylvania permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official PennDOT source links.",
       "heroKicker": "Pennsylvania permit practice",
       "summary": "Practice Pennsylvania permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the Pennsylvania Driver's Manual.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "quickFacts": [
         {
           "label": "Official source",
@@ -12856,8 +12876,8 @@
       ],
       "examDetails": {
         "kicker": "Real test details",
-        "heading": "Pennsylvania permit test facts people look for first",
-        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "heading": "PennDOT's 18-question test versus the practice round",
+        "intro": "Only the official test uses the 15-of-18 passing mark. Here, use the longer round's explanations to see which rules need another look.",
         "items": [
           {
             "label": "Official format",
@@ -12928,7 +12948,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "Pennsylvania permit topics to study after each quiz",
-        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "intro": "For a stopped school-bus mistake, revisit the illustrated cases and compare the two road layouts. For a missed sign by itself, repeat the picture round instead of starting another mixed test.",
         "items": [
           {
             "label": "Topic 1",
@@ -13422,7 +13442,7 @@
       "description": "New Jersey permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official New Jersey MVC source links.",
       "heroKicker": "New Jersey permit practice",
       "summary": "Practice New Jersey permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the New Jersey Driver Manual.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 21, 2026",
       "quickFacts": [
         {
           "label": "Official source",
@@ -13780,8 +13800,8 @@
       ],
       "examDetails": {
         "kicker": "Real test details",
-        "heading": "New Jersey permit test facts people look for first",
-        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "heading": "New Jersey documents, examination permit, and knowledge test",
+        "intro": "Use MVC's ID requirements before visiting a driver testing center for an examination permit. The practice round here does not schedule or complete the official knowledge test.",
         "items": [
           {
             "label": "Official source",
@@ -13852,7 +13872,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "New Jersey permit topics to study after each quiz",
-        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "intro": "If a roadside-response question tripped you up, use the New Jersey move-over cases to compare a safe lane change with a blocked lane. Rerun picture questions for sign-recognition misses.",
         "items": [
           {
             "label": "Topic 1",
@@ -15230,7 +15250,12 @@
       "title": "Arizona Road Signs Study Guide and Test Context",
       "description": "Use official Arizona driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Arizona road signs",
-      "summary": "Review Arizona-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
+      "summary": "Check the Arizona MVD permit-test format, decide whether to test at home or in an office, and see what you still need to do after passing. Sign recognition practice uses a shared nationwide picture quiz.",
+      "heroActions": [
+        {"label": "Arizona test and permit paths", "href": "#arizona-permit-path"},
+        {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
+        {"label": "Official sources", "href": "#sources"}
+      ],
       "quickFacts": [
         {
           "label": "Official source",
@@ -15264,13 +15289,13 @@
           },
           {
             "label": "Official format",
-            "value": "Driver license examination context",
-            "note": "Arizona MVD controls the official exam format and wording."
+            "value": "30 multiple-choice questions",
+            "note": "This is the official written permit test, not the shared picture quiz."
           },
           {
             "label": "Pass rule",
-            "value": "80% or higher",
-            "note": "Use the official source for the final current rule before test day."
+            "value": "At least 24 of 30",
+            "note": "Arizona MVD requires a score of 80% or higher on the actual test."
           },
           {
             "label": "High-risk topics",
@@ -15296,8 +15321,8 @@
           },
           {
             "step": "04",
-            "title": "Confirm the official threshold",
-            "text": "MVD says the actual examination requires 80% or higher."
+            "title": "Choose how to take the permit test",
+            "text": "Compare Arizona's teen home-test option with the office path. Either way, passing the test does not issue a permit."
           }
         ]
       },
@@ -15309,14 +15334,44 @@
           "text": "Arizona MVD says its practice-test questions are drawn from the Driver License Manual and advises applicants to study it thoroughly before the examination."
         },
         {
-          "heading": "Use the official pass target",
-          "text": "Arizona MVD states that 80 percent or higher is required to pass the actual examination. Its Practice Tests page lists three official driver-license practice tests."
+          "heading": "Use the shared quiz for image recognition, not an Arizona score",
+          "text": "If you miss a picture, name the shape and color, then say what action it calls for before reading the explanation. Use Arizona's official practice tests to review rules and other topics that a sign-only round does not cover."
+        }
+      ],
+      "cardGroups": [
+        {
+          "id": "arizona-permit-path",
+          "heading": "Arizona permit test and issuance: what to do next",
+          "intro": "Choose the first-time applicant case that applies. The official test result and the issued permit are two separate milestones.",
+          "items": [
+            {
+              "label": "Teen before the test",
+              "title": "I am 16 and want to take the written test at home",
+              "text": "Arizona's minimum age for an instruction permit is 15 years and 6 months. The teen home-test option is for applicants under 18. Have a parent or legal guardian use their own AZ MVD Now account and supervise, or check a participating Arizona driving school. You can also test in an office.",
+              "href": "https://azdot.gov/mvd/services/driver-license-ID/permit-test",
+              "cta": "Official home-test instructions"
+            },
+            {
+              "label": "Adult before the test",
+              "title": "I am 19, and I have never held a U.S. driver license",
+              "text": "The teen home-test path is not for you. Study the manual and plan the written test at an MVD office before you schedule a road test. MVD lists a touch-screen test and an audio option. Check the official page for office availability and language options.",
+              "href": "https://azdot.gov/mvd/services/driver-license-ID/permit-test",
+              "cta": "Official in-office test details"
+            },
+            {
+              "label": "Teen after passing",
+              "title": "I passed June 3, but MVD issued the permit June 20",
+              "text": "June 20 starts the Class G permit holding period, not June 3. If you remain under 18, six months from issuance is December 20; that is only the holding-period milestone, not automatic eligibility for a license. After passing, take the application and original documents to MVD, complete the signature or notarized application requirements, and finish the vision and photo steps before using the permit.",
+              "href": "https://azdot.gov/mvd/services/driver-services/teen-drivers/permit-and-license-requirements",
+              "cta": "Official teen permit and license steps"
+            }
+          ]
         }
       ],
       "faq": [
         {
           "q": "What is Arizona’s official knowledge-test passing score?",
-          "a": "Arizona MVD states that 80 percent or higher is required to pass the actual examination."
+          "a": "The Arizona written permit test has 30 multiple-choice questions. At 80% or higher, that means at least 24 correct."
         },
         {
           "q": "Are Arizona’s official practice questions based on the manual?",
@@ -15325,6 +15380,10 @@
         {
           "q": "How many official Arizona practice tests are listed?",
           "a": "The MVD Practice Tests page lists Driver License Practice Tests 1, 2, and 3."
+        },
+        {
+          "q": "Does passing the Arizona home test give me a permit?",
+          "a": "No. Go to MVD after you pass to complete issuance. For a teen applicant, the holding period starts when the permit is issued, not when you pass the test."
         }
       ],
       "sources": [
@@ -15335,6 +15394,14 @@
         {
           "label": "Arizona MVD: Practice Tests",
           "url": "https://azdot.gov/mvd/services/driver-services/tests-manuals-and-driving-schools/practice-tests"
+        },
+        {
+          "label": "Arizona MVD: Written permit test and permit issuance",
+          "url": "https://azdot.gov/mvd/services/driver-license-ID/permit-test"
+        },
+        {
+          "label": "Arizona MVD: Teen permit and license requirements",
+          "url": "https://azdot.gov/mvd/services/driver-services/teen-drivers/permit-and-license-requirements"
         }
       ],
       "examDetails": {
@@ -15368,13 +15435,13 @@
             "text": "Arizona MVD lists three driver-license practice tests whose questions are taken from the Driver License Manual."
           },
           {
-            "label": "Pass standard",
-            "value": "80% or higher",
-            "text": "Arizona MVD states that 80% or higher is required to pass the actual examination."
+            "label": "After passing",
+            "value": "Complete permit issuance at MVD",
+            "text": "Passing at home or in an office is only the test step. See the Arizona permit paths below for what to bring and when the teen holding period begins."
           }
         ]
       },
-      "lastUpdated": "October 17, 2026",
+      "lastUpdated": "November 21, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
       "replacementText": "This page summarizes Arizona-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."

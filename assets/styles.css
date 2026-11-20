@@ -192,6 +192,8 @@ main > section,
 }
 
 @media (max-width: 760px) {
+  #california-permit-path,
+  #arizona-permit-path,
   #florida-course-path,
   #virginia-knowledge-retest,
   #missing-score-cases,
