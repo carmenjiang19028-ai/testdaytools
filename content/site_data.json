@@ -12122,9 +12122,37 @@
       "category": "DMV",
       "title": "Illinois DMV Road Signs Practice",
       "description": "Illinois road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "lastUpdated": "August 12, 2026",
+      "lastUpdated": "November 20, 2026",
       "heroKicker": "Illinois road signs",
       "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the Illinois exam details below to plan the rest of your study.",
+      "stateRulePractice": {
+        "id": "illinois-school-zone",
+        "linkLabel": "Illinois school zones",
+        "heading": "When does Illinois's 20 mph school limit apply?",
+        "image": "school-crossing",
+        "imageLabel": "School-area warning",
+        "caption": "The pentagon warns of a school area. It does not show a speed limit. Look for a separate school speed-limit sign and its conditions.",
+        "scenarios": [
+          {
+            "question": "6:45 a.m. on a school day: the 20 mph sign is posted and children are close to traffic. Does the school limit already apply?",
+            "answer": "Yes. Illinois's school-day window for this rule starts at 6:30 a.m. and ends at 4 p.m. The signs are posted and children are close enough for traffic to pose a hazard, so 20 mph is the maximum here. Slow further if needed."
+          },
+          {
+            "question": "3:10 p.m. on a school day: children are nearby, but you see only the pentagon. Do the time and the warning sign alone make the limit 20 mph?",
+            "answer": "No. This Illinois rule requires appropriate posted signs and children close enough to traffic for a hazard. Slow as needed, watch for children, and obey the speed limit and conditions actually posted. Do not use the warning sign as a speed-limit sign."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Illinois Vehicle Code: 625 ILCS 5/11-605",
+            "url": "https://www.ilga.gov/documents/legislation/ilcs/documents/062500050K11-605.htm"
+          },
+          {
+            "label": "Illinois Rules of the Road 2026: Speed Limits, page 24",
+            "url": "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf"
+          }
+        ]
+      },
       "quickFacts": [
         {
           "label": "Question count",

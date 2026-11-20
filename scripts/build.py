@@ -1213,6 +1213,7 @@ def render_tool_actions(tool):
     elif is_sign_page and (tool.get("quiz") or tool.get("quizModes")):
         actions = [
             ("Start image quiz", "#practice"),
+            (tool["stateRulePractice"]["linkLabel"], f'#{tool["stateRulePractice"]["id"]}') if tool.get("stateRulePractice") else None,
             ("Focus paths", "#sign-focus") if resolve_sign_focus_shortcuts(tool) else None,
             ("Sign finder", "#sign-meaning-finder") if tool.get("signLibrary") else None,
             ("Shape and color guide", "#sign-study"),
@@ -1539,6 +1540,9 @@ def render_practice_console(tool):
         if slug == ROAD_SIGN_PICTURE_SLUG:
             heading = "Review the reason behind a missed sign"
             intro = "Name the driver action before reading the choices. If two signs lead you to different answers, practice that pair before retaking a mixed round."
+        elif tool.get("stateRulePractice"):
+            heading = "Separate sign recognition from the state rule"
+            intro = "Recognize the sign in the picture drill, then use the local examples to decide which conditions make the rule apply."
     elif is_sign_page:
         items = [
             ("1", "Confirm the state rule", "Use the linked agency page for the current format, pass threshold, and retake instructions."),
@@ -2683,6 +2687,32 @@ def render_examples(tool):
     return f'<section class="worked-examples"><h2>{esc(record["heading"])}</h2><p>{esc(record["intro"])}</p>{"".join(items)}</section>'
 
 
+def render_state_rule_practice(lesson):
+    if not lesson:
+        return ""
+    anchor = esc(lesson["id"])
+    scenarios = "".join(
+        f'<details class="contrast-transfer"><summary>{esc(case["question"])}</summary><p>{esc(case["answer"])}</p></details>'
+        for case in lesson["scenarios"]
+    )
+    sources = " &middot; ".join(
+        f'<a href="{esc(source["url"])}">{esc(source["label"])}</a>' for source in lesson["sources"]
+    )
+    return f"""<section class="content-section state-sign-lesson" id="{anchor}" aria-labelledby="{anchor}-heading">
+  <h2 id="{anchor}-heading">{esc(lesson["heading"])}</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      {render_road_sign_image(lesson["image"], lesson["imageLabel"], lazy=False)}
+      <figcaption>{esc(lesson["caption"])}</figcaption>
+    </figure>
+    <div>
+      {scenarios}
+      <p class="contrast-source">{sources}</p>
+    </div>
+  </div>
+</section>"""
+
+
 def render_tool(tool):
     quiz = render_dmv_mode_tool(tool) if tool.get("category") == "DMV" else render_quiz(tool.get("quiz"))
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
@@ -2739,6 +2769,7 @@ def render_tool(tool):
     hero_inner_class = ' class="tool-hero-grid"' if hero_panel else ""
     hero_panel_block = f"\n    {hero_panel}" if hero_panel else ""
     test_day_bridge = render_dmv_test_day_bridge(tool)
+    state_rule_practice = render_state_rule_practice(tool.get("stateRulePractice"))
     replacement_notice = ""
     replacement_slug = tool.get("replacementSlug")
     replacement_tool = TOOL_BY_SLUG.get(replacement_slug)
@@ -2758,7 +2789,7 @@ def render_tool(tool):
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
 {replacement_notice_block}\
 {render_trust_strip(tool)}
-{practice_console}{render_contrast_practice_links(f'{ROAD_SIGN_PICTURE_SLUG}.html') if tool['slug'] == ROAD_SIGN_PICTURE_SLUG else ''}{test_day_bridge}
+{practice_console}{render_contrast_practice_links(f'{ROAD_SIGN_PICTURE_SLUG}.html') if tool['slug'] == ROAD_SIGN_PICTURE_SLUG else ''}{test_day_bridge}{state_rule_practice}
 {page_sections}"""
     page_type = "LearningResource" if tool.get("category") in ("DMV", "SAT", "AP") else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')
@@ -2777,7 +2808,7 @@ def render_tool(tool):
         [resource_schema, breadcrumb_schema(tool["title"], canonical)],
         social_image=social_image,
         indexable=tool.get("indexable", True),
-        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide") else "",
+        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide") else "",
     )
 
 

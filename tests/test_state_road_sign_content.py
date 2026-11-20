@@ -1,6 +1,7 @@
 import json
 import unittest
 from pathlib import Path
+from scripts.build import render_state_rule_practice
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +44,20 @@ class StateRoadSignContentTest(unittest.TestCase):
         publisher_id = self.data["site"]["adsenseVerification"]["publisherId"]
         expected = f"google.com, {publisher_id.removeprefix('ca-')}, DIRECT, f08c47fec0942fa0\n"
         self.assertEqual((ROOT / "ads.txt").read_text(), expected)
+
+    def test_illinois_school_case_is_distinct_from_the_twenty_question_drill(self):
+        slug = "illinois-dmv-road-signs-practice"
+        tool = self.tools[slug]
+        page = (ROOT / f"{slug}.html").read_text()
+        lesson = tool["stateRulePractice"]
+        self.assertEqual(len(lesson["scenarios"]), 2)
+        for value in ["6:30 a.m.", "4 p.m.", "20 mph", "posted"]:
+            self.assertIn(value, lesson["scenarios"][0]["answer"])
+        self.assertIn("appropriate posted signs", lesson["scenarios"][1]["answer"])
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('href="#illinois-school-zone"', page)
+        self.assertEqual(tool["quizModes"][0]["passScore"], 16)
+        self.assertIn('data-total="20" data-pass-score="16"', page)
 
 
 if __name__ == "__main__":
