@@ -227,6 +227,66 @@ async function checkingQuality(browser, viewport) {
   } finally { await context.close(); }
 }
 
+async function filingQuality(browser, viewport) {
+  const { context, page, errors, unexpected } = await isolatedPage(browser, viewport);
+  try {
+    await assertPageTag(page, 'filing-practice');
+    const rule = page.getByRole('combobox', { name: 'Rule' });
+    const next = page.getByRole('button', { name: 'New question' });
+    const results = page.getByRole('list', { name: 'Full filing order' });
+    const current = () => page.evaluate(() => JSON.parse(localStorage.getItem('tdt-skills-filing-v2')).current);
+    await rule.selectOption('date');
+    const date = await current();
+    await page.reload();
+    assert.equal(await rule.inputValue(), 'date');
+    assert.equal(await page.getByRole('heading', { name: 'Date', exact: true }).isVisible(), true);
+    assert.equal(await page.getByRole('heading', { name: 'Name', exact: true }).isVisible(), false);
+    assert.deepEqual(await current(), date);
+    assert.equal(await results.isVisible(), false);
+    await next.click();
+    assert.equal((await current()).rule, 'date');
+    assert.deepEqual(await events(page), []);
+
+    await rule.selectOption('alpha');
+    const samples = new Map();
+    for (let i = 0; i < 4; i++) {
+      const q = await current();
+      const codes = q.rows.map(row => row.code);
+      const kind = codes.some(code => /-0\d$/.test(code)) ? 'zeros' : codes.some(code => /\dB$/.test(code)) ? 'prefix' : new Set(codes).size < 4 ? 'ID' : 'number';
+      samples.set(kind, q);
+      if (i < 3) await next.click();
+    }
+    assert.deepEqual([...samples.keys()].sort(), ['ID', 'number', 'prefix', 'zeros']);
+    assert.deepEqual(await events(page), []);
+    for (let i = 0; i < 3 && !(await current()).rows.some(row => /-0\d$/.test(row.code)); i++) await next.click();
+    const { rows } = await current();
+    const loser = rows.findIndex(row => /-0\d$/.test(row.code));
+    assert.notEqual(loser, -1);
+    const winner = rows.findIndex(row => row.code === rows[loser].code.replace('-0', '-'));
+    assert.notEqual(winner, -1);
+    assert.equal(await results.isVisible(), false);
+    await page.getByRole('button', { name: `File ${String.fromCharCode(65 + loser)} first`, exact: true }).click();
+    await checkEvent(page, ['skills_practice_start', 'skills_answer_checked', 'skills_practice_complete'], 'filing_order', 'filing-practice');
+    assert.match(await page.locator('[data-feedback]').innerText(), /^Not quite\..*same value.*fewer leading zeros/);
+    const ordered = await results.getByRole('listitem').allTextContents();
+    assert.equal(ordered.length, 4);
+    assert.equal(ordered[0], `${String.fromCharCode(65 + winner)}: ${rows[winner].code} · ${rows[winner].id}`);
+    assert.equal(ordered[1], `${String.fromCharCode(65 + loser)}: ${rows[loser].code} · ${rows[loser].id}`);
+    await page.reload();
+    assert.equal(await rule.inputValue(), 'alpha');
+    assert.equal(await page.getByRole('heading', { name: 'Alphanumeric', exact: true }).isVisible(), true);
+    assert.deepEqual(await results.getByRole('listitem').allTextContents(), ordered);
+    assert.equal(await page.locator('[data-recent]').innerText(), '0 / 1');
+    assert.deepEqual(await events(page), []);
+    await page.screenshot({ path: path.join(output, `filing-tie-break-${viewport.width}.png`), fullPage: true });
+    await next.click();
+    assert.equal(await results.isVisible(), false);
+    assert.equal((await current()).rule, 'alpha');
+    assert.deepEqual(errors, []);
+    assert.deepEqual(unexpected, []);
+  } finally { await context.close(); }
+}
+
 (async () => {
   fs.mkdirSync(output, { recursive: true });
   const browser = await chromium.launch({ headless: true, ...(process.env.CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.CHROMIUM_EXECUTABLE_PATH } : {}) });
@@ -238,6 +298,7 @@ async function checkingQuality(browser, viewport) {
       await practice(browser, viewport, 'filing-practice', 'filing_order', '[data-choice]'); passed++;
       await expired(browser, viewport); passed++;
       await checkingQuality(browser, viewport); passed++;
+      await filingQuality(browser, viewport); passed++;
     }
     console.log(JSON.stringify({ status: 'passed', scenarios: passed, externalAnalyticsRequestsSent: 0, screenshots: output }));
   } finally { await browser.close(); }
