@@ -672,6 +672,7 @@ function initQuizzes() {
       question.querySelectorAll("[data-choice]").forEach(choice => { choice.disabled = true; });
       const feedback = question.querySelector(".feedback");
       if (feedback) feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.explanation}`;
+      question.querySelector("[data-quiz-source]")?.removeAttribute("hidden");
       return { isCorrect, feedback };
     };
 
@@ -1161,6 +1162,7 @@ function initQuizzes() {
         });
         const feedback = question.querySelector(".feedback");
         if (feedback) feedback.textContent = "";
+        question.querySelector("[data-quiz-source]")?.setAttribute("hidden", "");
       });
       renderScore();
       renderActiveQuestion();

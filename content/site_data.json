@@ -18935,15 +18935,16 @@
         "explanation": "Lane Ends signs warn you to prepare for a lane reduction and merge safely. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
       },
       {
-        "q": "If a school bus ahead has flashing red lights, the safest general response is to:",
+        "q": "A Florida school bus is stopped with its stop arm out across a paved center turn lane. You are approaching from the opposite direction. What must you do?",
         "choices": [
-          "Stop as required and watch for children",
-          "Pass quickly before children step out",
-          "Move into the left lane and keep driving"
+          "Come to a full stop and wait for the stop signal to be withdrawn",
+          "Proceed because a paved turn lane counts as a divider",
+          "Proceed at 10 mph because you are traveling in the opposite direction"
         ],
         "answer": 0,
         "category": "School buses",
-        "explanation": "Flashing red school-bus lights mean children may be entering or leaving the bus. Stop when required by law. Confirm exact wording in the Official Florida Driver License Handbook."
+        "explanation": "A paved turn lane does not qualify. Florida's opposite-direction exception requires at least 5 feet of unpaved separation, a raised median, or a physical barrier. Neither going slowly nor looking for children replaces the stop on this road.",
+        "source": {"label": "Florida school-bus stopping law", "url": "https://flsenate.gov/Laws/Statutes/2026/0316.172"}
       },
       {
         "q": "Which choice best describes defensive driving?",
@@ -18990,15 +18991,16 @@
         "explanation": "Drivers entering a roundabout generally yield to traffic already circulating. Confirm exact wording in the Official Florida Driver License Handbook."
       },
       {
-        "q": "If traffic signals are not working, you should usually treat the intersection as:",
+        "q": "At a Florida intersection, the signal facing you is dark but the signals controlling cross traffic still work. There is a marked stop line and no officer is directing traffic. What should you do?",
         "choices": [
-          "A four-way stop unless an officer directs otherwise",
-          "A green light for the busiest street",
-          "A no-stop intersection"
+          "Stop at the stop line, then yield before proceeding safely",
+          "Follow the signal facing cross traffic as if it were yours",
+          "Slow without stopping because the other signals still work"
         ],
         "answer": 0,
         "category": "Signs and signals",
-        "explanation": "When signals fail, stop and proceed carefully unless a law officer or temporary control directs traffic. Confirm exact wording in the Official Florida Driver License Handbook."
+        "explanation": "You still have to stop when only your signal is out. If there is no stop line, stop before the crosswalk, or before entering the intersection at a point with a view of approaching traffic if there is no crosswalk. Do not assume drivers facing working signals will stop.",
+        "source": {"label": "Florida inoperative-signal law", "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.1235"}
       },
       {
         "q": "A safe following distance should increase when:",
@@ -19188,15 +19190,16 @@
         "explanation": "Keep control first, then slow down gradually and move off the roadway when safe. Confirm exact wording in the Official Florida Driver License Handbook."
       },
       {
-        "q": "A bicyclist in the roadway should be treated as:",
+        "q": "You are behind a bicyclist in your Florida travel lane. Oncoming traffic leaves room to pass with only about two feet of clearance. What should you do?",
         "choices": [
-          "A road user who may need space and caution",
-          "A pedestrian who must always leave the lane",
-          "An obstacle you should pass without changing speed"
+          "Stay a safe distance behind until you can leave at least three feet while passing safely",
+          "Slow to 25 mph and pass with two feet of clearance",
+          "Honk and continue past unless the rider signals you to stop"
         ],
         "answer": 0,
         "category": "Sharing the road",
-        "explanation": "Drivers must share the road and pass bicyclists carefully under state law. Confirm exact wording in the Official Florida Driver License Handbook."
+        "explanation": "Florida requires a safe gap of at least three feet when overtaking someone on a bicycle in the same travel lane. If you cannot leave that gap safely, stay behind; neither a lower speed nor a horn makes two feet enough.",
+        "source": {"label": "Florida bicycle passing law", "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.083"}
       },
       {
         "q": "In Florida, when backing out of a driveway, you should:",
@@ -20826,15 +20829,16 @@
         "explanation": "Mirrors do not show every area, so drivers need a quick shoulder check before moving. Confirm exact wording in the Pennsylvania Driver's Manual."
       },
       {
-        "q": "In Pennsylvania, when roads are icy, the best first adjustment is to:",
+        "q": "You are stopped at a red light in Pennsylvania. A friend sends a message, and no emergency is involved. When can you pick up your phone to read it?",
         "choices": [
-          "Slow down and avoid sudden steering or braking",
-          "Use cruise control",
-          "Follow closer so you can see tire tracks"
+          "After pulling off or to the side of the road and stopping where you can safely remain",
+          "While waiting at the traffic light, as long as the car is not moving",
+          "In the traffic lane if you shift into park"
         ],
         "answer": 0,
-        "category": "Road conditions",
-        "explanation": "Smooth, slow inputs help reduce skids on ice. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "category": "Distracted driving",
+        "explanation": "Under Paul Miller's Law, a temporary stop at a light or in traffic still counts as driving. Shifting to park in the lane does not change that. Move out of traffic to a safe place where the car can remain stopped before handling the phone.",
+        "source": {"label": "PennDOT: Pennsylvania's distracted-driving law", "url": "https://www.pa.gov/agencies/penndot/traveling-in-pa/safety/traffic-safety-driver-topics/distracted-driving.htm"}
       },
       {
         "q": "If a tire blows out, you should:",
@@ -20848,15 +20852,16 @@
         "explanation": "Keep control first, then slow down gradually and move off the roadway when safe. Confirm exact wording in the Pennsylvania Driver's Manual."
       },
       {
-        "q": "A bicyclist in the roadway should be treated as:",
+        "q": "You are behind a bicyclist on a two-lane Pennsylvania road. You have a long clear view and no oncoming traffic. Leaving four feet would require crossing the double yellow line. What is permitted?",
         "choices": [
-          "A road user who may need space and caution",
-          "A pedestrian who must always leave the lane",
-          "An obstacle you should pass without changing speed"
+          "Cross the line if needed and safe, passing at a prudent speed with at least four feet of clearance",
+          "Stay right of the line and pass with three feet of clearance",
+          "Wait for the rider to leave the road because crossing the line is never allowed for a bicycle"
         ],
         "answer": 0,
         "category": "Sharing the road",
-        "explanation": "Drivers must share the road and pass bicyclists carefully under state law. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "explanation": "Pennsylvania permits crossing the center line when needed to pass a bicycle safely with at least four feet of space. Recheck the sightline and oncoming traffic before moving left. If you cannot make the pass with that clearance at a safe speed, stay behind.",
+        "source": {"label": "PennDOT: Sharing the road with bicyclists", "url": "https://www.pa.gov/agencies/penndot/traveling-in-pa/riding-a-bike/bicycle-safety-and-pennsylvania-laws"}
       },
       {
         "q": "In Pennsylvania, when backing out of a driveway, you should:",
@@ -21002,15 +21007,16 @@
         "explanation": "High beams can reduce another driver's ability to see the road safely. Confirm exact wording in the Pennsylvania Driver's Manual."
       },
       {
-        "q": "If a school bus ahead has flashing red lights, the safest general response is to:",
+        "q": "In Pennsylvania in November 2026, you approach a stopped school bus from behind. Its red lights are flashing and its stop arm is extended. What is the minimum required stopping distance before reaching the bus?",
         "choices": [
-          "Stop as required and watch for children",
-          "Pass quickly before children step out",
-          "Move into the left lane and keep driving"
+          "10 feet",
+          "15 feet",
+          "25 feet"
         ],
         "answer": 0,
         "category": "School buses",
-        "explanation": "Flashing red school-bus lights mean children may be entering or leaving the bus. Stop when required by law. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "explanation": "For the date in this question, Pennsylvania requires at least 10 feet. Act 89 raises the minimum to 15 feet on October 22, 2027. You may leave more room now; the question asks for the legal minimum. Stay stopped until the lights stop flashing, the arm retracts, and the children reach safety.",
+        "source": {"label": "PennDOT: Current minimum and the October 2027 change", "url": "https://www.pa.gov/agencies/penndot/news-and-media/newsroom/statewide/2026/shapiro-administration--law-enforcement-agencies-highlight-opera"}
       },
       {
         "q": "Which choice best describes defensive driving?",
@@ -21678,15 +21684,16 @@
         "explanation": "Keep control first, then slow down gradually and move off the roadway when safe. Confirm exact wording in the New Jersey Driver Manual."
       },
       {
-        "q": "A bicyclist in the roadway should be treated as:",
+        "q": "On a narrow New Jersey road posted at 20 mph, you cannot legally change lanes or give the bicyclist ahead four feet of space. It is not safe to pass. What is the correct response?",
         "choices": [
-          "A road user who may need space and caution",
-          "A pedestrian who must always leave the lane",
-          "An obstacle you should pass without changing speed"
+          "Stay behind, slow to no more than 20 mph, and be ready to stop",
+          "Accelerate to 25 mph before passing because the safe-passing law names that speed",
+          "Pass at 20 mph even if the clearance is unsafe"
         ],
         "answer": 0,
         "category": "Sharing the road",
-        "explanation": "Drivers must share the road and pass bicyclists carefully under state law. Confirm exact wording in the New Jersey Driver Manual."
+        "explanation": "When a lane change and four feet of space are unavailable, the rule calls for 25 mph or the lower posted limit and readiness to stop. Here the lower limit is 20 mph. The speed reduction is not permission to pass when it would endanger anyone.",
+        "source": {"label": "New Jersey safe-passing law and lower speed limits", "url": "https://pub.njleg.state.nj.us/Bills/2024/PL24/11_.HTM"}
       },
       {
         "q": "In New Jersey, when backing out of a driveway, you should:",
@@ -21832,15 +21839,16 @@
         "explanation": "High beams can reduce another driver's ability to see the road safely. Confirm exact wording in the New Jersey Driver Manual."
       },
       {
-        "q": "If a school bus ahead has flashing red lights, the safest general response is to:",
+        "q": "On a New Jersey road posted at 45 mph, a stopped school bus is unloading children across a raised median. You are traveling in the opposite direction. What is the highest speed allowed while passing on your side?",
         "choices": [
-          "Stop as required and watch for children",
-          "Pass quickly before children step out",
-          "Move into the left lane and keep driving"
+          "10 mph until completely past the bus",
+          "25 mph if the school bus is on the other side",
+          "The regular posted speed because the median separates traffic"
         ],
         "answer": 0,
         "category": "School buses",
-        "explanation": "Flashing red school-bus lights mean children may be entering or leaving the bus. Stop when required by law. Confirm exact wording in the New Jersey Driver Manual."
+        "explanation": "The raised median and your opposite direction matter: New Jersey limits you to 10 mph until you are past the bus. On the same side, or if only painted lines separate opposing traffic on a road like this, the usual rule is to stop at least 25 feet away.",
+        "source": {"label": "New Jersey: Rules for passing stopped school buses", "url": "https://www.nj.gov/education/compliance/bussafety/docs/BusSafety.pdf"}
       },
       {
         "q": "Which choice best describes defensive driving?",
@@ -21865,15 +21873,16 @@
         "explanation": "When parking uphill with a curb, turn the front wheels away from the curb so the curb can help stop the vehicle if it rolls. Confirm exact wording in the New Jersey Driver Manual."
       },
       {
-        "q": "What should you do if another driver is tailgating you?",
+        "q": "On a New Jersey highway, a disabled car on the shoulder has its hazard lights on. Traffic in the left lane prevents you from safely moving over. What should you do?",
         "choices": [
-          "Increase following distance from the car ahead and let the tailgater pass when safe",
-          "Tap your brakes repeatedly",
-          "Speed up until the tailgater disappears"
+          "Reduce to a safe speed below the posted limit and be ready to stop",
+          "Keep the posted speed because the stopped car is not an emergency vehicle",
+          "Change lanes immediately even though the lane is occupied"
         ],
         "answer": 0,
-        "category": "Defensive driving",
-        "explanation": "Create more space ahead and avoid sudden braking. Let the other driver pass when it is safe. Confirm exact wording in the New Jersey Driver Manual."
+        "category": "Move Over",
+        "explanation": "A disabled vehicle with hazard lights is covered by New Jersey's Move Over law. A safe, legal move to a nonadjacent lane is the first option. When that is unavailable, slow below the limit to a speed appropriate for the conditions and prepare to stop.",
+        "source": {"label": "New Jersey Move Over law for disabled vehicles", "url": "https://pub.njleg.state.nj.us/Bills/2022/PL23/325_.HTM"}
       },
       {
         "q": "Before entering a roundabout, you should:",

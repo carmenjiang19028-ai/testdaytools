@@ -2534,11 +2534,16 @@ def render_quiz(quiz_key, options=None):
         concept_attr = f' data-concept-id="{esc(q["conceptId"])}"' if q.get("conceptId") else ""
         sheet = sheet_focus_by_image.get(q.get("image"))
         sheet_attr = f' data-sheet-focus="{esc(sheet[0])}" data-sheet-label="{esc(sheet[1])}"' if sheet else ""
+        source = q.get("source")
+        source_link = (
+            f'\n  <p data-quiz-source hidden><a href="{esc(source["url"])}" target="_blank" rel="noopener noreferrer">{esc(source["label"])}</a></p>'
+            if source else ""
+        )
         cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr}{sheet_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>{visual_block}
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
-  <p class="feedback" aria-live="polite"></p>
+  <p class="feedback" aria-live="polite"></p>{source_link}
 </article>""")
     total = len(questions)
     pass_score = options.get("passScore") or options.get("pass_score") or max(total - 2, 1)
