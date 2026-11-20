@@ -674,6 +674,8 @@ def dmv_mixed_practice(state, permit=None):
         "page": page,
         "href": f"{page}?mode=mock#practice",
         "target": f"{pass_score} of {total} in the full mixed set",
+        "total": total,
+        "correct": pass_score,
     }
 
 
@@ -717,6 +719,8 @@ def dmv_requirement_records():
             "focus": state.get("focus", ""),
             "mixedPracticeUrl": mixed.get("href", ""),
             "practiceTarget": mixed.get("target", "No full mixed practice set here"),
+            "mixedQuestions": mixed.get("total", ""),
+            "mixedCorrect": mixed.get("correct", ""),
         })
     return records
 
@@ -4341,6 +4345,8 @@ def render_dmv_score_calculator():
         f'data-source-url="{esc(item["manualUrl"])}" '
         f'data-source-label="{esc(item["manualLabel"])}" '
         f'data-mixed-practice-url="{esc(item.get("mixedPracticeUrl", ""))}" '
+        f'data-mixed-questions="{esc(item.get("mixedQuestions", ""))}" '
+        f'data-mixed-correct="{esc(item.get("mixedCorrect", ""))}" '
         f'data-practice-url="{esc(item.get("mixedPracticeUrl") or item["signUrl"])}" '
         f'data-checklist-url="{esc(item["checklistUrl"])}">{esc(item["label"])}</option>'
         for item in records
@@ -4369,7 +4375,7 @@ def render_dmv_score_calculator():
   <div class="tool-section-head">
     <span class="eyebrow">Score calculator</span>
     <h2>How many questions can you miss on the DMV permit test?</h2>
-    <p class="section-intro">Choose a state, see the known official passing rule, then enter a practice result to check whether it is above the state target.</p>
+    <p class="section-intro">Choose a state, then enter a practice score to compare with the official rule. If you used one of our full mixed sets, check its separate practice goal below the result.</p>
   </div>
   <div class="score-grid">
     <aside class="score-control">
@@ -4411,9 +4417,11 @@ def render_dmv_score_calculator():
       </div>
       <button class="score-check-submit" type="button" data-score-check>Check practice score</button>
       <div class="score-result" aria-live="polite">
+        <p><b>State-rule comparison</b></p>
         <span data-score-percent>--</span>
         <strong data-score-status>Enter your practice score.</strong>
         <p data-score-message></p>
+        <p data-score-mixed-result hidden><b>TestDayTools mixed set:</b> <span data-score-mixed-message></span></p>
         <div class="score-next-step" data-score-next hidden>
           <strong data-score-next-title>Choose the next review step</strong>
           <p data-score-next-copy></p>

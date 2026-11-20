@@ -134,6 +134,57 @@ test("custom-length rounds do not establish separate official section targets", 
   } finally { await context.close(); }
 });
 
+for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
+  test(`${viewport.width}px: published mixed-set goal and official comparison never stand in for one another`, async () => {
+    const { context, page } = await openScore(viewport);
+    try {
+      const state = page.locator("[data-score-state]");
+      const mixed = page.locator("[data-score-mixed-result]");
+      assert.deepEqual(await state.locator("option[data-mixed-correct]:not([data-mixed-correct=''])").evaluateAll(options =>
+        options.map(option => [option.value, Number(option.dataset.mixedQuestions), Number(option.dataset.mixedCorrect)])),
+        ["california", "new-york", "florida", "pennsylvania", "new-jersey"].map(value => [value, 40, 32]));
+      await state.selectOption("pennsylvania");
+      await totalInput(page).fill("40");
+      await correctInput(page).fill("32");
+      assert.equal(await mixed.isVisible(), false);
+      await check(page);
+      assert.equal(await mixed.isVisible(), true);
+      assert.match(await score(page), /2 more correct answers needed/);
+      assert.match(await page.locator("[data-score-message]").textContent(), /not an official-format score/);
+      assert.match(await mixed.textContent(), /If you took our full mixed set.*32\/40: goal met/);
+      assert.match(await page.locator("[data-score-next-copy]").textContent(), /already met its practice goal/);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+      assert.deepEqual((await tracked(page)).map(event => event.result), ["below_target"]);
+      if (process.env.SCORE_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.SCORE_SCREENSHOTS_DIR, { recursive: true });
+        await page.locator(".score-panel").screenshot({ path: path.join(process.env.SCORE_SCREENSHOTS_DIR, `pennsylvania-${viewport.width}.png`) });
+      }
+      await state.selectOption("new-york");
+      await totalInput(page).fill("40");
+      await correctInput(page).fill("28");
+      await check(page);
+      assert.match(await score(page), /road-sign rule not checked/);
+      assert.match(await mixed.textContent(), /32\/40: 4 more correct answers/);
+      await correctInput(page).fill("31");
+      assert.equal(await mixed.isVisible(), false);
+      await check(page);
+      assert.match(await mixed.textContent(), /32\/40: 1 more correct answer to reach it/);
+      await useLength(page).click();
+      await correctInput(page).fill("14");
+      await page.locator("[data-score-section-correct]").fill("2");
+      await check(page);
+      assert.match(await score(page), /^Meets/);
+      assert.equal(await mixed.isVisible(), false);
+      await state.selectOption("ohio");
+      await useLength(page).click();
+      await correctInput(page).fill("30");
+      await check(page);
+      assert.match(await score(page), /^Meets/);
+      assert.equal(await mixed.isVisible(), false, "40 questions alone do not imply a site mixed set");
+    } finally { await context.close(); }
+  });
+}
+
 test("single-section rules remain correct and rounded published percentages do not overstate targets", async () => {
   const { context, page } = await openScore();
   try {

@@ -2543,6 +2543,8 @@ function initDmvScoreCalculators() {
     const percent = widget.querySelector("[data-score-percent]");
     const status = widget.querySelector("[data-score-status]");
     const message = widget.querySelector("[data-score-message]");
+    const mixedResult = widget.querySelector("[data-score-mixed-result]");
+    const mixedMessage = widget.querySelector("[data-score-mixed-message]");
     const nextStep = widget.querySelector("[data-score-next]");
     const nextTitle = widget.querySelector("[data-score-next-title]");
     const nextCopy = widget.querySelector("[data-score-next-copy]");
@@ -2582,6 +2584,7 @@ function initDmvScoreCalculators() {
     const renderScore = () => {
       const option = currentOption();
       if (!option) return;
+      if (mixedResult) mixedResult.hidden = true;
       const total = Number(totalInput?.value);
       const correct = Number(correctInput?.value);
       const validTotal = totalInput?.value.trim() !== "" && Number.isInteger(total) && total >= 1 && total <= 100;
@@ -2669,7 +2672,19 @@ function initDmvScoreCalculators() {
               ? "Enter the road-sign score before treating the full practice result as meeting both conditions."
               : `Road signs: ${sectionCorrect} of ${sectionQuestions} correct; at least ${sectionNeeded} required.`;
           message.textContent = `${stateName} practice target: ${needed} of ${total} correct. ${sectionMessage}`;
+        } else if (!officialLength && option.dataset.questions) {
+          message.textContent += " This is scaled to your practice length, not an official-format score.";
         }
+      }
+      const mixedNeeded = Number(option.dataset.mixedCorrect);
+      const matchingMixedLength = mixedNeeded > 0 && total === Number(option.dataset.mixedQuestions);
+      const mixedGap = mixedNeeded - correct;
+      if (mixedResult && mixedMessage && scoreChecked && matchingMixedLength) {
+        const result = mixedGap > 0
+          ? `${mixedGap} more correct answer${mixedGap === 1 ? "" : "s"} to reach it`
+          : "goal met";
+        mixedMessage.textContent = `If you took our full mixed set, its practice goal is ${mixedNeeded}/${total}: ${result}. This does not establish whether you would pass the official test.`;
+        mixedResult.hidden = false;
       }
       if (nextStep) nextStep.hidden = !scoreChecked;
       if (nextTitle && nextCopy && nextLink) {
@@ -2690,6 +2705,10 @@ function initDmvScoreCalculators() {
         nextLink.textContent = needsPractice
           ? (hasMixed ? `Open ${stateName} mixed practice` : "Open road-sign practice")
           : "Open test-day checklist";
+        if (needsPractice && matchingMixedLength && mixedGap <= 0) {
+          nextTitle.textContent = "Review the official rule before your next round";
+          nextCopy.textContent = "If this was our mixed set, you already met its practice goal. Check the official test format first; you can use another mixed round to work on missed topics.";
+        }
         annotateDmvStateLink(nextLink, option, needsPractice ? "practice" : "checklist");
       }
       return { outcome, sectionCorrect: sectionKnown ? sectionCorrect : null };

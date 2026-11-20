@@ -1491,10 +1491,16 @@ h3 {
   background: #eef8f3;
 }
 
-.score-result span {
+.score-result > [data-score-percent] {
   color: var(--green);
   font-size: 2rem;
   font-weight: 900;
+}
+
+.score-result [data-score-mixed-result] {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(23, 107, 81, 0.22);
 }
 
 .score-check-submit {
