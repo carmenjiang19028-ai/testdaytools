@@ -244,6 +244,29 @@ def write_contrast_lessons():
     before, remainder = text.split(start)
     _, after = remainder.split(end)
     path.write_text(before + start + "\n" + render_contrast_lessons() + "\n" + end + after)
+    text = path.read_text()
+    start, end = '<!-- CASE DATA START -->', '<!-- CASE DATA END -->'
+    if start in text:
+        before, rest = text.split(start, 1)
+        _, after = rest.split(end, 1)
+        path.write_text(before + start + '\n' + render_case_data() + '\n' + end + after)
+
+
+def render_case_data():
+    data = json.loads((ROOT / 'content/road_sign_cases.json').read_text(), object_pairs_hook=reject_duplicate_json_keys)
+    material = road_sign_materials()
+    sources = {x['id']: x for x in material['sources']}
+    lessons = {x['id']: x for x in material['lessons']}
+    records = {x['image']: x for x in road_sign_image_records()}
+    used_signs = {key for lesson in data['lessons'] for question in [lesson['diagnosis'], *lesson['applications']] for key in question['images']}
+    data['signs'] = {key: {'label': records[key]['title'], 'image': f'assets/road-signs/{key}-road-sign.svg'} for key in sorted(used_signs)}
+    for case in data['lessons']:
+        lesson = lessons[case['id']]
+        case.update({key: lesson[key] for key in ['title', 'scene', 'cue', 'decision', 'reason']})
+        case['sourceUrl'] = sources[lesson['source']]['url']
+        case['sourceLabel'] = sources[lesson['source']]['label']
+    payload = json.dumps(data).replace('<', '\\u003c')
+    return f'<script type="application/json" data-loop-curriculum>{payload}</script>'
 
 
 def road_sign_images_for_page(path):
@@ -2591,6 +2614,18 @@ def render_dmv_test_day_bridge(tool):
 </section>"""
 
 
+def render_examples(tool):
+    examples = json.loads((ROOT / 'content/study_examples.json').read_text(), object_pairs_hook=reject_duplicate_json_keys)
+    record = examples.get(tool['slug'])
+    if not record:
+        return ''
+    items = []
+    for example in record['examples']:
+        steps = ''.join(f'<li>{esc(step)}</li>' for step in example['steps'])
+        items.append(f'<article><h3>{esc(example["title"])}</h3><p>{esc(example["question"])}</p><details><summary>Show reasoning</summary><ol>{steps}</ol><p>{esc(example["mistake"])}</p></details><p>{esc(example["check"])}</p><details><summary>Check</summary><p>{esc(example["answer"])}</p></details></article>')
+    return f'<section class="worked-examples"><h2>{esc(record["heading"])}</h2><p>{esc(record["intro"])}</p>{"".join(items)}</section>'
+
+
 def render_tool(tool):
     quiz = render_dmv_mode_tool(tool) if tool.get("category") == "DMV" else render_quiz(tool.get("quiz"))
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
@@ -2605,7 +2640,7 @@ def render_tool(tool):
     sign_lookup = render_sign_lookup(tool) if is_sign_page else ""
     sign_library = render_sign_library(tool)
     practice_console = render_practice_console(tool)
-    body_sections = "".join(
+    body_sections = render_examples(tool) + "".join(
         f'<section class="content-section"><h2>{esc(section["heading"])}</h2><p>{esc(section["text"])}</p></section>'
         for section in tool.get("body", [])
     )
@@ -2684,7 +2719,7 @@ def render_tool(tool):
         [resource_schema, breadcrumb_schema(tool["title"], canonical)],
         social_image=social_image,
         indexable=tool.get("indexable", True),
-        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool["slug"] == ROAD_SIGN_PICTURE_SLUG else "",
+        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide") else "",
     )
 
 

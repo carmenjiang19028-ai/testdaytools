@@ -1,0 +1,63 @@
+{
+  "sat-math-score-guide": {
+    "heading": "Work an error through to a new problem",
+    "intro": "Original teaching examples, not College Board questions or a score estimate. Try each problem before opening the reasoning, then test the same skill with the changed problem.",
+    "examples": [
+      {
+        "title": "Find the first wrong step",
+        "question": "A student changes 4(2x - 3) = 20 into 8x - 3 = 20 and obtains x = 23/8. Identify the first error, then solve and check the original equation.",
+        "steps": [
+          "The factor 4 multiplies both terms inside the parentheses: 8x - 12 = 20, not 8x - 3 = 20.",
+          "Add 12 to both sides: 8x = 32. Divide by 8: x = 4.",
+          "Substitute into the original equation: 4(2 times 4 - 3) = 4 times 5 = 20. The answer satisfies the original, not just a later line."
+        ],
+        "mistake": "Review label: distribution. If you reached 23/8, the issue was the first expansion, not division at the end. On your next practice problem, write the expanded line explicitly.",
+        "check": "Changed problem: solve 3(2x - 5) = 21. Write the expanded line and one substitution check before opening the answer.",
+        "answer": "6x - 15 = 21; 6x = 36; x = 6. Check: 3(2 times 6 - 5) = 3 times 7 = 21. Both terms were multiplied by 3."
+      },
+      {
+        "title": "Separate a starting amount from a rate",
+        "question": "A bicycle rental costs a fixed $8 plus $3 per hour. A student writes C = 8h + 3. What is wrong with the model, and what should a two-hour rental cost?",
+        "steps": [
+          "Let h be rental time in hours and C be cost in dollars. Each additional hour adds $3, so the variable part is 3h.",
+          "The fixed $8 does not depend on hours. Add it once: C = 3h + 8.",
+          "For two hours, C = 3(2) + 8 = $14. The student's model gives $19 because it incorrectly makes $8 the hourly rate.",
+          "Check the structure: when h increases by 1, the correct model increases C by $3. The units of 3h are dollars per hour times hours, which is dollars."
+        ],
+        "mistake": "Review label: interpreting a linear model. A calculator can evaluate either model, but cannot decide which quantity is the rate. Label the rate and fixed amount before calculating.",
+        "check": "Changed problem: another rental uses C = 5h + 12. Interpret 12, then calculate the total for three hours and the additional cost of one more hour.",
+        "answer": "12 is the fixed starting cost, in dollars. Three hours cost 5(3) + 12 = $27. One additional hour adds $5, not another $12."
+      }
+    ]
+  },
+  "sat-reading-writing-score-guide": {
+    "heading": "Test the reason behind an answer",
+    "intro": "Original teaching examples, not College Board questions or a score estimate. Choose an answer before opening the reasoning. The changed question checks whether the reason transfers beyond a memorized answer.",
+    "examples": [
+      {
+        "title": "Choose the relationship, not a familiar phrase",
+        "question": "A library predicted that longer evening hours would increase attendance. It stayed open two hours later for a month. ___, its evening attendance remained unchanged. Which transition fits: A. Consequently; B. However; C. For example; D. Similarly?",
+        "steps": [
+          "Compare the prediction with the outcome. The library expected an increase, but attendance stayed the same. The relationship is contrast.",
+          "B, However, marks that contrast. A, Consequently, would emphasize an effect rather than the failure of the stated prediction.",
+          "C, For example, would require a general statement that this outcome illustrates. D, Similarly, would require a comparable result already described. Neither relationship is supplied."
+        ],
+        "mistake": "Review label: transitions. All four choices can begin a sentence grammatically. Grammar alone cannot choose between them; first state the relationship between the ideas in your own words.",
+        "check": "Changed question: a library wanted to make its services easier to access. ___, it extended evening hours and added a weekend book-return point. Which choice fits: For example, However, or Nevertheless? Explain what the second sentence does.",
+        "answer": "For example. Extending hours and adding a return point illustrate the general aim of easier access. However and Nevertheless would signal an opposition that this text does not establish."
+      },
+      {
+        "title": "Match a conclusion to the evidence's scope",
+        "question": "In one class, the average practice score rose from 61 to 65 after a new study routine was introduced. There was no comparison class. Which conclusion is supported: A. Every student improved; B. The routine caused the increase; C. This class's average was four points higher afterward; D. The routine works better for all students?",
+        "steps": [
+          "The two reported averages establish a four-point increase for this class. C stays within those observations.",
+          "A is too broad: an average does not show each student's change. For example, scores of 50 and 72 average 61; scores of 48 and 82 average 65 even though one score fell.",
+          "B adds causation that a before-and-after observation without a comparison does not establish. D extends one class to all students and adds a comparison with other methods. Neither claim is given by the evidence."
+        ],
+        "mistake": "Review label: evidence and inference. A choice may repeat the right topic while adding every, caused, or all. Check the population, comparison and strength of the claim against the actual observations.",
+        "check": "Changed question: both classes improved, but the report gives only their averages and no individual results. Can you conclude that every student in either class improved? What narrower statement could you make?",
+        "answer": "No. You can report that each class's average increased, but not that every individual's score rose. The numerical counterexample above shows why those are different claims."
+      }
+    ]
+  }
+}

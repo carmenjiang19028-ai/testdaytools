@@ -1,4 +1,29 @@
 .material-review, .contrast-lessons { margin: 28px 0; }
+.learning-loop-page .learning-heading { padding-top: 12px; padding-bottom: 12px; }
+.learning-loop-page h1 { font-size: 28px; }
+.learning-loop-page .learning-card { box-shadow: none; border-radius: 6px; }
+.learning-loop-page .learning-options button { border-radius: 4px; }
+.learning-loop-page .learning-loop-progress { border-radius: 4px; }
+.learning-loop-page .learning-loop { margin-top: 0; padding-top: 0; }
+.learning-loop-page .learning-loop-intro { margin: 12px 0; }
+.learning-loop-page .learning-loop-intro h2 { font-size: 20px; }
+.learning-loop-page .learning-card-visual { min-height: 0; }
+.worked-examples { margin: 24px 0; }
+.worked-examples p, .worked-examples li { max-width: 78ch; }
+.worked-examples article { border-top: 1px solid #ccd4d9; padding: 16px 0; }
+.learning-loop-page .learning-record { border-top: 1px solid #ccd4d9; padding: 16px 0; }
+.learning-loop-page .learning-record-answer { margin: 12px 0; }
+.learning-loop-page textarea { width: 100%; min-height: 180px; }
+.learning-loop-page [data-loop-stage] { scroll-margin-top: 90px; }
+@media (max-width: 700px) {
+  .learning-loop-page [data-loop-stage] { scroll-margin-top: 150px; }
+}
+@media print {
+  .learning-loop-page .site-header, .learning-loop-page .site-footer,
+  .learning-loop-page .learning-loop, .learning-loop-page .contrast-lessons,
+  .learning-loop-page .material-review, .learning-loop-page .related, .learning-loop-page button { display: none; }
+  .learning-loop-page .learning-record { break-inside: avoid; }
+}
 .material-review { padding: 20px 0; border-top: 1px solid #cbd4d0; border-bottom: 1px solid #cbd4d0; }
 .material-review h2, .contrast-lessons h2 { font-size: 24px; }
 .material-review p, .material-review li, .contrast-lesson p, .contrast-lesson dd { max-width: 78ch; line-height: 1.65; }

@@ -578,13 +578,13 @@
             "michigan-sos-road-signs-practice",
             "arizona-mvd-road-signs-practice"
           ],
-          "intro": "Use the general road-sign quiz first, then choose a state page when you want official-source context and state search intent."
+          "intro": "Use the general road-sign quiz first, then choose a state page for the local test format and official handbook."
         }
       ],
       "body": [
         {
-          "heading": "Why the site is DMV-first now",
-          "text": "DMV and road-sign searches are evergreen, tool-friendly, and easier to serve with original quizzes than broad AP or SAT head terms. AP and SAT tools remain available, but DMV practice is the main growth path."
+          "heading": "What to study first",
+          "text": "Start with the signs you confuse, then check your state's rules. These are different tasks: a national practice round cannot replace your handbook."
         },
         {
           "heading": "How to use these pages",
@@ -592,11 +592,11 @@
         },
         {
           "heading": "The no-random-practice loop",
-          "text": "A useful DMV site should not send you into endless mixed quizzes. Start with the official source, use road-sign practice to expose visual mistakes, answer a short state round, save the missed pattern, then open the checklist for documents and appointment details."
+          "text": "After a missed question, check its explanation and the matching handbook section. If you confused two signs, use the contrast lab before trying a mixed round. Keep a short record of the distinction you missed, and use the checklist to prepare documents and appointment details separately."
         },
         {
-          "heading": "Why the national road-sign page goes deeper first",
-          "text": "Search data shows broad road-sign demand, so the national page now carries the deepest 40-question practice round. State pages stay focused on official-source context and only expand when page-level queries show a state-specific need instead of a duplicated national quiz."
+          "heading": "Choose the right practice",
+          "text": "The national round checks recognition; the contrast lab explains common confusions. State pages add local context. None is a substitute for the full handbook."
         },
         {
           "heading": "What to do after a missed sign",
@@ -7084,7 +7084,7 @@
       "body": [
         {
           "heading": "Fast answer: regulatory signs are law and action signs",
-          "text": "Regulatory signs are traffic signs that tell a driver what is required, prohibited, limited, or allowed. Use this page when the search intent is regulatory traffic signs, not every road sign. The quiz focuses on signs that require, limit, or prohibit a driver action: stop, yield, do not enter, wrong way, one way, speed limit, no-turn, keep right, and no passing."
+          "text": "Regulatory signs tell a driver what is required, prohibited, limited, or allowed. This round focuses on rule signs, rather than every type."
         },
         {
           "heading": "What are regulatory traffic signs?",
@@ -7100,7 +7100,7 @@
         },
         {
           "heading": "Florida regulatory traffic signs path",
-          "text": "If your search or study task is specifically Florida regulatory traffic signs, finish this core quiz, then use the Florida page for entry signs, one-way and lane-direction signs, speed signs, no-passing signs, school crossings, pedestrian crossings, and official FDOT/FLHSMV references."
+          "text": "For a Florida permit, use the linked Florida practice after this sign-only round. Check its FLHSMV handbook and FDOT sign references for the local context; this national quiz does not establish that you meet Florida's knowledge-test requirements."
         },
         {
           "heading": "Small regulatory signs learners often miss",
