@@ -34,6 +34,11 @@
 .contrast-scene { margin: 0; padding: 18px; background: #f4f7f5; border: 1px solid #d4dfd8; border-radius: 4px; }
 .contrast-sign-pair { display: grid; grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr); align-items: center; }
 .contrast-sign-pair img { width: 100%; height: auto; aspect-ratio: 220 / 160; object-fit: contain; }
+.shape-crossing-drill { border-top: 1px solid #cbd4d0; scroll-margin-top: 96px; }
+.shape-crossing-drill p { margin: 0 0 12px; }
+.shape-crossing-drill details p { margin: 12px 0 0; }
+.shape-crossing-drill .contrast-sign-pair svg { display: block; width: 100%; height: auto; aspect-ratio: 220 / 160; }
+.shape-page .requirements-table-scroll { max-width: 100%; overflow-x: auto; }
 .contrast-sign-pair span { text-align: center; font-size: 14px; }
 .contrast-scene figcaption { margin-top: 14px; line-height: 1.65; }
 .contrast-reasoning { margin: 0; }
@@ -49,7 +54,7 @@
   .contrast-lesson-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .contrast-scene { padding: 12px; }
   .contrast-lesson h3 { font-size: 20px; }
-  .contrast-lesson { scroll-margin-top: 160px; }
+  .contrast-lesson, .shape-crossing-drill { scroll-margin-top: 160px; }
 }
 @media print {
   .contrast-lesson { break-inside: avoid; }

@@ -4,7 +4,10 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 from pypdf import PdfReader
-from scripts.build import SIGN_SVGS, road_sign_image_records, road_sign_materials, render_contrast_lessons
+from scripts.build import (
+    SIGN_SVGS, road_sign_image_records, road_sign_materials, road_sign_shape_records,
+    render_contrast_lessons, render_crossing_shape_drill,
+)
 from scripts.build_road_sign_classroom_pack import CLASSROOM_SIGNS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,6 +58,14 @@ class CoreMaterialTests(unittest.TestCase):
         text = ET.fromstring(SIGN_SVGS["do-not-enter"]).findall("text")
         self.assertEqual([t.text for t in text], ["DO NOT", "ENTER"])
         self.assertEqual([t.attrib["y"] for t in text], ["57", "119"])
+
+    def test_shape_finder_addresses_same_color_without_changing_regular_pedestrian_art(self):
+        page = (ROOT / "road-sign-shapes-and-colors-finder.html").read_text()
+        self.assertIn(render_crossing_shape_drill(), page)
+        self.assertIn("fill=\"#f6d54a\"", SIGN_SVGS["pedestrian-crossing"])
+        pentagon = next(item for item in road_sign_shape_records() if item["key"] == "pentagon")
+        self.assertIn("Color alone is not enough", pentagon["meaning"])
+        self.assertNotIn("pentagon or fluorescent yellow-green", page)
 
     def test_keep_right_wording_above_direction_diagram(self):
         root = ET.fromstring(SIGN_SVGS["keep-right"])

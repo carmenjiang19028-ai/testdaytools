@@ -56,6 +56,55 @@ test('all eight classroom PDF images exactly preserve rendered shared SVG pixels
 });
 
 for (const width of [1280, 390]) {
+  test(`${width}px: the shape finder distinguishes same-color signs and opens the right practice`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const file = 'road-sign-shapes-and-colors-finder.html';
+      await page.goto(pathToFileURL(path.join(root, file)).href);
+      await page.getByRole('link', {name: 'Compare crossings'}).click();
+      const drill = page.locator('#crossing-shape-check');
+      const polygons = drill.locator('svg polygon');
+      assert.deepEqual(await polygons.evaluateAll(nodes => nodes.map(node => [
+        node.getAttribute('fill'), node.points.numberOfItems,
+      ])), [['#c7e644', 4], ['#c7e644', 5]]);
+      assert.equal(await polygons.first().evaluate(polygon => {
+        const path = polygon.parentNode.querySelector('path');
+        const length = path.getTotalLength();
+        for (let i = 0; i <= 400; i++) {
+          const p = path.getPointAtLength(i * length / 400);
+          for (let j = 0; j < 16; j++) {
+            const a = j * Math.PI / 8;
+            if (!polygon.isPointInFill(new DOMPoint(p.x + 7 * Math.cos(a), p.y + 7 * Math.sin(a)))) return false;
+          }
+        }
+        return true;
+      }), true);
+      assert.equal(await drill.getByRole('img').count(), 2);
+      assert.equal(await drill.getByText('B is the school sign.').isVisible(), false);
+      await drill.getByText('Compare the shape and symbol').focus();
+      await page.keyboard.press('Enter');
+      assert.equal(await drill.getByText('B is the school sign.').isVisible(), true);
+      await drill.getByText('What changes if B has an AHEAD plaque?').click();
+      assert.equal(await drill.getByText('Prepare for a school crossing farther along the road.').isVisible(), true);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await drill.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `crossing-check-${width}.png`) });
+      }
+      await drill.getByRole('link', {name: 'Practice school and pedestrian signs'}).click();
+      await page.waitForURL(/road-signs-practice-test\.html\?focus=School%20and%20pedestrian%20signs#practice$/);
+      const jumps = page.locator('[data-quiz-jump]:visible');
+      assert.equal(await jumps.count(), 3);
+      for (const jump of await jumps.all()) {
+        await jump.click();
+        const visible = page.locator('.question.is-active:visible');
+        assert.equal(await visible.count(), 1);
+        assert.equal(await visible.getAttribute('data-category'), 'School and pedestrian signs');
+      }
+    } finally { await context.close(); }
+  });
   test(`${width}px: a direct lesson link clears the sticky site header`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route(/^https?:/, route => route.abort());

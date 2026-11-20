@@ -48,6 +48,7 @@ ROAD_SIGN_SHAPES_PAGE = {
     "category": "DMV",
     "title": "Road Sign Shapes and Colors: DMV Meaning Finder",
     "description": "Search road sign shapes and colors by meaning, action, and category, including yellow warning signs, red regulatory signs, brown guide signs, and DMV examples.",
+    "lastUpdated": "November 20, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
 ROAD_SIGN_FLASHCARDS_SLUG = "dmv-road-sign-flashcards"
@@ -95,6 +96,7 @@ DMV_MISTAKE_LOG_PAGE = {
 }
 TOOL_BY_SLUG[DMV_MISTAKE_LOG_SLUG] = DMV_MISTAKE_LOG_PAGE
 
+SCHOOL_WARNING_GREEN = "#c7e644"
 SIGN_SVGS = {
     "curb-white": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect width="220" height="92" fill="#48515b"/><rect y="92" width="220" height="22" fill="#fff" stroke="#aeb7c2" stroke-width="4"/><rect y="114" width="220" height="46" fill="#d9dde2"/><path d="M20 58 H82 M138 58 H200" stroke="#f3c64d" stroke-width="6" stroke-linecap="round"/></svg>',
     "curb-green": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect width="220" height="92" fill="#48515b"/><rect y="92" width="220" height="22" fill="#2f8f5b"/><rect y="114" width="220" height="46" fill="#d9dde2"/><path d="M20 58 H82 M138 58 H200" stroke="#f3c64d" stroke-width="6" stroke-linecap="round"/></svg>',
@@ -114,8 +116,8 @@ SIGN_SVGS = {
     "one-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="28" y="46" width="164" height="68" rx="6" fill="#111827"/><path d="M58 80 h78" stroke="#fff" stroke-width="12" stroke-linecap="round"/><path d="M126 50 170 80 126 110z" fill="#fff"/><text x="78" y="105" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ONE WAY</text></svg>',
     "right-turn-only": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="44" y="18" width="132" height="124" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><path d="M89 104 V72 Q89 49 112 49 H143" fill="none" stroke="#111" stroke-width="13" stroke-linecap="round"/><path d="M136 32 L160 49 L136 66 Z" fill="#111"/><text x="110" y="130" text-anchor="middle" fill="#111" font-size="23" font-weight="900" font-family="Arial, sans-serif">ONLY</text></svg>',
     "speed-limit": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="66" y="16" width="88" height="128" rx="4" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="48" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">SPEED</text><text x="110" y="68" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">LIMIT</text><text x="110" y="118" text-anchor="middle" fill="#111" font-size="48" font-weight="900" font-family="Arial, sans-serif">35</text></svg>',
-    "school-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,12 190,54 172,142 48,142 30,54" fill="#c7e644" stroke="#222" stroke-width="5"/><circle cx="84" cy="55" r="9" fill="#111"/><circle cx="130" cy="53" r="9" fill="#111"/><path d="M82 68 l-18 38 M82 68 l24 18 M130 66 l-18 42 M130 66 l26 18" stroke="#111" stroke-width="8" stroke-linecap="round"/><path d="M92 108 h56" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
-    "pedestrian-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="112" cy="50" r="10" fill="#111"/><path d="M108 65 l-20 32 M109 66 l28 22 M92 98 l-18 24 M100 96 l34 28" stroke="#111" stroke-width="9" stroke-linecap="round"/></svg>',
+    "school-crossing": f'<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,12 190,54 172,142 48,142 30,54" fill="{SCHOOL_WARNING_GREEN}" stroke="#222" stroke-width="5"/><circle cx="84" cy="55" r="9" fill="#111"/><circle cx="130" cy="53" r="9" fill="#111"/><path d="M82 68 l-18 38 M82 68 l24 18 M130 66 l-18 42 M130 66 l26 18" stroke="#111" stroke-width="8" stroke-linecap="round"/><path d="M92 108 h56" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
+    "pedestrian-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="112" cy="50" r="10" fill="#111"/><path d="M108 65 l-20 32 M109 66 l28 22 M92 98 l-8 16 M100 96 l27 20" stroke="#111" stroke-width="9" stroke-linecap="round"/></svg>',
     "merge": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M84 126 V38" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M136 126 C136 94 118 88 96 78" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M70 48 84 28 98 48z" fill="#111"/></svg>',
     "lane-ends": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M88 120 V41 M137 120 V91 L121 65 V41" stroke="#111" stroke-width="11" fill="none"/></svg>',
     "slippery": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M84 65 L92 43 H128 L136 65 L141 72 V88 H79 V72 Z" fill="#111"/><path d="M96 49 H124 L128 62 H92 Z" fill="#f6d54a"/><path d="M84 85 V94 M136 85 V94" stroke="#111" stroke-width="8"/><path d="M89 96 C71 104 108 106 88 116 L97 124 M123 96 C105 104 142 106 122 116 L131 124" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/></svg>',
@@ -953,7 +955,7 @@ def road_sign_shape_records():
             "color": "Yellow-green",
             "category": "School",
             "filter": "warning",
-            "meaning": "A pentagon or fluorescent yellow-green sign often marks a school zone or crossing.",
+            "meaning": "A yellow-green pentagon with two walking figures identifies a school area. Color alone is not enough: a regular pedestrian warning diamond can also be yellow-green.",
             "action": "Watch for children",
             "examples": "School Crossing",
             "visual": "shape-pentagon",
@@ -3156,6 +3158,36 @@ def render_road_sign_shapes_finder():
 </section>"""
 
 
+def render_crossing_shape_drill():
+    pedestrian_variant = SIGN_SVGS["pedestrian-crossing"].replace('fill="#f6d54a"', f'fill="{SCHOOL_WARNING_GREEN}"')
+    return f"""<section class="content-section shape-crossing-drill" id="crossing-shape-check" aria-labelledby="crossing-shape-heading">
+  <h2 id="crossing-shape-heading">Same color, different crossing signs</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair">
+        <span role="img" aria-label="Sign A: yellow-green diamond with one walking figure">{pedestrian_variant}</span>
+        <span aria-hidden="true">/</span>
+        <span role="img" aria-label="Sign B: yellow-green pentagon with two walking figures">{SIGN_SVGS["school-crossing"]}</span>
+      </div>
+      <figcaption><strong>A:</strong> One figure in a diamond. <strong>B:</strong> Two figures in a pentagon.</figcaption>
+    </figure>
+    <div>
+      <p>On the way past a library and a school, you see these two signs. Which one can mark a school area if both have the same background color?</p>
+      <details class="contrast-transfer">
+        <summary>Compare the shape and symbol</summary>
+        <p><strong>B is the school sign.</strong> The pentagon and the two figures identify it. A is a general pedestrian warning sign: it can be standard yellow or fluorescent yellow-green. Slow down and look for people at either sign. The background color alone does not tell you the speed limit.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>What changes if B has an AHEAD plaque?</summary>
+        <p><strong>Prepare for a school crossing farther along the road.</strong> If B instead has a diagonal arrow pointing down toward the roadway, the sign marks the crossing location. Check the separate posted speed limit and any times or flashing conditions that apply.</p>
+      </details>
+      <p><a class="info-card-link" href="road-signs-practice-test.html?focus=School%20and%20pedestrian%20signs#practice">Practice school and pedestrian signs</a></p>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">FHWA 2C.55: pedestrian warning</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf">FHWA 7B.01&ndash;7B.03: school signs and plaques</a></p>
+    </div>
+  </div>
+</section>"""
+
+
 def render_road_sign_shapes_page():
     records = road_sign_shape_records()
     stats = "".join(
@@ -3172,8 +3204,8 @@ def render_road_sign_shapes_page():
     decision_cards = "".join(
         f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
         for label, title, text in [
-            ("Step 1", "Name the color", "Red usually means stop, yield, prohibition, or wrong direction. Yellow and orange usually warn."),
-            ("Step 2", "Name the shape", "Octagon, triangle, diamond, pentagon, circle, and rectangle narrow the meaning before you read words."),
+            ("Step 1", "Notice the color", "Color is a clue, not the full answer. Both a school sign and a general pedestrian warning can be yellow-green."),
+            ("Step 2", "Check the shape and symbol", "Use the outline and the symbol together. A pentagon with two figures is not the same as a diamond with one."),
             ("Step 3", "Translate to action", "Permit tests usually want the driver action: stop, yield, slow, do not enter, or prepare for a hazard."),
             ("Step 4", "Practice the weak family", "After you identify the pattern, open the linked road-sign or regulatory-sign quiz."),
         ]
@@ -3217,9 +3249,10 @@ def render_road_sign_shapes_page():
       <p class="eyebrow">Road sign shapes and colors</p>
       <h1>{esc(ROAD_SIGN_SHAPES_PAGE["title"])}</h1>
       <p class="lede">Search the sign clue you remember, then turn color, shape, category, and driver action into a faster DMV road-sign answer.</p>
-      {render_last_updated()}
+      {render_last_updated(ROAD_SIGN_SHAPES_PAGE["lastUpdated"])}
       <div class="hero-actions">
         <a href="#shape-color-finder">Open finder</a>
+        <a href="#crossing-shape-check">Compare crossings</a>
         <a href="#shape-reference">Shape table</a>
         <a href="road-signs-practice-test.html#practice">Road signs quiz</a>
         <a href="regulatory-traffic-signs-practice-test.html#practice">Regulatory quiz</a>
@@ -3242,6 +3275,7 @@ def render_road_sign_shapes_page():
   <div class="task-console-grid">{decision_cards}</div>
 </section>
 {render_road_sign_shapes_finder()}
+{render_crossing_shape_drill()}
 <section class="content-section">
   <h2>Shape and color traps that slow learners down</h2>
   <p>Many missed road-sign questions are not about rare signs. They happen when a learner treats every red sign as Stop, every white sign as Speed Limit, or every yellow sign as a generic warning. Use red panels for entry control, red slashes for prohibited movements, white rectangles for rules such as One Way or Keep Right, and pennants for no-passing zones.</p>
@@ -3259,7 +3293,7 @@ def render_road_sign_shapes_page():
 <section class="requirements-table" id="shape-reference" data-state-filter-scope>
   <div class="tool-section-head">
     <span class="eyebrow">Reference table</span>
-    <h2>Road sign shape and color meanings</h2>
+    <h2 id="shape-reference-heading">Road sign shape and color meanings</h2>
     <p class="section-intro">Filter the table when you only remember part of a sign, such as yellow diamond, red triangle, blue hospital, or orange work zone.</p>
   </div>
   <div class="state-filter">
@@ -3267,7 +3301,7 @@ def render_road_sign_shapes_page():
     <input id="shape-reference-filter" type="search" placeholder="Filter by color, category, action, or example..." data-state-filter>
     <a href="road-signs-practice-test.html#sign-meaning-finder">Open sign meaning finder</a>
   </div>
-  <div class="requirements-table-scroll">
+  <div class="requirements-table-scroll" role="region" aria-labelledby="shape-reference-heading" tabindex="0">
     <table>
       <thead><tr><th>Shape</th><th>Color</th><th>Family</th><th>Driver action</th><th>Examples</th></tr></thead>
       <tbody>{table_rows}</tbody>
@@ -3296,6 +3330,7 @@ def render_road_sign_shapes_page():
         body,
         "tool-page shape-page",
         page_schema(ROAD_SIGN_SHAPES_PAGE["title"], ROAD_SIGN_SHAPES_PAGE["description"], url_for(f"/{ROAD_SIGN_SHAPES_SLUG}.html"), "LearningResource"),
+        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">',
     )
 
 
