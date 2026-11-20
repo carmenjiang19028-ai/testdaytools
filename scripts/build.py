@@ -1938,6 +1938,14 @@ def render_tool_widget(tool):
         return render_sat_superscore_comparison()
     if kind == "satArrivalTiming":
         return render_sat_arrival_timing()
+    if kind == "apCreditNote":
+        note = "\n".join(widget["lines"])
+        return f"""<section class="tool-block" id="ap-credit-note" aria-labelledby="ap-credit-note-heading">
+  <h2 id="ap-credit-note-heading">AP credit advising note</h2>
+  <p class="section-intro" id="ap-credit-note-intro">Copy one blank note per college and exam. Fill it out in your own notes before changing your class schedule.</p>
+  <label for="ap-credit-note-template">Blank advising note</label>
+  <textarea id="ap-credit-note-template" aria-describedby="ap-credit-note-intro" rows="{len(widget["lines"])}" readonly>{esc(note)}</textarea>
+</section>"""
     if kind == "satScoreCalculator":
         return f"""<section class="tool-block sat-widget" data-sat-score-calculator>
   <div class="tool-section-head">

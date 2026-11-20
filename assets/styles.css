@@ -204,6 +204,8 @@ main > section,
   #sat-date-planner,
   #sat-arrival-plan,
   #sat-arrival-cases,
+  #ap-credit-cases,
+  #ap-credit-note,
   #sat-fall-2027 { scroll-margin-top: 10rem; }
 }
 
@@ -3955,6 +3957,19 @@ tr:last-child td {
   max-width: 760px;
   margin: 0 0 16px;
   color: var(--muted);
+}
+
+#ap-credit-note-template {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  min-height: 17rem;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
 }
 
 .timeline {
