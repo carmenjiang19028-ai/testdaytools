@@ -20,14 +20,58 @@ async function openScore(viewport = { width: 1280, height: 900 }) {
 
 const score = (page) => page.locator("[data-score-status]").textContent();
 const check = (page) => page.locator("[data-score-check]").click();
+const correctInput = (page) => page.locator("[data-score-input-correct]");
+const totalInput = (page) => page.locator("[data-score-input-total]");
+const useLength = (page) => page.locator("[data-score-use-official]");
 const tracked = (page) => page.evaluate(() => (window.dataLayer || [])
   .filter((entry) => entry[0] === "event" && entry[1] === "dmv_score_checked")
   .map((entry) => entry[2]));
+
+test("no state invents a practice score; a length shortcut cannot turn 39 correct into 40", async () => {
+  for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
+    const { context, page } = await openScore(viewport);
+    try {
+      const state = page.locator("[data-score-state]");
+      assert.equal(await correctInput(page).inputValue(), "");
+      assert.equal(await totalInput(page).inputValue(), "");
+      assert.equal(await useLength(page).isEnabled(), false);
+      await state.selectOption("florida");
+      assert.equal(await correctInput(page).inputValue(), "");
+      await check(page);
+      assert.equal(await page.locator("[data-score-next]").isVisible(), false);
+      assert.equal((await tracked(page)).length, 0);
+      await correctInput(page).fill("39");
+      await totalInput(page).fill("40");
+      await check(page);
+      assert.match(await score(page), /^Above/);
+      await useLength(page).click();
+      assert.equal(await correctInput(page).inputValue(), "39");
+      assert.equal(await totalInput(page).inputValue(), "50");
+      assert.equal(await page.locator("[data-score-next]").isVisible(), false);
+      await check(page);
+      assert.match(await score(page), /1 more correct answer needed/);
+      assert.equal((await tracked(page)).at(-1).practice_correct, 39);
+      await state.selectOption("new-york");
+      assert.equal(await correctInput(page).inputValue(), "");
+      assert.equal(await totalInput(page).inputValue(), "");
+      await useLength(page).click();
+      assert.equal(await correctInput(page).inputValue(), "");
+      assert.equal(await page.locator("[data-score-section]").isVisible(), true);
+      await state.selectOption("california");
+      await correctInput(page).fill("0");
+      await totalInput(page).fill("10");
+      await check(page);
+      assert.match(await score(page), /8 more correct/);
+    } finally { await context.close(); }
+  }
+});
 
 test("New York requires the included sign score, with no false full-target result", async () => {
   const { context, page } = await openScore();
   try {
     await page.locator("[data-score-state]").selectOption("new-york");
+    await useLength(page).click();
+    await correctInput(page).fill("14");
     await check(page);
     assert.match(await score(page), /not checked/);
     assert.match(await page.locator("[data-score-next-link]").getAttribute("href"), /practice/);
@@ -59,6 +103,7 @@ for (const rule of [
       await page.locator("[data-score-state]").selectOption(rule.state);
       assert.equal(await page.locator("[data-score-correct-label]").textContent(), rule.label);
       assert.match(await page.locator("[data-score-length-note]").textContent(), /this section only/);
+      await useLength(page).click();
       await page.locator("[data-score-input-correct]").fill(rule.correct);
       await check(page);
       assert.match(await score(page), /not checked/);
@@ -93,6 +138,8 @@ test("single-section rules remain correct and rounded published percentages do n
   const { context, page } = await openScore();
   try {
     await page.locator("[data-score-state]").selectOption("florida");
+    await useLength(page).click();
+    await correctInput(page).fill("40");
     await check(page);
     assert.match(await score(page), /^Meets/);
     assert.equal(await page.locator("[data-score-section]").isVisible(), false);
@@ -120,6 +167,8 @@ test("invalid and fractional counts do not silently become passing scores or tra
     }
     assert.equal((await tracked(page)).length, 0);
     await page.locator("[data-score-state]").selectOption("new-york");
+    await useLength(page).click();
+    await correctInput(page).fill("14");
     for (const signs of ["-1", "5", "2.5"]) {
       await page.locator("[data-score-section-correct]").fill(signs);
       await check(page);
@@ -137,6 +186,7 @@ test("state changes clear stale section scores; desktop and mobile fit", async (
       for (const state of ["new-york", "georgia", "virginia", "florida"]) {
         await page.locator("[data-score-state]").selectOption(state);
         assert.equal(await page.locator("[data-score-section-correct]").inputValue(), "");
+        await useLength(page).click();
         await check(page);
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
         if (process.env.VERIFY_SCREENSHOTS_DIR) {

@@ -4151,13 +4151,13 @@ def render_dmv_score_calculator():
       <div class="practice-score-check">
         <div>
           <label for="score-correct" data-score-correct-label>Practice correct</label>
-          <input id="score-correct" type="number" min="0" max="100" step="1" value="{esc(default["correct"] or 28)}" data-score-input-correct>
+          <input id="score-correct" type="number" min="0" max="100" step="1" data-score-input-correct>
         </div>
         <div>
           <label for="score-total" data-score-total-label>Practice total</label>
-          <input id="score-total" type="number" min="1" max="100" step="1" value="{esc(default["questions"] or 40)}" data-score-input-total>
+          <input id="score-total" type="number" min="1" max="100" step="1" data-score-input-total>
         </div>
-        <button type="button" data-score-use-official>Use official length</button>
+        <button type="button" data-score-use-official disabled>Enter your own total</button>
       </div>
       <div class="practice-score-check" data-score-section hidden>
         <div>
@@ -4168,8 +4168,8 @@ def render_dmv_score_calculator():
       </div>
       <button class="score-check-submit" type="button" data-score-check>Check practice score</button>
       <div class="score-result" aria-live="polite">
-        <span data-score-percent>0%</span>
-        <strong data-score-status>Enter a practice score.</strong>
+        <span data-score-percent>--</span>
+        <strong data-score-status>Enter your practice score.</strong>
         <p data-score-message></p>
         <div class="score-next-step" data-score-next hidden>
           <strong data-score-next-title>Choose the next review step</strong>
@@ -4320,6 +4320,7 @@ def render_dmv_score_page():
 <section class="content-section">
   <h2>Why the miss count is not enough by itself</h2>
   <p>A state may have a separate sign rule, a minimum question count, or a different process by applicant type. Treat the miss count as planning math, then open the state source before making test-day decisions.</p>
+  <p><strong>Example: New York, 16 out of 20 overall and 1 out of 4 on signs.</strong> The overall score clears 14, but the result still misses the sign requirement by one. Review the missed signs, then try another round that scores signs separately. The sign answers are already part of the 16, so do not add them again. <a href="https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-1-driver-licenses">New York DMV written-test rule</a>.</p>
 </section>
 <section class="sources">
   <h2>Official state sources</h2>

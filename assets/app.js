@@ -2556,24 +2556,10 @@ function initDmvScoreCalculators() {
       const correct = Number(correctInput?.value);
       const validTotal = totalInput?.value.trim() !== "" && Number.isInteger(total) && total >= 1 && total <= 100;
       const validCorrect = correctInput?.value.trim() !== "" && Number.isInteger(correct) && correct >= 0 && correct <= total;
-      totalInput?.setAttribute("aria-invalid", String(!validTotal));
-      correctInput?.setAttribute("aria-invalid", String(!validCorrect));
-      sectionInput?.setAttribute("aria-invalid", "false");
-      const invalidScore = (text) => {
-        if (percent) percent.textContent = "--";
-        if (status) status.textContent = "Check the question counts";
-        if (message) message.textContent = text;
-        if (nextStep) nextStep.hidden = true;
-        return null;
-      };
-      if (!validTotal || !validCorrect) {
-        return invalidScore("Enter a whole-number total from 1 to 100 and a correct-answer count from 0 to that total.");
-      }
-
       const sectionQuestions = Number(option.dataset.sectionQuestions) || 0;
       const sectionNeeded = Number(option.dataset.sectionCorrect) || 0;
       const separateRule = sectionQuestions > 0;
-      const officialLength = total === Number(option.dataset.questions);
+      const officialLength = validTotal && total === Number(option.dataset.questions);
       const checkSection = separateRule && officialLength;
       const sectionValue = sectionInput?.value.trim() || "";
       const sectionCorrect = Number(sectionValue);
@@ -2585,6 +2571,27 @@ function initDmvScoreCalculators() {
         sectionNote.textContent = option.dataset.sectionIncluded === "true"
           ? `Need at least ${sectionNeeded} of ${sectionQuestions} signs correct, included in the total above.`
           : `Need at least ${sectionNeeded} of ${sectionQuestions} signs correct in the separate section.`;
+      }
+
+      totalInput?.setAttribute("aria-invalid", String(scoreChecked && !validTotal));
+      correctInput?.setAttribute("aria-invalid", String(scoreChecked && !validCorrect));
+      sectionInput?.setAttribute("aria-invalid", "false");
+      const invalidScore = (text) => {
+        if (percent) percent.textContent = "--";
+        if (status) status.textContent = "Check the question counts";
+        if (message) message.textContent = text;
+        if (nextStep) nextStep.hidden = true;
+        return null;
+      };
+      if (!validTotal || !validCorrect) {
+        if (scoreChecked) {
+          return invalidScore("Enter a whole-number total from 1 to 100 and a correct-answer count from 0 to that total.");
+        }
+        if (percent) percent.textContent = "--";
+        if (status) status.textContent = "Enter your practice score.";
+        if (message) message.textContent = "";
+        if (nextStep) nextStep.hidden = true;
+        return null;
       }
       if (sectionKnown && (!Number.isInteger(sectionCorrect) || sectionCorrect < 0 || sectionCorrect > sectionQuestions)) {
         sectionInput?.setAttribute("aria-invalid", "true");
@@ -2684,10 +2691,12 @@ function initDmvScoreCalculators() {
         checklist.href = option.dataset.checklistUrl || checklist.href;
         annotateDmvStateLink(checklist, option, "checklist");
       }
-      const targetTotal = Number(officialQuestions) || 40;
-      const targetCorrect = Number(officialCorrect) || thresholdFor(option, targetTotal);
-      if (totalInput) totalInput.value = String(targetTotal);
-      if (correctInput) correctInput.value = String(targetCorrect);
+      if (totalInput) totalInput.value = "";
+      if (correctInput) correctInput.value = "";
+      if (useOfficial) {
+        useOfficial.disabled = !officialQuestions;
+        useOfficial.textContent = officialQuestions ? `Fill ${officialQuestions} questions` : "Enter your own total";
+      }
       renderScore();
     };
 
@@ -2699,16 +2708,18 @@ function initDmvScoreCalculators() {
         surface: "dmv_score_calculator",
       });
     });
-    correctInput?.addEventListener("input", renderScore);
-    totalInput?.addEventListener("input", renderScore);
-    sectionInput?.addEventListener("input", renderScore);
+    const editScore = () => {
+      scoreChecked = false;
+      renderScore();
+    };
+    correctInput?.addEventListener("input", editScore);
+    totalInput?.addEventListener("input", editScore);
+    sectionInput?.addEventListener("input", editScore);
     useOfficial?.addEventListener("click", () => {
       const option = currentOption();
       const officialQuestions = Number(option?.dataset.questions) || 0;
-      const officialCorrect = Number(option?.dataset.correct) || 0;
       if (officialQuestions && totalInput) totalInput.value = String(officialQuestions);
-      if (officialCorrect && correctInput) correctInput.value = String(officialCorrect);
-      renderScore();
+      editScore();
     });
     checkScore?.addEventListener("click", () => {
       scoreChecked = true;
