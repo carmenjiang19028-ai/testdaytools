@@ -172,3 +172,63 @@ test("Texas and Illinois do not substitute a signs-only page for mixed practice"
       assert.match(await page.locator("[data-journey-copy]").textContent(), /not a full state mixed round/);
     }
   }));
+
+for (const width of [390, 1280]) {
+  test(`${width}px: DMV planning tools distinguish mixed practice from signs`, () =>
+    withSite(width, async (page) => {
+      const pathFor = (slug, state) => `${origin}/dmv-permit-test-${slug}.html?state=${state}`;
+      for (const state of ["texas", "illinois"]) {
+        const signs = `${state}-dmv-road-signs-practice.html`;
+        await page.goto(pathFor("requirements-by-state", state));
+        assert.equal(await page.locator("[data-requirements-target]").textContent(), "No full mixed practice set here");
+        assert.equal(await page.locator("[data-requirements-practice]").isVisible(), false);
+        assert.equal(await page.locator("[data-requirements-signs]").getAttribute("href"), signs);
+        assert.doesNotMatch(await page.locator("[data-requirements-format-note]").textContent(), /40-question practice target|32 of 40/);
+        if (state === "texas" && process.env.VERIFY_SCREENSHOTS_DIR) {
+          fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+          await page.locator(".requirements-grid").screenshot({
+            path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `requirements-sign-only-${width}.png`),
+          });
+        }
+
+        await page.goto(`${origin}/dmv-test-day-checklist.html?state=${state}`);
+        assert.equal(await page.locator("[data-dmv-permit-link]").isVisible(), false);
+        assert.equal(await page.locator("[data-dmv-sign-link]").getAttribute("href"), signs);
+        assert.doesNotMatch(await page.locator("[data-dmv-exam-format]").textContent(), /40-question practice target|32 of 40/);
+
+        await page.goto(pathFor("study-plan", state));
+        assert.equal(await page.locator("[data-study-practice]").isVisible(), false);
+        const recheck = page.locator("[data-study-plan-list] li").filter({ hasText: "Recheck rules and signs separately" });
+        assert.equal(await recheck.getByRole("link", { name: "Recheck road signs" }).getAttribute("href"), signs);
+        assert.match(await recheck.getByRole("link", { name: "Check the official manual" }).getAttribute("href"), /^https:\/\//);
+        await page.locator("[data-study-days]").selectOption("3");
+        const finalDay = page.locator("[data-study-plan-list] li").last();
+        assert.match(await finalDay.textContent(), /earlier set of the same scope/);
+        assert.equal(await finalDay.getByRole("link", { name: "Check the official manual" }).count(), 1);
+
+        await page.goto(pathFor("passing-score-calculator", state));
+        assert.equal(await page.locator("[data-score-practice]").textContent(), "Road-sign practice");
+        assert.equal(await page.locator("[data-score-practice]").getAttribute("href"), signs);
+        await page.locator("[data-score-input-correct]").fill("10");
+        await page.locator("[data-score-input-total]").fill("20");
+        await page.locator("[data-score-check]").click();
+        assert.match(await page.locator("[data-score-next-copy]").textContent(), /not a full knowledge test/);
+        assert.equal(await page.locator("[data-score-next-link]").getAttribute("href"), signs);
+      }
+
+      await page.goto(`${origin}/dmv-test-day-checklist.html?state=new-york`);
+      assert.equal(await page.locator("[data-dmv-permit-link]").isVisible(), true);
+      assert.equal(await page.locator("[data-dmv-permit-link]").getAttribute("href"), `${ny}?mode=mock#practice`);
+
+      await page.goto(pathFor("requirements-by-state", "new-york"));
+      const link = page.locator("[data-requirements-practice]");
+      assert.equal(await link.textContent(), "Mixed practice");
+      assert.equal(await page.locator("[data-requirements-target]").textContent(), "32 of 40 in the full mixed set");
+      assert.equal(await link.getAttribute("href"), `${ny}?mode=mock#practice`);
+      await link.click();
+      await page.waitForLoadState("load");
+      const quiz = page.locator('[data-mode-panel="mock"].is-active [data-quiz]');
+      assert.equal(await quiz.getAttribute("data-total"), "40");
+      assert.equal(await quiz.getAttribute("data-pass-score"), "32");
+    }));
+}

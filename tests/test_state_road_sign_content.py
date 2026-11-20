@@ -1,7 +1,8 @@
 import json
 import unittest
 from pathlib import Path
-from scripts.build import render_state_rule_practice
+from urllib.parse import urlsplit
+from scripts.build import dmv_requirement_records, render_state_rule_practice
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,6 +71,24 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn("Do not turn in the direction of a steady red arrow", arrow["answer"])
         self.assertIn(render_state_rule_practice(lesson), page)
         self.assertIn('href="#new-york-right-on-red"', page)
+
+    def test_full_mixed_benchmark_matches_an_available_quiz(self):
+        records = dmv_requirement_records()
+        self.assertEqual(len(records), 7)
+        unavailable = set()
+        for item in records:
+            if not item["mixedPracticeUrl"]:
+                unavailable.add(item["value"])
+                self.assertEqual(item["practiceTarget"], "No full mixed practice set here")
+                continue
+            target = urlsplit(item["mixedPracticeUrl"])
+            page = (ROOT / target.path).read_text()
+            self.assertNotIn('name="robots" content="noindex', page)
+            self.assertEqual((target.query, target.fragment), ("mode=mock", "practice"))
+            self.assertIn('data-mode-button="mock"', page)
+            self.assertIn('data-total="40" data-pass-score="32"', page)
+            self.assertEqual(item["practiceTarget"], "32 of 40 in the full mixed set")
+        self.assertEqual(unavailable, {"texas", "illinois"})
 
 
 if __name__ == "__main__":

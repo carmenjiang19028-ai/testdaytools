@@ -1275,6 +1275,12 @@ h3 {
   color: white;
 }
 
+[data-requirements-practice][hidden],
+[data-study-practice][hidden],
+[data-dmv-permit-link][hidden] {
+  display: none;
+}
+
 .requirements-snapshot {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -2333,7 +2333,7 @@ function initDmvStudyPlanners() {
       const recheckStart = days === 3 ? 3 : days - 2;
       const focusEnd = days >= 14 ? 5 : recheckStart - 1;
       const signCheck = data.signTotal
-        ? ` Also check the sign result: ${data.signCorrect} of ${data.signTotal} sign questions are required${data.signIncluded === "true" ? ", and those answers count in the overall score." : " in the separate sign section."}`
+        ? ` For an exam-format result, verify the sign condition: ${data.signCorrect} of ${data.signTotal} sign questions are required${data.signIncluded === "true" ? ", and those answers count in the overall score." : " in the separate sign section."}`
         : "";
       const assignments = {
         mixed: ["Pick one repeated mistake", "If you missed a sign, name it and state the action. If you missed a rule, write the situation and what you should do. Re-answer that item before starting a new set.", logHref, "Record a missed item"],
@@ -2351,12 +2351,17 @@ function initDmvStudyPlanners() {
         steps.push([focusEnd + 1, recheckStart - 1, "Recall again after a break", "On two separate study days, re-answer saved mistakes without notes. Keep any item you still miss or cannot explain on your short review list.", [[logHref, "Open mistake log"]]]);
       }
       if (days > 3) {
-        steps.push([recheckStart, days - 1, "Recheck the score before test day", `Take a state practice round and write down both numbers: correct answers and total questions. Read the round label before comparing it with the published rule.${signCheck}`, [[data.practiceUrl, "Open state practice"], checkLink]]);
+        steps.push(data.mixedPracticeUrl
+          ? [recheckStart, days - 1, "Recheck the score before test day", `Take the full mixed practice set and record correct answers and total questions. Apply the official rule only when the length and sections match the official format.${signCheck}`, [[data.mixedPracticeUrl, "Open mixed practice"], checkLink]]
+          : [recheckStart, days - 1, "Recheck rules and signs separately", "This site has no full mixed practice set for this state. Explain one rule from the official manual, then repeat the same sign drill and compare it only with your earlier sign score.", [[data.sourceUrl, "Check the official manual"], [data.signsUrl, "Recheck road signs"]]]);
       }
       const finalReview = days === 3
-        ? `Retake one focused set, compare the score with the state rule and revisit anything you still miss.${signCheck} Then confirm documents, appointment and arrival details.`
+        ? `Retake one focused set and compare it only with an earlier set of the same scope. Check the official rule separately.${signCheck} Then confirm documents, appointment and arrival details.`
         : "Review only the items you still miss. Confirm documents, appointment and arrival details instead of starting another long session.";
-      steps.push([days, days, "Close the remaining gaps", finalReview, days === 3 ? [checkLink, checklistLink] : [checklistLink]]);
+      const finalLinks = days === 3
+        ? [data.mixedPracticeUrl ? checkLink : [data.sourceUrl, "Check the official manual"], checklistLink]
+        : [checklistLink];
+      steps.push([days, days, "Close the remaining gaps", finalReview, finalLinks]);
       return steps;
     };
 
@@ -2371,7 +2376,8 @@ function initDmvStudyPlanners() {
       if (checkpoint) checkpoint.textContent = `Day ${days}: final checklist`;
 
       setLink(source, selected.dataset.sourceUrl);
-      setLink(practice, selected.dataset.practiceUrl);
+      setLink(practice, selected.dataset.mixedPracticeUrl);
+      if (practice) practice.hidden = !selected.dataset.mixedPracticeUrl;
       setLink(signs, selected.dataset.signsUrl);
       setLink(checklist, selected.dataset.checklistUrl);
       setLink(score, selected.dataset.scoreUrl);
@@ -2475,15 +2481,20 @@ function initDmvRequirementsFinders() {
       if (formatNote) formatNote.textContent = option.dataset.formatText || (option.dataset.source ? `Source context: ${option.dataset.source}` : "");
       if (pass) pass.textContent = option.dataset.pass || "Confirm with official source";
       if (passNote) passNote.textContent = option.dataset.passText || "Passing rules can change. Open the official source before test day.";
-      if (target) target.textContent = option.dataset.practiceTarget || "32 of 40 on mock exam";
+      if (target) target.textContent = option.dataset.mixedPracticeUrl
+        ? option.dataset.practiceTarget || "See the target on the practice page"
+        : "No full mixed practice set here";
       if (documents) documents.textContent = option.dataset.documents || "Confirm accepted documents with the official source.";
       if (source) {
         source.href = option.dataset.sourceUrl || "#";
         source.textContent = option.dataset.sourceLabel || "Official source";
       }
       if (practice) {
-        practice.href = option.dataset.practiceUrl || practice.href;
-        annotateDmvStateLink(practice, option, "practice");
+        practice.hidden = !option.dataset.mixedPracticeUrl;
+        if (option.dataset.mixedPracticeUrl) {
+          practice.href = option.dataset.mixedPracticeUrl;
+          annotateDmvStateLink(practice, option, "practice");
+        }
       }
       if (signs) {
         signs.href = option.dataset.signUrl || signs.href;
@@ -2664,16 +2675,21 @@ function initDmvScoreCalculators() {
       if (nextTitle && nextCopy && nextLink) {
         const stateName = option.dataset.state || option.textContent.trim();
         const needsPractice = outcome !== "target_met";
+        const hasMixed = Boolean(option.dataset.mixedPracticeUrl);
         nextTitle.textContent = needsPractice
-          ? `Build confidence with a focused ${stateName} practice round`
+          ? hasMixed ? `Review and retake ${stateName} mixed practice` : `Review ${stateName} rules and signs separately`
           : "Turn this result into a final readiness check";
         nextCopy.textContent = needsPractice
-          ? "Practice the state path, then return here to check the new result."
+          ? hasMixed
+            ? "Take the mixed set and record both correct answers and total questions before comparing a new result."
+            : "The link below is road-sign practice, not a full knowledge test. Use the official source to review the rest of the exam."
           : "Review the official source and test-day details before relying on one practice score.";
         nextLink.href = needsPractice
           ? option.dataset.practiceUrl || nextLink.href
           : option.dataset.checklistUrl || nextLink.href;
-        nextLink.textContent = needsPractice ? `Continue ${stateName} practice` : "Open test-day checklist";
+        nextLink.textContent = needsPractice
+          ? (hasMixed ? `Open ${stateName} mixed practice` : "Open road-sign practice")
+          : "Open test-day checklist";
         annotateDmvStateLink(nextLink, option, needsPractice ? "practice" : "checklist");
       }
       return { outcome, sectionCorrect: sectionKnown ? sectionCorrect : null };
@@ -2704,6 +2720,7 @@ function initDmvScoreCalculators() {
       }
       if (practice) {
         practice.href = option.dataset.practiceUrl || practice.href;
+        practice.textContent = option.dataset.mixedPracticeUrl ? "Mixed practice" : "Road-sign practice";
         annotateDmvStateLink(practice, option, "practice");
       }
       if (checklist) {
@@ -2944,8 +2961,11 @@ function initDmvChecklists() {
       if (retakeHint) retakeHint.textContent = option.dataset.retake || "Know what happens if you need another attempt.";
       if (manualLink) manualLink.href = option.dataset.manualUrl || "#";
       if (permitLink) {
-        permitLink.href = option.dataset.permitUrl || permitLink.href;
-        annotateDmvStateLink(permitLink, option, "practice");
+        permitLink.hidden = !option.dataset.mixedPracticeUrl;
+        if (option.dataset.mixedPracticeUrl) {
+          permitLink.href = option.dataset.mixedPracticeUrl;
+          annotateDmvStateLink(permitLink, option, "practice");
+        }
       }
       if (signLink) {
         signLink.href = option.dataset.signUrl || signLink.href;

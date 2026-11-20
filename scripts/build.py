@@ -31,6 +31,7 @@ DMV_REQUIREMENTS_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Requirements by State",
     "description": "Compare DMV permit test format, passing score, official source, documents, road signs, and practice links by state.",
+    "lastUpdated": "November 20, 2026",
 }
 TOOL_BY_SLUG[DMV_REQUIREMENTS_SLUG] = DMV_REQUIREMENTS_PAGE
 DMV_SCORE_SLUG = "dmv-permit-test-passing-score-calculator"
@@ -39,7 +40,7 @@ DMV_SCORE_PAGE = {
     "category": "DMV",
     "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
     "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
-    "lastUpdated": "October 8, 2026",
+    "lastUpdated": "November 20, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
@@ -77,6 +78,7 @@ DMV_STUDY_PLAN_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Study Plan",
     "description": "Build a DMV permit test study plan by state, timeline, and weak area with practice, road-sign, checklist, and official-source links.",
+    "lastUpdated": "November 20, 2026",
 }
 TOOL_BY_SLUG[DMV_STUDY_PLAN_SLUG] = DMV_STUDY_PLAN_PAGE
 DMV_DAILY_SLUG = "dmv-permit-test-question-of-the-day"
@@ -656,6 +658,25 @@ def find_dmv_permit_tool_for_state(state):
     return None
 
 
+def dmv_mixed_practice(state, permit=None):
+    permit = permit or find_dmv_permit_tool_for_state(state) or {}
+    if not permit.get("indexable", True):
+        return {}
+    mode = next((item for item in permit.get("quizModes", []) if item["id"] == "mock"), None)
+    if not mode:
+        return {}
+    page = f'{permit["slug"]}.html'
+    total = len(quiz_questions(mode["quiz"], mode))
+    if not total:
+        return {}
+    pass_score = mode.get("passScore") or mode.get("pass_score") or max(total - 2, 1)
+    return {
+        "page": page,
+        "href": f"{page}?mode=mock#practice",
+        "target": f"{pass_score} of {total} in the full mixed set",
+    }
+
+
 def detail_by_label(tool, labels):
     wanted = {label.lower() for label in labels}
     for item in tool.get("examDetails", {}).get("items", []):
@@ -674,7 +695,7 @@ def dmv_requirement_records():
         format_item = detail_by_label(tool, ["Official format", "Common format", "Class D format"])
         pass_item = detail_by_label(tool, ["Official pass rule", "Pass rule"])
         source_item = detail_by_label(tool, ["Official source", "Official agency"])
-        practice_target = detail_by_label(tool, ["Practice target", "Practice target here"])
+        mixed = dmv_mixed_practice(state, tool)
         format_value = format_item.get("value") or state.get("format", "Confirm with official source")
         pass_value = pass_item.get("value") or ("See official source" if not format_value else format_value)
         records.append({
@@ -694,7 +715,8 @@ def dmv_requirement_records():
             "source": source_item.get("value") or state.get("manualLabel", "Official source"),
             "documents": state.get("documents", ""),
             "focus": state.get("focus", ""),
-            "practiceTarget": practice_target.get("value", "32 of 40 on mock exam"),
+            "mixedPracticeUrl": mixed.get("href", ""),
+            "practiceTarget": mixed.get("target", "No full mixed practice set here"),
         })
     return records
 
@@ -1872,7 +1894,7 @@ def render_dmv_checklist_widget(widget):
     states = widget.get("states", [])
     items = widget.get("items", [])
     options = "".join(
-        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-permit-url="{esc(state["permitUrl"])}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}" data-agency="{esc(state.get("agency", "State agency"))}" data-documents="{esc(state.get("documents", ""))}" data-appointment="{esc(state.get("appointment", ""))}" data-retake="{esc(state.get("retake", ""))}">{esc(state["label"])}</option>'
+        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-mixed-practice-url="{esc(dmv_mixed_practice(state).get("href", ""))}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}" data-agency="{esc(state.get("agency", "State agency"))}" data-documents="{esc(state.get("documents", ""))}" data-appointment="{esc(state.get("appointment", ""))}" data-retake="{esc(state.get("retake", ""))}">{esc(state["label"])}</option>'
         for state in states
     )
     checklist_items = "".join(
@@ -1910,7 +1932,7 @@ def render_dmv_checklist_widget(widget):
       </div>
       <div class="dmv-state-actions">
         <a href="#" data-dmv-manual-link target="_blank" rel="noopener">Open official source</a>
-        <a href="dmv-practice.html#state-paths" data-dmv-permit-link>State practice</a>
+        <a href="dmv-practice.html#state-paths" data-dmv-permit-link hidden>Mixed practice</a>
         <a href="road-signs-practice-test.html#practice" data-dmv-sign-link>Road signs</a>
       </div>
       <div class="dmv-readiness-score">
@@ -2908,12 +2930,7 @@ def render_dmv_journey_dashboard():
     default_state = next((state for state in states if state.get("value") == "florida"), states[0])
     options = []
     for state in states:
-        permit = find_dmv_permit_tool_for_state(state) or {}
-        mixed_page = (
-            f'{permit["slug"]}.html'
-            if permit.get("indexable", True) and any(mode["id"] == "mock" for mode in permit.get("quizModes", []))
-            else ""
-        )
+        mixed_page = dmv_mixed_practice(state).get("page", "")
         options.append(
             f'<option value="{esc(state.get("value", ""))}" '
             f'data-label="{esc(state.get("label", ""))}" '
@@ -3918,7 +3935,7 @@ def render_dmv_study_plan_page():
         f'data-sign-correct="{esc(item["sectionCorrect"])}" '
         f'data-sign-included="{str(item["sectionIncluded"]).lower()}" '
         f'data-source-url="{esc(item["manualUrl"])}" '
-        f'data-practice-url="{esc(item["permitUrl"])}" '
+        f'data-mixed-practice-url="{esc(item["mixedPracticeUrl"])}" '
         f'data-signs-url="{esc(item["signUrl"])}" '
         f'data-checklist-url="{esc(item["checklistUrl"])}" '
         f'data-score-url="{esc(score_href(item))}" '
@@ -3933,7 +3950,7 @@ def render_dmv_study_plan_page():
         f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
   <td>{esc(item["rule"])}</td>
-  <td><a href="{esc(item["permitUrl"])}">Practice</a></td>
+  <td>{f'<a href="{esc(item["mixedPracticeUrl"])}">Open mixed set</a>' if item["mixedPracticeUrl"] else 'Not offered here'}</td>
   <td><a href="{esc(item["signUrl"])}">Signs</a></td>
   <td><a href="{esc(item["checklistUrl"])}">Checklist</a></td>
 </tr>"""
@@ -3958,7 +3975,7 @@ def render_dmv_study_plan_page():
     <p class="eyebrow">DMV study plan builder</p>
     <h1>DMV permit test study plan by state.</h1>
     <p class="lede">Choose your state, days left, and weakest area to build a practical DMV permit-test plan with official-source, practice, road-sign, score, and checklist links.</p>
-    {render_last_updated()}
+    {render_last_updated(DMV_STUDY_PLAN_PAGE["lastUpdated"])}
     <div class="hero-actions">
       <a href="#study-plan">Build plan</a>
       <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
@@ -3973,7 +3990,7 @@ def render_dmv_study_plan_page():
   <div><span>Planner</span><strong>3 to 21 days</strong></div>
   <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
   <div><span>Best use</span><strong>What to do next</strong></div>
-  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+  <div><span>Updated</span><strong>{esc(DMV_STUDY_PLAN_PAGE["lastUpdated"])}</strong></div>
 </section>
 <section class="study-plan-tool tool-block" id="study-plan" data-dmv-study-plan>
   <div class="tool-section-head">
@@ -4005,7 +4022,7 @@ def render_dmv_study_plan_page():
   </div>
   <div class="study-plan-actions">
     <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-study-source>Official source</a>
-    <a href="{esc(default["permitUrl"])}" data-study-practice>Practice test</a>
+    <a href="{esc(default["mixedPracticeUrl"])}" data-study-practice{' hidden' if not default["mixedPracticeUrl"] else ''}>Mixed practice</a>
     <a href="{esc(default["signUrl"])}" data-study-signs>Road signs</a>
     <a href="{esc(default["checklistUrl"])}" data-study-checklist>Checklist</a>
     <a href="{esc(score_href(default))}" data-study-score>Passing score</a>
@@ -4036,7 +4053,7 @@ def render_dmv_study_plan_page():
   </div>
   <div class="source-matrix-scroll">
     <table>
-      <thead><tr><th>State</th><th>Passing rule</th><th>Practice</th><th>Signs</th><th>Checklist</th></tr></thead>
+      <thead><tr><th>State</th><th>Passing rule</th><th>Mixed practice</th><th>Signs</th><th>Checklist</th></tr></thead>
       <tbody>{state_rows}</tbody>
     </table>
   </div>
@@ -4075,7 +4092,7 @@ def render_dmv_requirements_finder():
         f'data-documents="{esc(item["documents"])}" '
         f'data-focus="{esc(item["focus"])}" '
         f'data-practice-target="{esc(item["practiceTarget"])}" '
-        f'data-practice-url="{esc(item["permitUrl"])}" '
+        f'data-mixed-practice-url="{esc(item["mixedPracticeUrl"])}" '
         f'data-sign-url="{esc(item["signUrl"])}" '
         f'data-checklist-url="{esc(item["checklistUrl"])}" '
         f'data-score-url="{esc(item["scoreUrl"])}">{esc(item["label"])}</option>'
@@ -4083,9 +4100,10 @@ def render_dmv_requirements_finder():
     )
     rows = []
     for item in records:
-        next_links = f'<a href="{esc(item["permitUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Practice</a>'
-        if item["signUrl"] != item["permitUrl"]:
-            next_links += f' <a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
+        next_links = ""
+        if item["mixedPracticeUrl"]:
+            next_links = f'<a href="{esc(item["mixedPracticeUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Mixed practice</a> '
+        next_links += f'<a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
         next_links += f' <a href="{esc(item["checklistUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="checklist">Checklist</a>'
         next_links += f' <a href="{esc(item["scoreUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="score">Score check</a>'
         rows.append(f"""<tr data-requirements-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["format"] + " " + item["passRule"]).lower())}">
@@ -4113,7 +4131,7 @@ def render_dmv_requirements_finder():
       </div>
       <div class="requirements-actions">
         <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-requirements-source>Official source</a>
-        <a href="{esc(default["permitUrl"])}" data-requirements-practice>Practice test</a>
+        <a href="{esc(default["mixedPracticeUrl"])}" data-requirements-practice{' hidden' if not default["mixedPracticeUrl"] else ''}>Mixed practice</a>
         <a href="{esc(default["signUrl"])}" data-requirements-signs>Road signs</a>
         <a href="{esc(default["checklistUrl"])}" data-requirements-checklist>Checklist</a>
         <a href="{esc(default["scoreUrl"])}" data-requirements-score>Score check</a>
@@ -4122,7 +4140,7 @@ def render_dmv_requirements_finder():
     <div class="requirements-snapshot">
       <article><span>Test format</span><strong data-requirements-format>{esc(default["format"])}</strong><p data-requirements-format-note>{esc(default["formatText"])}</p></article>
       <article><span>Passing rule</span><strong data-requirements-pass>{esc(default["passRule"])}</strong><p data-requirements-pass-note>{esc(default["passText"])}</p></article>
-      <article><span>Practice target</span><strong data-requirements-target>{esc(default["practiceTarget"])}</strong><p>Use the practice result as a confidence check, not as an official score.</p></article>
+      <article><span>Site practice benchmark</span><strong data-requirements-target>{esc(default["practiceTarget"])}</strong><p>Road-sign scores are separate from a full mixed set and do not establish an official passing result.</p></article>
       <article><span>Documents</span><strong>Verify before visiting</strong><p data-requirements-documents>{esc(default["documents"])}</p></article>
     </div>
   </div>
@@ -4165,7 +4183,7 @@ def render_dmv_requirements_page():
         },
         {
             "q": "What should I do after checking my state requirements?",
-            "a": "Open the official source, run one state practice round, drill road signs, then use the checklist to confirm documents, appointment, fees, and retake rules.",
+            "a": "Open the official source for the full exam scope. Use the mixed practice if it is offered for your state, or use the sign drill just for sign recognition. Then confirm documents, appointment, fees, and retake rules.",
         },
     ])
     body = f"""<section class="hero tool-hero">
@@ -4173,7 +4191,7 @@ def render_dmv_requirements_page():
     <p class="eyebrow">DMV requirements by state</p>
     <h1>DMV permit test requirements by state.</h1>
     <p class="lede">Compare official-source links, test format, passing rule, document reminders, road-sign practice, and state checklist paths before permit-test day.</p>
-    {render_last_updated()}
+    {render_last_updated(DMV_REQUIREMENTS_PAGE["lastUpdated"])}
     <div class="hero-actions">
       <a href="#requirements-finder">Choose state</a>
       <a href="#compare-states">Compare table</a>
@@ -4189,7 +4207,7 @@ def render_dmv_requirements_page():
   <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
   <div><span>Source priority</span><strong>Official agency links</strong></div>
   <div><span>Use case</span><strong>Format, pass rule, documents</strong></div>
-  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+  <div><span>Updated</span><strong>{esc(DMV_REQUIREMENTS_PAGE["lastUpdated"])}</strong></div>
 </section>
 {render_dmv_requirements_finder()}
 <section class="content-section">
@@ -4236,7 +4254,8 @@ def render_dmv_score_calculator():
         f'data-note="{esc(item["scoreNote"])}" '
         f'data-source-url="{esc(item["manualUrl"])}" '
         f'data-source-label="{esc(item["manualLabel"])}" '
-        f'data-practice-url="{esc(item["permitUrl"])}" '
+        f'data-mixed-practice-url="{esc(item.get("mixedPracticeUrl", ""))}" '
+        f'data-practice-url="{esc(item.get("mixedPracticeUrl") or item["signUrl"])}" '
         f'data-checklist-url="{esc(item["checklistUrl"])}">{esc(item["label"])}</option>'
         for item in records
     )
@@ -4248,9 +4267,10 @@ def render_dmv_score_calculator():
             primary_part = "rules" if item["value"] == "georgia" else "general"
             official_format = f'{item["questions"]} {primary_part} + {item["sectionQuestions"]} signs'
         required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
-        next_links = f'<a href="{esc(item["permitUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Practice</a>'
-        if item["signUrl"] != item["permitUrl"]:
-            next_links += f' <a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
+        next_links = ""
+        if item.get("mixedPracticeUrl"):
+            next_links = f'<a href="{esc(item["mixedPracticeUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Mixed practice</a> '
+        next_links += f'<a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
         rows.append(f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"] + " " + item["miss"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
   <td>{esc(official_format)}</td>
@@ -4275,7 +4295,7 @@ def render_dmv_score_calculator():
       </div>
       <div class="score-actions">
         <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-score-source>Official source</a>
-        <a href="{esc(default["permitUrl"])}" data-score-practice>Practice test</a>
+        <a href="{esc(default.get("mixedPracticeUrl") or default["signUrl"])}" data-score-practice>{'Mixed practice' if default.get("mixedPracticeUrl") else 'Road-sign practice'}</a>
         <a href="{esc(default["checklistUrl"])}" data-score-checklist>Checklist</a>
       </div>
     </aside>
@@ -4311,7 +4331,7 @@ def render_dmv_score_calculator():
         <div class="score-next-step" data-score-next hidden>
           <strong data-score-next-title>Choose the next review step</strong>
           <p data-score-next-copy></p>
-          <a href="{esc(default["permitUrl"])}" data-score-next-link data-dmv-state-link data-dmv-state="{esc(default["label"])}" data-dmv-path="practice">Continue practice</a>
+          <a href="{esc(default.get("mixedPracticeUrl") or default["signUrl"])}" data-score-next-link data-dmv-state-link data-dmv-state="{esc(default["label"])}" data-dmv-path="practice">{'Open mixed practice' if default.get("mixedPracticeUrl") else 'Open road-sign practice'}</a>
         </div>
       </div>
     </div>
