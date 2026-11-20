@@ -83,6 +83,7 @@ async function flashcardPath(browser, viewport) {
   try {
     await downloadFirst(page);
     await page.getByRole('link', { name: 'Open flashcards', exact: true }).click();
+    await page.locator('[data-flashcard].is-active [data-flashcard-flip]').click();
     await page.locator('[data-flashcard-known-button]').click();
     await page.evaluate(() => new Promise(resolve => window.setTimeout(resolve, 0)));
     const tracked = await events(page);

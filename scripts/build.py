@@ -56,7 +56,7 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
     "category": "DMV",
     "title": "Road Sign Flashcards: DMV Pictures for Fast Review",
     "description": "Flip DMV road sign flashcards for regulatory, warning, school, work-zone, and service signs. Save review cards in your browser. No signup.",
-    "lastUpdated": "July 30, 2026",
+    "lastUpdated": "November 20, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 ROAD_SIGN_CHEAT_SHEET_SLUG = "dmv-road-signs-cheat-sheet"
@@ -1041,22 +1041,21 @@ def road_sign_shape_records():
     ]
 
 
+def road_sign_group_practice_href(group):
+    path = group["practice"]
+    params = {"mode": path["mode"]}
+    if path.get("focus"):
+        params["focus"] = path["focus"]
+    return f'{path["tool"]}.html?{urlencode(params)}#practice'
+
+
 def road_sign_flashcard_records():
     source = TOOL_BY_SLUG.get("road-signs-practice-test", {})
+    cues = json.loads((ROOT / "content/road_sign_recall_cues.json").read_text(), object_pairs_hook=reject_duplicate_json_keys)
     records = []
     for group in source.get("signLibrary", {}).get("groups", []):
         category = group.get("label", "Road signs")
-        is_regulatory = "regulatory" in category.lower()
         filter_key = category.lower().split()[0].replace(",", "")
-        practice_focus = category
-        if is_regulatory:
-            practice_focus = "Regulatory signs"
-        elif "warning" in category.lower():
-            practice_focus = "Warning signs"
-        elif "work" in category.lower():
-            practice_focus = "Work zone signs"
-        elif "school" in category.lower():
-            practice_focus = "School and pedestrian signs"
         for item in group.get("signs", []):
             if item.get("image") not in SIGN_SVGS:
                 continue
@@ -1069,11 +1068,8 @@ def road_sign_flashcard_records():
                 "category": category,
                 "filter": filter_key,
                 "image": item.get("image", ""),
-                "practice": (
-                    "regulatory-traffic-signs-practice-test.html#practice"
-                    if is_regulatory
-                    else f'road-signs-practice-test.html?focus={quote(practice_focus)}#practice'
-                ),
+                "cue": cues[item["image"]],
+                "practice": road_sign_group_practice_href(group),
                 "query": " ".join([title, meaning, category, item.get("image", "")]).lower(),
             })
     return records
@@ -3309,13 +3305,11 @@ def render_cheat_group_link(group):
     mode = next(mode for mode in tool["quizModes"] if mode["id"] == path["mode"])
     questions = quiz_questions(mode["quiz"], mode)
     sign_keys = {sign["image"] for sign in group["signs"]}
-    params = {"mode": mode["id"]}
     if path.get("focus"):
-        params["focus"] = path["focus"]
         questions = [question for question in questions if question.get("image") in sign_keys]
     if {question.get("image") for question in questions} != sign_keys:
         raise ValueError(f"Study sheet and practice pictures do not match: {group['label']}")
-    href = f'{tool["slug"]}.html?{urlencode(params)}#practice'
+    href = road_sign_group_practice_href(group)
     label = f'Practice {len(questions)} questions'
     return f'<a class="cheat-group-practice-link info-card-link" href="{esc(href)}" aria-label="{esc(label + ": " + group["label"])}">{esc(label)}</a>'
 
@@ -3487,28 +3481,27 @@ def render_road_sign_flashcards_page():
         if record["filter"] not in seen_filters:
             filters.append((record["filter"], record["category"]))
             seen_filters.add(record["filter"])
-    filter_options = '<option value="all">All signs</option>' + "".join(
+    filter_options = '<option value="all">All signs</option><option value="review">Saved for review</option>' + "".join(
         f'<option value="{esc(value)}">{esc(label)}</option>'
         for value, label in filters
     )
     cards = []
     for index, record in enumerate(records):
         cards.append(f"""<article class="flashcard{" is-active" if index == 0 else ""}" data-flashcard data-card-id="{esc(record["id"])}" data-card-filter="{esc(record["filter"])}" data-card-query="{esc(record["query"])}" aria-hidden="{"false" if index == 0 else "true"}">
-  <button type="button" class="flashcard-inner" data-flashcard-flip aria-label="Flip {esc(record["title"])} card">
-    <span class="flashcard-face flashcard-front">
-      <span class="flashcard-category">{esc(record["category"])}</span>
-      <span class="flashcard-sign" role="img" aria-label="{esc(record["title"])} sign">{SIGN_SVGS.get(record["image"], "")}</span>
-      <strong>{esc(record["title"])}</strong>
-      <em>Tap to reveal meaning</em>
-    </span>
-    <span class="flashcard-face flashcard-back">
+  <div class="flashcard-inner">
+    <div class="flashcard-face flashcard-front">
+      <span class="flashcard-sign" role="img" aria-label="{esc(record["cue"])}">{SIGN_SVGS.get(record["image"], "")}</span>
+    </div>
+    <div class="flashcard-face flashcard-back" id="flashcard-answer-{esc(record["id"])}" hidden>
       <span class="flashcard-category">{esc(record["category"])}</span>
       <strong>{esc(record["title"])}</strong>
       <p>{esc(record["meaning"])}</p>
-      <span class="flashcard-link-label">Practice this group after review</span>
-    </span>
-  </button>
-  <a href="{esc(record["practice"])}">Open matching quiz</a>
+    </div>
+  </div>
+  <div class="flashcard-card-actions">
+    <button type="button" data-flashcard-flip aria-expanded="false" aria-controls="flashcard-answer-{esc(record["id"])}">Reveal answer</button>
+    <a href="{esc(record["practice"])}">Practice this group</a>
+  </div>
 </article>""")
     study_cards = "".join(
         f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
@@ -3563,7 +3556,7 @@ def render_road_sign_flashcards_page():
   <div class="tool-section-head">
     <span class="eyebrow">Interactive deck</span>
     <h2>Study DMV road signs with saved review cards</h2>
-    <p class="section-intro">Filter the deck, flip each sign, then mark Know or Review again. Progress is saved only in this browser.</p>
+    <p class="section-intro">Name the sign and say the driver action before checking the answer. Saved for review keeps the cards you want to revisit on this device.</p>
   </div>
   <div class="flashcard-controls">
     <label>Sign group <select data-flashcard-filter>{filter_options}</select></label>
@@ -3577,14 +3570,16 @@ def render_road_sign_flashcards_page():
     <div><span>Visible</span><strong data-flashcard-visible>{len(records)}</strong></div>
   </div>
   <div class="flashcard-stage">{"".join(cards)}</div>
+  <div class="flashcard-announcement" data-flashcard-announcement role="status"></div>
   <p class="flashcard-empty" data-flashcard-empty hidden>No cards match this filter yet.</p>
   <div class="flashcard-actions">
     <button type="button" data-flashcard-prev>Previous</button>
-    <button type="button" data-flashcard-review-button>Review again</button>
-    <button type="button" data-flashcard-known-button>I know this</button>
+    <button type="button" data-flashcard-review-button disabled>Review again</button>
+    <button type="button" data-flashcard-known-button disabled>I know this</button>
     <button type="button" data-flashcard-next>Next</button>
   </div>
-  <p class="flashcard-next-step" data-flashcard-message>Flip the first card, then mark whether it belongs in review.</p>
+  <p class="flashcard-next-step" data-flashcard-message></p>
+  <noscript><p><a href="dmv-road-signs-cheat-sheet.html#printable-sheet">Open the printable reference with sign names and actions</a></p></noscript>
 </section>
 <section class="hub-primary">
   <h2>Move from flashcards into practice</h2>

@@ -1595,6 +1595,7 @@ function initRoadSignFlashcards() {
     const visibleCount = deck.querySelector("[data-flashcard-visible]");
     const message = deck.querySelector("[data-flashcard-message]");
     const empty = deck.querySelector("[data-flashcard-empty]");
+    const announcement = deck.querySelector("[data-flashcard-announcement]");
     const storageKey = "tdt-road-sign-flashcards";
     let known = new Set();
     let review = new Set();
@@ -1626,6 +1627,22 @@ function initRoadSignFlashcards() {
 
     const cardId = (card) => card?.dataset.cardId || "";
     const activeCard = () => cards[activeIndexes[activePosition]];
+    const answerToggle = (card) => card?.querySelector("[data-flashcard-flip]");
+    const isRevealed = (card) => answerToggle(card)?.getAttribute("aria-expanded") === "true";
+    const setRevealed = (card, open) => {
+      const toggle = answerToggle(card);
+      const front = card?.querySelector(".flashcard-front");
+      const back = card?.querySelector(".flashcard-back");
+      if (!toggle || !front || !back) return;
+      front.hidden = open;
+      back.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.textContent = open ? "Show picture" : "Reveal answer";
+      if (announcement && card === activeCard()) {
+        announcement.textContent = open ? back.innerText.trim() : "";
+      }
+    };
+    const focusCard = () => (answerToggle(activeCard()) || filterSelect)?.focus({ preventScroll: true });
 
     const render = () => {
       cards.forEach((card, index) => {
@@ -1644,51 +1661,51 @@ function initRoadSignFlashcards() {
       if (knownCount) knownCount.textContent = String(known.size);
       if (reviewCount) reviewCount.textContent = String(review.size);
       if (visibleCount) visibleCount.textContent = String(total);
-      if (empty) empty.hidden = total !== 0;
+      if (empty) {
+        empty.hidden = total !== 0;
+        empty.textContent = filterSelect?.value === "review" && !review.size
+          ? "No saved review cards."
+          : "No cards match this filter.";
+      }
       if (prevButton) prevButton.disabled = activePosition === 0 || total === 0;
       if (nextButton) nextButton.disabled = activePosition >= total - 1 || total === 0;
-      if (knownButton) knownButton.disabled = !current;
-      if (reviewButton) reviewButton.disabled = !current;
-      if (current && message) {
+      if (knownButton) knownButton.disabled = !isRevealed(current);
+      if (reviewButton) reviewButton.disabled = !isRevealed(current);
+      if (message) {
         const id = cardId(current);
-        if (known.has(id)) {
-          message.textContent = "Marked as known. Move to the next card or open the matching quiz.";
-        } else if (review.has(id)) {
-          message.textContent = "Saved for review. Retake this sign family after the deck.";
-        }
+        message.textContent = known.has(id) ? "Marked as known."
+          : review.has(id) ? "Saved for review." : "";
       }
     };
 
-    const applyFilters = () => {
+    const applyFilters = (start = 0) => {
       const filter = filterSelect?.value || "all";
       const term = (searchInput?.value || "").trim().toLowerCase();
       activeIndexes = cards
         .map((card, index) => ({ card, index }))
         .filter(({ card }) => {
-          const matchesFilter = filter === "all" || card.dataset.cardFilter === filter;
+          const matchesFilter = filter === "review" ? review.has(cardId(card))
+            : filter === "all" || card.dataset.cardFilter === filter;
           const matchesSearch = !term || (card.dataset.cardQuery || "").includes(term);
           return matchesFilter && matchesSearch;
         })
         .map(({ index }) => index);
-      activePosition = 0;
-      cards.forEach((card) => card.classList.remove("is-flipped"));
-      if (message) {
-        message.textContent = activeIndexes.length
-          ? "Flip the card, then mark Know or Review again."
-          : "No cards match this filter yet.";
-      }
+      activePosition = Math.min(start, Math.max(activeIndexes.length - 1, 0));
+      cards.forEach((card) => setRevealed(card, false));
+      if (announcement) announcement.textContent = "";
       render();
     };
 
     cards.forEach((card) => {
-      card.querySelector("[data-flashcard-flip]")?.addEventListener("click", () => {
-        card.classList.toggle("is-flipped");
+      answerToggle(card)?.addEventListener("click", () => {
+        setRevealed(card, !isRevealed(card));
+        render();
       });
     });
 
     const markActive = (status) => {
       const current = activeCard();
-      if (!current) return;
+      if (!isRevealed(current)) return;
       const id = cardId(current);
       if (status === "known") {
         known.add(id);
@@ -1698,35 +1715,39 @@ function initRoadSignFlashcards() {
         known.delete(id);
       }
       save();
-      render();
       trackToolEvent("flashcard_mark", {
         tool: "road_sign_flashcards",
         status,
         filter: filterSelect?.value || "all",
         visible_cards: activeIndexes.length,
       });
+      if (status === "known" && filterSelect?.value === "review") {
+        applyFilters(activePosition);
+        focusCard();
+      } else {
+        render();
+      }
     };
 
     knownButton?.addEventListener("click", () => markActive("known"));
     reviewButton?.addEventListener("click", () => markActive("review"));
-    prevButton?.addEventListener("click", () => {
-      activePosition = Math.max(activePosition - 1, 0);
+    const moveCard = (offset) => {
+      setRevealed(activeCard(), false);
+      activePosition = Math.max(0, Math.min(activePosition + offset, activeIndexes.length - 1));
       render();
-    });
-    nextButton?.addEventListener("click", () => {
-      activePosition = Math.min(activePosition + 1, Math.max(activeIndexes.length - 1, 0));
-      render();
-    });
+      focusCard();
+    };
+    prevButton?.addEventListener("click", () => moveCard(-1));
+    nextButton?.addEventListener("click", () => moveCard(1));
     resetButton?.addEventListener("click", () => {
       known = new Set();
       review = new Set();
       save();
-      cards.forEach((card) => card.classList.remove("is-flipped"));
-      if (message) message.textContent = "Deck reset. Start again with the visible cards.";
-      render();
+      applyFilters();
+      if (message) message.textContent = "Deck reset.";
     });
-    filterSelect?.addEventListener("change", applyFilters);
-    searchInput?.addEventListener("input", applyFilters);
+    filterSelect?.addEventListener("change", () => applyFilters());
+    searchInput?.addEventListener("input", () => applyFilters());
 
     load();
     applyFilters();
