@@ -1730,7 +1730,7 @@
       "description": "Compare confirmed 2026-2027 SAT dates, regular and late registration deadlines, and School Day windows. Choose an available date and download a free calendar.",
       "lastUpdated": "November 20, 2026",
       "heroKicker": "Weekend registration deadlines: 11:59 p.m. ET",
-      "summary": "Use the planner to compare confirmed 2026-2027 SAT Weekend dates that fit your study time and have not passed the late-registration deadline. Check available seats and any earlier deadline for a borrowed device before registering.",
+      "summary": "Compare confirmed SAT Weekend dates through June 2027, or plan around the anticipated fall 2027 dates below. Check available seats and any earlier deadline for a borrowed device before registering.",
       "quickFacts": [
         {
           "label": "Fall 2026 past dates",
@@ -1741,8 +1741,8 @@
           "value": "November 20 regular; November 24 late"
         },
         {
-          "label": "Best junior start",
-          "value": "March 6 or May 1, 2027"
+          "label": "Confirmed spring 2027",
+          "value": "March 6, May 1, and June 5"
         },
         {
           "label": "Always verify",
@@ -1755,20 +1755,36 @@
       ],
       "heroActions": [
         {
-          "label": "Download all 8 SAT dates",
+          "label": "Download 8 confirmed dates",
           "href": "sat-test-dates-2026-2027.ics",
           "resource": "sat_dates_2026_2027_calendar"
+        },
+        {
+          "label": "Plan for fall 2027",
+          "href": "#sat-fall-2027"
         },
         {
           "label": "Check official registration deadlines",
           "href": "https://satsuite.collegeboard.org/sat/dates-deadlines"
         }
       ],
+      "anticipatedFall2027": {
+        "source": "https://satsuite.collegeboard.org/sat/dates-deadlines",
+        "checked": "November 20, 2026",
+        "dates": [
+          "2027-08-28",
+          "2027-09-18",
+          "2027-10-09",
+          "2027-11-06",
+          "2027-12-04"
+        ]
+      },
       "calendarDownload": {
         "filename": "sat-test-dates-2026-2027.ics",
         "resource": "sat_dates_2026_2027_calendar",
-        "heading": "Add every 2026-2027 SAT date to your calendar",
-        "text": "One free file adds all eight confirmed weekend test dates. Each event includes the regular registration deadline and late-registration deadline in its notes.",
+        "heading": "Download the confirmed August 2026-June 2027 calendar",
+        "buttonLabel": "Download 8 confirmed dates (.ics)",
+        "text": "One file contains eight confirmed weekend dates, including past administrations. Each event includes the regular and late registration deadlines. Anticipated fall 2027 dates are not included.",
         "events": [
           {
             "date": "2026-08-22",

@@ -3205,6 +3205,35 @@ function satRegistrationStatus(event, now = new Date()) {
   return "regular";
 }
 
+function initSatAnticipatedFall() {
+  document.querySelectorAll("[data-sat-fall-dates]").forEach((section) => {
+    const controls = section.querySelector("[data-sat-fall-controls]");
+    const deadline = section.querySelector("[data-sat-fall-deadline]");
+    const status = section.querySelector("[data-sat-fall-status]");
+    if (!controls || !deadline || !status) return;
+    const dates = Array.from(section.querySelectorAll("[data-sat-fall-gap]"), (result) => {
+      const testDate = result.closest("tr").querySelector("time").dateTime;
+      return { testDay: Date.parse(`${testDate}T00:00:00Z`), result };
+    });
+    const render = () => {
+      const deadlineDay = deadline.valueAsNumber;
+      const hasDeadline = Number.isFinite(deadlineDay);
+      for (const { testDay, result } of dates) {
+        // The date control supplies UTC midnight, so DST and display time zone do not affect gaps.
+        const gap = (deadlineDay - testDay) / DAY_MS;
+        result.textContent = !hasDeadline ? "--"
+          : gap < 0 ? "After deadline"
+          : gap === 0 ? "Same calendar day"
+          : `${gap} ${gap === 1 ? "day" : "days"} before`;
+      }
+      status.textContent = hasDeadline ? "Calendar-day gaps updated." : "";
+    };
+    deadline.addEventListener("input", render);
+    controls.hidden = false;
+    render();
+  });
+}
+
 function initSatDatePlanners() {
   document.querySelectorAll("[data-sat-date-planner]").forEach((widget) => {
     const dataNode = widget.querySelector("[data-sat-date-data]");
@@ -3694,4 +3723,5 @@ initDmvChecklists();
 initSatScoreCalculators();
 initSatGoalPlanners();
 initSatDatePlanners();
+initSatAnticipatedFall();
 initSatAugustReadiness();

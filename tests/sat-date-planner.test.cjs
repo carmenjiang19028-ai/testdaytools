@@ -7,6 +7,7 @@ const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..");
 const pages = ["sat-test-dates-2026-2027.html", "sat-august-22-2026-planning.html"];
+const fallDates = ["2027-08-28", "2027-09-18", "2027-10-09", "2027-11-06", "2027-12-04"];
 let browser;
 
 before(async () => {
@@ -82,6 +83,56 @@ test("registration status honors Eastern time at regular and late deadline bound
     assert.deepEqual(statuses, ["regular", "late", "late", "closed"]);
   } finally { await context.close(); }
 });
+
+test("anticipated fall dates are public information, not registrable dates or calendar events", async () => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  await context.route(/^https?:/, (route) => route.abort());
+  try {
+    const page = await context.newPage();
+    await page.goto(pathToFileURL(path.join(root, pages[0])).href);
+    const section = page.locator("#sat-fall-2027");
+    assert.equal(await section.count(), 1);
+    assert.match(await section.getByRole("heading").first().textContent(), /anticipated/i);
+    assert.deepEqual(await section.locator("time").evaluateAll(nodes => nodes.map(node => node.dateTime)), fallDates);
+    assert.match(await section.textContent(), /not.*confirmed.*calendar/i);
+    assert.equal(await section.locator("[data-sat-fall-deadline]").isVisible(), false);
+    const active = JSON.parse(await page.locator("[data-sat-date-data]").textContent());
+    assert.equal(active.length, 8);
+    assert(!active.some(e => fallDates.includes(e.date)));
+    const ics = fs.readFileSync(path.join(root, "sat-test-dates-2026-2027.ics"), "utf8");
+    assert.equal((ics.match(/^BEGIN:VEVENT\r?$/gm) || []).length, 8);
+    for (const date of fallDates) assert.doesNotMatch(ics, new RegExp(date.replaceAll("-", "")));
+  } finally { await context.close(); }
+});
+
+for (const [width, timezone] of [[390, "Pacific/Auckland"], [1280, "America/New_York"]]) {
+  test(`${width}: a deadline compares calendar days without guessing score release or retaining input`, async () => {
+    const { context, page } = await openPage(pages[0], "2026-11-20T09:00:00Z", { width, height: 900 }, timezone);
+    try {
+      await page.getByRole("link", { name: "Plan for fall 2027", exact: true }).click();
+      await page.waitForURL(/#sat-fall-2027$/);
+      const section = page.locator("#sat-fall-2027");
+      const deadline = section.getByLabel("College score deadline", { exact: true });
+      const gaps = () => section.locator("[data-sat-fall-gap]").allTextContents();
+      const before = await page.evaluate(() => ({ entries: window.dataLayer.length, keys: Object.keys(localStorage) }));
+      await deadline.fill("2027-10-15");
+      assert.deepEqual(await gaps(), ["48 days before", "27 days before", "6 days before", "After deadline", "After deadline"]);
+      await deadline.fill("2027-11-06");
+      assert.equal((await gaps())[3], "Same calendar day");
+      await deadline.fill("2027-11-08");
+      assert.equal((await gaps())[3], "2 days before");
+      assert.deepEqual(await page.evaluate(() => ({ entries: window.dataLayer.length, keys: Object.keys(localStorage) })), before);
+      await deadline.fill("");
+      assert.deepEqual(await gaps(), Array(5).fill("--"));
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await deadline.fill("2027-10-15");
+        await section.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `fall-2027-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+}
 
 test("the 14-day threshold uses Eastern calendar dates, not rounded local hours", async () => {
   const { context, page } = await openPage(pages[0], "2026-11-21T20:00:00Z", undefined, "Pacific/Auckland");

@@ -1681,6 +1681,34 @@ def render_sat_date_planner(tool, widget):
 </section>"""
 
 
+def render_sat_anticipated_fall(schedule):
+    if not schedule:
+        return ""
+    rows = []
+    for date in schedule["dates"]:
+        day = datetime.fromisoformat(date)
+        label = f"{day:%B} {day.day}, {day.year}"
+        rows.append(f'<tr><th scope="row"><time datetime="{esc(date)}">{esc(label)}</time></th><td data-sat-fall-gap>--</td></tr>')
+    return f"""<section class="tool-block" id="sat-fall-2027" aria-labelledby="sat-fall-title" data-sat-fall-dates>
+  <h2 id="sat-fall-title">Fall 2027 SAT Weekend dates (anticipated)</h2>
+  <p>College Board lists these dates for planning. They may change; registration deadlines and score-release dates for these tests are not published on the schedule. These dates are not included in the confirmed date planner or downloadable calendar.</p>
+  <p class="sat-fall-control" data-sat-fall-controls hidden>
+    <label for="sat-fall-deadline">College score deadline</label>
+    <input id="sat-fall-deadline" type="date" data-sat-fall-deadline aria-describedby="sat-fall-limit">
+    <span data-sat-fall-status role="status"></span>
+  </p>
+  <div class="table-wrap">
+    <table aria-labelledby="sat-fall-title" aria-describedby="sat-fall-limit">
+      <thead><tr><th scope="col">Anticipated test date</th><th scope="col">Time before score deadline</th></tr></thead>
+      <tbody>{''.join(rows)}</tbody>
+    </table>
+  </div>
+  <p id="sat-fall-limit">The gap counts calendar days from test day, not the time needed for scores to be released or received. Check whether your college has a separate score deadline or accepts self-reported scores.</p>
+  <p><strong>Example:</strong> If a college needs scores by October 15, October 9 leaves six calendar days. That does not tell you when your score will arrive. Compare August or September as earlier options, then verify the test dates and score rules before committing.</p>
+  <p><a href="{esc(schedule["source"])}">Check College Board's current schedule</a> (checked {esc(schedule["checked"])}).</p>
+</section>"""
+
+
 def render_sat_august_readiness(tool, widget):
     calendar = tool.get("calendarDownload", {})
     milestones = widget.get("milestones", [])
@@ -2671,6 +2699,7 @@ def render_tool(tool):
     lower_sections = [
         render_quick_facts(tool.get("quickFacts")),
         render_tool_widget(tool),
+        render_sat_anticipated_fall(tool.get("anticipatedFall2027")),
         render_countdown(tool.get("countdown")),
         render_calendar_download(tool.get("calendarDownload")),
         render_timeline(tool.get("timeline")),

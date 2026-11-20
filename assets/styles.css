@@ -192,7 +192,8 @@ main > section,
 }
 
 @media (max-width: 760px) {
-  #sat-date-planner { scroll-margin-top: 10rem; }
+  #sat-date-planner,
+  #sat-fall-2027 { scroll-margin-top: 10rem; }
 }
 
 .site-header {
@@ -3764,6 +3765,29 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--paper);
+}
+
+#sat-fall-2027 table {
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.sat-fall-control:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.sat-fall-control input {
+  max-width: 100%;
+  min-height: 44px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
 }
 
 table {
