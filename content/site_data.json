@@ -8248,11 +8248,47 @@
       "description": "Practice NY DMV road signs with 25 picture questions aligned to the official must-know sign chart, a 4-sign checkpoint, PDF study sheet, and instant explanations.",
       "heroKicker": "New York road signs",
       "summary": "Practice the road signs New York DMV says you must know with 25 original picture prompts, a four-sign checkpoint, instant explanations, and a printable 31-sign study sheet.",
-      "lastUpdated": "July 30, 2026",
+      "lastUpdated": "November 20, 2026",
+      "stateRulePractice": {
+        "id": "new-york-right-on-red",
+        "linkLabel": "NY right on red",
+        "heading": "Can you turn right on red in New York?",
+        "image": "no-turn-on-red",
+        "imageLabel": "No Turn on Red",
+        "caption": "A No Turn on Red sign prohibits the turn. In New York City, the absence of that sign is not permission: a sign has to allow the turn.",
+        "scenarios": [
+          {
+            "question": "Same round red light, no turn signs, no green arrow: one intersection is in Albany, the other is in Queens. Can a passenger car turn right after stopping at both?",
+            "answer": "Not at both. In Albany, the car may turn right after a full stop and yielding to people and traffic, if no signal, sign, or marking forbids it. Queens is in New York City. With no sign allowing a right turn on red, the driver waits for a signal that permits the turn."
+          },
+          {
+            "question": "Now the Queens intersection posts a sign allowing a right turn on red, but someone is still crossing. Can you turn now?",
+            "answer": "No. Stop completely and yield. The sign allows a turn only when it is otherwise legal and safe; it does not give you priority over someone in the crosswalk."
+          },
+          {
+            "question": "Back in Albany, the light shows a steady red right arrow instead of a round red light. No one is coming. Does stopping make the right turn legal?",
+            "answer": "No. Do not turn in the direction of a steady red arrow. Wait for a signal allowing that turn; the usual rule for a round red light does not apply."
+          }
+        ],
+        "sources": [
+          {
+            "label": "NY DMV Driver Manual, Chapter 4: Traffic Signals",
+            "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-4-traffic-control"
+          },
+          {
+            "label": "New York Vehicle and Traffic Law, section 1111(d)",
+            "url": "https://www.nysenate.gov/legislation/laws/VAT/1111"
+          }
+        ]
+      },
       "heroActions": [
         {
           "label": "Start 4-sign checkpoint",
           "href": "#practice"
+        },
+        {
+          "label": "NY right on red",
+          "href": "#new-york-right-on-red"
         },
         {
           "label": "Download 31-sign PDF",

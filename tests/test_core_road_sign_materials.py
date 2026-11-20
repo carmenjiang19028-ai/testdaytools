@@ -59,6 +59,18 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual([t.text for t in text], ["DO NOT", "ENTER"])
         self.assertEqual([t.attrib["y"] for t in text], ["57", "119"])
 
+    def test_no_turn_on_red_uses_unobscured_lettering_and_signal_below(self):
+        art = ET.fromstring(SIGN_SVGS["no-turn-on-red"])
+        lettering = art.findall(".//text")
+        self.assertEqual([t.text for t in lettering], ["NO", "TURN", "ON RED"])
+        self.assertIsNone(art.find(".//line"))
+        signal = art.find("circle")
+        self.assertGreater(int(signal.attrib["cy"]) - int(signal.attrib["r"]), int(lettering[-1].attrib["y"]))
+        for path in ROOT.glob("*.html"):
+            text = path.read_text()
+            if '<meta name="robots" content="noindex' not in text:
+                self.assertNotIn('x1="65" y1="128" x2="155" y2="38"', text, path.name)
+
     def test_shape_finder_addresses_same_color_without_changing_regular_pedestrian_art(self):
         page = (ROOT / "road-sign-shapes-and-colors-finder.html").read_text()
         self.assertIn(render_crossing_shape_drill(), page)

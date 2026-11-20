@@ -59,6 +59,18 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertEqual(tool["quizModes"][0]["passScore"], 16)
         self.assertIn('data-total="20" data-pass-score="16"', page)
 
+    def test_ny_cases_cover_city_default_yield_and_red_arrow(self):
+        slug = "new-york-dmv-road-signs-practice"
+        lesson = self.tools[slug]["stateRulePractice"]
+        page = (ROOT / f"{slug}.html").read_text()
+        city, crossing, arrow = lesson["scenarios"]
+        self.assertIn("Queens is in New York City", city["answer"])
+        self.assertIn("after a full stop and yielding", city["answer"])
+        self.assertIn("yield", crossing["answer"])
+        self.assertIn("Do not turn in the direction of a steady red arrow", arrow["answer"])
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('href="#new-york-right-on-red"', page)
+
 
 if __name__ == "__main__":
     unittest.main()
