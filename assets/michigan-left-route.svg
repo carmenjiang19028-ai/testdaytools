@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 230" width="560" height="230" role="img" aria-labelledby="title desc">
+  <title id="title">Indirect left from the divided main road</title>
+  <desc id="desc">The path goes straight through an intersection, reverses direction at the marked median crossover, and comes back to make a right turn onto the cross street.</desc>
+  <rect width="560" height="230" fill="#eff3f5"/>
+  <path d="M36 74 H524 V166 H36 Z M148 35 H200 V193 H148 Z" fill="#3b4650"/>
+  <path d="M36 107 H148 V133 H36 Z M200 107 H390 V133 H200 Z M458 107 H524 V133 H458 Z" fill="#709173"/>
+  <path d="M390 107 H458 M390 133 H458" stroke="#bdc9d1" stroke-width="2" stroke-dasharray="5 6"/>
+  <g fill="#cbd5db" font-family="Arial, sans-serif" font-size="25" font-weight="700">
+    <text x="67" y="101">&#8592;</text>
+    <text x="484" y="101">&#8592;</text>
+    <text x="481" y="158">&#8594;</text>
+  </g>
+  <path d="M48 149 H404 Q438 149 438 120 Q438 90 404 90 H197 Q176 90 176 69 V41" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+  <path d="M48 149 H404 Q438 149 438 120 Q438 90 404 90 H197 Q176 90 176 69 V41" fill="none" stroke="#096e8b" stroke-width="7" stroke-linecap="round"/>
+  <g fill="#096e8b" stroke="#fff" stroke-width="2" stroke-linejoin="round">
+    <path d="m350 140 15 9-15 9z"/>
+    <path d="m373 81-15 9 15 9z"/>
+    <path d="m167 51 9-15 9 15z"/>
+  </g>
+  <g fill="#fff" stroke="#096e8b" stroke-width="2">
+    <circle cx="93" cy="149" r="14"/>
+    <circle cx="438" cy="120" r="14"/>
+    <circle cx="176" cy="60" r="14"/>
+  </g>
+  <g fill="#133649" font-family="Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle">
+    <text x="93" y="155">1</text>
+    <text x="438" y="126">2</text>
+    <text x="176" y="66">3</text>
+    <text x="174" y="25">Cross street</text>
+    <text x="399" y="205">Signed median crossover</text>
+    <text x="125" y="205">Divided main road</text>
+  </g>
+  <path d="M438 172 V187" stroke="#49606c" stroke-width="2"/>
+</svg>

@@ -18,6 +18,7 @@ const localRules = [
     ['pennsylvania-dmv-permit-practice-test', 'Try the school bus cases']],
   ['new-jersey-mvc-road-signs-practice', 'new-jersey-move-over', 'NJ Move Over cases', 3, [[20, 16]],
     ['new-jersey-mvc-permit-practice-test', 'Try the New Jersey Move Over cases']],
+  ['michigan-sos-road-signs-practice', 'michigan-left-practice', 'Try the Michigan Left cases', 3, []],
 ];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });

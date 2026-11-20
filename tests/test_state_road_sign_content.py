@@ -169,6 +169,44 @@ class StateRoadSignContentTest(unittest.TestCase):
                 self.assertIn(f'href="{slug}.html#florida-course-path"', page)
                 self.assertNotIn("TLSAE may be required", page)
 
+    def test_michigan_manual_edition_and_testing_choices_do_not_overlap(self):
+        slug = "michigan-sos-road-signs-practice"
+        tool = self.tools[slug]
+        page = (ROOT / f"{slug}.html").read_text()
+        self.assertNotIn("October 2025", page)
+        self.assertIn("November 2026 English edition", page)
+        self.assertIn("older editions", page)
+        self.assertIn("page 28", page)
+        self.assertIn("page 73", page)
+        group = tool["cardGroups"][0]
+        teen, adult, language = group["items"]
+        self.assertIn("Segment 1", teen["text"])
+        self.assertTrue(teen["href"].endswith("/new-drivers-under-18"))
+        self.assertIn("Passing online does not issue a permit", adult["text"])
+        self.assertIn("webcam", adult["text"])
+        self.assertTrue(adult["href"].endswith("/new-drivers-18-older"))
+        self.assertTrue(language["href"].endswith("/language-services"))
+        self.assertIn(f'id="{group["id"]}"', page)
+        self.assertIn(f'href="#{group["id"]}"', page)
+
+    def test_michigan_left_cases_keep_the_two_routes_and_signals_distinct(self):
+        slug = "michigan-sos-road-signs-practice"
+        lesson = self.tools[slug]["stateRulePractice"]
+        page = (ROOT / f"{slug}.html").read_text()
+        main, side, red = lesson["scenarios"]
+        self.assertIn("Go straight through", main["answer"])
+        self.assertIn("turn right onto the cross street", main["answer"])
+        self.assertIn("Turn right onto the main road first", side["answer"])
+        self.assertIn("there is no final right turn", side["answer"])
+        self.assertIn("Wait at the crossover", red["answer"])
+        self.assertTrue(lesson["sources"][1]["url"].endswith("/michigan-lefts"))
+        asset = lesson["imageAsset"]
+        svg = ElementTree.parse(ROOT / asset["src"]).getroot()
+        self.assertEqual(svg.get("viewBox"), f'0 0 {asset["width"]} {asset["height"]}')
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('href="#michigan-left-practice"', page)
+        self.assertNotIn("data-quiz=", page)
+
     def test_active_pages_do_not_contain_internal_sign_study_copy(self):
         sitemap = ElementTree.parse(ROOT / "sitemap.xml")
         locations = sitemap.findall("m:url/m:loc", {"m": "http://www.sitemaps.org/schemas/sitemap/0.9"})

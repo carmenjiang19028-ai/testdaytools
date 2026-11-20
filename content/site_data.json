@@ -15103,15 +15103,33 @@
       "title": "Michigan Road Signs Study Guide and Test Context",
       "description": "Use official Michigan driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Michigan road signs",
-      "summary": "Review Michigan-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
-      "quickFacts": [
+      "summary": "Use Michigan's current driver manual, choose the correct teen or adult testing path, and work through a Michigan Left. The nationwide picture quiz is separate practice, not the Michigan exam.",
+      "heroActions": [
         {
-          "label": "Official source",
-          "value": "What Every Driver Must Know"
+          "label": "Try the Michigan Left cases",
+          "href": "#michigan-left-practice"
         },
         {
-          "label": "Interactive practice",
-          "value": "Shared nationwide road-sign picture quiz"
+          "label": "Find your testing path",
+          "href": "#michigan-test-path"
+        },
+        {
+          "label": "Open the official manual",
+          "href": "https://www.michigan.gov/sos/resources/forms/what-every-driver-must-know"
+        }
+      ],
+      "quickFacts": [
+        {
+          "label": "Current English manual",
+          "value": "November 2026 edition"
+        },
+        {
+          "label": "Adult knowledge exam",
+          "value": "Operator and road-sign parts"
+        },
+        {
+          "label": "First step for teens",
+          "value": "Certified Segment 1 driver education"
         }
       ],
       "quiz": null,
@@ -15125,122 +15143,162 @@
       ],
       "quizModes": [],
       "examBrief": {
-        "kicker": "Michigan sign practice",
-        "heading": "Michigan road-sign study and official exam context",
-        "intro": "Review Michigan-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check Michigan SOS's current study materials for authoritative wording.",
+        "kicker": "Michigan study plan",
+        "heading": "Go from sign recognition to a driving decision",
+        "intro": "Use the printed page numbers in the November 2026 English edition of What Every Driver Must Know.",
         "facts": [
           {
-            "label": "Official source",
-            "value": "What Every Driver Must Know",
-            "note": "Use the Michigan Secretary of State manual for final wording."
+            "label": "Pages 23-24",
+            "value": "Traffic signals",
+            "note": "Identify which signal applies to your lane and what action it requires."
           },
           {
-            "label": "Official format",
-            "value": "Written knowledge and road sign test context",
-            "note": "Michigan Secretary of State controls the official exam format and wording."
+            "label": "Pages 25-28",
+            "value": "Traffic signs and recognition challenge",
+            "note": "Try the official challenge on page 28 without looking at the answer key on page 73."
           },
           {
-            "label": "Pass rule",
-            "value": "Confirm with Michigan SOS",
-            "note": "Use the official source for the final current rule before test day."
+            "label": "Pages 29-31",
+            "value": "Pavement markings",
+            "note": "For each example, point to the stop line or the lane you would choose."
           },
           {
-            "label": "High-risk topics",
-            "value": "Road signs, traffic laws, right of way, safe driving, impaired driving",
-            "note": "Missed categories tell you which manual section to reread first."
+            "label": "Page 38",
+            "value": "Michigan Lefts",
+            "note": "Trace the route starting on the main road, then try it again starting on the side street."
           }
         ],
         "path": [
           {
             "step": "01",
-            "title": "Open the October 2025 manual",
-            "text": "Michigan SOS lists What Every Driver Must Know as its complete driver manual."
+            "title": "Name the sign before guessing",
+            "text": "Cover the answer. Say which shape, color, or symbol told you what the sign means."
           },
           {
             "step": "02",
-            "title": "Choose a language edition",
-            "text": "The official page lists the manual in eight additional languages besides English."
+            "title": "Say what you would do",
+            "text": "For a rule sign, state the required or prohibited action. For a warning, name the hazard and what you would watch for."
           },
           {
             "step": "03",
-            "title": "Use the nationwide quiz",
-            "text": "Practice the shared picture bank and read the explanations."
-          },
-          {
-            "step": "04",
-            "title": "Return to the official manual",
-            "text": "Confirm the current Michigan wording and requirements in the SOS publication."
+            "title": "Retest the missed cues",
+            "text": "Use the shared picture quiz, then retry only the signs you confused. Use the Michigan manual for state rules; the shared quiz result is not an official score."
           }
         ]
       },
       "signLibrary": null,
       "signStudy": null,
+      "stateRulePractice": {
+        "id": "michigan-left-practice",
+        "linkLabel": "Practice a Michigan Left",
+        "heading": "Michigan Left: read the signs, then choose your route",
+        "imageAsset": {
+          "src": "assets/michigan-left-route.svg",
+          "width": 560,
+          "height": 230
+        },
+        "imageLabel": "A route from the main road: 1. Continue straight past the intersection. 2. Use the signed median crossover to reverse direction. 3. Return and turn right onto the cross street.",
+        "caption": "From the main road: 1. Pass through the intersection. 2. Reverse direction at the signed crossover. 3. Return and turn right. This original practice diagram is not an official question or a map. Follow the signals and signs at the actual intersection.",
+        "scenarios": [
+          {
+            "question": "1. You are on the divided main road and want the cross street on your left. A No Left Turn sign applies at the intersection and arrows direct traffic to a crossover. Where do you go first?",
+            "answer": "Go straight through when allowed. Enter the designated median crossover, follow its controls and wait for a safe opening where required. Make the U-turn, return to the intersection, and turn right onto the cross street when safe."
+          },
+          {
+            "question": "2. Now you are on the side street. You want to travel left along the divided main road, but a direct left is prohibited. Do you follow exactly the same route?",
+            "answer": "No. Turn right onto the main road first, then use the designated crossover to reverse direction when allowed. Continue in the new direction on the main road; there is no final right turn back onto the side street."
+          },
+          {
+            "question": "3. You reach the right place for a U-turn, but the crossover signal is red. The main intersection behind you has a green light. Which signal controls your turn?",
+            "answer": "Wait at the crossover. The green light at the main intersection does not authorize the U-turn here. Follow the signal, signs and lane markings at the crossover you are using."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Michigan SOS: current manual, Michigan Lefts (p. 38)",
+            "url": "https://www.michigan.gov/sos/resources/forms/what-every-driver-must-know"
+          },
+          {
+            "label": "Michigan DOT: both Michigan Left routes",
+            "url": "https://www.michigan.gov/mdot/travel/safety/road-users/michigan-lefts"
+          }
+        ]
+      },
       "body": [
         {
-          "heading": "Use Michigan’s current driver manual",
-          "text": "Michigan SOS lists What Every Driver Must Know as the complete driver manual and dates its current web and complete editions to October 2025."
+          "heading": "Manual language and exam language are separate",
+          "text": "Michigan SOS marks its translated manuals as older editions. They may help you learn vocabulary, but use the current November 2026 English edition to check rules and page references. The agency publishes a separate list of languages for the in-office driver knowledge exam; an available translation of a manual does not tell you which options are offered for a specific test format."
         },
         {
-          "heading": "Choose a language before studying",
-          "text": "The official manual page provides the complete manual in English, Spanish, Arabic, Chinese, Dari, French, Pashto, Swahili, and Vietnamese. Use the official page to open the edition that works for you."
+          "heading": "Do not use a practice score as a test result",
+          "text": "The teen Segment 1 course uses its own state exam (70% to pass the exam for the course). For the adult test, check the Operator and Signs portions in the SOS instructions. The teen cutoff is not an adult passing rule, and neither one is the target of the shared TestDayTools picture quiz."
+        }
+      ],
+      "cardGroups": [
+        {
+          "id": "michigan-test-path",
+          "heading": "Choose your Michigan testing path",
+          "items": [
+            {
+              "label": "Under 18",
+              "title": "Start with a certified Segment 1 provider",
+              "text": "Complete Segment 1 and pass its exam before applying for a Level 1 Learner's License with a parent or guardian. The standalone adult online exam and this practice quiz do not replace Segment 1.",
+              "href": "https://www.michigan.gov/sos/license-id/new-drivers-under-18",
+              "cta": "Official teen licensing steps"
+            },
+            {
+              "label": "Eligible new drivers age 18+",
+              "title": "Choose online or in office",
+              "text": "Study for both Operator and Signs. The online option requires a computer, keyboard, mouse and webcam. Passing online does not issue a permit; arrange an SOS office visit for your Temporary Instruction Permit (TIP), vision check and documents.",
+              "href": "https://www.michigan.gov/sos/license-id/new-drivers-18-older",
+              "cta": "Official adult test and permit steps"
+            },
+            {
+              "label": "Language or audio needs",
+              "title": "Check availability before choosing a test",
+              "text": "Use the current SOS list for in-office test languages. The adult test guidance also lists audio options. Confirm the option you need with SOS, rather than assuming a translated booklet, an office interpretation service, and the at-home test all offer the same choices.",
+              "href": "https://www.michigan.gov/sos/language-services",
+              "cta": "Official in-office language options"
+            }
+          ]
         }
       ],
       "faq": [
         {
           "q": "Which Michigan manual should I use?",
-          "a": "Michigan SOS’s What Every Driver Must Know page lists the complete manual, with the web edition published October 2025."
+          "a": "Use the November 2026 English edition of What Every Driver Must Know for current rules. Michigan SOS labels the translated editions as older versions."
         },
         {
-          "q": "Is the Michigan manual available in other languages?",
-          "a": "The SOS page lists versions in Spanish, Arabic, Chinese, Dari, French, Pashto, Swahili, and Vietnamese, alongside English."
+          "q": "Can I drive after passing the adult test online?",
+          "a": "No. The online result is a step toward the Temporary Instruction Permit. Complete the SOS office requirements and obtain the permit before beginning supervised practice under it."
         },
         {
           "q": "Does this page provide a Michigan-only quiz?",
-          "a": "No. The picture quiz is shared across states; this page focuses on Michigan’s official study source and state-specific exam context."
+          "a": "The unscored Michigan Left cases teach a local rule. The separate picture quiz uses a shared nationwide question bank and is not an official Michigan test."
         }
       ],
       "sources": [
         {
-          "label": "Michigan SOS: What Every Driver Must Know (October 2025 manual page)",
+          "label": "Michigan SOS: What Every Driver Must Know (November 2026 edition and older translations)",
           "url": "https://www.michigan.gov/sos/resources/forms/what-every-driver-must-know"
+        },
+        {
+          "label": "Michigan SOS: adult knowledge testing and Temporary Instruction Permit",
+          "url": "https://www.michigan.gov/sos/license-id/new-drivers-18-older"
+        },
+        {
+          "label": "Michigan SOS: under-18 graduated licensing and Segment 1",
+          "url": "https://www.michigan.gov/sos/license-id/new-drivers-under-18"
+        },
+        {
+          "label": "Michigan SOS: in-office testing languages",
+          "url": "https://www.michigan.gov/sos/language-services"
         }
       ],
-      "examDetails": {
-        "kicker": "Michigan test context",
-        "heading": "Michigan road signs in the real permit-test context",
-        "intro": "Road-sign practice works best when it is tied back to the official Michigan Secretary of State source.",
-        "items": [
-          {
-            "label": "Official source",
-            "value": "What Every Driver Must Know",
-            "text": "Michigan SOS publishes the driver manual used for learner preparation."
-          },
-          {
-            "label": "Test context",
-            "value": "Knowledge and road sign tests",
-            "text": "The Michigan manual references written knowledge and road sign testing for new drivers."
-          },
-          {
-            "label": "What to study",
-            "value": "Signs plus safe-driving rules",
-            "text": "Use this page for image recognition, then return to the manual for exact legal wording."
-          },
-          {
-            "label": "Interactive practice",
-            "value": "Shared nationwide quiz",
-            "text": "Use the shared picture question bank and read each answer explanation there."
-          },
-          {
-            "label": "Current study source",
-            "value": "Manual published October 2025",
-            "text": "Michigan SOS lists the web edition and complete manual as published October 2025, with English and translated PDFs."
-          }
-        ]
-      },
-      "lastUpdated": "October 17, 2026",
+      "lastUpdated": "November 20, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
-      "replacementText": "This page summarizes Michigan-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
+      "replacementText": "The local cases below are unscored. Use the nationwide picture quiz to practice recognition after reviewing Michigan's manual."
     },
     {
       "slug": "arizona-mvd-road-signs-practice",
