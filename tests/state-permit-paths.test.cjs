@@ -11,6 +11,9 @@ const caRenewal = "https://www.dmv.ca.gov/portal/driver-education-and-safety/onl
 const caRetake = "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/the-testing-process/";
 const azTest = "https://azdot.gov/mvd/services/driver-license-ID/permit-test";
 const azTeen = "https://azdot.gov/mvd/services/driver-services/teen-drivers/permit-and-license-requirements";
+const gaExam = "https://dds.georgia.gov/testing-and-training/test-and-exams-information";
+const gaLanguages = "https://dds.georgia.gov/list-languages";
+const ohPermit = "https://www.bmv.ohio.gov/dl-gdl.aspx";
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -26,6 +29,16 @@ for (const width of [390, 1280]) {
       [/15 years and 6 months.*under 18.*parent or legal guardian/, azTest],
       [/teen home-test path is not for you.*MVD office/, azTest],
       [/June 20 starts.*not June 3.*December 20.*not automatic eligibility/, azTeen],
+    ]],
+    ["georgia-dds-road-signs-practice", "Georgia exam and retake cases", "georgia-knowledge-cases", [
+      [/initial knowledge exam.*at the computer by 4:30 p\.m\./, gaExam],
+      [/33 combined correct answers do not pass.*the next day.*seven calendar days.*retest appointment/, gaExam],
+      [/26 options for both.*display different wording.*Confirm your language for each section/, gaLanguages],
+    ]],
+    ["ohio-bmv-road-signs-practice", "Ohio test and permit cases", "ohio-knowledge-cases", [
+      [/computer with a working webcam.*supervising adult.*until you turn 19/, `${ohPermit}?sub_id=1690296`],
+      [/six-month period.*24 hours.*eligible applicants can use in-person testing/, ohPermit],
+      [/vision screening.*within 60 days of passing.*only after issuance/, ohPermit],
     ]],
   ]) {
     test(`${width}px: ${slug} leads to the right official steps without JavaScript`, async () => {
@@ -53,9 +66,15 @@ for (const width of [390, 1280]) {
           assert.match(await page.locator("#official-details").innerText(), /32 of 40/);
           assert.equal(await page.getByRole("link", { name: "Start practice", exact: true }).getAttribute("href"), "#practice");
         } else {
-          await page.getByText("At least 24 of 30", { exact: true }).waitFor();
           assert.equal(await page.getByRole("link", { name: "Nationwide picture quiz", exact: true }).getAttribute("href"),
             "road-signs-practice-test.html?mode=road-signs-core#practice");
+          if (slug.startsWith("arizona")) await page.getByText("At least 24 of 30", { exact: true }).waitFor();
+          if (slug.startsWith("georgia")) assert.match(await page.locator("#official-details").innerText(), /15 correct on each part/);
+          if (slug.startsWith("ohio")) {
+            assert.match(await page.locator("#official-details").innerText(), /30 of 40 \(75%\)/);
+            assert.equal(await page.getByRole("link", { name: "Official Ohio sample test", exact: true }).getAttribute("href"),
+              "https://www.bmv.ohio.gov/dl-sample-test.aspx");
+          }
         }
         if (process.env.PERMIT_PATH_SHOTS) {
           await page.screenshot({ path: path.join(process.env.PERMIT_PATH_SHOTS, `${slug}-${width}.png`) });
@@ -66,6 +85,24 @@ for (const width of [390, 1280]) {
     });
   }
 }
+
+test("the Georgia homepage entry promises only the available guide and shared practice", async () => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1280, height: 850 } });
+  try {
+    await context.route(/^https?:/, (route) => route.abort());
+    const page = await context.newPage();
+    await page.goto(file("index"));
+    const entry = page.getByRole("link", { name: /Georgia DDS Road Signs Guide.*shared picture practice/ });
+    assert.equal(await entry.getAttribute("href"), "georgia-dds-road-signs-practice.html");
+    assert.doesNotMatch(await page.locator("main").innerText(), /24 picture questions with Georgia/i);
+    await entry.click();
+    await page.waitForURL(file("georgia-dds-road-signs-practice"));
+    assert.equal(await page.locator("[data-quiz]").count(), 0);
+    assert.equal(await page.getByRole("link", { name: "Nationwide picture quiz", exact: true }).count(), 1);
+  } finally {
+    await context.close();
+  }
+});
 
 test("the shared checklist and requirements views carry the same California path", async () => {
   const context = await browser.newContext({ javaScriptEnabled: false });
