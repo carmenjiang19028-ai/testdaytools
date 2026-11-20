@@ -14996,6 +14996,13 @@
       "description": "Use official Virginia driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "Virginia road signs",
       "summary": "Review Virginia-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
+      "heroActions": [
+        {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
+        {"label": "Check retake timing", "href": "#virginia-knowledge-retest"},
+        {"label": "State test details", "href": "#official-details"},
+        {"label": "Official sources", "href": "#sources"}
+      ],
+      "toolWidget": {"type": "virginiaKnowledgeRetest"},
       "quickFacts": [
         {
           "label": "Official source",
@@ -15085,7 +15092,7 @@
         },
         {
           "q": "What is the Virginia retake rule for applicants under 18?",
-          "a": "The DMV says applicants under 18 must wait a full 15 days before retaking; adults may test once per day."
+          "a": "Virginia DMV gives January 1 failure and January 17 earliest retake as its example for applicants under 18. Adults may test once per day. Three failures require a classroom course completed after the third failure, regardless of age."
         },
         {
           "q": "Where does Virginia publish sample questions?",
@@ -15143,12 +15150,12 @@
           },
           {
             "label": "Retest rule",
-            "value": "Under 18: wait 15 days",
-            "text": "Virginia DMV says applicants under 18 must wait 15 days; adults may test once per day."
+            "value": "Under 18: 15 full days",
+            "text": "The failure date does not count as one of the 15 full days. At any age, after three failed knowledge exams, check the classroom training requirement before trying again."
           }
         ]
       },
-      "lastUpdated": "October 17, 2026",
+      "lastUpdated": "November 20, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
       "replacementText": "This page summarizes Virginia-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."

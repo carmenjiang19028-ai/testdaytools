@@ -1818,6 +1818,8 @@ def render_tool_widget(tool):
     kind = widget.get("type")
     if kind == "dmvTestDayChecklist":
         return render_dmv_checklist_widget(widget)
+    if kind == "virginiaKnowledgeRetest":
+        return render_virginia_knowledge_retest()
     if kind == "satDatePlanner":
         return render_sat_date_planner(tool, widget)
     if kind == "satAugustReadiness":
@@ -1888,6 +1890,49 @@ def render_tool_widget(tool):
   </div>
 </section>"""
     return ""
+
+
+def render_virginia_knowledge_retest():
+    return """<section class="tool-block" id="virginia-knowledge-retest" aria-labelledby="virginia-retest-heading">
+  <div class="tool-section-head">
+    <h2 id="virginia-retest-heading">Find your earliest Virginia knowledge-test retake date</h2>
+    <p class="section-intro">For a failed official Virginia knowledge exam, not a practice quiz or a driving skills test.</p>
+  </div>
+  <div class="requirements-grid">
+    <div data-va-retest-controls hidden>
+      <form class="requirements-control" novalidate>
+        <label>Age group
+          <select data-va-retest-age>
+            <option value="">Choose your situation</option>
+            <option value="minor">Still under 18 when retaking</option>
+            <option value="adult">Already 18 or older when you failed</option>
+            <option value="turning">Turning 18 before the next attempt</option>
+          </select>
+        </label>
+        <label>Official knowledge exams failed
+          <select data-va-retest-failures>
+            <option value="">Choose the number of failures</option>
+            <option value="one-two">One or two</option>
+            <option value="three-plus">Three or more</option>
+          </select>
+        </label>
+        <label>Date of most recent failure <input type="date" data-va-retest-date aria-describedby="virginia-retest-date-hint"></label>
+        <small id="virginia-retest-date-hint">Use the date on your official exam record.</small>
+        <button type="submit" class="quiz-nav-button primary">Check retake timing</button>
+        <p role="status" data-va-retest-result>Choose your situation to check your next step.</p>
+      </form>
+    </div>
+    <aside class="requirements-control">
+      <h3>Retake rules before you book</h3>
+      <p><strong>Under 18:</strong> Leave 15 full days after the failure. The DMV's example is January 1 failure, January 17 earliest retake.</p>
+      <p><strong>18 or older:</strong> Virginia allows one attempt per day.</p>
+      <p><strong>After three failures, any age:</strong> Complete the classroom portion of a Virginia-approved driver training program after your third failure and present the certificate to DMV before retesting.</p>
+      <p>Reapply with the required documents and confirm office hours. An earliest date is not a booking or approval.</p>
+      <a class="info-card-link" href="https://www.dmv.virginia.gov/licenses-ids/exams/know-exam">Virginia DMV knowledge exam and retake rules</a>
+      <a class="info-card-link" href="https://www.dmv.virginia.gov/licenses-ids/training/driver-training-schools">Virginia-approved driver training schools</a>
+    </aside>
+  </div>
+</section>"""
 
 
 def render_dmv_checklist_widget(widget):
@@ -2832,6 +2877,9 @@ def render_tool(tool):
     if tool["slug"] == ROAD_SIGN_PICTURE_SLUG:
         social_image = ROAD_SIGN_PICTURE_PREVIEW
         resource_schema["image"] = url_for(f"/{social_image}")
+    extra_head = '<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide") else ""
+    if tool.get("toolWidget", {}).get("type") == "virginiaKnowledgeRetest":
+        extra_head += '<script src="assets/virginia-retest.js" defer></script>'
     return page_shell(
         tool["title"],
         tool["description"],
@@ -2841,7 +2889,7 @@ def render_tool(tool):
         [resource_schema, breadcrumb_schema(tool["title"], canonical)],
         social_image=social_image,
         indexable=tool.get("indexable", True),
-        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide") else "",
+        extra_head=extra_head,
     )
 
 

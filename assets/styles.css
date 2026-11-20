@@ -193,6 +193,7 @@ main > section,
 
 @media (max-width: 760px) {
   #florida-course-path,
+  #virginia-knowledge-retest,
   #sat-date-planner,
   #sat-fall-2027 { scroll-margin-top: 10rem; }
 }
@@ -1236,7 +1237,8 @@ h3 {
   font-weight: 850;
 }
 
-.requirements-control select {
+.requirements-control select,
+#virginia-knowledge-retest input[type="date"] {
   width: 100%;
   min-height: 46px;
   padding: 10px 12px;
@@ -1246,6 +1248,19 @@ h3 {
   background: white;
   font: inherit;
   font-weight: 750;
+}
+
+#virginia-knowledge-retest .requirements-control {
+  min-width: 0;
+}
+
+#virginia-knowledge-retest input[type="date"]:disabled {
+  background: var(--soft);
+  color: var(--muted);
+}
+
+#virginia-knowledge-retest .requirements-control :is(h3, p) {
+  margin: 0;
 }
 
 .requirements-actions {
