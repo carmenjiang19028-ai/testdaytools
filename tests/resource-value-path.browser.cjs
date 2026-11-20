@@ -50,7 +50,7 @@ async function quizPath(browser, viewport) {
   try {
     await downloadFirst(page);
     await assertFits(page, 'Printable resource');
-    await page.getByRole('link', { name: 'Take the picture quiz', exact: true }).click();
+    await page.getByRole('link', { name: 'Start 10 picture questions', exact: true }).click();
     const quiz = page.locator('[data-quiz][data-mode-id="road-signs-starter"]');
     for (let i = 0; i < 10; i++) {
       const question = quiz.locator('.question.is-active');

@@ -2420,17 +2420,25 @@ def render_sign_visual(question):
 </figure>"""
 
 
-def render_quiz(quiz_key, options=None):
-    if not quiz_key:
-        return ""
-    options = options or {}
+def quiz_questions(quiz_key, options):
     questions = list(DATA["quizzes"][quiz_key])
     append_quiz = options.get("appendQuiz")
     if append_quiz:
         questions.extend(DATA["quizzes"].get(append_quiz, []))
     max_questions = int(options.get("maxQuestions") or 0)
-    if max_questions > 0:
-        questions = questions[:max_questions]
+    return questions[:max_questions] if max_questions > 0 else questions
+
+
+def render_quiz(quiz_key, options=None):
+    if not quiz_key:
+        return ""
+    options = options or {}
+    questions = quiz_questions(quiz_key, options)
+    sheet_focus_by_image = {
+        sign["image"]: (group["practice"]["focus"], group["label"])
+        for group in options.get("sheetFocusGroups", [])
+        for sign in group["signs"]
+    }
     cards = []
     for index, q in enumerate(questions):
         category = q.get("category", "Permit basics")
@@ -2441,7 +2449,9 @@ def render_quiz(quiz_key, options=None):
             for choice_index, choice in enumerate(q["choices"])
         )
         concept_attr = f' data-concept-id="{esc(q["conceptId"])}"' if q.get("conceptId") else ""
-        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
+        sheet = sheet_focus_by_image.get(q.get("image"))
+        sheet_attr = f' data-sheet-focus="{esc(sheet[0])}" data-sheet-label="{esc(sheet[1])}"' if sheet else ""
+        cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr}{sheet_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>{visual_block}
   <h3>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
@@ -2576,6 +2586,11 @@ def render_dmv_mode_tool(tool):
         quiz_options = dict(mode)
         quiz_options["state"] = state_value
         quiz_options["domain"] = "dmv"
+        if tool.get("slug") == ROAD_SIGN_PICTURE_SLUG:
+            quiz_options["sheetFocusGroups"] = [
+                group for group in tool["signLibrary"]["groups"]
+                if group["practice"]["mode"] == mode["id"] and group["practice"].get("focus")
+            ]
         quiz = render_quiz(mode["quiz"], quiz_options)
         panels.append(f'<div class="mode-panel{active_class}" data-mode-panel="{esc(mode["id"])}" aria-hidden="{hidden}">{quiz}</div>')
     overview_items = "".join(
@@ -3288,6 +3303,23 @@ def render_road_sign_shapes_page():
     )
 
 
+def render_cheat_group_link(group):
+    path = group["practice"]
+    tool = TOOL_BY_SLUG[path["tool"]]
+    mode = next(mode for mode in tool["quizModes"] if mode["id"] == path["mode"])
+    questions = quiz_questions(mode["quiz"], mode)
+    sign_keys = {sign["image"] for sign in group["signs"]}
+    params = {"mode": mode["id"]}
+    if path.get("focus"):
+        params["focus"] = path["focus"]
+        questions = [question for question in questions if question.get("image") in sign_keys]
+    if {question.get("image") for question in questions} != sign_keys:
+        raise ValueError(f"Study sheet and practice pictures do not match: {group['label']}")
+    href = f'{tool["slug"]}.html?{urlencode(params)}#practice'
+    label = f'Practice {len(questions)} questions'
+    return f'<a class="cheat-group-practice-link info-card-link" href="{esc(href)}" aria-label="{esc(label + ": " + group["label"])}">{esc(label)}</a>'
+
+
 def render_road_sign_cheat_sheet_page():
     source_tool = TOOL_BY_SLUG["road-signs-practice-test"]
     groups = source_tool.get("signLibrary", {}).get("groups", [])
@@ -3302,7 +3334,7 @@ def render_road_sign_cheat_sheet_page():
   <div><strong>{esc(sign["title"])}</strong><p>{esc(sign["meaning"])}</p></div>
 </article>""")
         rendered_groups.append(f"""<section class="cheat-group">
-  <div class="cheat-group-head"><h2>{esc(group.get("label", "Road signs"))}</h2><p>{esc(group.get("text", ""))}</p></div>
+  <div class="cheat-group-head"><h2>{esc(group.get("label", "Road signs"))}</h2><div><p>{esc(group.get("text", ""))}</p>{render_cheat_group_link(group)}</div></div>
   <div class="cheat-sign-grid">{"".join(signs)}</div>
 </section>""")
 
@@ -3317,7 +3349,7 @@ def render_road_sign_cheat_sheet_page():
         <a href="dmv-road-signs-cheat-sheet.pdf" download data-resource-download="dmv_road_signs_cheat_sheet_pdf">Download PDF</a>
         <a href="dmv-road-signs-classroom-worksheet.pdf" download data-resource-download="dmv_road_signs_classroom_worksheet_pdf">Classroom worksheet + answer key</a>
         <button type="button" data-print-page>Print cheat sheet</button>
-        <a href="road-signs-practice-test.html#practice">Take the picture quiz</a>
+        <a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Start 10 picture questions</a>
         <a href="dmv-road-sign-flashcards.html">Open flashcards</a>
       </div>
     </div>
@@ -3349,7 +3381,7 @@ def render_road_sign_cheat_sheet_page():
       <ol>
         <li>Cover the meanings and name the driver action.</li>
         <li>Write down only the signs that still feel slow.</li>
-        <li>Retake the picture quiz and record the new score.</li>
+        <li>Record the score below after the full 40-question round.</li>
       </ol>
     </div>
     <div class="cheat-review-fields">
@@ -3369,7 +3401,7 @@ def render_road_sign_cheat_sheet_page():
   <div class="card-grid">
     <article class="info-card"><span>1. Scan</span><h3>Name the driver action</h3><p>Say stop, yield, merge, slow, watch, or prohibited movement before reading the definition.</p></article>
     <article class="info-card"><span>2. Mark</span><h3>Circle only slow signs</h3><p>A short weak-sign list is more useful than repeatedly studying signs you already recognize.</p></article>
-    <article class="info-card"><span>3. Test</span><h3>Use pictures without the labels</h3><p>Move into the 40-picture quiz, then save missed signs in your browser for another review.</p></article>
+    <article class="info-card"><span>3. Test</span><h3>Use pictures without the labels</h3><p>Use a group link to revisit weak signs. Use the full round for a score out of 40.</p><a class="info-card-link" href="road-signs-practice-test.html?mode=road-signs-core#practice">Start the full 40-question round</a></article>
   </div>
 </section>
 <section class="card-group">

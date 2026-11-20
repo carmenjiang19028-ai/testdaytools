@@ -540,6 +540,10 @@ function initQuizzes() {
     const passScore = Number(quiz.dataset.passScore) || questions.length;
     const quizLabel = quiz.dataset.quizLabel || "practice round";
     const isDmvQuiz = quiz.dataset.domain === "dmv";
+    const sheetFocuses = new Map(
+      questions.filter((question) => question.dataset.sheetFocus)
+        .map((question) => [question.dataset.sheetFocus, question.dataset.sheetLabel]),
+    );
     const answered = new Set();
     const correctAnswers = new Set();
     const wrongAnswers = new Set();
@@ -1012,6 +1016,7 @@ function initQuizzes() {
         ["all", "All categories"],
         ...(isDmvQuiz ? [["due", "Review due"]] : []),
         ["saved", "Saved mistakes"],
+        ...Array.from(sheetFocuses, ([value, label]) => [value, `Study sheet: ${label}`]),
         ...categories.map((category) => [category, category]),
       ].forEach(([value, label]) => {
         const option = document.createElement("option");
@@ -1049,6 +1054,8 @@ function initQuizzes() {
       }
       const nextSequence = value === "all"
         ? allQuestionIndexes()
+        : sheetFocuses.has(value)
+        ? allQuestionIndexes().filter((index) => questions[index].dataset.sheetFocus === value)
         : allQuestionIndexes().filter((index) => (questions[index].dataset.category || "Permit basics") === value);
       setActiveSequence(nextSequence);
     };

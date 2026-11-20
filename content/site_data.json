@@ -6536,6 +6536,10 @@
           {
             "label": "Regulatory traffic signs",
             "text": "These signs state laws, restrictions, right-of-way rules, or required directions.",
+            "practice": {
+              "tool": "regulatory-traffic-signs-practice-test",
+              "mode": "regulatory-signs-core"
+            },
             "signs": [
               {
                 "image": "stop",
@@ -6602,6 +6606,11 @@
           {
             "label": "Warning signs",
             "text": "These signs warn about conditions that may require lower speed, more space, or extra scanning.",
+            "practice": {
+              "tool": "road-signs-practice-test",
+              "mode": "road-signs-core",
+              "focus": "sheet-warning"
+            },
             "signs": [
               {
                 "image": "merge",
@@ -6678,6 +6687,11 @@
           {
             "label": "School, work-zone, and service signs",
             "text": "These signs flag special areas where driver attention, lower speed, or route information matters.",
+            "practice": {
+              "tool": "road-signs-practice-test",
+              "mode": "road-signs-core",
+              "focus": "sheet-school-work-service"
+            },
             "signs": [
               {
                 "image": "school-crossing",

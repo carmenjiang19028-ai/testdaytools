@@ -5920,6 +5920,12 @@ button:disabled {
   margin-bottom: 12px;
 }
 
+.cheat-group-practice-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 .cheat-sign-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6101,6 +6107,7 @@ button:disabled {
   body.road-sign-cheat-sheet-page > .skip-link,
   body.road-sign-cheat-sheet-page .site-header,
   body.road-sign-cheat-sheet-page .site-footer,
+  body.road-sign-cheat-sheet-page .cheat-group-practice-link,
   body.road-sign-cheat-sheet-page main > :not(#printable-sheet) {
     display: none !important;
   }
