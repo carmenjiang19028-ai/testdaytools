@@ -119,6 +119,25 @@ class StateRoadSignContentTest(unittest.TestCase):
         permit = (ROOT / "pennsylvania-dmv-permit-practice-test.html").read_text()
         self.assertIn(f'href="{slug}.html#pennsylvania-school-bus"', permit)
 
+    def test_new_jersey_move_over_cases_cover_the_amended_scope_and_safe_fallback(self):
+        slug = "new-jersey-mvc-road-signs-practice"
+        lesson = self.tools[slug]["stateRulePractice"]
+        page = (ROOT / f"{slug}.html").read_text()
+        asset = lesson["imageAsset"]
+        svg = ElementTree.parse(ROOT / asset["src"]).getroot()
+        self.assertEqual(svg.get("viewBox"), f'0 0 {asset["width"]} {asset["height"]}')
+        clear, blocked, officer = lesson["scenarios"]
+        self.assertIn("stationary vehicles displaying flashing or blinking lights", clear["answer"])
+        self.assertIn("change to the lane that is not next to the stopped car", clear["answer"])
+        self.assertIn("below the posted limit", blocked["answer"])
+        self.assertIn("be ready to stop", blocked["answer"])
+        self.assertIn("Follow the officer's direction", officer["answer"])
+        self.assertTrue(lesson["sources"][0]["url"].endswith("/AL25/248_.PDF"))
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('data-total="20" data-pass-score="16"', page)
+        permit = (ROOT / "new-jersey-mvc-permit-practice-test.html").read_text()
+        self.assertIn(f'href="{slug}.html#new-jersey-move-over"', permit)
+
     def test_active_pages_do_not_contain_internal_sign_study_copy(self):
         sitemap = ElementTree.parse(ROOT / "sitemap.xml")
         locations = sitemap.findall("m:url/m:loc", {"m": "http://www.sitemaps.org/schemas/sitemap/0.9"})

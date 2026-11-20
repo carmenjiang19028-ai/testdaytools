@@ -13552,6 +13552,7 @@
       "description": "New Jersey permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official New Jersey MVC source links.",
       "heroKicker": "New Jersey permit practice",
       "summary": "Practice New Jersey permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the New Jersey Driver Manual.",
+      "lastUpdated": "November 20, 2026",
       "quickFacts": [
         {
           "label": "Official source",
@@ -13866,9 +13867,11 @@
               "text": "Shape and color often reveal the action before you read the words."
             },
             {
-              "label": "Mock exam",
-              "title": "Use the long round late",
-              "text": "The 40-question mode is best after you have already fixed obvious misses."
+              "label": "New Jersey Move Over rule",
+              "title": "Decide whether to change lanes or slow down",
+              "text": "A car is stopped on the shoulder with its flashers on. Compare a clear next lane with one you cannot enter safely, then check the rule for each.",
+              "href": "new-jersey-mvc-road-signs-practice.html#new-jersey-move-over",
+              "cta": "Try the New Jersey Move Over cases"
             }
           ]
         }
@@ -14045,9 +14048,45 @@
       "category": "DMV",
       "title": "New Jersey MVC Road Signs Practice",
       "description": "New Jersey road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "lastUpdated": "August 12, 2026",
+      "lastUpdated": "November 20, 2026",
       "heroKicker": "New Jersey road signs",
       "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the New Jersey exam details below to plan the rest of your study.",
+      "stateRulePractice": {
+        "id": "new-jersey-move-over",
+        "linkLabel": "NJ Move Over cases",
+        "heading": "When do you need to move over in New Jersey?",
+        "imageAsset": {
+          "src": "assets/road-sign-materials/new-jersey-move-over.svg",
+          "width": 360,
+          "height": 294
+        },
+        "imageLabel": "In both overhead drawings you are driving in the right lane toward a car stopped on the right shoulder with its flashers on. In A the left lane is clear. In B another driver is alongside you in the left lane.",
+        "caption": "Same stopped car, two different traffic conditions. These cases are separate from the 20-question sign score.",
+        "scenarios": [
+          {
+            "question": "In A, the left lane is clear and changing lanes is legal and safe. Does it matter that the flashing lights are on an ordinary car rather than on a police car or tow truck?",
+            "answer": "No. Approach cautiously and change to the lane that is not next to the stopped car. New Jersey's January 2026 update applies to stationary vehicles displaying flashing or blinking lights, not just emergency or service vehicles."
+          },
+          {
+            "question": "In B, another driver is alongside you. Can you stay at the posted speed limit until you are past the stopped car?",
+            "answer": "No. Do not force an unsafe lane change. When moving over is impossible, illegal, or unsafe, slow to a speed below the posted limit that fits conditions and be ready to stop. The rule does not give one fixed reduced speed."
+          },
+          {
+            "question": "Now an officer at the scene signals you to stay in your lane. The left lane looks clear. Should you move over anyway?",
+            "answer": "No. Follow the officer's direction. The standard move-over procedure applies when an officer has not directed you to do something else."
+          }
+        ],
+        "sources": [
+          {
+            "label": "New Jersey enacted law: P.L. 2025, chapter 248, sections 1 and 4",
+            "url": "https://pub.njleg.state.nj.us/Bills/2024/AL25/248_.PDF"
+          },
+          {
+            "label": "New Jersey Division of Highway Traffic Safety: Move Over",
+            "url": "https://www.nj.gov/oag/hts/downloads/MoveOver_poster-2026.pdf"
+          }
+        ]
+      },
       "mixedPractice": {
         "href": "new-jersey-mvc-permit-practice-test.html?mode=mock#practice",
         "target": "32 of 40"

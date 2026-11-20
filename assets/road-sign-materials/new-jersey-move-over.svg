@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="294" viewBox="0 0 360 294">
+  <defs>
+    <g id="road">
+      <rect x="8" width="344" height="109" rx="4" fill="#33414a"/>
+      <path d="M15 31h330" stroke="#fff" stroke-width="2" stroke-dasharray="22 10"/>
+      <path d="M10 70h340" stroke="#eff3ef" stroke-width="3"/>
+      <path d="M24 17h24m-7-5 7 5-7 5M24 51h24m-7-5 7 5-7 5" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </g>
+    <g id="car">
+      <rect width="54" height="20" rx="6" fill="currentColor" stroke="#16202a" stroke-width="2"/>
+      <path d="M12 4h23l7 4v4l-7 4H12z" fill="#223840"/>
+      <path d="M50 4v12" stroke="#fff" stroke-width="1.5"/>
+    </g>
+    <g id="shoulder-car">
+      <use href="#car" x="269" y="80" color="#d7a139"/>
+      <path d="M270 81l-6-4m6 21-6 4m57-21 6-4m-6 21 6 4" stroke="#ffd54c" stroke-width="3" stroke-linecap="round"/>
+      <text x="58" y="97" fill="#fff" font-size="20">Stopped, flashers on</text>
+    </g>
+    <g id="approaching-car">
+      <use href="#car" x="71" y="42" color="#75c6e9"/>
+      <text x="139" y="59" fill="#fff" font-size="20">You</text>
+    </g>
+  </defs>
+  <g font-family="sans-serif">
+    <text x="8" y="25" font-size="23" font-weight="bold" fill="#18242b">A: Left lane clear</text>
+    <g transform="translate(0 34)">
+      <use href="#road"/>
+      <use href="#approaching-car"/>
+      <use href="#shoulder-car"/>
+    </g>
+    <text x="8" y="169" font-size="23" font-weight="bold" fill="#18242b">B: Left lane occupied</text>
+    <g transform="translate(0 178)">
+      <use href="#road"/>
+      <use href="#car" x="72" y="8" color="#e6ebea"/>
+      <use href="#approaching-car"/>
+      <use href="#shoulder-car"/>
+    </g>
+  </g>
+</svg>
