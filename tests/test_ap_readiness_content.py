@@ -47,11 +47,43 @@ class APReadinessContentTest(unittest.TestCase):
         self.assertTrue(any("own device" in item and "charging cord" in item for item in TOOL["checklist"]))
         self.assertTrue(any("sign in" in item and "College Board" in item for item in TOOL["checklist"]))
 
+    def test_check_in_at_another_school_and_storage_are_not_optional_policy(self):
+        pack = next(table for table in TOOL["tables"] if table["caption"] == "AP exam day packing guide")
+        rows = {row[0]: " ".join(row[1:]) for row in pack["rows"]}
+        self.assertIn("Required when testing at a school you do not attend", rows["Photo ID"])
+        self.assertIn("government-issued or school-issued photo ID", rows["Photo ID"])
+        self.assertIn("Not permitted in the exam room", rows["Phone or smartwatch"])
+        self.assertIn("Outside the exam room", rows["Snack and water"])
+        self.assertIn("Ask the proctor", rows["Snack and water"])
+        self.assertNotIn("Photo ID if your school requires it", PAGE)
+
+    def test_2027_arrival_and_packing_cases_distinguish_subjects_and_sections(self):
+        body = {section["heading"]: section["text"] for section in TOOL["body"]}
+        start = body["Confirm the 2027 session before planning your arrival"]
+        self.assertIn("Session 1 or Session 2", start)
+        self.assertIn("Alaska's sessions start at 7 a.m. and 11 a.m.", start)
+        self.assertIn("reporting time and room from your AP coordinator", start)
+        calculator = body["Check calculator type and section, not just the subject"]
+        self.assertIn("Biology and Environmental Science, leave handheld graphing calculators at home", calculator)
+        self.assertIn("For AP Statistics, a nongraphing model is not allowed", calculator)
+        self.assertIn("only available in calculator-required parts", calculator)
+        example = body["Example: AP Statistics at another school"]
+        self.assertIn("government-issued or school-issued photo ID", example)
+        self.assertIn("fully digital 2027 exam", example)
+        self.assertIn("Bluebook's graphing calculator", example)
+        self.assertIn("sight-singing response in Bluebook", body["Fully digital and hybrid are not the same packing plan"])
+        for section in (start, calculator, example):
+            self.assertIn(html.escape(section), PAGE)
+
     def test_specific_primary_sources_are_linked(self):
         urls = {source["url"] for source in TOOL["sources"]}
         for url in (
             "https://apstudents.collegeboard.org/exam-policies-guidelines/what-to-bring-on-exam-day",
             "https://bluebook.collegeboard.org/students/ap-exams",
+            "https://apstudents.collegeboard.org/exam-policies-guidelines/calculator-policies",
+            "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates",
+            "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates/start-times",
+            "https://apcentral.collegeboard.org/about-ap/ap-coordinators/important-updates",
         ):
             self.assertIn(url, urls)
             self.assertIn(f'href="{url}"', PAGE)

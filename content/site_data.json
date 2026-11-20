@@ -1422,20 +1422,20 @@
       "category": "AP",
       "title": "AP Exam Day Checklist",
       "description": "A practical AP exam day checklist covering what to bring, what to avoid, and how to prepare the night before.",
-      "lastUpdated": "November 4, 2026",
+      "lastUpdated": "November 21, 2026",
       "heroKicker": "AP checklist",
       "summary": "Use this unofficial AP exam day checklist to pack the basics, reduce morning stress, and avoid preventable testing-day issues.",
       "checklist": [
-        "Photo ID if your school requires it.",
+        "If you test at a school you do not attend, bring a government-issued or school-issued photo ID.",
         "Several No. 2 pencils with erasers.",
         "Black or dark blue pens for written responses if required.",
         "Approved calculator for exams that allow one.",
-        "Extra batteries or backup calculator if allowed.",
+        "If you plan to use Bluebook's built-in calculator, practice with that type ahead of time.",
         "Watch without internet, alarms, or recording features if permitted.",
-        "Water and snack for breaks, following school rules.",
+        "Keep any water or snack outside the exam room unless College Board approved it as an accommodation.",
         "Layered clothing for cold or warm testing rooms.",
-        "Printed or saved room/check-in instructions from your school.",
-        "A simple lunch plan if you have morning and afternoon exams on the same day.",
+        "Confirm your school-specific session start, reporting time, and room with the AP coordinator.",
+        "Plan where to leave restricted items such as your phone or smartwatch before entering the exam room.",
         "Confirm your exam format and who supplies the testing device with your AP coordinator.",
         "For a school-provided device, confirm Bluebook installation, pickup, and charging arrangements.",
         "If bringing your own device, prepare an approved device with Bluebook, fully charge it, and pack its compatible charging cord.",
@@ -1474,13 +1474,13 @@
           "rows": [
             [
               "Photo ID",
-              "Your school or test site requires identification.",
-              "Ask your AP coordinator what ID is accepted."
+            "Required when testing at a school you do not attend.",
+            "Bring a government-issued or school-issued photo ID. Follow site check-in instructions at your own school."
             ],
             [
               "Calculator",
-              "Your exam allows or requires an approved calculator.",
-              "Confirm the official calculator policy for that subject."
+            "Only for the subjects and sections that allow calculators.",
+            "Check the permitted type. For eligible digital sections you can use the built-in Bluebook calculator or bring up to two approved handhelds."
             ],
             [
               "Pens and pencils",
@@ -1489,13 +1489,13 @@
             ],
             [
               "Phone or smartwatch",
-              "Only if your school allows storage away from the testing area.",
-              "Do not keep devices on your body during testing unless official instructions allow it."
+            "Not permitted in the exam room unless preapproved as an accommodation.",
+            "Ask your coordinator about storage before arrival. Do not plan to use these devices during breaks."
             ],
             [
               "Snack and water",
-              "You have a break or a long testing day.",
-              "Follow school rules for where food and drinks can be stored."
+            "Outside the exam room, unless preapproved as an accommodation.",
+            "Ask the proctor before leaving during a break to get water or a snack."
             ]
           ]
         },
@@ -1514,8 +1514,8 @@
             ],
             [
               "Before leaving",
-              "Eat something steady and check transportation time.",
-              "A rushed morning makes small mistakes more likely."
+            "Recheck the reporting time and location your coordinator gave you.",
+            "The reporting time can be earlier than the published exam start."
             ],
             [
               "At school",
@@ -1537,33 +1537,29 @@
         },
         {
           "heading": "Fully digital and hybrid are not the same packing plan",
-          "text": "For fully digital AP, enter all answers in Bluebook. In hybrid AP, enter multiple-choice answers in Bluebook and write free-response answers in an exam booklet, so keep the required pens or pencils. On a tablet, an external keyboard is required for fully digital AP and recommended for hybrid AP; external keyboards are not permitted with a laptop. Check the current official instructions for your exam and approved accommodations."
+          "text": "For fully digital AP, enter all answers in Bluebook. In hybrid AP, enter multiple-choice answers in Bluebook and write free-response answers in an exam booklet where instructed. AP Music Theory also records its sight-singing response in Bluebook in 2027; ask your coordinator whether you need to bring a wired headset. On a tablet, an external keyboard is required for fully digital AP and recommended for hybrid AP; external keyboards are not permitted with a laptop."
         },
         {
-          "heading": "Pack the night before",
-          "text": "Put approved items in one bag and remove anything you do not need. Phones, smartwatches, notes, and unapproved devices can create serious problems in a testing room."
+          "heading": "Confirm the 2027 session before planning your arrival",
+          "text": "Look up your subject's Session 1 or Session 2 on the official exam schedule, then check your school's local start time. Some locations changed in 2027: for example, Alaska's sessions start at 7 a.m. and 11 a.m. local time. Use the reporting time and room from your AP coordinator rather than assuming the published start is the time to arrive."
         },
         {
-          "heading": "Morning routine",
-          "text": "Leave earlier than usual, eat something steady, and arrive with enough time for check-in. If something goes wrong, contact your school immediately instead of guessing."
+          "heading": "Check calculator type and section, not just the subject",
+          "text": "For 2027 AP Biology and Environmental Science, leave handheld graphing calculators at home; use a permitted nongraphing calculator or the built-in scientific calculator. For AP Statistics, a nongraphing model is not allowed, even if it has statistics functions. For Calculus AB, Calculus BC, and Precalculus, the built-in graphing tool is only available in calculator-required parts. Practice the no-calculator parts separately."
         },
         {
-          "heading": "Plan for the room, not the perfect room",
-          "text": "Testing rooms can be cold, warm, quiet, crowded, or farther from your normal classroom than expected. A simple clothing layer, extra pencils, and clear arrival plan solve many avoidable problems."
-        },
-        {
-          "heading": "Keep exam security simple",
-          "text": "If an item is not clearly allowed, leave it outside the testing area or ask before check-in. Unapproved notes, devices, and recording tools can create bigger problems than forgetting a snack."
+          "heading": "Example: AP Statistics at another school",
+          "text": "Confirm that school's reporting time and room, put a government-issued or school-issued photo ID in your bag, and check which device the school expects you to use. For the fully digital 2027 exam, practice with Bluebook's graphing calculator if your only handheld is a scientific calculator. If you prefer a handheld, check the official approved graphing models before packing it."
         }
       ],
       "faq": [
         {
           "q": "Can I bring my phone to an AP exam?",
-          "a": "Schools usually require phones to be powered off and stored away. Follow your school's instructions and official AP rules."
+          "a": "Phones are not permitted in the exam room unless preapproved as an accommodation. Ask your coordinator about storage before you arrive."
         },
         {
           "q": "Do I need a calculator for every AP exam?",
-          "a": "No. Calculator rules depend on the subject. Check the official calculator policy before exam day."
+          "a": "No. Check both the calculator type and the parts where you can use it. For a permitted digital part, use the built-in Bluebook calculator or an approved handheld, not a calculator on your phone or in a web browser."
         },
         {
           "q": "Should I bring notes for last-minute review?",
@@ -1594,6 +1590,18 @@
         {
           "label": "College Board AP Students: Calculator policies",
           "url": "https://apstudents.collegeboard.org/exam-policies-guidelines/calculator-policies"
+        },
+        {
+          "label": "College Board AP Central: 2027 exam schedule",
+          "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates"
+        },
+        {
+          "label": "College Board AP Central: 2027 start times and school lookup",
+          "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates/start-times"
+        },
+        {
+          "label": "College Board AP Central: 2027 exam format updates",
+          "url": "https://apcentral.collegeboard.org/about-ap/ap-coordinators/important-updates"
         }
       ],
       "related": [
