@@ -912,7 +912,7 @@ function initQuizzes() {
         } else if (missedCount) {
           nextPlanTitle.textContent = `Repair ${missed[0] || "the weak rule area"}`;
           nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";
-          nextPlanAction.href = state ? `dmv-permit-test-study-plan.html?state=${encodeURIComponent(state)}` : "dmv-permit-test-study-plan.html";
+          nextPlanAction.href = `dmv-permit-test-study-plan.html?${new URLSearchParams(state ? { state, focus: "rules" } : { focus: "rules" })}#study-plan`;
           nextPlanAction.textContent = "Build a focused plan";
         } else if (restartFullRound) {
           nextPlanTitle.textContent = "Practice all questions";
@@ -2245,8 +2245,7 @@ function initDmvStudyPlanners() {
     const weakSelect = planner.querySelector("[data-study-weak]");
     const agency = planner.querySelector("[data-study-agency]");
     const rule = planner.querySelector("[data-study-rule]");
-    const dailyQuestions = planner.querySelector("[data-study-daily-questions]");
-    const signMinutes = planner.querySelector("[data-study-sign-minutes]");
+    const focus = planner.querySelector("[data-study-focus-label]");
     const checkpoint = planner.querySelector("[data-study-checkpoint]");
     const source = planner.querySelector("[data-study-source]");
     const practice = planner.querySelector("[data-study-practice]");
@@ -2256,128 +2255,49 @@ function initDmvStudyPlanners() {
     const planList = planner.querySelector("[data-study-plan-list]");
 
     const weakLabels = {
-      "mixed": "mixed readiness",
-      "road-signs": "road-sign recognition",
-      "rules": "rules and right-of-way",
-      "score": "passing-score confidence",
-      "documents": "documents and logistics",
-    };
-
-    const linkMap = {
-      source,
-      practice,
-      signs,
-      checklist,
-      score,
+      "mixed": "Choose from your misses",
+      "road-signs": "Road-sign recognition",
+      "rules": "Rules and right-of-way",
+      "score": "Passing-score confidence",
+      "documents": "Documents and logistics",
     };
 
     const setLink = (element, href) => {
       if (element && href) element.href = href;
     };
 
-    const appendStep = (steps, title, body, href, cta) => {
-      steps.push({ title, body, href, cta });
-    };
-
-    const buildSteps = (stateName, days, weak, selected, perDay) => {
-      const steps = [];
-      appendStep(
-        steps,
-        "Start with the official source",
-        `Confirm ${stateName} format, passing rule, documents, fees, and retake rules before trusting any practice shortcut.`,
-        selected.dataset.sourceUrl,
-        "Open source",
-      );
-      appendStep(
-        steps,
-        "Run one diagnostic round",
-        `Answer about ${perDay} questions without pausing for notes. Save missed topics as the plan focus.`,
-        selected.dataset.practiceUrl,
-        "Practice",
-      );
-
-      if (weak === "road-signs") {
-        appendStep(
-          steps,
-          "Make sign recognition automatic",
-          "Use flashcards first, then answer image sign questions until stop, yield, warning, school, service, and work-zone signs feel quick.",
-          selected.dataset.signsUrl,
-          "Road signs",
-        );
-      } else if (weak === "rules") {
-        appendStep(
-          steps,
-          "Review rules through missed questions",
-          "Focus on right-of-way, speed, turning, lane use, parking, safe following distance, and alcohol or drug rules from your missed answers.",
-          selected.dataset.practiceUrl,
-          "Retake practice",
-        );
-      } else if (weak === "score") {
-        appendStep(
-          steps,
-          "Check the score margin",
-          "Use the passing-score calculator after each round. If the result is barely above target, retake only the weakest category before another full round.",
-          selected.dataset.scoreUrl,
-          "Score check",
-        );
-      } else if (weak === "documents") {
-        appendStep(
-          steps,
-          "Remove test-day blockers",
-          "Build the document pack early. A prepared applicant can still lose the visit to missing ID, residency proof, appointment rules, or payment details.",
-          selected.dataset.checklistUrl,
-          "Checklist",
-        );
-      } else {
-        appendStep(
-          steps,
-          "Split review between signs and rules",
-          "Spend one block on visual road signs and one block on missed rule categories. Do not keep rereading topics you already answer quickly.",
-          "dmv-road-sign-flashcards.html",
-          "Flashcards",
-        );
+    const buildSteps = (days, weak, data) => {
+      const baselineHref = "road-signs-practice-test.html?mode=road-signs-starter#practice";
+      const logHref = "dmv-permit-test-mistake-log.html#mistake-log";
+      const checkLink = [data.scoreUrl, "Compare with state rule"];
+      const checklistLink = [data.checklistUrl, "Open test-day checklist"];
+      const recheckStart = days === 3 ? 3 : days - 2;
+      const focusEnd = days >= 14 ? 5 : recheckStart - 1;
+      const signCheck = data.signTotal
+        ? ` Also check the sign result: ${data.signCorrect} of ${data.signTotal} sign questions are required${data.signIncluded === "true" ? ", and those answers count in the overall score." : " in the separate sign section."}`
+        : "";
+      const assignments = {
+        mixed: ["Pick one repeated mistake", "If you missed a sign, name it and state the action. If you missed a rule, write the situation and what you should do. Re-answer that item before starting a new set.", logHref, "Record a missed item"],
+        "road-signs": ["Recall signs before reading labels", "Name each slow sign and say the driver action before revealing the explanation. Group two similar signs, then explain the difference without looking.", data.signsUrl, "Practice road signs"],
+        rules: ["Explain the rule you missed", "Write one missed rule as a situation and an action, then check it in the state source. Change one detail and decide whether your action stays the same.", logHref, "Record a missed rule"],
+        score: ["Compare like with like", "Write down correct answers and question count. Compare only practice rounds of the same length and scope. A sign-only score is not a full knowledge-test result.", ...checkLink],
+        documents: ["Resolve one missing item", "For any missing ID, residency proof or other requirement, check which substitutes the agency accepts and who must attend. Resolve it before the last day.", data.sourceUrl, "Open official source"],
+      };
+      const [title, body, href, cta] = assignments[weak] || assignments.mixed;
+      const steps = [
+        [1, 1, "Check logistics and take a baseline", "Check the appointment and required documents first. Then take the 10-question sign baseline and write down one mistake you can explain after reading the feedback.", [checklistLink, [baselineHref, "Start 10 sign questions"]]],
+        [2, focusEnd, title, body, [[href, cta]]],
+      ];
+      if (focusEnd + 1 < recheckStart) {
+        steps.push([focusEnd + 1, recheckStart - 1, "Recall again after a break", "On two separate study days, re-answer saved mistakes without notes. Keep any item you still miss or cannot explain on your short review list.", [[logHref, "Open mistake log"]]]);
       }
-
-      if (days <= 3) {
-        appendStep(
-          steps,
-          "Final 24-hour pass",
-          "Take one focused review round, recheck the official source, then finish documents, appointment, fees, and arrival timing.",
-          selected.dataset.checklistUrl,
-          "Final checklist",
-        );
-      } else if (days <= 7) {
-        appendStep(
-          steps,
-          "Midweek checkpoint",
-          "By the middle of the plan, your practice score should be above the passing target with fewer slow sign-recognition answers.",
-          selected.dataset.scoreUrl,
-          "Check score",
-        );
-        appendStep(
-          steps,
-          "Final two-day review",
-          "Retake missed categories, drill signs once more, then switch from studying to logistics so test day is not rushed.",
-          selected.dataset.checklistUrl,
-          "Checklist",
-        );
-      } else {
-        appendStep(
-          steps,
-          "Weekly checkpoint",
-          "At the end of each week, compare your score margin, missed categories, and slow sign cards before choosing the next practice block.",
-          selected.dataset.scoreUrl,
-          "Score check",
-        );
-        appendStep(
-          steps,
-          "Last-week conversion",
-          "Move from broad reading to timed practice, sign recognition, and checklist readiness. Long plans still need a tight final week.",
-          selected.dataset.checklistUrl,
-          "Checklist",
-        );
+      if (days > 3) {
+        steps.push([recheckStart, days - 1, "Recheck the score before test day", `Take a state practice round and write down both numbers: correct answers and total questions. Read the round label before comparing it with the published rule.${signCheck}`, [[data.practiceUrl, "Open state practice"], checkLink]]);
       }
-
+      const finalReview = days === 3
+        ? `Retake one focused set, compare the score with the state rule and revisit anything you still miss.${signCheck} Then confirm documents, appointment and arrival details.`
+        : "Review only the items you still miss. Confirm documents, appointment and arrival details instead of starting another long session.";
+      steps.push([days, days, "Close the remaining gaps", finalReview, days === 3 ? [checkLink, checklistLink] : [checklistLink]]);
       return steps;
     };
 
@@ -2386,18 +2306,10 @@ function initDmvStudyPlanners() {
       if (!selected || !planList) return;
       const days = Math.max(Number(daysSelect?.value) || 7, 1);
       const weak = weakSelect?.value || "mixed";
-      const stateName = selected.dataset.state || selected.textContent.trim();
-      const questions = Math.max(Number(selected.dataset.questions) || 40, 18);
-      const perDay = Math.max(10, Math.ceil((questions * (days <= 3 ? 2.2 : 2)) / days));
-      const signTime = weak === "road-signs" ? 20 : days <= 3 ? 18 : 12;
-
       if (agency) agency.textContent = selected.dataset.agency || "State agency";
       if (rule) rule.textContent = selected.dataset.rule || "Confirm with official source";
-      if (dailyQuestions) dailyQuestions.textContent = `${perDay} questions/day`;
-      if (signMinutes) signMinutes.textContent = `${signTime} minutes/day`;
-      if (checkpoint) {
-        checkpoint.textContent = days <= 3 ? "Official source today" : days <= 7 ? "Midweek score check" : "Weekly checkpoint";
-      }
+      if (focus) focus.textContent = weakLabels[weak] || weakLabels.mixed;
+      if (checkpoint) checkpoint.textContent = `Day ${days}: final checklist`;
 
       setLink(source, selected.dataset.sourceUrl);
       setLink(practice, selected.dataset.practiceUrl);
@@ -2409,34 +2321,43 @@ function initDmvStudyPlanners() {
       annotateDmvStateLink(checklist, selected, "checklist");
       annotateDmvStateLink(score, selected, "score");
 
-      const steps = buildSteps(stateName, days, weak, selected, perDay);
+      const steps = buildSteps(days, weak, selected.dataset);
       planList.replaceChildren();
-      steps.forEach((step, index) => {
+      steps.forEach(([start, end, stepTitle, stepBody, actions]) => {
         const item = document.createElement("li");
+        const range = document.createElement("span");
+        range.className = "eyebrow";
+        range.setAttribute("data-study-range", "");
+        range.textContent = start === end ? `Day ${start}` : `Days ${start}-${end}`;
         const title = document.createElement("strong");
         const body = document.createElement("span");
-        title.textContent = `${index + 1}. ${step.title}`;
-        body.textContent = step.body;
-        item.append(title, body);
-        if (step.href && step.cta) {
+        const links = document.createElement("div");
+        links.className = "study-plan-actions";
+        title.textContent = stepTitle;
+        body.textContent = stepBody;
+        actions.forEach(([href, cta]) => {
           const link = document.createElement("a");
-          link.href = step.href;
-          link.textContent = step.cta;
-          item.append(link);
-        }
+          link.href = href;
+          link.textContent = cta;
+          links.append(link);
+        });
+        item.append(range, title, body, links);
         planList.append(item);
       });
-
-      planner.dataset.currentFocus = weakLabels[weak] || weakLabels.mixed;
     };
 
     try {
-      const requestedState = normalizeDmvState(new URLSearchParams(window.location.search).get("state"));
+      const params = new URLSearchParams(window.location.search);
+      const requestedState = normalizeDmvState(params.get("state"));
       const savedState = requestedState || readDmvJourney().state;
       const stateOption = Array.from(stateSelect?.options || []).find(
         (option) => normalizeDmvState(option.value || option.dataset.state || option.textContent) === savedState,
       );
       if (stateOption) stateSelect.value = stateOption.value;
+      const requestedFocus = params.get("focus");
+      if (weakSelect && Array.from(weakSelect.options).some((option) => option.value === requestedFocus)) {
+        weakSelect.value = requestedFocus;
+      }
     } catch (error) {
       // Use the default planner state if URL parsing is unavailable.
     }

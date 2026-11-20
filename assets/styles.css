@@ -2702,6 +2702,14 @@ h3 {
   max-width: 100%;
 }
 
+.study-plan-page .compact-filter {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.study-plan-list .study-plan-actions {
+  margin-top: 0;
+}
+
 .study-path-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 14px 0 0;

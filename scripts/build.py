@@ -3777,17 +3777,22 @@ def render_dmv_study_plan_page():
             "tool-page study-plan-page",
         )
     default = next((item for item in records if item["value"] == "florida"), records[0])
+    def score_href(item):
+        return f'{DMV_SCORE_SLUG}.html?state={item["value"]}#score-calculator'
+
     options = "".join(
         f'<option value="{esc(item["value"])}" '
         f'data-state="{esc(item["label"])}" '
         f'data-agency="{esc(item["agency"])}" '
-        f'data-questions="{esc(item["questions"] or 40)}" '
         f'data-rule="{esc(item["rule"])}" '
+        f'data-sign-total="{esc(item["sectionQuestions"])}" '
+        f'data-sign-correct="{esc(item["sectionCorrect"])}" '
+        f'data-sign-included="{str(item["sectionIncluded"]).lower()}" '
         f'data-source-url="{esc(item["manualUrl"])}" '
         f'data-practice-url="{esc(item["permitUrl"])}" '
         f'data-signs-url="{esc(item["signUrl"])}" '
         f'data-checklist-url="{esc(item["checklistUrl"])}" '
-        f'data-score-url="{DMV_SCORE_SLUG}.html" '
+        f'data-score-url="{esc(score_href(item))}" '
         f'{"selected" if item["value"] == default["value"] else ""}>{esc(item["label"])}</option>'
         for item in records
     )
@@ -3808,11 +3813,11 @@ def render_dmv_study_plan_page():
     faq = render_faq([
         {
             "q": "How long should I study for the DMV permit test?",
-            "a": "It depends on your current score and state rules. A short 3-day plan should focus on official rules, road signs, and one full practice round. A 14- or 21-day plan can spread practice into smaller review blocks.",
+            "a": "It depends on your current score and state rules. With three days, take a short baseline, repair one weak area, then retest and check documents. With 14 or 21 days, add a delayed review before retesting.",
         },
         {
             "q": "What should I study first for the DMV permit test?",
-            "a": "Open the official state source first, then drill road signs and the state permit practice page. Use the checklist last so documents, appointment, fees, and retake rules are not forgotten.",
+            "a": "Check the official appointment and document requirements on day one, then use a short baseline to find a weak area. Check the visit details again on the final study day.",
         },
         {
             "q": "Is this an official DMV study plan?",
@@ -3849,7 +3854,7 @@ def render_dmv_study_plan_page():
   </div>
   <div class="study-plan-controls">
     <label>State <select data-study-state>{options}</select></label>
-    <label>Days left <select data-study-days>
+    <label>Study days available <select data-study-days>
       <option value="3">3 days</option>
       <option value="7" selected>7 days</option>
       <option value="14">14 days</option>
@@ -3865,26 +3870,29 @@ def render_dmv_study_plan_page():
   </div>
   <div class="study-plan-summary">
     <article><span data-study-agency>{esc(default["agency"])}</span><strong data-study-rule>{esc(default["rule"])}</strong><p>Confirm exact wording with the official state source.</p></article>
-    <article><span>Daily target</span><strong data-study-daily-questions>40 questions</strong><p>Use smaller review loops instead of one rushed full exam.</p></article>
-    <article><span>Road signs</span><strong data-study-sign-minutes>15 minutes/day</strong><p>Visual recognition should feel automatic before test day.</p></article>
-    <article><span>Final checkpoint</span><strong data-study-checkpoint>Checklist + score check</strong><p>Do not ignore documents, appointment, fees, or retake rules.</p></article>
+    <article><span>Day-one baseline</span><strong>10 sign questions</strong><p>A short diagnostic, not a state exam score.</p></article>
+    <article><span>Review focus</span><strong data-study-focus-label>Choose from your misses</strong><p>Work on one repeat mistake before adding more questions.</p></article>
+    <article><span>Final checkpoint</span><strong data-study-checkpoint>Day 7: final checklist</strong><p>Recheck visit details on the last study day.</p></article>
   </div>
   <div class="study-plan-actions">
     <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-study-source>Official source</a>
     <a href="{esc(default["permitUrl"])}" data-study-practice>Practice test</a>
     <a href="{esc(default["signUrl"])}" data-study-signs>Road signs</a>
     <a href="{esc(default["checklistUrl"])}" data-study-checklist>Checklist</a>
-    <a href="{DMV_SCORE_SLUG}.html" data-study-score>Passing score</a>
+    <a href="{esc(score_href(default))}" data-study-score>Passing score</a>
   </div>
   <ol class="study-plan-list" data-study-plan-list>
-    <li><strong>Open the official source.</strong><span>Confirm format, passing rule, and applicant requirements before practicing.</span></li>
-    <li><strong>Run one diagnostic practice round.</strong><span>Use missed topics to choose road signs, rules, or score confidence as the next focus.</span></li>
-    <li><strong>Finish with checklist logistics.</strong><span>Documents and appointment details can block a prepared visitor.</span></li>
+    <li><strong>Day 1: Check logistics and take a baseline.</strong><span>Confirm appointment and document requirements, then write down one mistake from a short sign round.</span><a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Start 10 sign questions</a></li>
+    <li><strong>Days 2-4: Repair one weak area.</strong><span>Explain what the sign or rule means, then re-answer the question without notes.</span></li>
+    <li><strong>Days 5-6: Recheck the score.</strong><span>Record correct answers and the question count. Compare like with like.</span><a href="{esc(score_href(default))}">Compare with state rule</a></li>
+    <li><strong>Day 7: Close the remaining gaps.</strong><span>Review remaining missed items and recheck documents, appointment and arrival details.</span></li>
   </ol>
 </section>
 <section class="content-section">
-  <h2>How to turn this plan into real practice</h2>
-  <p>Do not use the plan as a reading schedule only. Each block should end with an action: answer questions, flip sign cards, check the passing score, or mark checklist items ready.</p>
+  <h2>Worked example: seven days with confusing signs</h2>
+  <p>Suppose your first sign round is 6 of 10 and two misses are Merge and Lane Ends. Write down what changes in each picture and explain whether your lane disappears. Compare the signs, then come back the next day and answer again without labels. If you still hesitate, keep that pair on the review list.</p>
+  <p>Later in the week, compare your new score on the same 10-question set with the original 6 of 10. Keep that comparison separate from your state's knowledge-test rule: a short sign round cannot tell you whether you meet the full test requirements.</p>
+  <a href="road-sign-learning-loop.html?concept=merge-lane-ends#learning-loop">Practice Merge vs. Lane Ends</a>
 </section>
 <section class="source-matrix requirements-table" id="state-study-links" data-state-filter-scope>
   <div class="section-head-row">
