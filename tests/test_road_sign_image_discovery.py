@@ -78,8 +78,9 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
             with self.subTest(page=name):
                 parser = PageImages()
                 parser.feed((build.ROOT / f"{name}.html").read_text())
-                self.assertEqual(len(parser.images), 34)
-                self.assertEqual({image["src"] for image in parser.images}, paths)
+                sign_images = [image for image in parser.images if image["src"].startswith("assets/road-signs/")]
+                self.assertEqual(len(sign_images), 34)
+                self.assertEqual({image["src"] for image in sign_images}, paths)
                 for image in parser.images:
                     self.assertTrue((build.ROOT / image["src"]).is_file())
                 expected = build.ROAD_SIGN_PICTURE_PREVIEW if name == build.ROAD_SIGN_PICTURE_SLUG else "assets/dmv-road-signs-cheat-sheet-preview.png"
@@ -89,12 +90,15 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
                 if name == build.ROAD_SIGN_CHEAT_SHEET_SLUG:
                     self.assertTrue(all("loading" not in image for image in parser.images))
 
-    def test_existing_sitemap_keeps_60_pages_with_images_only_on_the_pilot(self):
+    def test_existing_sitemap_keeps_63_pages_with_images_only_on_the_pilot(self):
         root = ElementTree.parse(build.ROOT / "sitemap.xml").getroot()
         ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "image": "http://www.google.com/schemas/sitemap-image/1.1"}
         entries = root.findall("s:url", ns)
-        self.assertEqual(len(entries), 60)
-        self.assertEqual(len({entry.findtext("s:loc", namespaces=ns) for entry in entries}), 60)
+        self.assertEqual(len(entries), 63)
+        urls = {entry.findtext("s:loc", namespaces=ns) for entry in entries}
+        self.assertEqual(len(urls), 63)
+        self.assertTrue({build.url_for(f"/{slug}.html") for slug in
+                         ("skills-practice", "clerical-checking-practice", "filing-practice")}.issubset(urls))
         pilots = set()
         for entry in entries:
             page = entry.findtext("s:loc", namespaces=ns)

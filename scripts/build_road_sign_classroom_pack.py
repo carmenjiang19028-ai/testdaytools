@@ -22,11 +22,14 @@ from reportlab.platypus import (
     Table,
     TableStyle,
 )
+if __package__:
+    from .road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL, practice_qr
+else:
+    from road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL, practice_qr
 
 
 ROOT = FSPath(__file__).resolve().parents[1]
 OUTPUT = ROOT / "dmv-road-signs-classroom-worksheet.pdf"
-PAGE_URL = "testdaytools.com/dmv-road-signs-cheat-sheet.html"
 BLUE = colors.HexColor("#155E9F")
 INK = colors.HexColor("#17212F")
 MUTED = colors.HexColor("#586678")
@@ -69,7 +72,7 @@ def footer(canvas, doc):
     canvas.line(0.55 * inch, 0.48 * inch, 7.95 * inch, 0.48 * inch)
     canvas.setFont(FONT, 7.5)
     canvas.setFillColor(MUTED)
-    canvas.drawString(0.55 * inch, 0.30 * inch, f"TestDayTools | {PAGE_URL} | Free noncommercial educational use; share unmodified with credit.")
+    canvas.drawString(0.55 * inch, 0.30 * inch, f"TestDayTools | {PRACTICE_DISPLAY} | Free noncommercial educational use; share unmodified with credit.")
     canvas.drawRightString(7.95 * inch, 0.30 * inch, f"Page {doc.page}")
     canvas.restoreState()
 
@@ -144,6 +147,24 @@ def build_document(image_dir, output):
     ], colWidths=[2.75 * inch, 4.35 * inch], rowHeights=[0.34 * inch] * 3)
     reflection.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.6, LINE), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("BACKGROUND", (0, 0), (0, -1), SOFT), ("LEFTPADDING", (0, 0), (-1, -1), 7)]))
     story.append(reflection)
+    story.append(Spacer(1, 10))
+    practice = Table([[
+        practice_qr(61),
+        Paragraph(
+            f'<b>Practice the signs you missed</b><br/>Scan to open the study sheet, then choose your sign group. '
+            f'<link href="{PRACTICE_URL}" color="#155E9F"><u>{PRACTICE_DISPLAY}</u></link>',
+            styles["Bodyx"],
+        ),
+    ]], colWidths=[0.99 * inch, 6.11 * inch], hAlign="LEFT")
+    practice.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("BOX", (0, 0), (-1, -1), 0.6, LINE),
+        ("LEFTPADDING", (0, 0), (-1, -1), 5),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 3),
+        ("TOPPADDING", (0, 0), (-1, -1), 3),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+    ]))
+    story.append(practice)
 
     story.append(PageBreak())
     story += title_block(
@@ -224,7 +245,7 @@ def build_document(image_dir, output):
         ("2 min", "Silent scan", "Students name each sign without reading the answer choices."),
         ("3 min", "Action language", "Ask for verbs: stop, yield, merge, slow, watch, or do not enter."),
         ("3 min", "Decision round", "Students circle answers, then explain one choice to a partner."),
-        ("2 min", "Targeted next step", "Circle no more than three weak signs and open the matching picture quiz."),
+        ("2 min", "Targeted next step", "Circle up to three weak signs. Scan or open the link on page 1 and choose the matching quiz group."),
     ]
     plan_table = Table([[Paragraph(f"<b>{a}</b>", styles["Bodyx"]), Paragraph(f"<b>{b}</b>", styles["Bodyx"]), Paragraph(c, styles["Bodyx"])] for a, b, c in plan], colWidths=[0.65 * inch, 1.25 * inch, 5.2 * inch])
     plan_table.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.6, LINE), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("BACKGROUND", (0, 0), (1, -1), SOFT), ("LEFTPADDING", (0, 0), (-1, -1), 6), ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5)]))

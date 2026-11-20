@@ -45,7 +45,7 @@ for (const file of pages) {
       const { context, page } = await openPage(file, viewport);
       try {
         await decodeImages(page);
-        const images = await page.locator("img").evaluateAll((images) => images.map((image) => {
+        const images = await page.locator('img[src^="assets/road-signs/"]').evaluateAll((images) => images.map((image) => {
           const box = image.getBoundingClientRect();
           return { loaded: image.complete && image.naturalWidth > 0, alt: image.alt, width: box.width, height: box.height, right: box.right };
         }));
@@ -138,7 +138,7 @@ test("print resource retains printable images, PDF links and a functioning print
     assert.ok(links.includes("dmv-road-signs-classroom-worksheet.pdf"));
     await page.emulateMedia({ media: "print" });
     await decodeImages(page);
-    assert.equal(await page.locator("#printable-sheet img:visible").count(), 31);
+    assert.equal(await page.locator("#printable-sheet .cheat-sign-visual img:visible").count(), 31);
     assert.equal(await page.locator(".site-header").isVisible(), false);
     assert.equal(await page.locator(".cheat-sign-visual img").first().evaluate((image) => image.getBoundingClientRect().width), 68);
     await screenshot(page, "dmv-road-signs-cheat-sheet-print.png");

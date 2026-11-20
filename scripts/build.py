@@ -69,7 +69,7 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "October 16, 2026",
+    "lastUpdated": "November 20, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -3492,7 +3492,11 @@ def render_cheat_group_link(group):
         raise ValueError(f"Study sheet and practice pictures do not match: {group['label']}")
     href = road_sign_group_practice_href(group)
     label = f'Practice {len(questions)} questions'
-    return f'<a class="cheat-group-practice-link info-card-link" href="{esc(href)}" aria-label="{esc(label + ": " + group["label"])}">{esc(label)}</a>'
+    group_label = esc(label + ": " + group["label"])
+    return (
+        f'<a class="cheat-group-practice-link info-card-link" href="{esc(href)}" aria-label="{group_label}">{esc(label)}</a>'
+        f'<a class="cheat-print-group-link" href="{esc(url_for("/" + href))}" aria-label="{group_label}">{esc(label)} online</a>'
+    )
 
 
 def render_road_sign_cheat_sheet_page():
@@ -3500,6 +3504,7 @@ def render_road_sign_cheat_sheet_page():
     groups = source_tool.get("signLibrary", {}).get("groups", [])
     rendered_groups = []
     sign_count = 0
+    practice_page = url_for(f"/{ROAD_SIGN_CHEAT_SHEET_SLUG}.html")
     for group in groups:
         signs = []
         for sign in group.get("signs", []):
@@ -3542,6 +3547,10 @@ def render_road_sign_cheat_sheet_page():
     <div><p class="eyebrow">TestDayTools printable reference</p><h2>DMV road signs and meanings</h2></div>
     <p>{sign_count} common signs. Read the picture first, then say the driver action before checking the meaning.</p>
   </header>
+  <div class="print-practice-access">
+    <img src="assets/road-sign-practice-qr.svg" alt="QR code for the online study sheet and practice groups" width="82" height="82">
+    <p><strong>Practice only the signs you missed.</strong> Scan to find the same groups online, or go to <a href="{esc(practice_page)}#printable-sheet">{esc(practice_page.removeprefix("https://"))}</a>.</p>
+  </div>
   <div class="cheat-legend" aria-label="Road sign color and shape legend">
     <div><span class="legend-swatch legend-red"></span><strong>Red</strong><p>Stop, yield, entry, or prohibited movement</p></div>
     <div><span class="legend-swatch legend-yellow"></span><strong>Yellow</strong><p>Warning, crossing, or road condition ahead</p></div>
@@ -3566,7 +3575,7 @@ def render_road_sign_cheat_sheet_page():
     </div>
   </section>
   <footer class="printable-sheet-foot">
-    <p><strong>Study loop:</strong> Cover the meanings, name each sign and driver action, circle misses, then retake the matching group at testdaytools.com/road-signs-practice-test.html.</p>
+    <p><strong>Study loop:</strong> Cover the meanings, name each sign and driver action, then revisit the group you missed at {esc(practice_page.removeprefix("https://"))}.</p>
     <p><strong>Educational-use permission:</strong> Teachers, libraries, driving schools, and families may print and share this unmodified PDF for noncommercial education when the TestDayTools credit and page URL remain visible. No resale, rebranding, or adaptation.</p>
     <p><strong>Material check {esc(road_sign_materials()["checkedOn"])}:</strong> Illustrations and labels checked for cross-material consistency; the web page records the scope and official sources. These simplified pictures are not an instructor assessment or a substitute for your state handbook.</p>
   </footer>

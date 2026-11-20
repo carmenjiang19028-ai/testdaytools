@@ -3,12 +3,21 @@ import os
 import subprocess
 import tempfile
 from pathlib import Path
+from reportlab.graphics import renderSVG
+if __package__:
+    from .road_sign_print_links import practice_qr
+else:
+    from road_sign_print_links import practice_qr
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "dmv-road-signs-cheat-sheet.pdf"
 
 
 def main():
+    renderSVG.drawToFile(
+        practice_qr(72), str(ROOT / "assets/road-sign-practice-qr.svg"),
+        title="TestDayTools road signs practice", desc="QR code for the road-sign study sheet and matching practice groups.",
+    )
     with tempfile.TemporaryDirectory(prefix="testdaytools-reference-") as directory:
         rendered = Path(directory) / OUTPUT.name
         subprocess.run([

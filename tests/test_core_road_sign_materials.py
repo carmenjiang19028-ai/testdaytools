@@ -5,10 +5,11 @@ from xml.etree import ElementTree as ET
 
 from pypdf import PdfReader
 from scripts.build import (
-    SIGN_SVGS, road_sign_image_records, road_sign_materials, road_sign_shape_records,
-    render_contrast_lessons, render_crossing_shape_drill,
+    SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
+    render_contrast_lessons, render_crossing_shape_drill, road_sign_group_practice_href, url_for,
 )
 from scripts.build_road_sign_classroom_pack import CLASSROOM_SIGNS
+from scripts.road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -152,6 +153,28 @@ class CoreMaterialTests(unittest.TestCase):
         text = pdf.pages[2].extract_text()
         for answer in ["1. B -", "2. A -", "3. A -", "4. A -", "5. B -", "6. A -", "7. B -", "8. B -"]:
             self.assertIn(answer, text)
+
+    def test_printed_material_links_and_readable_fallback_match_online_practice(self):
+        def uris(page):
+            return {a.get_object().get("/A", {}).get("/URI")
+                    for a in page.get("/Annots", [])
+                    if a.get_object().get("/A", {}).get("/S") == "/URI"}
+
+        groups = TOOL_BY_SLUG["road-signs-practice-test"]["signLibrary"]["groups"]
+        links = [url_for("/" + road_sign_group_practice_href(group)) for group in groups]
+        reference, classroom = [
+            PdfReader(ROOT / f"dmv-road-signs-{name}.pdf")
+            for name in ("cheat-sheet", "classroom-worksheet")
+        ]
+        self.assertEqual(len(links), 3)
+        self.assertEqual(PRACTICE_URL, url_for("/dmv-road-signs-cheat-sheet.html") + "#printable-sheet")
+        self.assertEqual([uris(page) for page in reference.pages],
+                         [{links[0], PRACTICE_URL}, {links[1]}, {links[2]}])
+        self.assertEqual(uris(classroom.pages[0]), {PRACTICE_URL})
+        for pdf in [reference, classroom]:
+            self.assertIn(PRACTICE_DISPLAY, pdf.pages[0].extract_text())
+            text = " ".join(" ".join(page.extract_text().split()) for page in pdf.pages)
+            self.assertIn("No resale, rebranding, or adaptation.", text)
 
 
 if __name__ == "__main__":

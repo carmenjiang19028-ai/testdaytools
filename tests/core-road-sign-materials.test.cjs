@@ -65,6 +65,28 @@ test('all eight classroom PDF images exactly preserve rendered shared SVG pixels
 });
 
 for (const width of [1280, 390]) {
+  test(`${width}px: printed study links point to live groups and the scan lands below the header`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 840 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'dmv-road-signs-cheat-sheet.html')).href + '#printable-sheet');
+      const heading = await page.locator('#printable-sheet h2').first().boundingBox();
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      assert.equal(await page.locator('.print-practice-access').isVisible(), false);
+      const screenLinks = await page.locator('.cheat-group-practice-link').evaluateAll(links =>
+        links.map(link => new URL(link.getAttribute('href'), 'https://testdaytools.com/').href));
+      const printLinks = page.locator('.cheat-print-group-link');
+      assert.equal(await printLinks.first().isVisible(), false);
+      await page.emulateMedia({ media: 'print' });
+      assert.equal(await page.locator('.print-practice-access').isVisible(), true);
+      assert.equal(await page.locator('.cheat-group-practice-link').first().isVisible(), false);
+      assert.deepEqual(await printLinks.evaluateAll(links => links.map(link => link.href)), screenLinks);
+      assert.ok(await page.locator('.print-practice-access img').evaluate(img => img.complete && img.naturalWidth > 0));
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: Illinois rendered warning signs match the shared art cues`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route(/^https?:/, route => route.abort());

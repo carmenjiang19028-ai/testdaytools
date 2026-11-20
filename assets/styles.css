@@ -5965,6 +5965,19 @@ button:disabled {
   min-height: 44px;
 }
 
+.print-practice-access,
+.cheat-print-group-link {
+  display: none;
+}
+
+#printable-sheet {
+  scroll-margin-top: 96px;
+}
+
+@media (max-width: 700px) {
+  #printable-sheet { scroll-margin-top: 160px; }
+}
+
 .cheat-sign-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6159,6 +6172,27 @@ button:disabled {
     box-shadow: none;
   }
 
+  .print-practice-access {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    border-block: 1px solid #b2bcc5;
+    break-inside: avoid;
+  }
+
+  .print-practice-access p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+
+  .cheat-print-group-link {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 0.8rem;
+  }
+
   .cheat-legend {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -6169,7 +6203,7 @@ button:disabled {
   }
 
   .cheat-sign-card {
-    min-height: 102px;
+    min-height: 87px;
     grid-template-columns: 68px minmax(0, 1fr);
     padding: 7px;
     break-inside: avoid;
@@ -6187,8 +6221,8 @@ button:disabled {
     color: #333;
   }
 
-  .cheat-group {
-    break-before: auto;
+  .cheat-group + .cheat-group {
+    break-before: page;
   }
 
   .cheat-group-head {
