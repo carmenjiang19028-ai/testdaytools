@@ -110,6 +110,104 @@ async function answer(page, n = 0) {
   await page.locator('[data-loop-next]').click();
 }
 async function state(page, concept = '') { return page.evaluate(c => JSON.parse(localStorage.getItem(`tdt-learning-loop:v2:${c || 'all'}`)), concept); }
+const displayedOrder = page => page.locator('[data-loop-option]').evaluateAll(buttons =>
+  buttons.map(button => Number(button.dataset.loopOption)));
+
+test('alternating third and second cannot reliably answer a fresh contrast round', async () => {
+  const { page, context } = await open(390, '', () => {
+    const values = [0.99, 0.99, 0, 0.99, 0.99, 0];
+    let draw = 0;
+    Math.random = () => values[draw++ % values.length];
+  });
+  try {
+    const correctPositions = [];
+    for (let index = 0; index < 9; index++) {
+      const order = await displayedOrder(page);
+      assert.deepEqual([...order].sort(), [0, 1, 2]);
+      correctPositions.push(order.indexOf(0));
+      await page.locator('[data-loop-option]').nth(index % 2 ? 1 : 2).click();
+      await page.locator('[data-loop-next]').click();
+      await page.locator('[data-loop-next]').click();
+      if (/Phase 2/.test(await page.locator('[data-loop-phase-label]').innerText())) {
+        await page.locator('[data-loop-next]').click();
+      }
+    }
+    assert.deepEqual([...new Set(correctPositions)].sort(), [0, 1, 2]);
+    const saved = await state(page);
+    assert.equal(Object.keys(saved.answers).length, 9);
+    assert.ok(Object.values(saved.answers).some(answer => !answer.correct));
+    assert.match(await page.locator('.learning-complete').innerText(), /all 6/);
+  } finally {
+    await context.close();
+  }
+});
+
+test('old submitted choices retain their placement, reason and exposure after the update', async () => {
+  const questionId = 'stop-yield-distinction';
+  const { page, context } = await open(390, '', () => {
+    if (localStorage.getItem('tdt-learning-loop:v2:all')) return;
+    localStorage.setItem('tdt-learning-loop:v2:all', JSON.stringify({
+      version: '2026-11-20', index: 0,
+      answers: { 'stop-yield-distinction': { selected: 1, correct: false } },
+      exposures: { 'stop-yield-distinction': 1 },
+    }));
+  });
+  try {
+    assert.deepEqual(await displayedOrder(page), [1, 2, 0]);
+    assert.equal(await page.locator('[data-loop-option="1"]').getAttribute('aria-pressed'), 'true');
+    assert.match(await page.locator('[data-loop-feedback]').innerText(), /treats STOP as conditional/);
+    await page.reload();
+    assert.deepEqual(await displayedOrder(page), [1, 2, 0]);
+    assert.equal((await state(page)).exposures[questionId], 1);
+    assert.equal(await page.locator('.learning-record-answer').count(), 1);
+  } finally {
+    await context.close();
+  }
+});
+
+test('refresh keeps a valid displayed order, and restarting draws a fresh one', async () => {
+  const id = 'entry-direction-distinction';
+  const concept = 'do-not-enter-wrong-way';
+  const { page, context } = await open(1280, concept, () => {
+    const values = [0.99, 0.99];
+    let draw = 0;
+    Math.random = () => values[draw++ % values.length];
+    const key = 'tdt-learning-loop:v2:do-not-enter-wrong-way';
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, JSON.stringify({
+      version: '2026-11-20', index: 0, answers: {},
+      optionOrders: { 'entry-direction-distinction': [2, 0, 1] },
+    }));
+  });
+  try {
+    assert.deepEqual(await displayedOrder(page), [2, 0, 1]);
+    await answer(page, 2);
+    await page.reload();
+    assert.deepEqual(await displayedOrder(page), [2, 0, 1]);
+    assert.equal((await state(page, concept)).answers[id].selected, 2);
+    await page.locator('[data-loop-reset]').click();
+    assert.deepEqual(await displayedOrder(page), [0, 1, 2]);
+    assert.deepEqual((await state(page, concept)).answers, {});
+  } finally {
+    await context.close();
+  }
+});
+
+test('a duplicate stored choice order cannot hide an option', async () => {
+  const { page, context } = await open(1280, '', () => localStorage.setItem('tdt-learning-loop:v2:all',
+    JSON.stringify({
+      version: '2026-11-20', index: 0, answers: {},
+      optionOrders: { 'stop-yield-distinction': [0, 0, 1] },
+    })));
+  try {
+    assert.deepEqual((await displayedOrder(page)).sort(), [0, 1, 2]);
+    await answer(page, 1);
+    assert.match(await page.locator('[data-loop-feedback]').innerText(), /treats STOP as conditional/);
+  } finally {
+    await context.close();
+  }
+});
+
 for (const width of [390, 1280]) {
   test(`${width}: mixed outcomes cover every situation and preserve review after reload`, async () => {
     const { page, context } = await open(width);

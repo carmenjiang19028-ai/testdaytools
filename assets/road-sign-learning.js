@@ -31,7 +31,18 @@
     ...lesson.applications.map(question => ({ lesson, question, phase: 3 })),
   ]);
   const questions = steps.filter(step => step.question);
-  let state = { version: curriculum.version, index: 0, answers: {}, exposures: {} };
+  const shuffleOptions = count => {
+    const order = Array.from({ length: count }, (_, index) => index);
+    for (let index = order.length - 1; index > 0; index--) {
+      const swap = Math.floor(Math.random() * (index + 1));
+      [order[index], order[swap]] = [order[swap], order[index]];
+    }
+    return order;
+  };
+  const validOrder = (order, count) => Array.isArray(order) && order.length === count &&
+    new Set(order).size === count && order.every(index => Number.isInteger(index) && index >= 0 && index < count);
+  const newSession = () => ({ version: curriculum.version, index: 0, answers: {}, exposures: {}, optionOrders: {} });
+  let state = newSession();
   let storageAvailable = true;
   try {
     let saved;
@@ -40,11 +51,18 @@
     }
     if (saved?.version === curriculum.version) {
       if (saved.answers && typeof saved.answers === 'object' && !Array.isArray(saved.answers)) {
-        for (const { question } of questions) {
+        for (const [index, { question }] of questions.entries()) {
           const answer = saved.answers[question.id];
           if (answer && Number.isInteger(answer.selected) && answer.selected >= 0 && answer.selected < question.options.length) {
             state.answers[question.id] = { selected: answer.selected, correct: answer.selected === 0 };
+            if (!saved.optionOrders) {
+              // Keep the displayed positions of answers submitted before option orders were saved.
+              const offset = (index % 2) + 1;
+              state.optionOrders[question.id] = question.options.map((_, i) => (i + offset) % question.options.length);
+            }
           }
+          const savedOrder = saved.optionOrders?.[question.id];
+          if (validOrder(savedOrder, question.options.length)) state.optionOrders[question.id] = savedOrder;
           const exposure = saved.exposures?.[question.id];
           if (Number.isSafeInteger(exposure) && exposure > 0) state.exposures[question.id] = exposure;
         }
@@ -96,6 +114,9 @@
     report.querySelector('[data-loop-report-text]').value = reportText();
   };
   const render = () => {
+    const step = steps[state.index];
+    const q = step?.question;
+    if (q && !state.optionOrders[q.id]) state.optionOrders[q.id] = shuffleOptions(q.options.length);
     persist();
     renderReport();
     const complete = state.index === steps.length;
@@ -114,7 +135,6 @@
       next.textContent = 'Session complete';
       return;
     }
-    const step = steps[state.index];
     const lesson = step.lesson;
     get('phase-label').textContent = `Phase ${step.phase} of 3 · ${({1:'Compare',2:'Work through the distinction',3:'Apply'})[step.phase]}`;
     get('title').textContent = lesson.title.split(':')[0];
@@ -127,10 +147,8 @@
       next.textContent = 'Try the situations';
       return;
     }
-    const q = step.question;
     const answer = state.answers[q.id];
-    const offset = (questions.findIndex(item => item.question.id === q.id) % 2) + 1;
-    const order = q.options.map((_, i) => (i + offset) % q.options.length);
+    const order = state.optionOrders[q.id];
     stage.innerHTML = `<article class="learning-card" data-loop-question="${esc(q.id)}"><div class="learning-card-visual learning-contrast-visual">${visuals(q.images)}</div><div class="learning-card-copy"><span>${step.phase === 1 ? 'Compare the controls' : 'A changed situation'}</span><h3 tabindex="-1" data-loop-question-title>${esc(q.prompt)}</h3><div class="learning-options" role="group" aria-label="Answer choices">${order.map(i => `<button type="button" data-loop-option="${i}" aria-pressed="${(answer?.selected ?? selected) === i}" ${answer ? 'disabled' : ''} class="${(answer?.selected ?? selected) === i ? 'is-selected' : ''}">${esc(q.options[i].text)}</button>`).join('')}</div><div class="learning-feedback" data-loop-feedback role="status" aria-live="polite">${answer ? `<strong>${answer.correct ? 'Correct in this situation.' : 'Not quite. Review this decision.'}</strong><p>${esc(q.options[answer.selected].why)}</p>${answer.correct ? '' : `<p>Keep this rule: ${esc(q.options[0].text)}</p>`}<p class="contrast-source">${sourceLink(lesson)}</p>` : ''}</div></div></article>`;
     stage.querySelectorAll('[data-loop-option]').forEach(button => button.addEventListener('click', () => {
       if (state.answers[q.id]) return;
@@ -167,7 +185,7 @@
     (complete ? heading : stage)?.scrollIntoView({ block: 'start', behavior: 'instant' });
   });
   get('reset').addEventListener('click', () => {
-    state = { version: curriculum.version, index: 0, answers: {}, exposures: {} };
+    state = newSession();
     selected = null;
     render();
   });
