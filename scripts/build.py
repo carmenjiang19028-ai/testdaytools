@@ -2791,6 +2791,31 @@ def render_state_rule_practice(lesson):
 </section>"""
 
 
+def render_sign_recall(lesson):
+    anchor = esc(lesson["id"])
+    cards = "".join(
+        f'''<article class="contrast-scene">
+  <h3>Picture {index}</h3>
+  <figure>{render_road_sign_image(card["image"], card["imageLabel"], lazy=False)}</figure>
+  <details class="contrast-transfer">
+    <summary>Check your explanation</summary>
+    <p><strong>Color and shape:</strong> {esc(card["cue"])}</p>
+    <p><strong>Driver action:</strong> {esc(card["action"])}</p>
+  </details>
+</article>'''
+        for index, card in enumerate(lesson["cards"], start=1)
+    )
+    sources = " &middot; ".join(
+        f'<a href="{esc(source["url"])}">{esc(source["label"])}</a>' for source in lesson["sources"]
+    )
+    return f'''<section class="content-section state-sign-lesson" id="{anchor}" aria-labelledby="{anchor}-heading">
+  <h2 id="{anchor}-heading">{esc(lesson["heading"])}</h2>
+  <p>{esc(lesson["intro"])}</p>
+  <div class="sign-recall-grid">{cards}</div>
+  <p class="contrast-source">Official charts: {sources}</p>
+</section>'''
+
+
 def render_tool(tool):
     quiz = render_dmv_mode_tool(tool) if tool.get("category") == "DMV" else render_quiz(tool.get("quiz"))
     dmv_quiz_first = tool.get("category") == "DMV" and quiz
@@ -2848,6 +2873,8 @@ def render_tool(tool):
     hero_panel_block = f"\n    {hero_panel}" if hero_panel else ""
     test_day_bridge = render_dmv_test_day_bridge(tool)
     state_rule_practice = render_state_rule_practice(tool.get("stateRulePractice"))
+    widget = tool.get("toolWidget") or {}
+    sign_recall = render_sign_recall(widget) if widget.get("type") == "signRecall" else ""
     replacement_notice = ""
     replacement_slug = tool.get("replacementSlug")
     replacement_tool = TOOL_BY_SLUG.get(replacement_slug)
@@ -2867,7 +2894,7 @@ def render_tool(tool):
 <section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
 {replacement_notice_block}\
 {render_trust_strip(tool)}
-{practice_console}{render_contrast_practice_links(f'{ROAD_SIGN_PICTURE_SLUG}.html') if tool['slug'] == ROAD_SIGN_PICTURE_SLUG else ''}{test_day_bridge}{state_rule_practice}
+{practice_console}{render_contrast_practice_links(f'{ROAD_SIGN_PICTURE_SLUG}.html') if tool['slug'] == ROAD_SIGN_PICTURE_SLUG else ''}{test_day_bridge}{state_rule_practice}{sign_recall}
 {page_sections}"""
     page_type = "LearningResource" if tool.get("category") in ("DMV", "SAT", "AP") else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')
@@ -2877,8 +2904,8 @@ def render_tool(tool):
     if tool["slug"] == ROAD_SIGN_PICTURE_SLUG:
         social_image = ROAD_SIGN_PICTURE_PREVIEW
         resource_schema["image"] = url_for(f"/{social_image}")
-    extra_head = '<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide") else ""
-    if tool.get("toolWidget", {}).get("type") == "virginiaKnowledgeRetest":
+    extra_head = '<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or sign_recall or tool["slug"] in (ROAD_SIGN_PICTURE_SLUG, "sat-math-score-guide", "sat-reading-writing-score-guide") else ""
+    if widget.get("type") == "virginiaKnowledgeRetest":
         extra_head += '<script src="assets/virginia-retest.js" defer></script>'
     return page_shell(
         tool["title"],

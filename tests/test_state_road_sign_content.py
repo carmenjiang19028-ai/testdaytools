@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 from urllib.parse import urlsplit
 from xml.etree import ElementTree
-from scripts.build import dmv_requirement_records, render_state_rule_practice
+from scripts.build import dmv_requirement_records, render_sign_recall, render_state_rule_practice
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,6 +46,20 @@ class StateRoadSignContentTest(unittest.TestCase):
         publisher_id = self.data["site"]["adsenseVerification"]["publisherId"]
         expected = f"google.com, {publisher_id.removeprefix('ca-')}, DIRECT, f08c47fec0942fa0\n"
         self.assertEqual((ROOT / "ads.txt").read_text(), expected)
+
+    def test_north_carolina_recall_uses_both_official_chart_groups(self):
+        slug = "north-carolina-dmv-road-signs-practice"
+        lesson = self.tools[slug]["toolWidget"]
+        page = (ROOT / f"{slug}.html").read_text()
+        self.assertEqual([card["image"] for card in lesson["cards"]], ["stop", "signal-ahead", "yield", "slippery"])
+        self.assertEqual([card["cue"].split(":")[0] for card in lesson["cards"]], ["Regulatory", "Warning"] * 2)
+        self.assertEqual(
+            [source["url"].rsplit("/", 1)[-1] for source in lesson["sources"]],
+            ["regulatory-signs.pdf", "warning-signs.pdf"],
+        )
+        self.assertIn(render_sign_recall(lesson), page)
+        self.assertIn('href="#north-carolina-sign-recall"', page)
+        self.assertIn('href="road-signs-practice-test.html?mode=road-signs-core#practice"', page)
 
     def test_illinois_school_case_is_distinct_from_the_twenty_question_drill(self):
         slug = "illinois-dmv-road-signs-practice"

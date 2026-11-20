@@ -38,6 +38,10 @@
 .shape-crossing-drill p { margin: 0 0 12px; }
 .shape-crossing-drill details p, .state-sign-lesson details p { margin: 12px 0 0; }
 .state-sign-lesson figure img { display: block; width: 100%; max-width: 220px; height: auto; margin-inline: auto; }
+.sign-recall-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 820px; align-items: start; }
+.sign-recall-grid h3 { margin: 0; }
+.sign-recall-grid figure { margin: 0 0 8px; }
+.sign-recall-grid details { padding-bottom: 0; }
 .shape-crossing-drill .contrast-sign-pair svg { display: block; width: 100%; height: auto; aspect-ratio: 220 / 160; }
 .shape-page .requirements-table-scroll { max-width: 100%; overflow-x: auto; }
 .contrast-sign-pair span { text-align: center; font-size: 14px; }
@@ -53,6 +57,7 @@
 .material-links { padding-left: 22px; line-height: 1.8; }
 @media (max-width: 680px) {
   .contrast-lesson-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .sign-recall-grid { grid-template-columns: minmax(0, 1fr); }
   .contrast-scene { padding: 12px; }
   .contrast-lesson h3 { font-size: 20px; }
   .contrast-lesson, .shape-crossing-drill, .state-sign-lesson { scroll-margin-top: 160px; }

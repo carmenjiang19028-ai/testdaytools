@@ -14686,7 +14686,49 @@
       "title": "North Carolina Road Signs Study Guide and Test Context",
       "description": "Use official North Carolina driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "North Carolina road signs",
-      "summary": "Review North Carolina-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
+      "summary": "Practice explaining a road sign from its color and shape before you see the answer. Then review North Carolina's official test details or try the shared nationwide picture quiz.",
+      "heroActions": [
+        {"label": "Try the no-choice sign drill", "href": "#north-carolina-sign-recall"},
+        {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
+        {"label": "State test details", "href": "#official-details"},
+        {"label": "Official sources", "href": "#sources"}
+      ],
+      "toolWidget": {
+        "type": "signRecall",
+        "id": "north-carolina-sign-recall",
+        "heading": "Name the sign and explain what to do",
+        "intro": "For each picture, say or think through its color, shape, and what you would do as a driver. Check your explanation only after you have an answer. These four examples are study practice, not official test questions.",
+        "cards": [
+          {
+            "image": "stop",
+            "imageLabel": "red eight-sided sign with white STOP lettering",
+            "cue": "Regulatory: the red octagon with white lettering is a Stop sign.",
+            "action": "Come to a complete stop, even if the intersection looks empty. Check for traffic and people crossing before moving when it is safe."
+          },
+          {
+            "image": "signal-ahead",
+            "imageLabel": "yellow diamond with a red, yellow, and green traffic light symbol",
+            "cue": "Warning: the yellow diamond with a traffic light symbol is Signal Ahead.",
+            "action": "Expect a traffic signal and be ready to slow or stop. Follow the actual traffic light at the intersection, not the colors printed on this warning sign."
+          },
+          {
+            "image": "yield",
+            "imageLabel": "downward-pointing triangle with a red border and white center",
+            "cue": "Regulatory: the red and white triangle pointing down is a Yield sign.",
+            "action": "Slow down and give the right-of-way to traffic and people crossing. Stop if needed; unlike a Stop sign, this does not require a stop every time."
+          },
+          {
+            "image": "slippery",
+            "imageLabel": "yellow diamond with a black car and two wavy skid lines",
+            "cue": "Warning: the yellow diamond with skid lines is Slippery When Wet.",
+            "action": "In wet conditions, slow down, leave more space, and avoid sudden braking or steering. The wavy lines show a skidding car, not curves in the road."
+          }
+        ],
+        "sources": [
+          {"label": "NCDMV regulatory signs (PDF)", "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Documents/regulatory-signs.pdf"},
+          {"label": "NCDMV warning signs (PDF)", "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Documents/warning-signs.pdf"}
+        ]
+      },
       "quickFacts": [
         {
           "label": "Official source",
@@ -14710,7 +14752,7 @@
       "examBrief": {
         "kicker": "North Carolina sign practice",
         "heading": "North Carolina road-sign study and official exam context",
-        "intro": "Review North Carolina-specific test details here, then use the shared nationwide picture quiz for interactive practice. Check NCDMV's current study materials for authoritative wording.",
+        "intro": "Use the sign drill to practice recognition without answer choices. Use the shared nationwide picture quiz for additional questions, and check NCDMV's study materials for official wording.",
         "facts": [
           {
             "label": "Official source",
@@ -14742,7 +14784,7 @@
           {
             "step": "02",
             "title": "Practice color, shape, and explanation",
-            "text": "The NCDMV test description says applicants identify the sign by color and shape and explain it."
+            "text": "Try the four-picture drill above: describe each sign's color and shape, then explain the action before checking."
           },
           {
             "step": "03",
@@ -14805,7 +14847,7 @@
           {
             "label": "Traffic signs focus",
             "value": "Color, shape, meaning",
-            "text": "The handbook notes that traffic signs practice includes identifying signs by color and shape and explaining meaning."
+            "text": "The NCDMV test description asks applicants to identify signs by color and shape and explain their meaning."
           },
           {
             "label": "What to study",
@@ -14814,8 +14856,8 @@
           },
           {
             "label": "Interactive practice",
-            "value": "Shared nationwide quiz",
-            "text": "Use the shared picture question bank and read each answer explanation there."
+            "value": "No-choice drill and shared quiz",
+            "text": "Start by explaining the four signs without options. Use the shared nationwide quiz for scored practice and more signs."
           },
           {
             "label": "Traffic-sign task",
@@ -14829,10 +14871,10 @@
           }
         ]
       },
-      "lastUpdated": "October 17, 2026",
+      "lastUpdated": "November 20, 2026",
       "replacementSlug": "road-signs-practice-test",
-      "replacementLabel": "Practice with the shared nationwide quiz.",
-      "replacementText": "This page summarizes North Carolina-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
+      "replacementLabel": "Scored practice is separate.",
+      "replacementText": "This guide has a no-choice sign drill for the North Carolina study task. The nationwide quiz uses a shared question bank and is not a North Carolina exam simulation."
     },
     {
       "slug": "ohio-bmv-road-signs-practice",

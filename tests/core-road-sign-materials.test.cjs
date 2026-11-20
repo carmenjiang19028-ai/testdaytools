@@ -147,6 +147,47 @@ for (const width of [1280, 390]) {
     });
   }
 
+  test(`${width}px: North Carolina sign recall works with JavaScript off and hides each answer independently`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, javaScriptEnabled: false });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'north-carolina-dmv-road-signs-practice.html')).href);
+      await page.getByRole('link', {name: 'Try the no-choice sign drill', exact: true}).click();
+      assert.equal(new URL(page.url()).hash, '#north-carolina-sign-recall');
+      const drill = page.locator('#north-carolina-sign-recall');
+      const heading = await drill.locator('h2').boundingBox();
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      assert.deepEqual(await drill.getByRole('img').evaluateAll(images => images.map(img => [
+        img.getAttribute('src').split('/').at(-1), Boolean(img.alt && img.complete && img.naturalWidth),
+      ])), ['stop', 'signal-ahead', 'yield', 'slippery'].map(key => [`${key}-road-sign.svg`, true]));
+      assert.equal(await page.locator('[data-quiz], #north-carolina-sign-recall :is(input, select, button)').count(), 0);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+      if (process.env.RECALL_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.RECALL_SCREENSHOTS_DIR, { recursive: true });
+        await page.screenshot({ path: path.join(process.env.RECALL_SCREENSHOTS_DIR, `recall-${width}-arrival.png`) });
+      }
+      const cards = await drill.locator('details').all();
+      const actions = [/complete stop/, /Follow the actual traffic light/, /give the right-of-way/, /avoid sudden braking/];
+      assert.equal(cards.length, actions.length);
+      for (const [index, card] of cards.entries()) {
+        const action = card.locator('p').last();
+        assert.equal(await action.isVisible(), false);
+        await card.locator('summary').focus();
+        await page.keyboard.press('Enter');
+        assert.equal(await action.isVisible(), true);
+        assert.match(await action.textContent(), actions[index]);
+        assert.equal(await drill.locator('details[open]').count(), 1);
+        if (index === 0 && process.env.RECALL_SCREENSHOTS_DIR) {
+          await page.screenshot({ path: path.join(process.env.RECALL_SCREENSHOTS_DIR, `recall-${width}-answer.png`) });
+        }
+        await page.keyboard.press('Enter');
+        assert.equal(await action.isVisible(), false);
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: the shape finder distinguishes same-color signs and opens the right practice`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route(/^https?:/, route => route.abort());
