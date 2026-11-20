@@ -1007,12 +1007,13 @@ def road_sign_shape_records():
             "color": "Yellow",
             "category": "Warning",
             "filter": "warning",
-            "meaning": "A side pennant often warns of a no-passing zone before or along a two-lane road.",
+            "meaning": "A yellow NO PASSING ZONE pennant can mark the start of the zone on the left. It is not the white DO NOT PASS rectangle.",
             "action": "Do not pass",
             "examples": "No Passing Zone",
             "visual": "shape-pennant",
             "text": "NO PASS",
-            "practice": "regulatory-traffic-signs-practice-test.html?focus=Passing%20signs#practice",
+            "practice": "#passing-sign-check",
+            "practiceLabel": "Compare the two signs",
         },
         {
             "key": "orange",
@@ -3285,7 +3286,7 @@ def render_road_sign_shapes_finder():
     <span>{esc(record["category"])} - {esc(record["color"])}</span>
     <strong>{esc(record["label"])}</strong>
     <p>{esc(record["meaning"])}</p>
-    <a href="{esc(record["practice"])}">Practice this pattern</a>
+    <a href="{esc(record["practice"])}">{esc(record.get("practiceLabel", "Practice this pattern"))}</a>
   </div>
 </article>""")
     return f"""<section class="sign-lookup shape-finder" id="shape-color-finder" data-sign-lookup data-sign-count-label="shape">
@@ -3329,6 +3330,41 @@ def render_crossing_shape_drill():
       </details>
       <p><a class="info-card-link" href="road-signs-practice-test.html?focus=School%20and%20pedestrian%20signs#practice">Practice school and pedestrian signs</a></p>
       <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">FHWA 2C.55: pedestrian warning</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf">FHWA 7B.01&ndash;7B.03: school signs and plaques</a></p>
+    </div>
+  </div>
+</section>"""
+
+
+def render_passing_sign_drill():
+    pennant = """<svg viewBox="0 0 220 160" aria-hidden="true">
+      <polygon points="20,22 201,80 20,138" fill="#f6d54a" stroke="#222" stroke-width="4" stroke-linejoin="round"/>
+      <g fill="#111" font-family="Arial, sans-serif" font-size="17" font-weight="900">
+        <text x="35" y="58">NO</text><text x="35" y="83">PASSING</text><text x="35" y="108">ZONE</text>
+      </g>
+    </svg>"""
+    return f"""<section class="content-section shape-crossing-drill" id="passing-sign-check" aria-labelledby="passing-sign-heading">
+  <h2 id="passing-sign-heading">White rectangle or yellow pennant?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair">
+        <span role="img" aria-label="Sign A: white rectangle reading Do Not Pass">{SIGN_SVGS["no-passing"]}</span>
+        <span aria-hidden="true">/</span>
+        <span role="img" aria-label="Sign B: yellow pennant reading No Passing Zone">{pennant}</span>
+      </div>
+      <figcaption><strong>A:</strong> Regulatory sign. <strong>B:</strong> Warning pennant.</figcaption>
+    </figure>
+    <div>
+      <p>You are behind a slow car as a two-lane road approaches a hill. Which sign can mark the start of the no-passing zone on the left?</p>
+      <details class="contrast-transfer">
+        <summary>Check the shape, wording, and action</summary>
+        <p><strong>B, the yellow NO PASSING ZONE pennant.</strong> Where used, it marks the start of the zone on the left; it is not an arrow telling you to move right. A, the white DO NOT PASS rectangle, states the restriction. Stay behind the car rather than beginning a pass.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>What if there is no pennant?</summary>
+        <p><strong>A missing pennant is not permission to pass.</strong> On a two-way road, a solid yellow center line next to your lane tells you not to cross it to pass. Read the signs and pavement markings together, and check your state's handbook for its passing rules.</p>
+      </details>
+      <p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Passing%20signs#practice">Practice the white Do Not Pass sign</a></p>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=38">FHWA 2B.36: Do Not Pass</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=46">FHWA 2C.53: No Passing Zone</a> &middot; <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/pavement-markings">PennDOT: center lines</a></p>
     </div>
   </div>
 </section>"""
@@ -3422,6 +3458,7 @@ def render_road_sign_shapes_page():
 </section>
 {render_road_sign_shapes_finder()}
 {render_crossing_shape_drill()}
+{render_passing_sign_drill()}
 <section class="content-section">
   <h2>Shape and color traps that slow learners down</h2>
   <p>Many missed road-sign questions are not about rare signs. They happen when a learner treats every red sign as Stop, every white sign as Speed Limit, or every yellow sign as a generic warning. Use red panels for entry control, red slashes for prohibited movements, white rectangles for rules such as One Way or Keep Right, and pennants for no-passing zones.</p>

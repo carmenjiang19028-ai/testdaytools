@@ -6427,7 +6427,7 @@
       "description": "Take a DMV road signs permit-test practice round with 40 picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and state-specific source checks.",
       "heroKicker": "Road signs practice test",
       "summary": "Take 40 DMV road-sign picture questions for permit-test practice, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and state-specific source checks to choose the next drill.",
-      "lastUpdated": "October 16, 2026",
+      "lastUpdated": "November 20, 2026",
       "quickFacts": [
         {
           "label": "Practice size",
@@ -22038,7 +22038,7 @@
         "explanation": "Speed limit signs are regulatory signs. They state the legal maximum speed under normal conditions."
       },
       {
-        "q": "What does this pennant-style sign mean?",
+        "q": "What does this white rectangular sign mean?",
         "image": "no-passing",
         "imageAlt": "Do not pass sign",
         "category": "Regulatory signs",
@@ -22049,7 +22049,7 @@
           "No parking on the shoulder"
         ],
         "answer": 0,
-        "explanation": "Do Not Pass signs mark areas where passing another vehicle is prohibited because visibility or road layout is unsafe."
+        "explanation": "This white DO NOT PASS rectangle states the restriction. A yellow NO PASSING ZONE pennant is a different sign that can mark the start of the restriction from the left side of the road."
       },
       {
         "q": "What should this yellow sign make you expect?",

@@ -65,6 +65,45 @@ test('all eight classroom PDF images exactly preserve rendered shared SVG pixels
 });
 
 for (const width of [1280, 390]) {
+  test(`${width}px: compare the two passing signs and still score the rectangular sign correctly`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const local = (name) => pathToFileURL(path.join(root, name + '.html')).href;
+      await page.goto(local('road-sign-shapes-and-colors-finder'));
+      const comparison = page.locator('#passing-sign-check');
+      await page.locator('[data-sign-search]').fill('pennant');
+      await page.getByRole('link', { name: 'Compare the two signs' }).click();
+      assert.equal(new URL(page.url()).hash, '#passing-sign-check');
+      const heading = await comparison.locator('h2').boundingBox();
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      assert.equal(await comparison.getByRole('img', {name: /white rectangle/}).locator('rect').getAttribute('fill'), '#fff');
+      assert.equal(await comparison.getByRole('img', {name: /yellow pennant/}).locator('polygon').getAttribute('fill'), '#f6d54a');
+      assert.deepEqual(await comparison.getByRole('img', {name: /yellow pennant/}).locator('text').allTextContents(), ['NO', 'PASSING', 'ZONE']);
+      const explanation = comparison.locator('details').first();
+      assert.equal(await explanation.locator('p').isVisible(), false);
+      await explanation.locator('summary').press('Enter');
+      assert.match(await explanation.locator('p').innerText(), /start of the zone on the left/);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+      if (process.env.PASSING_SIGN_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.PASSING_SIGN_SCREENSHOTS_DIR, { recursive: true });
+        await page.screenshot({path: path.join(process.env.PASSING_SIGN_SCREENSHOTS_DIR, `passing-${width}.png`)});
+      }
+      await comparison.getByRole('link', {name: 'Practice the white Do Not Pass sign'}).click();
+      await page.waitForLoadState('load');
+      assert.equal(new URL(page.url()).searchParams.get('focus'), 'Passing signs');
+      await page.goto(local('road-signs-practice-test') + '?mode=road-signs-core#practice');
+      const quiz = page.locator('[data-mode-panel="road-signs-core"] [data-quiz]');
+      const target = quiz.locator('.question', {hasText: 'What does this white rectangular sign mean?'});
+      await quiz.locator(`[data-quiz-jump="${await target.getAttribute('data-question-index')}"]`).click();
+      assert.equal(await target.evaluate(node => node.classList.contains('is-active')), true);
+      await target.getByRole('button', {name: /No passing is allowed in this zone/}).click();
+      assert.match(await target.locator('.feedback').innerText(), /^Correct\..+yellow NO PASSING ZONE pennant is a different sign/);
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: printed study links point to live groups and the scan lands below the header`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 840 } });
     await context.route(/^https?:/, route => route.abort());

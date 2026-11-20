@@ -5,8 +5,8 @@ from xml.etree import ElementTree as ET
 
 from pypdf import PdfReader
 from scripts.build import (
-    SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
-    render_contrast_lessons, render_crossing_shape_drill, road_sign_group_practice_href, url_for,
+    DATA, SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
+    render_contrast_lessons, render_crossing_shape_drill, render_passing_sign_drill, road_sign_group_practice_href, url_for,
 )
 from scripts.build_road_sign_classroom_pack import CLASSROOM_SIGNS
 from scripts.road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL
@@ -85,6 +85,19 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual(root.find("text").text, "KEEP RIGHT")
         self.assertEqual(root.find("text").attrib["y"], "43")
         self.assertIn("l-14-22z", root.findall("path")[1].attrib["d"])
+
+    def test_rectangular_do_not_pass_question_and_pennant_remain_distinct(self):
+        question = next(q for q in DATA["quizzes"]["roadSignsCore"] if q["image"] == "no-passing")
+        self.assertIn("white rectangular sign", question["q"])
+        self.assertEqual(question["choices"][question["answer"]], "No passing is allowed in this zone")
+        self.assertIn("different sign", question["explanation"])
+        self.assertEqual(ET.fromstring(SIGN_SVGS["no-passing"]).find("rect").attrib["fill"], "#fff")
+        picture_quiz = (ROOT / "road-signs-practice-test.html").read_text()
+        self.assertIn(question["q"], picture_quiz)
+        self.assertNotIn("pennant-style sign", picture_quiz)
+        finder = (ROOT / "road-sign-shapes-and-colors-finder.html").read_text()
+        self.assertIn(render_passing_sign_drill(), finder)
+        self.assertIn('href="#passing-sign-check"', finder)
 
     def test_lane_reduction_retains_boundaries_without_merge_arrow(self):
         paths = ET.fromstring(SIGN_SVGS["lane-ends"]).findall("path")
