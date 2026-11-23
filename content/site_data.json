@@ -1422,9 +1422,74 @@
       "category": "AP",
       "title": "AP Exam Day Checklist",
       "description": "A practical AP exam day checklist covering what to bring, what to avoid, and how to prepare the night before.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroKicker": "AP checklist",
       "summary": "Use this unofficial AP exam day checklist to pack the basics, reduce morning stress, and avoid preventable testing-day issues.",
+      "heroActions": [
+        {
+          "label": "Check your 2027 subject",
+          "href": "#ap-subject-checks"
+        }
+      ],
+      "apSubjectChecks": {
+        "heading": "2027 AP subject checks",
+        "intro": "Some subjects need work before exam day or different equipment. Check any that match your courses, then confirm your setup with your AP coordinator.",
+        "groups": [
+          {
+            "label": "Chinese, French, German, Italian, Japanese, or Spanish Language and Culture",
+            "deadline": "2027-04-30T23:59:00-04:00",
+            "before": "Mark your Personalized Project Reference (PPR) as final in the AP Digital Portfolio. Verify that the school will have its printout ready for your speaking tasks.",
+            "exam": "Fully digital in Bluebook. Confirm a wired headset with a microphone that works on your testing device. For Chinese or Japanese, also test the required input method editor before exam day."
+          },
+          {
+            "label": "Spanish Literature and Culture",
+            "before": "Unlike Spanish Language and Culture, this exam does not require a PPR. Check who will provide your wired headset or headphones.",
+            "exam": "Fully digital in Bluebook. You need wired audio for listening, but do not need a microphone."
+          },
+          {
+            "label": "Music Theory",
+            "before": "Confirm wired headphones or a wired headset for listening. Separately, check how your school will provide a speaker and microphone for sight-singing.",
+            "exam": "Hybrid in Bluebook. Write the other free responses in the paper booklet. For sight-singing, use the speaker and microphone, not the headset, and record in Bluebook."
+          },
+          {
+            "label": "Computer Science Principles or Seminar",
+            "deadline": "2027-04-30T23:59:00-04:00",
+            "before": "Submit the required Create task components for Computer Science Principles or performance tasks for Seminar as final in the AP Digital Portfolio.",
+            "exam": "You still have a fully digital end-of-course exam in Bluebook. The portfolio submission does not replace it."
+          },
+          {
+            "label": "Research",
+            "deadline": "2027-04-30T23:59:00-04:00",
+            "before": "Submit your academic paper as final in the AP Digital Portfolio. Confirm your presentation and oral defense arrangements with your teacher.",
+            "exam": "No end-of-course Bluebook exam for AP Research."
+          },
+          {
+            "label": "Art and Design (2-D, 3-D, or Drawing)",
+            "deadline": "2027-05-07T23:59:00-04:00",
+            "before": "Submit all three required portfolio components as final in the AP Digital Portfolio.",
+            "exam": "No end-of-course Bluebook exam for AP Art and Design."
+          }
+        ],
+        "audioNote": "Do not substitute Bluetooth audio. At an international test center, do not bring a personal headset for these exams. Ask what the center supplies and test any permitted adapter on the actual device.",
+        "sources": [
+          {
+            "label": "College Board: Exam formats by subject",
+            "url": "https://apstudents.collegeboard.org/ap-exams-what-to-know/digital-testing-exam-modes"
+          },
+          {
+            "label": "College Board: Portfolio deadlines",
+            "url": "https://apstudents.collegeboard.org/exam-dates"
+          },
+          {
+            "label": "College Board: Headsets and audio checks",
+            "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/administering-exams/subject-specific/headsets"
+          },
+          {
+            "label": "College Board: Language projects and device setup",
+            "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/administering-exams/subject-specific/world-languages-and-cultures"
+          }
+        ]
+      },
       "checklist": [
         "If you test at a school you do not attend, bring a government-issued or school-issued photo ID.",
         "Several No. 2 pencils with erasers.",
@@ -1537,7 +1602,7 @@
         },
         {
           "heading": "Fully digital and hybrid are not the same packing plan",
-          "text": "For fully digital AP, enter all answers in Bluebook. In hybrid AP, enter multiple-choice answers in Bluebook and write free-response answers in an exam booklet where instructed. AP Music Theory also records its sight-singing response in Bluebook in 2027; ask your coordinator whether you need to bring a wired headset. On a tablet, an external keyboard is required for fully digital AP and recommended for hybrid AP; external keyboards are not permitted with a laptop."
+          "text": "For fully digital AP, enter all answers in Bluebook. In hybrid AP, enter multiple-choice answers in Bluebook and write free-response answers in an exam booklet where instructed. AP Music Theory also records its sight-singing response in Bluebook in 2027; check who will provide your required wired audio equipment. On a tablet, an external keyboard is required for fully digital AP and recommended for hybrid AP; external keyboards are not permitted with a laptop."
         },
         {
           "heading": "Confirm the 2027 session before planning your arrival",

@@ -88,6 +88,55 @@ class APReadinessContentTest(unittest.TestCase):
             self.assertIn(url, urls)
             self.assertIn(f'href="{url}"', PAGE)
 
+    def test_2027_subject_checks_match_tasks_to_the_right_deadline(self):
+        groups = {group["label"]: group for group in TOOL["apSubjectChecks"]["groups"]}
+        april = "2027-04-30T23:59:00-04:00"
+        may = "2027-05-07T23:59:00-04:00"
+        language = groups["Chinese, French, German, Italian, Japanese, or Spanish Language and Culture"]
+        self.assertEqual(language["deadline"], april)
+        self.assertIn("PPR", language["before"])
+        self.assertIn("printout", language["before"])
+        self.assertIn("wired headset with a microphone", language["exam"])
+        self.assertIn("Chinese or Japanese", language["exam"])
+        spanish_lit = groups["Spanish Literature and Culture"]
+        self.assertNotIn("deadline", spanish_lit)
+        self.assertIn("does not require a PPR", spanish_lit["before"])
+        self.assertIn("do not need a microphone", spanish_lit["exam"])
+        music = groups["Music Theory"]
+        self.assertNotIn("deadline", music)
+        self.assertIn("wired headphones", music["before"])
+        self.assertIn("speaker and microphone, not the headset", music["exam"])
+        self.assertIn("paper booklet", music["exam"])
+        combined = groups["Computer Science Principles or Seminar"]
+        self.assertEqual(combined["deadline"], april)
+        self.assertIn("Create task components", combined["before"])
+        self.assertIn("end-of-course exam in Bluebook", combined["exam"])
+        self.assertEqual(groups["Research"]["deadline"], april)
+        self.assertIn("oral defense", groups["Research"]["before"])
+        art = groups["Art and Design (2-D, 3-D, or Drawing)"]
+        self.assertEqual(art["deadline"], may)
+        self.assertIn("all three", art["before"])
+        for group in (groups["Research"], art):
+            self.assertIn("No end-of-course Bluebook exam", group["exam"])
+        self.assertEqual(PAGE.count(f'datetime="{april}"'), 3)
+        self.assertEqual(PAGE.count(f'datetime="{may}"'), 1)
+        self.assertIn("April 30, 2027 at 11:59 p.m. ET", PAGE)
+        self.assertIn("May 7, 2027 at 11:59 p.m. ET", PAGE)
+
+    def test_subject_checks_are_near_top_and_link_to_primary_sources(self):
+        region = PAGE.split('id="ap-subject-checks"', 1)[1].split("</section>", 1)[0]
+        self.assertIn('href="#ap-subject-checks"', PAGE)
+        self.assertLess(PAGE.index('id="ap-subject-checks"'), PAGE.index("AP exam day packing guide"))
+        self.assertIn("do not bring a personal headset", region)
+        self.assertEqual(region.count("<details>"), len(TOOL["apSubjectChecks"]["groups"]))
+        for url in (
+            "https://apstudents.collegeboard.org/ap-exams-what-to-know/digital-testing-exam-modes",
+            "https://apstudents.collegeboard.org/exam-dates",
+            "https://apcentral.collegeboard.org/exam-administration-ordering-scores/administering-exams/subject-specific/headsets",
+            "https://apcentral.collegeboard.org/exam-administration-ordering-scores/administering-exams/subject-specific/world-languages-and-cultures",
+        ):
+            self.assertIn(f'href="{url}"', region)
+
     def test_title_url_and_existing_basics_are_preserved(self):
         self.assertEqual(TOOL["title"], "AP Exam Day Checklist")
         self.assertEqual(TOOL["description"], "A practical AP exam day checklist covering what to bring, what to avoid, and how to prepare the night before.")

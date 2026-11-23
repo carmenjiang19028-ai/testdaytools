@@ -2689,6 +2689,33 @@ def render_checklist(items):
     return f'<section class="tool-block"><h2>Checklist</h2><ul class="checklist">{lis}</ul></section>'
 
 
+def render_ap_subject_checks(checks):
+    if not checks:
+        return ""
+    groups = []
+    for group in checks["groups"]:
+        deadline = ""
+        if group.get("deadline"):
+            date = datetime.fromisoformat(group["deadline"])
+            clock_hour = date.hour % 12 or 12
+            meridiem = "p.m." if date.hour >= 12 else "a.m."
+            label = f'{date:%B} {date.day}, {date.year} at {clock_hour}:{date.minute:02d} {meridiem} ET'
+            deadline = f'<p><strong>Portfolio deadline:</strong> <time datetime="{esc(group["deadline"])}">{esc(label)}</time></p>'
+        groups.append(
+            f'<details><summary>{esc(group["label"])}</summary>{deadline}'
+            f'<p><strong>Before exam day:</strong> {esc(group["before"])}</p>'
+            f'<p><strong>Exam format and equipment:</strong> {esc(group["exam"])}</p></details>'
+        )
+    links = "".join(f'<li><a href="{esc(source["url"])}">{esc(source["label"])}</a></li>' for source in checks["sources"])
+    return (
+        f'<section class="faq" id="ap-subject-checks" aria-labelledby="ap-subject-checks-heading">'
+        f'<h2 id="ap-subject-checks-heading">{esc(checks["heading"])}</h2>'
+        f'<p class="section-intro">{esc(checks["intro"])}</p>{"".join(groups)}'
+        f'<p><strong>For the audio exams above:</strong> {esc(checks["audioNote"])}</p>'
+        f'<ul>{links}</ul></section>'
+    )
+
+
 def render_tables(tables):
     output = []
     for table in tables or []:
@@ -3193,6 +3220,7 @@ def render_tool(tool):
         render_countdown(tool.get("countdown")),
         render_calendar_download(tool.get("calendarDownload")),
         render_timeline(tool.get("timeline")),
+        render_ap_subject_checks(tool.get("apSubjectChecks")),
         render_tables(tool.get("tables")),
         body_sections,
         render_card_groups(tool.get("cardGroups")),
