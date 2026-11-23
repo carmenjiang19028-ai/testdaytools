@@ -5792,7 +5792,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -7172,7 +7172,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -7673,7 +7673,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -8325,7 +8325,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -9229,7 +9229,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -9700,7 +9700,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -10443,7 +10443,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -10629,7 +10629,7 @@
             {
               "label": "Do Not Enter vs Wrong Way",
               "title": "Entry rule before lane direction",
-              "text": "Do Not Enter means the opening is closed to you. Wrong Way confirms you are already facing traffic from the wrong direction. Drill both as red regulatory warnings, not as generic danger signs."
+              "text": "Do Not Enter prohibits entry from your approach. Wrong Way tells you that you are already traveling against the permitted direction. Neither sign tells you to make a U-turn."
             },
             {
               "label": "One Way vs lane arrows",
@@ -11995,7 +11995,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -12361,7 +12361,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -12897,7 +12897,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -13284,7 +13284,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -13833,7 +13833,7 @@
               {
                 "image": "wrong-way",
                 "title": "Wrong Way",
-                "meaning": "You are entering traffic from the wrong direction; turn around safely."
+                "meaning": "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
               },
               {
                 "image": "one-way",
@@ -21948,7 +21948,11 @@
           "One-way traffic begins after the next block"
         ],
         "answer": 2,
-        "explanation": "Do Not Enter is a regulatory warning against entering a roadway, ramp, or lane from the wrong direction."
+        "explanation": "Entry from this approach is prohibited. Do not drive past the sign, even if the road looks empty. A Wrong Way sign can alert you after you have already gone the wrong direction.",
+        "source": {
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs",
+          "label": "PennDOT: Do Not Enter and Wrong Way signs"
+        }
       },
       {
         "q": "If you see this sign after turning, what is the safest action?",
@@ -21963,7 +21967,11 @@
           "Turn on high beams and continue"
         ],
         "answer": 1,
-        "explanation": "A Wrong Way sign means you are facing traffic. Slow down, move out of the travel lane if possible, and correct course safely."
+        "explanation": "This sign tells you that you are traveling against the allowed direction. Do not continue against traffic. Pull over if you can get out of the travel lane safely. Do not assume a U-turn is safe or permitted.",
+        "source": {
+          "url": "https://www.mass.gov/info-details/wrong-way-driving-program",
+          "label": "MassDOT: what to do if you are traveling the wrong way"
+        }
       },
       {
         "q": "What movement is prohibited by this sign?",

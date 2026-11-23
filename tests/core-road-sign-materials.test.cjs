@@ -25,6 +25,35 @@ before(async () => { browser = await chromium.launch({ channel: 'chrome', headle
 after(async () => { await browser?.close(); });
 
 for (const width of [390, 1280]) {
+  test(`${width}px: entry control and wrong-way feedback teach different decisions`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'road-signs-practice-test.html')).href + '?mode=road-signs-core#practice');
+      const quiz = page.locator('[data-mode-panel="road-signs-core"].is-active [data-quiz]');
+      for (const [key, choice, explanation, official] of [
+        ['do-not-enter', 'Do not drive into this roadway or ramp',
+          /entry from this approach is prohibited.*even if the road looks empty/i,
+          'https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs'],
+        ['wrong-way', 'Pull over safely and correct your direction when safe',
+          /do not continue against traffic.*pull over.*do not assume a U-turn is safe or permitted/i,
+          'https://www.mass.gov/info-details/wrong-way-driving-program'],
+      ]) {
+        const question = quiz.locator(`.question[data-flashcard-key="${key}"]`).first();
+        await quiz.locator(`[data-quiz-jump="${await question.getAttribute('data-question-index')}"]`).press('Enter');
+        const source = question.locator('[data-quiz-source] a');
+        assert.equal(await source.isVisible(), false);
+        await question.getByRole('button', { name: choice, exact: true }).press('Enter');
+        assert.match(await question.locator('.feedback').innerText(), explanation);
+        assert.match(await question.locator('.feedback').innerText(), /^Correct\./);
+        assert.equal(await source.getAttribute('href'), official);
+        assert.ok(await source.isVisible());
+      }
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: Lane Ends feedback distinguishes preparation from the actual merge point`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 } });
     await context.route(/^https?:/, route => route.abort());

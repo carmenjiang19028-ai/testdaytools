@@ -15,6 +15,13 @@ STATE_SLUGS = (
     "michigan-sos-road-signs-practice",
     "arizona-mvd-road-signs-practice",
 )
+ACTIVE_SIGN_LIBRARY_SLUGS = tuple(
+    f"{state}-{kind}"
+    for state in ("california-dmv", "new-york-dmv", "texas-dmv", "florida-dmv",
+                  "illinois-dmv", "pennsylvania-dmv", "new-jersey-mvc")
+    for kind in ("permit-practice-test", "road-signs-practice")
+    if kind != "permit-practice-test" or state not in ("texas-dmv", "illinois-dmv")
+)
 
 
 class StateRoadSignContentTest(unittest.TestCase):
@@ -49,17 +56,19 @@ class StateRoadSignContentTest(unittest.TestCase):
 
     def test_lane_ends_cards_do_not_teach_one_merge_point_for_every_situation(self):
         meaning = "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
-        slugs = [
-            f"{state}-{kind}"
-            for state in ("california-dmv", "new-york-dmv", "texas-dmv", "florida-dmv",
-                          "illinois-dmv", "pennsylvania-dmv", "new-jersey-mvc")
-            for kind in ("permit-practice-test", "road-signs-practice")
-            if kind != "permit-practice-test" or state not in ("texas-dmv", "illinois-dmv")
-        ]
-        for slug in slugs:
+        for slug in ACTIVE_SIGN_LIBRARY_SLUGS:
             with self.subTest(slug=slug):
                 cards = [sign for group in self.tools[slug]["signLibrary"]["groups"]
                          for sign in group["signs"] if sign["image"] == "lane-ends"]
+                self.assertEqual([card["meaning"] for card in cards], [meaning])
+                self.assertIn(meaning, (ROOT / f"{slug}.html").read_text())
+
+    def test_wrong_way_cards_do_not_tell_readers_to_turn_around(self):
+        meaning = "You are traveling against the allowed direction. Pull over when you can do so safely; the sign does not authorize a U-turn."
+        for slug in ACTIVE_SIGN_LIBRARY_SLUGS:
+            with self.subTest(slug=slug):
+                cards = [sign for group in self.tools[slug]["signLibrary"]["groups"]
+                         for sign in group["signs"] if sign["image"] == "wrong-way"]
                 self.assertEqual([card["meaning"] for card in cards], [meaning])
                 self.assertIn(meaning, (ROOT / f"{slug}.html").read_text())
 
