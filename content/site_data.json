@@ -3095,6 +3095,7 @@
       "description": "Add your official SAT practice section scores, see the gap to your target, and compare the Reading and Writing or Math score needed if the other section stays fixed.",
       "heroKicker": "SAT score tool",
       "summary": "Use your Reading and Writing and Math scores from one completed Bluebook SAT practice test to check your total and plan toward a target.",
+      "lastUpdated": "November 24, 2026",
       "quickFacts": [
         {
           "label": "Section scores",
@@ -3117,6 +3118,10 @@
         {
           "heading": "When one section cannot close the gap",
           "text": "With 760 in Reading and Writing and 740 in Math, reaching 1550 through Reading and Writing alone would require 810, above the 800 maximum. Raising Math to 790 while keeping Reading and Writing at 760 fits the score scale. That arithmetic does not tell you how likely either improvement is."
+        },
+        {
+          "heading": "When both sections need to improve",
+          "text": "Start with 730 in Reading and Writing and 710 in Math: 1440 total. A 1550 target would require 840 in Reading and Writing if Math stayed fixed, or 820 in Math if Reading and Writing stayed fixed. Neither is possible. Even an 800 on one section needs at least 750 on the other, and 750 on both is only 1500. One score split that adds to 1550 is 770 in Reading and Writing plus 780 in Math. The split is arithmetic, not a forecast or a recommendation to study both subjects equally."
         },
         {
           "heading": "Use the gap to choose what to review",

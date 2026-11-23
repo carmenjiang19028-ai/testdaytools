@@ -61,6 +61,22 @@ test("handles score-scale boundaries and a met or exceeded target", () => withCa
   assert.match(await status(page), /50 points above/);
 }));
 
+test("explains a valid two-section split when neither section alone can close the gap", () => withCalculator(async (page) => {
+  await enter(page, [730, 710, 1550]);
+  assert.deepEqual(await read(page), ["1440", "110 points", "840 (over 800)", "820 (over 800)"]);
+  assert.match(await status(page), /Both sections must improve.*at least 750.*add up to 1550.*770 in Reading and Writing plus 780 in Math/s);
+  assert.match(await status(page), /not a prediction/);
+  await enter(page, [740, 750, 1600]);
+  assert.match(await status(page), /Both sections must reach 800 for a total of 1600/);
+  await enter(page, [760, 740, 1550]);
+  assert.doesNotMatch(await status(page), /Both sections/);
+  await field(page, "target").fill("");
+  assert.deepEqual(await read(page), ["--", "--", "--", "--"]);
+  assert.doesNotMatch(await status(page), /1550|1600 for a total/);
+  assert.ok(await page.getByRole("heading", { name: "When both sections need to improve" }).isVisible());
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+}, { width: 320, height: 844 }));
+
 test("withholds and clears results for missing or invalid entries", () => withCalculator(async (page) => {
   await page.getByRole("button", { name: "Calculate score gap" }).click();
   assert.equal(await field(page, "rw").evaluate((input) => input === document.activeElement), true);

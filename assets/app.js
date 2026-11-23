@@ -3815,7 +3815,8 @@ function initSatScoreCalculators() {
     const rwNeeded = widget.querySelector("[data-sat-rw-needed]");
     const mathNeeded = widget.querySelector("[data-sat-math-needed]");
     const status = widget.querySelector("[data-sat-score-status]");
-    const formatNeeded = (score) => score > 800 ? `${score} (over 800)` : String(score);
+    const sectionMax = 800;
+    const formatNeeded = (score) => score > sectionMax ? `${score} (over ${sectionMax})` : String(score);
 
     const render = (submitted = false) => {
       const invalid = inputs.filter((input) => !input.validity.valid);
@@ -3837,10 +3838,21 @@ function initSatScoreCalculators() {
       const [rw, math, target] = inputs.map((input) => input.valueAsNumber);
       const practiceTotal = rw + math;
       const difference = target - practiceTotal;
+      const rwWithSameMath = target - math;
+      const mathWithSameRw = target - rw;
       total.textContent = String(practiceTotal);
       gap.textContent = `${Math.max(difference, 0)} points`;
-      rwNeeded.textContent = difference > 0 ? formatNeeded(target - math) : "No increase";
-      mathNeeded.textContent = difference > 0 ? formatNeeded(target - rw) : "No increase";
+      rwNeeded.textContent = difference > 0 ? formatNeeded(rwWithSameMath) : "No increase";
+      mathNeeded.textContent = difference > 0 ? formatNeeded(mathWithSameRw) : "No increase";
+      if (rwWithSameMath > sectionMax && mathWithSameRw > sectionMax) {
+        const minimum = target - sectionMax;
+        const exampleRw = Math.floor(target / 2 / 10) * 10;
+        const exampleMath = target - exampleRw;
+        status.textContent = minimum === sectionMax
+          ? `Both sections must reach ${sectionMax} for a total of ${target}. This is score arithmetic, not a prediction.`
+          : `Both sections must improve. Each needs at least ${minimum}; the two scores still have to add up to ${target}. For example, ${exampleRw} in Reading and Writing plus ${exampleMath} in Math. This is a score split, not a prediction.`;
+        return;
+      }
       status.textContent = difference === 0
         ? "This practice total matches your target."
         : difference < 0
