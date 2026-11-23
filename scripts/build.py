@@ -2411,59 +2411,23 @@ def render_sign_library(tool):
 </section>"""
 
 
+def sign_lookup_drills(tool):
+    drills = {}
+    for mode in sorted(tool.get("quizModes", []), key=quiz_question_count, reverse=True):
+        for question in quiz_questions(mode["quiz"], mode):
+            if (image := question.get("image")) and image not in drills:
+                params = urlencode({"mode": mode["id"], "focus": question.get("category", "Permit basics")})
+                drills[image] = f'{tool["slug"]}.html?{params}#practice'
+    return drills
+
+
 def render_sign_lookup(tool):
     library = tool.get("signLibrary")
     if not library:
         return ""
-    slug = tool.get("slug", "")
-    sign_focus_by_slug = {
-        "road-signs-practice-test": {
-            "stop": "Regulatory signs",
-            "yield": "Regulatory signs",
-            "do-not-enter": "Regulatory signs",
-            "wrong-way": "Regulatory signs",
-            "one-way": "Turn and lane control signs",
-            "no-u-turn": "Turn and lane control signs",
-            "four-way-stop": "Regulatory signs",
-            "no-right-turn": "Turn and lane control signs",
-            "no-turn-on-red": "Turn and lane control signs",
-            "keep-right": "Turn and lane control signs",
-            "speed-limit": "Speed signs",
-            "no-passing": "Regulatory signs",
-        },
-        "regulatory-traffic-signs-practice-test": {
-            "stop": "Stop and yield rules",
-            "yield": "Stop and yield rules",
-            "four-way-stop": "Stop and yield rules",
-            "do-not-enter": "Prohibited entry signs",
-            "wrong-way": "Prohibited entry signs",
-            "one-way": "Lane and direction signs",
-            "keep-right": "Lane and direction signs",
-            "no-u-turn": "Turn control signs",
-            "no-right-turn": "Turn control signs",
-            "no-turn-on-red": "Turn control signs",
-            "speed-limit": "Speed signs",
-            "no-passing": "Passing signs",
-        },
-    }
-    state_road_sign_focus = {
-        "school-crossing": "School signs",
-        "pedestrian-crossing": "Pedestrian signs",
-        "work-zone": "Work zone signs",
-        "hospital": "Service signs",
-        "railroad": "Railroad signs",
-        "signal-ahead": "Signal signs",
-        "divided-highway": "Roadway signs",
-        "no-passing": "Passing signs",
-        "one-way": "Directional signs",
-        "roundabout": "Intersection signs",
-        "deer-crossing": "Warning signs",
-    }
-    if (
-        slug not in sign_focus_by_slug
-        and ("road-signs-practice" in slug or "mvc-road-signs-practice" in slug)
-    ):
-        sign_focus_by_slug[slug] = state_road_sign_focus
+    local_drills = sign_lookup_drills(tool)
+    national_drills = sign_lookup_drills(TOOL_BY_SLUG[ROAD_SIGN_PICTURE_SLUG])
+    regulatory_drills = sign_lookup_drills(TOOL_BY_SLUG["regulatory-traffic-signs-practice-test"])
     cards = []
     filters = [{"label": "All", "value": "all"}]
     seen_filters = {"all"}
@@ -2478,20 +2442,17 @@ def render_sign_lookup(tool):
             if not svg:
                 continue
             image_key = item.get("image", "")
-            practice_focus = sign_focus_by_slug.get(slug, {}).get(image_key, group_label)
-            focus_label = f'{group_label} {item.get("title", "")}'.lower()
-            if image_key in sign_focus_by_slug.get(slug, {}):
-                pass
-            elif "regulatory" in focus_label:
-                practice_focus = "Regulatory signs"
-            elif "warning" in focus_label:
-                practice_focus = "Warning signs"
-            elif "school" in focus_label or "pedestrian" in focus_label:
-                practice_focus = "School and pedestrian signs"
-            elif "rail" in focus_label:
-                practice_focus = "Railroad signs"
-            elif "work" in focus_label:
-                practice_focus = "Work zone signs"
+            label = ""
+            href = local_drills.get(image_key)
+            if href:
+                label = "Practice this group"
+            elif href := national_drills.get(image_key):
+                label = "Practice in the national picture quiz"
+            elif href := regulatory_drills.get(image_key):
+                label = "Practice in the national regulatory quiz"
+            elif image_key == "right-turn-only" and (href := local_drills.get("no-right-turn")):
+                label = "Practice related turn signs"
+            practice_link = f'<a href="{esc(href)}">{esc(label)}</a>' if href else ""
             query = " ".join([group_label, item["title"], item["meaning"], image_key, SIGN_SEARCH_ALIASES.get(image_key, "")]).strip()
             cards.append(f"""<article class="sign-lookup-card" data-sign-card data-sign-filter-key="{esc(filter_value)}" data-sign-query="{esc(query.lower())}">
   <div class="sign-thumb" role="img" aria-label="{esc(item["title"])}">{svg}</div>
@@ -2499,7 +2460,7 @@ def render_sign_lookup(tool):
     <span>{esc(group_label)}</span>
     <strong>{esc(item["title"])}</strong>
     <p>{esc(item["meaning"])}</p>
-    <a href="{esc(slug)}.html?focus={esc(quote(practice_focus))}#practice">Practice this group</a>
+    {practice_link}
   </div>
 </article>""")
     if not cards:
