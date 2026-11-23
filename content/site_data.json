@@ -21879,7 +21879,7 @@
       {
         "q": "What should a driver do at this sign?",
         "image": "stop",
-        "imageAlt": "Red octagon stop sign",
+        "imageAlt": "Red octagon reading STOP in white",
         "conceptId": "stop-yield",
         "category": "Regulatory signs",
         "choices": [
@@ -21894,7 +21894,7 @@
       {
         "q": "This triangular sign means drivers should:",
         "image": "yield",
-        "imageAlt": "Yield traffic sign",
+        "imageAlt": "Point-down white triangle with a red border reading YIELD",
         "conceptId": "stop-yield",
         "category": "Regulatory signs",
         "choices": [
@@ -21909,7 +21909,7 @@
       {
         "q": "What does this red and white sign tell a driver?",
         "image": "do-not-enter",
-        "imageAlt": "Do not enter sign",
+        "imageAlt": "Red circle with a white horizontal bar and the words DO NOT ENTER",
         "conceptId": "do-not-enter-wrong-way",
         "category": "Regulatory signs",
         "choices": [
@@ -21924,7 +21924,7 @@
       {
         "q": "If you see this sign after turning, what is the safest action?",
         "image": "wrong-way",
-        "imageAlt": "Wrong way sign",
+        "imageAlt": "Red rectangle reading WRONG WAY in white",
         "conceptId": "do-not-enter-wrong-way",
         "category": "Regulatory signs",
         "choices": [
@@ -21939,7 +21939,7 @@
       {
         "q": "What movement is prohibited by this sign?",
         "image": "no-u-turn",
-        "imageAlt": "No U-turn sign",
+        "imageAlt": "White rectangle with a black arrow that loops back downward under a red circle and slash",
         "category": "Turn and lane control signs",
         "choices": [
           "A left turn",
@@ -21953,7 +21953,7 @@
       {
         "q": "This black and white arrow sign means:",
         "image": "one-way",
-        "imageAlt": "One way sign",
+        "imageAlt": "Black rectangle with a white right-pointing arrow and the words ONE WAY",
         "category": "Turn and lane control signs",
         "choices": [
           "Traffic moves only in the arrow direction",
@@ -21967,7 +21967,7 @@
       {
         "q": "What does this sign set for the road segment?",
         "image": "speed-limit",
-        "imageAlt": "Speed limit 35 sign",
+        "imageAlt": "White rectangle reading SPEED LIMIT 35 in black",
         "category": "Speed signs",
         "choices": [
           "A suggested speed for curves only",
@@ -21981,7 +21981,7 @@
       {
         "q": "What does this white rectangular sign mean?",
         "image": "no-passing",
-        "imageAlt": "Do not pass sign",
+        "imageAlt": "White rectangle reading DO NOT PASS in black",
         "category": "Regulatory signs",
         "choices": [
           "No passing is allowed in this zone",
@@ -21995,7 +21995,7 @@
       {
         "q": "What should this yellow sign make you expect?",
         "image": "merge",
-        "imageAlt": "Merge warning sign",
+        "imageAlt": "Yellow diamond with a straight upward arrow and a separate curved stem joining from the right",
         "conceptId": "merge-lane-ends",
         "category": "Warning signs",
         "choices": [
@@ -22010,7 +22010,7 @@
       {
         "q": "This sign warns that:",
         "image": "lane-ends",
-        "imageAlt": "Lane ends warning sign",
+        "imageAlt": "Yellow diamond with two solid vertical strokes; the right stroke bends closer to the left near the top",
         "conceptId": "merge-lane-ends",
         "category": "Warning signs",
         "choices": [
@@ -22025,7 +22025,7 @@
       {
         "q": "What driving adjustment fits this sign?",
         "image": "slippery",
-        "imageAlt": "Slippery when wet sign",
+        "imageAlt": "Yellow diamond with a black car above two wavy tracks",
         "category": "Warning signs",
         "choices": [
           "Brake hard to test traction",
@@ -22039,7 +22039,7 @@
       {
         "q": "This sign means drivers should prepare for:",
         "image": "signal-ahead",
-        "imageAlt": "Traffic signal ahead sign",
+        "imageAlt": "Yellow diamond with three stacked lights: red at the top, yellow in the middle, and green at the bottom",
         "category": "Warning signs",
         "choices": [
           "A traffic signal ahead",
@@ -22067,7 +22067,7 @@
       {
         "q": "What should you expect after this circular warning sign?",
         "image": "railroad",
-        "imageAlt": "Railroad crossing advance warning sign",
+        "imageAlt": "Round yellow sign with a black X and a black letter R on each side",
         "category": "Railroad signs",
         "choices": [
           "A pedestrian bridge",
@@ -22081,7 +22081,7 @@
       {
         "q": "This yellow-green sign warns about:",
         "image": "school-crossing",
-        "imageAlt": "School crossing sign",
+        "imageAlt": "Yellow-green pentagon with two walking figures",
         "category": "School and pedestrian signs",
         "choices": [
           "Children or school pedestrians crossing",
@@ -22095,7 +22095,7 @@
       {
         "q": "What does this pedestrian sign call for?",
         "image": "pedestrian-crossing",
-        "imageAlt": "Pedestrian crossing warning sign",
+        "imageAlt": "Yellow diamond with one walking figure",
         "category": "School and pedestrian signs",
         "choices": [
           "Speed up before the crosswalk",
@@ -22109,7 +22109,7 @@
       {
         "q": "This orange sign usually means:",
         "image": "work-zone",
-        "imageAlt": "Road work zone sign",
+        "imageAlt": "Orange diamond with a black figure leaning over horizontal bars",
         "category": "Work zone signs",
         "choices": [
           "Road work or maintenance activity ahead",
@@ -22123,7 +22123,7 @@
       {
         "q": "This service sign points drivers toward:",
         "image": "hospital",
-        "imageAlt": "Hospital service sign",
+        "imageAlt": "Blue rectangle with a large white H",
         "category": "Guide and service signs",
         "choices": [
           "A no-parking area",
@@ -22137,7 +22137,7 @@
       {
         "q": "What is the main message of this roundabout sign?",
         "image": "roundabout",
-        "imageAlt": "Roundabout warning sign",
+        "imageAlt": "Yellow diamond with three counterclockwise arrows",
         "category": "Warning signs",
         "choices": [
           "A tunnel begins",
@@ -22151,7 +22151,7 @@
       {
         "q": "This animal crossing sign means drivers should:",
         "image": "deer-crossing",
-        "imageAlt": "Deer crossing sign",
+        "imageAlt": "Yellow diamond with a black animal with antlers",
         "category": "Warning signs",
         "choices": [
           "Expect possible animal movement near the road",
@@ -22165,7 +22165,7 @@
       {
         "q": "Which color and shape pattern is most associated with regulatory signs?",
         "image": "speed-limit",
-        "imageAlt": "White speed limit sign",
+        "imageAlt": "White rectangle reading SPEED LIMIT 35 in black",
         "category": "Sign recognition",
         "choices": [
           "Blue circle with service symbols",
@@ -22179,7 +22179,7 @@
       {
         "q": "Which sign category usually warns about road conditions rather than stating a law?",
         "image": "merge",
-        "imageAlt": "Yellow merge warning sign",
+        "imageAlt": "Yellow diamond with a straight upward arrow and a separate curved stem joining from the right",
         "category": "Sign recognition",
         "choices": [
           "Warning signs",
@@ -22193,7 +22193,7 @@
       {
         "q": "When a sign uses a red circle and slash over a symbol, it usually means:",
         "image": "no-u-turn",
-        "imageAlt": "No U-turn symbol sign",
+        "imageAlt": "White rectangle with a black arrow that loops back downward under a red circle and slash",
         "category": "Sign recognition",
         "choices": [
           "The action is recommended",
@@ -22207,7 +22207,7 @@
       {
         "q": "Why should permit-test practice include both sign meaning and driver action?",
         "image": "yield",
-        "imageAlt": "Yield sign used in a driver action question",
+        "imageAlt": "Point-down white triangle with a red border reading YIELD",
         "category": "Test strategy",
         "choices": [
           "Because signs only matter on highways",
@@ -22223,7 +22223,7 @@
       {
         "q": "What should a driver do before entering this curve?",
         "image": "curve",
-        "imageAlt": "Yellow curve warning sign",
+        "imageAlt": "Yellow diamond with a single broad curved arrow",
         "category": "Alignment warning signs",
         "choices": [
           "Reduce speed before the road bends",
@@ -22237,7 +22237,7 @@
       {
         "q": "This winding-road sign warns drivers to expect:",
         "image": "winding-road",
-        "imageAlt": "Yellow winding road warning sign",
+        "imageAlt": "Yellow diamond with an upward arrow that bends from side to side several times",
         "category": "Alignment warning signs",
         "choices": [
           "One sharp turn followed by a stop sign",
@@ -22251,7 +22251,7 @@
       {
         "q": "What does this crossroad symbol tell you?",
         "image": "crossroad",
-        "imageAlt": "Yellow crossroad intersection warning sign",
+        "imageAlt": "Yellow diamond with a black cross, with a vertical and horizontal stroke",
         "category": "Intersection warning signs",
         "choices": [
           "The road becomes one way",
@@ -22265,7 +22265,7 @@
       {
         "q": "Where should you expect traffic to enter after this sign?",
         "image": "side-road",
-        "imageAlt": "Yellow side road intersection warning sign",
+        "imageAlt": "Yellow diamond with a long vertical stroke and one shorter branch on its right",
         "category": "Intersection warning signs",
         "choices": [
           "From the side shown by the branch",
@@ -22279,7 +22279,7 @@
       {
         "q": "What driving decision is coming at this T-intersection sign?",
         "image": "t-intersection",
-        "imageAlt": "Yellow T-intersection warning sign",
+        "imageAlt": "Yellow diamond with a vertical stem that meets a horizontal line at the top",
         "category": "Intersection warning signs",
         "choices": [
           "Continue straight at the same speed",
@@ -22293,7 +22293,7 @@
       {
         "q": "This two-way traffic sign means:",
         "image": "two-way-traffic",
-        "imageAlt": "Yellow two-way traffic warning sign",
+        "imageAlt": "Yellow diamond with two arrows: the left one points down and the right one points up",
         "category": "Traffic flow warning signs",
         "choices": [
           "Two lanes move in your direction",
@@ -22349,7 +22349,7 @@
       {
         "q": "Why is a school crossing sign a speed-control clue?",
         "image": "school-crossing",
-        "imageAlt": "School crossing warning sign",
+        "imageAlt": "Yellow-green pentagon with two walking figures",
         "category": "School and pedestrian signs",
         "choices": [
           "Children can be less predictable and local school-zone rules may apply",
@@ -22363,7 +22363,7 @@
       {
         "q": "What is the safest response if railroad warning lights begin flashing?",
         "image": "railroad",
-        "imageAlt": "Railroad crossing advance warning sign",
+        "imageAlt": "Round yellow sign with a black X and a black letter R on each side",
         "category": "Railroad signs",
         "choices": [
           "Cross quickly before the gate lowers",
@@ -22377,7 +22377,7 @@
       {
         "q": "Which clue separates a temporary work-zone warning from a permanent warning sign?",
         "image": "work-zone",
-        "imageAlt": "Orange work-zone warning sign",
+        "imageAlt": "Orange diamond with a black figure leaning over horizontal bars",
         "category": "Work zone signs",
         "choices": [
           "Its orange background",
@@ -22391,7 +22391,7 @@
       {
         "q": "On a wet road, why should you avoid sudden braking after this sign?",
         "image": "slippery",
-        "imageAlt": "Slippery when wet warning sign",
+        "imageAlt": "Yellow diamond with a black car above two wavy tracks",
         "category": "Road condition signs",
         "choices": [
           "Hard braking increases tire traction",
@@ -22405,7 +22405,7 @@
       {
         "q": "When traffic is merging, what creates the safest gap?",
         "image": "merge",
-        "imageAlt": "Merge warning sign",
+        "imageAlt": "Yellow diamond with a straight upward arrow and a separate curved stem joining from the right",
         "category": "Traffic flow warning signs",
         "choices": [
           "Matching traffic speed while adjusting space early",
@@ -22419,7 +22419,7 @@
       {
         "q": "Can you always drive at the posted speed shown here?",
         "image": "speed-limit",
-        "imageAlt": "Speed limit 35 sign",
+        "imageAlt": "White rectangle reading SPEED LIMIT 35 in black",
         "category": "Speed signs",
         "choices": [
           "Yes, even when visibility is poor",
@@ -22433,7 +22433,7 @@
       {
         "q": "What should you do when a no-passing zone begins before a hill or curve?",
         "image": "no-passing",
-        "imageAlt": "Do not pass sign",
+        "imageAlt": "White rectangle reading DO NOT PASS in black",
         "category": "Passing signs",
         "choices": [
           "Finish any pass only if you can do so without entering the prohibited zone",

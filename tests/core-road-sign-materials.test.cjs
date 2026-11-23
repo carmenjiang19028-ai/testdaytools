@@ -75,11 +75,11 @@ for (const width of [1280, 390]) {
       await page.goto(local('road-signs-practice-test') + '?mode=road-signs-core#practice');
       const quiz = page.locator('[data-mode-panel="road-signs-core"] [data-quiz]');
       const signs = [
-        ['roundabout', 'Yellow diamond with three counterclockwise arrows', 'Slow down and look for traffic already circulating', /yield to traffic already circulating.*counterclockwise/],
-        ['bicycle-crossing', 'Yellow diamond with a black bicycle symbol', 'Bicyclists may enter or cross the roadway', /fluorescent yellow-green background can give the same warning/],
+        ['roundabout', 'At a roundabout warning sign, which action should come first?', 'Yellow diamond with three counterclockwise arrows', 'Slow down and look for traffic already circulating', /yield to traffic already circulating.*counterclockwise/],
+        ['bicycle-crossing', 'What hazard does this bicycle sign warn about?', 'Yellow diamond with a black bicycle symbol', 'Bicyclists may enter or cross the roadway', /fluorescent yellow-green background can give the same warning/],
       ];
-      for (const [key, description, answer, reason] of signs) {
-        const question = quiz.locator(`.question[data-flashcard-key="${key}"]`).filter({ has: page.locator(`[role="img"][aria-label="${description}"]`) });
+      for (const [key, prompt, description, answer, reason] of signs) {
+        const question = quiz.locator(`.question[data-flashcard-key="${key}"][data-prompt="${prompt}"]`);
         await quiz.locator(`[data-quiz-jump="${await question.getAttribute('data-question-index')}"]`).click();
         const svg = question.getByRole('img', { name: description, exact: true }).locator('svg');
         if (key === 'roundabout') {

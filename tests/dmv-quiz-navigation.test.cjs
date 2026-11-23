@@ -28,6 +28,16 @@ async function assertFocusedAndVisible(page, target, before = target) {
   assert.notEqual(await target.evaluate(el => getComputedStyle(el).outlineStyle), "none");
 }
 
+async function accessibleFocus(page) {
+  const inspector = await page.context().newCDPSession(page);
+  try {
+    const { root } = await inspector.send("DOM.getDocument");
+    const { nodeId } = await inspector.send("DOM.querySelector", { nodeId: root.nodeId, selector: ":focus" });
+    const { nodes } = await inspector.send("Accessibility.getPartialAXTree", { nodeId, fetchRelatives: false });
+    return nodes[0];
+  } finally { await inspector.detach(); }
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: answer feedback, next, previous, and jump keep the active picture question in view`, async () => {
     const { context, page, quiz } = await openQuiz(width, "road-signs-practice-test", "road-signs-core");
@@ -63,7 +73,55 @@ for (const width of [390, 1280]) {
         `1 of ${await quiz.getAttribute("data-total")} answered`);
     } finally { await context.close(); }
   });
+
+  test(`${width}px: focusing a picture question exposes the graphic clue before its choices`, async () => {
+    const { context, page, quiz } = await openQuiz(width, "road-signs-practice-test", "road-signs-core");
+    try {
+      await quiz.locator('[data-quiz-jump="8"]').press("Enter");
+      const question = quiz.locator(".question.is-active");
+      const heading = question.locator("h3");
+      const clue = "Yellow diamond with a straight upward arrow and a separate curved stem joining from the right";
+      const img = question.getByRole("img", { name: clue, exact: true });
+      assert.equal(await img.count(), 1);
+      assert.equal(await heading.getAttribute("aria-describedby"), await img.getAttribute("id"));
+      const node = await accessibleFocus(page);
+      assert.equal(node.role.value, "heading");
+      assert.match(node.name.value, /What should this yellow sign make you expect/);
+      assert.equal(node.description?.value, clue);
+      await page.keyboard.press("Tab");
+      assert.equal(await question.locator("[data-choice]").first().evaluate(el => document.activeElement === el), true);
+      await question.getByRole("button", { name: "Traffic entering or joining your lane", exact: true }).press("Enter");
+      assert.match(await question.locator(".feedback").innerText(), /^Correct\./);
+      await quiz.locator('[data-quiz-jump="9"]').press("Enter");
+      assert.match((await accessibleFocus(page)).description?.value, /right stroke bends closer to the left/);
+    } finally { await context.close(); }
+  });
 }
+
+test("each quiz mode describes an image in its own question and leaves text-only prompts alone", async () => {
+  const { context, page } = await openQuiz(1280, "california-dmv-permit-practice-test", "quick");
+  try {
+    const associations = await page.locator("[data-quiz] .question").evaluateAll(questions => {
+      const ids = new Set();
+      let picture = 0, text = 0, mismatches = 0;
+      for (const question of questions) {
+        const ref = question.querySelector("h3").getAttribute("aria-describedby");
+        const image = question.querySelector(".question-visual [role='img']");
+        if (image) {
+          picture++;
+          if (!ref || ids.has(ref) || document.getElementById(ref) !== image || !image.getAttribute("aria-label")) mismatches++;
+          ids.add(ref);
+        } else {
+          text++;
+          if (ref) mismatches++;
+        }
+      }
+      return { picture, text, mismatches };
+    });
+    assert.ok(associations.picture > 0 && associations.text > 0);
+    assert.equal(associations.mismatches, 0);
+  } finally { await context.close(); }
+});
 
 test("touch navigation reveals the next question's whole image and heading", async () => {
   const context = await browser.newContext({ viewport: { width: 390, height: 820 }, hasTouch: true });

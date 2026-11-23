@@ -2613,7 +2613,7 @@ def render_calendar_file(calendar):
     return "\r\n".join(fold_ics_line(line) for line in lines) + "\r\n"
 
 
-def render_sign_visual(question):
+def render_sign_visual(question, image_id):
     key = question.get("image")
     if not key:
         return ""
@@ -2622,7 +2622,7 @@ def render_sign_visual(question):
         return ""
     label = question.get("imageAlt", "Road sign illustration")
     return f"""<figure class="question-visual">
-  <div class="sign-art" role="img" aria-label="{esc(label)}">{svg}</div>
+  <div class="sign-art" id="{esc(image_id)}" role="img" aria-label="{esc(label)}">{svg}</div>
   <figcaption>Look at the sign, then choose the safest meaning or driver action.</figcaption>
 </figure>"""
 
@@ -2641,6 +2641,7 @@ def render_quiz(quiz_key, options=None):
         return ""
     options = options or {}
     questions = quiz_questions(quiz_key, options)
+    mode_id = options.get("id", quiz_key)
     sheet_focus_by_image = {
         sign["image"]: (group["practice"]["focus"], group["label"])
         for group in options.get("sheetFocusGroups", [])
@@ -2650,8 +2651,10 @@ def render_quiz(quiz_key, options=None):
     cards = []
     for index, q in enumerate(questions):
         category = q.get("category", "Permit basics")
-        visual = render_sign_visual(q)
+        image_id = f"quiz-art-{mode_id}-{index + 1}"
+        visual = render_sign_visual(q, image_id)
         visual_block = f"\n  {visual}" if visual else ""
+        visual_description = f' aria-describedby="{esc(image_id)}"' if visual else ""
         choices = "".join(
             f'<button type="button" data-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(q["choices"])
@@ -2667,7 +2670,7 @@ def render_quiz(quiz_key, options=None):
         )
         cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr}{sheet_attr}{flashcard_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>{visual_block}
-  <h3>{index + 1}. {esc(q["q"])}</h3>
+  <h3{visual_description}>{index + 1}. {esc(q["q"])}</h3>
   <div class="choices">{choices}</div>
   <p class="feedback" aria-live="polite"></p>{source_link}
 </article>""")
@@ -2677,7 +2680,6 @@ def render_quiz(quiz_key, options=None):
     intro = options.get("description", "Answer one question at a time. Your result stays in this browser session and points you to weak areas.")
     kicker = options.get("kicker", "Interactive practice")
     quiz_label = options.get("label", title)
-    mode_id = options.get("id", quiz_key)
     state_value = options.get("state", "")
     domain = options.get("domain", "")
     is_dmv = domain == "dmv"
