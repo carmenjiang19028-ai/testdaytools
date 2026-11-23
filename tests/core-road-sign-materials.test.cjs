@@ -345,6 +345,10 @@ for (const width of [1280, 390]) {
       assert.equal(await explanation.locator('p').isVisible(), false);
       await explanation.locator('summary').press('Enter');
       assert.match(await explanation.locator('p').innerText(), /start of the zone on the left/);
+      const clearRoad = comparison.locator('details').filter({ hasText: 'The road is clear, but the white sign is posted' });
+      assert.equal(await clearRoad.count(), 1);
+      await clearRoad.locator('summary').press('Enter');
+      assert.match(await clearRoad.locator('p').innerText(), /Stay behind the car.*A clear view does not cancel.*yellow pennant/is);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
       if (process.env.PASSING_SIGN_SCREENSHOTS_DIR) {
         fs.mkdirSync(process.env.PASSING_SIGN_SCREENSHOTS_DIR, { recursive: true });
@@ -353,6 +357,10 @@ for (const width of [1280, 390]) {
       await comparison.getByRole('link', {name: 'Practice the white Do Not Pass sign'}).click();
       await page.waitForLoadState('load');
       assert.equal(new URL(page.url()).searchParams.get('focus'), 'Passing signs');
+      const regulatory = page.locator('.mode-panel.is-active .question.is-active[data-category="Passing signs"]');
+      await regulatory.getByRole('button', { name: 'Passing another vehicle in this zone', exact: true }).press('Enter');
+      assert.match(await regulatory.locator('.feedback').innerText(), /^Correct\..*do not pass the car ahead even if the road looks clear/i);
+      assert.ok(await regulatory.getByRole('link', { name: 'FHWA 2B.36: Do Not Pass' }).isVisible());
       await page.goto(local('road-signs-practice-test') + '?mode=road-signs-core#practice');
       const quiz = page.locator('[data-mode-panel="road-signs-core"] [data-quiz]');
       const target = quiz.locator('.question', {hasText: 'What does this white rectangular sign mean?'});
@@ -360,6 +368,24 @@ for (const width of [1280, 390]) {
       assert.equal(await target.evaluate(node => node.classList.contains('is-active')), true);
       await target.getByRole('button', {name: /No passing is allowed in this zone/}).click();
       assert.match(await target.locator('.feedback').innerText(), /^Correct\..+yellow NO PASSING ZONE pennant is a different sign/);
+    } finally { await context.close(); }
+  });
+
+  test(`${width}px: state sign feedback distinguishes a posted restriction from road visibility`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const url = pathToFileURL(path.join(root, 'florida-dmv-road-signs-practice.html')).href;
+      await page.goto(url + '?mode=signs#practice');
+      const quiz = page.locator('[data-mode-panel="signs"].is-active [data-quiz]');
+      const question = quiz.locator('.question[data-category="Passing signs"]');
+      await quiz.locator(`[data-quiz-jump="${await question.getAttribute('data-question-index')}"]`).press('Enter');
+      await question.getByRole('button', { name: 'Pass other vehicles in this zone', exact: true }).press('Enter');
+      assert.match(await question.locator('.feedback').innerText(), /^Correct\..*do not pass the car ahead even if the road looks clear/i);
+      const source = question.getByRole('link', { name: 'FHWA 2B.36: Do Not Pass' });
+      assert.ok(await source.isVisible());
+      assert.equal(await source.getAttribute('href'), 'https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=38');
     } finally { await context.close(); }
   });
 

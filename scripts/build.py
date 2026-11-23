@@ -3747,6 +3747,10 @@ def render_passing_sign_drill():
         <summary>What if there is no pennant?</summary>
         <p><strong>A missing pennant is not permission to pass.</strong> On a two-way road, a solid yellow center line next to your lane tells you not to cross it to pass. Read the signs and pavement markings together, and check your state's handbook for its passing rules.</p>
       </details>
+      <details class="contrast-transfer">
+        <summary>The road is clear, but the white sign is posted. Can you pass the car ahead?</summary>
+        <p><strong>Stay behind the car.</strong> A clear view does not cancel the posted restriction. The white sign tells you not to pass here even if you never saw a yellow pennant. Where passing is permitted later, you still need a safe opportunity.</p>
+      </details>
       <p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Passing%20signs#practice">Practice the white Do Not Pass sign</a></p>
       <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=38">FHWA 2B.36: Do Not Pass</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=46">FHWA 2C.53: No Passing Zone</a> &middot; <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/pavement-markings">PennDOT: center lines</a></p>
     </div>
