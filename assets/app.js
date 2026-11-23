@@ -1894,6 +1894,7 @@ function initRoadSignFlashcards() {
     const filterSelect = deck.querySelector("[data-flashcard-filter]");
     const searchInput = deck.querySelector("[data-flashcard-search]");
     const resetButton = deck.querySelector("[data-flashcard-reset]");
+    const resetDialog = deck.querySelector("[data-flashcard-reset-dialog]");
     const prevButton = deck.querySelector("[data-flashcard-prev]");
     const nextButton = deck.querySelector("[data-flashcard-next]");
     const knownButton = deck.querySelector("[data-flashcard-known-button]");
@@ -1911,29 +1912,33 @@ function initRoadSignFlashcards() {
     const storageKey = "tdt-road-sign-flashcards";
     let known = new Set();
     let review = new Set();
+    let useSavedMarks = true;
     let activeIndexes = cards.map((_, index) => index);
     let activePosition = 0;
 
     const load = () => {
+      if (!useSavedMarks) return;
       try {
         const saved = JSON.parse(window.localStorage.getItem(storageKey) || "null");
         known = new Set(Array.isArray(saved?.known) ? saved.known : []);
         review = new Set(Array.isArray(saved?.review) ? saved.review : []);
       } catch (error) {
-        known = new Set();
-        review = new Set();
+        // Keep the current session's marks if saved data cannot be read.
       }
     };
 
     const save = () => {
+      if (!useSavedMarks) return false;
       try {
         window.localStorage.setItem(storageKey, JSON.stringify({
           known: Array.from(known),
           review: Array.from(review),
           updatedAt: Date.now(),
         }));
+        return true;
       } catch (error) {
-        // Flashcards remain usable when browser storage is unavailable.
+        useSavedMarks = false;
+        return false;
       }
     };
 
@@ -1994,6 +1999,7 @@ function initRoadSignFlashcards() {
       if (position) position.textContent = total ? `${activePosition + 1} of ${total}` : "0 of 0";
       if (knownCount) knownCount.textContent = String(known.size);
       if (reviewCount) reviewCount.textContent = String(review.size);
+      if (resetButton) resetButton.disabled = !known.size && !review.size;
       if (visibleCount) visibleCount.textContent = String(total);
       if (fromMissedQuiz && missedSummary && missedNote) {
         const showMissed = filterSelect?.value === "missed";
@@ -2016,12 +2022,15 @@ function initRoadSignFlashcards() {
       if (reviewButton) reviewButton.disabled = !isRevealed(current);
       if (message) {
         const id = cardId(current);
-        message.textContent = known.has(id) ? "Marked as known."
-          : review.has(id) ? "Saved for review." : "";
+        const status = known.has(id) ? "Marked as known."
+          : review.has(id) ? useSavedMarks ? "Saved for review." : "Marked for review." : "";
+        message.textContent = useSavedMarks ? status
+          : `${status} Browser storage is unavailable. New marks stay in this session.`.trim();
       }
     };
 
-    const applyFilters = (start = 0) => {
+    const applyFilters = (start = 0, retainCard = false) => {
+      const previousIndex = retainCard ? activeIndexes[activePosition] : undefined;
       const filter = filterSelect?.value || "all";
       const term = (searchInput?.value || "").trim().toLowerCase();
       activeIndexes = cards
@@ -2034,9 +2043,13 @@ function initRoadSignFlashcards() {
           return matchesFilter && matchesSearch;
         })
         .map(({ index }) => index);
-      activePosition = Math.min(start, Math.max(activeIndexes.length - 1, 0));
-      cards.forEach((card) => setRevealed(card, false));
-      if (announcement) announcement.textContent = "";
+      const matchedPosition = activeIndexes.indexOf(previousIndex);
+      activePosition = matchedPosition < 0
+        ? Math.min(start, Math.max(activeIndexes.length - 1, 0)) : matchedPosition;
+      if (matchedPosition < 0) {
+        cards.forEach((card) => setRevealed(card, false));
+        if (announcement) announcement.textContent = "";
+      }
       render();
     };
 
@@ -2051,6 +2064,7 @@ function initRoadSignFlashcards() {
       const current = activeCard();
       if (!isRevealed(current)) return;
       const id = cardId(current);
+      load();
       if (status === "known") {
         known.add(id);
         review.delete(id);
@@ -2065,9 +2079,9 @@ function initRoadSignFlashcards() {
         filter: filterSelect?.value || "all",
         visible_cards: activeIndexes.length,
       });
-      if (status === "known" && filterSelect?.value === "review") {
-        applyFilters(activePosition);
-        focusCard();
+      if (filterSelect?.value === "review") {
+        applyFilters(activePosition, status !== "known");
+        if (status === "known") focusCard();
       } else {
         render();
       }
@@ -2083,15 +2097,38 @@ function initRoadSignFlashcards() {
     };
     prevButton?.addEventListener("click", () => moveCard(-1));
     nextButton?.addEventListener("click", () => moveCard(1));
-    resetButton?.addEventListener("click", () => {
+    const clearMarks = () => {
       known = new Set();
       review = new Set();
-      save();
-      applyFilters();
-      if (message) message.textContent = "Deck reset.";
+      const persisted = save();
+      applyFilters(activePosition, true);
+      if (message) message.textContent = persisted ? "Saved marks cleared."
+        : "Marks cleared for this session only. Browser storage could not be updated.";
+      filterSelect?.focus({ preventScroll: true });
+    };
+    resetButton?.addEventListener("click", () => {
+      if (typeof resetDialog?.showModal === "function") {
+        resetDialog.returnValue = "";
+        resetDialog.showModal();
+      } else if (window.confirm("Clear all Known and Review marks saved in this browser?")) {
+        clearMarks();
+      }
+    });
+    resetDialog?.addEventListener("close", () => {
+      if (resetDialog.returnValue === "clear") clearMarks();
     });
     filterSelect?.addEventListener("change", () => applyFilters());
     searchInput?.addEventListener("input", () => applyFilters());
+    window.addEventListener("storage", (event) => {
+      if (!useSavedMarks || (event.key !== storageKey && event.key !== null)) return;
+      const previous = activeCard();
+      const focused = document.activeElement;
+      const restoreFocus = previous?.contains(focused)
+        || [knownButton, reviewButton, prevButton, nextButton, resetButton].includes(focused);
+      load();
+      applyFilters(activePosition, true);
+      if (restoreFocus && (previous !== activeCard() || focused.disabled)) focusCard();
+    });
 
     load();
     applyFilters();

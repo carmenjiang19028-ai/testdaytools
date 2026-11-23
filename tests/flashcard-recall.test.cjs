@@ -15,6 +15,8 @@ const known = page => page.locator("[data-flashcard-known-button]");
 const review = page => page.locator("[data-flashcard-review-button]");
 const queue = page => page.locator("[data-flashcard-filter]");
 const marked = page => page.evaluate(() => window.dataLayer.filter(event => event[0] === "event" && event[1] === "flashcard_mark").length);
+const deckUrl = pathToFileURL(path.resolve(__dirname, "../dmv-road-sign-flashcards.html")).href;
+const savedMarks = page => page.evaluate(() => JSON.parse(localStorage.getItem("tdt-road-sign-flashcards")));
 
 async function withDeck(width, run, seed = null) {
   const context = await browser.newContext({ viewport: { width, height: 900 } });
@@ -29,7 +31,7 @@ async function withDeck(width, run, seed = null) {
     const page = await context.newPage();
     const errors = [];
     page.on("pageerror", error => errors.push(error.message));
-    await page.goto(pathToFileURL(path.resolve(__dirname, "../dmv-road-sign-flashcards.html")).href);
+    await page.goto(deckUrl);
     await run(page);
     assert.deepEqual(errors, []);
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
@@ -89,6 +91,117 @@ test("saved review cards can be revisited, and a known card leaves the saved que
     assert.match(await page.locator("[data-flashcard-empty]").textContent(), /No saved review cards/);
     assert.equal(await known(page).isDisabled(), true);
   }, { known: ["stop"], review: ["merge", "lane-ends"], updatedAt: 1 }));
+
+for (const width of [320, 1280]) {
+  test(`${width}px: clearing marks requires explicit confirmation and never resets another tool`, () =>
+    withDeck(width, async page => {
+      const reset = page.getByRole("button", { name: "Clear saved marks" });
+      const dlg = page.getByRole("dialog", { name: "Clear all saved marks?" });
+      const search = page.getByRole("searchbox", { name: "Search cards" });
+      await queue(page).selectOption("warning");
+      await search.fill("lane ends");
+      await reveal(page).click();
+      const other = { "tdt-dmv-test-day:california": '{"checked":["sample"]}',
+        "tdt-dmv-mistake-log": '[]', "tdt-recent-practice": '{"correct":8,"total":10}' };
+      await page.evaluate(entries => {
+        for (const [key, value] of Object.entries(entries)) localStorage.setItem(key, value);
+      }, other);
+      const before = await savedMarks(page);
+      await reset.press("Enter");
+      assert.equal(await dlg.isVisible(), true);
+      assert.equal(await page.locator(":focus").innerText(), "Keep my marks");
+      assert.deepEqual(await savedMarks(page), before);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await page.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `clear-marks-${width}.png`) });
+      }
+      await page.keyboard.press("Escape");
+      await dlg.waitFor({state: "hidden"});
+      assert.deepEqual(await savedMarks(page), before);
+      assert.equal(await page.locator(":focus").innerText(), "Clear saved marks");
+      await reset.click();
+      await dlg.getByRole("button", { name: "Keep my marks" }).click();
+      assert.deepEqual(await savedMarks(page), before);
+      await reset.click();
+      await dlg.getByRole("button", { name: "Clear all marks" }).click();
+      await page.getByText("Saved marks cleared.", { exact: true }).waitFor();
+      assert.deepEqual((await savedMarks(page)).known, []);
+      assert.deepEqual((await savedMarks(page)).review, []);
+      assert.equal(await queue(page).inputValue(), "warning");
+      assert.equal(await search.inputValue(), "lane ends");
+      assert.equal(await reveal(page).getAttribute("aria-expanded"), "true");
+      assert.equal(await reset.isDisabled(), true);
+      assert.deepEqual(await page.evaluate(keys =>
+        Object.fromEntries(keys.map(key => [key, localStorage.getItem(key)])), Object.keys(other)), other);
+      assert.equal(await marked(page), 0);
+      await page.reload();
+      assert.equal(await reset.isDisabled(), true);
+    }, { known: ["stop"], review: ["lane-ends"], updatedAt: 1 }));
+}
+
+test("two open tabs preserve each other's marks and update an open review queue", async () => {
+  const context = await browser.newContext();
+  await context.route(/^https?:/, route => route.abort());
+  try {
+    const a = await context.newPage();
+    const b = await context.newPage();
+    await a.goto(deckUrl);
+    await b.goto(deckUrl);
+    await queue(a).selectOption("review");
+    await b.getByRole("searchbox", { name: "Search cards" }).fill("lane ends");
+    await reveal(b).click();
+    await review(b).click();
+    await a.waitForFunction(() => document.querySelector("[data-flashcard].is-active")?.dataset.cardId === "lane-ends");
+    await reveal(a).click();
+    await b.getByRole("searchbox", { name: "Search cards" }).fill("hospital");
+    await reveal(b).click();
+    await known(b).click();
+    await a.waitForFunction(() => document.querySelector("[data-flashcard-known]").textContent === "1");
+    assert.equal(await reveal(a).getAttribute("aria-expanded"), "true");
+    assert.deepEqual((await savedMarks(a)).known, ["hospital"]);
+    assert.deepEqual((await savedMarks(a)).review, ["lane-ends"]);
+    assert.equal(await marked(a), 0);
+    assert.equal(await marked(b), 2);
+    await known(a).click();
+    await a.getByText("No saved review cards.", { exact: true }).waitFor();
+    assert.deepEqual((await savedMarks(a)).known, ["hospital", "lane-ends"]);
+    await b.getByRole("button", { name: "Clear saved marks" }).click();
+    await b.getByRole("button", { name: "Clear all marks" }).click();
+    await a.waitForFunction(() => document.querySelector("[data-flashcard-known]").textContent === "0");
+    assert.equal(await marked(a), 1);
+    assert.equal(await marked(b), 2);
+  } finally { await context.close(); }
+});
+
+test("a failed storage write does not discard marks from the current session", async () => {
+  const context = await browser.newContext();
+  await context.route(/^https?:/, route => route.abort());
+  await context.addInitScript(() => {
+    const setItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function (key, value) {
+      if (key === "tdt-road-sign-flashcards") throw new DOMException("Unavailable", "QuotaExceededError");
+      return setItem.call(this, key, value);
+    };
+  });
+  try {
+    const page = await context.newPage();
+    await page.goto(deckUrl);
+    const search = page.getByRole("searchbox", { name: "Search cards" });
+    await search.fill("lane ends");
+    await reveal(page).click();
+    await review(page).click();
+    assert.match(await page.locator("[data-flashcard-message]").textContent(), /^Marked for review.*stay in this session\.$/);
+    await search.fill("hospital");
+    await reveal(page).click();
+    await known(page).click();
+    assert.equal(await page.locator("[data-flashcard-known]").textContent(), "1");
+    assert.equal(await page.locator("[data-flashcard-review]").textContent(), "1");
+    assert.equal(await savedMarks(page), null);
+    await page.getByRole("button", { name: "Clear saved marks" }).click();
+    await page.getByRole("button", { name: "Clear all marks" }).click();
+    await page.getByText("Marks cleared for this session only. Browser storage could not be updated.").waitFor();
+  } finally { await context.close(); }
+});
 
 test("a flashcard opens the same picture group as the printable reference", () =>
   withDeck(1280, async page => {

@@ -2136,6 +2136,40 @@ h3 {
   text-align: center;
 }
 
+.flashcard-reset-dialog {
+  width: min(420px, calc(100% - 32px));
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.flashcard-reset-dialog::backdrop {
+  background: rgba(23, 33, 47, 0.45);
+}
+
+.flashcard-reset-dialog h3 {
+  margin: 0;
+}
+
+.flashcard-reset-dialog form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.flashcard-reset-dialog button {
+  min-height: 44px;
+  padding: 8px 12px;
+}
+
+.flashcard-reset-dialog button[value="clear"] {
+  border-color: #a32b2b;
+  background: #a32b2b;
+  color: white;
+}
+
 .flashcard-status {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

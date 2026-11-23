@@ -4254,8 +4254,16 @@ def render_road_sign_flashcards_page():
   <div class="flashcard-controls">
     <label>Sign group <select data-flashcard-filter>{filter_options}</select></label>
     <label>Search cards <input type="search" placeholder="Try stop, yield, merge, school, hospital..." data-flashcard-search></label>
-    <button type="button" data-flashcard-reset>Reset deck</button>
+    <button type="button" data-flashcard-reset disabled>Clear saved marks</button>
   </div>
+  <dialog class="flashcard-reset-dialog" data-flashcard-reset-dialog aria-labelledby="flashcard-reset-title" aria-describedby="flashcard-reset-copy">
+    <h3 id="flashcard-reset-title">Clear all saved marks?</h3>
+    <p id="flashcard-reset-copy">This removes Known and Review marks for every sign group in this browser. Quiz scores and the mistake log are not affected.</p>
+    <form method="dialog">
+      <button value="keep" autofocus>Keep my marks</button>
+      <button value="clear">Clear all marks</button>
+    </form>
+  </dialog>
   <div class="flashcard-status" aria-live="polite">
     <div><span>Card</span><strong data-flashcard-position>1 of {len(records)}</strong></div>
     <div><span>Know</span><strong data-flashcard-known>0</strong></div>
