@@ -12219,11 +12219,6 @@
         "intro": "Use this picture round to practice identifying signs by shape, color or symbol. Illinois also tests signals, pavement markings and driving rules; this sign drill does not cover the whole written test.",
         "items": [
           {
-            "label": "Official agency",
-            "value": "Secretary of State",
-            "text": "Use the Secretary of State's Rules of the Road for written-test topics and sign meanings."
-          },
-          {
             "label": "Class D format",
             "value": "At least 35 questions",
             "text": "Illinois rules describe a Class D written test with a minimum of 35 questions."
@@ -12237,6 +12232,13 @@
             "label": "Practice target for this sign drill",
             "value": "16 of 20 road signs",
             "text": "This is a site practice target, not an official passing requirement."
+          },
+          {
+            "label": "After a first official Class D written-test failure",
+            "value": "Ask before leaving the facility",
+            "text": "Under 92 Ill. Adm. Code 1030.86(e), the facility may allow a second try during business hours that day. It is not guaranteed. If you cannot retest that day, ask when to return and confirm your remaining attempts and deadline. Repeating this online practice drill does not use a state exam attempt.",
+            "cta": "Find your Illinois Driver Services facility",
+            "href": "https://www.ilsos.gov/facilities/facilitylist.html"
           }
         ]
       },

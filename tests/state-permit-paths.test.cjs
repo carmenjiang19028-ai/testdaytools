@@ -92,6 +92,13 @@ for (const width of [320, 1280]) {
       const page = await context.newPage();
       const guide = file("illinois-dmv-road-signs-practice");
       await page.goto(guide);
+      const official = page.locator("#official-details");
+      const retest = official.locator("article").filter({ hasText: "After a first official Class D written-test failure" });
+      assert.match(await retest.innerText({ timeout: 2000 }), /1030\.86\(e\).*may allow a second try during business hours that day.*not guaranteed.*ask when to return.*does not use a state exam attempt/is);
+      assert.equal(await retest.getByRole("link").getAttribute("href"),
+        "https://www.ilsos.gov/facilities/facilitylist.html");
+      assert.match(await official.innerText(), /At least 35 questions.*80% correct.*16 of 20 road signs/is);
+      assert.equal(await page.locator('.sources a[href="https://www.ilsos.gov/departments/drivers/"]').count(), 1);
       await page.getByRole("link", { name: "Illinois school zones", exact: true }).press("Enter");
       await page.waitForURL(guide + "#illinois-school-zone");
       const schoolCases = page.locator("#illinois-school-zone details");
