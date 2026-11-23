@@ -334,6 +334,49 @@ for (const width of [320, 1280]) {
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: New York connects the score reference to the three permit visit decisions`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("new-york-dmv-permit-practice-test");
+      const paths = guide + "#ny-permit-test-options";
+      const steps = "https://dmv.ny.gov/driver-license/prepare-for-and-take-your-permit-test";
+      const manual = "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-1-driver-licenses";
+      for (const slug of ["new-york-dmv-road-signs-practice", "new-york-dmv-permit-practice-test"]) {
+        await page.goto(file(slug) + "#official-details");
+        const facts = page.locator("#official-details");
+        assert.match(await facts.innerText(), /20 questions.*14 correct.*2 road signs/s);
+        assert.match(await facts.innerText(), /under 18.*office visit/s);
+        const route = facts.getByRole("link", { name: "Compare the New York test paths", exact: true });
+        assert.equal(await route.count(), 1);
+        await route.press("Enter");
+        await page.waitForURL(paths);
+        const section = page.locator("#ny-permit-test-options");
+        const cases = section.locator("article");
+        assert.equal(await cases.count(), 3);
+        const expected = [
+          [/17 and passed the online test.*first three business days.*retake.*vision and permit steps/is, steps],
+          [/18 or older.*under 18.*pre-screening.*documents.*office/is, steps],
+          [/15 years and 11 months.*participating high school.*at least 16.*receipt.*forms/is, manual],
+        ];
+        for (const [index, [pattern, url]] of expected.entries()) {
+          const item = cases.nth(index);
+          assert.match(await item.innerText(), pattern);
+          assert.equal(await item.getByRole("link").getAttribute("href"), url);
+        }
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+        const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+        const header = await page.locator(".site-header").boundingBox();
+        assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      }
+      if (process.env.NY_PERMIT_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.NY_PERMIT_SCREENSHOTS_DIR, { recursive: true });
+        await page.locator("#ny-permit-test-options").screenshot({ path: path.join(process.env.NY_PERMIT_SCREENSHOTS_DIR, `ny-permit-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: New York junior permit cases distinguish regional rules and after-sunset hours`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

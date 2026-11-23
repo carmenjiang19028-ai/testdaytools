@@ -2490,17 +2490,17 @@ def render_exam_details(tool):
     details = tool.get("examDetails")
     if not details:
         return ""
-    cards = "".join(
-        f'<article><span>{esc(item["label"])}</span><strong>{esc(item["value"])}</strong><p>{esc(item.get("text", ""))}</p></article>'
-        for item in details.get("items", [])
-    )
+    cards = []
+    for item in details.get("items", []):
+        link = f'<a class="info-card-link" href="{esc(item["href"])}">{esc(item["cta"])}</a>' if item.get("href") and item.get("cta") else ""
+        cards.append(f'<article><span>{esc(item["label"])}</span><strong>{esc(item["value"])}</strong><p>{esc(item.get("text", ""))}</p>{link}</article>')
     return f"""<section class="exam-details" id="official-details">
   <div class="tool-section-head">
     <span class="eyebrow">{esc(details.get("kicker", "Real test details"))}</span>
     <h2>{esc(details["heading"])}</h2>
     <p class="section-intro">{esc(details.get("intro", ""))}</p>
   </div>
-  <div class="exam-detail-grid">{cards}</div>
+  <div class="exam-detail-grid">{"".join(cards)}</div>
 </section>"""
 
 

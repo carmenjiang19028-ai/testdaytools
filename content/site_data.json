@@ -7529,19 +7529,39 @@
           "text": "Private practice tests help you find weak areas, but the New York Driver Manual and New York DMV pages are the final source for wording, documents, fees, and eligibility."
         },
         {
-          "heading": "Study flow",
-          "text": "Read the official New York driver's manual first, then use practice questions to catch weak spots. Revisit the manual after each missed question."
-        },
-        {
           "heading": "Review by topic",
           "text": "After the quiz, do not only look at the final score. If missed answers cluster around signs, intersections, or road conditions, study that topic before taking another practice set."
-        },
-        {
-          "heading": "Use plain-language explanations",
-          "text": "Each explanation is short on purpose. The goal is to connect the answer to a rule you can remember while driving, then verify the exact rule in the official manual."
         }
       ],
       "cardGroups": [
+        {
+          "id": "ny-permit-test-options",
+          "heading": "Choose your New York permit test path",
+          "intro": "Use these Class D or DJ examples before booking a DMV visit. Testing online, passing through a school, and receiving the permit are separate steps.",
+          "items": [
+            {
+              "label": "Online result",
+              "title": "17 and passed the online test?",
+              "text": "Do not go to the DMV office during the first three business days after passing online. DMV uses that time to review the result and your documents. Visiting during that window means you must retake and pass the test at the office. Check DMV's instructions, bring the required documents, and complete the vision and permit steps before driving.",
+              "href": "https://dmv.ny.gov/driver-license/prepare-for-and-take-your-permit-test",
+              "cta": "Confirm the wait and office steps"
+            },
+            {
+              "label": "Office test",
+              "title": "18 or older and starting an application?",
+              "text": "New York DMV's public instructions list the online test option in pre-screening for applicants under 18. If you are 18 or older, use pre-screening to identify your documents and prepare the application, then plan to test at an office unless DMV directs you otherwise. Completing the pre-screen is not passing the test.",
+              "href": "https://dmv.ny.gov/driver-license/prepare-for-and-take-your-permit-test",
+              "cta": "Open DMV's application and test steps"
+            },
+            {
+              "label": "School test (OKTA)",
+              "title": "15 years and 11 months at a participating school?",
+              "text": "Ask whether your participating high school offers the supervised DMV OKTA test. That program can let you test at 15 years and 11 months, but you must be at least 16 to apply for the permit. After passing, keep the receipt and completed forms for your visit. The school test is not the same as the public online pre-screening route.",
+              "href": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-1-driver-licenses",
+              "cta": "Read the DMV manual's school-test rules"
+            }
+          ]
+        },
         {
           "id": "ny-junior-practice",
           "heading": "Where can you practice with a New York junior permit?",
@@ -7814,7 +7834,7 @@
           {
             "label": "Official format",
             "value": "20 questions",
-            "text": "New York describes the learner permit test as a 20-question multiple-choice test."
+            "text": "This is the written-test format in the New York DMV manual. Check the instructions for your test path."
           },
           {
             "label": "Pass rule",
@@ -7823,8 +7843,10 @@
           },
           {
             "label": "Where to test",
-            "value": "Online or DMV office",
-            "text": "New York offers an online permit test for eligible applicants and DMV office testing."
+            "value": "Online eligibility and office visit",
+            "text": "DMV lists an online option for applicants under 18. Passing online still leaves an office visit; check the review window before you go.",
+            "href": "#ny-permit-test-options",
+            "cta": "Compare the New York test paths"
           },
           {
             "label": "Practice target here",
@@ -7935,7 +7957,7 @@
       "checklist": [
         "Read the New York Driver Manual before treating practice questions as enough.",
         "Know the 14-correct overall rule and the separate road-sign requirement.",
-        "Confirm whether you are eligible for the online permit test or need an office visit.",
+        "Choose your test path and plan the office visit. If you pass through the public online route, allow three business days for DMV review.",
         "Prepare identity documents before booking or visiting DMV.",
         "Review signs slowly; missing sign questions can matter even with a good total score.",
         "After a low score, reread the exact category shown in the weak-area chips."
@@ -8491,7 +8513,7 @@
           {
             "label": "Official format",
             "value": "20 questions",
-            "text": "New York describes the learner permit test as a 20-question multiple-choice test."
+            "text": "This is the written-test format in the New York DMV manual. Check the instructions for your test path."
           },
           {
             "label": "Pass rule",
@@ -8500,8 +8522,10 @@
           },
           {
             "label": "Where to test",
-            "value": "Online or DMV office",
-            "text": "New York offers an online permit test for eligible applicants and DMV office testing."
+            "value": "Online eligibility and office visit",
+            "text": "DMV lists an online option for applicants under 18. Passing online still leaves an office visit; check the review window before you go.",
+            "href": "new-york-dmv-permit-practice-test.html#ny-permit-test-options",
+            "cta": "Compare the New York test paths"
           },
           {
             "label": "Practice target here",
