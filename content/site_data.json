@@ -7429,9 +7429,17 @@
       "category": "DMV",
       "title": "New York DMV Permit Practice Test",
       "description": "New York DMV permit practice with official pass-rule context, quick questions, original road-sign images, a 40-question mock exam, and weak-area feedback.",
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "New York DMV",
       "summary": "Practice New York DMV permit questions with quick review, image-based road signs, and a 40-question mock exam that keeps the official pass rule visible.",
+      "heroActions": [
+        {"label": "Start practice", "href": "#practice"},
+        {"label": "Official test facts", "href": "#official-details"},
+        {"label": "Study by topic", "href": "#practice-topics"},
+        {"label": "NY school bus cases", "href": "#new-york-school-bus"},
+        {"label": "Junior permit driving", "href": "#ny-junior-practice"},
+        {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=new-york#dmv-checklist"}
+      ],
       "stateRulePractice": {
         "id": "new-york-school-bus",
         "linkLabel": "NY school bus cases",
@@ -7573,22 +7581,30 @@
       ],
       "cardGroups": [
         {
-          "heading": "New York study tips",
+          "id": "ny-junior-practice",
+          "heading": "Where can you practice with a New York junior permit?",
+          "intro": "These examples are for a driver under 18 who already has a Class DJ learner permit, not a junior license. Check the area's rules before driving there, even if your permit was issued in a different county.",
           "items": [
             {
-              "label": "Read",
-              "title": "Start with the manual",
-              "text": "The manual is the official source. Practice questions should help you find what to reread."
+              "label": "New York City",
+              "title": "Queens at 6 p.m. in the family car?",
+              "text": "No. Your licensed parent cannot supervise in Queens if the car has no second brake pedal for them. In all five boroughs, a junior permit holder can practice from 5 a.m. to 9 p.m. only with an approved supervisor and dual brakes. Your supervisor must be at least 21, licensed for the vehicle, and the only front-seat passenger. No practice from 9 p.m. to 5 a.m.",
+              "href": "https://dmv.ny.gov/driver-license/learner-permit-restrictions",
+              "cta": "Check NYC rules and road restrictions"
             },
             {
-              "label": "Sort",
-              "title": "Group missed answers",
-              "text": "Two missed sign questions tell you more than a single final score."
+              "label": "Long Island",
+              "title": "Nassau at 8 p.m. with a neighbor?",
+              "text": "Your 25-year-old neighbor can supervise if your parent has designated them in writing, their license covers the vehicle, and they are the only front-seat passenger. That option applies in Nassau and Suffolk between 5 a.m. and 9 p.m., subject to the other permit restrictions. Stop before 9 p.m., even with the written permission. It does not make your neighbor an approved supervisor in New York City.",
+              "href": "https://dmv.ny.gov/driver-license/learner-permit-restrictions",
+              "cta": "Check Nassau and Suffolk rules"
             },
             {
-              "label": "Reset",
-              "title": "Retake after review",
-              "text": "Give yourself time to study before repeating the quiz so you test understanding, not memory."
+              "label": "Road test preparation",
+              "title": "46 hours logged, 13 after sunset. What is left?",
+              "text": "Of the 50 supervised hours, at least 15 must be after sunset. You need four more hours total, at least two after sunset. A session after sunset but before 9 p.m. can count if the location, vehicle and supervision meet the permit rules. Bring the completed MV-262 signed by your parent or guardian to the road test. Check the other road-test requirements in the DMV manual below.",
+              "href": "https://dmv.ny.gov/forms/mv262.pdf",
+              "cta": "Get the official MV-262 form (PDF)"
             }
           ]
         }

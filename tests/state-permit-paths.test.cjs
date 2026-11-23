@@ -172,6 +172,42 @@ for (const width of [320, 1280]) {
   });
 }
 
+for (const width of [320, 1280]) {
+  test(`${width}px: New York junior permit cases distinguish regional rules and after-sunset hours`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("new-york-dmv-permit-practice-test");
+      await page.goto(guide);
+      const hero = page.locator(".hero-actions");
+      assert.equal(await hero.getByRole("link", { name: "Start practice", exact: true }).getAttribute("href"), "#practice");
+      assert.equal(await hero.getByRole("link", { name: "NY school bus cases", exact: true }).getAttribute("href"), "#new-york-school-bus");
+      await hero.getByRole("link", { name: "Junior permit driving", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#ny-junior-practice");
+      const section = page.locator("#ny-junior-practice");
+      assert.match(await section.locator(".section-intro").innerText(), /under 18.*Class DJ learner permit, not a junior license.*different county/);
+      const restrictions = "https://dmv.ny.gov/driver-license/learner-permit-restrictions";
+      const examples = [
+        [/Queens.*No\..*second brake pedal.*five boroughs.*dual brakes.*at least 21.*only front-seat passenger.*No practice from 9 p\.m\. to 5 a\.m\./s, restrictions],
+        [/Nassau.*25-year-old neighbor.*designated them in writing.*Nassau and Suffolk.*Stop before 9 p\.m\..*does not make your neighbor an approved supervisor in New York City/s, restrictions],
+        [/46 hours.*13 after sunset.*50 supervised hours.*at least 15.*four more hours total, at least two after sunset.*before 9 p\.m\. can count if.*meet the permit rules.*MV-262 signed by your parent or guardian/s, "https://dmv.ny.gov/forms/mv262.pdf"],
+      ];
+      const cards = section.locator("article");
+      assert.equal(await cards.count(), examples.length);
+      for (const [index, [pattern, href]] of examples.entries()) {
+        const card = cards.nth(index);
+        assert.match(await card.innerText(), pattern);
+        assert.equal(await card.getByRole("link").getAttribute("href"), href);
+      }
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: New York school bus cases distinguish the median exception and link official guidance`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
