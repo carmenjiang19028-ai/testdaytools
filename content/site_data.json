@@ -1686,7 +1686,7 @@
       "category": "SAT",
       "title": "SAT Test Dates 2026-2027: Registration Deadlines & Planner",
       "description": "Compare confirmed 2026-2027 SAT dates, regular and late registration deadlines, and School Day windows. Choose an available date and download a free calendar.",
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "Weekend registration deadlines: 11:59 p.m. ET",
       "summary": "Compare confirmed SAT Weekend dates through June 2027, or plan around the anticipated fall 2027 dates below. Check available seats and any earlier deadline for a borrowed device before registering.",
       "quickFacts": [
@@ -1720,6 +1720,10 @@
         {
           "label": "Plan for fall 2027",
           "href": "#sat-fall-2027"
+        },
+        {
+          "label": "Find your school-day date",
+          "href": "#sat-school-day-2027"
         },
         {
           "label": "Check official registration deadlines",
@@ -1987,30 +1991,34 @@
         {
           "heading": "Do not ignore school workload",
           "text": "The best date on paper may be a poor date if it lands beside AP exams, finals, major travel, or a heavy activity season. A slightly later test with better preparation can be smarter than a rushed early test."
-        },
-        {
-          "heading": "SAT School Day 2027 is different from weekend registration",
-          "text": "The official spring 2027 SAT School Day testing window is March 1-April 30, 2027. Participating U.S. schools and districts choose whether to offer it and select a school day within that window, so ask your counselor or principal for your exact date. The fall 2026 School Day window is October 1-30, 2026."
         }
       ],
       "cardGroups": [
         {
-          "heading": "Common SAT date mistakes",
+          "id": "sat-school-day-2027",
+          "heading": "Spring 2027 SAT School Day: find your school's date",
+          "intro": "College Board's general window is March 1-April 30, 2027. State testing programs can set their own schedule and participation rules. October 1-30, 2026 was the general fall window, not an upcoming session.",
           "items": [
             {
-              "label": "Deadlines",
-              "title": "Picking a date before checking colleges",
-              "text": "Start with application and scholarship deadlines, then decide which test dates still work."
+              "label": "School or district testing",
+              "title": "Your school only says the test is this spring",
+              "text": "Ask the counselor or test coordinator whether you are on the roster, your reporting date and time, and what to do if you are absent. Your school or district handles registration; do not book a Saturday seat just to join the school-day test.",
+              "href": "https://satsuite.collegeboard.org/k12-educators/educator-experience",
+              "cta": "College Board school and state testing paths"
             },
             {
-              "label": "Retakes",
-              "title": "Leaving no second chance",
-              "text": "If the first score matters, leave room for illness, test-center issues, or a focused retake."
+              "label": "State testing example",
+              "title": "Your Indiana school gives you a March date",
+              "text": "The published Indiana state testing window is March 1-12, 2027, not the full general window through April 30. Check the state's eligibility and your school's notice for your exact session. Do not assume an April date from the general window is available as a makeup.",
+              "href": "https://satsuite.collegeboard.org/state-partnerships/indiana",
+              "cta": "Check the Indiana state testing schedule"
             },
             {
-              "label": "Workload",
-              "title": "Ignoring AP and finals season",
-              "text": "May can be useful, but it can also collide with AP exams, projects, and end-of-year pressure."
+              "label": "Device and weekend plans",
+              "title": "You have a Saturday booking or need a device",
+              "text": "A weekend booking does not put you on a school-day roster. Follow school instructions for the device, sign-in, and readiness check. Keep a weekend retake as a separate plan if you need one; the weekend planner's registration and loaner deadlines do not apply to the school-day test.",
+              "href": "https://satsuite.collegeboard.org/in-school-assessments/what-to-bring",
+              "cta": "What to bring for in-school testing"
             }
           ]
         },
@@ -2067,7 +2075,7 @@
         },
         {
           "q": "Is SAT School Day 2027 the same as the weekend SAT dates?",
-          "a": "No. Weekend SAT dates are selected by students during registration. The spring 2027 SAT School Day window is March 1-April 30, but participating U.S. schools and districts choose whether to offer it and select the exact school day."
+          "a": "No. March 1-April 30, 2027 is the general school-day window, not an individual appointment. State programs may have their own calendar and eligibility. Confirm your session with your school, which handles registration instead of asking you to book a weekend seat."
         },
         {
           "q": "What are the SAT registration deadlines for 2026-2027?",
@@ -2084,8 +2092,8 @@
           "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
         },
         {
-          "label": "College Board SAT School Day: Test dates",
-          "url": "https://satsuite.collegeboard.org/sat-school-day/test-dates"
+          "label": "College Board: General in-school dates and state testing",
+          "url": "https://satsuite.collegeboard.org/k12-educators/educator-experience"
         }
       ],
       "related": [
@@ -2106,7 +2114,7 @@
       "category": "SAT",
       "title": "August 22 SAT 2026 Scores and Retake Plan",
       "description": "Review your August 22 SAT score, compare available retake dates with a free planner, and check registration and college score deadlines before testing again.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "August SAT scores and retake planning",
       "summary": "Most scores from the August 22, 2026 SAT are now available. Check your College Board account, compare the next SAT dates, and decide whether a retake fits your score goal and college deadlines.",
       "heroActions": [
@@ -2398,11 +2406,7 @@
       ],
       "sources": [
         {
-          "label": "College Board: August 22, 2026 SAT test date and time",
-          "url": "https://satsuite.collegeboard.org/dates/august-22-2026-sat-test-date"
-        },
-        {
-          "label": "College Board SAT: Registration and August milestones",
+          "label": "College Board: Current SAT Weekend registration",
           "url": "https://satsuite.collegeboard.org/sat/registration"
         },
         {
@@ -2410,7 +2414,7 @@
           "url": "https://satsuite.collegeboard.org/sat/dates-deadlines"
         },
         {
-          "label": "College Board: SAT score release dates",
+          "label": "College Board: August 22 test and September 4 scheduled score release",
           "url": "https://satsuite.collegeboard.org/scores/score-release-dates"
         },
         {

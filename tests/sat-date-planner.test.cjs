@@ -28,6 +28,50 @@ async function openPage(file, date, viewport = { width: 1280, height: 900 }, tim
   return { context, page };
 }
 
+for (const width of [320, 1280]) {
+  test(`${width}px: School Day uses the school or state schedule, not weekend registration`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const dates = pathToFileURL(path.join(root, pages[0])).href;
+      await page.goto(dates);
+      await page.getByRole("link", { name: "Find your school-day date" }).press("Enter");
+      await page.waitForURL(dates + "#sat-school-day-2027");
+      const section = page.locator("#sat-school-day-2027");
+      assert.match(await section.locator(".section-intro").innerText(),
+        /general window is March 1-April 30, 2027.*State testing programs.*own schedule and participation rules.*October 1-30, 2026 was the general fall window/);
+      const cases = [
+        [/on the roster.*reporting date and time.*absent.*school or district handles registration.*do not book a Saturday seat/is,
+          "https://satsuite.collegeboard.org/k12-educators/educator-experience"],
+        [/Indiana state testing window is March 1-12, 2027.*not the full general window.*school's notice for your exact session.*Do not assume an April date/is,
+          "https://satsuite.collegeboard.org/state-partnerships/indiana"],
+        [/weekend booking does not put you on a school-day roster.*school instructions for the device.*weekend planner's registration and loaner deadlines do not apply/is,
+          "https://satsuite.collegeboard.org/in-school-assessments/what-to-bring"],
+      ];
+      const cards = section.locator("article");
+      assert.equal(await cards.count(), cases.length);
+      for (const [index, [pattern, url]] of cases.entries()) {
+        const card = cards.nth(index);
+        assert.match(await card.innerText(), pattern);
+        assert.equal(await card.getByRole("link").getAttribute("href"), url);
+      }
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+
+      await page.goto(pathToFileURL(path.join(root, pages[1])).href);
+      const sources = page.locator(".sources");
+      assert.equal(await sources.getByRole("link", { name: /August 22 test and September 4 scheduled score release/ }).getAttribute("href"),
+        "https://satsuite.collegeboard.org/scores/score-release-dates");
+      assert.equal(await sources.getByRole("link", { name: /Current SAT Weekend registration/ }).getAttribute("href"),
+        "https://satsuite.collegeboard.org/sat/registration");
+      assert.equal(await page.locator('a[href*="/dates/august-22-2026-sat-test-date"]').count(), 0);
+    } finally { await context.close(); }
+  });
+}
+
 for (const file of pages) {
   test(`${file}: full schedule, current primary/backup, and calendar download`, async () => {
     const { context, page } = await openPage(file, "2026-10-08T16:00:00Z");
