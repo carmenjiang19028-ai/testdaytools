@@ -7508,7 +7508,7 @@
         },
         {
           "label": "Road sign images",
-          "value": "20 original SVG sign prompts"
+          "value": "25 illustrated sign questions"
         }
       ],
       "quiz": "newyork",
@@ -9639,7 +9639,7 @@
       "description": "Practice Florida Class E permit questions with quick rounds, road-sign pictures, mock exam mode, FLHSMV links, and the 40 of 50 passing score context.",
       "heroKicker": "Florida permit practice",
       "summary": "Practice Florida Class E permit-test topics, see the 40 of 50 passing score context, then separate TLSAE or DETS, the Class E Knowledge Exam, and learner permit documents or office issuance.",
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroActions": [
         {
           "label": "Start practice",
@@ -9708,11 +9708,11 @@
         {
           "id": "signs",
           "label": "Road Signs",
-          "short": "Signs",
+          "short": "24 image questions",
           "title": "Florida road signs image test",
-          "description": "20 image-based sign questions with explanations.",
+          "description": "24 image questions with a practice target of 19 correct. This is the same sign round as on the Florida signs page, not the official Class E exam.",
           "quiz": "floridaSigns",
-          "passScore": 16
+          "passScore": 19
         },
         {
           "id": "mock",
@@ -10319,7 +10319,7 @@
       "category": "DMV",
       "title": "Florida Regulatory Signs: 24-Picture Practice Test",
       "description": "Practice Florida regulatory signs with 24 picture questions, including Right Turn Only, No Right Turn, One Way, speed limits, and FDOT/FLHSMV sources.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "Florida regulatory signs practice",
       "summary": "Practice 24 Florida regulatory traffic sign pictures, starting with the official-source sign groups Florida learners search for most: stop, yield, do not enter, wrong way, one way, Right Turn Only and No Right Turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check Florida traffic signs with FDOT and FLHSMV before reviewing yellow warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
       "heroActions": [
@@ -10400,7 +10400,7 @@
           "label": "Full Florida signs",
           "short": "24 questions",
           "title": "Florida traffic signs practice test",
-          "description": "Start with regulatory and direction-control signs, including right-turn-only, no-right-turn, keep-right, and all-way-stop prompts, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
+          "description": "Start with regulatory and direction-control signs, then review your misses across the sign families. The practice target is 19 of 24, not the official Class E passing score.",
           "quiz": "floridaSigns",
           "passScore": 19
         }

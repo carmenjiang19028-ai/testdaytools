@@ -1,10 +1,12 @@
 const assert = require("node:assert/strict");
 const { before, after, test } = require("node:test");
+const fs = require("node:fs");
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..");
+const site = JSON.parse(fs.readFileSync(path.join(root, "content/site_data.json"), "utf8"));
 const states = [
   {
     name: "New York",
@@ -83,6 +85,61 @@ for (const state of states) {
       }));
   }
 }
+
+test("all shared full sign banks use the same practice target from both routes", () => {
+  let compared = 0;
+  for (const mixed of site.tools.filter(tool => tool.slug.endsWith("-permit-practice-test"))) {
+    const signPage = site.tools.find(tool => tool.slug === mixed.slug.replace("-permit-practice-test", "-road-signs-practice"));
+    const fullFromMixed = mixed.quizModes?.find(mode => mode.id === "signs");
+    const fullFromSigns = signPage?.quizModes?.find(mode => mode.id === "signs");
+    if (!fullFromMixed || !fullFromSigns || fullFromMixed.quiz !== fullFromSigns.quiz) continue;
+    assert.equal(fullFromMixed.passScore, fullFromSigns.passScore, mixed.slug);
+    assert.equal(fullFromMixed.maxQuestions, fullFromSigns.maxQuestions, mixed.slug);
+    compared += 1;
+  }
+  assert.equal(compared, 7);
+});
+
+for (const width of [390, 1280]) {
+  test(`Florida ${width}px applies the same 19-of-24 result in both full sign rounds`, () =>
+    withSigns(states[1], width, async page => {
+      for (const [slug, right] of [
+        ["florida-dmv-permit-practice-test", 18],
+        ["florida-dmv-road-signs-practice", 18],
+        ["florida-dmv-permit-practice-test", 19],
+        ["florida-dmv-road-signs-practice", 19],
+      ]) {
+        const url = pathToFileURL(path.join(root, `${slug}.html`)).href;
+        await page.goto(url + "?mode=signs#practice");
+        const quiz = page.locator('[data-mode-panel="signs"].is-active [data-quiz]');
+        assert.equal(await quiz.locator(".question").count(), 24);
+        assert.equal(await quiz.getAttribute("data-pass-score"), "19");
+        assert.match(await quiz.locator(".section-intro").textContent(), /practice target (?:of 19 correct|is 19 of 24).*not the official/i);
+        assert.doesNotMatch(await quiz.locator(".section-intro").textContent(), /20 image/);
+        for (const [index, jump] of (await quiz.locator("[data-quiz-jump]").all()).entries()) {
+          await jump.click();
+          const question = quiz.locator(".question.is-active");
+          const answer = Number(await question.getAttribute("data-answer"));
+          const count = await question.locator("[data-choice]").count();
+          const choice = index < right ? answer : (answer + 1) % count;
+          await question.locator(`[data-choice="${choice}"]`).click();
+        }
+        assert.deepEqual(await quiz.locator("[data-quiz-correct]").allTextContents(), [String(right), String(right)]);
+        const feedback = await quiz.locator("[data-quiz-next]").textContent();
+        assert.match(feedback, right === 18 ? /^Practice target: 19 of 24.*Review/ : /^Practice target met: 19 of 24.*not an official exam result/);
+      }
+    }));
+}
+
+test("New York's illustrated-question count matches the actual dedicated round", () =>
+  withSigns(states[0], 390, async page => {
+    const url = pathToFileURL(path.join(root, "new-york-dmv-permit-practice-test.html")).href;
+    await page.goto(url + "?mode=signs#practice");
+    const quiz = page.locator('[data-mode-panel="signs"].is-active [data-quiz]');
+    assert.equal(await quiz.locator(".question .sign-art").count(), 25);
+    assert.match(await page.locator(".fact-section").innerText(), /25 illustrated sign questions/);
+    assert.match(await page.locator(".fact-section").innerText(), /Official test\s+20 questions/i);
+  }));
 
 for (const width of [390, 1280]) {
   test(`Florida ${width}px grades the teen and adult course scenarios separately`, () =>
