@@ -100,6 +100,7 @@ DMV_MISTAKE_LOG_PAGE = {
 TOOL_BY_SLUG[DMV_MISTAKE_LOG_SLUG] = DMV_MISTAKE_LOG_PAGE
 
 SCHOOL_WARNING_GREEN = "#c7e644"
+SIGN_SEARCH_ALIASES = {"four-way-stop": "all way stop four-way stop 4-way stop"}
 ROUNDABOUT_ARROW = '<path d="M126 107 A31 31 0 0 0 136 65" fill="none" stroke="#111" stroke-width="8"/><polygon points="130,55 145,65 127,74" fill="#111"/>'
 ROUNDABOUT_SYMBOL = "".join(f'<g transform="rotate({angle} 110 80)">{ROUNDABOUT_ARROW}</g>' for angle in (0, 120, 240))
 SIGN_SVGS = {
@@ -113,7 +114,7 @@ SIGN_SVGS = {
     "do-not-enter": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="62" fill="#c7312f"/><rect x="54" y="69" width="112" height="22" rx="3" fill="#fff"/><text x="110" y="57" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">DO NOT</text><text x="110" y="119" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ENTER</text></svg>',
     "wrong-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="40" y="42" width="140" height="76" rx="5" fill="#c7312f" stroke="#981f1d" stroke-width="5"/><text x="110" y="74" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WRONG</text><text x="110" y="104" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WAY</text></svg>',
     "no-u-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M140 112 V76 C140 38 90 38 90 76 V89" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M74 82 L90 108 L106 82 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
-    "four-way-stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,8 138,8 184,42 202,94 174,138 46,138 18,94 36,42" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="86" text-anchor="middle" fill="#fff" font-size="34" font-weight="900" font-family="Arial, sans-serif">STOP</text><rect x="68" y="118" width="84" height="28" rx="4" fill="#fff" stroke="#222" stroke-width="3"/><text x="110" y="138" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">4-WAY</text></svg>',
+    "four-way-stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="88,8 132,8 165,41 165,85 132,118 88,118 55,85 55,41" fill="#c7312f" stroke="#c7312f" stroke-width="5"/><polygon points="89,11 131,11 162,42 162,84 131,115 89,115 58,84 58,42" fill="none" stroke="#fff" stroke-width="2"/><text x="110" y="73" text-anchor="middle" fill="#fff" font-size="31" font-weight="900" font-family="Arial, sans-serif">STOP</text><rect x="67" y="126" width="86" height="28" rx="3" fill="#c7312f"/><rect x="69" y="128" width="82" height="24" rx="2" fill="none" stroke="#fff" stroke-width="1.5"/><text x="110" y="145" text-anchor="middle" fill="#fff" font-size="14" font-weight="900" font-family="Arial, sans-serif">ALL WAY</text></svg>',
     "no-right-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M88 112 V80 Q88 62 106 62 H140" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M134 46 L160 62 L134 78 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
     "no-left-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M132 112 V80 Q132 62 114 62 H80" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M86 46 L60 62 L86 78 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
     "no-turn-on-red": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="63" y="15" width="94" height="130" rx="4" fill="#fff" stroke="#222" stroke-width="4"/><g text-anchor="middle" fill="#111" font-weight="900" font-family="Arial, sans-serif"><text x="110" y="44" font-size="24">NO</text><text x="110" y="68" font-size="20">TURN</text><text x="110" y="91" font-size="17">ON RED</text></g><circle cx="110" cy="118" r="13" fill="#c7312f"/></svg>',
@@ -1125,7 +1126,7 @@ def road_sign_flashcard_records():
                 "image": item.get("image", ""),
                 "cue": cues[item["image"]],
                 "practice": road_sign_group_practice_href(group),
-                "query": " ".join([title, meaning, category, item.get("image", "")]).lower(),
+                "query": " ".join([title, meaning, category, item["image"], SIGN_SEARCH_ALIASES.get(item["image"], "")]).strip().lower(),
             })
     return records
 
@@ -2370,7 +2371,7 @@ def render_sign_lookup(tool):
                 practice_focus = "Railroad signs"
             elif "work" in focus_label:
                 practice_focus = "Work zone signs"
-            query = " ".join([group_label, item["title"], item["meaning"], item["image"]])
+            query = " ".join([group_label, item["title"], item["meaning"], image_key, SIGN_SEARCH_ALIASES.get(image_key, "")]).strip()
             cards.append(f"""<article class="sign-lookup-card" data-sign-card data-sign-filter-key="{esc(filter_value)}" data-sign-query="{esc(query.lower())}">
   <div class="sign-thumb" role="img" aria-label="{esc(item["title"])}">{svg}</div>
   <div>
@@ -3992,7 +3993,7 @@ def render_road_sign_flashcards_page():
 </section>
 <section class="content-section">
   <h2>Regulatory cards learners should not skip</h2>
-  <p>Short decks often stop at Stop and Yield, but the harder permit-test misses usually come from smaller rule signs. Give extra review time to 4-Way Stop, One Way, No Right Turn, No Turn on Red, Keep Right, Do Not Pass, Do Not Enter, and Wrong Way because the answer may describe the driver action instead of the sign name.</p>
+  <p>Compare STOP by itself with STOP over a red ALL WAY plaque. Both require you to stop; only the added plaque tells you that every approach stops. For signs such as No Right Turn or Do Not Enter, practice naming the restricted movement as well as the sign.</p>
 </section>
 <section class="content-section">
   <h2>Traffic signs flashcards vs a practice test</h2>

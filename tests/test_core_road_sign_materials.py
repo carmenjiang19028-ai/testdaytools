@@ -133,6 +133,23 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual(root.find("text").attrib["y"], "43")
         self.assertIn("l-14-22z", root.findall("path")[1].attrib["d"])
 
+    def test_all_way_plaque_uses_current_art_and_has_replaced_the_print_label(self):
+        art = ET.fromstring(SIGN_SVGS["four-way-stop"])
+        labels = art.findall("text")
+        self.assertEqual([node.text for node in labels], ["STOP", "ALL WAY"])
+        self.assertEqual(labels[-1].attrib["fill"], "#fff")
+        self.assertEqual(art.find("rect").attrib["fill"], "#c7312f")
+        self.assertEqual(art.findall("rect")[-1].attrib["stroke"], "#fff")
+        for loc in ET.parse(ROOT / "sitemap.xml").findall("./{*}url/{*}loc"):
+            path = loc.text.removeprefix("https://testdaytools.com/") or "index.html"
+            self.assertNotIn(">4-WAY</text>", (ROOT / path).read_text(), path)
+        reference = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")
+        reference_text = " ".join(" ".join(page.extract_text().split()) for page in reference.pages)
+        self.assertEqual(len(reference.pages), 3)
+        self.assertIn("All-Way Stop", reference_text)
+        self.assertIn("ALL WAY means every approach stops", reference_text)
+        self.assertNotIn("4-Way Stop", reference_text)
+
     def test_workers_symbol_and_driver_action_agree_in_the_reference(self):
         art = ET.fromstring(SIGN_SVGS["work-zone"])
         self.assertEqual(art.find("polygon").attrib["fill"], "#f59e2e")

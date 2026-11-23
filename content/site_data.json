@@ -5800,8 +5800,8 @@
               },
               {
                 "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Stop completely, then use right-of-way order before entering the intersection."
+                "title": "All-Way Stop",
+                "meaning": "Stop completely. ALL WAY means every approach stops; follow right-of-way rules."
               },
               {
                 "image": "no-right-turn",
@@ -6161,8 +6161,8 @@
               },
               {
                 "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Every approach stops; use arrival order and right-of-way rules before entering."
+                "title": "All-Way Stop",
+                "meaning": "Stop completely. ALL WAY means every approach stops; follow right-of-way rules."
               },
               {
                 "image": "no-right-turn",
@@ -6584,8 +6584,8 @@
               },
               {
                 "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Stop completely, then use right-of-way order before entering the intersection."
+                "title": "All-Way Stop",
+                "meaning": "Stop completely. ALL WAY means every approach stops; follow right-of-way rules."
               }
             ]
           },
@@ -6718,7 +6718,7 @@
         },
         {
           "heading": "Small regulatory signs learners often miss",
-          "text": "Short practice quizzes often cover Stop and Yield but skip smaller rule signs. Give extra attention to 4-Way Stop plaques, No Right Turn, No Turn on Red, Keep Right, lane arrows, and no-passing signs because the answer choice may describe the driver action instead of the sign name."
+          "text": "STOP by itself tells you to stop at your approach. The red ALL WAY plaque also tells you that other approaches stop, but it does not give you automatic priority. Practice recognizing the restriction behind No Right Turn, No Turn on Red, Keep Right, lane arrows, and Do Not Pass."
         }
       ],
       "cardGroups": [
@@ -10229,7 +10229,7 @@
           "label": "Source-check starter",
           "short": "8 questions",
           "title": "Florida traffic signs source-check starter",
-          "description": "Answer 8 Florida regulatory and direction-control sign questions first: entry, wrong-way, yield, turn control, 4-way stop, no turn on red, and keep-right signs.",
+          "description": "Answer 8 Florida regulatory and direction-control sign questions first: entry, wrong-way, yield, turn control, all-way stop, no turn on red, and keep-right signs.",
           "kicker": "Short Florida round",
           "quiz": "floridaSigns",
           "passScore": 6,
@@ -10240,7 +10240,7 @@
           "label": "Full Florida signs",
           "short": "24 questions",
           "title": "Florida traffic signs practice test",
-          "description": "Start with regulatory and direction-control signs, including right-turn-only, no-right-turn, keep-right, and four-way-stop prompts, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
+          "description": "Start with regulatory and direction-control signs, including right-turn-only, no-right-turn, keep-right, and all-way-stop prompts, then use the missed-question review path for school, pedestrian, speed, and warning signs.",
           "quiz": "floridaSigns",
           "passScore": 19
         }
@@ -10394,8 +10394,8 @@
               },
               {
                 "image": "four-way-stop",
-                "title": "4-Way Stop",
-                "meaning": "Stop completely, then use right-of-way order before entering the intersection."
+                "title": "All-Way Stop",
+                "meaning": "Stop completely. ALL WAY means every approach stops; follow right-of-way rules."
               },
               {
                 "image": "no-right-turn",
@@ -10635,9 +10635,9 @@
           "intro": "A Florida learner can know Stop and Yield but still miss a smaller rule sign because the question asks for the driver action, not the sign name.",
           "items": [
             {
-              "label": "4-way stop",
+              "label": "All-way stop",
               "title": "Stop first, then apply right-of-way order",
-              "text": "A 4-way plaque does not change the stop requirement. It changes the intersection context, so pair the sign with arrival order and yielding."
+              "text": "The red ALL WAY plaque tells you every approach stops. Stop completely and apply the right-of-way rules; do not assume the plaque gives you priority."
             },
             {
               "label": "No right turn",
@@ -18343,9 +18343,9 @@
         "explanation": "A No U-turn sign means drivers may not reverse direction at that location. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
       },
       {
-        "q": "What does this 4-way plaque change about the stop sign?",
+        "q": "What does the ALL WAY plaque below this STOP sign tell you?",
         "image": "four-way-stop",
-        "imageAlt": "stop sign with 4-way plaque",
+        "imageAlt": "Red octagon reading STOP, with a separate red plaque below it reading ALL WAY in white.",
         "choices": [
           "All approaches must stop, then use right-of-way order",
           "Only the first car at the intersection must stop",
@@ -18353,7 +18353,11 @@
         ],
         "answer": 0,
         "category": "Right of way signs",
-        "explanation": "A 4-way plaque tells you every approach has a stop sign. Stop completely, then use arrival order and right-of-way rules before entering. This page uses original artwork; verify final rules in the Official Florida Driver License Handbook."
+        "explanation": "ALL WAY means every approach stops, not just yours. Make a complete stop and follow Florida's right-of-way rules before entering. See All Way Stop in the Official Florida Driver License Handbook.",
+        "source": {
+          "label": "FHWA: ALL WAY sign diagram",
+          "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=10"
+        }
       },
       {
         "q": "What movement does this regulatory sign block?",
@@ -22407,9 +22411,9 @@
         "explanation": "Do Not Pass marks a zone where passing is not allowed because road layout, traffic, or sight distance makes it unsafe."
       },
       {
-        "q": "What does the 4-WAY plaque change about this stop sign?",
+        "q": "What does the red ALL WAY plaque add to the STOP sign?",
         "image": "four-way-stop",
-        "imageAlt": "4-Way Stop sign",
+        "imageAlt": "Red octagon reading STOP, with a separate red plaque below it reading ALL WAY in white.",
         "category": "Stop and yield rules",
         "choices": [
           "Every approach has a stop sign, so drivers must stop and use right-of-way order",
@@ -22418,7 +22422,11 @@
           "It is a warning sign, not a rule sign"
         ],
         "answer": 0,
-        "explanation": "A 4-Way Stop still requires a complete stop. The plaque tells you the other approaches also stop, so arrival order and right-of-way matter."
+        "explanation": "STOP still requires a complete stop. The ALL WAY plaque tells you the other approaches also stop, not that you automatically have priority. Follow the applicable right-of-way rules.",
+        "source": {
+          "label": "FHWA: ALL WAY sign diagram",
+          "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=10"
+        }
       },
       {
         "q": "At this sign, what movement is prohibited?",

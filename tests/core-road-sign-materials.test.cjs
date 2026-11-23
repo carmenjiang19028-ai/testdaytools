@@ -157,6 +157,56 @@ for (const width of [1280, 390]) {
     } finally { await context.close(); }
   });
 
+  test(`${width}px: the red ALL WAY plaque matches feedback, aliases and the print reference`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    const local = name => pathToFileURL(path.join(root, name + '.html')).href;
+    try {
+      for (const [file, mode, answer] of [
+        ['regulatory-traffic-signs-practice-test', 'regulatory-signs-core', 'Every approach has a stop sign, so drivers must stop and use right-of-way order'],
+        ['florida-dmv-road-signs-practice', 'florida-regulatory-starter', 'All approaches must stop, then use right-of-way order'],
+      ]) {
+        await page.goto(local(file) + `?mode=${mode}#practice`);
+        const quiz = page.locator('[data-mode-panel].is-active [data-quiz], [data-quiz]:visible');
+        const item = quiz.locator('.question[data-prompt*="ALL WAY"]');
+        await quiz.locator(`[data-quiz-jump="${await item.getAttribute('data-question-index')}"]`).click();
+        const diagram = item.getByRole('img', { name: /red plaque below it reading ALL WAY in white/ });
+        assert.deepEqual(await diagram.locator('text').allTextContents(), ['STOP', 'ALL WAY']);
+        const gap = await diagram.evaluate(art => {
+          const octagon = art.querySelector('polygon').getBoundingClientRect();
+          const plaque = art.querySelector('rect[fill="#c7312f"]').getBoundingClientRect();
+          return plaque.top - octagon.bottom;
+        });
+        assert.ok(gap > 0, `Expected a visible gap in ${file}; got ${gap}px`);
+        const source = item.getByRole('link', { name: 'FHWA: ALL WAY sign diagram' });
+        assert.equal(await source.isVisible(), false);
+        await item.getByRole('button', { name: answer, exact: true }).click();
+        assert.match(await item.locator('.feedback').innerText(), /^Correct\..*ALL WAY/);
+        assert.match(await source.getAttribute('href'), /Chapter2br1\.pdf#page=10$/);
+        assert.equal(await source.isVisible(), true);
+      }
+      await page.goto(local('dmv-road-sign-flashcards'));
+      const search = page.getByRole('searchbox', { name: 'Search cards' });
+      const card = page.locator('[data-card-id="four-way-stop"]');
+      for (const name of ['all way stop', '4-way stop', 'four-way stop']) {
+        await search.fill(name);
+        assert.equal(await card.isVisible(), true);
+      }
+      assert.match(await card.getByRole('img').getAttribute('aria-label'), /red plaque.*ALL WAY in white/);
+      await card.getByRole('button', { name: 'Reveal answer', exact: true }).click();
+      assert.match(await card.innerText(), /All-Way Stop.*ALL WAY means every approach stops/s);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await card.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `all-way-${width}.png`) });
+      }
+      await page.goto(local('dmv-road-signs-cheat-sheet') + '#printable-sheet');
+      const printCard = page.locator('.cheat-sign-card').filter({ has: page.getByRole('img', { name: 'All-Way Stop road sign', exact: true }) });
+      assert.match(await printCard.innerText(), /ALL WAY means every approach stops/);
+      await printCard.getByRole('img').evaluate(img => img.decode());
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: compare the two passing signs and still score the rectangular sign correctly`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route(/^https?:/, route => route.abort());

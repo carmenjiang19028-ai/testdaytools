@@ -15,7 +15,8 @@
   },
   "sources": [
     {"id": "pa", "label": "PennDOT Driver's Manual, Chapter 2: Signs", "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"},
-    {"id": "ny", "label": "New York DMV: Road Signs You Must Know", "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"}
+    {"id": "ny", "label": "New York DMV: Road Signs You Must Know", "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"},
+    {"id": "fhwa-all-way", "label": "FHWA MUTCD Figure 2B-1 and Section 2B.04: red ALL WAY plaque below STOP (checked November 23, 2026)", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=10"}
   ],
   "lessons": [
     {
