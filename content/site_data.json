@@ -15530,6 +15530,7 @@
       },
       {
         "q": "If a school bus ahead has flashing red lights, the safest general response is to:",
+        "condition": "In California, you are following the stopped bus on the same side of the road. There is another lane going your way.",
         "choices": [
           "Stop as required and watch for children",
           "Pass quickly before children step out",
@@ -15537,7 +15538,11 @@
         ],
         "answer": 0,
         "category": "Signs and signals",
-        "explanation": "Flashing red school bus lights mean children may be entering or leaving the roadway."
+        "explanation": "Come to a full stop before reaching the bus. Do not use the other lane to pass. Wait until the red lights stop flashing and children are clear. California's exception for a bus on the opposite side of a divided or qualifying multilane highway does not apply when you are following it.",
+        "source": {
+          "label": "California Driver's Handbook: Around Children",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road-cont1/"
+        }
       },
       {
         "q": "Which choice best describes defensive driving?",
@@ -16624,6 +16629,7 @@
       },
       {
         "q": "If a school bus ahead has flashing red lights, the safest general response is to:",
+        "condition": "In California, you are following the stopped bus on the same side of the road. There is another lane going your way.",
         "choices": [
           "Stop as required and watch for children",
           "Pass quickly before children step out",
@@ -16631,7 +16637,11 @@
         ],
         "answer": 0,
         "category": "Signs and signals",
-        "explanation": "Flashing red school bus lights mean children may be entering or leaving the roadway."
+        "explanation": "Come to a full stop before reaching the bus. Do not use the other lane to pass. Wait until the red lights stop flashing and children are clear. California's exception for a bus on the opposite side of a divided or qualifying multilane highway does not apply when you are following it.",
+        "source": {
+          "label": "California Driver's Handbook: Around Children",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road-cont1/"
+        }
       },
       {
         "q": "Which choice best describes defensive driving?",
@@ -17242,6 +17252,7 @@
       },
       {
         "q": "If you see a school bus with red lights flashing, you should:",
+        "condition": "In New York, you meet a school bus stopped to let off children on the opposite side of a divided highway. There is a concrete median between you and the bus.",
         "choices": [
           "Stop as required and watch for children",
           "Pass carefully if no child is visible",
@@ -17249,7 +17260,7 @@
         ],
         "answer": 0,
         "category": "School bus safety",
-        "explanation": "Flashing red school bus lights warn that children may be entering or leaving the road.",
+        "explanation": "Stop before reaching the bus even though you are across a concrete median. The NY DMV manual recommends leaving at least 20 feet. Stay stopped until the bus moves or the bus driver or a police officer directs you to proceed.",
         "source": {
           "label": "NY DMV: School Buses (stop even across a median)",
           "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-6-passing"
@@ -18364,6 +18375,7 @@
       },
       {
         "q": "If a school bus ahead has flashing red lights, the safest general response is to:",
+        "condition": "In Florida, you are behind the stopped bus. Its stop arm is out, and a raised median separates the opposite direction of traffic.",
         "choices": [
           "Stop as required and watch for children",
           "Pass quickly before children step out",
@@ -18371,7 +18383,11 @@
         ],
         "answer": 0,
         "category": "School buses",
-        "explanation": "Flashing red school-bus lights mean children may be entering or leaving the bus. Stop when required by law. Confirm exact wording in the Official Florida Driver License Handbook."
+        "explanation": "Come to a full stop and do not pass until the bus withdraws its stop signal. The raised median can change the rule for drivers traveling in the opposite direction. It does not excuse a driver behind the bus.",
+        "source": {
+          "label": "Florida Statutes 316.172: Traffic to stop for school bus",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.172"
+        }
       },
       {
         "q": "Which choice best describes defensive driving?",
