@@ -1079,6 +1079,10 @@ h3 {
   transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 
+.state-card[hidden] {
+  display: none;
+}
+
 .state-card:first-child {
   border-color: #a9cde7;
   background: var(--blue-soft);

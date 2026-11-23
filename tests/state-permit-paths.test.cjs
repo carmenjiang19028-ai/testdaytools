@@ -24,6 +24,79 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
 
+const guideDestinations = [
+  ["Georgia", "Exam choices", "georgia-dds-road-signs-practice", "georgia-knowledge-cases", "test sections"],
+  ["North Carolina", "Recall drill", "north-carolina-dmv-road-signs-practice", "north-carolina-sign-recall", "sign recall"],
+  ["Ohio", "After permit", "ohio-bmv-road-signs-practice", "ohio-after-permit", "supervised hours"],
+  ["Virginia", "Retake dates", "virginia-dmv-road-signs-practice", "virginia-knowledge-retest", "third failure"],
+  ["Michigan", "Michigan Left", "michigan-sos-road-signs-practice", "michigan-left-practice", "Michigan Left"],
+  ["Arizona", "HAWK signals", "arizona-mvd-road-signs-practice", "arizona-hawk", "HAWK"],
+];
+
+for (const width of [320, 1280]) {
+  test(`${width}px: home and DMV state cards open all six real lessons without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      for (const entry of ["index", "dmv-practice"]) {
+        await page.goto(file(entry) + "#state-paths");
+        const paths = page.locator("#state-paths");
+        assert.equal(await paths.locator("[data-state-card]").count(), 13);
+        const california = paths.locator('[data-state-name^="California "]');
+        assert.equal(await california.getByRole("link", { name: "Permit practice" }).getAttribute("href"),
+          "california-dmv-permit-practice-test.html");
+        assert.equal(await california.getByRole("link", { name: "Road signs" }).getAttribute("href"),
+          "california-dmv-road-signs-practice.html");
+        assert.equal(await california.getByRole("link", { name: "Checklist" }).getAttribute("href"),
+          "dmv-test-day-checklist.html?state=california#dmv-checklist");
+        for (const [state, label, slug, id] of guideDestinations) {
+          await page.goto(file(entry) + "#state-paths");
+          const card = paths.locator(`[data-state-name^="${state} "]`);
+          assert.equal(await card.getByRole("link", { name: "State guide", exact: true }).getAttribute("href"), `${slug}.html`);
+          const lesson = card.getByRole("link", { name: label, exact: true });
+          assert.equal(await lesson.getAttribute("href"), `${slug}.html#${id}`);
+          assert.equal(await card.getByRole("link", { name: "Permit practice" }).count(), 0);
+          assert.ok(await lesson.evaluate((link) => {
+            const box = link.getBoundingClientRect();
+            return box.left >= 0 && box.right <= window.innerWidth + 1 && box.height >= 38 && link.scrollWidth <= link.clientWidth;
+          }));
+          await lesson.press("Enter");
+          await page.waitForURL(file(slug) + "#" + id);
+          assert.ok(await page.locator(`#${id} h2`).isVisible());
+          assert.equal(await page.locator("[data-quiz]").count(), 0);
+        }
+      }
+    } finally { await context.close(); }
+  });
+}
+
+test("state filter can find the state by its local lesson as well as by name", async () => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 850 } });
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    await page.goto(file("dmv-practice") + "#state-paths");
+    const scope = page.locator("#state-paths");
+    const search = scope.getByRole("searchbox", { name: "Find your state" });
+    for (const [state, lessonLabel, , , topic] of guideDestinations) {
+      await search.fill(topic);
+      const cards = scope.locator("[data-state-card]:visible");
+      assert.equal(await cards.count(), 1, topic);
+      assert.equal(await cards.locator("span").first().textContent(), state);
+      assert.ok(await cards.getByRole("link", { name: lessonLabel, exact: true }).isVisible());
+    }
+    await search.fill("new jersey");
+    assert.ok(await scope.locator("[data-state-card]:visible").getByRole("link", { name: "Permit practice" }).isVisible());
+    await search.fill("unlisted state");
+    assert.equal(await scope.locator("[data-state-card]:visible").count(), 0);
+    assert.ok(await scope.locator("[data-state-empty]").isVisible());
+    await search.clear();
+    assert.equal(await scope.locator("[data-state-card]:visible").count(), 13);
+    assert.equal(await scope.locator("[data-state-empty]").isVisible(), false);
+  } finally { await context.close(); }
+});
+
 for (const width of [320, 1280]) {
   test(`${width}px: Arizona HAWK distinguishes steady red, alternating red and an inoperative signal`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });

@@ -299,7 +299,7 @@
       }
     ],
     "dmvLaunch": {
-      "intro": "Start with road signs or regulatory traffic signs, then pick a state for official-source links, permit questions, image signs, checklist planning, and a longer mock exam. The quizzes use original questions and do not collect answers.",
+      "intro": "Choose your state for local rules, exam steps and official sources. Some states have scored practice; others have a study guide and a short exercise. The nationwide picture quiz is available separately.",
       "stats": [
         {
           "value": "2",
@@ -367,55 +367,61 @@
         {
           "label": "Georgia",
           "title": "Georgia test and road-sign study guide",
-          "text": "Official Georgia DDS road-sign exam format, pass rule, and manual links; picture practice is in the shared quiz.",
+          "text": "Check Georgia's separate test sections, retest timing, and language options.",
           "href": "georgia-dds-road-signs-practice.html",
           "permitHref": "",
           "signHref": "georgia-dds-road-signs-practice.html",
+          "guideLesson": {"label": "Exam choices", "fragment": "georgia-knowledge-cases"},
           "cta": "Open Georgia guide"
         },
         {
           "label": "North Carolina",
           "title": "North Carolina test and road-sign study guide",
-          "text": "NCDMV handbook and traffic-sign test guidance; picture practice is in the shared quiz.",
+          "text": "Try sign recall without answer choices, then compare your answer with North Carolina's handbook.",
           "href": "north-carolina-dmv-road-signs-practice.html",
           "permitHref": "",
           "signHref": "north-carolina-dmv-road-signs-practice.html",
+          "guideLesson": {"label": "Recall drill", "fragment": "north-carolina-sign-recall"},
           "cta": "Open North Carolina guide"
         },
         {
           "label": "Ohio",
           "title": "Ohio test and road-sign study guide",
-          "text": "Ohio BMV 40-question test and 75% pass context, manual links, and the shared picture quiz.",
+          "text": "Check how many supervised hours you still need and when you can book or retry the Ohio road test.",
           "href": "ohio-bmv-road-signs-practice.html",
           "permitHref": "",
           "signHref": "ohio-bmv-road-signs-practice.html",
+          "guideLesson": {"label": "After permit", "fragment": "ohio-after-permit"},
           "cta": "Open Ohio guide"
         },
         {
           "label": "Virginia",
           "title": "Virginia test and road-sign study guide",
-          "text": "Virginia DMV exam-study links and state context; picture practice is in the shared quiz.",
+          "text": "Find your earliest Virginia knowledge-test retake and check what changes after a third failure.",
           "href": "virginia-dmv-road-signs-practice.html",
           "permitHref": "",
           "signHref": "virginia-dmv-road-signs-practice.html",
+          "guideLesson": {"label": "Retake dates", "fragment": "virginia-knowledge-retest"},
           "cta": "Open Virginia guide"
         },
         {
           "label": "Michigan",
           "title": "Michigan test and road-sign study guide",
-          "text": "Michigan SOS manual links and knowledge-test study context; picture practice is in the shared quiz.",
+          "text": "Trace a Michigan Left from the main road or the side street, then pick the signal that controls your turn.",
           "href": "michigan-sos-road-signs-practice.html",
           "permitHref": "",
           "signHref": "michigan-sos-road-signs-practice.html",
+          "guideLesson": {"label": "Michigan Left", "fragment": "michigan-left-practice"},
           "cta": "Open Michigan guide"
         },
         {
           "label": "Arizona",
           "title": "Arizona test and road-sign study guide",
-          "text": "Arizona MVD manual, three official practice tests, 80% pass rule, and the shared picture quiz.",
+          "text": "Read steady and alternating red lights at a HAWK crosswalk and decide when to wait.",
           "href": "arizona-mvd-road-signs-practice.html",
           "permitHref": "",
           "signHref": "arizona-mvd-road-signs-practice.html",
+          "guideLesson": {"label": "HAWK signals", "fragment": "arizona-hawk"},
           "cta": "Open Arizona guide"
         }
       ],

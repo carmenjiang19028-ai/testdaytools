@@ -3311,11 +3311,14 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
         permit_href = state.get("permitHref", state["href"])
         sign_href = state.get("signHref") or find_state_sign_href(state["label"])
         checklist_href = state.get("checklistHref") or (checklist_href_for_state(checklist_state) if checklist_state else "")
+        guide_lesson = state.get("guideLesson")
         action_items = []
         if permit_href:
             action_items.append(("Permit practice", permit_href))
         if sign_href:
-            action_items.append(("Road signs", sign_href))
+            action_items.append(("State guide" if guide_lesson else "Road signs", sign_href))
+            if guide_lesson:
+                action_items.append((guide_lesson["label"], f'{sign_href}#{guide_lesson["fragment"]}'))
         if checklist_href:
             action_items.append(("Checklist", checklist_href))
         actions = "".join(
