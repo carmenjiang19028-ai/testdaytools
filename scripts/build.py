@@ -2948,6 +2948,51 @@ def render_quiz(quiz_key, options=None):
 </section>"""
 
 
+def render_practice_availability(tool, mode, controls):
+    fallback_class = ""
+    if tool["slug"] in {ROAD_SIGN_PICTURE_SLUG, "regulatory-traffic-signs-practice-test"}:
+        fallback = """    <div class="tool-section-head">
+      <h2>Review signs without the interactive quiz</h2>
+      <p class="section-intro">The quiz has not loaded. These study materials work without JavaScript.</p>
+    </div>
+    <ul class="material-links">
+      <li><a href="dmv-road-signs-cheat-sheet.html#online-worksheet">Open the road signs worksheet</a></li>
+      <li><a href="dmv-road-signs-cheat-sheet.html#printable-sheet">Read the sign pictures and meanings</a></li>
+      <li><a href="road-sign-learning-loop.html#lesson-stop-yield">Compare STOP and YIELD with pictures</a></li>
+    </ul>"""
+    else:
+        fallback_class = ' class="practice-sample"'
+        questions = quiz_questions(mode["quiz"], mode)
+        sample = next((q for q in questions if q.get("source") and q.get("condition")), questions[0])
+        figure = render_sign_visual(sample, "static-practice-image")
+        figure_block = f"\n    {figure}" if figure else ""
+        choices = "".join(f"<li>{esc(choice)}</li>" for choice in sample["choices"])
+        condition = f'\n    <p>{esc(sample["condition"])}</p>' if sample.get("condition") else ""
+        source = sample.get("source") or next(iter(tool.get("sources", [])), None)
+        source_link = f'<p><a href="{esc(source["url"])}">{esc(source["label"])}</a></p>' if source else ""
+        fallback = f"""    <div class="tool-section-head">
+      <h2>Practice one question without the interactive quiz</h2>
+      <p class="section-intro">The quiz has not loaded. This example is from the same practice set and is not scored.</p>
+    </div>{figure_block}
+    <h3>{esc(sample["q"])}</h3>{condition}
+    <ul>{choices}</ul>
+    <details>
+      <summary>Check the answer</summary>
+      <p><strong>{esc(sample["choices"][sample["answer"]])}</strong></p>
+      <p>{esc(sample["explanation"])}</p>
+      {source_link}
+    </details>
+    <ul class="material-links">
+      <li><a href="dmv-road-signs-cheat-sheet.html#online-worksheet">Continue with the road signs worksheet</a></li>
+    </ul>"""
+    return f"""  <div data-practice-fallback{fallback_class}>
+{fallback}
+  </div>
+  <div data-practice-controls hidden>
+{controls}
+  </div>"""
+
+
 def render_dmv_mode_tool(tool):
     state = find_dmv_state_for_tool(tool) or {}
     state_value = state.get("value", "")
@@ -2967,8 +3012,7 @@ def render_dmv_mode_tool(tool):
         quiz_options["state"] = state_value
         quiz_options["domain"] = "dmv"
         quiz = render_quiz(only["quiz"], quiz_options)
-        return f"""<section class="dmv-mode-tool single-mode-tool" id="practice">
-  <div class="tool-section-head">
+        controls = f"""  <div class="tool-section-head">
     <span class="eyebrow">Image practice engine</span>
     <h2>{esc(only["title"])}</h2>
     <p class="section-intro">{esc(only.get("description", "Answer one image question at a time, then use saved mistakes to review the signs that slowed you down."))}</p>
@@ -2979,7 +3023,9 @@ def render_dmv_mode_tool(tool):
     <span>3. Save misses</span>
     <span>4. Review library</span>
   </div>
-  {quiz}
+  {quiz}"""
+        return f"""<section class="dmv-mode-tool single-mode-tool" id="practice">
+{render_practice_availability(tool, only, controls)}
 </section>"""
     tabs = []
     panels = []
@@ -3033,23 +3079,8 @@ def render_dmv_mode_tool(tool):
   <div class="mode-tabs" role="tablist" aria-label="Practice modes">{"".join(tabs)}</div>
   <ul class="mode-overview">{overview_items}</ul>
   <div class="mode-panels">{"".join(panels)}</div>"""
-    if tool.get("slug") in {ROAD_SIGN_PICTURE_SLUG, "regulatory-traffic-signs-practice-test"}:
-        mode_content = f"""  <div data-practice-fallback>
-    <div class="tool-section-head">
-      <h2>Review signs without the interactive quiz</h2>
-      <p class="section-intro">The quiz has not loaded. These study materials work without JavaScript.</p>
-    </div>
-    <ul class="material-links">
-      <li><a href="dmv-road-signs-cheat-sheet.html#online-worksheet">Open the road signs worksheet</a></li>
-      <li><a href="dmv-road-signs-cheat-sheet.html#printable-sheet">Read the sign pictures and meanings</a></li>
-      <li><a href="road-sign-learning-loop.html#lesson-stop-yield">Compare STOP and YIELD with pictures</a></li>
-    </ul>
-  </div>
-  <div data-practice-controls hidden>
-{mode_content}
-  </div>"""
     return f"""<section class="dmv-mode-tool" id="practice" data-mode-tool>
-{mode_content}
+{render_practice_availability(tool, modes[0], mode_content)}
 </section>"""
 
 

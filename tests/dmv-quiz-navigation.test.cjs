@@ -38,6 +38,62 @@ async function accessibleFocus(page) {
   } finally { await inspector.detach(); }
 }
 
+const statePracticePages = [
+  "california-dmv-permit-practice-test", "california-dmv-road-signs-practice",
+  "florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice",
+  "illinois-dmv-road-signs-practice",
+  "new-jersey-mvc-permit-practice-test", "new-jersey-mvc-road-signs-practice",
+  "new-york-dmv-permit-practice-test", "new-york-dmv-road-signs-practice",
+  "pennsylvania-dmv-permit-practice-test", "pennsylvania-dmv-road-signs-practice",
+  "texas-dmv-road-signs-practice",
+];
+
+for (const javaScriptEnabled of [false, true]) {
+  test(javaScriptEnabled ? "state study samples work when the quiz script fails to load"
+    : "state study samples work without scripts or a simulated score", async () => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 820 }, javaScriptEnabled });
+    try {
+      await context.route(/^(https?:|file:.*\/assets\/app\.js$)/, route => route.abort());
+      const page = await context.newPage();
+      for (const slug of statePracticePages) {
+        await page.goto(pathToFileURL(path.join(root, slug + ".html")).href + "#practice");
+        const practice = page.locator("#practice");
+        const sample = practice.locator("[data-practice-fallback]");
+        assert.ok(await sample.isVisible(), slug);
+        assert.equal(await practice.locator("[data-choice]:visible").count(), 0, slug);
+        assert.equal(await sample.locator("input, button").count(), 0, slug);
+        const answer = sample.locator("details");
+        assert.equal(await answer.locator("p").first().isVisible(), false, slug);
+        await answer.locator("summary").press("Enter");
+        const correct = (await answer.locator("strong").innerText()).trim();
+        assert.ok((await sample.locator("li").allTextContents()).includes(correct), slug);
+        const prompt = await sample.locator("h3").textContent();
+        const sourceQuestion = practice.locator("[data-question-index]").filter({ hasText: prompt }).first();
+        assert.equal(await sourceQuestion.locator("[data-choice]").nth(Number(await sourceQuestion.getAttribute("data-answer"))).textContent(), correct, slug);
+        assert.ok(await answer.locator("p").nth(1).isVisible(), slug);
+        assert.ok(await sample.getByRole("link", { name: "Continue with the road signs worksheet" }).isVisible(), slug);
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const slug of statePracticePages) {
+  test("the scored round replaces the static preview after initialization: " + slug, async () => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 820 } });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      await page.goto(pathToFileURL(path.join(root, slug + ".html")).href + "#practice");
+      const practice = page.locator("#practice");
+      assert.ok(await practice.locator("[data-practice-controls]").isVisible(), slug);
+      assert.equal(await practice.locator("[data-practice-fallback]").isVisible(), false, slug);
+      const quiz = practice.locator("[data-quiz]:visible");
+      await quiz.locator(".question.is-active [data-choice]").first().click();
+      assert.match(await quiz.locator("[data-quiz-answered]").textContent(), /^1 of \d+ answered$/);
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: practice tabs permit keyboard navigation without changing the round until activation`, async () => {
     const { context, page, quiz } = await openQuiz(width, "road-signs-practice-test", "road-signs-core");

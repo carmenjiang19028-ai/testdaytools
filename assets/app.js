@@ -1677,6 +1677,18 @@ function initQuizzes() {
     renderMistakes();
     renderMasteryStats();
     renderTimer();
+    quiz.dataset.quizReady = "";
+  });
+}
+
+function initPracticeAvailability() {
+  document.querySelectorAll("[data-practice-controls]").forEach((controls) => {
+    const quizzes = Array.from(controls.querySelectorAll("[data-quiz]"));
+    const fallback = controls.parentElement.querySelector("[data-practice-fallback]");
+    if (fallback && quizzes.length && quizzes.every(quiz => quiz.hasAttribute("data-quiz-ready"))) {
+      controls.hidden = false;
+      fallback.hidden = true;
+    }
   });
 }
 
@@ -1733,12 +1745,6 @@ function initModeTools() {
         setTabStop(buttons.find((button) => button.getAttribute("aria-selected") === "true"));
       }
     });
-
-    const controls = tool.querySelector("[data-practice-controls]");
-    if (controls?.querySelector("[data-quiz-filter] option")) {
-      controls.hidden = false;
-      tool.querySelector("[data-practice-fallback]").hidden = true;
-    }
 
     let params;
     try {
@@ -4813,6 +4819,7 @@ initPrintableResources();
 initCountdowns();
 initQuizzes();
 initModeTools();
+initPracticeAvailability();
 initStateFilters();
 initPracticeWorkbenches();
 initMiniSignDrills();

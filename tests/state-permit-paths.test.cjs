@@ -581,7 +581,7 @@ for (const [slug, name, state, rule] of scoreEntrances) {
 }
 
 test("New York mixed-practice summaries count the signs inside the overall minimum", async () => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+  const context = await browser.newContext();
   try {
     await context.route(/^https?:/, route => route.abort());
     const page = await context.newPage();
@@ -617,7 +617,8 @@ test("published practice pages omit the generic editorial console without losing
         assert.ok(await practice.getByRole("link", { name: "Open the road signs worksheet" }).isVisible());
         assert.equal(await practice.locator("[data-practice-controls]").isVisible(), false);
       } else {
-        assert.ok(await practice.getByRole("heading", { name: "Choose a practice mode" }).isVisible(), slug);
+        assert.ok(await practice.getByRole("heading", { name: "Practice one question without the interactive quiz" }).isVisible(), slug);
+        assert.equal(await practice.locator("[data-practice-controls]").isVisible(), false);
       }
     }
     await page.goto(file("road-signs-practice-test"));

@@ -399,6 +399,17 @@ h3 {
   background: var(--soft);
 }
 
+.practice-sample {
+  max-width: 68ch;
+}
+
+.practice-sample summary {
+  min-height: 44px;
+  padding-block: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
 .dmv-home-hero,
 .dmv-hub-hero,
 .tool-hero {
