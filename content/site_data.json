@@ -43,7 +43,7 @@
   "home": {
     "title": "Free DMV Road Signs Practice, Flashcards, and Permit Tools | TestDayTools",
     "description": "Choose 40-picture road sign practice, state road-sign pages, Florida regulatory signs, flashcards, shape lookup, permit practice, and test-day checklist tools from one DMV study hub.",
-    "lastUpdated": "August 24, 2026",
+    "lastUpdated": "November 23, 2026",
     "sections": [
       {
         "heading": "DMV and road signs practice",
@@ -1110,7 +1110,7 @@
       "description": "Use this unofficial guide after AP scores arrive to compare college credit policies, placement rules, and score-sending decisions.",
       "heroKicker": "AP credit",
       "summary": "Before changing your first-term schedule, check what your AP score adds to your transcript, which requirement it actually satisfies, and whether your department recommends skipping the course.",
-      "lastUpdated": "2026-11-21",
+      "lastUpdated": "November 21, 2026",
       "heroActions": [
         {
           "label": "See how to read a credit policy",
@@ -1680,7 +1680,7 @@
       "category": "SAT",
       "title": "SAT Test Dates 2026-2027: Registration Deadlines & Planner",
       "description": "Compare confirmed 2026-2027 SAT dates, regular and late registration deadlines, and School Day windows. Choose an available date and download a free calendar.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroKicker": "Weekend registration deadlines: 11:59 p.m. ET",
       "summary": "Compare confirmed SAT Weekend dates through June 2027, or plan around the anticipated fall 2027 dates below. Check available seats and any earlier deadline for a borrowed device before registering.",
       "quickFacts": [
@@ -4190,6 +4190,7 @@
       "category": "SAT",
       "title": "SAT Practice Test Review Template",
       "description": "Copy a blank SAT practice test review record and see a filled example that turns one missed question into a focused next drill.",
+      "lastUpdated": "November 23, 2026",
       "heroKicker": "SAT review template",
       "summary": "Find the reason behind a missed, guessed, or slow question, pick a matching drill, and check that the fix works on new questions.",
       "toolWidget": {
@@ -4848,7 +4849,7 @@
       "category": "DMV",
       "title": "DMV Test Day Checklist: Documents, ID, and State Manual Finder",
       "description": "Use a free DMV test-day checklist for documents, ID, residency proof, state official-source links, permit practice, road-sign review, and saved readiness progress.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroKicker": "DMV documents and test day",
       "summary": "Choose your state, open the official driver manual or source page, then save a checklist for documents, ID, residency proof, appointment, fees, practice score, road signs, mistakes, and test-day logistics.",
       "quickFacts": [
@@ -6118,7 +6119,7 @@
       "description": "Take a DMV road signs permit-test practice round with 40 picture questions, then review regulatory signs, warning signs, shape/color clues, flashcards, and state-specific source checks.",
       "heroKicker": "Road signs practice test",
       "summary": "Take 40 DMV road-sign picture questions for permit-test practice, starting with regulatory traffic signs and yellow warning signs. Then use shape, color, flashcards, saved mistakes, and state-specific source checks to choose the next drill.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "quickFacts": [
         {
           "label": "Practice size",
@@ -7422,7 +7423,7 @@
       "category": "DMV",
       "title": "New York DMV Permit Practice Test",
       "description": "New York DMV permit practice with official pass-rule context, quick questions, original road-sign images, a 40-question mock exam, and weak-area feedback.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroKicker": "New York DMV",
       "summary": "Practice New York DMV permit questions with quick review, image-based road signs, and a 40-question mock exam that keeps the official pass rule visible.",
       "stateRulePractice": {
@@ -9594,7 +9595,7 @@
         "Retake the road-sign round later instead of immediately guessing again.",
         "Confirm final wording in the Texas Driver Handbook."
       ],
-      "lastUpdated": "November 20, 2026"
+      "lastUpdated": "November 23, 2026"
     },
     {
       "slug": "florida-dmv-permit-practice-test",
@@ -9603,7 +9604,7 @@
       "description": "Practice Florida Class E permit questions with quick rounds, road-sign pictures, mock exam mode, FLHSMV links, and the 40 of 50 passing score context.",
       "heroKicker": "Florida permit practice",
       "summary": "Practice Florida Class E permit-test topics, see the 40 of 50 passing score context, then separate TLSAE or DETS, the Class E Knowledge Exam, and learner permit documents or office issuance.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroActions": [
         {
           "label": "Start practice",
@@ -11287,7 +11288,7 @@
       "description": "Prepare for a Florida learner permit visit: check two proofs of address, parent consent, online test proctoring, and which appointment to book after the Class E exam.",
       "heroKicker": "Florida permit documents",
       "summary": "Before your Florida learner permit visit, find your address-proof route, check which forms a parent needs to sign, and confirm whether you are booking the knowledge test or applying after passing it.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroActions": [
         {
           "label": "Find your document route",
@@ -11971,7 +11972,7 @@
       "category": "DMV",
       "title": "Illinois DMV Road Signs Practice",
       "description": "Illinois road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroKicker": "Illinois road signs",
       "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the Illinois exam details below to plan the rest of your study.",
       "stateRulePractice": {
@@ -15015,7 +15016,7 @@
           }
         ]
       },
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 23, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
       "replacementText": "This page summarizes Virginia-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."

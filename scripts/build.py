@@ -38,7 +38,7 @@ DMV_REQUIREMENTS_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Requirements by State",
     "description": "Compare DMV permit test format, passing score, official source, documents, road signs, and practice links by state.",
-    "lastUpdated": "November 20, 2026",
+    "lastUpdated": "November 21, 2026",
 }
 TOOL_BY_SLUG[DMV_REQUIREMENTS_SLUG] = DMV_REQUIREMENTS_PAGE
 DMV_SCORE_SLUG = "dmv-permit-test-passing-score-calculator"
@@ -47,7 +47,7 @@ DMV_SCORE_PAGE = {
     "category": "DMV",
     "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
     "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
-    "lastUpdated": "November 21, 2026",
+    "lastUpdated": "November 23, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
@@ -56,7 +56,7 @@ ROAD_SIGN_SHAPES_PAGE = {
     "category": "DMV",
     "title": "Road Sign Shapes and Colors: DMV Meaning Finder",
     "description": "Search road sign shapes and colors by meaning, action, and category, including yellow warning signs, red regulatory signs, brown guide signs, and DMV examples.",
-    "lastUpdated": "November 21, 2026",
+    "lastUpdated": "November 23, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
 ROAD_SIGN_FLASHCARDS_SLUG = "dmv-road-sign-flashcards"
@@ -65,7 +65,7 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
     "category": "DMV",
     "title": "Road Sign Flashcards: DMV Pictures for Fast Review",
     "description": "Flip DMV road sign flashcards for regulatory, warning, school, work-zone, and service signs. Save review cards in your browser. No signup.",
-    "lastUpdated": "November 21, 2026",
+    "lastUpdated": "November 23, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 ROAD_SIGN_CHEAT_SHEET_SLUG = "dmv-road-signs-cheat-sheet"
@@ -76,7 +76,7 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "November 21, 2026",
+    "lastUpdated": "November 23, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -85,7 +85,7 @@ DMV_STUDY_PLAN_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Study Plan",
     "description": "Build a DMV permit test study plan by state, timeline, and weak area with practice, road-sign, checklist, and official-source links.",
-    "lastUpdated": "November 20, 2026",
+    "lastUpdated": "November 23, 2026",
 }
 TOOL_BY_SLUG[DMV_STUDY_PLAN_SLUG] = DMV_STUDY_PLAN_PAGE
 DMV_DAILY_SLUG = "dmv-permit-test-question-of-the-day"
@@ -94,6 +94,7 @@ DMV_DAILY_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Question of the Day",
     "description": "Answer a free daily DMV permit test question with state filters, instant explanation, road-sign images, and links to full practice tools.",
+    "lastUpdated": "November 23, 2026",
 }
 TOOL_BY_SLUG[DMV_DAILY_SLUG] = DMV_DAILY_PAGE
 DMV_MISTAKE_LOG_SLUG = "dmv-permit-test-mistake-log"
@@ -102,6 +103,7 @@ DMV_MISTAKE_LOG_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Mistake Log",
     "description": "Save missed DMV permit-test questions by state and weak area, then turn them into a focused road-sign, rules, score, or checklist review path.",
+    "lastUpdated": "November 23, 2026",
 }
 TOOL_BY_SLUG[DMV_MISTAKE_LOG_SLUG] = DMV_MISTAKE_LOG_PAGE
 
