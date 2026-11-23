@@ -863,7 +863,7 @@ def dmv_score_records(include_supplemental=False):
             "manualUrl": "https://dds.georgia.gov/testing-and-training/test-and-exams-information",
             "permitUrl": "georgia-dds-road-signs-practice.html",
             "signUrl": "georgia-dds-road-signs-practice.html",
-            "checklistUrl": "dmv-test-day-checklist.html",
+            "permitStepsUrl": "https://dds.georgia.gov/georgia-licenses-ids-and-permits/new-license-id-or-permit/how-do-i-learners-permit",
             "passRule": "15 correct out of 20 on each part",
             "passText": "Confirm the current two-part knowledge exam rule with Georgia DDS.",
         },
@@ -875,7 +875,7 @@ def dmv_score_records(include_supplemental=False):
             "manualUrl": "https://www.bmv.ohio.gov/dl-gdl.aspx",
             "permitUrl": "ohio-bmv-road-signs-practice.html",
             "signUrl": "ohio-bmv-road-signs-practice.html",
-            "checklistUrl": "dmv-test-day-checklist.html",
+            "permitStepsUrl": "ohio-bmv-road-signs-practice.html#ohio-knowledge-cases",
             "passRule": "75% or better",
             "passText": "Confirm the current knowledge-test rule with Ohio BMV.",
         },
@@ -887,7 +887,7 @@ def dmv_score_records(include_supplemental=False):
             "manualUrl": "https://www.dmv.virginia.gov/licenses-ids/exams/know-exam",
             "permitUrl": "virginia-dmv-road-signs-practice.html",
             "signUrl": "virginia-dmv-road-signs-practice.html",
-            "checklistUrl": "dmv-test-day-checklist.html",
+            "permitStepsUrl": "https://www.dmv.virginia.gov/licenses-ids/learners/apply",
             "passRule": "10 of 10 signs, then 24 of 30 general questions",
             "passText": "Confirm the current two-part knowledge exam rule with Virginia DMV.",
         },
@@ -899,7 +899,7 @@ def dmv_score_records(include_supplemental=False):
             "manualUrl": "https://azdot.gov/mvd/services/driver-license-ID/permit-test",
             "permitUrl": "arizona-mvd-road-signs-practice.html",
             "signUrl": "arizona-mvd-road-signs-practice.html",
-            "checklistUrl": "dmv-test-day-checklist.html",
+            "permitStepsUrl": "arizona-mvd-road-signs-practice.html#arizona-permit-path",
             "passRule": "80% or better",
             "passText": "Confirm the current permit-test rule with Arizona MVD.",
         },
@@ -914,8 +914,12 @@ def dmv_score_records(include_supplemental=False):
         correct = fact.get("correct", "")
         percent = fact.get("percent", "")
         can_miss = questions - correct if isinstance(questions, int) and isinstance(correct, int) else ""
+        permit_steps = requirement.get("permitStepsUrl")
         records.append({
             **requirement,
+            "testDayUrl": permit_steps or requirement["checklistUrl"],
+            "testDayLabel": f'{requirement["label"]} permit steps' if permit_steps else "Test-day checklist",
+            "testDayIsPermitGuide": bool(permit_steps),
             "questions": questions,
             "correct": correct,
             "percent": percent,
@@ -4630,7 +4634,9 @@ def render_dmv_score_calculator():
         f'data-mixed-questions="{esc(item.get("mixedQuestions", ""))}" '
         f'data-mixed-correct="{esc(item.get("mixedCorrect", ""))}" '
         f'data-practice-url="{esc(item.get("mixedPracticeUrl") or item["signUrl"])}" '
-        f'data-checklist-url="{esc(item["checklistUrl"])}">{esc(item["label"])}</option>'
+        f'data-checklist-url="{esc(item["testDayUrl"])}" '
+        f'data-test-day-label="{esc(item["testDayLabel"])}" '
+        f'data-test-day-is-permit-guide="{str(item["testDayIsPermitGuide"]).lower()}">{esc(item["label"])}</option>'
         for item in records
     )
     default = records[0]
@@ -4670,7 +4676,7 @@ def render_dmv_score_calculator():
       <div class="score-actions">
         <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-score-source>Official source</a>
         <a href="{esc(default.get("mixedPracticeUrl") or default["signUrl"])}" data-score-practice>{'Mixed practice' if default.get("mixedPracticeUrl") else 'Road-sign practice'}</a>
-        <a href="{esc(default["checklistUrl"])}" data-score-checklist>Checklist</a>
+        <a href="{esc(default["testDayUrl"])}" data-score-checklist>{esc(default["testDayLabel"])}</a>
       </div>
     </aside>
     <div class="score-panel">
@@ -4758,7 +4764,7 @@ def render_dmv_score_answers(records):
   <div class="score-answer-actions">
     <a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">Verify official rule</a>
     <a href="{esc(item["permitUrl"])}">Open practice</a>
-    <a href="{esc(item["checklistUrl"])}">Test-day checklist</a>
+    <a href="{esc(item["testDayUrl"])}">{esc(item["testDayLabel"])}</a>
   </div>
 </article>""")
     return f"""<section class="content-section score-answer-section" id="state-score-answers">

@@ -2797,7 +2797,7 @@ function initDmvScoreCalculators() {
     const note = widget.querySelector("[data-score-note]");
     const source = widget.querySelector("[data-score-source]");
     const practice = widget.querySelector("[data-score-practice]");
-    const checklist = widget.querySelector("[data-score-checklist]");
+    const testDayLink = widget.querySelector("[data-score-checklist]");
     const questions = widget.querySelector("[data-score-questions]");
     const correctNeeded = widget.querySelector("[data-score-correct]");
     const miss = widget.querySelector("[data-score-miss]");
@@ -2988,21 +2988,23 @@ function initDmvScoreCalculators() {
         const stateName = option.dataset.state || option.textContent.trim();
         const needsPractice = outcome !== "target_met";
         const hasMixed = Boolean(option.dataset.mixedPracticeUrl);
+        const hasPermitGuide = option.dataset.testDayIsPermitGuide === "true";
         let nextPath = needsPractice ? "practice" : "checklist";
         nextTitle.textContent = needsPractice
           ? hasMixed ? `Review and retake ${stateName} mixed practice` : `Review ${stateName} rules and signs separately`
-          : "Turn this result into a final readiness check";
+          : hasPermitGuide ? `Review the ${stateName} permit steps` : "Turn this result into a final readiness check";
         nextCopy.textContent = needsPractice
           ? hasMixed
             ? "Take the mixed set and record both correct answers and total questions before comparing a new result."
             : "The link below is road-sign practice, not a full knowledge test. Use the official source to review the rest of the exam."
-          : "Review the official source and test-day details before relying on one practice score.";
+          : hasPermitGuide ? "A practice result is not an official pass or a permit. Check the required steps before your visit."
+            : "Review the official source and test-day details before relying on one practice score.";
         nextLink.href = needsPractice
           ? option.dataset.practiceUrl || nextLink.href
           : option.dataset.checklistUrl || nextLink.href;
         nextLink.textContent = needsPractice
           ? (hasMixed ? `Open ${stateName} mixed practice` : "Open road-sign practice")
-          : "Open test-day checklist";
+          : hasPermitGuide && option.dataset.testDayLabel ? option.dataset.testDayLabel : "Open test-day checklist";
         if (needsPractice && matchingMixedLength && mixedGap <= 0) {
           nextTitle.textContent = "Review the official rule before your next round";
           nextCopy.textContent = "If this was our mixed set, you already met its practice goal. Check the official test format first; you can use another mixed round to work on missed topics.";
@@ -3070,9 +3072,10 @@ function initDmvScoreCalculators() {
         practice.textContent = option.dataset.mixedPracticeUrl ? "Mixed practice" : "Road-sign practice";
         annotateDmvStateLink(practice, option, "practice");
       }
-      if (checklist) {
-        checklist.href = option.dataset.checklistUrl || checklist.href;
-        annotateDmvStateLink(checklist, option, "checklist");
+      if (testDayLink) {
+        testDayLink.href = option.dataset.checklistUrl || testDayLink.href;
+        testDayLink.textContent = option.dataset.testDayLabel || "Test-day checklist";
+        annotateDmvStateLink(testDayLink, option, "checklist");
       }
       if (totalInput) totalInput.value = "";
       if (correctInput) correctInput.value = "";

@@ -30,6 +30,59 @@ const tracked = (page) => page.evaluate(() => (window.dataLayer || [])
   .map((entry) => entry[2]));
 
 for (const width of [320, 1280]) {
+  test(`${width}px: four state score paths never borrow another state's checklist`, async () => {
+    const { context, page } = await openScore({ width, height: 900 });
+    try {
+      const startUrl = page.url();
+      const state = page.locator("[data-score-state]");
+      const prep = page.locator("[data-score-checklist]");
+      await page.evaluate(() => localStorage.setItem("tdt-dmv-test-day:last-state", "florida"));
+      for (const row of [
+        ["georgia", "Georgia", "15", "15", "https://dds.georgia.gov/georgia-licenses-ids-and-permits/new-license-id-or-permit/how-do-i-learners-permit"],
+        ["ohio", "Ohio", "30", "", "ohio-bmv-road-signs-practice.html#ohio-knowledge-cases"],
+        ["virginia", "Virginia", "24", "10", "https://www.dmv.virginia.gov/licenses-ids/learners/apply"],
+        ["arizona", "Arizona", "24", "", "arizona-mvd-road-signs-practice.html#arizona-permit-path"],
+      ]) {
+        const [id, label, correct, signs, href] = row;
+        await page.goto(`${startUrl}?state=${id}#score-calculator`);
+        assert.equal(await state.inputValue(), id);
+        const card = page.locator(`#${id}-permit-test-passing-score`);
+        const expectedLabel = `${label} permit steps`;
+        const cardLink = card.locator(".score-answer-actions a").last();
+        assert.equal(await cardLink.getAttribute("href"), href);
+        assert.equal(await cardLink.innerText(), expectedLabel);
+        assert.equal(await prep.innerText(), expectedLabel);
+        assert.equal(await prep.getAttribute("href"), href);
+        await useLength(page).click();
+        await correctInput(page).fill(correct);
+        if (signs) await page.locator("[data-score-section-correct]").fill(signs);
+        await check(page);
+        assert.match(await score(page), /^Meets/);
+        assert.equal(await nextLink(page).innerText(), expectedLabel);
+        assert.equal(await nextLink(page).getAttribute("href"), href);
+        assert.match(await page.locator("[data-score-next-copy]").innerText(), /practice.*not.*permit/i);
+        if (!href.startsWith("https:")) {
+          await nextLink(page).click();
+          await page.waitForLoadState("load");
+          await page.waitForURL(`**/${href}`);
+          const section = page.locator(new URL(page.url()).hash);
+          assert.equal(await section.isVisible(), true);
+          assert.match(await section.locator("h2").innerText(), new RegExp(label));
+        }
+      }
+      await page.goto(`${startUrl}?state=arizona#score-calculator`);
+      await state.selectOption("new-york");
+      assert.equal(await prep.innerText(), "Test-day checklist");
+      assert.equal(await prep.getAttribute("href"), "dmv-test-day-checklist.html?state=new-york#dmv-checklist");
+      await useLength(page).click();
+      await correctInput(page).fill("14");
+      await page.locator("[data-score-section-correct]").fill("2");
+      await check(page);
+      assert.equal(await nextLink(page).getAttribute("href"), "dmv-test-day-checklist.html?state=new-york#dmv-checklist");
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: a total alone answers how many you can miss without grading a score`, async () => {
     const { context, page } = await openScore({ width, height: 844 });
     try {
