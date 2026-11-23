@@ -44,6 +44,7 @@ for (const width of [320, 390, 761, 1280]) {
     ["dmv-practice.html", "permit-tests"],
     ["road-signs-practice-test.html", "sign-meaning-finder"],
     ["new-jersey-mvc-permit-practice-test.html", "official-details"],
+    ["digital-sat-checklist.html", "sat-id-cases"],
     ["sat-superscore-guide.html", "sat-superscore-compare"],
     ["ap-exam-day-checklist.html", "ap-answer-submission"],
   ]) {
@@ -64,6 +65,7 @@ for (const [file, id] of [
   ["dmv-test-day-checklist.html", "documents-map"],
   ["dmv-permit-test-passing-score-calculator.html", "score-calculator"],
   ["dmv-road-signs-cheat-sheet.html", "printable-sheet"],
+  ["digital-sat-checklist.html", "sat-id-cases"],
   ["ap-exam-day-checklist.html", "ap-subject-checks"],
   ["ap-exam-day-checklist.html", "ap-answer-submission"],
 ]) {

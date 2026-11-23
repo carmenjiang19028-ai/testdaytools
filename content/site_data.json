@@ -2528,6 +2528,7 @@
       "heroKicker": "SAT checklist",
       "summary": "The digital SAT depends on both preparation and device readiness. Use this checklist before test day so you are not troubleshooting at the door.",
       "heroActions": [
+        {"label": "Check your photo ID", "href": "#sat-id-cases"},
         {"label": "Check device options", "href": "sat-device-troubleshooting-guide.html#sat-device-cases"},
         {"label": "Bluebook setup checklist", "href": "digital-sat-bluebook-checklist.html"},
         {"label": "Plan your departure", "href": "sat-test-day-timing-guide.html#sat-arrival-plan"},
@@ -2631,8 +2632,8 @@
         "items": [
           {
             "label": "30+ days",
-            "title": "Confirm device and Bluebook",
-            "text": "Check the operating system and open Bluebook early enough to arrange a supported replacement or request a College Board loaner."
+            "title": "Confirm your device and photo ID",
+            "text": "Open Bluebook early enough to arrange a supported device or request a College Board loaner. For SAT Weekend, compare your registration name with your original, unexpired photo ID before the week of the test."
           },
           {
             "label": "1-5 days",
@@ -2670,6 +2671,48 @@
         }
       ],
       "cardGroups": [
+        {
+          "id": "sat-id-cases",
+          "heading": "Will my SAT photo ID work?",
+          "intro": "For SAT Weekend, use an original, unexpired physical photo ID that meets the rules for your age and test location. A Bluebook ticket, phone image, or photocopy is not an ID. Compare the name on your registration with the ID now, then check your current admission ticket as soon as it is available.",
+          "items": [
+            {
+              "label": "Name mismatch",
+              "title": "My ticket says Sam, but my ID says Samantha",
+              "text": "Contact SAT Support as soon as you notice. College Board's ID page says to contact them at least 30 days before testing for a name change; its registration page lists 6 p.m. Eastern on the Monday before the test. Plan using the earlier guidance. If you are already inside that window, ask Support now what can be done for your date. Do not assume the later time guarantees a correction or that staff can fix a nickname at check-in.",
+              "href": "https://satsuite.collegeboard.org/sat/registration/change-cancel/changing-registration-info",
+              "cta": "Official name-change instructions"
+            },
+            {
+              "label": "Age on test day",
+              "title": "I turn 21 before my U.S. Weekend test",
+              "text": "Use an eligible government-issued photo ID, such as a valid physical driver's license or passport. A school ID is not accepted at age 21 or older, even if you registered at age 20.",
+              "href": "https://satsuite.collegeboard.org/sat/what-to-bring-do/id-requirements",
+              "cta": "Official ID rules for age 21 or older"
+            },
+            {
+              "label": "Travel for the test",
+              "title": "I'm visiting another country to take SAT Weekend",
+              "text": "Plan to bring a valid passport. Do not assume a driver's license or school card from home is enough. Check the official rule for testing outside your home country and the rules for your destination, including any listed exception that applies to you.",
+              "href": "https://satsuite.collegeboard.org/sat/what-to-bring-do/id-requirements",
+              "cta": "Official testing-location ID rules"
+            },
+            {
+              "label": "U.S. Weekend, under 21",
+              "title": "I don't have an eligible photo ID",
+              "text": "Check the official SAT Student ID Form before test week. If eligible, have your current school prepare it, or follow the notary instructions if homeschooled. Bring the completed original. This Weekend option is for students under 21 testing at a U.S. center.",
+              "href": "https://satsuite.collegeboard.org/sat/what-to-bring-do/id-requirements",
+              "cta": "Official Student ID Form and eligibility"
+            },
+            {
+              "label": "SAT School Day",
+              "title": "I'm testing at a school I don't usually attend",
+              "text": "Bring an approved photo ID. College Board also lists this requirement for homeschooled students. If you are testing at the school you normally attend, follow your coordinator's check-in instructions instead of using the SAT Weekend checklist as the School Day rule.",
+              "href": "https://satsuite.collegeboard.org/in-school-assessments/what-to-bring",
+              "cta": "Official School Day checklist"
+            }
+          ]
+        },
         {
           "heading": "Common digital SAT mistakes",
           "items": [
@@ -2741,6 +2784,10 @@
         {
           "label": "College Board SAT: What to bring and do",
           "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do"
+        },
+        {
+          "label": "College Board: SAT photo ID and name requirements",
+          "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/id-requirements"
         },
         {
           "label": "College Board: SAT device readiness and setup timing",

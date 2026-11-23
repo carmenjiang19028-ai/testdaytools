@@ -44,6 +44,29 @@ class SATReadinessContentTest(unittest.TestCase):
         self.assertIn(loaner, page)
         self.assertNotIn("Test morning is too late to solve hardware access", page)
 
+    def test_photo_id_cases_distinguish_name_age_location_and_school_day(self):
+        tool = TOOLS["digital-sat-checklist"]
+        page = (ROOT / "digital-sat-checklist.html").read_text()
+        group = next(group for group in tool["cardGroups"] if group.get("id") == "sat-id-cases")
+        name, age, travel, form, school_day = group["items"]
+        self.assertIn("at least 30 days", name["text"])
+        self.assertIn("6 p.m. Eastern on the Monday", name["text"])
+        self.assertIn("Do not assume the later time guarantees", name["text"])
+        self.assertTrue(name["href"].endswith("/changing-registration-info"))
+        self.assertIn("even if you registered at age 20", age["text"])
+        self.assertIn("valid passport", travel["text"])
+        self.assertIn("under 21 testing at a U.S. center", form["text"])
+        self.assertIn("homeschooled students", school_day["text"])
+        self.assertIn("follow your coordinator", school_day["text"])
+        self.assertTrue(school_day["href"].endswith("/in-school-assessments/what-to-bring"))
+        self.assertIn('href="#sat-id-cases"', page)
+        self.assertIn('id="sat-id-cases"', page)
+        self.assertIn("30+", tool["timeline"]["items"][0]["label"])
+        self.assertIn("compare your registration name", tool["timeline"]["items"][0]["text"])
+        for item in group["items"]:
+            self.assertIn(escape(item["text"]), page)
+            self.assertIn(f'href="{escape(item["href"])}"', page)
+
     def test_device_check_precedes_loan_deadline_on_both_checklists(self):
         for slug in CHECKLISTS:
             with self.subTest(slug=slug):
