@@ -76,7 +76,7 @@ ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "category": "DMV",
     "title": "Free DMV Road Signs Cheat Sheet: Printable Signs and Meanings",
     "description": "Print a free DMV road signs cheat sheet with 31 original sign pictures, plain-English meanings, shape and color cues, and links to a no-signup practice test.",
-    "lastUpdated": "November 23, 2026",
+    "lastUpdated": "November 24, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_CHEAT_SHEET_SLUG] = ROAD_SIGN_CHEAT_SHEET_PAGE
 DMV_STUDY_PLAN_SLUG = "dmv-permit-test-study-plan"
@@ -3989,22 +3989,27 @@ def render_cheat_group_link(group):
 
 def render_online_classroom_worksheet():
     cards = {record["image"]: record for record in road_sign_flashcard_records()}
+    practice = sign_lookup_drills(TOOL_BY_SLUG[ROAD_SIGN_PICTURE_SLUG])
     pictures = []
     for number, (_, image, name, action) in enumerate(classroom.RECOGNITION_ITEMS, 1):
         card = cards[image]
         pictures.append(f"""<li>
   <img src="{esc(road_sign_image_path(image))}" alt="{esc(card["cue"])}" width="220" height="160" loading="lazy">
-  <details><summary>Check sign {number}</summary><p><strong>{esc(name)}</strong>. {esc(action)}</p></details>
+  <details><summary>Check sign {number}</summary><p><strong>{esc(name)}</strong>. {esc(action)}</p>
+    <p><a href="{esc(practice[image])}" aria-label="{esc(f'Practice the sign group for {name}')}">Practice this sign group</a></p>
+  </details>
 </li>""")
 
     decisions = []
-    for number, (prompt, options, answer, reason) in enumerate(classroom.DECISION_CASES, 1):
+    for number, (prompt, options, answer, reason, (review_label, review_href)) in enumerate(classroom.DECISION_CASES, 1):
         choices = "".join(f"<li>{esc(option)}</li>" for option in options)
         letter = "ABC"[answer]
         decisions.append(f"""<li>
   <p><strong>{esc(prompt)}</strong></p>
   <ol type="A">{choices}</ol>
-  <details><summary>Check decision {number}</summary><p><strong>{letter}. {esc(options[answer])}</strong> {esc(reason)}</p></details>
+  <details><summary>Check decision {number}</summary><p><strong>{letter}. {esc(options[answer])}</strong> {esc(reason)}</p>
+    <p><a href="{esc(review_href)}">{esc(review_label)}</a></p>
+  </details>
 </li>""")
 
     return f"""<section class="content-section online-classroom-worksheet" id="online-worksheet" aria-labelledby="online-worksheet-title" tabindex="-1">
@@ -4023,7 +4028,9 @@ def render_online_classroom_worksheet():
   <details class="worksheet-part">
     <summary>3. Apply the rule to a different situation</summary>
     <p>{esc(classroom.TRANSFER_PROMPT)}</p>
-    <details><summary>Check your reasoning</summary><p>{esc(classroom.TRANSFER_KEY)}</p></details>
+    <details><summary>Check your reasoning</summary><p>{esc(classroom.TRANSFER_KEY)}</p>
+      <p><a href="road-sign-learning-loop.html?concept=merge-lane-ends#lesson-merge-lane-ends">Try the Added Lane comparison</a></p>
+    </details>
   </details>
   <p class="worksheet-next"><a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Try the 10-question picture quiz</a></p>
   <p class="worksheet-sources">Study references: <a href="{esc(classroom.PENNDOT_SIGNS_URL)}">PennDOT driver manual: signs</a> and

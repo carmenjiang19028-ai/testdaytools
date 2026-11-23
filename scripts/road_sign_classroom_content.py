@@ -18,12 +18,14 @@ DECISION_CASES = [
         ("Roll past the line while checking again.", "Stop before the line, then yield and proceed when safe.",
          "Stop beyond the line where you have the best view."),
         1, "A clear view changes the gap decision, not where or whether to stop.",
+        ("Compare STOP and YIELD", "road-sign-learning-loop.html?concept=stop-yield#lesson-stop-yield"),
     ),
     (
         "At YIELD, a pedestrian has started crossing your path. What should you do?",
         ("Give way and stop if needed before proceeding.", "Keep rolling; only a STOP sign can require a full stop.",
          "Stop for a fixed count, then enter even if the path stays blocked."),
         0, "Giving way may require a stop. Counting seconds does not clear a conflict.",
+        ("Compare STOP and YIELD", "road-sign-learning-loop.html?concept=stop-yield#lesson-stop-yield"),
     ),
     (
         "A LANE ENDS warning and the markings show your lane will end. How should you prepare?",
@@ -31,18 +33,21 @@ DECISION_CASES = [
          "Move across right away; the warning gives your lane priority.",
          "Follow the markings and move into a safe gap."),
         2, "Lane reduction means your lane ends, but the warning does not give you priority.",
+        ("Compare Merge and Lane Ends", "road-sign-learning-loop.html?concept=merge-lane-ends#lesson-merge-lane-ends"),
     ),
     (
         "A yellow-green diamond shows a person walking. People are near the crosswalk. What now?",
         ("Slow, scan for crossing people, and be ready to yield.", "Treat the color alone as a school speed limit.",
          "Stop at the warning sign itself, regardless of where the crossing is."),
         0, "The symbol warns of pedestrians; the color alone does not set a speed limit.",
+        ("Compare school and pedestrian crossings", "road-sign-shapes-and-colors-finder.html#crossing-shape-check"),
     ),
     (
         "It is raining and you see SLIPPERY WHEN WET before a curve. What is the better response?",
         ("Hold your speed until you feel the tires slip.", "Reduce speed before the curve and steer and brake smoothly.",
          "Wait until you are turning, then brake firmly."),
         1, "Slow before the curve. Sudden braking or steering on wet pavement can reduce control.",
+        ("Practice wet-road and other warning signs", "road-signs-practice-test.html?mode=road-signs-core&focus=Warning+signs#practice"),
     ),
     (
         "You see a round railroad warning sign, but the tracks are not yet in view. What now?",
@@ -50,6 +55,7 @@ DECISION_CASES = [
          "Wait for the tracks to come into view before you start checking.",
          "Treat the round warning as the crossing itself."),
         0, "The circle is an advance warning. Check before you reach the tracks.",
+        ("Compare the railroad warning and crossbuck", "road-sign-shapes-and-colors-finder.html#railroad-crossing-check"),
     ),
     (
         "After an orange work-zone warning, a flagger faces you with a STOP paddle. What now?",
@@ -57,12 +63,14 @@ DECISION_CASES = [
          "Stop briefly, then follow the previous vehicle without waiting for a signal.",
          "Stop as directed and wait for the flagger to signal you through."),
         2, "The orange sign warns; the flagger's paddle controls whether you may proceed.",
+        ("Compare flagger paddles in the Texas lesson", "texas-dmv-road-signs-practice.html#texas-work-zone-panels"),
     ),
     (
         "A red slash crosses a right-turn arrow. The light is green. May you turn right?",
         ("Yes, if you yield first.", "No. Follow a permitted movement and choose another route.",
          "Yes; the slash applies only while the light is red."),
         1, "NO RIGHT TURN is not NO TURN ON RED. Green does not cancel the posted prohibition.",
+        ("Compare the signs in the Florida right-turn cases", "florida-dmv-road-signs-practice.html#florida-right-turn-decisions"),
     ),
 ]
 TRANSFER_PROMPT = (

@@ -179,7 +179,7 @@ def build_document(image_dir, output):
     )
     q_rows = []
     letters = "ABC"
-    for number, (prompt, options, _, _) in enumerate(DECISION_CASES, 1):
+    for number, (prompt, options, _, _, _) in enumerate(DECISION_CASES, 1):
         choices = "<br/>".join(f"{letter}. {option}" for letter, option in zip(letters, options))
         q_rows.append([
             Paragraph(f"<b>{number}</b>", styles["Bodyx"]),
@@ -226,7 +226,7 @@ def build_document(image_dir, output):
     story.append(Paragraph("Score 1 point for each correct choice. Use the reason to discuss a wrong answer.", styles["Bodyx"]))
     decisions = [
         f"<b>{number}. {letters[answer]}</b> - {reason}"
-        for number, (_, _, answer, reason) in enumerate(DECISION_CASES, 1)
+        for number, (_, _, answer, reason, _) in enumerate(DECISION_CASES, 1)
     ]
     decision_table = Table([[Paragraph(x, styles["Answer"]) for x in decisions[i:i + 2]] for i in range(0, 8, 2)], colWidths=[3.55 * inch, 3.55 * inch])
     decision_table.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.6, LINE), ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 7), ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5)]))

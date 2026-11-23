@@ -264,12 +264,12 @@ class CoreMaterialTests(unittest.TestCase):
         student, teacher = [" ".join(pdf.pages[index].extract_text().split()) for index in (1, 2)]
         self.assertIn(f"DECISION EDITION {DECISION_REVIEWED}", student)
         self.assertIn(f"DECISION EDITION {DECISION_REVIEWED}", teacher)
-        self.assertEqual([answer for _, _, answer, _ in DECISION_CASES], [1, 0, 2, 0, 1, 0, 2, 1])
+        self.assertEqual([answer for _, _, answer, _, _ in DECISION_CASES], [1, 0, 2, 0, 1, 0, 2, 1])
         for number, (_, image, name, action) in enumerate(RECOGNITION_ITEMS, 1):
             self.assertIn(f"{number}. {name} {action}", teacher)
             self.assertIn(f'{image}-road-sign.svg"', online)
             self.assertIn(f'<strong>{name}</strong>. {action}', online)
-        for number, (prompt, choices, answer, reason) in enumerate(DECISION_CASES, 1):
+        for number, (prompt, choices, answer, reason, (review_label, review_href)) in enumerate(DECISION_CASES, 1):
             with self.subTest(number=number):
                 self.assertIn(prompt, student)
                 self.assertIn(prompt, online)
@@ -279,6 +279,7 @@ class CoreMaterialTests(unittest.TestCase):
                     self.assertIn(f"<li>{choice}</li>", online)
                 self.assertIn(f"{number}. {'ABC'[answer]} - {reason}", teacher)
                 self.assertIn(f"<strong>{'ABC'[answer]}. {choices[answer]}</strong> {reason}", online)
+                self.assertIn(f'<a href="{review_href}">{review_label}</a>', online)
                 self.assertNotIn(reason, student)
         self.assertIn(TRANSFER_PROMPT, student)
         self.assertIn(TRANSFER_KEY, teacher)

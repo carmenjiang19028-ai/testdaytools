@@ -50,11 +50,14 @@ for (const width of [320, 1280]) {
       assert.equal(await image.isVisible(), true);
       assert.equal(await image.evaluate(img => img.decode().then(() => img.naturalWidth > 0)), true);
       const signReveal = pictures.first().getByText('Check sign 1', { exact: true });
-      assert.equal(await pictures.first().locator('details p').isVisible(), false);
+      assert.equal(await pictures.first().locator('details p').first().isVisible(), false);
+      const practice = pictures.first().getByRole('link', { name: 'Practice the sign group for Stop', includeHidden: true });
+      assert.equal(await practice.isVisible(), false);
       await signReveal.press('Enter');
-      assert.match(await pictures.first().locator('details p').innerText(), /Come to a complete stop/);
+      assert.match(await pictures.first().locator('details p').first().innerText(), /Come to a complete stop/);
+      assert.ok(await practice.isVisible());
       await signReveal.press('Enter');
-      assert.equal(await pictures.first().locator('details p').isVisible(), false);
+      assert.equal(await pictures.first().locator('details p').first().isVisible(), false);
       if (process.env.CLASSROOM_SHOTS) {
         await page.screenshot({ path: path.join(process.env.CLASSROOM_SHOTS, `worksheet-${width}.png`) });
       }
@@ -63,10 +66,12 @@ for (const width of [320, 1280]) {
       assert.equal(await decisions.count(), 8);
       assert.equal(await decisions.first().locator('ol[type="A"] > li').count(), 3);
       await decisions.first().locator('summary').press('Space');
-      assert.match(await decisions.first().locator('details p').innerText(), /^B\. Stop before the line.*clear view/i);
+      assert.match(await decisions.first().locator('details p').first().innerText(), /^B\. Stop before the line.*clear view/i);
+      assert.ok(await decisions.first().getByRole('link', { name: 'Compare STOP and YIELD' }).isVisible());
       await parts.nth(2).locator(':scope > summary').press('Enter');
       await parts.nth(2).getByText('Check your reasoning', { exact: true }).press('Enter');
-      assert.match(await parts.nth(2).locator('details p').innerText(), /joining traffic and leave space/);
+      assert.match(await parts.nth(2).locator('details p').first().innerText(), /joining traffic and leave space/);
+      assert.ok(await parts.nth(2).getByRole('link', { name: 'Try the Added Lane comparison' }).isVisible());
       assert.equal(await sheet.getByRole('link', { name: /PennDOT/ }).isVisible(), true);
       assert.equal(await sheet.getByRole('link', { name: /FHWA/ }).isVisible(), true);
       assert.equal(await sheet.getByRole('link', { name: 'Try the 10-question picture quiz' }).getAttribute('href'),

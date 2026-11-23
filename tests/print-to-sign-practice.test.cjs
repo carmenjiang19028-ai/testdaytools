@@ -6,6 +6,7 @@ const path = require("node:path");
 const fs = require("node:fs");
 
 const root = path.resolve(__dirname, "..");
+const worksheetUrl = pathToFileURL(path.join(root, "dmv-road-signs-cheat-sheet.html")).href + "#online-worksheet";
 const site = JSON.parse(fs.readFileSync(path.join(root, "content/site_data.json"), "utf8"));
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
@@ -66,6 +67,67 @@ for (const [label, slug, mode, focus, count] of paths) {
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     }));
 }
+
+test("the online worksheet routes each sign and decision to matching practice", () =>
+  withSheet(390, async page => {
+    const signKeys = ["stop", "yield", "do-not-enter", "speed-limit", "merge", "school-crossing", "railroad", "slippery"];
+    const decisionTargets = [
+      ["road-sign-learning-loop", "lesson-stop-yield", /Stop vs. Yield/],
+      ["road-sign-learning-loop", "lesson-stop-yield", /Stop vs. Yield/],
+      ["road-sign-learning-loop", "lesson-merge-lane-ends", /Merge vs. Lane Ends/],
+      ["road-sign-shapes-and-colors-finder", "crossing-shape-check", /different crossing signs/],
+      ["road-signs-practice-test", "practice", null],
+      ["road-sign-shapes-and-colors-finder", "railroad-crossing-check", /Railroad warning ahead/],
+      ["texas-dmv-road-signs-practice", "texas-work-zone-panels", /work zone|work-zone/i],
+      ["florida-dmv-road-signs-practice", "florida-right-turn-decisions", /require, prohibit, or delay/],
+    ];
+    const parts = page.locator("#online-worksheet .worksheet-part");
+    const openPart = async (index) => {
+      await page.goto(worksheetUrl);
+      const part = parts.nth(index);
+      if (!(await part.evaluate(element => element.open))) await part.locator(":scope > summary").press("Enter");
+      return part;
+    };
+    const matchPicture = async (key) => {
+      const quiz = page.locator('[data-mode-panel="road-signs-core"].is-active [data-quiz]');
+      await quiz.waitFor({ state: "visible" });
+      assert.notEqual(await quiz.locator("[data-quiz-filter]").inputValue(), "all");
+      for (const jump of await quiz.locator("[data-quiz-jump]").all()) {
+        await jump.press("Enter");
+        if (await quiz.locator(".question.is-active").getAttribute("data-flashcard-key") === key) return;
+      }
+      assert.fail(`The active practice group does not include ${key}`);
+    };
+    for (const [index, key] of signKeys.entries()) {
+      const part = await openPart(0);
+      const answer = part.locator(".worksheet-pictures > li details").nth(index);
+      const link = answer.locator("a");
+      assert.equal(await link.isVisible(), false);
+      await answer.locator("summary").press("Enter");
+      await link.press("Enter");
+      await page.waitForURL(url => url.pathname.endsWith("/road-signs-practice-test.html") && url.hash === "#practice");
+      await matchPicture(key);
+    }
+    for (const [index, [slug, anchor, heading]] of decisionTargets.entries()) {
+      const part = await openPart(1);
+      const answer = part.locator(".worksheet-decisions > li details").nth(index);
+      const link = answer.locator("a");
+      assert.equal(await link.isVisible(), false);
+      await answer.locator("summary").press("Enter");
+      await link.press("Enter");
+      await page.waitForURL(url => url.pathname.endsWith(`/${slug}.html`) && url.hash === `#${anchor}`);
+      if (heading) {
+        assert.ok(await page.locator(`#${anchor}`).getByRole("heading", { name: heading }).isVisible());
+      } else {
+        await matchPicture("slippery");
+      }
+    }
+    const transfer = await openPart(2);
+    await transfer.getByText("Check your reasoning", { exact: true }).press("Enter");
+    await transfer.getByRole("link", { name: "Try the Added Lane comparison" }).press("Enter");
+    await page.waitForURL(url => url.pathname.endsWith("/road-sign-learning-loop.html") && url.hash === "#lesson-merge-lane-ends");
+    assert.ok(await page.getByText("Does the ramp traffic get its own lane?", { exact: true }).isVisible());
+  }));
 
 test("a 40-question recorded score opens the full round, and group links do not change print layout", () =>
   withSheet(390, async page => {
