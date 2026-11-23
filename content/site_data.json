@@ -1428,13 +1428,17 @@
       "category": "AP",
       "title": "AP Exam Day Checklist",
       "description": "A practical AP exam day checklist covering what to bring, what to avoid, and how to prepare the night before.",
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "AP checklist",
       "summary": "Use this unofficial AP exam day checklist to pack the basics, reduce morning stress, and avoid preventable testing-day issues.",
       "heroActions": [
         {
           "label": "Check your 2027 subject",
           "href": "#ap-subject-checks"
+        },
+        {
+          "label": "Check Bluebook submission",
+          "href": "#ap-answer-submission"
         }
       ],
       "apSubjectChecks": {
@@ -1594,6 +1598,11 @@
               "Testing rooms usually have strict device and materials rules."
             ],
             [
+              "Before leaving the exam room",
+              "For Bluebook exams, wait for the proctor to dismiss you. Do not close the testing device early.",
+              "If Bluebook shows an incomplete submission or an internet error, get the proctor's help before leaving."
+            ],
+            [
               "After the exam",
               "Write down anything you need to ask your teacher or counselor later.",
               "Do not discuss secure exam content online or in public posts."
@@ -1621,6 +1630,36 @@
         {
           "heading": "Example: AP Statistics at another school",
           "text": "Confirm that school's reporting time and room, put a government-issued or school-issued photo ID in your bag, and check which device the school expects you to use. For the fully digital 2027 exam, practice with Bluebook's graphing calculator if your only handheld is a scientific calculator. If you prefer a handheld, check the official approved graphing models before packing it."
+        }
+      ],
+      "cardGroups": [
+        {
+          "id": "ap-answer-submission",
+          "heading": "Check that Bluebook has your answers",
+          "intro": "When testing time ends, keep the device open until the proctor dismisses you. A successful submission needs no retry. For hybrid AP, handing in the paper booklet does not confirm that your Bluebook answers were sent.",
+          "items": [
+            {
+              "label": "In the room: pending",
+              "title": "The screen says Answer Submission Pending",
+              "text": "Do not try to submit again, even from another device. Show the screen to the proctor and follow their dismissal instructions.",
+              "href": "https://bluebook.collegeboard.org/help-center/what-if-students-answers-arent-submitted",
+              "cta": "Check the official meaning of Pending"
+            },
+            {
+              "label": "In the room: incomplete",
+              "title": "Bluebook shows an error at the end",
+              "text": "An incomplete submission or internet error is different from Pending. Raise your hand and follow the proctor's instructions. Do not switch devices once testing time has ended; the saved responses are on the device you finished on.",
+              "href": "https://bluebook.collegeboard.org/students/ap-exams",
+              "cta": "Read Bluebook's exam-day instructions"
+            },
+            {
+              "label": "After dismissal: official email",
+              "title": "College Board says answers are still missing",
+              "text": "Act now: you have three calendar days after the exam. Sign in to Bluebook on the same device you finished on. Look for Submit Answers under Your Tests, or check Past for confirmation that your answers were sent. If you used a school device and no longer have it, ask your AP coordinator to set aside that device and help you submit.",
+              "href": "https://bluebook.collegeboard.org/fix-answer-submission-issues-ap-exams",
+              "cta": "Open the official student recovery steps"
+            }
+          ]
         }
       ],
       "faq": [

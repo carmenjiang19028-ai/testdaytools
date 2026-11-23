@@ -123,6 +123,49 @@ class APReadinessContentTest(unittest.TestCase):
         self.assertIn("April 30, 2027 at 11:59 p.m. ET", PAGE)
         self.assertIn("May 7, 2027 at 11:59 p.m. ET", PAGE)
 
+    def test_submission_states_keep_the_right_answers_and_device(self):
+        section = next(group for group in TOOL.get("cardGroups", []) if group["id"] == "ap-answer-submission")
+        cases = {item["label"]: item for item in section["items"]}
+        self.assertEqual(set(cases), {
+            "In the room: pending",
+            "In the room: incomplete",
+            "After dismissal: official email",
+        })
+        self.assertIn("handing in the paper booklet", section["intro"])
+        self.assertIn("Bluebook answers", section["intro"])
+        pending = cases["In the room: pending"]
+        self.assertIn("Do not try to submit again", pending["text"])
+        self.assertIn("proctor", pending["text"])
+        self.assertNotIn("Submit Answers", pending["text"])
+        incomplete = cases["In the room: incomplete"]
+        self.assertIn("Raise your hand", incomplete["text"])
+        self.assertIn("Do not switch devices", incomplete["text"])
+        self.assertIn("time has ended", incomplete["text"])
+        after = cases["After dismissal: official email"]
+        for detail in ("three calendar days", "same device you finished on", "Your Tests",
+                       "Submit Answers", "Past", "AP coordinator", "school device"):
+            self.assertIn(detail, after["text"])
+        self.assertEqual(pending["href"], "https://bluebook.collegeboard.org/help-center/what-if-students-answers-arent-submitted")
+        self.assertEqual(incomplete["href"], "https://bluebook.collegeboard.org/students/ap-exams")
+        self.assertEqual(after["href"], "https://bluebook.collegeboard.org/fix-answer-submission-issues-ap-exams")
+
+    def test_submission_check_is_a_static_destination_from_the_top(self):
+        self.assertIn('href="#ap-answer-submission"', PAGE)
+        self.assertEqual(PAGE.count('id="ap-answer-submission"'), 1)
+        section = PAGE.split('id="ap-answer-submission"', 1)[1].split("</section>", 1)[0]
+        self.assertEqual(section.count("<h3>"), 3)
+        self.assertNotIn("<form", section)
+        self.assertNotIn("<input", section)
+        self.assertNotIn("<script", section)
+        for item in next(group for group in TOOL["cardGroups"] if group["id"] == "ap-answer-submission")["items"]:
+            self.assertIn(html.escape(item["text"]), section)
+            self.assertIn(f'href="{item["href"]}"', section)
+        timeline = next(table for table in TOOL["tables"] if table["caption"] == "Night-before and morning timeline")
+        check = next(row for row in timeline["rows"] if row[0] == "Before leaving the exam room")
+        self.assertIn("Do not close the testing device", check[1])
+        self.assertIn("proctor", check[1])
+        self.assertIn("incomplete", check[2])
+
     def test_subject_checks_are_near_top_and_link_to_primary_sources(self):
         region = PAGE.split('id="ap-subject-checks"', 1)[1].split("</section>", 1)[0]
         self.assertIn('href="#ap-subject-checks"', PAGE)

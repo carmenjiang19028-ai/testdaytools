@@ -45,6 +45,7 @@ for (const width of [320, 390, 761, 1280]) {
     ["road-signs-practice-test.html", "sign-meaning-finder"],
     ["new-jersey-mvc-permit-practice-test.html", "official-details"],
     ["sat-superscore-guide.html", "sat-superscore-compare"],
+    ["ap-exam-day-checklist.html", "ap-answer-submission"],
   ]) {
     test(`${width}px: keyboard jump to ${file}#${id} exposes the entire heading`, () =>
       withPage(width, async page => {
@@ -64,10 +65,33 @@ for (const [file, id] of [
   ["dmv-permit-test-passing-score-calculator.html", "score-calculator"],
   ["dmv-road-signs-cheat-sheet.html", "printable-sheet"],
   ["ap-exam-day-checklist.html", "ap-subject-checks"],
+  ["ap-exam-day-checklist.html", "ap-answer-submission"],
 ]) {
   test(`direct mobile link to ${file}#${id} is readable with scripts disabled`, () =>
     withPage(320, async page => {
       await page.goto(fileUrl(file, id));
       await visibleTitle(page, id, false);
+    }, false));
+}
+
+for (const width of [320, 1280]) {
+  test(`${width}px: AP answers use three distinct recovery paths without scripts`, () =>
+    withPage(width, async page => {
+      await page.goto(fileUrl("ap-exam-day-checklist.html", "ap-answer-submission"));
+      const section = page.locator("#ap-answer-submission");
+      const cases = [
+        ["The screen says Answer Submission Pending", /Do not try to submit again.*proctor/],
+        ["Bluebook shows an error at the end", /Raise your hand.*Do not switch devices/],
+        ["College Board says answers are still missing", /three calendar days.*same device.*AP coordinator/],
+      ];
+      for (const [heading, instruction] of cases) {
+        const card = section.locator("article").filter({ has: page.getByRole("heading", { name: heading, exact: true }) });
+        assert.equal(await card.count(), 1);
+        assert.match(await card.locator("p").innerText(), instruction);
+        assert.equal(await card.getByRole("link").count(), 1);
+        assert.match(await card.getByRole("link").getAttribute("href"), /^https:\/\/bluebook\.collegeboard\.org\//);
+      }
+      assert(await section.evaluate(el => el.scrollWidth <= el.clientWidth + 1));
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     }, false));
 }
