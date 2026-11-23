@@ -14700,9 +14700,36 @@
       "heroActions": [
         {"label": "Ohio test and permit cases", "href": "#ohio-knowledge-cases"},
         {"label": "After your Ohio permit", "href": "#ohio-after-permit"},
+        {"label": "Practice Ohio school bus rules", "href": "#ohio-school-bus-lanes"},
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
         {"label": "Official Ohio sample test", "href": "https://www.bmv.ohio.gov/dl-sample-test.aspx"}
       ],
+      "stateRulePractice": {
+        "id": "ohio-school-bus-lanes",
+        "heading": "When must you stop for an Ohio school bus?",
+        "imageAsset": {"src": "assets/road-sign-materials/ohio-school-bus-lanes.svg", "width": 360, "height": 250},
+        "imageLabel": "Road A has one lane in each direction. Road B has two lanes in each direction. In both pictures a stopped school bus faces right in the outer lane; the opposing lanes point left.",
+        "caption": "In both drawings the bus has stopped on the roadway to let students off. First count the traffic lanes, then check whether your lane goes with or against the bus.",
+        "scenarios": [
+          {
+            "question": "A: There is one traffic lane each way. You are approaching the front of the stopped bus. Do you stop?",
+            "answer": "Yes. On this two-lane road, traffic in both directions stops. Leave at least 10 feet between the front of your vehicle and the front of the bus. Wait until the bus starts moving again or its driver signals you to proceed."
+          },
+          {
+            "question": "B: There are two traffic lanes each way. You are still approaching from the opposite direction. Does your answer change?",
+            "answer": "Yes. On a road divided into four or more traffic lanes, Ohio's school bus stop rule does not require opposite-direction traffic to stop for the bus. Keep watching for people near the road and stop if needed for safety or another traffic control."
+          },
+          {
+            "question": "B again: Now you are behind the bus, traveling in the adjacent lane in the same direction. Can you pass while the bus is unloading?",
+            "answer": "No. The four-lane exception is for opposite-direction traffic only. Stop at least 10 feet behind the bus even in the adjacent lane. Wait for the bus to move or the bus driver to signal you to proceed; do not guess from the stop arm alone."
+          }
+        ],
+        "sources": [
+          {"label": "Ohio Revised Code 4511.75(A), (C): stopping for a school bus", "url": "https://codes.ohio.gov/ohio-revised-code/section-4511.75/9-30-2025"},
+          {"label": "Ohio Traffic Safety Office: school bus diagrams (PDF)", "url": "https://dam.assets.ohio.gov/image/upload/otso.ohio.gov/school-bus/Stop-Means-Stop-Social-Media.pdf"},
+          {"label": "Ohio BMV: Official sample knowledge test", "url": "https://www.bmv.ohio.gov/dl-sample-test.aspx"}
+        ]
+      },
       "quickFacts": [
         {
           "label": "Official source",
@@ -14908,7 +14935,7 @@
           }
         ]
       },
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
       "replacementText": "This page summarizes Ohio-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."

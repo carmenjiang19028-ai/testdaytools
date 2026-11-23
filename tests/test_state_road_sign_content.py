@@ -108,6 +108,30 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn('href="road-signs-practice-test.html?mode=road-signs-core#practice"', page)
         self.assertNotIn("data-quiz=", page)
 
+    def test_ohio_school_bus_lesson_requires_both_lane_count_and_direction(self):
+        slug = "ohio-bmv-road-signs-practice"
+        tool = self.tools[slug]
+        page = (ROOT / f"{slug}.html").read_text()
+        lesson = tool["stateRulePractice"]
+        two_lane, opposing, overtaking = lesson["scenarios"]
+        self.assertIn("both directions stops", two_lane["answer"])
+        self.assertIn("at least 10 feet", two_lane["answer"])
+        self.assertIn("four or more traffic lanes", opposing["answer"])
+        self.assertIn("opposite-direction traffic to stop", opposing["answer"])
+        self.assertIn("the adjacent lane", overtaking["question"])
+        self.assertIn("10 feet behind", overtaking["answer"])
+        self.assertIn("bus driver to signal you to proceed", overtaking["answer"])
+        self.assertEqual([urlsplit(source["url"]).netloc for source in lesson["sources"]],
+                         ["codes.ohio.gov", "dam.assets.ohio.gov", "www.bmv.ohio.gov"])
+        asset = lesson["imageAsset"]
+        svg = ElementTree.parse(ROOT / asset["src"]).getroot()
+        self.assertEqual(svg.get("viewBox"), f'0 0 {asset["width"]} {asset["height"]}')
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('href="#ohio-school-bus-lanes"', page)
+        self.assertIn('href="#ohio-knowledge-cases"', page)
+        self.assertIn('href="road-signs-practice-test.html?mode=road-signs-core#practice"', page)
+        self.assertNotIn("data-quiz=", page)
+
     def test_virginia_left_on_red_lesson_keeps_round_and_arrow_rules_distinct(self):
         slug = "virginia-dmv-road-signs-practice"
         lesson = self.tools[slug]["stateRulePractice"]

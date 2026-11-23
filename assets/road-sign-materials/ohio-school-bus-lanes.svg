@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="250" viewBox="0 0 360 250">
+  <defs>
+    <path id="right" d="M0 0h38m-9-6 9 6-9 6" fill="none" stroke="#fff" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <g id="bus">
+      <rect width="82" height="22" rx="4" fill="#f4bf42" stroke="#161d23" stroke-width="2"/>
+      <rect x="9" y="4" width="47" height="14" rx="3" fill="#293742"/>
+      <path d="M67 4v14" stroke="#293742" stroke-width="5"/>
+      <circle cx="4" cy="5" r="2.5" fill="#fc625e"/>
+      <circle cx="4" cy="17" r="2.5" fill="#fc625e"/>
+      <path d="M20 0v-4" stroke="#f0b3a9" stroke-width="2"/>
+      <path d="M17-12h6l3 3v4l-3 3h-6l-3-3v-4z" fill="#bb272a" stroke="#fff"/>
+    </g>
+  </defs>
+  <g fill="#18242b" font-family="Arial, sans-serif" font-weight="700" font-size="21">
+    <text x="9" y="23">A: Two traffic lanes</text>
+    <text x="9" y="127">B: Four traffic lanes</text>
+  </g>
+  <g fill="#33414a">
+    <rect x="8" y="32" width="344" height="72" rx="4"/>
+    <rect x="8" y="136" width="344" height="108" rx="4"/>
+  </g>
+  <g stroke="#f8ca55" stroke-width="2">
+    <path d="M8 66h344m-344 4h344"/>
+    <path d="M8 188h344m-344 4h344"/>
+  </g>
+  <path d="M8 163h344m-344 54h344" stroke="#d1d9df" stroke-width="2" stroke-dasharray="15 12"/>
+  <g>
+    <use href="#right" transform="translate(306 49) scale(-1 1)"/>
+    <use href="#right" x="62" y="86"/>
+    <use href="#bus" x="153" y="79"/>
+    <use href="#right" transform="translate(306 149) scale(-1 1)"/>
+    <use href="#right" transform="translate(306 177) scale(-1 1)"/>
+    <use href="#right" x="62" y="204"/>
+    <use href="#right" x="62" y="232"/>
+    <use href="#bus" x="153" y="220"/>
+  </g>
+</svg>
