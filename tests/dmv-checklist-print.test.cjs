@@ -8,6 +8,15 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const origin = "http://testdaytools.test";
+const REAL_ID_SOURCES = {
+  california: "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/real-id/real-id-checklist/",
+  "new-york": "https://dmv.ny.gov/driver-license/enhanced-or-real-id",
+  texas: "https://www.dps.texas.gov/apps/DriverLicense/RealID",
+  florida: "https://www.flhsmv.gov/driver-licenses-id-cards/what-to-bring/",
+  illinois: "https://www.ilsos.gov/content/realid/us/en/checklist.html",
+  pennsylvania: "https://www.pa.gov/agencies/dmv/driver-services/real-id/real-id-document-check",
+  "new-jersey": "https://www.nj.gov/mvc/realid/selector.html",
+};
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome" }); });
 after(async () => { await browser?.close(); });
@@ -114,13 +123,16 @@ test("all seven states and four applicant paths stay on one Letter page", async 
       options.map(option => [option.value, option.textContent.trim()]));
     assert.equal(states.length, 7);
     assert.equal(paths.length, 4);
-    for (const [state, label, source] of states) {
+    for (const [state, label, manual] of states) {
       await page.locator("[data-dmv-checklist-state]").selectOption(state);
       for (const [id, name] of paths) {
         await page.locator("[data-dmv-pack-type]").selectOption(id);
         const eligible = await page.locator("[data-dmv-pack-item]:visible").count();
         const entries = inspectPdf(await page.pdf({ format: "Letter", preferCSSPageSize: true }));
         const caseName = `${label} /${name}`;
+        const source = id === "real-id" ? REAL_ID_SOURCES[state] : manual;
+        assert.equal(await page.locator("[data-dmv-pack-official]").getAttribute("href"), source, caseName);
+        assert.equal(await page.locator("[data-dmv-manual-link]").getAttribute("href"), manual, caseName);
         assert.equal(entries.length, 1, caseName);
         assert.deepEqual(entries[0].size, [612, 792], caseName);
         // Chromium can emit two link annotations when the official URL wraps.
@@ -129,5 +141,36 @@ test("all seven states and four applicant paths stay on one Letter page", async 
         assert.ok(entries[0].text.includes(name) && entries[0].text.includes(`0 of ${eligible} marked ready`), caseName);
       }
     }
+  } finally { await context.close(); }
+});
+
+test("REAL ID copies the document link without carrying it into another path", async () => {
+  const context = await localContext(320);
+  try {
+    const page = await context.newPage();
+    await page.addInitScript(() => {
+      window.copyResults = [];
+      Object.defineProperty(navigator, "clipboard", {
+        value: { writeText: async text => { window.copyResults.push(text); } },
+      });
+    });
+    await page.goto(`${origin}/dmv-test-day-checklist.html?state=new-jersey`);
+    const selector = page.locator("[data-dmv-pack-type]");
+    const states = page.locator("[data-dmv-checklist-state]");
+    await selector.selectOption("real-id");
+    for (const [state, url] of Object.entries(REAL_ID_SOURCES)) {
+      await states.selectOption(state);
+      const pack = page.locator("[data-dmv-pack-official]");
+      assert.match(await pack.textContent(), /REAL ID document requirements/);
+      await page.locator("[data-dmv-copy-pack]").click();
+      await page.locator("[data-dmv-copy-checklist]").click();
+      const copied = await page.evaluate(() => window.copyResults.slice(-2));
+      assert.equal(copied.length, 2);
+      assert.ok(copied.every(text => text.split("\n")[1] === `Official source: ${url}`), state);
+    }
+    await selector.selectOption("first-permit");
+    await page.locator("[data-dmv-copy-pack]").click();
+    const copy = await page.evaluate(() => window.copyResults.at(-1));
+    assert.equal(copy.split("\n")[1], "Official source: https://www.nj.gov/mvc/pdf/license/drivermanual.pdf");
   } finally { await context.close(); }
 });

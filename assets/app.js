@@ -3324,6 +3324,12 @@ function initDmvChecklists() {
     const selectedOption = () => stateSelect?.selectedOptions?.[0];
     const selectedPackType = () => packType?.selectedOptions?.[0];
     const visiblePackItems = () => packItems.filter((item) => !item.closest("[data-dmv-pack-row]")?.hidden);
+    const documentSource = (option = selectedOption()) => {
+      if (packType?.value === "real-id" && option?.dataset.realIdUrl) {
+        return { url: option.dataset.realIdUrl, label: "official REAL ID document requirements" };
+      }
+      return { url: option?.dataset.manualUrl || "", label: option?.dataset.manualLabel || "official source" };
+    };
 
     const preparePrintPlan = () => {
       const option = selectedOption();
@@ -3355,8 +3361,9 @@ function initDmvChecklists() {
         : "Use the permit-test checks only if your state requires a knowledge test for this visit.");
       const official = field("source");
       if (official) {
-        official.href = option.dataset.manualUrl || "#";
-        official.textContent = option.dataset.manualUrl || option.dataset.manualLabel || "Check the state agency";
+        const { url, label } = documentSource(option);
+        official.href = url || "#";
+        official.textContent = url || label;
       }
       setItems("checks", "check-count", checks);
       const documents = visiblePackItems();
@@ -3470,7 +3477,6 @@ function initDmvChecklists() {
       const checked = visible.filter((item) => item.checked);
       const stateName = option?.textContent?.trim() || "selected state";
       const agency = option?.dataset.agency || "State agency";
-      const sourceLabel = option?.dataset.manualLabel || "official source";
       const typeLabel = typeOption?.textContent?.trim() || "selected path";
       const typeDetail = typeOption?.dataset.packDetail || "Confirm the exact accepted documents with the official source.";
 
@@ -3480,8 +3486,9 @@ function initDmvChecklists() {
         packSummary.textContent = `${visible.length} document checks for this path. ${typeDetail}`;
       }
       if (packOfficial) {
-        packOfficial.href = option?.dataset.manualUrl || "#";
-        packOfficial.textContent = `Open ${sourceLabel}`;
+        const { url, label } = documentSource(option);
+        packOfficial.href = url || "#";
+        packOfficial.textContent = `Open ${label}`;
       }
       if (packNext) {
         const firstOpen = visible.find((item) => !item.checked);
@@ -3561,7 +3568,7 @@ function initDmvChecklists() {
       const open = checks.filter((check) => !check.checked);
       const lines = [
         `DMV test-day plan: ${option?.textContent?.trim() || "selected state"}`,
-        `Official source: ${manualLink?.href || option?.dataset.manualUrl || ""}`,
+        `Official source: ${documentSource(option).url}`,
         "",
         "Ready:",
         ...(checked.length ? checked.map((check) => `- ${check.closest("label")?.querySelector("strong")?.textContent || check.value}`) : ["- Nothing marked ready yet"]),
@@ -3621,7 +3628,7 @@ function initDmvChecklists() {
       const labelFor = (item) => item.closest("label")?.querySelector("strong")?.textContent || item.value;
       const lines = [
         `DMV document pack: ${option?.textContent?.trim() || "selected state"} - ${typeLabel}`,
-        `Official source: ${packOfficial?.href || option?.dataset.manualUrl || ""}`,
+        `Official source: ${documentSource(option).url}`,
         "",
         "Ready:",
         ...(checked.length ? checked.map((item) => `- ${labelFor(item)}`) : ["- Nothing marked ready yet"]),
