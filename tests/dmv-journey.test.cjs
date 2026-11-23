@@ -51,6 +51,58 @@ async function finishRound(page, correctCount) {
 const getJourney = (page) => page.evaluate((key) => JSON.parse(localStorage.getItem(key)), journeyKey);
 const passes = (page) => page.locator(`${dashboard} [data-journey-step="passes"] [data-journey-step-status]`);
 
+for (const resume of [false, true]) {
+  test(`a focused score becomes one full local round ${resume ? "after resuming the next day" : "without a reload"}`, () =>
+    withSite(resume ? 1280 : 390, async (page) => {
+      await page.goto(`${origin}/${ny}?mode=mock&focus=Parking#practice`);
+      const quiz = page.locator('[data-mode-panel="mock"].is-active [data-quiz]');
+      const filter = quiz.locator("[data-quiz-filter]");
+      const answerCurrent = () => quiz.locator(".question.is-active").evaluate(question =>
+        question.querySelector(`[data-choice="${question.dataset.answer}"]`).click());
+      assert.equal(await quiz.locator("[data-quiz-jump]").count(), 1);
+      await answerCurrent();
+      const started = (await getJourney(page)).sessions[0];
+      assert.equal(started.total, 1);
+      assert.equal(started.fullRound, false);
+      await filter.selectOption("all");
+      if (resume) {
+        await answerCurrent();
+        await page.clock.setFixedTime(now + day);
+        await page.goto(origin + "/dmv-practice.html");
+        const resumeLink = page.locator("[data-recent-practice-link]");
+        const href = new URL(await resumeLink.getAttribute("href"), page.url());
+        assert.equal(href.searchParams.get("resume"), "1");
+        await resumeLink.click();
+        await page.waitForURL(href.href);
+        await page.waitForFunction(() => document.querySelector(
+          '[data-mode-panel="mock"].is-active [data-quiz-answered]',
+        )?.textContent === "2 of 40 answered", null, { timeout: 4000 });
+      }
+      await quiz.locator('[data-quiz-jump="0"]').click();
+      assert.match(await finishRound(page, 40), /40 of 40 correct/);
+      await filter.selectOption("Parking");
+      await filter.selectOption("all");
+      const updated = await getJourney(page);
+      assert.equal(updated.sessions.length, 1);
+      assert.equal(updated.sessions[0].roundId, started.roundId);
+      assert.equal(updated.sessions[0].total, 40);
+      assert.equal(updated.sessions[0].correct, 40);
+      assert.equal(updated.sessions[0].fullRound, true);
+      assert.equal(updated.sessions[0].practiceTargetMet, true);
+      const days = Object.values(updated.days);
+      assert.equal(days.reduce((sum, item) => sum + item.sessions, 0), 1);
+      assert.equal(days.reduce((sum, item) => sum + item.answered, 0), 40);
+      const analytics = await page.evaluate(() => JSON.stringify(window.dataLayer));
+      assert(!analytics.includes(started.roundId));
+      const completions = await page.evaluate(() => window.dataLayer
+        .filter(event => event[0] === "event" && event[1] === "quiz_complete")
+        .map(event => [event[2].focus, event[2].total]));
+      assert.deepEqual(completions, resume ? [] : [["Parking", 1]]);
+      await page.goto(origin + "/dmv-practice.html");
+      assert.equal(await passes(page).textContent(), "1 of 2");
+    }));
+}
+
 test("mobile score and both document shortcuts follow the selected state despite stale checklist storage", () =>
   withSite(390, async (page) => {
     const home = origin + "/index.html";

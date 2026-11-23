@@ -400,16 +400,31 @@ function recordDmvAnswer({ correct, category, state }) {
   saveDmvJourney(journey);
 }
 
-function recordDmvSession({ label, href, total, correct, missed, weak, state, mode, fullRound, practiceTargetMet }) {
+function recordDmvSession({ roundId, label, href, total, correct, missed, weak, state, mode, fullRound, practiceTargetMet }) {
   const journey = readDmvJourney();
+  const previousIndex = journey.sessions.findIndex((session) => session.roundId === roundId);
+  const previous = journey.sessions[previousIndex];
+  if (previous && (previous.fullRound || !fullRound)) return;
   const selectedState = normalizeDmvState(state || journey.state);
   if (selectedState) journey.state = selectedState;
-  const stamp = localDayStamp();
-  const day = journey.days[stamp] || { answered: 0, correct: 0, sessions: 0 };
-  day.sessions = (Number(day.sessions) || 0) + 1;
-  journey.days[stamp] = day;
+  const completedAt = Date.now();
+  const stamp = localDayStamp(completedAt);
+  const previousStamp = previous ? localDayStamp(previous.completedAt) : "";
+  if (previous) {
+    journey.sessions.splice(previousIndex, 1);
+    if (previousStamp !== stamp && journey.days[previousStamp]) {
+      const day = journey.days[previousStamp];
+      day.sessions = Math.max(0, (Number(day.sessions) || 0) - 1);
+    }
+  }
+  if (previousStamp !== stamp) {
+    const day = journey.days[stamp] || { answered: 0, correct: 0, sessions: 0 };
+    day.sessions = (Number(day.sessions) || 0) + 1;
+    journey.days[stamp] = day;
+  }
   const percent = total ? Math.round((correct / total) * 100) : 0;
   journey.sessions.unshift({
+    roundId,
     label,
     href,
     total,
@@ -421,7 +436,7 @@ function recordDmvSession({ label, href, total, correct, missed, weak, state, mo
     mode,
     fullRound,
     practiceTargetMet,
-    completedAt: Date.now(),
+    completedAt,
   });
   saveDmvJourney(journey);
 }
@@ -617,6 +632,7 @@ function initQuizzes() {
     let quizStartedTracked = false;
     let quizHalfwayTracked = false;
     let quizCompletedTracked = false;
+    let savedRound = null;
     let tenQuestionsTracked = false;
     let nextRoundFocus = "";
     let missedCardIds = [];
@@ -999,8 +1015,13 @@ function initQuizzes() {
         .map(([category]) => category)
         .slice(0, 3);
 
-      if (justCompleted && isDmvQuiz) {
+      if (isDmvQuiz && complete && (!savedRound || (!focusedDmv && !savedRound.fullRound))) {
+        // Keep one local record if a learner expands a finished focus set to the full round.
+        const id = savedRound?.id || Array.from(window.crypto.getRandomValues(new Uint32Array(4)),
+          (part) => part.toString(16).padStart(8, "0")).join("");
+        savedRound = { id, fullRound: !focusedDmv };
         recordDmvSession({
+          roundId: id,
           label: focusedDmv ? `${quizLabel} (${filterSelect.selectedOptions[0].textContent})` : quizLabel,
           href: roundHref(focus),
           total: activeTotal,
@@ -1158,6 +1179,7 @@ function initQuizzes() {
           halfway: quizHalfwayTracked,
           ten: tenQuestionsTracked,
           completed: quizCompletedTracked,
+          focusedRoundId: savedRound?.fullRound === false ? savedRound.id : undefined,
         } : undefined;
 
         window.localStorage.setItem(RECENT_PRACTICE_KEY, JSON.stringify({
@@ -1213,6 +1235,9 @@ function initQuizzes() {
             quizHalfwayTracked = draft.halfway === true || picks.size >= Math.ceil(sequence.size / 2);
             tenQuestionsTracked = draft.ten === true || picks.size >= 10;
             quizCompletedTracked = draft.completed === true;
+            if (typeof draft.focusedRoundId === "string" && /^[a-f0-9]{32}$/.test(draft.focusedRoundId)) {
+              savedRound = { id: draft.focusedRoundId, fullRound: false };
+            }
             toolMessage = "Unfinished round restored from this browser.";
             renderScore();
             renderActiveQuestion();
@@ -1234,6 +1259,7 @@ function initQuizzes() {
       quizStartedTracked = false;
       quizHalfwayTracked = false;
       quizCompletedTracked = false;
+      savedRound = null;
       tenQuestionsTracked = false;
       questions.forEach((question) => {
         question.querySelectorAll("button").forEach((button) => {
