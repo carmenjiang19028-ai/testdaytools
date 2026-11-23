@@ -22763,7 +22763,7 @@
       "slug": "editorial-policy",
       "title": "Editorial Policy",
       "description": "How TestDayTools writes, checks, updates, and labels unofficial DMV, AP, and SAT tools.",
-      "lastUpdated": "October 12, 2026",
+      "lastUpdated": "November 24, 2026",
       "content": [
         {
           "heading": "Purpose",
@@ -22795,11 +22795,15 @@
         },
         {
           "heading": "Update process",
-          "text": "Static pages are rebuilt from structured data files so dates, source links, FAQs, and practice paths can be updated without redesigning the site. Pages show a site-wide last-updated date."
+          "text": "When shown, Last updated marks a change to that page. A date next to a source or lesson records when the listed material was checked against that source. Neither date tells you whether the agency changed its rules afterward. Use the official source for current requirements and deadlines."
+        },
+        {
+          "heading": "Road-sign correction record",
+          "text": "The material check linked below records the classroom worksheet's switch to the shared five-sided school sign and later corrections to the Stop Ahead and Two-Way Traffic illustrations. It names the material and references checked. It is not a review of every road rule, a driving-instructor assessment, or proof of learning outcomes."
         },
         {
           "heading": "Corrections",
-          "text": "Correction requests should include the page URL, the section that appears outdated or unclear, and the official source that should be checked."
+          "text": "Send the page URL, the specific sign, question or section that seems wrong, and any official source that helps identify the correction. If the issue is in a download, include the PDF title and page number."
         },
         {
           "heading": "Advertising policy",
@@ -22807,6 +22811,10 @@
         }
       ],
       "links": [
+        {
+          "label": "Road-sign material check and corrections",
+          "url": "road-sign-learning-loop.html#material-review"
+        },
         {
           "label": "Contact and corrections",
           "url": "contact.html"

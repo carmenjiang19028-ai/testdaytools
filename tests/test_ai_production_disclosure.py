@@ -1,6 +1,7 @@
 import json
 import unittest
 import xml.etree.ElementTree as ET
+from datetime import datetime
 from pathlib import Path
 
 
@@ -46,9 +47,25 @@ class AIProductionDisclosureTest(unittest.TestCase):
                 page = (ROOT / f"{slug}.html").read_text()
                 self.assertIn(f"<h2>{heading}</h2>", page)
                 self.assertIn(section["text"], page)
-                self.assertEqual(source["lastUpdated"], "October 12, 2026")
-                self.assertIn("<time>October 12, 2026</time>", page)
-                self.assertEqual(dates[f"https://testdaytools.com/{slug}.html"], "2026-10-12")
+                updated = source["lastUpdated"]
+                self.assertIn(f"<time>{updated}</time>", page)
+                self.assertEqual(dates[f"https://testdaytools.com/{slug}.html"],
+                                 datetime.strptime(updated, "%B %d, %Y").date().isoformat())
+
+    def test_editorial_dates_and_material_corrections_are_verifiable(self):
+        policy = TRUST_PAGES["editorial-policy"]
+        sections = {section["heading"]: section["text"] for section in policy["content"]}
+        self.assertIn("a change to that page", sections["Update process"])
+        self.assertIn("date next to a source", sections["Update process"])
+        self.assertNotIn("site-wide", sections["Update process"])
+        self.assertIn("not a review of every road rule", sections["Road-sign correction record"])
+        self.assertIn("PDF title and page number", sections["Corrections"])
+        href = "road-sign-learning-loop.html#material-review"
+        self.assertIn(href, {link["url"] for link in policy["links"]})
+        self.assertIn(f'href="{href}"', (ROOT / "editorial-policy.html").read_text())
+        record = (ROOT / "road-sign-learning-loop.html").read_text().split('id="material-review"', 1)[1]
+        self.assertIn("classroom school sign now uses the shared five-sided artwork", record)
+        self.assertIn("Corrected Stop Ahead", record)
 
 
 if __name__ == "__main__":
