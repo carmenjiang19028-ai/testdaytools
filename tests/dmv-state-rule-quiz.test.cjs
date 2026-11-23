@@ -49,9 +49,96 @@ const schoolBusCases = [
     source: "https://www.flsenate.gov/Laws/Statutes/2026/316.172",
   }],
 ];
+const crosswalkCases = [
+  ["florida-dmv", "quick", 4, 15,
+    /no working traffic signal or sign requiring a stop.*your half of the road/i,
+    /stop if necessary.*unmarked.*not permission to continue/i,
+    "https://flsenate.gov/Laws/Statutes/2026/0316.130",
+    "Drivers must watch for and yield to pedestrians where the law gives them the right of way. Confirm exact wording in the Official Florida Driver License Handbook."],
+  ["florida-dmv", "mock", 37, 40,
+    /no working traffic signal or sign requiring a stop.*already crossing/i,
+    /stop if needed.*WALK.*stop and remain stopped/is,
+    "https://flsenate.gov/Laws/Statutes/2026/0316.130",
+    "Slow early, yield when required, and make sure other lanes are safe too. Confirm exact wording in the Official Florida Driver License Handbook."],
+  ["pennsylvania-dmv", "mock", 27, 40,
+    /no working traffic signal.*already crossing/i,
+    /painted crosswalk.*unmarked one at an intersection.*do not pass a vehicle that has stopped/is,
+    "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/special-circumstances-and-emergencies",
+    "Slow early, yield when required, and make sure other lanes are safe too. Confirm exact wording in the Pennsylvania Driver's Manual."],
+  ["pennsylvania-dmv", "mock", 34, 40,
+    /no working traffic signal/i,
+    /still a crosswalk.*let the person cross/is,
+    "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/everyday-driving-skills/negotiating-intersections",
+    "Drivers must watch for and yield to pedestrians where the law gives them the right of way. Confirm exact wording in the Pennsylvania Driver's Manual."],
+  ["new-jersey-mvc", "mock", 22, 40,
+    /no signal or officer.*already crossing on your half/i,
+    /full stop.*remain stopped.*within one lane of your half/is,
+    "https://nj.gov/transportation/commuter/pedsafety/responsibility.shtm",
+    "Slow early, yield when required, and make sure other lanes are safe too. Confirm exact wording in the New Jersey Driver Manual."],
+  ["new-jersey-mvc", "mock", 29, 40,
+    /no signal or officer/i,
+    /yield.*stop if needed.*marked crossing.*stop-and-stay-stopped/is,
+    "https://nj.gov/transportation/commuter/pedsafety/responsibility.shtm",
+    "Drivers must watch for and yield to pedestrians where the law gives them the right of way. Confirm exact wording in the New Jersey Driver Manual."],
+];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
+
+for (const width of [320, 1280]) {
+  for (const [state, mode, index, total, scenario, reason, href, previous] of crosswalkCases) {
+    test(`${state} ${mode} question ${index} distinguishes its crossing rule at ${width}px and restores the old answer`, async () => {
+      const context = await browser.newContext({ viewport: { width, height: 850 } });
+      try {
+        await context.route(/^https?:/, route => route.abort());
+        const page = await context.newPage();
+        const url = pathToFileURL(path.join(__dirname, "..", `${state}-permit-practice-test.html`));
+        url.searchParams.set("mode", mode);
+        url.hash = "practice";
+        await page.goto(url.href);
+        const quiz = page.locator(`[data-mode-panel=${mode}].is-active [data-quiz]`);
+        assert.equal(await quiz.locator(".question").count(), total);
+        await quiz.getByRole("button", { name: `Go to question ${index}`, exact: true }).press("Enter");
+        const question = quiz.locator(".question.is-active");
+        const condition = question.locator("[data-quiz-condition]");
+        const source = question.locator("[data-quiz-source] a");
+        const feedback = question.locator(".feedback");
+        assert.ok(await condition.isVisible());
+        assert.match(await condition.innerText(), scenario);
+        assert.equal(await question.locator("h3").getAttribute("aria-describedby"), await condition.getAttribute("id"));
+        assert.equal(await source.isVisible(), false);
+        const correct = question.getByRole("button", { name: /^(Slow and yield as required by law|Yield and let the pedestrian cross safely)$/ });
+        assert.equal(await correct.getAttribute("data-choice"), await question.getAttribute("data-answer"));
+        await correct.press("Enter");
+        assert.match(await feedback.innerText(), /^Correct\./);
+        assert.match(await feedback.innerText(), reason);
+        assert.equal(await source.getAttribute("href"), href);
+        assert.ok(await source.isVisible());
+        await feedback.press("Tab");
+        assert.ok(await source.evaluate(link => link === document.activeElement));
+        await page.evaluate(([questionIndex, oldExplanation]) => {
+          const key = "tdt-recent-practice";
+          const record = JSON.parse(localStorage.getItem(key));
+          const rows = JSON.parse(record.draft.signature);
+          rows[questionIndex][2] = oldExplanation;
+          record.draft.signature = JSON.stringify(rows);
+          localStorage.setItem(key, JSON.stringify(record));
+        }, [index - 1, previous]);
+        url.searchParams.set("resume", "1");
+        await page.goto(url.href);
+        assert.equal(await quiz.locator("[data-quiz-answered]").innerText(), `1 of ${total} answered`);
+        assert.match(await feedback.innerText(), reason);
+        assert.ok(await source.isVisible());
+        const replayed = await page.evaluate(() => (window.dataLayer || [])
+          .filter(entry => entry[0] === "event" && /^(quiz_|study_)/.test(entry[1])));
+        assert.deepEqual(replayed, []);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      } finally {
+        await context.close();
+      }
+    });
+  }
+}
 
 for (const width of [320, 1280]) {
   for (const [state, mode, index, total, lesson] of schoolBusCases) {
@@ -166,7 +253,7 @@ for (const width of [390, 1280]) {
         const quiz = page.locator("[data-mode-panel=mock].is-active [data-quiz]");
         assert.equal(await quiz.getAttribute("data-pass-score"), "32");
         assert.equal(await quiz.locator(".question").count(), 40);
-        assert.equal(await quiz.locator("[data-quiz-source]").count(), state === "new-jersey-mvc" ? 3 : 4);
+        assert.equal(await quiz.locator("[data-quiz-source]").count(), state === "pennsylvania-dmv" ? 6 : 5);
         for (const [question, prompt, answer, explanation, sourceHost] of questions) {
           await quiz.getByRole("button", { name: `Go to question ${question}`, exact: true }).click();
           const active = quiz.locator(".question.is-active");

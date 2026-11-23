@@ -18317,7 +18317,12 @@
         ],
         "answer": 0,
         "category": "Pedestrians",
-        "explanation": "Drivers must watch for and yield to pedestrians where the law gives them the right of way. Confirm exact wording in the Official Florida Driver License Handbook."
+        "explanation": "Slow down and stop if necessary to let the person cross safely. Florida's rule covers this unmarked intersection crosswalk too; the lack of paint is not permission to continue. The same duty to yield applies if a person crossing from the opposite half is close enough to be endangered.",
+        "condition": "There is no working traffic signal or sign requiring a stop, and the pedestrian is already on your half of the road.",
+        "source": {
+          "label": "Florida Statutes: 316.130(7)(c)",
+          "url": "https://flsenate.gov/Laws/Statutes/2026/0316.130"
+        }
       },
       {
         "q": "What does a red curb usually mean?",
@@ -19192,7 +19197,12 @@
         ],
         "answer": 0,
         "category": "Pedestrians",
-        "explanation": "Slow early, yield when required, and make sure other lanes are safe too. Confirm exact wording in the Official Florida Driver License Handbook."
+        "explanation": "Let the pedestrian go first; slow down or stop if needed. Now change one detail: if a working signal gives the pedestrian WALK, or a sign requires a stop for this crossing, you must stop and remain stopped to let the person cross in the same situation. The painted stripes alone do not tell you which rule applies.",
+        "condition": "For this question, there is no working traffic signal or sign requiring a stop. The pedestrian is already crossing on your half of the road.",
+        "source": {
+          "label": "Florida Statutes: 316.130(7)(a)-(c)",
+          "url": "https://flsenate.gov/Laws/Statutes/2026/0316.130"
+        }
       },
       {
         "q": "In Florida, at a stop sign, what should you do?",
@@ -20864,7 +20874,12 @@
         ],
         "answer": 0,
         "category": "Pedestrians",
-        "explanation": "Slow early, yield when required, and make sure other lanes are safe too. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "explanation": "Let the pedestrian cross first and stop if needed. With no working signal, the same rule applies at a painted crosswalk and at an unmarked one at an intersection. Do not pass a vehicle that has stopped to let someone cross; it may block your view of the person.",
+        "condition": "There is no working traffic signal, and the pedestrian is already crossing within the painted lines.",
+        "source": {
+          "label": "PennDOT Driver's Manual: Pedestrians and stopped vehicles",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/special-circumstances-and-emergencies"
+        }
       },
       {
         "q": "In Pennsylvania, at a stop sign, what should you do?",
@@ -20941,7 +20956,12 @@
         ],
         "answer": 0,
         "category": "Pedestrians",
-        "explanation": "Drivers must watch for and yield to pedestrians where the law gives them the right of way. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "explanation": "This is still a crosswalk even without painted stripes. With no working signal, yield just as you would at a marked crosswalk: slow down and stop if needed to let the person cross safely. Do not use the lack of paint as a reason to go first.",
+        "condition": "There is no working traffic signal at this intersection.",
+        "source": {
+          "label": "PennDOT Driver's Manual: Right of way at intersections",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/everyday-driving-skills/negotiating-intersections"
+        }
       },
       {
         "q": "What does a red curb usually mean?",
@@ -21701,7 +21721,12 @@
         ],
         "answer": 0,
         "category": "Pedestrians",
-        "explanation": "Slow early, yield when required, and make sure other lanes are safe too. Confirm exact wording in the New Jersey Driver Manual."
+        "explanation": "Here, yielding means making a full stop; slowing alone is not enough. At this marked crosswalk, remain stopped while the person is on or within one lane of your half of the road. An unmarked intersection crossing has a yield rule instead, which can still require a stop.",
+        "condition": "No signal or officer is controlling this crossing. The pedestrian is already crossing on your half of the road.",
+        "source": {
+          "label": "New Jersey Department of Transportation: Pedestrian safety rules",
+          "url": "https://nj.gov/transportation/commuter/pedsafety/responsibility.shtm"
+        }
       },
       {
         "q": "In New Jersey, at a stop sign, what should you do?",
@@ -21778,7 +21803,12 @@
         ],
         "answer": 0,
         "category": "Pedestrians",
-        "explanation": "Drivers must watch for and yield to pedestrians where the law gives them the right of way. Confirm exact wording in the New Jersey Driver Manual."
+        "explanation": "Yield and stop if needed to let the pedestrian cross safely. The lack of paint does not remove their right of way at this intersection. At a marked crossing, New Jersey's stop-and-stay-stopped rule applies when a person is crossing on or within one lane of your half of the road.",
+        "condition": "No signal or officer controls the crossing, and no sign prohibits crossing here.",
+        "source": {
+          "label": "New Jersey Department of Transportation: Pedestrian safety rules",
+          "url": "https://nj.gov/transportation/commuter/pedsafety/responsibility.shtm"
+        }
       },
       {
         "q": "What does a red curb usually mean?",
