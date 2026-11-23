@@ -21,9 +21,55 @@ const cases = {
     [36, /disabled car on the shoulder/, /below the posted limit/, /with hazard lights is covered/, "pub.njleg.state.nj.us"],
   ],
 };
+const brakingCases = [
+  ["florida-dmv", "mock", 21, "www.flhsmv.gov"],
+  ["pennsylvania-dmv", "quick", 12, "www.pa.gov"],
+  ["pennsylvania-dmv", "mock", 11, "www.pa.gov"],
+  ["new-jersey-mvc", "quick", 9, "www.nj.gov"],
+];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
+
+for (const [state, mode, index, sourceHost] of brakingCases) {
+  test(`${state} ${mode} gives the braking condition before the learner answers`, async () => {
+    const context = await browser.newContext({ viewport: { width: 320, height: 900 } });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const url = pathToFileURL(path.join(__dirname, "..", `${state}-permit-practice-test.html`));
+      url.searchParams.set("mode", mode);
+      await page.goto(url.href);
+      const quiz = page.locator(`[data-mode-panel=${mode}].is-active [data-quiz]`);
+      await quiz.getByRole("button", { name: `Go to question ${index}`, exact: true }).click();
+      const question = quiz.locator(".question.is-active");
+      const condition = question.locator("[data-quiz-condition]");
+      assert.equal(await condition.isVisible(), true);
+      assert.match(await condition.textContent(), /conventional (?:disc or drum )?brakes/i);
+      const descriptionId = await condition.getAttribute("id");
+      assert.equal(await question.locator("h3").getAttribute("aria-describedby"), descriptionId);
+      assert.equal(await page.locator(`[id="${descriptionId}"]`).count(), 1);
+      assert.equal(await condition.evaluate((note) => note.nextElementSibling.classList.contains("choices")), true);
+      const source = question.locator("[data-quiz-source] a");
+      assert.equal(await source.isVisible(), false);
+      const correct = question.getByRole("button", { name: /^Pump the brakes, shift lower/ });
+      assert.equal(await correct.getAttribute("data-choice"), await question.getAttribute("data-answer"));
+      await correct.press("Enter");
+      const feedback = question.locator(".feedback");
+      assert.match(await feedback.textContent(), /^Correct\..*working .*ABS/i);
+      assert.match(await feedback.textContent(), /steady pressure|continuous pressure/i);
+      assert.equal(await source.isVisible(), true);
+      const href = new URL(await source.getAttribute("href"));
+      assert.equal(href.protocol, "https:");
+      assert.equal(href.hostname, sourceHost);
+      await feedback.press("Tab");
+      assert.equal(await source.evaluate((link) => document.activeElement === link), true);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+    } finally {
+      await context.close();
+    }
+  });
+}
 
 for (const width of [390, 1280]) {
   for (const [state, questions] of Object.entries(cases)) {
@@ -40,7 +86,7 @@ for (const width of [390, 1280]) {
         const quiz = page.locator("[data-mode-panel=mock].is-active [data-quiz]");
         assert.equal(await quiz.getAttribute("data-pass-score"), "32");
         assert.equal(await quiz.locator(".question").count(), 40);
-        assert.equal(await quiz.locator("[data-quiz-source]").count(), 3);
+        assert.equal(await quiz.locator("[data-quiz-source]").count(), state === "new-jersey-mvc" ? 3 : 4);
         for (const [question, prompt, answer, explanation, sourceHost] of questions) {
           await quiz.getByRole("button", { name: `Go to question ${question}`, exact: true }).click();
           const active = quiz.locator(".question.is-active");

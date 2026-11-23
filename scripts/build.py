@@ -1234,7 +1234,9 @@ def dmv_daily_question_records():
     for state, label, bank, prefix in sourced_sets:
         plan.extend(
             (state, label, bank, index, f"{prefix}-permit-practice-test.html#practice")
-            for index, question in enumerate(DATA["quizzes"][bank]) if question.get("source")
+            for index, question in enumerate(DATA["quizzes"][bank])
+            # Daily cards only render the prompt, not an extra scenario condition.
+            if question.get("source") and not question.get("condition")
         )
     other_labels = {
         "texas": "Check Texas learner-license rules",
@@ -2822,7 +2824,14 @@ def render_quiz(quiz_key, options=None):
         image_id = f"quiz-art-{mode_id}-{index + 1}"
         visual = render_sign_visual(q, image_id)
         visual_block = f"\n  {visual}" if visual else ""
-        visual_description = f' aria-describedby="{esc(image_id)}"' if visual else ""
+        description_ids = [image_id] if visual else []
+        condition = q.get("condition")
+        condition_id = f"quiz-condition-{mode_id}-{index + 1}"
+        condition_block = ""
+        if condition:
+            description_ids.append(condition_id)
+            condition_block = f'\n  <p id="{esc(condition_id)}" data-quiz-condition>{esc(condition)}</p>'
+        question_description = f' aria-describedby="{esc(" ".join(description_ids))}"' if description_ids else ""
         choices = "".join(
             f'<button type="button" data-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(q["choices"])
@@ -2838,7 +2847,7 @@ def render_quiz(quiz_key, options=None):
         )
         cards.append(f"""<article class="question" data-question-index="{index}" data-answer="{q["answer"]}" data-category="{esc(category)}"{concept_attr}{sheet_attr}{flashcard_attr} data-prompt="{esc(q["q"])}" data-explanation="{esc(q["explanation"])}">
   <p class="question-meta">Category: {esc(category)}</p>{visual_block}
-  <h3{visual_description}>{index + 1}. {esc(q["q"])}</h3>
+  <h3{question_description}>{index + 1}. {esc(q["q"])}</h3>{condition_block}
   <div class="choices">{choices}</div>
   <p class="feedback" aria-live="polite"></p>{source_link}
 </article>""")

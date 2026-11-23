@@ -19026,7 +19026,12 @@
         ],
         "answer": 0,
         "category": "Emergencies",
-        "explanation": "Pump the brakes if appropriate, downshift if possible, and steer toward a safe place to stop. Confirm exact wording in the Official Florida Driver License Handbook."
+        "condition": "The brake pedal has sunk and the older car's conventional brakes have lost pressure. This is not an emergency stop with working anti-lock brakes (ABS).",
+        "explanation": "For the loss of pressure described here, downshift if possible, try to regain pressure, and keep looking for a safe place to stop. Do not carry the pumping advice over to an emergency stop with working four-wheel ABS: Florida's handbook says to brake hard, hold steady pressure, and steer out of danger.",
+        "source": {
+          "label": "Florida driver handbook: Emergency Braking (page 78)",
+          "url": "https://www.flhsmv.gov/pdf/handbooks/englishdriverhandbook.pdf"
+        }
       },
       {
         "q": "A flashing red traffic light means:",
@@ -20255,7 +20260,12 @@
         ],
         "answer": 0,
         "category": "Emergencies",
-        "explanation": "Pump the brakes if appropriate, downshift if possible, and steer toward a safe place to stop. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "condition": "You are in an older car with conventional brakes, and they have suddenly lost pressure.",
+        "explanation": "PennDOT distinguishes this failure from an emergency stop with working anti-lock brakes (ABS). In this older vehicle, a lower gear helps slow the car, and quickly pumping the pedal may rebuild pressure while you look for a safe place to stop. With working ABS during a sudden stop, maintain firm, continuous pressure instead.",
+        "source": {
+          "label": "PennDOT manual: braking and brake failure",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/special-circumstances-and-emergencies"
+        }
       },
       {
         "q": "A flashing red traffic light means:",
@@ -20687,7 +20697,12 @@
         ],
         "answer": 0,
         "category": "Emergencies",
-        "explanation": "Pump the brakes if appropriate, downshift if possible, and steer toward a safe place to stop. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "condition": "You are in an older car with conventional brakes, and they have suddenly lost pressure.",
+        "explanation": "PennDOT distinguishes this failure from an emergency stop with working anti-lock brakes (ABS). In this older vehicle, a lower gear helps slow the car, and quickly pumping the pedal may rebuild pressure while you look for a safe place to stop. With working ABS during a sudden stop, maintain firm, continuous pressure instead.",
+        "source": {
+          "label": "PennDOT manual: braking and brake failure",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/special-circumstances-and-emergencies"
+        }
       },
       {
         "q": "A flashing red traffic light means:",
@@ -21110,7 +21125,12 @@
         ],
         "answer": 0,
         "category": "Emergencies",
-        "explanation": "Pump the brakes if appropriate, downshift if possible, and steer toward a safe place to stop. Confirm exact wording in the New Jersey Driver Manual."
+        "condition": "This scenario is a sudden failure of conventional disc or drum brakes, not hard braking with working anti-lock brakes (ABS).",
+        "explanation": "The New Jersey manual describes downshifting and pumping the pedal to try to rebuild pressure when conventional brakes fail. Keep control and look for a safe place to stop off the road. In a hard stop with working ABS, keep steady pressure on the pedal instead of pumping.",
+        "source": {
+          "label": "New Jersey driver manual: Proper Braking and Vehicle Failure",
+          "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
+        }
       },
       {
         "q": "A flashing red traffic light means:",
