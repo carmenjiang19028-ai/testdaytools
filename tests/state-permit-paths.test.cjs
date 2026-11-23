@@ -67,8 +67,11 @@ for (const width of [320, 1280]) {
       }
       assert.equal(await lesson.getByRole("link", { name: /20-217/ }).getAttribute("href"),
         "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_20/GS_20-217.html");
-      assert.equal(await lesson.getByRole("link", { name: /Stop Law diagrams/ }).getAttribute("href"),
-        "https://www.ncdot.gov/dmv/license-id/driver-licenses/school-bus/Documents/school-bus-stop-law-card.pdf");
+      const handbook = lesson.getByRole("link", { name: /Driver Handbook: School Bus Stopping Rules.*printed p\. 48/ });
+      assert.equal(await handbook.count(), 1);
+      assert.equal(await handbook.getAttribute("href"),
+        "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Documents/nc-driver-handbook.pdf#page=50");
+      assert.equal(await lesson.locator('a[href*="school-bus-stop-law-card.pdf"]').count(), 0);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       if (process.env.VERIFY_SCREENSHOTS_DIR) {
         fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
