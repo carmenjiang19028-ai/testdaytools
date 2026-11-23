@@ -77,9 +77,6 @@ class StaticBuildTest(unittest.TestCase):
         listed = [node.text for node in sitemap.findall("s:url/s:loc", ns)]
         expected = set()
         for page in build.ROOT.glob("*.html"):
-            if page.name == "road-sign-learning-loop.html":
-                # The independently maintained lab keeps its existing listing policy.
-                continue
             meta = PageMetadata()
             meta.feed(page.read_text())
             url = build.url_for("/" if page.name == "index.html" else f"/{page.name}")
@@ -88,6 +85,15 @@ class StaticBuildTest(unittest.TestCase):
                 expected.add(url)
         self.assertEqual(len(listed), len(set(listed)))
         self.assertEqual(set(listed), expected)
+
+    def test_sitemap_dates_the_existing_contrast_lab(self):
+        sitemap = ElementTree.parse(build.ROOT / "sitemap.xml")
+        entries = [
+            entry for entry in sitemap.findall("./{*}url")
+            if entry.findtext("{*}loc") == build.url_for("/road-sign-learning-loop.html")
+        ]
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].findtext("{*}lastmod"), "2026-11-24")
 
     def test_sitemap_pages_link_to_existing_internal_files_and_anchors(self):
         site = urlsplit(build.SITE["url"])

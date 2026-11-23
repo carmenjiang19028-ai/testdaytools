@@ -74,6 +74,7 @@ ROAD_SIGN_FLASHCARDS_PAGE = {
 TOOL_BY_SLUG[ROAD_SIGN_FLASHCARDS_SLUG] = ROAD_SIGN_FLASHCARDS_PAGE
 ROAD_SIGN_CHEAT_SHEET_SLUG = "dmv-road-signs-cheat-sheet"
 ROAD_SIGN_PICTURE_SLUG = "road-signs-practice-test"
+ROAD_SIGN_LEARNING_LOOP_SLUG = "road-sign-learning-loop"
 ROAD_SIGN_PICTURE_PREVIEW = "assets/road-signs-practice-test-preview.png"
 ROAD_SIGN_CHEAT_SHEET_PAGE = {
     "slug": ROAD_SIGN_CHEAT_SHEET_SLUG,
@@ -327,7 +328,7 @@ def render_contrast_lessons():
 
 def write_contrast_lessons(output=None):
     output = output or write
-    filename = "road-sign-learning-loop.html"
+    filename = f"{ROAD_SIGN_LEARNING_LOOP_SLUG}.html"
     text = (ROOT / filename).read_text()
     start, end = "<!-- CORE MATERIAL LESSONS START -->", "<!-- CORE MATERIAL LESSONS END -->"
     if text.count(start) != 1 or text.count(end) != 1:
@@ -381,6 +382,8 @@ def lastmod_for_path(path):
     if path == "/":
         return format_lastmod(DATA.get("home", {}).get("lastUpdated", SITE["lastUpdated"]))
     slug = path.strip("/").removesuffix(".html")
+    if slug == ROAD_SIGN_LEARNING_LOOP_SLUG:
+        return format_lastmod("November 24, 2026")
     if slug in TOOL_BY_SLUG:
         return format_lastmod(TOOL_BY_SLUG[slug].get("lastUpdated", SITE["lastUpdated"]))
     for hub in HUBS:
@@ -5422,7 +5425,8 @@ def build(output=None):
     if publisher_id:
         output("ads.txt", f"google.com, {publisher_id}, DIRECT, f08c47fec0942fa0\n")
     output("index.html", render_home())
-    urls = {"/": lastmod_for_path("/")}
+    contrast_path = f"/{ROAD_SIGN_LEARNING_LOOP_SLUG}.html"
+    urls = {path: lastmod_for_path(path) for path in ("/", contrast_path)}
 
     def emit_page(slug, page):
         output(f"{slug}.html", page)

@@ -105,13 +105,12 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
                     self.assertEqual(len(worksheet_images), 8)
                     self.assertTrue(all(image.get("loading") == "lazy" for image in worksheet_images))
 
-    def test_existing_sitemap_keeps_63_pages_with_images_only_on_the_pilot(self):
+    def test_existing_sitemap_keeps_images_only_on_the_pilot(self):
         root = ElementTree.parse(build.ROOT / "sitemap.xml").getroot()
         ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "image": "http://www.google.com/schemas/sitemap-image/1.1"}
         entries = root.findall("s:url", ns)
-        self.assertEqual(len(entries), 63)
         urls = {entry.findtext("s:loc", namespaces=ns) for entry in entries}
-        self.assertEqual(len(urls), 63)
+        self.assertEqual(len(urls), len(entries))
         self.assertTrue({build.url_for(f"/{slug}.html") for slug in
                          ("skills-practice", "clerical-checking-practice", "filing-practice")}.issubset(urls))
         pilots = set()
