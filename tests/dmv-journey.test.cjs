@@ -51,6 +51,64 @@ async function finishRound(page, correctCount) {
 const getJourney = (page) => page.evaluate((key) => JSON.parse(localStorage.getItem(key)), journeyKey);
 const passes = (page) => page.locator(`${dashboard} [data-journey-step="passes"] [data-journey-step-status]`);
 
+test("mobile score and both document shortcuts follow the selected state despite stale checklist storage", () =>
+  withSite(390, async (page) => {
+    const home = origin + "/index.html";
+    await page.goto(home);
+    const readShortcuts = () => page.locator("[data-home-state-shortcut]").evaluateAll((links) =>
+      links.map((link) => new URL(link.href).searchParams.get("state")));
+    assert.deepEqual(await readShortcuts(), [null, null, null, null]);
+    await page.locator("[data-journey-state]").selectOption("new-york");
+    assert.deepEqual(await readShortcuts(), ["new-york", "new-york", "new-york", "new-york"]);
+    await page.evaluate(() => localStorage.setItem("tdt-dmv-test-day:last-state", "florida"));
+    await page.reload();
+    const score = page.locator(".pocket-tabs").getByRole("link", { name: "Score", exact: true });
+    await score.click();
+    await page.waitForLoadState("load");
+    const scoreUrl = new URL(page.url());
+    assert.equal(scoreUrl.searchParams.get("state"), "new-york");
+    assert.equal(scoreUrl.searchParams.get("source"), "home_pocket_tab");
+    assert.equal(scoreUrl.hash, "#score-calculator");
+    assert.equal(await page.locator("[data-score-state]").inputValue(), "new-york");
+    assert.match(await page.locator("[data-score-rule]").textContent(), /14 correct out of 20.*at least 2 road-sign/);
+    for (const [selector, name] of [[".pocket-tabs", "Docs"], [".home-bottom-nav", "Checklist"]]) {
+      await page.goto(home);
+      await page.locator(selector).getByRole("link", { name, exact: true }).click();
+      await page.waitForLoadState("load");
+      assert.equal(new URL(page.url()).hash, "#dmv-checklist");
+      assert.equal(await page.locator("[data-dmv-checklist-state]").inputValue(), "new-york");
+    }
+  }));
+
+test("the desktop checklist preview changes on state switch and preserves explicit Florida links", () =>
+  withSite(1280, async (page) => {
+    await page.goto(origin + "/index.html");
+    const state = page.locator("[data-journey-state]");
+    await state.selectOption("new-york");
+    await state.selectOption("california");
+    const link = page.locator("#state-paths-preview").getByRole("link", { name: "Checklist", exact: true });
+    assert.match(await link.getAttribute("href"), /\?state=california#dmv-checklist$/);
+    const florida = page.getByRole("link", { name: "Florida regulatory signs", exact: true });
+    assert.equal(await florida.getAttribute("href"), "florida-dmv-road-signs-practice.html");
+    await link.click();
+    await page.waitForLoadState("load");
+    assert.equal(await page.locator("[data-dmv-checklist-state]").inputValue(), "california");
+  }));
+
+test("a current homepage selection still routes correctly when browser storage is unavailable", () =>
+  withSite(390, async (page) => {
+    await page.addInitScript(() => {
+      for (const method of ["getItem", "setItem"]) {
+        Storage.prototype[method] = () => { throw new Error("Storage is unavailable"); };
+      }
+    });
+    await page.goto(origin + "/index.html");
+    await page.locator("[data-journey-state]").selectOption("new-york");
+    await page.locator(".pocket-tabs").getByRole("link", { name: "Docs", exact: true }).click();
+    await page.waitForLoadState("load");
+    assert.equal(await page.locator("[data-dmv-checklist-state]").inputValue(), "new-york");
+  }));
+
 for (const width of [390, 1280]) {
   test(`${width}px: only this state's full mixed practice advances the readiness path`, () =>
     withSite(width, async (page) => {

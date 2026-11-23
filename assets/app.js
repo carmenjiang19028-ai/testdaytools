@@ -2047,6 +2047,10 @@ function initDmvJourneyDashboards() {
     const reviewTitle = dashboard.querySelector("[data-journey-review-title]");
     const reviewCopy = dashboard.querySelector("[data-journey-review-copy]");
     const reviewLink = dashboard.querySelector("[data-journey-review-link]");
+    const homeShortcuts = Array.from(document.querySelectorAll("[data-home-state-shortcut]"), (link) => ({
+      link, destination: link.getAttribute("href"),
+    }));
+    let selectedHere = false;
     const steps = Object.fromEntries(
       Array.from(dashboard.querySelectorAll("[data-journey-step]")).map((step) => [step.dataset.journeyStep, step]),
     );
@@ -2097,6 +2101,15 @@ function initDmvJourneyDashboards() {
       if (!option) return;
       const state = option.value;
       const stateLabel = option.dataset.label || option.textContent.trim();
+      homeShortcuts.forEach(({ link, destination }) => {
+        if (!selectedHere && journey.state !== state) {
+          link.setAttribute("href", destination);
+          return;
+        }
+        const target = new URL(destination, window.location.href);
+        target.searchParams.set("state", state);
+        link.setAttribute("href", destination.split(/[?#]/, 1)[0] + target.search + target.hash);
+      });
       const today = journey.days[localDayStamp()] || { answered: 0, correct: 0, sessions: 0 };
       const answeredToday = Number(today.answered) || 0;
       const correctToday = Number(today.correct) || 0;
@@ -2222,6 +2235,7 @@ function initDmvJourneyDashboards() {
     };
 
     stateSelect?.addEventListener("change", () => {
+      selectedHere = true;
       setDmvJourneyState(stateSelect.value);
       render();
       trackToolEvent("study_state_change", { state: stateSelect.value, surface: "journey_dashboard" });

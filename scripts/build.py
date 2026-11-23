@@ -1476,22 +1476,21 @@ def render_home_road_sign_panel():
 
 def render_home_pocket_tabs():
     tabs = [
-        ("Signs", "road-signs-practice-test.html?mode=road-signs-core#practice"),
-        ("State", "#state-paths"),
-        ("Score", "dmv-permit-test-passing-score-calculator.html?source=home_pocket_tab#score-calculator"),
-        ("Docs", "dmv-test-day-checklist.html?state=florida#dmv-checklist"),
+        ("Signs", "road-signs-practice-test.html?mode=road-signs-core#practice", False),
+        ("State", "#state-paths", False),
+        ("Score", "dmv-permit-test-passing-score-calculator.html?source=home_pocket_tab#score-calculator", True),
+        ("Docs", "dmv-test-day-checklist.html#dmv-checklist", True),
     ]
     items = []
-    for index, (label, href) in enumerate(tabs):
+    for index, (label, href, follows_state) in enumerate(tabs):
         current = ' aria-current="page"' if index == 0 else ""
-        items.append(f'<a href="{esc(href)}"{current}>{esc(label)}</a>')
+        shortcut = " data-home-state-shortcut" if follows_state else ""
+        items.append(f'<a href="{esc(href)}"{current}{shortcut}>{esc(label)}</a>')
     return f'<nav class="pocket-tabs" aria-label="Fast DMV tool shortcuts">{"".join(items)}</nav>'
 
 
 def render_home_state_preview():
-    state = find_dmv_state_by_label("Florida") or {}
-    checklist = checklist_href_for_state(state) if state else "dmv-test-day-checklist.html?state=florida#dmv-checklist"
-    return f"""<section class="home-state-preview" id="state-paths-preview">
+    return """<section class="home-state-preview" id="state-paths-preview">
   <div>
     <span>Choose your state DMV path</span>
     <h2>Pictures first. State next.</h2>
@@ -1500,7 +1499,7 @@ def render_home_state_preview():
   <div class="home-state-preview-actions">
     <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs pictures</a>
     <a href="dmv-practice.html#state-paths">Choose your state</a>
-    <a href="{esc(checklist)}">Checklist</a>
+    <a href="dmv-test-day-checklist.html#dmv-checklist" data-home-state-shortcut>Checklist</a>
     <a href="dmv-permit-test-requirements-by-state.html">Official rules</a>
   </div>
 </section>"""
@@ -1508,16 +1507,17 @@ def render_home_state_preview():
 
 def render_home_bottom_nav():
     links = [
-        ("Home", "index.html"),
-        ("Road Signs", "road-signs-practice-test.html"),
-        ("Practice", "dmv-practice.html"),
-        ("Checklist", "dmv-test-day-checklist.html?state=florida#dmv-checklist"),
-        ("More", "#state-paths"),
+        ("Home", "index.html", False),
+        ("Road Signs", "road-signs-practice-test.html", False),
+        ("Practice", "dmv-practice.html", False),
+        ("Checklist", "dmv-test-day-checklist.html#dmv-checklist", True),
+        ("More", "#state-paths", False),
     ]
     items = []
-    for index, (label, href) in enumerate(links):
+    for index, (label, href, follows_state) in enumerate(links):
         current = ' aria-current="page"' if index == 0 else ""
-        items.append(f'<a href="{esc(href)}"{current}>{esc(label)}</a>')
+        shortcut = " data-home-state-shortcut" if follows_state else ""
+        items.append(f'<a href="{esc(href)}"{current}{shortcut}>{esc(label)}</a>')
     return f'<nav class="home-bottom-nav" aria-label="Mobile DMV shortcuts">{"".join(items)}</nav>'
 
 
@@ -3340,7 +3340,7 @@ def render_home_tool_roles():
     )
     return f"""<section class="hub-primary home-tool-roles">
   <h2>Choose the right DMV road-sign tool</h2>
-  <p class="section-intro">Each road-sign page has a different job, so the Florida page can stay the main state-specific path while the other tools support recognition, rules, and review.</p>
+  <p class="section-intro">Use picture practice to see what you miss, then choose your state for exam rules and test-day requirements.</p>
   <div class="hub-action-grid">{items}</div>
 </section>"""
 
