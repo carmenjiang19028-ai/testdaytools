@@ -75,14 +75,26 @@
 .contrast-transfer summary { cursor: pointer; font-weight: 700; line-height: 1.5; }
 .contrast-source { font-size: 14px; }
 .material-links { padding-left: 22px; line-height: 1.8; }
+.online-classroom-worksheet { scroll-margin-top: 96px; }
+.online-classroom-worksheet :is(.worksheet-intro, .worksheet-part, .worksheet-next, .worksheet-sources) { max-width: 54rem; }
+.worksheet-part { border-top: 1px solid var(--line); padding: 10px 0; }
+.worksheet-part summary { min-height: 44px; padding: 10px 4px; cursor: pointer; font-weight: 700; }
+.worksheet-part summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.worksheet-part details p { margin: 4px 0 12px; }
+.worksheet-pictures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; padding: 0; list-style: none; }
+.worksheet-pictures img { display: block; width: min(100%, 160px); height: auto; }
+.worksheet-decisions > li { margin-bottom: 20px; }
+.worksheet-decisions > li > p { margin-bottom: 4px; }
+.worksheet-sources { font-size: 0.9rem; }
 @media (max-width: 680px) {
   .shape-page .sign-lookup-grid { grid-template-columns: minmax(0, 1fr); }
   .shape-page .shape-lookup-card { grid-template-columns: 108px minmax(0, 1fr); }
   .contrast-lesson-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .sign-recall-grid { grid-template-columns: minmax(0, 1fr); }
+  .sign-recall-grid, .worksheet-pictures { grid-template-columns: minmax(0, 1fr); }
   .contrast-scene { padding: 12px; }
   .contrast-lesson h3 { font-size: 20px; }
   .contrast-lesson, .speed-sign-lesson, .shape-crossing-drill, .state-sign-lesson { scroll-margin-top: 160px; }
+  .online-classroom-worksheet { scroll-margin-top: 180px; }
 }
 @media print {
   .contrast-lesson { break-inside: avoid; }

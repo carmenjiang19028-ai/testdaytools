@@ -1,3 +1,4 @@
+import html
 import json
 import unittest
 from pathlib import Path
@@ -6,13 +7,15 @@ from xml.etree import ElementTree as ET
 from pypdf import PdfReader
 from scripts.build import (
     DATA, SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
-    render_contrast_lessons, render_crossing_shape_drill, render_passing_sign_drill, road_sign_group_practice_href, url_for,
+    render_contrast_lessons, render_crossing_shape_drill, render_online_classroom_worksheet,
+    render_passing_sign_drill, road_sign_group_practice_href, url_for,
 )
 from scripts.build_road_sign_classroom_pack import (
     CLASSROOM_SIGNS, DECISION_CASES, DECISION_REVIEWED, FHWA_FLAGGER_URL,
     PENNDOT_SIGNS_URL, TRANSFER_KEY, TRANSFER_PROMPT,
 )
 from scripts.road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL
+from scripts.road_sign_classroom_content import RECOGNITION_ITEMS
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -257,21 +260,31 @@ class CoreMaterialTests(unittest.TestCase):
 
     def test_classroom_student_and_teacher_pages_match_decision_cases(self):
         pdf = PdfReader(ROOT / "dmv-road-signs-classroom-worksheet.pdf")
+        online = html.unescape(render_online_classroom_worksheet())
         student, teacher = [" ".join(pdf.pages[index].extract_text().split()) for index in (1, 2)]
         self.assertIn(f"DECISION EDITION {DECISION_REVIEWED}", student)
         self.assertIn(f"DECISION EDITION {DECISION_REVIEWED}", teacher)
         self.assertEqual([answer for _, _, answer, _ in DECISION_CASES], [1, 0, 2, 0, 1, 0, 2, 1])
+        for number, (_, image, name, action) in enumerate(RECOGNITION_ITEMS, 1):
+            self.assertIn(f"{number}. {name} {action}", teacher)
+            self.assertIn(f'{image}-road-sign.svg"', online)
+            self.assertIn(f'<strong>{name}</strong>. {action}', online)
         for number, (prompt, choices, answer, reason) in enumerate(DECISION_CASES, 1):
             with self.subTest(number=number):
                 self.assertIn(prompt, student)
+                self.assertIn(prompt, online)
                 self.assertEqual(len(set(choices)), 3)
                 for letter, choice in zip("ABC", choices):
                     self.assertIn(f"{letter}. {choice}", student)
+                    self.assertIn(f"<li>{choice}</li>", online)
                 self.assertIn(f"{number}. {'ABC'[answer]} - {reason}", teacher)
+                self.assertIn(f"<strong>{'ABC'[answer]}. {choices[answer]}</strong> {reason}", online)
                 self.assertNotIn(reason, student)
         self.assertIn(TRANSFER_PROMPT, student)
         self.assertIn(TRANSFER_KEY, teacher)
         self.assertNotIn(TRANSFER_KEY, student)
+        self.assertIn(TRANSFER_PROMPT, online)
+        self.assertIn(TRANSFER_KEY, online)
         self.assertIn("meaning and action are both correct", teacher)
         self.assertIn("Score 1 point for each correct choice", teacher)
 

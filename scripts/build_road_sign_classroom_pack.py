@@ -23,8 +23,10 @@ from reportlab.platypus import (
     TableStyle,
 )
 if __package__:
+    from . import road_sign_classroom_content as classroom
     from .road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL, practice_qr
 else:
+    import road_sign_classroom_content as classroom
     from road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL, practice_qr
 
 
@@ -39,75 +41,13 @@ GREEN = colors.HexColor("#176B51")
 RED = colors.HexColor("#C7312F")
 YELLOW = colors.HexColor("#F4C842")
 ORANGE = colors.HexColor("#F59E2E")
-CLASSROOM_SIGNS = {
-    "stop": "stop", "yield": "yield", "do-not-enter": "do-not-enter",
-    "speed-limit": "speed-limit", "merge": "merge", "school": "school-crossing",
-    "railroad": "railroad", "slippery": "slippery",
-}
-DECISION_REVIEWED = "2026-11-21"
-DECISION_CASES = [
-    (
-        "At STOP, you can see an empty intersection beyond the stop line. What comes first?",
-        ("Roll past the line while checking again.", "Stop before the line, then yield and proceed when safe.",
-         "Stop beyond the line where you have the best view."),
-        1, "A clear view changes the gap decision, not where or whether to stop.",
-    ),
-    (
-        "At YIELD, a pedestrian has started crossing your path. What should you do?",
-        ("Give way and stop if needed before proceeding.", "Keep rolling; only a STOP sign can require a full stop.",
-         "Stop for a fixed count, then enter even if the path stays blocked."),
-        0, "Giving way may require a stop. Counting seconds does not clear a conflict.",
-    ),
-    (
-        "A LANE ENDS warning and the markings show your lane will end. How should you prepare?",
-        ("Assume the warning only applies to traffic joining from a ramp.",
-         "Move across right away; the warning gives your lane priority.",
-         "Follow the markings and move into a safe gap."),
-        2, "Lane reduction means your lane ends, but the warning does not give you priority.",
-    ),
-    (
-        "A yellow-green diamond shows a person walking. People are near the crosswalk. What now?",
-        ("Slow, scan for crossing people, and be ready to yield.", "Treat the color alone as a school speed limit.",
-         "Stop at the warning sign itself, regardless of where the crossing is."),
-        0, "The symbol warns of pedestrians; the color alone does not set a speed limit.",
-    ),
-    (
-        "It is raining and you see SLIPPERY WHEN WET before a curve. What is the better response?",
-        ("Hold your speed until you feel the tires slip.", "Reduce speed before the curve and steer and brake smoothly.",
-         "Wait until you are turning, then brake firmly."),
-        1, "Slow before the curve. Sudden braking or steering on wet pavement can reduce control.",
-    ),
-    (
-        "You see a round railroad warning sign, but the tracks are not yet in view. What now?",
-        ("Look and listen for trains; prepare to stop and obey the crossing controls.",
-         "Wait for the tracks to come into view before you start checking.",
-         "Treat the round warning as the crossing itself."),
-        0, "The circle is an advance warning. Check before you reach the tracks.",
-    ),
-    (
-        "After an orange work-zone warning, a flagger faces you with a STOP paddle. What now?",
-        ("Proceed slowly if the lane looks open.",
-         "Stop briefly, then follow the previous vehicle without waiting for a signal.",
-         "Stop as directed and wait for the flagger to signal you through."),
-        2, "The orange sign warns; the flagger's paddle controls whether you may proceed.",
-    ),
-    (
-        "A red slash crosses a right-turn arrow. The light is green. May you turn right?",
-        ("Yes, if you yield first.", "No. Follow a permitted movement and choose another route.",
-         "Yes; the slash applies only while the light is red."),
-        1, "NO RIGHT TURN is not NO TURN ON RED. Green does not cancel the posted prohibition.",
-    ),
-]
-TRANSFER_PROMPT = (
-    "Now your lane continues, but a ramp joins from the right. What should you watch for, "
-    "and why does a MERGE warning not require you to leave your lane?"
-)
-TRANSFER_KEY = (
-    "Watch for joining traffic and leave space. The warning does not say that your lane ends; "
-    "use the actual lane markings and traffic conditions before changing lanes."
-)
-PENNDOT_SIGNS_URL = "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"
-FHWA_FLAGGER_URL = "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part6r1.pdf"
+CLASSROOM_SIGNS = classroom.CLASSROOM_SIGNS
+DECISION_CASES = classroom.DECISION_CASES
+DECISION_REVIEWED = classroom.DECISION_REVIEWED
+TRANSFER_PROMPT = classroom.TRANSFER_PROMPT
+TRANSFER_KEY = classroom.TRANSFER_KEY
+PENNDOT_SIGNS_URL = classroom.PENNDOT_SIGNS_URL
+FHWA_FLAGGER_URL = classroom.FHWA_FLAGGER_URL
 
 
 def register_fonts():
@@ -196,7 +136,7 @@ def build_document(image_dir, output):
     )
     story.append(Paragraph("Directions: Identify each sign, then write the safest driver action. Use the shape and color even when the words are small.", styles["Bodyx"]))
     story.append(Spacer(1, 8))
-    kinds = ["stop", "yield", "do-not-enter", "speed-limit", "merge", "school", "railroad", "slippery"]
+    kinds = list(CLASSROOM_SIGNS)
     rows = []
     for i in range(0, len(kinds), 2):
         rows.append([recognition_card(i + 1, kinds[i], image_dir), recognition_card(i + 2, kinds[i + 1], image_dir)])
@@ -272,14 +212,8 @@ def build_document(image_dir, output):
         f"Teacher / facilitator key - page 3 - decision edition {DECISION_REVIEWED}",
     )
     recognition = [
-        ("1. Stop", "Come to a complete stop, yield, then proceed when safe."),
-        ("2. Yield", "Slow and give right of way when another road user has priority."),
-        ("3. Do Not Enter", "Do not enter the roadway, ramp, or restricted direction."),
-        ("4. Speed Limit", "Do not exceed the posted legal maximum under normal conditions."),
-        ("5. Merge", "Expect joining traffic. Watch for conflicts and leave space; your lane might continue."),
-        ("6. School Crossing", "Slow, scan for children, and obey posted school-zone controls."),
-        ("7. Railroad Crossing Ahead", "Prepare for tracks and obey lights, gates, or a crossbuck."),
-        ("8. Slippery When Wet", "Reduce speed and avoid sudden steering or braking."),
+        (f"{number}. {name}", action)
+        for number, (_, _, name, action) in enumerate(classroom.RECOGNITION_ITEMS, 1)
     ]
     answer_cells = [[Paragraph(f"<b>{label}</b><br/>{text}", styles["Answer"]) for label, text in recognition[i:i + 2]] for i in range(0, 8, 2)]
     answer_table = Table(answer_cells, colWidths=[3.55 * inch, 3.55 * inch])

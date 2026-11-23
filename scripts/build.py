@@ -8,6 +8,11 @@ from urllib.parse import quote, urlencode
 from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
 
+if __package__:
+    from . import road_sign_classroom_content as classroom
+else:
+    import road_sign_classroom_content as classroom
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -3945,6 +3950,50 @@ def render_cheat_group_link(group):
     )
 
 
+def render_online_classroom_worksheet():
+    cards = {record["image"]: record for record in road_sign_flashcard_records()}
+    pictures = []
+    for number, (_, image, name, action) in enumerate(classroom.RECOGNITION_ITEMS, 1):
+        card = cards[image]
+        pictures.append(f"""<li>
+  <img src="{esc(road_sign_image_path(image))}" alt="{esc(card["cue"])}" width="220" height="160" loading="lazy">
+  <details><summary>Check sign {number}</summary><p><strong>{esc(name)}</strong>. {esc(action)}</p></details>
+</li>""")
+
+    decisions = []
+    for number, (prompt, options, answer, reason) in enumerate(classroom.DECISION_CASES, 1):
+        choices = "".join(f"<li>{esc(option)}</li>" for option in options)
+        letter = "ABC"[answer]
+        decisions.append(f"""<li>
+  <p><strong>{esc(prompt)}</strong></p>
+  <ol type="A">{choices}</ol>
+  <details><summary>Check decision {number}</summary><p><strong>{letter}. {esc(options[answer])}</strong> {esc(reason)}</p></details>
+</li>""")
+
+    return f"""<section class="content-section online-classroom-worksheet" id="online-worksheet" aria-labelledby="online-worksheet-title" tabindex="-1">
+  <h2 id="online-worksheet-title">Road signs worksheet: online self-check</h2>
+  <p class="worksheet-intro">The same student activity as the classroom PDF. This is practice, not a permit-test score.</p>
+  <details class="worksheet-part">
+    <summary>1. Name eight road signs</summary>
+    <p>For each picture, name the sign and say what you would do before checking the answer.</p>
+    <ol class="worksheet-pictures" role="list">{"".join(pictures)}</ol>
+  </details>
+  <details class="worksheet-part">
+    <summary>2. Make eight driving decisions</summary>
+    <p>Pick an action in each situation, then compare your reasoning with the answer.</p>
+    <ol class="worksheet-decisions">{"".join(decisions)}</ol>
+  </details>
+  <details class="worksheet-part">
+    <summary>3. Apply the rule to a different situation</summary>
+    <p>{esc(classroom.TRANSFER_PROMPT)}</p>
+    <details><summary>Check your reasoning</summary><p>{esc(classroom.TRANSFER_KEY)}</p></details>
+  </details>
+  <p class="worksheet-next"><a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Try the 10-question picture quiz</a></p>
+  <p class="worksheet-sources">Study references: <a href="{esc(classroom.PENNDOT_SIGNS_URL)}">PennDOT driver manual: signs</a> and
+  <a href="{esc(classroom.FHWA_FLAGGER_URL)}">FHWA flagger procedures (section 6D.05)</a>. See your state handbook for local rules.</p>
+</section>"""
+
+
 def render_road_sign_cheat_sheet_page():
     source_tool = TOOL_BY_SLUG["road-signs-practice-test"]
     groups = source_tool.get("signLibrary", {}).get("groups", [])
@@ -3978,6 +4027,7 @@ def render_road_sign_cheat_sheet_page():
         <a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Start 10 picture questions</a>
         <a href="dmv-road-sign-flashcards.html">Open flashcards</a>
       </div>
+      <a class="info-card-link" href="#online-worksheet">Use the online worksheet</a>
     </div>
     <aside class="tool-hero-panel" aria-label="Cheat sheet summary">
       <div class="panel-status"><span>Free resource</span><strong>No email required</strong></div>
@@ -4052,10 +4102,11 @@ def render_road_sign_cheat_sheet_page():
     <h2>Road signs worksheet and answer key</h2>
     <p>Use the three-page Letter PDF for an independent review, teen program, homeschool lesson, or driver-education warm-up. Students identify eight original sign illustrations, answer eight driver-action questions, and record the next weak area. Page three includes the answer key and a 10-minute teaching plan.</p>
     <ul>
-      <li>No student account, email, or personal data required.</li>
+      <li>No student account or email required.</li>
       <li>Original prompts and simplified illustrations.</li>
       <li>Unmodified sharing allowed for noncommercial education with credit.</li>
     </ul>
+    <a class="info-card-link" href="#online-worksheet">Use the online worksheet</a>
   </div>
   <div class="classroom-pack-action">
     <span>3-page US Letter PDF</span>
@@ -4063,6 +4114,7 @@ def render_road_sign_cheat_sheet_page():
     <a href="dmv-road-signs-classroom-worksheet.pdf" download data-resource-download="dmv_road_signs_classroom_worksheet_pdf">Download classroom pack</a>
   </div>
 </section>
+{render_online_classroom_worksheet()}
 <section class="content-section" id="educational-use-license">
   <h2>Permission for teachers, libraries, and families</h2>
   <p>Teachers, libraries, driving schools, families, and other noncommercial educators may print and share the unmodified PDF for noncommercial educational use when the TestDayTools credit and this page URL remain visible. Do not sell, rebrand, adapt, or include the resource in a paid product, and do not imply endorsement by a DMV or government agency.</p>

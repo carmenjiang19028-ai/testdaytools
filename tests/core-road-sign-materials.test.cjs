@@ -24,6 +24,63 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });
 after(async () => { await browser?.close(); });
 
+for (const width of [320, 1280]) {
+  test(`${width}px: classroom worksheet is usable by keyboard without scripts or a download`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'dmv-road-signs-cheat-sheet.html')).href);
+      const anchor = page.locator('.printable-resource-hero').getByRole('link', { name: 'Use the online worksheet' });
+      await anchor.press('Enter');
+      assert.equal(new URL(page.url()).hash, '#online-worksheet');
+      const sheet = page.locator('#online-worksheet');
+      const heading = await sheet.getByRole('heading', { level: 2 }).boundingBox();
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      const parts = sheet.locator('.worksheet-part');
+      assert.equal(await parts.count(), 3);
+      assert.equal(await sheet.locator('.worksheet-part[open]').count(), 0);
+      await page.keyboard.press('Tab');
+      assert.equal(await page.locator(':focus').innerText(), '1. Name eight road signs');
+      await page.keyboard.press('Space');
+      const pictures = sheet.locator('.worksheet-pictures > li');
+      assert.equal(await pictures.count(), 8);
+      const image = pictures.first().getByRole('img', { name: /Red octagon with the word STOP in white/ });
+      assert.equal(await image.isVisible(), true);
+      assert.equal(await image.evaluate(img => img.decode().then(() => img.naturalWidth > 0)), true);
+      const signReveal = pictures.first().getByText('Check sign 1', { exact: true });
+      assert.equal(await pictures.first().locator('details p').isVisible(), false);
+      await signReveal.press('Enter');
+      assert.match(await pictures.first().locator('details p').innerText(), /Come to a complete stop/);
+      await signReveal.press('Enter');
+      assert.equal(await pictures.first().locator('details p').isVisible(), false);
+      if (process.env.CLASSROOM_SHOTS) {
+        await page.screenshot({ path: path.join(process.env.CLASSROOM_SHOTS, `worksheet-${width}.png`) });
+      }
+      await parts.nth(1).locator(':scope > summary').press('Enter');
+      const decisions = sheet.locator('.worksheet-decisions > li');
+      assert.equal(await decisions.count(), 8);
+      assert.equal(await decisions.first().locator('ol[type="A"] > li').count(), 3);
+      await decisions.first().locator('summary').press('Space');
+      assert.match(await decisions.first().locator('details p').innerText(), /^B\. Stop before the line.*clear view/i);
+      await parts.nth(2).locator(':scope > summary').press('Enter');
+      await parts.nth(2).getByText('Check your reasoning', { exact: true }).press('Enter');
+      assert.match(await parts.nth(2).locator('details p').innerText(), /joining traffic and leave space/);
+      assert.equal(await sheet.getByRole('link', { name: /PennDOT/ }).isVisible(), true);
+      assert.equal(await sheet.getByRole('link', { name: /FHWA/ }).isVisible(), true);
+      assert.equal(await sheet.getByRole('link', { name: 'Try the 10-question picture quiz' }).getAttribute('href'),
+        'road-signs-practice-test.html?mode=road-signs-starter#practice');
+      assert.equal(await sheet.evaluate(el =>
+        [...el.querySelectorAll('summary,li,img')].every(node => node.getBoundingClientRect().right <= innerWidth)), true);
+      await page.emulateMedia({ media: 'print' });
+      assert.equal(await sheet.isVisible(), false);
+      assert.equal(await page.locator('#printable-sheet').isVisible(), true);
+      assert.equal(await page.locator('#printable-sheet .cheat-sign-card').count(), 31);
+    } finally { await context.close(); }
+  });
+}
+
 test('lettering stays inside its red field and above the Keep Right diagram', async () => {
   const context = await browser.newContext();
   await context.route(/^https?:/, route => route.abort());
