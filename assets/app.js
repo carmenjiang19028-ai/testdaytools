@@ -3529,11 +3529,31 @@ function initDmvChecklists() {
     const selectedOption = () => stateSelect?.selectedOptions?.[0];
     const selectedPackType = () => packType?.selectedOptions?.[0];
     const visiblePackItems = () => packItems.filter((item) => !item.closest("[data-dmv-pack-row]")?.hidden);
+    const isFirstPermit = () => ["first-permit", "minor"].includes(packType?.value);
+    const packDetail = (option, applicant) => isFirstPermit() && option?.dataset.firstPermitSourceUrl
+      ? "Use the official first-permit steps to confirm what to bring to the licensing center."
+      : applicant?.dataset.packDetail;
     const documentSource = (option = selectedOption()) => {
       if (packType?.value === "real-id" && option?.dataset.realIdUrl) {
         return { url: option.dataset.realIdUrl, label: "official REAL ID document requirements" };
       }
+      if (isFirstPermit() && option?.dataset.firstPermitSourceUrl) {
+        return { url: option.dataset.firstPermitSourceUrl, label: "official first-permit steps" };
+      }
       return { url: option?.dataset.manualUrl || "", label: option?.dataset.manualLabel || "official source" };
+    };
+    const itemLabel = (item) => item.closest("label")?.querySelector("strong")?.textContent || item.value;
+    const packSummaryLines = () => {
+      const visible = visiblePackItems();
+      const ready = visible.filter((item) => item.checked);
+      const open = visible.filter((item) => !item.checked);
+      return [
+        "Ready:",
+        ...(ready.length ? ready.map((item) => `- ${itemLabel(item)}`) : ["- Nothing marked ready yet"]),
+        "",
+        "Still to confirm:",
+        ...(open.length ? open.map((item) => `- ${itemLabel(item)}`) : ["- All visible document checks are marked ready"]),
+      ];
     };
 
     const preparePrintPlan = () => {
@@ -3553,14 +3573,14 @@ function initDmvChecklists() {
           box.className = "dmv-print-box";
           box.setAttribute("aria-hidden", "true");
           box.textContent = item.checked ? "X" : "";
-          row.append(box, item.closest("label")?.querySelector("strong")?.textContent || item.value);
+          row.append(box, itemLabel(item));
           return row;
         }));
         const ready = items.filter((item) => item.checked).length;
         setText(countName, `${ready} of ${items.length} marked ready`);
       };
       const applicant = selectedPackType();
-      const permitPath = !applicant || ["first-permit", "minor"].includes(applicant.value);
+      const permitPath = !applicant || isFirstPermit();
       setText("title", `${option.textContent.trim()} DMV test-day plan`);
       setText("format", permitPath ? option.dataset.format
         : "Use the permit-test checks only if your state requires a knowledge test for this visit.");
@@ -3575,7 +3595,7 @@ function initDmvChecklists() {
       const pack = field("pack");
       if (pack) pack.hidden = !documents.length;
       setText("pack-title", applicant?.textContent.trim() || "Document pack");
-      setText("pack-detail", applicant?.dataset.packDetail);
+      setText("pack-detail", packDetail(option, applicant));
       setItems("pack-items", "pack-count", documents);
       const notes = field("notes");
       if (notes) notes.hidden = !permitPath;
@@ -3629,7 +3649,7 @@ function initDmvChecklists() {
       if (score) score.textContent = `${percent}%`;
       if (message) {
         if (percent === 100) {
-          message.textContent = "Checklist complete. Do a calm final review, then use the official source for anything that changed.";
+          message.textContent = "Main checklist marked. Check your document pack and verify eligibility with the state.";
         } else if (percent >= 70) {
           message.textContent = "Close to ready. Finish the remaining logistics and weak-area checks before test day.";
         } else if (percent >= 35) {
@@ -3673,17 +3693,20 @@ function initDmvChecklists() {
       const typeOption = selectedPackType();
       const type = packType?.value || "default";
 
+      const inScope = (row) => !(row.dataset.excludedStates || "").split(" ").includes(option?.value)
+        && (row.dataset.scopes || "all").split(/\s+/).some((scope) => scope === "all" || scope === type);
+      const applicableOverrides = new Set(packRows.filter((row) =>
+        row.dataset.state && row.dataset.state === option?.value && inScope(row)));
+      const replaced = new Set(Array.from(applicableOverrides, (row) => row.dataset.replaces));
       packRows.forEach((row) => {
-        const scopes = (row.dataset.scopes || "all").split(/\s+/).filter(Boolean);
-        row.hidden = !(scopes.includes("all") || scopes.includes(type));
+        row.hidden = row.dataset.state ? !applicableOverrides.has(row) : !inScope(row) || replaced.has(row.dataset.itemId);
       });
 
       const visible = visiblePackItems();
-      const checked = visible.filter((item) => item.checked);
       const stateName = option?.textContent?.trim() || "selected state";
       const agency = option?.dataset.agency || "State agency";
       const typeLabel = typeOption?.textContent?.trim() || "selected path";
-      const typeDetail = typeOption?.dataset.packDetail || "Confirm the exact accepted documents with the official source.";
+      const typeDetail = packDetail(option, typeOption) || "Confirm the exact accepted documents with the official source.";
 
       if (packAgency) packAgency.textContent = agency;
       if (packTitle) packTitle.textContent = `${stateName} ${typeLabel}`;
@@ -3702,10 +3725,6 @@ function initDmvChecklists() {
           ? `Next document check: ${label}`
           : "All visible document checks are marked ready for this path.";
       }
-      checked.forEach((item) => {
-        const row = item.closest("[data-dmv-pack-row]");
-        if (row?.hidden) item.checked = false;
-      });
     };
 
     const updateState = () => {
@@ -3776,11 +3795,14 @@ function initDmvChecklists() {
         `Official source: ${documentSource(option).url}`,
         "",
         "Ready:",
-        ...(checked.length ? checked.map((check) => `- ${check.closest("label")?.querySelector("strong")?.textContent || check.value}`) : ["- Nothing marked ready yet"]),
+        ...(checked.length ? checked.map((check) => `- ${itemLabel(check)}`) : ["- Nothing marked ready yet"]),
         "",
         "Still to confirm:",
-        ...(open.length ? open.map((check) => `- ${check.closest("label")?.querySelector("strong")?.textContent || check.value}`) : ["- All checklist items are marked ready"]),
+        ...(open.length ? open.map((check) => `- ${itemLabel(check)}`) : ["- All checklist items are marked ready"]),
       ];
+      if (visiblePackItems().length) {
+        lines.push("", `Document pack: ${selectedPackType()?.textContent.trim() || "Selected path"}`, ...packSummaryLines());
+      }
       try {
         await navigator.clipboard.writeText(lines.join("\n"));
         copyButton.textContent = "Copied";
@@ -3827,19 +3849,11 @@ function initDmvChecklists() {
     copyPackButton?.addEventListener("click", async () => {
       const option = selectedOption();
       const typeLabel = selectedPackType()?.textContent?.trim() || "selected path";
-      const visible = visiblePackItems();
-      const checked = visible.filter((item) => item.checked);
-      const open = visible.filter((item) => !item.checked);
-      const labelFor = (item) => item.closest("label")?.querySelector("strong")?.textContent || item.value;
       const lines = [
         `DMV document pack: ${option?.textContent?.trim() || "selected state"} - ${typeLabel}`,
         `Official source: ${documentSource(option).url}`,
         "",
-        "Ready:",
-        ...(checked.length ? checked.map((item) => `- ${labelFor(item)}`) : ["- Nothing marked ready yet"]),
-        "",
-        "Still to confirm:",
-        ...(open.length ? open.map((item) => `- ${labelFor(item)}`) : ["- All visible document checks are marked ready"]),
+        ...packSummaryLines(),
       ];
       try {
         await navigator.clipboard.writeText(lines.join("\n"));

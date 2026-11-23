@@ -2217,7 +2217,7 @@ def render_dmv_checklist_widget(widget):
     states = widget.get("states", [])
     items = widget.get("items", [])
     options = "".join(
-        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-real-id-url="{esc(state.get("realIdUrl", ""))}" data-mixed-practice-url="{esc(dmv_mixed_practice(state).get("href", ""))}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}" data-agency="{esc(state.get("agency", "State agency"))}" data-documents="{esc(state.get("documents", ""))}" data-appointment="{esc(state.get("appointment", ""))}" data-retake="{esc(state.get("retake", ""))}">{esc(state["label"])}</option>'
+        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-real-id-url="{esc(state.get("realIdUrl", ""))}" data-first-permit-source-url="{esc(state.get("firstPermitSourceUrl", ""))}" data-mixed-practice-url="{esc(dmv_mixed_practice(state).get("href", ""))}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}" data-agency="{esc(state.get("agency", "State agency"))}" data-documents="{esc(state.get("documents", ""))}" data-appointment="{esc(state.get("appointment", ""))}" data-retake="{esc(state.get("retake", ""))}">{esc(state["label"])}</option>'
         for state in states
     )
     checklist_items = "".join(
@@ -2259,7 +2259,7 @@ def render_dmv_checklist_widget(widget):
         <a href="road-signs-practice-test.html#practice" data-dmv-sign-link>Road signs</a>
       </div>
       <div class="dmv-readiness-score">
-        <span>Readiness</span>
+        <span>Checklist marked</span>
         <strong data-dmv-ready-score>0%</strong>
         <p data-dmv-ready-message>Start by opening the official state source.</p>
       </div>
@@ -2318,14 +2318,24 @@ def render_dmv_document_pack(planner, states):
         f'<option value="{esc(item["id"])}" data-pack-detail="{esc(item["detail"])}">{esc(item["label"])}</option>'
         for item in planner.get("applicantTypes", [])
     )
-    document_items = []
-    for item in planner.get("items", []):
+    def render_item(item, state="", replaces=""):
         scopes = " ".join(item.get("scopes", ["all"]))
-        document_items.append(f"""<li data-dmv-pack-row data-scopes="{esc(scopes)}">
+        state_attrs = f' data-state="{esc(state)}" data-replaces="{esc(replaces)}" hidden' if state else ""
+        excluded_states = " ".join(item.get("excludeStates", []))
+        excluded_attr = f' data-excluded-states="{esc(excluded_states)}"' if excluded_states else ""
+        return f"""<li data-dmv-pack-row data-item-id="{esc(item["id"])}" data-scopes="{esc(scopes)}"{state_attrs}{excluded_attr}>
   <label><input type="checkbox" value="{esc(item["id"])}" data-dmv-pack-item>
     <span><strong>{esc(item["label"])}</strong><em>{esc(item["text"])}</em></span>
   </label>
-</li>""")
+</li>"""
+
+    document_items = []
+    for item in planner.get("items", []):
+        document_items.append(render_item(item))
+        document_items.extend(
+            render_item(override, state, item["id"])
+            for state, override in item.get("stateOverrides", {}).items()
+        )
     default_state = states[0] if states else {}
     default_source = default_state.get("manualUrl", "#")
     default_agency = default_state.get("agency", "State agency")

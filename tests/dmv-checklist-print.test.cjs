@@ -8,6 +8,7 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const origin = "http://testdaytools.test";
+const PA_PERMIT_SOURCE = "https://www.pa.gov/services/dmv/get-a-learners-permit";
 const REAL_ID_SOURCES = {
   california: "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/real-id/real-id-checklist/",
   "new-york": "https://dmv.ny.gov/driver-license/enhanced-or-real-id",
@@ -130,7 +131,8 @@ test("all seven states and four applicant paths stay on one Letter page", async 
         const eligible = await page.locator("[data-dmv-pack-item]:visible").count();
         const entries = inspectPdf(await page.pdf({ format: "Letter", preferCSSPageSize: true }));
         const caseName = `${label} /${name}`;
-        const source = id === "real-id" ? REAL_ID_SOURCES[state] : manual;
+        const source = id === "real-id" ? REAL_ID_SOURCES[state]
+          : state === "pennsylvania" && ["first-permit", "minor"].includes(id) ? PA_PERMIT_SOURCE : manual;
         assert.equal(await page.locator("[data-dmv-pack-official]").getAttribute("href"), source, caseName);
         assert.equal(await page.locator("[data-dmv-manual-link]").getAttribute("href"), manual, caseName);
         assert.equal(entries.length, 1, caseName);
@@ -143,6 +145,97 @@ test("all seven states and four applicant paths stay on one Letter page", async 
     }
   } finally { await context.close(); }
 });
+
+for (const width of [320, 1280]) {
+  test(`${width}px: Pennsylvania permit checks survive copy and print without inheriting old generic marks`, async () => {
+    const context = await localContext(width);
+    try {
+      const page = await context.newPage();
+      await page.addInitScript(() => {
+        window.copyResults = [];
+        Object.defineProperty(navigator, "clipboard", {
+          value: { writeText: async text => { window.copyResults.push(text); } },
+        });
+        if (!sessionStorage.getItem("test-seeded")) {
+          localStorage.setItem("tdt-dmv-document-pack:pennsylvania:first-permit", JSON.stringify({
+            checked: ["application-form", "ssn-evidence", "identity-date-birth"],
+          }));
+          localStorage.setItem("tdt-dmv-document-pack:pennsylvania:minor", JSON.stringify({
+            checked: ["application-form", "parent-consent", "identity-date-birth"],
+          }));
+          sessionStorage.setItem("test-seeded", "yes");
+        }
+      });
+      await page.goto(`${origin}/dmv-test-day-checklist.html?state=pennsylvania`);
+      const type = page.locator("[data-dmv-pack-type]");
+      const state = page.locator("[data-dmv-checklist-state]");
+      const pack = page.locator("#document-pack-builder");
+      const physical = pack.locator('input[value="pa-dl-180-physical"]');
+      const consent = pack.locator('input[value="pa-dl-180td-consent"]');
+      const social = pack.locator('input[value="pa-signed-social-security-card"]');
+      const identity = pack.locator('input[value="identity-date-birth"]');
+      assert.equal(await identity.isChecked(), true);
+      assert.equal(await physical.isVisible(), true);
+      assert.equal(await physical.isChecked(), false);
+      assert.equal(await social.isChecked(), false);
+      assert.equal(await consent.isVisible(), false);
+      assert.equal(await pack.locator('input[value="application-form"]').isVisible(), false);
+      for (const omitted of ["course-school-proof", "online-provider-record"]) {
+        assert.equal(await pack.locator(`input[value="${omitted}"]`).isVisible(), false);
+      }
+
+      await type.selectOption("minor");
+      assert.equal(await consent.isVisible(), true);
+      assert.equal(await consent.isChecked(), false);
+      assert.equal(await physical.isChecked(), false);
+      assert.equal(await identity.isChecked(), true);
+      assert.match(await consent.locator("xpath=..").innerText(), /examiner.*must sign before a notary/s);
+      await physical.check();
+      await page.reload();
+      await type.selectOption("minor");
+      assert.equal(await physical.isChecked(), true);
+      assert.equal(await consent.isChecked(), false);
+      for (const check of await page.locator("[data-dmv-check]").all()) await check.check();
+      assert.equal(await page.locator("[data-dmv-ready-score]").textContent(), "100%");
+      assert.match(await page.locator("[data-dmv-ready-message]").textContent(), /Check your document pack and verify eligibility/);
+      assert.equal(await consent.isChecked(), false);
+      assert.equal(await pack.locator("[data-dmv-pack-official]").getAttribute("href"), PA_PERMIT_SOURCE);
+      await page.locator("[data-dmv-copy-checklist]").click();
+      await pack.locator("[data-dmv-copy-pack]").click();
+      const copies = await page.evaluate(() => window.copyResults);
+      assert.equal(copies.length, 2);
+      for (const copy of copies) {
+        assert.match(copy, /Document pack: Under 18 applicant|DMV document pack: Pennsylvania - Under 18 applicant/);
+        assert.match(copy, /Ready:\n[^]*- DL-180 physical exam completed\n\nStill to confirm:[^]*DL-180TD: examiner or notary/);
+        assert.match(copy, /Signed Social Security card/);
+        assert.doesNotMatch(copy, /Course, school, or attendance proof|Online test or provider record/);
+      }
+      const [printed, ...extra] = inspectPdf(await page.pdf({ format: "Letter", preferCSSPageSize: true }));
+      assert.equal(extra.length, 0);
+      assert.deepEqual([...new Set(printed.links)], [PA_PERMIT_SOURCE]);
+      assert.match(printed.text, /X DL-180 physical exam completed/);
+      assert.match(printed.text, /DL-180TD: examiner or notary.*Get DL-180TD notarized if the signer cannot attend/is);
+      assert.doesNotMatch(printed.text, /Course, school, or attendance proof|Online test or provider record/);
+
+      await type.selectOption("first-permit");
+      assert.equal(await physical.isChecked(), false);
+      assert.equal(await consent.isVisible(), false);
+      await type.selectOption("real-id");
+      assert.equal(await physical.isVisible(), false);
+      assert.equal(await social.isVisible(), false);
+      assert.equal(await pack.locator('input[value="application-form"]').isVisible(), true);
+      await type.selectOption("minor");
+      await state.selectOption("new-york");
+      assert.equal(await physical.isVisible(), false);
+      assert.equal(await consent.isVisible(), false);
+      assert.equal(await pack.locator('input[value="parent-consent"]').isVisible(), true);
+      assert.equal(await pack.locator('input[value="online-provider-record"]').isVisible(), true);
+      await state.selectOption("pennsylvania");
+      assert.equal(await physical.isChecked(), true);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
 
 test("REAL ID copies the document link without carrying it into another path", async () => {
   const context = await localContext(320);
