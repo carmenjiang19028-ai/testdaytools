@@ -3421,6 +3421,26 @@ function initDmvChecklists() {
   });
 }
 
+function initSatReviewRecords() {
+  document.querySelectorAll("[data-sat-review-record]").forEach((widget) => {
+    const record = widget.querySelector("textarea");
+    const copy = widget.querySelector("[data-sat-review-copy]");
+    const status = widget.querySelector("[data-sat-review-copy-status]");
+    if (!record || !copy || !status) return;
+    copy.hidden = false;
+    copy.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(record.value);
+        status.textContent = "Blank record copied.";
+      } catch {
+        record.focus();
+        record.select();
+        status.textContent = "Automatic copy is unavailable. Copy the selected text.";
+      }
+    });
+  });
+}
+
 function initSatScoreCalculators() {
   document.querySelectorAll("[data-sat-score-calculator]").forEach((widget) => {
     const form = widget.querySelector("form");
@@ -4227,6 +4247,7 @@ initDmvRequirementsFinders();
 initDmvScoreCalculators();
 initScoreEntryTracking();
 initDmvChecklists();
+initSatReviewRecords();
 initSatScoreCalculators();
 initSatSuperscoreComparisons();
 initSatGoalPlanners();

@@ -3985,7 +3985,8 @@ tr:last-child td {
   color: var(--muted);
 }
 
-#ap-credit-note-template {
+#ap-credit-note-template,
+#sat-review-record-template {
   display: block;
   width: 100%;
   max-width: 640px;
@@ -3996,6 +3997,14 @@ tr:last-child td {
   border-radius: 8px;
   font: inherit;
   resize: vertical;
+}
+
+#sat-review-record-template {
+  margin-bottom: 12px;
+}
+
+#sat-review-record [data-sat-review-copy-status] {
+  margin: 8px 0 0;
 }
 
 .timeline {

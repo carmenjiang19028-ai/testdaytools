@@ -1954,6 +1954,35 @@ def render_tool_widget(tool):
         return render_sat_superscore_comparison()
     if kind == "satArrivalTiming":
         return render_sat_arrival_timing()
+    if kind == "satReviewRecord":
+        note = "\n".join(widget["lines"])
+        records = "".join(
+            f'<article><h3>{esc(record["heading"])}</h3><p>{esc(record["question"])}</p>'
+            f'<dl class="contrast-reasoning">'
+            + "".join(f'<dt>{esc(label)}</dt><dd>{esc(value)}</dd>' for label, value in record["entries"])
+            + '</dl></article>'
+            for record in widget["examples"]
+        )
+        return f"""<section class="tool-block" id="sat-review-record" aria-labelledby="sat-review-record-heading" data-sat-review-record>
+  <h2 id="sat-review-record-heading">Blank review record</h2>
+  <p class="section-intro" id="sat-review-record-intro">Use one record per missed, guessed, or slow question. Fill it out in your own notes, not on this page.</p>
+  <textarea id="sat-review-record-template" aria-labelledby="sat-review-record-heading" aria-describedby="sat-review-record-intro" rows="{len(widget["lines"])}" readonly>{esc(note)}</textarea>
+  <button type="button" data-sat-review-copy hidden>Copy blank record</button>
+  <p role="status" data-sat-review-copy-status></p>
+</section>
+<section class="worked-examples" aria-labelledby="sat-review-examples-heading">
+  <h2 id="sat-review-examples-heading">Two filled review records</h2>
+  <p>These original examples show what to write after a Math miss and a correct Reading and Writing guess.</p>
+  {records}
+</section>
+<section class="content-section">
+  <h2>Find the next official drill</h2>
+  <ol>
+    <li>In <a href="https://mypractice.collegeboard.org/">My Practice</a>, open the Score Details for your completed Bluebook practice test. Under Review, check why your choice failed and why the right one worked.</li>
+    <li>For a set based on the whole test, choose Get Tailored Practice in My Practice. To practice one skill from your record, use the <a href="https://satsuite.collegeboard.org/practice/student-question-bank">Student Question Bank</a> and filter by SAT, section, domain, and skill.</li>
+    <li>Save a few unseen questions for a later check. If the same mistake returns, practice that skill again. If you can explain the reasoning on new questions, try a mixed set under time.</li>
+  </ol>
+</section>"""
     if kind == "apCreditNote":
         note = "\n".join(widget["lines"])
         return f"""<section class="tool-block" id="ap-credit-note" aria-labelledby="ap-credit-note-heading">

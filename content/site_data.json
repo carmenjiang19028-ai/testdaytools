@@ -4116,206 +4116,54 @@
       "title": "SAT Practice Test Review Template",
       "description": "Copy a blank SAT practice test review record and see a filled example that turns one missed question into a focused next drill.",
       "heroKicker": "SAT review template",
-      "summary": "Copy the blank review record into your notes for a missed, guessed, or slow question. The filled example shows how to turn a specific mistake into a drill and a recheck.",
-      "quickFacts": [
-        {
-          "label": "Best time",
-          "value": "Right after a practice test"
-        },
-        {
-          "label": "Core output",
-          "value": "Missed-question map"
-        },
-        {
-          "label": "Review length",
-          "value": "60-90 minutes"
-        },
-        {
-          "label": "Next step",
-          "value": "Targeted drill set"
-        }
-      ],
-      "body": [
-        {
-          "heading": "Copy this blank review record",
-          "text": "Test / question: [ ]; Section / skill: [ ]; My answer: [ ]; Why I missed it: [ ]; Correct answer / reasoning: [ ]; Timing: [ ]; Next drill: [ ]; Recheck: [ ]."
-        },
-        {
-          "heading": "Filled review record: original algebra example",
-          "text": "Test / question: Original example, solve 3(x - 2) = 15; Section / skill: Math, linear equations; My answer: x = 3; Why I missed it: I divided by 3 to get x - 2 = 5, then subtracted 2 instead of adding it; Correct answer / reasoning: x = 7, since adding 2 to both sides gives 7 and 3(7 - 2) = 15; Timing: Finished quickly and skipped substitution; Next drill: Solve five equations with parentheses and check each answer by substitution; Recheck: Redo this problem tomorrow without notes."
-        },
-        {
-          "heading": "Review before retesting",
-          "text": "A second practice test is less useful if the first one has not been reviewed. Spend enough time to understand why each miss happened."
-        },
-        {
-          "heading": "Use categories, not blame",
-          "text": "Sort mistakes into content gap, misread, timing, calculation, grammar rule, evidence, or guess. Categories make the next study block obvious."
-        },
-        {
-          "heading": "Track timing separately",
-          "text": "A correct answer that took too long still matters. Record where time disappeared so pacing practice has a target."
-        },
-        {
-          "heading": "Choose one next block",
-          "text": "End review by choosing a specific 30-60 minute block: algebra setup, transitions, function questions, punctuation, data analysis, or timed passage sets."
-        },
-        {
-          "heading": "Why review matters more than the next test",
-          "text": "Taking a practice test creates data. Reviewing the test turns that data into improvement. Students who jump immediately to another full test often repeat the same mistakes and only collect more scores without changing the pattern."
-        },
-        {
-          "heading": "How to build a review log",
-          "text": "For each missed or guessed question, record the section, question type, cause, correct rule or evidence, and the next drill. Keep the wording short enough that you will actually use the log. The goal is not a beautiful spreadsheet; it is a repeatable study habit."
-        },
-        {
-          "heading": "When to retest",
-          "text": "Retest after you have repaired the top patterns from the previous test. If the same categories dominate the log, more full tests are probably not the answer yet. Use targeted work until the miss pattern changes."
-        },
-        {
-          "heading": "How to keep review from becoming busywork",
-          "text": "A review log should change the next study session. If a note does not tell you what to practice next, it is probably too vague. Replace broad labels like careless with precise labels such as missed transition clue, sign error, weak evidence, or ran out of time after question 18."
-        },
-        {
-          "heading": "How this template fits the full SAT workflow",
-          "text": "Use the template immediately after a full practice test, before looking for new drills. The review log should tell you whether to open the Reading and Writing guide, Math guide, score calculator, or goal planner next. That makes the site behave like a study system instead of a pile of disconnected pages."
-        },
-        {
-          "heading": "What to do when scores stop moving",
-          "text": "A flat practice score usually means the review loop is too broad or too passive. Recheck the log for repeated causes, reduce the next week to one or two patterns, and use shorter timed sets. If accuracy improves in drills but not full tests, the remaining problem is probably pacing or stamina."
-        }
-      ],
-      "tables": [
-        {
-          "caption": "What to record and why",
-          "headers": [
-            "Question",
-            "Practical answer",
-            "Why it matters"
-          ],
-          "rows": [
-            [
-              "Total score",
-              "Record total and section scores.",
-              "Section imbalance guides the next block."
-            ],
-            [
-              "Missed question type",
-              "Group misses by skill or format.",
-              "Repeated patterns are easier to fix."
-            ],
-            [
-              "Wrong-answer reason",
-              "Write why your choice failed.",
-              "This prevents shallow review."
-            ],
-            [
-              "Timing note",
-              "Mark rushed, stuck, or overchecked questions.",
-              "Pacing is part of score growth."
-            ],
-            [
-              "Next drill",
-              "Pick one targeted practice set.",
-              "Specific action beats vague motivation."
+      "summary": "Find the reason behind a missed, guessed, or slow question, pick a matching drill, and check that the fix works on new questions.",
+      "toolWidget": {
+        "type": "satReviewRecord",
+        "lines": [
+          "Test / module / question:",
+          "Section / domain / skill:",
+          "Missed, guessed, or slow:",
+          "My answer and why I chose it:",
+          "Correct answer and reasoning:",
+          "Next drill (skill and action):",
+          "Recheck (when and on which new questions):",
+          "Recheck result and next step:"
+        ],
+        "examples": [
+          {
+            "heading": "Math: an inverse-operation error",
+            "question": "Original example: Solve 3(x - 2) = 15.",
+            "entries": [
+              ["Section / domain / skill", "Math / Algebra / Linear equations in one variable"],
+              ["What happened", "Missed. I chose x = 3: after getting x - 2 = 5, I subtracted 2 again and moved on without checking."],
+              ["Correct reasoning", "Add 2 to both sides to undo the subtraction: x = 7. Substitute: 3(7 - 2) = 15. With x = 3, the left side is 3, not 15."],
+              ["Next drill", "Solve five linear equations with parentheses. Write which operation you undo at each step, then substitute each result."],
+              ["Fresh recheck", "Tomorrow, solve three unseen equations without notes and check each result by substitution."],
+              ["Example result and next step", "All three checked out, and I could explain each inverse step. Next, include this skill in a mixed algebra set."]
             ]
-          ]
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Common mistakes to avoid",
-          "items": [
-            {
-              "label": "Retesting",
-              "title": "Taking another full test immediately",
-              "text": "More testing without review often repeats the same mistakes."
-            },
-            {
-              "label": "Notes",
-              "title": "Writing only the correct answer",
-              "text": "Write why the wrong answer was tempting and why it failed."
-            },
-            {
-              "label": "Scope",
-              "title": "Choosing too many next steps",
-              "text": "A small specific block is easier to complete and measure."
-            }
-          ]
-        },
-        {
-          "heading": "Review-log fields",
-          "intro": "These fields are enough for most students and easy to maintain.",
-          "items": [
-            {
-              "label": "Cause",
-              "title": "Why the miss happened",
-              "text": "Use labels such as concept, evidence, rule, setup, timing, or attention."
-            },
-            {
-              "label": "Trap",
-              "title": "Why the wrong answer looked tempting",
-              "text": "This prevents the same trap from working again."
-            },
-            {
-              "label": "Next drill",
-              "title": "What you will practice next",
-              "text": "Every reviewed miss should point to one small repair action."
-            }
-          ]
-        },
-        {
-          "heading": "After-review actions",
-          "items": [
-            {
-              "label": "Top 3",
-              "title": "Choose three repeated patterns",
-              "text": "Do not try to fix every issue at once."
-            },
-            {
-              "label": "Drill",
-              "title": "Practice related questions",
-              "text": "Use short targeted sets before another full section."
-            },
-            {
-              "label": "Confirm",
-              "title": "Check with timed practice",
-              "text": "A fix counts when it survives timing and mixed topics."
-            }
-          ]
-        }
-      ],
-      "checklist": [
-        "Record total and section scores.",
-        "List every missed or guessed question.",
-        "Assign a reason category to each miss.",
-        "Mark slow questions even if correct.",
-        "Choose one next drill set before taking another full test."
-      ],
+          },
+          {
+            "heading": "Reading and Writing: a correct guess",
+            "question": "Original example: The pilot reduced page load times; ___, it did not improve completion rates. Choose the better transition: however or therefore.",
+            "entries": [
+              ["Section / domain / skill", "Reading and Writing / Expression of Ideas / Transitions"],
+              ["What happened", "Guessed correctly. I chose however because it sounded right but could not say why therefore was wrong."],
+              ["Correct reasoning", "The second clause limits the first: the pages loaded faster, but completion rates did not improve. However signals that contrast. Therefore would make the lack of improvement sound like a result of the speedup, a connection the sentence does not establish."],
+              ["Next drill", "On each transition question, identify the relationship before looking at the choices: contrast, result, or addition. Then explain why one tempting option does not fit."],
+              ["Fresh recheck", "Tomorrow, try three unseen transition questions. Count a correct answer as secure only if you can explain the relationship."],
+              ["Example result and next step", "I explained two answers but guessed on the third. Stay with contrast vs. result and say the relationship out loud before choosing."]
+            ]
+          }
+        ]
+      },
       "faq": [
         {
-          "q": "How long should SAT practice test review take?",
-          "a": "Often 60-90 minutes or more, depending on the number of missed and slow questions."
+          "q": "How should I record a slow question I got right?",
+          "a": "Note the step that took extra time, such as translating the prompt into an equation. Try a few new questions of the same skill untimed first. If the setup is reliable but still slow, compare your timing in a short mixed set."
         },
         {
-          "q": "Should I review questions I got right?",
-          "a": "Yes, review slow guesses and any question you were unsure about, even if it was correct."
-        },
-        {
-          "q": "What should I write for each missed question?",
-          "a": "Record the category, why your answer was wrong, why the correct answer works, and what to practice next."
-        },
-        {
-          "q": "How many full practice tests should I take?",
-          "a": "Use full tests as checkpoints. Between them, do targeted review based on the template."
-        },
-        {
-          "q": "Should I review questions I guessed correctly?",
-          "a": "Yes. A lucky correct answer can hide the same weakness as a missed question."
-        },
-        {
-          "q": "What should I do if my review log has too many categories?",
-          "a": "Choose the three categories costing the most points or repeating most often. Fix those first, then rebuild the plan after the next timed check."
+          "q": "When should I take another full practice test?",
+          "a": "Use a full test to check pacing across both sections. If the same mistake still shows up on fresh questions of one skill, work on that skill before spending another session on a full test."
         }
       ],
       "sources": [
@@ -4324,12 +4172,12 @@
           "url": "https://bluebook.collegeboard.org/"
         },
         {
-          "label": "College Board SAT: Scores",
-          "url": "https://satsuite.collegeboard.org/sat/scores"
+          "label": "College Board: How to use My Practice",
+          "url": "https://satsuite.collegeboard.org/practice/my-practice-101"
         },
         {
-          "label": "College Board SAT practice tests",
-          "url": "https://satsuite.collegeboard.org/practice/practice-tests"
+          "label": "College Board: Student Question Bank and skill filters",
+          "url": "https://satsuite.collegeboard.org/practice/student-question-bank"
         }
       ],
       "related": [
