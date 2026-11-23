@@ -5530,12 +5530,13 @@
       "category": "DMV",
       "title": "California DMV Permit Practice Test",
       "description": "California DMV permit practice with quick questions, original road-sign images, a mock exam, official knowledge-test and instruction-permit links, and weak-area feedback.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "California DMV",
       "summary": "Practice California DMV permit topics with quick questions, original road-sign images, and a 40-question mock exam, then confirm the instruction permit, testing option, and document step on official DMV pages.",
       "heroActions": [
         {"label": "Start practice", "href": "#practice"},
         {"label": "First permit or renewal?", "href": "#california-permit-path"},
+        {"label": "After you get a teen permit", "href": "#california-after-permit"},
         {"label": "Official test facts", "href": "#official-details"},
         {"label": "Study by topic", "href": "#practice-topics"},
         {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=california#dmv-checklist"}
@@ -5653,26 +5654,6 @@
       ],
       "cardGroups": [
         {
-          "heading": "California study tips",
-          "items": [
-            {
-              "label": "Manual first",
-              "title": "Do not skip the handbook",
-              "text": "Practice questions work best after you have seen the official rule language at least once."
-            },
-            {
-              "label": "Explanations",
-              "title": "Read the reason, not just the answer",
-              "text": "Permit tests often change wording. Understanding the reason helps more than memorizing a choice."
-            },
-            {
-              "label": "Retake wisely",
-              "title": "Wait before repeating the same quiz",
-              "text": "Review missed categories first, then return to the quiz to check whether the idea stuck."
-            }
-          ]
-        },
-        {
           "id": "california-permit-path",
           "heading": "California first permit, renewal, or retake?",
           "intro": "Choose the case that matches your application. These are California DMV steps; the scores from this practice tool do not complete any of them.",
@@ -5697,6 +5678,34 @@
               "text": "Leave seven days before trying again, excluding the date you failed. Use that time to review the topics you missed. An original license applicant has three knowledge-test attempts before needing to reapply. This is not the behind-the-wheel retest rule.",
               "href": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/the-testing-process/",
               "cta": "Official knowledge retake rules"
+            }
+          ]
+        },
+        {
+          "id": "california-after-permit",
+          "heading": "What changes after you get a California teen permit?",
+          "intro": "These cases cover a first Class C instruction permit. Passing the knowledge test, getting a permit you can use, and qualifying for the drive test are separate steps.",
+          "items": [
+            {
+              "label": "First driving lesson",
+              "title": "You are 16 and just got your permit. Can you practice with a parent today?",
+              "text": "Not before your professional driving instructor validates the permit. Complete at least one hour of behind-the-wheel training and have the instructor sign it. A parent's permission is not the instructor's signature. Once the permit is valid, keep following California's supervision rules; it does not let you drive alone.",
+              "href": "https://www.dmv.ca.gov/portal/driver-education-and-safety/driver-training-schools/",
+              "cta": "Check the instructor and training requirements"
+            },
+            {
+              "label": "Close to age 18",
+              "title": "You are 17 years and 9 months old and have not completed driver education or training.",
+              "text": "California DMV allows you to get an instruction permit without those certificates in this age range. You still have to meet the other permit requirements, and if you use this exception, you cannot take the drive test until you turn 18. Getting the permit early does not waive that wait.",
+              "href": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/",
+              "cta": "Check the near-18 exception"
+            },
+            {
+              "label": "Application expiry",
+              "title": "Your application expires after you have held the permit for five months. Start over?",
+              "text": "If you are still under 18, reapply at a DMV office and keep the old permit. The five months you already held it can count toward the six-month requirement; time without a valid permit does not count. Do not drive on the expired permit. Bring both the expired and valid permits to the drive test to show your credit.",
+              "href": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/",
+              "cta": "Check how DMV credits time already held"
             }
           ]
         }

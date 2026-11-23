@@ -209,6 +209,43 @@ for (const width of [320, 1280]) {
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: California distinguishes teen permit issue, activation, and retained time after expiry`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("california-dmv-permit-practice-test");
+      await page.goto(guide);
+      const hero = page.locator(".hero-actions");
+      assert.equal(await hero.getByRole("link", { name: "First permit or renewal?", exact: true }).getAttribute("href"),
+        "#california-permit-path");
+      assert.equal(await hero.getByRole("link", { name: "Start practice", exact: true }).getAttribute("href"), "#practice");
+      await hero.getByRole("link", { name: "After you get a teen permit", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#california-after-permit");
+      const section = page.locator("#california-after-permit");
+      assert.match(await section.locator(".section-intro").innerText(), /first Class C instruction permit.*separate steps/);
+      const cases = [
+        [/You are 16.*Not before your professional driving instructor validates the permit.*at least one hour.*instructor sign it.*does not let you drive alone/is,
+          "https://www.dmv.ca.gov/portal/driver-education-and-safety/driver-training-schools/"],
+        [/17 years and 9 months.*permit without those certificates.*other permit requirements.*cannot take the drive test until you turn 18/is, caPermit],
+        [/held the permit for five months.*still under 18.*reapply at a DMV office.*five months.*six-month requirement.*time without a valid permit does not count.*Do not drive on the expired permit.*both the expired and valid permits/is, caPermit],
+      ];
+      const cards = section.locator("article");
+      assert.equal(await cards.count(), cases.length);
+      for (const [index, [pattern, href]] of cases.entries()) {
+        const card = cards.nth(index);
+        assert.match(await card.innerText(), pattern);
+        assert.equal(await card.getByRole("link").getAttribute("href"), href);
+      }
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: New Jersey distinguishes age at issuance, darkness hours and licensing paperwork`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {
