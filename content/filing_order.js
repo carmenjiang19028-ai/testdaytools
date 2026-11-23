@@ -1,5 +1,6 @@
 (()=>{
 const KEY='tdt-skills-filing-v2', LEGACY_KEY='tdt-skills-filing-v1', SCHEMA=2;
+const REVIEW_LIMIT=5;
 let seed=Date.now()%1000000, round=0, current=null, history=[], startedTracked=false, completeTracked=false, attemptType='first';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const rng=()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296};
@@ -61,6 +62,47 @@ function make(){
 function label(rule){return rule==='name'?'Name · last, first, ID':rule==='date'?'Date · earliest first':'Alphanumeric · chunks left to right'}
 function display(r,rule){return rule==='name'?`${r.last}, ${r.first} · ${r.id}`:rule==='date'?`${r.date} · ${r.id}`:`${r.code} · ${r.id}`}
 function explain(rule,good,bad){return `${display(good,rule)} goes first.${good===bad?'':' '+decision(good,bad,rule).reason}`}
+function reviewDetails(entry){
+  const review=entry.review;
+  return !entry.ok&&validRow(review?.first,entry.rule)&&validRow(review?.chosen,entry.rule)
+    &&decision(review.first,review.chosen,entry.rule).order<0?review:null;
+}
+function keepRecentReviews(){
+  let remaining=REVIEW_LIMIT;
+  for(let index=history.length-1;index>=0;index--){
+    const entry=history[index];
+    if(!entry.review) continue;
+    if(remaining===0||!reviewDetails(entry)) delete entry.review;
+    else remaining--;
+  }
+}
+function renderErrors(letter){
+  const names={name:'Name',date:'Date',alpha:'Alphanumeric'};
+  const errors=history.filter(entry=>!entry.ok).slice(-REVIEW_LIMIT).reverse();
+  const entries=errors.map(entry=>{
+    const item=document.createElement('li'), review=reviewDetails(entry);
+    const choiceLabel=`${names[entry.rule]}: chose ${letter(entry.chosen)}; first was ${letter(entry.correct)}`;
+    if(!review){
+      item.textContent=choiceLabel+'. Record details are not available for this earlier answer.';
+      return item;
+    }
+    const details=document.createElement('details'), summary=document.createElement('summary');
+    const chosen=document.createElement('p'), first=document.createElement('p'), why=document.createElement('p');
+    summary.textContent=choiceLabel;
+    chosen.textContent=`You chose: ${display(review.chosen,entry.rule)}`;
+    first.textContent=`File first: ${display(review.first,entry.rule)}`;
+    why.textContent=decision(review.first,review.chosen,entry.rule).reason;
+    details.append(summary,chosen,first,why);
+    item.append(details);
+    return item;
+  });
+  if(!entries.length){
+    const item=document.createElement('li');
+    item.textContent='No filing error recorded yet.';
+    entries.push(item);
+  }
+  $('[data-errors]').replaceChildren(...entries);
+}
 function render(){
   if(!current)return;
   const rule=current.rule, letter=j=>String.fromCharCode(65+j);
@@ -68,7 +110,14 @@ function render(){
   $$('[data-filing-rule]').forEach(note=>{note.hidden=note.dataset.filingRule!==rule});
   $('[data-qnum]').textContent=round+1;
   $('[data-rule-label]').textContent=label(rule);
-  $('[data-records]').innerHTML=current.rows.map((r,j)=>`<tr><th scope="row">${letter(j)}</th><td>${display(r,rule)}</td></tr>`).join('');
+  $('[data-records]').replaceChildren(...current.rows.map((record,index)=>{
+    const row=document.createElement('tr'), option=document.createElement('th'), value=document.createElement('td');
+    option.scope='row';
+    option.textContent=letter(index);
+    value.textContent=display(record,rule);
+    row.append(option,value);
+    return row;
+  }));
   $('[data-choices]').innerHTML=current.rows.map((r,j)=>`<button class="choice" type="button" data-choice="${j}" ${current.answered!==null?'disabled':''}>File ${letter(j)} first</button>`).join('');
   $$('[data-choice]').forEach(b=>b.addEventListener('click',()=>answer(Number(b.dataset.choice))));
   const f=$('[data-feedback]'), answerKey=$('[data-filing-order]');
@@ -94,9 +143,31 @@ function render(){
   $('[data-accuracy]').textContent=history.length?`${Math.round(correct/history.length*100)}%`:'—';
   $('[data-recent]').textContent=recent.length?`${recent.filter(x=>x.ok).length} / ${recent.length}`:'—';
   $('[data-explanation]').hidden=!f.hidden;
-  $('[data-errors]').innerHTML=history.filter(x=>!x.ok).slice(-5).reverse().map(x=>`<li>${x.rule}: chose ${letter(x.chosen)}; correct was ${letter(x.correct)}.</li>`).join('')||'<li>No filing error recorded yet.</li>';
+  renderErrors(letter);
 }
-function answer(n){if(!current||current.answered!==null||n<0||n>=current.rows.length)return;if(!startedTracked&&typeof window.trackSkillStart==='function')startedTracked=window.trackSkillStart('filing_order',attemptType);current.answered=n;history.push({questionId:current.questionId,ok:n===current.correct,rule:current.rule,chosen:n,correct:current.correct});if(typeof window.trackSkillAnswer==='function')window.trackSkillAnswer('filing_order');if(!completeTracked&&typeof window.trackSkillComplete==='function')completeTracked=window.trackSkillComplete('filing_order');save();render()}
-function save(){localStorage.setItem(KEY,JSON.stringify({schema:SCHEMA,seed,round,current,history,startedTracked,completeTracked,attemptType}))}
+function answer(n){
+  if(!current||current.answered!==null||n<0||n>=current.rows.length)return;
+  if(!startedTracked&&typeof window.trackSkillStart==='function')startedTracked=window.trackSkillStart('filing_order',attemptType);
+  current.answered=n;
+  history.push({questionId:current.questionId,ok:n===current.correct,rule:current.rule,chosen:n,correct:current.correct,
+    ...(n!==current.correct?{review:{first:current.rows[current.correct],chosen:current.rows[n]}}:{})});
+  if(typeof window.trackSkillAnswer==='function')window.trackSkillAnswer('filing_order');
+  if(!completeTracked&&typeof window.trackSkillComplete==='function')completeTracked=window.trackSkillComplete('filing_order');
+  save();
+  render();
+  const feedback=$('[data-feedback]');
+  feedback.tabIndex=-1;
+  feedback.focus();
+}
+function save(){
+  keepRecentReviews();
+  const notice=$('[data-filing-storage-notice]');
+  try{
+    localStorage.setItem(KEY,JSON.stringify({schema:SCHEMA,seed,round,current,history,startedTracked,completeTracked,attemptType}));
+    if(notice) notice.hidden=true;
+  }catch(error){
+    if(notice) notice.hidden=false;
+  }
+}
 function load(){let h=null;for(const key of [KEY,LEGACY_KEY]){try{h=JSON.parse(localStorage.getItem(key)||'null')}catch(e){h=null}if(h)break}if(h){seed=Number.isFinite(h.seed)?h.seed:seed;round=Number.isInteger(h.round)&&h.round>=0?h.round:0;history=validHistory(h.history);startedTracked=!!h.startedTracked;completeTracked=!!h.completeTracked;attemptType=h.attemptType||'first';if(validCurrent(h.current)){current=h.current;let answerRecord=current.answered===null||history.some(x=>x.questionId===current.questionId&&x.chosen===current.answered&&x.correct===current.correct&&x.ok===(current.answered===current.correct));if(h.schema!==SCHEMA||!answerRecord){current.answered=null;current.questionId=questionId(current);startedTracked=false;completeTracked=false}}else current=null;if(current){render();save()}else make()}else make()}
 $('[data-new]').addEventListener('click',()=>{if(startedTracked&&typeof window.trackSkillRetry==='function')window.trackSkillRetry('filing_order');if(startedTracked)attemptType='retry';startedTracked=false;completeTracked=false;round++;make()});$('[data-rule]').addEventListener('change',()=>{if(startedTracked&&typeof window.trackSkillRetry==='function')window.trackSkillRetry('filing_order');if(startedTracked)attemptType='retry';startedTracked=false;completeTracked=false;round++;make()});load()})();
