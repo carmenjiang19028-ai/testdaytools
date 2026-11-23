@@ -44,40 +44,68 @@
   const validOrder = (order, count) => Array.isArray(order) && order.length === count &&
     new Set(order).size === count && order.every(index => Number.isInteger(index) && index >= 0 && index < count);
   const newSession = () => ({ version: curriculum.version, index: 0, answers: {}, exposures: {}, optionOrders: {} });
-  let state = newSession();
-  let storageAvailable = true;
-  try {
+  const readSession = (raw) => {
+    const session = newSession();
     let saved;
-    try { saved = JSON.parse(localStorage.getItem(key) || 'null'); } catch (error) {
-      if (error.name !== 'SyntaxError') throw error;
-    }
+    try { saved = JSON.parse(raw || 'null'); } catch { return session; }
     if (saved?.version === curriculum.version) {
       if (saved.answers && typeof saved.answers === 'object' && !Array.isArray(saved.answers)) {
         for (const [index, { question }] of questions.entries()) {
           const answer = saved.answers[question.id];
           if (answer && Number.isInteger(answer.selected) && answer.selected >= 0 && answer.selected < question.options.length) {
-            state.answers[question.id] = { selected: answer.selected, correct: answer.selected === 0 };
+            session.answers[question.id] = { selected: answer.selected, correct: answer.selected === 0 };
             if (!saved.optionOrders) {
               // Keep the displayed positions of answers submitted before option orders were saved.
               const offset = (index % 2) + 1;
-              state.optionOrders[question.id] = question.options.map((_, i) => (i + offset) % question.options.length);
+              session.optionOrders[question.id] = question.options.map((_, i) => (i + offset) % question.options.length);
             }
           }
           const savedOrder = saved.optionOrders?.[question.id];
-          if (validOrder(savedOrder, question.options.length)) state.optionOrders[question.id] = savedOrder;
+          if (validOrder(savedOrder, question.options.length)) session.optionOrders[question.id] = savedOrder;
           const exposure = saved.exposures?.[question.id];
-          if (Number.isSafeInteger(exposure) && exposure > 0) state.exposures[question.id] = exposure;
+          if (Number.isSafeInteger(exposure) && exposure > 0) session.exposures[question.id] = exposure;
         }
       }
-      if (Number.isInteger(saved.index) && saved.index >= 0 && saved.index <= steps.length) state.index = saved.index;
+      if (Number.isInteger(saved.index) && saved.index >= 0 && saved.index <= steps.length) session.index = saved.index;
     }
-  } catch { storageAvailable = false; }
-  // A stale or edited completion flag cannot skip an unanswered situation.
-  const skipped = steps.findIndex((step, index) => index < state.index && step.question && !state.answers[step.question.id]);
-  if (skipped !== -1) state.index = skipped;
+    // A stale or edited completion flag cannot skip an unanswered situation.
+    const skipped = steps.findIndex((step, index) => index < session.index && step.question && !session.answers[step.question.id]);
+    if (skipped !== -1) session.index = skipped;
+    return session;
+  };
+  let state = newSession();
+  let stored = null;
+  let storageAvailable = true;
   let selected = null;
+  try {
+    stored = localStorage.getItem(key);
+    state = readSession(stored);
+  } catch { storageAvailable = false; }
+  const refreshSavedSession = () => {
+    if (!storageAvailable) return false;
+    try {
+      const latest = localStorage.getItem(key);
+      if (latest === stored) return false;
+      state = readSession(latest);
+      stored = latest;
+      selected = null;
+      return true;
+    } catch {
+      storageAvailable = false;
+      return false;
+    }
+  };
   const persist = () => {
-    try { localStorage.setItem(key, JSON.stringify(state)); } catch { storageAvailable = false; }
+    if (refreshSavedSession()) return false;
+    if (!storageAvailable) return true;
+    try {
+      const data = JSON.stringify(state);
+      if (data !== stored) {
+        localStorage.setItem(key, data);
+        stored = data;
+      }
+    } catch { storageAvailable = false; }
+    return true;
   };
   const sourceLink = lesson => `<a href="${esc(lesson.sourceUrl)}">${esc(lesson.sourceLabel)}</a>`;
   const visuals = ids => ids.map(id => {
@@ -130,16 +158,33 @@
     feedback?.focus({ preventScroll: true });
     feedback?.scrollIntoView({ block: 'start', behavior: 'instant' });
   };
-  const render = () => {
+  const restoreLatestView = () => {
+    render(true);
+    const status = get('status');
+    status.tabIndex = -1;
+    status.focus({ preventScroll: true });
+    status.scrollIntoView({ block: 'center', behavior: 'instant' });
+  };
+  const recoverChangedSession = () => {
+    if (!refreshSavedSession()) return false;
+    restoreLatestView();
+    return true;
+  };
+  const render = (restored = false) => {
     const step = steps[state.index];
     const q = step?.question;
     if (q && !state.optionOrders[q.id]) state.optionOrders[q.id] = shuffleOptions(q.options.length);
-    persist();
+    if (!restored && !persist()) {
+      restoreLatestView();
+      return false;
+    }
     renderReport();
     const complete = state.index === steps.length;
     stage.classList.toggle('is-complete', complete);
     get('progress').textContent = `${answeredCount()} of ${questions.length} questions`;
-    get('status').textContent = storageAvailable
+    get('status').textContent = restored
+      ? 'This session changed in another tab. The latest saved progress is shown here; your last action was not applied.'
+      : storageAvailable
       ? 'Saved only in this browser. Repeated practice is not a pass prediction.'
       : 'Browser storage is unavailable. This round still works, but may not survive a refresh.';
     get('print').disabled = answeredCount() === 0;
@@ -150,7 +195,7 @@
       stage.innerHTML = `<p class="learning-complete">You answered all ${selectedLessons.length * 2} sign situations across ${selectedLessons.length} distinction${selectedLessons.length === 1 ? '' : 's'}. This is a record of this practice, not certified mastery.</p><p><a href="${esc(returnHref)}">${returnLabel}</a></p>`;
       next.disabled = true;
       next.textContent = 'Session complete';
-      return;
+      return true;
     }
     const lesson = step.lesson;
     get('phase-label').textContent = `Phase ${step.phase} of 3 · ${({1:'Compare',2:'Work through the distinction',3:'Apply'})[step.phase]}`;
@@ -162,7 +207,7 @@
       stage.innerHTML = `<article class="learning-card"><div class="learning-card-visual learning-contrast-visual">${visuals(lesson.diagnosis.images)}</div><div class="learning-card-copy"><h3 tabindex="-1" data-loop-question-title>A worked situation</h3><p>${esc(lesson.scene)}</p><p><strong>Clue:</strong> ${esc(lesson.cue)}</p><p><strong>Decision:</strong> ${esc(lesson.decision)}</p><p>${esc(lesson.reason)}</p><p class="contrast-source">${sourceLink(lesson)}</p></div></article>`;
       next.disabled = false;
       next.textContent = 'Try the situations';
-      return;
+      return true;
     }
     const answer = state.answers[q.id];
     const order = state.optionOrders[q.id];
@@ -179,21 +224,21 @@
     }));
     next.disabled = !answer && selected === null;
     next.textContent = answer ? (state.index === steps.length - 1 ? 'Finish session' : 'Continue') : selected === null ? 'Choose an answer' : 'Check answer';
+    return true;
   };
   next.addEventListener('click', event => {
-    if (event.detail > 1 || state.index >= steps.length) return;
+    if (event.detail > 1 || recoverChangedSession() || state.index >= steps.length) return;
     const step = steps[state.index];
     if (step.question && !state.answers[step.question.id]) {
       if (selected === null) return;
       state.answers[step.question.id] = { selected, correct: selected === 0 };
       state.exposures[step.question.id] = (state.exposures[step.question.id] || 0) + 1;
-      render();
-      focusAnswer();
+      if (render()) focusAnswer();
       return;
     }
     state.index += step.phase === 1 && state.answers[step.question.id].correct ? 2 : 1;
     selected = null;
-    render();
+    if (!render()) return;
     const complete = state.index === steps.length;
     const heading = complete ? get('title') : stage.querySelector('[data-loop-question-title]');
     if (heading) {
@@ -203,14 +248,16 @@
     (complete ? heading : stage)?.scrollIntoView({ block: 'start', behavior: 'instant' });
   });
   const restartPractice = () => {
+    if (recoverChangedSession()) return;
     state = newSession();
     selected = null;
-    render();
+    if (!render()) return;
     const question = stage.querySelector('[data-loop-question-title]');
     question?.focus({ preventScroll: true });
     stage.scrollIntoView({ block: 'start', behavior: 'instant' });
   };
   reset.addEventListener('click', () => {
+    if (recoverChangedSession()) return;
     if (!answeredCount()) {
       restartPractice();
     } else if (typeof resetDialog?.showModal === 'function') {

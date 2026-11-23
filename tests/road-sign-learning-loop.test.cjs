@@ -130,6 +130,74 @@ test('restart requires a separate confirmation and does not clear another practi
     assert.deepEqual(await page.evaluate(k => JSON.parse(localStorage.getItem(k)), otherKey), { preserved: true });
   } finally { await context.close(); }
 });
+for (const width of [320, 1280]) {
+  test(`${width}px: an answer in a stale tab preserves newer answers and resumes the right step`, async () => {
+    const concept = 'stop-yield';
+    const { page, context } = await open(width, concept);
+    try {
+      const stale = await context.newPage();
+      await stale.goto(page.url());
+      await answer(page);
+      await page.locator('[data-loop-next]').click();
+      await answer(page);
+      const current = await state(page, concept);
+      assert.equal(Object.keys(current.answers).length, 2);
+
+      await answer(stale, 1);
+      assert.deepEqual(await state(page, concept), current);
+      const status = stale.locator('[data-loop-status]');
+      assert.match(await status.innerText(), /changed in another tab.*last action was not applied/i);
+      assert.equal(await status.evaluate(el => el === document.activeElement), true);
+      assert.equal(await stale.locator('[data-loop-progress]').innerText(), '2 of 3 questions');
+      assert.equal(await stale.locator('[data-loop-question]').getAttribute('data-loop-question'),
+        await page.locator('[data-loop-question]').getAttribute('data-loop-question'));
+      const shots = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (shots) {
+        fs.mkdirSync(shots, { recursive: true });
+        await stale.screenshot({ path: path.join(shots, `restored-progress-${width}.png`) });
+      }
+
+      await stale.locator('[data-loop-next]').click();
+      await answer(stale);
+      await stale.locator('[data-loop-next]').click();
+      assert.equal(Object.keys((await state(stale, concept)).answers).length, 3);
+      assert.equal(await stale.locator('[data-loop-phase-label]').innerText(), 'Session complete');
+
+      // The older first tab also cannot erase a completed round by requesting a restart.
+      await page.getByRole('button', { name: 'Restart session' }).click();
+      assert.equal(await page.getByRole('dialog').isVisible(), false);
+      assert.equal(await page.locator('[data-loop-phase-label]').innerText(), 'Session complete');
+      assert.equal(Object.keys((await state(page, concept)).answers).length, 3);
+    } finally { await context.close(); }
+  });
+}
+test('a restart dialog opened before a new answer cannot clear the updated record', async () => {
+  const concept = 'stop-yield';
+  const { page, context } = await open(390, concept);
+  try {
+    await answer(page);
+    const peer = await context.newPage();
+    await peer.goto(page.url());
+    const restart = page.getByRole('button', { name: 'Restart session' });
+    const dialog = page.getByRole('dialog', { name: 'Restart this practice?' });
+    await restart.click();
+    await peer.locator('[data-loop-next]').click();
+    await answer(peer, 1);
+    const updated = await state(peer, concept);
+    await dialog.getByRole('button', { name: 'Restart practice', exact: true }).click();
+    assert.equal(await dialog.isVisible(), false);
+    assert.deepEqual(await state(page, concept), updated);
+    assert.match(await page.locator('[data-loop-status]').innerText(), /latest saved progress is shown/);
+    await restart.click();
+    await dialog.getByRole('button', { name: 'Restart practice', exact: true }).click();
+    assert.deepEqual((await state(page, concept)).answers, {});
+
+    await peer.locator('[data-loop-next]').click();
+    assert.deepEqual((await state(peer, concept)).answers, {});
+    assert.equal(await peer.locator('[data-loop-progress]').innerText(), '0 of 3 questions');
+    assert.equal(await peer.locator('[data-loop-next]').isDisabled(), true);
+  } finally { await context.close(); }
+});
 test('blocked storage does not break practice', async () => {
   const { page, context, errors } = await open(1280, '', () => Object.defineProperty(window, 'localStorage', { get() { throw new Error('blocked'); } }));
   await answer(page);
