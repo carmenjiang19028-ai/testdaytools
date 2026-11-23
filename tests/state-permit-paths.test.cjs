@@ -1,4 +1,5 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
 const { before, after, test } = require("node:test");
 const { pathToFileURL } = require("node:url");
 const path = require("node:path");
@@ -396,3 +397,59 @@ test("the two legacy mixed rounds distinguish practice from official requirement
     await context.close();
   }
 });
+
+for (const width of [320, 1280]) {
+  test(`${width}px: Florida exam wording exercises teach each condition without changing the scored quiz`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 900 } });
+    try {
+      await context.route(/^https?:/, (route) => route.abort());
+      const page = await context.newPage();
+      await page.goto(file("florida-dmv-permit-practice-test"));
+      assert.equal(await page.locator('[data-mode-panel="mock"] [data-quiz]').getAttribute("data-total"), "40");
+      assert.equal(await page.locator('[data-mode-panel="mock"] [data-quiz]').getAttribute("data-pass-score"), "32");
+      await page.getByRole("link", { name: "Practice English exam wording", exact: true }).click();
+      const target = new URL(page.url());
+      assert.ok(target.pathname.endsWith("/florida-class-e-knowledge-exam-tlsae.html"));
+      assert.equal(target.hash, "#florida-read-test-questions");
+      assert.equal(await page.locator("main [data-quiz]").count(), 0);
+      assert.equal(await page.getByRole("link", { name: "Choose a course", exact: true }).getAttribute("href"), "#florida-course-path");
+      const lesson = page.locator(target.hash);
+      const heading = await lesson.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      assert.match(await lesson.locator(":scope > p").innerText(), /not official questions/);
+      assert.equal(await lesson.locator(":scope > article").count(), 3);
+      for (const [index, word, reasoning, followup, law] of [
+        [0, /^Unless:/, /This sign does/, /still have to yield/, "316.075"],
+        [1, /^Not less than:/, /stay a safe distance behind/, /Better visibility does not remove/, "316.083"],
+        [2, /^Until:/, /stop signal is withdrawn/, /opposing traffic separated by a raised median/, "316.172"],
+      ]) {
+        const card = lesson.locator("article").nth(index);
+        assert.match(await card.getByRole("heading", { level: 3 }).innerText(), word);
+        const reasons = card.locator("details").first();
+        assert.equal(await reasons.locator("ol").isVisible(), false);
+        await reasons.locator("summary").press("Enter");
+        assert.equal(await reasons.locator("ol").isVisible(), true);
+        assert.match(await reasons.locator("ol").innerText(), reasoning);
+        const check = card.locator("details").last();
+        assert.equal(await check.locator("p").isVisible(), false);
+        await check.locator("summary").press("Enter");
+        assert.equal(await check.locator("p").isVisible(), true);
+        assert.match(await check.locator("p").innerText(), followup);
+        const source = new URL(await card.getByRole("link").getAttribute("href"));
+        assert.equal(source.hostname, "www.flsenate.gov");
+        assert.equal(source.pathname.split("/").pop(), law);
+      }
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.evaluate(section => section.scrollIntoView({ block: "start" }));
+        await page.screenshot({
+          path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `florida-wording-${width}.png`),
+        });
+      }
+    } finally {
+      await context.close();
+    }
+  });
+}

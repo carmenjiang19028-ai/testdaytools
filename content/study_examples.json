@@ -1,4 +1,56 @@
 {
+  "florida-class-e-knowledge-exam-tlsae": {
+    "id": "florida-read-test-questions",
+    "heading": "Read the words that change a Florida test answer",
+    "intro": "These are original Florida study examples, not official questions. For each one, name the usual rule, then identify the word or condition that changes what you should do.",
+    "examples": [
+      {
+        "title": "Unless: a posted sign removes the permission",
+        "question": "You stop at the line for a steady circular red. The intersection is clear, but you see a NO TURN ON RED sign. Can you turn right now?",
+        "steps": [
+          "Start with the red light: stop at the marked line. A right turn can be allowed after stopping and yielding.",
+          "Read the exception: unless a sign prohibits it. This sign does. Wait until the signal allows the turn and the way is clear."
+        ],
+        "mistake": "Seeing no traffic does not cancel the sign. Unless tells you which condition blocks the usual permission.",
+        "check": "Now there is no sign, but a person is using the crosswalk. Can you turn after stopping?",
+        "answer": "Not yet. The sign exception no longer applies, but you still have to yield. Turn only when you can do so safely and legally.",
+        "source": {
+          "label": "Florida Statutes 316.075(1)(c): turning at a steady red",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.075"
+        }
+      },
+      {
+        "title": "Not less than: the number is a minimum",
+        "question": "You are behind a cyclist in your travel lane. There would be three feet of clearance, but you cannot see far enough around a bend to pass safely. Should you pass now?",
+        "steps": [
+          "Not less than three feet means three feet or more, not three feet or less.",
+          "That distance is a minimum. If you cannot make the pass safely, stay a safe distance behind the cyclist."
+        ],
+        "mistake": "Meeting the distance alone is not permission to pass. The move itself must be safe.",
+        "check": "The road straightens, but you could leave only two and a half feet. What do you do?",
+        "answer": "Stay back. Better visibility does not remove the minimum clearance.",
+        "source": {
+          "label": "Florida Statutes 316.083(2): passing a cyclist in the same lane",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.083"
+        }
+      },
+      {
+        "title": "Until: look for the event that ends the wait",
+        "question": "You are stopped behind a school bus. A child reaches the sidewalk, but the bus still displays its stop signal. Can you pass?",
+        "steps": [
+          "Until tells you what ends the restriction. For a driver behind the bus, wait until its stop signal is withdrawn.",
+          "Keep looking for children and other traffic before moving. One child reaching the sidewalk does not end the stop."
+        ],
+        "mistake": "The first thing you can see happening is not necessarily the event the rule names.",
+        "check": "Instead, you approach in the opposite direction on a divided road, with a raised median between you and the bus. Does Florida require you to stop for that bus?",
+        "answer": "No, not under the school-bus rule in this situation. Florida's exception applies to opposing traffic separated by a raised median, a physical barrier, or at least five feet of unpaved space. It does not excuse a driver following the bus.",
+        "source": {
+          "label": "Florida Statutes 316.172: stopping for a school bus",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.172"
+        }
+      }
+    ]
+  },
   "sat-device-troubleshooting-guide": {
     "id": "sat-device-cases",
     "heading": "Three Bluebook device problems to solve before the SAT",

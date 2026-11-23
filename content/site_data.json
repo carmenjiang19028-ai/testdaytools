@@ -9874,9 +9874,11 @@
           "intro": "The goal is not to click practice questions forever. Use each result to decide the next handbook section.",
           "items": [
             {
-              "label": "First pass",
-              "title": "Do not chase a perfect score early",
-              "text": "A low first score is useful if it shows exactly which categories need reading."
+              "label": "Read the question",
+              "title": "Practice the words that change the rule",
+              "text": "If you know the sign but miss the answer, check whether words such as unless, not less than, or until changed the action.",
+              "href": "florida-class-e-knowledge-exam-tlsae.html#florida-read-test-questions",
+              "cta": "Practice English exam wording"
             },
             {
               "label": "Signs",
@@ -10930,11 +10932,15 @@
       "description": "A Florida DMV learner-permit confusion map that separates TLSAE or DETS course requirements, the Class E Knowledge Exam, online testing, documents, and permit issuance steps.",
       "heroKicker": "Florida Class E confusion map",
       "summary": "Check which driver education course applies before enrolling. Then handle the separate Class E Knowledge Exam and learner-permit documents.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 23, 2026",
       "heroActions": [
         {
           "label": "Choose a course",
           "href": "#florida-course-path"
+        },
+        {
+          "label": "Practice English exam wording",
+          "href": "#florida-read-test-questions"
         },
         {
           "label": "Practice Florida",

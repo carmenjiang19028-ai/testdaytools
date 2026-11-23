@@ -14,6 +14,9 @@
 .worked-examples article { border-top: 1px solid #ccd4d9; padding: 16px 0; }
 .worked-examples[id] details { padding: 8px 0; }
 .worked-examples[id] summary { cursor: pointer; font-weight: 700; }
+@media (max-width: 360px) {
+  #florida-read-test-questions { scroll-margin-top: 180px; }
+}
 .learning-loop-page .learning-record { border-top: 1px solid #ccd4d9; padding: 16px 0; }
 .learning-loop-page .learning-record-answer { margin: 12px 0; }
 .learning-loop-page textarea { width: 100%; min-height: 180px; }

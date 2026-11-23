@@ -3056,7 +3056,9 @@ def render_examples(tool):
     items = []
     for example in record['examples']:
         steps = ''.join(f'<li>{esc(step)}</li>' for step in example['steps'])
-        items.append(f'<article><h3>{esc(example["title"])}</h3><p>{esc(example["question"])}</p><details><summary>Show reasoning</summary><ol>{steps}</ol><p>{esc(example["mistake"])}</p></details><p>{esc(example["check"])}</p><details><summary>Check</summary><p>{esc(example["answer"])}</p></details></article>')
+        source = example.get("source")
+        source_link = f'<p class="contrast-source"><a href="{esc(source["url"])}">{esc(source["label"])}</a></p>' if source else ""
+        items.append(f'<article><h3>{esc(example["title"])}</h3><p>{esc(example["question"])}</p><details><summary>Show reasoning</summary><ol>{steps}</ol><p>{esc(example["mistake"])}</p></details><p>{esc(example["check"])}</p><details><summary>Check</summary><p>{esc(example["answer"])}</p></details>{source_link}</article>')
     anchor = f' id="{esc(record["id"])}"' if record.get("id") else ""
     return f'<section class="worked-examples"{anchor}><h2>{esc(record["heading"])}</h2><p>{esc(record["intro"])}</p>{"".join(items)}</section>'
 
@@ -3207,7 +3209,7 @@ def render_tool(tool):
     if tool["slug"] == ROAD_SIGN_PICTURE_SLUG:
         social_image = ROAD_SIGN_PICTURE_PREVIEW
         resource_schema["image"] = url_for(f"/{social_image}")
-    styled_examples = tool.get("category") == "SAT" and examples
+    styled_examples = tool.get("category") in ("SAT", "DMV") and examples
     extra_head = '<link rel="stylesheet" href="assets/road-sign-materials.css">' if tool.get("stateRulePractice") or sign_recall or styled_examples or tool["slug"] == ROAD_SIGN_PICTURE_SLUG else ""
     if widget.get("type") == "virginiaKnowledgeRetest":
         extra_head += '<script src="assets/virginia-retest.js" defer></script>'
