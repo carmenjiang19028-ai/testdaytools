@@ -13449,9 +13449,36 @@
         {"label": "Start practice", "href": "#practice"},
         {"label": "Official test facts", "href": "#official-details"},
         {"label": "Study by topic", "href": "#practice-topics"},
+        {"label": "Roundabouts and traffic circles", "href": "#new-jersey-circle-controls"},
         {"label": "Supervised driving and forms", "href": "#nj-supervised-driving"},
         {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=new-jersey#dmv-checklist"}
       ],
+      "stateRulePractice": {
+        "id": "new-jersey-circle-controls",
+        "linkLabel": "Roundabouts and traffic circles",
+        "heading": "Who goes first at a New Jersey traffic circle?",
+        "imageAsset": {"src": "assets/road-sign-materials/new-jersey-circle-controls.svg", "width": 360, "height": 360},
+        "imageLabel": "Diagram A shows a yield sign at your entrance and another vehicle already circulating. Diagram B shows a solid red signal at your entrance and no circulating vehicles.",
+        "caption": "The circle shape does not tell you who goes first. These two sketches isolate the entry control; they do not show every approach or reproduce a real intersection.",
+        "scenarios": [
+          {
+            "question": "A. A car is already circulating. What do you do at YIELD?",
+            "answer": "Slow before the entry and yield to the car already in the roundabout. Stop if you need to let it pass; enter only when you have a safe gap. The modern roundabout in A has yield control at its entrance."
+          },
+          {
+            "question": "B. The older traffic circle looks empty. Your entry light is red. Can you enter?",
+            "answer": "No. Stop at the line and do not enter against the red signal, even if the circle looks empty. The priority you practiced at A does not override a control at B."
+          },
+          {
+            "question": "C. You are already in an older circle. There is a YIELD sign facing you where a major road enters. Can you assume you still go first?",
+            "answer": "No. Slow and yield to traffic with priority where your approach is controlled, even though you are already in the circle. If you cannot tell who has priority, slow down and be prepared to stop. Check the signs, signals, lane markings and other traffic rather than assuming that being within the circle or being on the wider road gives you priority."
+          }
+        ],
+        "sources": [
+          {"label": "NJ MVC Driver Manual: Traffic Circle (printed p. 68)", "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"},
+          {"label": "NJDOT: Modern roundabout and traffic circle differences (Table 1)", "url": "https://www.nj.gov/transportation/business/research/reports/FHWA-NJ-2008-012.pdf"}
+        ]
+      },
       "quickFacts": [
         {
           "label": "Official source",
@@ -13898,7 +13925,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "New Jersey permit topics to study after each quiz",
-        "intro": "If a roadside-response question tripped you up, use the New Jersey move-over cases to compare a safe lane change with a blocked lane. Rerun picture questions for sign-recognition misses.",
+        "intro": "If a circle question tripped you up, compare a yield-controlled entry with an entry controlled by a light. If you missed a roadside-response question, compare a safe lane change with a blocked lane in the New Jersey Move Over cases.",
         "items": [
           {
             "label": "Topic 1",
@@ -14261,6 +14288,13 @@
               "text": "Keep the same turn and signal. Check which conditions Pennsylvania adds before the one-way-to-one-way exception can apply.",
               "href": "pennsylvania-dmv-road-signs-practice.html#pennsylvania-left-on-red",
               "cta": "Try the Pennsylvania example"
+            },
+            {
+              "label": "New Jersey circle approaches",
+              "title": "Read the control, not just the circle shape",
+              "text": "Compare yield-on-entry at a modern roundabout with a controlled older traffic circle before assuming who goes first.",
+              "href": "new-jersey-mvc-permit-practice-test.html#new-jersey-circle-controls",
+              "cta": "Try the New Jersey circle cases"
             }
           ]
         }
@@ -21685,7 +21719,7 @@
         ],
         "answer": 0,
         "category": "Intersection signs",
-        "explanation": "Roundabout signs warn drivers to slow, yield to circulating traffic, and follow the circle. This page uses original artwork; verify final rules in the New Jersey Driver Manual."
+        "explanation": "This warning announces a roundabout ahead. Slow and read the entry control. At a modern roundabout, yield to circulating traffic. On older New Jersey traffic circles, check the signs and signals at your approach instead of assuming the layout gives you priority."
       },
       {
         "q": "What service does this blue sign identify?",
@@ -22277,7 +22311,7 @@
         ],
         "answer": 0,
         "category": "Intersections",
-        "explanation": "Drivers entering a roundabout generally yield to traffic already circulating. Confirm exact wording in the New Jersey Driver Manual."
+        "explanation": "At a modern roundabout, yield to traffic already circulating. Older New Jersey traffic circles do not all use the same priority pattern, so check the signs and signals at your own entry before entering."
       },
       {
         "q": "If traffic signals are not working, you should usually treat the intersection as:",

@@ -496,6 +496,52 @@ for (const width of [320, 1280]) {
   });
 }
 
+for (const width of [320, 1280]) {
+  test(`${width}px: New Jersey circle decisions follow the control at each approach without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("new-jersey-mvc-permit-practice-test");
+      await page.goto(guide);
+      await page.getByRole("link", { name: "Roundabouts and traffic circles", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#new-jersey-circle-controls");
+      const lesson = page.getByRole("region", { name: /who goes first at a new jersey traffic circle/i });
+      const title = await lesson.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(title.y >= Math.max(0, header.y + header.height) && title.y + title.height < 850);
+      const image = lesson.getByRole("img", { name: /yield sign.*already circulating.*solid red signal/i });
+      assert.ok(await image.evaluate(img => img.complete && img.naturalWidth === 360));
+      const examples = lesson.locator("details");
+      assert.equal(await examples.count(), 3);
+      const decisions = [
+        /yield to the car already in the roundabout.*safe gap/i,
+        /Stop at the line and do not enter against the red signal/i,
+        /yield to traffic with priority.*even though you are already in the circle.*be prepared to stop/is,
+      ];
+      for (const [index, expected] of decisions.entries()) {
+        const example = examples.nth(index);
+        assert.equal(await example.locator("p").isVisible(), false);
+        await example.locator("summary").press("Enter");
+        assert.match(await example.locator("p").innerText(), expected);
+      }
+      assert.deepEqual(await lesson.getByRole("link").evaluateAll(links => links.map(link => link.getAttribute("href"))), [
+        "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf",
+        "https://www.nj.gov/transportation/business/research/reports/FHWA-NJ-2008-012.pdf",
+      ]);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `circle-controls-${width}.png`) });
+      }
+      await page.goto(file("new-jersey-mvc-road-signs-practice"));
+      await page.getByRole("link", { name: "Try the New Jersey circle cases" }).press("Enter");
+      await page.waitForURL(guide + "#new-jersey-circle-controls");
+      assert.ok(await lesson.isVisible());
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: New York school bus cases distinguish the median exception and link official guidance`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });

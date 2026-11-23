@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360">
+  <defs>
+    <g id="ring">
+      <rect x="8" y="0" width="344" height="130" rx="6" fill="#eaf1ee"/>
+      <path d="M144 123v-21q0-12 16-18M45 63h55m94 0h78" fill="none" stroke="#384953" stroke-width="26"/>
+      <circle cx="147" cy="62" r="47" fill="none" stroke="#384953" stroke-width="25"/>
+      <circle cx="147" cy="62" r="31" fill="#b9d2c2"/>
+      <path d="M143 15h-14m5-5-5 5 5 5M191 70v-14m-5 5 5-5 5 5" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M138 123v-14m-5 5 5-5 5 5" fill="none" stroke="#d5ecff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </defs>
+  <g font-family="sans-serif" fill="#14232b">
+    <text x="8" y="25" font-size="21" font-weight="bold">A: Modern roundabout</text>
+    <g transform="translate(0 33)">
+      <use href="#ring"/>
+      <rect x="184" y="43" width="14" height="21" rx="4" fill="#deae46" stroke="#293942" stroke-width="2"/>
+      <path d="M130 98h30" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 3"/>
+      <path d="M180 94h26l-13 23z" fill="#fff" stroke="#a32727" stroke-width="4" stroke-linejoin="round"/>
+      <text x="214" y="110" font-size="17" font-weight="bold">YIELD</text>
+    </g>
+    <text x="8" y="205" font-size="21" font-weight="bold">B: Signal at an older circle</text>
+    <g transform="translate(0 213)">
+      <use href="#ring"/>
+      <path d="M130 98h30" fill="none" stroke="#fff" stroke-width="3"/>
+      <rect x="181" y="71" width="20" height="47" rx="4" fill="#29353d"/>
+      <circle cx="191" cy="80" r="5.7" fill="#ff5954"/>
+      <circle cx="191" cy="94.5" r="4.9" fill="#626970"/>
+      <circle cx="191" cy="109" r="4.9" fill="#626970"/>
+      <text x="213" y="100" font-size="17" font-weight="bold">RED SIGNAL</text>
+    </g>
+  </g>
+</svg>

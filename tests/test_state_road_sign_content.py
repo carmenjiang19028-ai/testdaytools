@@ -262,6 +262,27 @@ class StateRoadSignContentTest(unittest.TestCase):
         permit = (ROOT / "new-jersey-mvc-permit-practice-test.html").read_text()
         self.assertIn(f'href="{slug}.html#new-jersey-move-over"', permit)
 
+    def test_new_jersey_circle_controls_are_consistent_with_both_quiz_explanations(self):
+        slug = "new-jersey-mvc-permit-practice-test"
+        lesson = self.tools[slug]["stateRulePractice"]
+        image = lesson["imageAsset"]
+        svg = ElementTree.parse(ROOT / image["src"]).getroot()
+        self.assertEqual(svg.get("viewBox"), f'0 0 {image["width"]} {image["height"]}')
+        page = (ROOT / f"{slug}.html").read_text()
+        self.assertIn(render_state_rule_practice(lesson), page)
+        for cases in (
+            self.data["quizzes"]["newjerseyMock"],
+            self.data["quizzes"]["newjerseySigns"],
+        ):
+            item = next(q for q in cases if "roundabout" in q.get("image", "") or "roundabout" in q["q"])
+            self.assertEqual(item["answer"], 0)
+            self.assertIn("modern roundabout", item["explanation"])
+            self.assertIn("signs and signals", item["explanation"])
+        self.assertIn('data-total="40" data-pass-score="32"', page)
+        shared = (ROOT / "new-jersey-mvc-road-signs-practice.html").read_text()
+        self.assertIn(f'href="{slug}.html#new-jersey-circle-controls"', shared)
+        self.assertIn('data-total="20" data-pass-score="16"', shared)
+
     def test_florida_course_paths_separate_course_and_exam(self):
         slug = "florida-class-e-knowledge-exam-tlsae"
         course_paths = next(group for group in self.tools[slug]["cardGroups"] if group.get("id") == "florida-course-path")
