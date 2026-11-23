@@ -13330,7 +13330,14 @@
       "description": "New Jersey permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official New Jersey MVC source links.",
       "heroKicker": "New Jersey permit practice",
       "summary": "Practice New Jersey permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the New Jersey Driver Manual.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
+      "heroActions": [
+        {"label": "Start practice", "href": "#practice"},
+        {"label": "Official test facts", "href": "#official-details"},
+        {"label": "Study by topic", "href": "#practice-topics"},
+        {"label": "Supervised driving and forms", "href": "#nj-supervised-driving"},
+        {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=new-jersey#dmv-checklist"}
+      ],
       "quickFacts": [
         {
           "label": "Official source",
@@ -13631,19 +13638,36 @@
       ],
       "cardGroups": [
         {
-          "heading": "New Jersey study moves that save time",
-          "intro": "The goal is not to click practice questions forever. Use each result to decide the next handbook section.",
+          "id": "nj-supervised-driving",
+          "heading": "New Jersey supervised driving: hours, age and paperwork",
+          "intro": "This comes after permit validation, not before the knowledge test. For a New Jersey special learner's or examination permit issued on or after February 1, 2025, check how old you were on the issue date.",
           "items": [
             {
-              "label": "First pass",
-              "title": "Do not chase a perfect score early",
-              "text": "A low first score is useful if it shows exactly which categories need reading."
+              "label": "Check the issue date",
+              "title": "Got the permit at 20 and turned 21?",
+              "text": "You still need 50 supervised hours, with at least 10 during darkness, and the signed certification. If you were already 21 or older when your permit was issued, this hours-and-certification requirement does not apply. Supervised driving and other licensing steps still apply.",
+              "href": "https://www.nj.gov/mvc/press/archives/2025/01312025.htm",
+              "cta": "Verify the age and issue-date rule"
             },
             {
-              "label": "Signs",
-              "title": "Review signs by shape and color",
-              "text": "Shape and color often reveal the action before you read the words."
+              "label": "Check both totals",
+              "title": "52 hours logged, but only 8 during darkness?",
+              "text": "You have enough total hours, but need two more during darkness. Your front-seat supervisor must be at least 21, have a valid New Jersey license and have at least three years of driving experience. Follow your permit's restrictions; the practice hours do not replace the waiting period.",
+              "href": "https://nj.gov/mvc/license/firstlic.htm",
+              "cta": "Check NJ MVC supervision and next steps"
             },
+            {
+              "label": "Bring the right form",
+              "title": "Can you submit the practice log by itself?",
+              "text": "No. Use the log to track your hours. Have your parent, guardian or supervising driver complete the official BA-CSD and sign it by hand. After you pass the road test, present that form when you get your probationary license. The log does not substitute for the form.",
+              "href": "https://nj.gov/mvc/pdf/license/BA-CSD.pdf",
+              "cta": "Get the official BA-CSD form (PDF)"
+            }
+          ]
+        },
+        {
+          "heading": "New Jersey roadside decisions",
+          "items": [
             {
               "label": "New Jersey Move Over rule",
               "title": "Decide whether to change lanes or slow down",

@@ -208,6 +208,46 @@ for (const width of [320, 1280]) {
   });
 }
 
+for (const width of [320, 1280]) {
+  test(`${width}px: New Jersey distinguishes age at issuance, darkness hours and licensing paperwork`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("new-jersey-mvc-permit-practice-test");
+      await page.goto(guide);
+      const hero = page.locator(".hero-actions");
+      assert.equal(await hero.getByRole("link", { name: "Start practice", exact: true }).getAttribute("href"), "#practice");
+      await hero.getByRole("link", { name: "Supervised driving and forms", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#nj-supervised-driving");
+      const section = page.locator("#nj-supervised-driving");
+      assert.match(await section.locator(".section-intro").innerText(),
+        /after permit validation.*special learner's or examination permit issued on or after February 1, 2025.*issue date/);
+      const cases = [
+        [/at 20 and turned 21.*still need 50 supervised hours.*10 during darkness.*already 21 or older when your permit was issued.*does not apply.*other licensing steps still apply/is,
+          "https://www.nj.gov/mvc/press/archives/2025/01312025.htm"],
+        [/52 hours logged, but only 8 during darkness.*enough total hours, but need two more during darkness.*front-seat supervisor.*at least 21.*valid New Jersey license.*three years.*do not replace the waiting period/is,
+          "https://nj.gov/mvc/license/firstlic.htm"],
+        [/practice log by itself.*No\. Use the log to track.*BA-CSD.*sign it by hand.*After you pass the road test.*when you get your probationary license.*log does not substitute/is,
+          "https://nj.gov/mvc/pdf/license/BA-CSD.pdf"],
+      ];
+      const cards = section.locator("article");
+      assert.equal(await cards.count(), cases.length);
+      for (const [index, [pattern, href]] of cases.entries()) {
+        const card = cards.nth(index);
+        assert.match(await card.innerText(), pattern);
+        assert.equal(await card.getByRole("link").getAttribute("href"), href);
+      }
+      assert.equal(await page.getByRole("link", { name: "Try the New Jersey Move Over cases" }).getAttribute("href"),
+        "new-jersey-mvc-road-signs-practice.html#new-jersey-move-over");
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: New York school bus cases distinguish the median exception and link official guidance`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
