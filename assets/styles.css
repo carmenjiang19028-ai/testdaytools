@@ -5622,7 +5622,7 @@ button:disabled {
     display: flex;
   }
 
-  .home-page .home-quick-links a:not([href="skills-practice.html"]) {
+  .home-page .home-quick-links a:not(.home-worksheet-link, [href="skills-practice.html"]) {
     display: none;
   }
 

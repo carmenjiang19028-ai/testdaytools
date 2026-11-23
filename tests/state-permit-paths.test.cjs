@@ -742,7 +742,12 @@ test("the Georgia homepage entry promises only the available guide and shared pr
     await context.route(/^https?:/, (route) => route.abort());
     const page = await context.newPage();
     await page.goto(file("index"));
-    const entry = page.getByRole("link", { name: /Georgia DDS Road Signs Guide.*shared picture practice/ });
+    const picker = page.locator("#state-paths");
+    assert.match(await picker.locator(".section-intro").innerText(), /study guide and a short exercise.*nationwide picture quiz is available separately/i);
+    const georgia = picker.locator("[data-state-card]").filter({ hasText: "Georgia test and road-sign study guide" });
+    assert.match(await georgia.innerText(), /separate test sections, retest timing, and language options/i);
+    assert.equal(await georgia.getByRole("link", { name: "Permit practice", exact: true }).count(), 0);
+    const entry = georgia.getByRole("link", { name: "State guide", exact: true });
     assert.equal(await entry.getAttribute("href"), "georgia-dds-road-signs-practice.html");
     assert.doesNotMatch(await page.locator("main").innerText(), /24 picture questions with Georgia/i);
     await entry.click();

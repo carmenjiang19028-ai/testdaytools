@@ -1557,14 +1557,6 @@ def render_home_road_sign_panel():
   </div>
   {render_mini_sign_drill()}
   <div class="pocket-tool-list" aria-label="Fast road sign tools">{link_cards}</div>
-  <div class="workbench-return">
-    <div>
-      <span>Best first click</span>
-      <strong>40-picture road signs test</strong>
-      <p>Start with the broad picture round, then use missed categories to choose regulatory, flashcard, or state-specific review.</p>
-    </div>
-    <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Start picture test</a>
-  </div>
   <div class="hero-stat-strip">{stats}</div>
 </aside>"""
 
@@ -1587,13 +1579,12 @@ def render_home_pocket_tabs():
 def render_home_state_preview():
     return """<section class="home-state-preview" id="state-paths-preview">
   <div>
-    <span>Choose your state DMV path</span>
-    <h2>Pictures first. State next.</h2>
-    <p>Start with the broad picture round, then choose a state path for official rules, score context, and test-day details.</p>
+    <h2>Find your state's permit resources</h2>
+    <p>The picture quiz covers signs used across the U.S. Use your state guide for local rules, the official exam format, and test-day requirements.</p>
   </div>
   <div class="home-state-preview-actions">
-    <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs pictures</a>
-    <a href="dmv-practice.html#state-paths">Choose your state</a>
+    <a href="#state-paths">Choose your state</a>
+    <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs with pictures</a>
     <a href="dmv-test-day-checklist.html#dmv-checklist" data-home-state-shortcut>Checklist</a>
     <a href="dmv-permit-test-requirements-by-state.html">Official rules</a>
   </div>
@@ -3465,36 +3456,6 @@ def render_dmv_source_matrix():
 </section>"""
 
 
-def render_home_value_brief():
-    cards = "".join(
-        f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
-        for label, title, text in [
-            (
-                "1",
-                "Official source first",
-                "Open the state source before trusting any practice score. TestDayTools points you there, then helps you decide what to drill.",
-            ),
-            (
-                "2",
-                "Visual signs second",
-                "Road-sign mistakes are easier to diagnose when you separate regulatory signs, warnings, direction signs, speed signs, and crossings.",
-            ),
-            (
-                "3",
-                "Mistakes become a route",
-                "A missed question should send you to a focused drill, a handbook section, or a document checklist instead of another random quiz.",
-            ),
-        ]
-    )
-    return f"""<section class="content-section home-value-brief">
-  <h2>How to use TestDayTools without wasting practice time</h2>
-  <p>Pick one state, confirm the official source, run a short practice round, then use the first miss to choose the next tool. The site is built to turn DMV confusion into a small sequence: official source, signs, state practice, mistake log, checklist.</p>
-</section>
-<section class="mode-card-grid home-value-cards" aria-label="DMV study loop">
-  {cards}
-</section>"""
-
-
 def render_home_tool_roles():
     cards = [
         (
@@ -5298,16 +5259,6 @@ def render_dmv_hub(hub):
 
 
 def render_home():
-    start_items = "".join(
-        f'<a class="start-card" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><p>{esc(item["text"])}</p></a>'
-        for item in DATA["home"].get("startHere", [])
-    )
-    start_section = f'<section class="home-start"><h2>Start with the DMV task</h2><p class="section-intro">Most visitors should choose a concrete task first: signs, regulatory signs, documents, or state permit practice.</p><div class="start-grid">{start_items}</div></section>' if start_items else ""
-    popular_items = "".join(
-        f'<a class="popular-row" href="{esc(item["href"])}"><span>{esc(item["label"])}</span><strong>{esc(item["title"])}</strong><em>{esc(item["text"])}</em></a>'
-        for item in DATA["home"].get("popular", [])
-    )
-    popular_section = f'<section class="home-popular"><h2>High-value tools</h2><div class="popular-list">{popular_items}</div></section>' if popular_items else ""
     cards = []
     for section in DATA["home"]["sections"]:
         if section.get("hubSlug"):
@@ -5328,14 +5279,9 @@ def render_home():
       {render_last_updated(DATA["home"].get("lastUpdated"))}
       {render_home_pocket_tabs()}
       <div class="hero-actions home-quick-links">
+        <a class="home-worksheet-link" href="dmv-road-signs-cheat-sheet.html#online-worksheet">Road signs worksheet</a>
         <a href="skills-practice.html">Work skills practice preview</a>
         <a href="road-sign-learning-loop.html">Road sign contrast lab</a>
-        <a href="road-signs-practice-test.html?mode=road-signs-core#practice">Road signs with pictures</a>
-        <a href="dmv-road-signs-cheat-sheet.html">Printable road signs cheat sheet</a>
-        <a href="new-york-dmv-road-signs-practice.html">New York road signs</a>
-        <a href="florida-dmv-road-signs-practice.html">Florida regulatory signs</a>
-        <a href="regulatory-traffic-signs-practice-test.html">Regulatory traffic signs</a>
-        <a href="dmv-road-sign-flashcards.html">Road sign flashcards</a>
       </div>
     </div>
     {render_home_road_sign_panel()}
@@ -5344,12 +5290,9 @@ def render_home():
 <section class="notice pocket-notice"><strong>Independent resource.</strong> {esc(SITE["disclaimer"])} <a href="disclaimer.html">Read more</a></section>
 {render_dmv_journey_dashboard()}
 {render_home_state_preview()}
-{render_home_tool_roles()}
-{render_home_value_brief()}
-{render_florida_dmv_cluster()}
 {render_dmv_launcher("Choose your state DMV path")}
-{start_section}
-{popular_section}
+{render_home_tool_roles()}
+{render_florida_dmv_cluster()}
 {''.join(cards)}
 {render_ad("Future ad")}
 {render_home_bottom_nav()}"""

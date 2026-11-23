@@ -6,6 +6,7 @@ const fs = require("node:fs");
 
 const origin = "http://testdaytools.test";
 const root = path.resolve(__dirname, "..");
+const { home: homeContent } = require("../content/site_data.json");
 const now = Date.UTC(2026, 10, 20, 9);
 const day = 86400000;
 const journeyKey = "tdt-dmv-journey:v1";
@@ -140,7 +141,7 @@ test("the desktop checklist preview changes on state switch and preserves explic
     await state.selectOption("california");
     const link = page.locator("#state-paths-preview").getByRole("link", { name: "Checklist", exact: true });
     assert.match(await link.getAttribute("href"), /\?state=california#dmv-checklist$/);
-    const florida = page.getByRole("link", { name: "Florida regulatory signs", exact: true });
+    const florida = page.locator(".pocket-tool-list").getByRole("link", { name: /Florida regulatory signs/ });
     assert.equal(await florida.getAttribute("href"), "florida-dmv-road-signs-practice.html");
     await link.click();
     await page.waitForLoadState("load");
@@ -160,6 +161,46 @@ test("a current homepage selection still routes correctly when browser storage i
     await page.waitForLoadState("load");
     assert.equal(await page.locator("[data-dmv-checklist-state]").inputValue(), "new-york");
   }));
+
+for (const width of [320, 390, 1280]) {
+  test(`${width}px: homepage goes straight to the state picker or printable worksheet`, () =>
+    withSite(width, async (page) => {
+      const home = origin + "/";
+      await page.goto(home);
+      const preview = page.locator("#state-paths-preview");
+      const state = page.locator("#state-paths");
+      assert.equal(await preview.getByRole("link", { name: "Choose your state", exact: true }).getAttribute("href"), "#state-paths");
+      assert.equal(await preview.evaluate(el => el.nextElementSibling.id), "state-paths");
+      assert.equal(await page.locator(".home-start, .home-popular, .home-value-brief, .home-value-cards").count(), 0);
+      const visibleRoutes = await page.locator("main a[href]").evaluateAll(links =>
+        links.filter(link => link.getClientRects().length).map(link => link.getAttribute("href")));
+      for (const { href } of [...homeContent.startHere, ...homeContent.popular]) {
+        assert.ok(visibleRoutes.includes(href), `homepage still offers ${href}`);
+      }
+      await preview.getByRole("link", { name: "Choose your state", exact: true }).press("Enter");
+      await page.waitForURL(home + "#state-paths");
+      const search = state.getByRole("searchbox", { name: "Find your state" });
+      assert.ok(await search.isVisible());
+      await search.fill("Georgia");
+      assert.equal(await state.locator("[data-state-card]:visible").count(), 1);
+      const guide = state.getByRole("link", { name: "State guide", exact: true });
+      assert.equal(await guide.getAttribute("href"), "georgia-dds-road-signs-practice.html");
+      await guide.press("Enter");
+      await page.waitForURL("**/georgia-dds-road-signs-practice.html");
+
+      await page.goto(home);
+      const earlyLinks = page.locator(".home-quick-links");
+      assert.equal(await earlyLinks.locator("a").count(), 3);
+      assert.ok(await earlyLinks.getByRole("link", { name: "Work skills practice preview", exact: true }).isVisible());
+      const worksheet = earlyLinks.getByRole("link", { name: "Road signs worksheet", exact: true });
+      assert.ok(await worksheet.isVisible());
+      const box = await worksheet.boundingBox();
+      assert.ok(box.x >= 0 && box.x + box.width <= width && box.y + box.height <= 900);
+      await worksheet.press("Enter");
+      await page.waitForURL("**/dmv-road-signs-cheat-sheet.html#online-worksheet");
+      assert.ok(await page.getByRole("heading", { name: "Road signs worksheet: online self-check" }).isVisible());
+    }));
+}
 
 for (const width of [390, 1280]) {
   test(`${width}px: only this state's full mixed practice advances the readiness path`, () =>
