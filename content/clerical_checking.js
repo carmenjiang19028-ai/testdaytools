@@ -89,13 +89,50 @@
   function currentElapsed() { return elapsed + (started && !paused ? (performance.now() - started) / 1000 : 0); }
   function isExpired() { return mode === 'timed' && currentElapsed() >= LIMIT; }
   function renderClock() {
-    const seconds = currentElapsed();
+    const seconds = mode === 'timed' ? Math.min(currentElapsed(), LIMIT) : currentElapsed();
     $('[data-timer]').textContent = mode === 'untimed' ? '—' : fmt(Math.max(0, Math.ceil(LIMIT - seconds)));
     $('[data-rate]').textContent = seconds ? (answers.length / (seconds / 60)).toFixed(1) : '0.0';
+  }
+  function renderTimeout(show) {
+    const section = $('[data-timeout]');
+    const opening = show && section.hidden;
+    const focused = document.activeElement;
+    const wasPracticing = $('[data-question]').contains(focused) || focused === $('[data-next]') || focused === $('[data-pause]');
+    section.hidden = !show;
+    $('[data-question]').hidden = show;
+    if (!opening) return;
+    const correct = answers.filter(a => a?.ok).length;
+    const flagged = answers.filter(a => a?.choice === 'unsure').length;
+    const wrong = answers.length - correct - flagged;
+    $('[data-timeout-summary]').textContent = `${answers.length} of ${N} answered in ${LIMIT} seconds: ${correct} correct, ${wrong} wrong, ${flagged} flagged, ${N - answers.length} not reached.`;
+    const misses = answers.flatMap((answer, n) => {
+      if (!answer || answer.ok) return [];
+      const kind = answer.choice === 'unsure' ? 'Flagged for review' : answer.choice === 'match' ? 'False match' : 'False mismatch';
+      const q = items[n], diffs = differences(q);
+      const entry = document.createElement('li');
+      const title = document.createElement('strong');
+      const source = document.createElement('div'), copy = document.createElement('div');
+      title.textContent = `Comparison ${n + 1}: ${kind}`;
+      showRecord(source, q.left, diffs, 'left');
+      showRecord(copy, q.right, diffs, 'right');
+      source.prepend('Source: ');
+      copy.prepend('Copy: ');
+      entry.append(title, source, copy, explanation(diffs));
+      return [entry];
+    });
+    const list = $('[data-timeout-errors]');
+    list.replaceChildren(...misses);
+    list.hidden = !misses.length;
+    $('[data-timeout-tip]').textContent = misses.length
+      ? 'Retry in untimed mode. Compare the name and code separately, then return to a timed round.'
+      : 'Use untimed mode to work through all 12 comparisons before trying the timer again.';
+    if (wasPracticing) $('#checking-timeout-title').focus();
   }
   function render() {
     const q = items[i]; if (!q) return;
     const expired = isExpired(), held = paused && !finished && !expired;
+    const timedOut = expired && !finished && answers.length < N;
+    renderTimeout(timedOut);
     const diffs = answers[i] ? differences(q) : [];
     showRecord($('#left'), held && !answers[i] ? 'Paused' : q.left, diffs, 'left');
     showRecord($('#right'), held && !answers[i] ? 'Resume to compare' : q.right, diffs, 'right');
@@ -105,7 +142,8 @@
     $('[data-progress]').style.width = `${answers.length / N * 100}%`;
     renderClock();
     $('[data-timer]').classList.toggle('paused', paused);
-    $('[data-next]').disabled = !answers[i] || held || finished;
+    $('[data-next]').hidden = timedOut;
+    $('[data-next]').disabled = !answers[i] || held || finished || timedOut;
     $('[data-next]').textContent = finished ? 'Round saved' : i === N - 1 ? 'Finish round' : 'Next comparison';
     $('[data-pause]').disabled = expired || finished;
     $('[data-pause]').textContent = finished ? 'Complete' : expired ? 'Time up' : held ? 'Resume' : 'Pause';
@@ -119,7 +157,7 @@
     historyView();
   }
   function answer(choice) { if (answers[i] || paused || finished) return; if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); return; } const q = items[i]; if (!startedTracked && typeof window.trackSkillStart === 'function') startedTracked = window.trackSkillStart('clerical_checking', attemptType); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
-  function next() { if (finished || !answers[i] || (paused && !isExpired())) return; if (i < N - 1) { i += 1; render(); save(); } else finish(); }
+  function next() { if (finished || !answers[i] || (isExpired() ? answers.length < N : paused)) return; if (i < N - 1) { i += 1; render(); save(); } else finish(); }
   function finish() { if (answers.filter(Boolean).length < N || finished) return; elapsed = mode === 'timed' ? Math.min(currentElapsed(), LIMIT) : currentElapsed(); paused = true; finished = true; recordRound(); if (!completeTracked && typeof window.trackSkillComplete === 'function') completeTracked = window.trackSkillComplete('clerical_checking'); render(); save(false); }
   function historyView() {
     const h = JSON.parse(localStorage.getItem(STATS) || '{}');

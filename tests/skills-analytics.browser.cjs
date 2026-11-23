@@ -117,7 +117,81 @@ async function expired(browser, viewport) {
     });
     assert.deepEqual(await events(page), [], 'An expired round must not record an answer');
     assert.equal(await page.locator('[data-feedback]').isVisible(), false);
+    assert.match(await page.locator('[data-timeout]').innerText(), /0 of 12 answered.*12 not reached/s);
+    assert.equal(await page.locator('[data-timeout-errors] li').count(), 0);
+    assert.match(await page.locator('[data-timeout-tip]').innerText(), /untimed mode/i);
     assert.deepEqual(errors, []);
+  } finally { await context.close(); }
+}
+
+async function timedReview(browser, viewport) {
+  const { context, page, errors, unexpected } = await isolatedPage(browser, viewport);
+  try {
+    const key = 'tdt-skills-checking-v1';
+    const stats = 'tdt-skills-checking-stats-v1';
+    const read = key => page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+    await assertPageTag(page, 'clerical-checking-practice');
+    const { items } = await read(key);
+    const [wrong, flagged, correct] = items;
+    const next = page.locator('[data-next]');
+    const report = page.getByRole('region', { name: 'Time up: review this round' });
+    for (const choice of [wrong.truth === 'match' ? 'mismatch' : 'match', 'unsure', correct.truth]) {
+      await page.locator(`[data-answer="${choice}"]`).click();
+      await next.click();
+    }
+    assert.equal(await report.isVisible(), false);
+    await page.locator('[data-answer="match"]').focus();
+    await page.evaluate(() => Object.defineProperty(performance, 'now', { value: () => 1e9 }));
+    await report.waitFor();
+    assert.match(await report.locator('[data-timeout-summary]').innerText(), /3 of 12 answered.*1 correct.*1 wrong.*1 flagged.*9 not reached/);
+    const rows = await report.getByRole('listitem').allTextContents();
+    assert.equal(rows.length, 2);
+    assert.ok(rows[0].includes('Comparison 1'));
+    assert.ok(rows[0].includes(`Source: ${wrong.left}`));
+    assert.ok(rows[0].includes(`Copy: ${wrong.right}`));
+    assert.ok(rows[0].includes(wrong.why));
+    assert.ok(rows[1].includes('Comparison 2'));
+    assert.ok(rows[1].includes('Flagged for review'));
+    assert.ok(rows[1].includes(flagged.why));
+    assert.equal(await page.evaluate(() => document.activeElement?.id), 'checking-timeout-title');
+    assert.equal(await next.isDisabled(), true);
+    assert.equal(await page.locator('[data-question]').isVisible(), false);
+    assert.equal(await next.isVisible(), false);
+    const layout = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+    assert.ok(layout[0] <= layout[1] + 1);
+    assert.equal(await read(stats), null, 'Partial rounds are not completed rounds');
+    await checkEvent(page, ['skills_practice_start', ...Array(3).fill('skills_answer_checked')], 'clerical_checking', 'clerical-checking-practice');
+    await page.screenshot({ path: path.join(output, `clerical-timeout-${viewport.width}.png`), fullPage: true });
+    await page.reload();
+    assert.deepEqual(await report.getByRole('listitem').allTextContents(), rows);
+    assert.deepEqual(await events(page), []);
+    await page.locator('[data-new]').click();
+    assert.equal(await report.isVisible(), false);
+    assert.equal(await page.locator('[data-done]').innerText(), '0 / 12');
+    assert.deepEqual(errors, []);
+    assert.deepEqual(unexpected, []);
+  } finally { await context.close(); }
+}
+
+async function finishAtTimeLimit(browser, viewport) {
+  const { context, page, errors, unexpected } = await isolatedPage(browser, viewport);
+  try {
+    await assertPageTag(page, 'clerical-checking-practice');
+    const next = page.locator('[data-next]');
+    const match = page.locator('[data-answer="match"]');
+    for (let n = 0; n < 12; n += 1) {
+      await match.click();
+      if (n < 11) await next.click();
+    }
+    await page.evaluate(() => Object.defineProperty(performance, 'now', { value: () => 1e9 }));
+    await page.getByRole('button', { name: 'Time up', exact: true }).waitFor();
+    assert.equal(await page.locator('[data-timeout]').isVisible(), false);
+    await next.click();
+    assert.match(await page.locator('[data-history]').innerText(), /^1 saved round.*12 comparisons/);
+    await next.dispatchEvent('click');
+    await checkEvent(page, ['skills_practice_start', ...Array(12).fill('skills_answer_checked'), 'skills_practice_complete'], 'clerical_checking', 'clerical-checking-practice');
+    assert.deepEqual(errors, []);
+    assert.deepEqual(unexpected, []);
   } finally { await context.close(); }
 }
 
@@ -297,6 +371,8 @@ async function filingQuality(browser, viewport) {
       await practice(browser, viewport, 'clerical-checking-practice', 'clerical_checking', '[data-answer]'); passed++;
       await practice(browser, viewport, 'filing-practice', 'filing_order', '[data-choice]'); passed++;
       await expired(browser, viewport); passed++;
+      await timedReview(browser, viewport); passed++;
+      await finishAtTimeLimit(browser, viewport); passed++;
       await checkingQuality(browser, viewport); passed++;
       await filingQuality(browser, viewport); passed++;
     }
