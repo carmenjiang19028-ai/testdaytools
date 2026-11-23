@@ -3864,12 +3864,15 @@ def render_road_sign_cheat_sheet_page():
     <img src="assets/road-sign-practice-qr.svg" alt="QR code for the online study sheet and practice groups" width="82" height="82">
     <p><strong>Practice only the signs you missed.</strong> Scan to find the same groups online, or go to <a href="{esc(practice_page)}#printable-sheet">{esc(practice_page.removeprefix("https://"))}</a>.</p>
   </div>
-  <div class="cheat-legend" aria-label="Road sign color and shape legend">
-    <div><span class="legend-swatch legend-red"></span><strong>Red</strong><p>Stop, yield, entry, or prohibited movement</p></div>
-    <div><span class="legend-swatch legend-yellow"></span><strong>Yellow</strong><p>Warning, crossing, or road condition ahead</p></div>
-    <div><span class="legend-swatch legend-white"></span><strong>White</strong><p>Regulatory rule, speed, lane, or direction</p></div>
-    <div><span class="legend-swatch legend-blue"></span><strong>Blue</strong><p>Driver service such as a hospital</p></div>
+  <div class="cheat-legend" role="group" aria-label="Six colors used in this study sheet">
+    <div><span class="legend-swatch legend-red"></span><strong>Red</strong><p>Stop, yield, or a restriction.</p></div>
+    <div><span class="legend-swatch legend-yellow"></span><strong>Yellow</strong><p>General warning. Read the symbol.</p></div>
+    <div><span class="legend-swatch legend-orange"></span><strong>Orange</strong><p>Temporary traffic control, such as work zones.</p></div>
+    <div><span class="legend-swatch legend-yellow-green"></span><strong>Yellow-green</strong><p>School warnings and some pedestrian or bicycle warnings.</p></div>
+    <div><span class="legend-swatch legend-white"></span><strong>White</strong><p>Often a regulation, such as speed or direction.</p></div>
+    <div><span class="legend-swatch legend-blue"></span><strong>Blue</strong><p>Services such as fuel or a hospital.</p></div>
   </div>
+  <p class="cheat-legend-note">Use color as a clue, then check the shape, symbol, or words. Yellow-green alone does not set a school speed limit.</p>
   {"".join(rendered_groups)}
   <section class="cheat-review-panel" aria-label="Road sign review notes">
     <div>
@@ -3935,7 +3938,8 @@ def render_road_sign_cheat_sheet_page():
 {render_material_links()}
 {render_material_review()}
 {render_sources([
-  {"label": "FHWA: Manual on Uniform Traffic Control Devices", "url": "https://mutcd.fhwa.dot.gov/"},
+  {"label": "FHWA: Common Uses of Sign Colors, Table 2A-2", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2ar1.pdf#page=6"},
+  {"label": "FHWA: School warning sign colors, Part 7", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf#page=4"},
   {"label": "FHWA: Workers sign (W21-1), Figure 6H-1 and section 6H.18", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part6r1.pdf#page=37"},
 ])}
 {render_related(["road-signs-practice-test", "new-york-dmv-road-signs-practice", "dmv-road-sign-flashcards", "road-sign-shapes-and-colors-finder", "regulatory-traffic-signs-practice-test"])}

@@ -6054,9 +6054,9 @@ button:disabled {
 
 .cheat-legend {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
-  margin: 20px 0 26px;
+  margin: 20px 0 8px;
 }
 
 .cheat-legend > div {
@@ -6077,6 +6077,12 @@ button:disabled {
   font-size: 0.78rem;
 }
 
+.cheat-legend-note {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
 .legend-swatch {
   width: 16px;
   height: 16px;
@@ -6088,6 +6094,8 @@ button:disabled {
 
 .legend-red { background: #c7312f; }
 .legend-yellow { background: #f6d54a; }
+.legend-orange { background: #f59e2e; }
+.legend-yellow-green { background: #c7e644; }
 .legend-white { background: #fff; }
 .legend-blue { background: #0f5fa8; }
 
@@ -6338,7 +6346,30 @@ button:disabled {
   }
 
   .cheat-legend {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin: 12px 0 6px;
+    break-inside: avoid;
+  }
+
+  .cheat-legend > div {
+    padding: 4px 6px;
+    gap: 0 6px;
+  }
+
+  .cheat-legend strong {
+    font-size: 0.85rem;
+    line-height: 1.25;
+  }
+
+  .cheat-legend p {
+    line-height: 1.25;
+  }
+
+  .cheat-legend-note {
+    margin-bottom: 12px;
+    color: #333;
+    break-before: avoid;
   }
 
   .cheat-legend .legend-swatch {
@@ -6355,6 +6386,10 @@ button:disabled {
     grid-template-columns: 68px minmax(0, 1fr);
     padding: 7px;
     break-inside: avoid;
+  }
+
+  .cheat-legend-note + .cheat-group .cheat-sign-card {
+    min-height: 76px;
   }
 
   .cheat-sign-visual,

@@ -72,8 +72,17 @@ test("a 40-question recorded score opens the full round, and group links do not 
     const link = page.getByRole("link", { name: "Start the full 40-question round", exact: true });
     assert.equal(await link.count(), 1);
     await page.emulateMedia({ media: "print" });
+    const legend = page.locator(".cheat-legend");
+    assert.deepEqual(await legend.locator("strong").allTextContents(), [
+      "Red", "Yellow", "Orange", "Yellow-green", "White", "Blue",
+    ]);
+    assert.match(await legend.innerText(), /Orange\s+Temporary traffic control/);
+    assert.match(await legend.innerText(), /Yellow-green\s+School warnings and some pedestrian or bicycle warnings/);
+    assert.match(await page.locator(".cheat-legend-note").innerText(), /does not set a school speed limit/);
     assert.deepEqual(await page.locator(".cheat-legend .legend-swatch").evaluateAll(nodes =>
-      nodes.map(node => getComputedStyle(node).printColorAdjust)), Array(4).fill("exact"));
+      nodes.map(node => getComputedStyle(node).printColorAdjust)), Array(6).fill("exact"));
+    assert.equal(await legend.locator(".legend-orange").evaluate(node => getComputedStyle(node).backgroundColor), "rgb(245, 158, 46)");
+    assert.equal(await legend.locator(".legend-yellow-green").evaluate(node => getComputedStyle(node).backgroundColor), "rgb(199, 230, 68)");
     assert.equal(await page.locator("#printable-sheet").isVisible(), true);
     assert.equal(await page.locator(".cheat-group-practice-link").first().isVisible(), false);
     assert.equal(await link.isVisible(), false);

@@ -242,6 +242,15 @@ class CoreMaterialTests(unittest.TestCase):
             self.assertIn("2026-10-28", text)
             self.assertNotIn("qualified instructor approved", text.lower())
 
+    def test_print_reference_color_cues_are_textual_and_on_page_one(self):
+        reference = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")
+        first = " ".join(reference.pages[0].extract_text().split())
+        for phrase in ("Orange Temporary traffic control", "Yellow-green School warnings",
+                       "does not set a school speed limit", "Do Not Pass"):
+            self.assertIn(phrase, first)
+        self.assertTrue(all(float(page.mediabox.width) == 612 and float(page.mediabox.height) == 792
+                            for page in reference.pages))
+
     def test_classroom_embeds_all_eight_shared_pictures(self):
         pdf = PdfReader(ROOT / "dmv-road-signs-classroom-worksheet.pdf")
         self.assertEqual(len(list(pdf.pages[0].images)), 8)
