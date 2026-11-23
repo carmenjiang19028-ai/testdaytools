@@ -15,7 +15,7 @@ from scripts.build_road_sign_classroom_pack import (
     CLASSROOM_SIGNS, DECISION_CASES, DECISION_REVIEWED, FHWA_FLAGGER_URL,
     PENNDOT_SIGNS_URL, TRANSFER_KEY, TRANSFER_PROMPT,
 )
-from scripts.road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL
+from scripts.road_sign_print_links import CLASSROOM_WORKSHEET_URL, PRACTICE_DISPLAY, PRACTICE_URL
 from scripts.road_sign_classroom_content import RECOGNITION_ITEMS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -310,7 +310,9 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual(PRACTICE_URL, url_for("/dmv-road-signs-cheat-sheet.html") + "#printable-sheet")
         self.assertEqual([uris(page) for page in reference.pages],
                          [{links[0], PRACTICE_URL}, {links[1]}, {links[2]}])
-        self.assertEqual(uris(classroom.pages[0]), {PRACTICE_URL})
+        self.assertEqual(CLASSROOM_WORKSHEET_URL, url_for("/dmv-road-signs-cheat-sheet.html") + "#online-worksheet")
+        self.assertEqual(uris(classroom.pages[0]), {CLASSROOM_WORKSHEET_URL})
+        self.assertIn(CLASSROOM_WORKSHEET_URL.removeprefix("https://"), classroom.pages[0].extract_text())
         self.assertEqual(uris(classroom.pages[2]), {PENNDOT_SIGNS_URL, FHWA_FLAGGER_URL})
         for pdf in [reference, classroom]:
             self.assertIn(PRACTICE_DISPLAY, pdf.pages[0].extract_text())

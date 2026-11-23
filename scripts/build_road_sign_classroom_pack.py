@@ -24,10 +24,10 @@ from reportlab.platypus import (
 )
 if __package__:
     from . import road_sign_classroom_content as classroom
-    from .road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL, practice_qr
+    from .road_sign_print_links import CLASSROOM_WORKSHEET_URL, PRACTICE_DISPLAY, practice_qr
 else:
     import road_sign_classroom_content as classroom
-    from road_sign_print_links import PRACTICE_DISPLAY, PRACTICE_URL, practice_qr
+    from road_sign_print_links import CLASSROOM_WORKSHEET_URL, PRACTICE_DISPLAY, practice_qr
 
 
 ROOT = FSPath(__file__).resolve().parents[1]
@@ -154,10 +154,10 @@ def build_document(image_dir, output):
     story.append(reflection)
     story.append(Spacer(1, 10))
     practice = Table([[
-        practice_qr(61),
+        practice_qr(61, CLASSROOM_WORKSHEET_URL),
         Paragraph(
-            f'<b>Practice the signs you missed</b><br/>Scan to open the study sheet, then choose your sign group. '
-            f'<link href="{PRACTICE_URL}" color="#155E9F"><u>{PRACTICE_DISPLAY}</u></link>',
+            '<b>Check this worksheet online</b><br/>Scan to check the same numbered item and open its matching practice. '
+            f'<link href="{CLASSROOM_WORKSHEET_URL}" color="#155E9F"><u>{CLASSROOM_WORKSHEET_URL.removeprefix("https://")}</u></link>',
             styles["Bodyx"],
         ),
     ]], colWidths=[0.99 * inch, 6.11 * inch], hAlign="LEFT")
@@ -238,7 +238,7 @@ def build_document(image_dir, output):
         ("2 min", "Silent scan", "Students name each sign without reading the answer choices."),
         ("3 min", "Action language", "Ask for verbs: stop, yield, merge, slow, watch, or do not enter."),
         ("3 min", "Decision round", "Choose two cases. Students explain one decision to a partner; assign the others for follow-up."),
-        ("2 min", "Targeted next step", "Circle up to three weak signs. Scan or open the link on page 1 and choose the matching quiz group."),
+        ("2 min", "Targeted next step", "Circle up to three weak signs. Use the page 1 link to find the same items online and open matching practice."),
     ]
     plan_table = Table([[Paragraph(f"<b>{a}</b>", styles["Bodyx"]), Paragraph(f"<b>{b}</b>", styles["Bodyx"]), Paragraph(c, styles["Bodyx"])] for a, b, c in plan], colWidths=[0.65 * inch, 1.25 * inch, 5.2 * inch])
     plan_table.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.6, LINE), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("BACKGROUND", (0, 0), (1, -1), SOFT), ("LEFTPADDING", (0, 0), (-1, -1), 6), ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5)]))
