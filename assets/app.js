@@ -1891,30 +1891,41 @@ function initMiniSignDrills() {
   });
 }
 
+function signSearchWords(value) {
+  return value.normalize("NFKC").toLowerCase().replace(/\buturn\b/g, "u turn").match(/[a-z0-9]+/g) || [];
+}
+
+function matchesSignSearch(words, terms) {
+  return terms.every((term) => words.some((word) =>
+    word === term || ((term.length > 1 || terms.length === 1) && word.startsWith(term))));
+}
+
 function initSignLookups() {
   document.querySelectorAll("[data-sign-lookup]").forEach((lookup) => {
     const search = lookup.querySelector("[data-sign-search]");
     const filterButtons = Array.from(lookup.querySelectorAll("[data-sign-filter]"));
     const cards = Array.from(lookup.querySelectorAll("[data-sign-card]"));
+    const searchable = cards.map((card) => signSearchWords(card.dataset.signQuery || ""));
     const count = lookup.querySelector("[data-sign-count]");
     const empty = lookup.querySelector("[data-sign-empty]");
     const countLabel = lookup.dataset.signCountLabel || "sign";
     let activeFilter = "all";
 
     const render = () => {
-      const term = (search?.value || "").trim().toLowerCase();
+      const terms = signSearchWords(search?.value || "");
       let shown = 0;
-      cards.forEach((card) => {
+      cards.forEach((card, index) => {
         const matchesFilter = activeFilter === "all" || card.dataset.signFilterKey === activeFilter;
-        const matchesSearch = !term || (card.dataset.signQuery || "").includes(term);
-        const visible = matchesFilter && matchesSearch;
+        const visible = matchesFilter && matchesSignSearch(searchable[index], terms);
         card.hidden = !visible;
         if (visible) shown += 1;
       });
       if (count) count.textContent = `${shown} ${countLabel}${shown === 1 ? "" : "s"} shown`;
       if (empty) empty.hidden = shown !== 0;
       filterButtons.forEach((button) => {
-        button.classList.toggle("is-active", button.dataset.signFilter === activeFilter);
+        const active = button.dataset.signFilter === activeFilter;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
       });
     };
 
@@ -1932,6 +1943,7 @@ function initSignLookups() {
 function initRoadSignFlashcards() {
   document.querySelectorAll("[data-road-sign-flashcards]").forEach((deck) => {
     const cards = Array.from(deck.querySelectorAll("[data-flashcard]"));
+    const searchable = cards.map((card) => signSearchWords(card.dataset.cardQuery || ""));
     const filterSelect = deck.querySelector("[data-flashcard-filter]");
     const searchInput = deck.querySelector("[data-flashcard-search]");
     const resetButton = deck.querySelector("[data-flashcard-reset]");
@@ -2073,15 +2085,14 @@ function initRoadSignFlashcards() {
     const applyFilters = (start = 0, retainCard = false) => {
       const previousIndex = retainCard ? activeIndexes[activePosition] : undefined;
       const filter = filterSelect?.value || "all";
-      const term = (searchInput?.value || "").trim().toLowerCase();
+      const terms = signSearchWords(searchInput?.value || "");
       activeIndexes = cards
         .map((card, index) => ({ card, index }))
-        .filter(({ card }) => {
+        .filter(({ card, index }) => {
           const matchesFilter = filter === "review" ? review.has(cardId(card))
             : filter === "missed" ? missedCardIds.has(cardId(card))
             : filter === "all" || card.dataset.cardFilter === filter;
-          const matchesSearch = !term || (card.dataset.cardQuery || "").includes(term);
-          return matchesFilter && matchesSearch;
+          return matchesFilter && matchesSignSearch(searchable[index], terms);
         })
         .map(({ index }) => index);
       const matchedPosition = activeIndexes.indexOf(previousIndex);
