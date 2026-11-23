@@ -8,6 +8,9 @@
   let items = [], i = 0, answers = [], started = 0, elapsed = 0;
   let paused = false, mode = 'timed', finished = false;
   let startedTracked = false, completeTracked = false, attemptType = 'first';
+  let storageAvailable = true;
+  let totals = { rounds: 0, checks: 0, correct: 0, errors: {} };
+  const decisions = ['match', 'mismatch', 'unsure'];
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const rng = () => {
@@ -93,18 +96,14 @@
     $('[data-timer]').textContent = mode === 'untimed' ? '—' : fmt(Math.max(0, Math.ceil(LIMIT - seconds)));
     $('[data-rate]').textContent = seconds ? (answers.length / (seconds / 60)).toFixed(1) : '0.0';
   }
-  function renderTimeout(show) {
-    const section = $('[data-timeout]');
-    const opening = show && section.hidden;
-    const focused = document.activeElement;
-    const wasPracticing = $('[data-question]').contains(focused) || focused === $('[data-next]') || focused === $('[data-pause]');
-    section.hidden = !show;
-    $('[data-question]').hidden = show;
-    if (!opening) return;
+  function renderReview(summary, list, timedOut) {
     const correct = answers.filter(a => a?.ok).length;
     const flagged = answers.filter(a => a?.choice === 'unsure').length;
     const wrong = answers.length - correct - flagged;
-    $('[data-timeout-summary]').textContent = `${answers.length} of ${N} answered in ${LIMIT} seconds: ${correct} correct, ${wrong} wrong, ${flagged} flagged, ${N - answers.length} not reached.`;
+    const result = `${correct} correct, ${wrong} wrong, ${flagged} flagged`;
+    summary.textContent = timedOut
+      ? `${answers.length} of ${N} answered in ${LIMIT} seconds: ${result}, ${N - answers.length} not reached.`
+      : `${N} of ${N} answered: ${result}.`;
     const misses = answers.flatMap((answer, n) => {
       if (!answer || answer.ok) return [];
       const kind = answer.choice === 'unsure' ? 'Flagged for review' : answer.choice === 'match' ? 'False match' : 'False mismatch';
@@ -120,19 +119,41 @@
       entry.append(title, source, copy, explanation(diffs));
       return [entry];
     });
-    const list = $('[data-timeout-errors]');
     list.replaceChildren(...misses);
     list.hidden = !misses.length;
-    $('[data-timeout-tip]').textContent = misses.length
+    return misses.length;
+  }
+  function renderTimeout(show) {
+    const section = $('[data-timeout]');
+    const opening = show && section.hidden;
+    const focused = document.activeElement;
+    const wasPracticing = $('[data-question]').contains(focused) || focused === $('[data-next]') || focused === $('[data-pause]');
+    section.hidden = !show;
+    if (!opening) return;
+    const misses = renderReview($('[data-timeout-summary]'), $('[data-timeout-errors]'), true);
+    $('[data-timeout-tip]').textContent = misses
       ? 'Retry in untimed mode. Compare the name and code separately, then return to a timed round.'
       : 'Use untimed mode to work through all 12 comparisons before trying the timer again.';
     if (wasPracticing) $('#checking-timeout-title').focus();
   }
-  function render() {
+  function renderCompleted(show, focusReview) {
+    const section = $('[data-completed-review]');
+    const opening = show && section.hidden;
+    section.hidden = !show;
+    if (!opening) return;
+    const misses = renderReview($('[data-completed-summary]'), $('[data-completed-errors]'), false);
+    $('[data-completed-tip]').textContent = misses
+      ? 'Review which records match exactly and which characters differ before starting another round.'
+      : 'Every comparison was correct.';
+    if (focusReview) $('#checking-completed-title').focus();
+  }
+  function render({ focusReview = false } = {}) {
     const q = items[i]; if (!q) return;
     const expired = isExpired(), held = paused && !finished && !expired;
     const timedOut = expired && !finished && answers.length < N;
     renderTimeout(timedOut);
+    $('[data-question]').hidden = timedOut || finished;
+    renderCompleted(finished, focusReview);
     const diffs = answers[i] ? differences(q) : [];
     showRecord($('#left'), held && !answers[i] ? 'Paused' : q.left, diffs, 'left');
     showRecord($('#right'), held && !answers[i] ? 'Resume to compare' : q.right, diffs, 'right');
@@ -144,7 +165,7 @@
     $('[data-timer]').classList.toggle('paused', paused);
     $('[data-next]').hidden = timedOut;
     $('[data-next]').disabled = !answers[i] || held || finished || timedOut;
-    $('[data-next]').textContent = finished ? 'Round saved' : i === N - 1 ? 'Finish round' : 'Next comparison';
+    $('[data-next]').textContent = finished ? (storageAvailable ? 'Round saved' : 'Round complete') : i === N - 1 ? 'Finish round' : 'Next comparison';
     $('[data-pause]').disabled = expired || finished;
     $('[data-pause]').textContent = finished ? 'Complete' : expired ? 'Time up' : held ? 'Resume' : 'Pause';
     $$('[data-answer]').forEach((b) => { b.disabled = !!answers[i] || expired || paused; b.className = 'choice'; if (answers[i] && b.dataset.answer === answers[i].choice) b.classList.add(answers[i].ok ? 'correct' : answers[i].choice === 'unsure' ? 'neutral' : 'wrong'); });
@@ -158,20 +179,99 @@
   }
   function answer(choice) { if (answers[i] || paused || finished) return; if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); return; } const q = items[i]; if (!startedTracked && typeof window.trackSkillStart === 'function') startedTracked = window.trackSkillStart('clerical_checking', attemptType); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
   function next() { if (finished || !answers[i] || (isExpired() ? answers.length < N : paused)) return; if (i < N - 1) { i += 1; render(); save(); } else finish(); }
-  function finish() { if (answers.filter(Boolean).length < N || finished) return; elapsed = mode === 'timed' ? Math.min(currentElapsed(), LIMIT) : currentElapsed(); paused = true; finished = true; recordRound(); if (!completeTracked && typeof window.trackSkillComplete === 'function') completeTracked = window.trackSkillComplete('clerical_checking'); render(); save(false); }
-  function historyView() {
-    const h = JSON.parse(localStorage.getItem(STATS) || '{}');
-    $('[data-history]').textContent = h.rounds ? `${h.rounds} saved round${h.rounds === 1 ? '' : 's'} · ${h.checks || 0} comparisons · ${h.correct || 0} correct.` : 'Not enough saved rounds yet.';
-    const counts = h.errors || {};
-    $('[data-errors]').innerHTML = Object.entries(counts).map(([k, v]) => `<li>${k.replace('_', ' ')}: ${v}</li>`).join('') || '<li>No error pattern recorded yet.</li>';
+  function finish() {
+    if (answers.filter(Boolean).length < N || finished) return;
+    elapsed = mode === 'timed' ? Math.min(currentElapsed(), LIMIT) : currentElapsed();
+    paused = true;
+    finished = true;
+    if (!completeTracked && typeof window.trackSkillComplete === 'function') completeTracked = window.trackSkillComplete('clerical_checking');
+    save(false);
+    recordRound();
+    render({ focusReview: true });
   }
-  function save(active = true) { localStorage.setItem(KEY, JSON.stringify({ seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active, startedTracked, completeTracked, attemptType })); }
-  function clear() { localStorage.removeItem(KEY); localStorage.removeItem(STATS); location.reload(); }
-  function load() { const h = JSON.parse(localStorage.getItem(KEY) || 'null'); if (h && h.roundActive && h.items) { seed = h.seed; items = h.items; i = h.i; answers = h.answers; elapsed = h.elapsed || 0; paused = true; mode = h.mode || 'timed'; startedTracked = !!h.startedTracked; completeTracked = !!h.completeTracked; attemptType = h.attemptType || 'first'; $$('input[name=mode]').forEach(x => { x.checked = x.value === mode; }); render(); } else make(); }
+  const count = (value) => Number.isSafeInteger(value) && value > 0 ? value : 0;
+  function storageUnavailable() {
+    storageAvailable = false;
+    $('[data-checking-storage-notice]').hidden = false;
+  }
+  function readStored(key) {
+    if (!storageAvailable) return null;
+    let raw;
+    try { raw = localStorage.getItem(key); }
+    catch (error) { storageUnavailable(); return null; }
+    try { return JSON.parse(raw || 'null'); }
+    catch (error) { return null; }
+  }
+  function writeStored(key, value) {
+    if (!storageAvailable) return;
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (error) { storageUnavailable(); }
+  }
+  function normalizeTotals(value) {
+    const errors = {};
+    for (const key of ['false_match', 'false_mismatch', 'omission']) {
+      const amount = count(value?.errors?.[key]);
+      if (amount) errors[key] = amount;
+    }
+    return { rounds: count(value?.rounds), checks: count(value?.checks), correct: count(value?.correct), errors };
+  }
+  function historyView() {
+    const { rounds, checks, correct, errors } = totals;
+    $('[data-history]').textContent = rounds
+      ? `${rounds}${storageAvailable ? ' saved' : ''} round${rounds === 1 ? '' : 's'} · ${checks} comparisons · ${correct} correct.`
+      : 'No rounds in this history yet.';
+    const entries = Object.entries(errors).map(([key, value]) => `${key.replace('_', ' ')}: ${value}`);
+    if (!entries.length) entries.push('No error pattern recorded yet.');
+    $('[data-errors]').replaceChildren(...entries.map(text => {
+      const item = document.createElement('li');
+      item.textContent = text;
+      return item;
+    }));
+  }
+  function save(active = true) {
+    writeStored(KEY, { seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active, startedTracked, completeTracked, attemptType });
+  }
+  function clear() {
+    if (storageAvailable) {
+      try { localStorage.removeItem(KEY); localStorage.removeItem(STATS); location.reload(); return; }
+      catch (error) { storageUnavailable(); }
+    }
+    totals = normalizeTotals(null);
+    attemptType = 'first';
+    make();
+  }
+  function validRound(h) {
+    return Array.isArray(h?.items) && h.items.length > 0 && h.items.length <= N
+      && h.items.every(q => typeof q?.left === 'string' && typeof q?.right === 'string'
+        && q.truth === (q.left === q.right ? 'match' : 'mismatch'))
+      && Number.isInteger(h.i) && h.i >= 0 && h.i < h.items.length
+      && Array.isArray(h.answers) && (h.answers.length === h.i || h.answers.length === h.i + 1)
+      && h.answers.every((a, index) => decisions.includes(a?.choice) && a.ok === (a.choice === h.items[index].truth));
+  }
+  function load() {
+    totals = normalizeTotals(readStored(STATS));
+    const h = readStored(KEY);
+    if (!validRound(h) || (h.roundActive !== true && (h.roundActive !== false || h.answers.length !== N))) {
+      make();
+      return;
+    }
+    seed = Number.isFinite(h.seed) ? h.seed : seed;
+    items = h.items; i = h.i; answers = h.answers;
+    elapsed = Number.isFinite(h.elapsed) && h.elapsed >= 0 ? h.elapsed : 0;
+    paused = true; mode = h.mode === 'untimed' ? 'untimed' : 'timed'; finished = !h.roundActive;
+    startedTracked = !!h.startedTracked; completeTracked = !!h.completeTracked; attemptType = h.attemptType === 'retry' ? 'retry' : 'first';
+    $$('input[name=mode]').forEach(x => { x.checked = x.value === mode; });
+    render();
+  }
   function recordRound() {
-    const h = JSON.parse(localStorage.getItem(STATS) || '{}'); const errors = h.errors || {};
+    const stored = readStored(STATS);
+    if (stored) totals = normalizeTotals(stored);
+    const { errors } = totals;
     answers.forEach((a, n) => { if (!a || a.ok) return; const k = a.choice === 'unsure' ? 'omission' : (items[n].truth === 'mismatch' && a.choice === 'match' ? 'false_match' : 'false_mismatch'); errors[k] = (errors[k] || 0) + 1; });
-    localStorage.setItem(STATS, JSON.stringify({ rounds: (h.rounds || 0) + 1, checks: (h.checks || 0) + N, correct: (h.correct || 0) + answers.filter((x) => x && x.ok).length, errors }));
+    totals.rounds += 1;
+    totals.checks += N;
+    totals.correct += answers.filter((x) => x && x.ok).length;
+    writeStored(STATS, totals);
   }
   $$('[data-answer]').forEach((b) => b.addEventListener('click', () => answer(b.dataset.answer)));
   $('[data-next]').addEventListener('click', next); $('[data-new]').addEventListener('click', () => { if (startedTracked && typeof window.trackSkillRetry === 'function') window.trackSkillRetry('clerical_checking'); if (startedTracked) attemptType = 'retry'; make(); }); $('[data-clear]').addEventListener('click', clear);
