@@ -47,6 +47,22 @@ class StateRoadSignContentTest(unittest.TestCase):
         expected = f"google.com, {publisher_id.removeprefix('ca-')}, DIRECT, f08c47fec0942fa0\n"
         self.assertEqual((ROOT / "ads.txt").read_text(), expected)
 
+    def test_lane_ends_cards_do_not_teach_one_merge_point_for_every_situation(self):
+        meaning = "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
+        slugs = [
+            f"{state}-{kind}"
+            for state in ("california-dmv", "new-york-dmv", "texas-dmv", "florida-dmv",
+                          "illinois-dmv", "pennsylvania-dmv", "new-jersey-mvc")
+            for kind in ("permit-practice-test", "road-signs-practice")
+            if kind != "permit-practice-test" or state not in ("texas-dmv", "illinois-dmv")
+        ]
+        for slug in slugs:
+            with self.subTest(slug=slug):
+                cards = [sign for group in self.tools[slug]["signLibrary"]["groups"]
+                         for sign in group["signs"] if sign["image"] == "lane-ends"]
+                self.assertEqual([card["meaning"] for card in cards], [meaning])
+                self.assertIn(meaning, (ROOT / f"{slug}.html").read_text())
+
     def test_north_carolina_recall_uses_both_official_chart_groups(self):
         slug = "north-carolina-dmv-road-signs-practice"
         lesson = self.tools[slug]["toolWidget"]

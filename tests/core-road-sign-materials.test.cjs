@@ -24,6 +24,32 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });
 after(async () => { await browser?.close(); });
 
+for (const width of [390, 1280]) {
+  test(`${width}px: Lane Ends feedback distinguishes preparation from the actual merge point`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'road-signs-practice-test.html')).href + '?mode=road-signs-core#practice');
+      const quiz = page.locator('[data-mode-panel="road-signs-core"].is-active [data-quiz]');
+      const question = quiz.locator('.question[data-flashcard-key="lane-ends"]');
+      const index = await question.getAttribute('data-question-index');
+      await quiz.locator(`[data-quiz-jump="${index}"]`).press('Enter');
+      assert.ok(await question.isVisible());
+      const source = question.locator('[data-quiz-source] a');
+      assert.equal(await source.isVisible(), false);
+      await question.getByRole('button', { name: 'A lane will end and traffic must merge', exact: true }).press('Enter');
+      const explanation = await question.locator('.feedback').innerText();
+      assert.match(explanation, /^Correct\./);
+      assert.match(explanation, /follow posted directions and lane markings.*backed-up work zone.*take turns at the merge point/i);
+      assert.match(explanation, /without a backup.*safe to move over earlier/i);
+      assert.equal(await source.getAttribute('href'), 'https://www.dot.state.mn.us/zippermerge/');
+      assert.ok(await source.isVisible());
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [320, 1280]) {
   test(`${width}px: classroom worksheet is usable by keyboard without scripts or a download`, async () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
@@ -675,7 +701,7 @@ for (const width of [1280, 390]) {
           assert.deepEqual(await savedPractice(), oldState);
           assert.equal(await page.locator('.contrast-lesson .contrast-sign-pair img').count(), 6);
         } else {
-          assert.equal(await page.locator('.material-links a[href^="road-sign-learning-loop.html#lesson-"]').count(), 3);
+          assert.equal(await page.locator('.material-links a[href^="road-sign-learning-loop.html#lesson-"]:visible').count(), 3);
         }
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
         assert.equal(overflow, false);

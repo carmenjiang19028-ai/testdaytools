@@ -5843,7 +5843,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -7203,7 +7203,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -7704,7 +7704,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -8366,7 +8366,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -9260,7 +9260,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -9731,7 +9731,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -10509,7 +10509,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -12026,7 +12026,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -12392,7 +12392,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -12928,7 +12928,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -13315,7 +13315,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -13864,7 +13864,7 @@
               {
                 "image": "lane-ends",
                 "title": "Lane Ends",
-                "meaning": "A lane is ending ahead; merge early and avoid sudden moves."
+                "meaning": "An existing lane ends ahead. Follow posted directions and lane markings; merge when safe."
               },
               {
                 "image": "slippery",
@@ -22049,7 +22049,11 @@
           "A toll lane starts ahead"
         ],
         "answer": 0,
-        "explanation": "Lane Ends signs warn that a travel lane will disappear, so drivers should merge early and smoothly."
+        "explanation": "The sign shows a lane reduction, not where you must merge. Follow posted directions and lane markings. In a backed-up work zone with zipper-merge directions, use both available lanes and take turns at the merge point. In moving traffic without a backup, it can be safe to move over earlier when there is room.",
+        "source": {
+          "url": "https://www.dot.state.mn.us/zippermerge/",
+          "label": "Minnesota DOT: when to use a zipper merge"
+        }
       },
       {
         "q": "What driving adjustment fits this sign?",
