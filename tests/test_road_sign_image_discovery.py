@@ -133,6 +133,21 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
         self.assertNotIn("<img", visual)
         self.assertIn("<svg", build.render_sign_preview_strip())
 
+    def test_question_illustrations_describe_the_picture_instead_of_its_meaning(self):
+        for key, cue in (
+            ("hospital", "Blue rectangle with a large white letter H."),
+            ("merge", "Yellow diamond with a straight upward arrow. A separate black line curves toward it from the right."),
+            ("no-left-turn", "White rectangle with a black arrow bending left under a red circle and diagonal slash."),
+            ("curb-blue", "Gray roadway beside a blue painted curb."),
+            ("stop", "Red octagon with the word STOP in white."),
+        ):
+            with self.subTest(key=key):
+                visual = build.render_sign_visual({"image": key, "imageAlt": "Answer name, not a visual clue"}, "quiz-art-test-1")
+                self.assertIn(f'aria-label="{cue}"', visual)
+                self.assertNotIn("Answer name", visual)
+        railroad = next(record for record in build.dmv_daily_question_records() if record["state"] == "illinois" and record["image"] == "railroad")
+        self.assertEqual(railroad["imageAlt"], "Yellow circle with a black X and an R on each side.")
+
 
 if __name__ == "__main__":
     unittest.main()

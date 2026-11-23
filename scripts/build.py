@@ -29,6 +29,10 @@ DATA = json.loads(
     (ROOT / "content" / "site_data.json").read_text(),
     object_pairs_hook=reject_duplicate_json_keys,
 )
+ROAD_SIGN_RECALL_CUES = json.loads(
+    (ROOT / "content" / "road_sign_recall_cues.json").read_text(),
+    object_pairs_hook=reject_duplicate_json_keys,
+)
 SITE = DATA["site"]
 TOOL_BY_SLUG = {tool["slug"]: tool for tool in DATA["tools"]}
 HUBS = DATA.get("hubs", [])
@@ -1189,7 +1193,6 @@ def road_sign_group_practice_href(group):
 
 def road_sign_flashcard_records():
     source = TOOL_BY_SLUG.get("road-signs-practice-test", {})
-    cues = json.loads((ROOT / "content/road_sign_recall_cues.json").read_text(), object_pairs_hook=reject_duplicate_json_keys)
     records = []
     for group in source.get("signLibrary", {}).get("groups", []):
         category = group.get("label", "Road signs")
@@ -1206,7 +1209,7 @@ def road_sign_flashcard_records():
                 "category": category,
                 "filter": filter_key,
                 "image": item.get("image", ""),
-                "cue": cues[item["image"]],
+                "cue": ROAD_SIGN_RECALL_CUES[item["image"]],
                 "practice": road_sign_group_practice_href(group),
                 "query": " ".join([title, meaning, category, item["image"], SIGN_SEARCH_ALIASES.get(item["image"], "")]).strip().lower(),
             })
@@ -1267,6 +1270,7 @@ def dmv_daily_question_records():
             elif quiz_key in ("california", "newyork"):
                 params["mode"] = "quick"
             practice = f'{practice.removesuffix("#practice")}?{urlencode(params)}#practice'
+        image = question.get("image", "")
         records.append({
             "id": f"daily-{index + 1}",
             "state": state_value,
@@ -1279,8 +1283,8 @@ def dmv_daily_question_records():
             "choices": question.get("choices", []),
             "answer": question.get("answer", 0),
             "explanation": question.get("explanation", ""),
-            "image": question.get("image", ""),
-            "imageAlt": question.get("imageAlt", "Road sign illustration"),
+            "image": image,
+            "imageAlt": ROAD_SIGN_RECALL_CUES[image] if image in SIGN_SVGS else "",
             "source": question.get("source"),
         })
     return records
@@ -2789,7 +2793,7 @@ def render_sign_visual(question, image_id):
     svg = SIGN_SVGS.get(key)
     if not svg:
         return ""
-    label = question.get("imageAlt", "Road sign illustration")
+    label = ROAD_SIGN_RECALL_CUES[key]
     return f"""<figure class="question-visual">
   <div class="sign-art" id="{esc(image_id)}" role="img" aria-label="{esc(label)}">{svg}</div>
   <figcaption>Look at the sign, then choose the safest meaning or driver action.</figcaption>

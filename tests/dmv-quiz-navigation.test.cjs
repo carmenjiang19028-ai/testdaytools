@@ -149,7 +149,7 @@ for (const width of [390, 1280]) {
       await quiz.locator('[data-quiz-jump="8"]').press("Enter");
       const question = quiz.locator(".question.is-active");
       const heading = question.locator("h3");
-      const clue = "Yellow diamond with a straight upward arrow and a separate curved stem joining from the right";
+      const clue = "Yellow diamond with a straight upward arrow. A separate black line curves toward it from the right.";
       const img = question.getByRole("img", { name: clue, exact: true });
       assert.equal(await img.count(), 1);
       assert.equal(await heading.getAttribute("aria-describedby"), await img.getAttribute("id"));
@@ -162,7 +162,7 @@ for (const width of [390, 1280]) {
       await question.getByRole("button", { name: "Traffic entering or joining your lane", exact: true }).press("Enter");
       assert.match(await question.locator(".feedback").innerText(), /^Correct\./);
       await quiz.locator('[data-quiz-jump="9"]').press("Enter");
-      assert.match((await accessibleFocus(page)).description?.value, /right stroke bends closer to the left/);
+      assert.match((await accessibleFocus(page)).description?.value, /left line stays straight and the right line bends inward/);
     } finally { await context.close(); }
   });
 }
@@ -193,6 +193,28 @@ test("each quiz question describes its own artwork and conditions without leakin
     });
     assert.ok(associations.picture > 0 && associations.text > 0 && associations.conditioned > 0);
     assert.deepEqual(associations.mismatches, []);
+  } finally { await context.close(); }
+});
+
+test("live quiz and daily question expose sign features, not the answer name", async () => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 820 } });
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    const local = slug => pathToFileURL(path.join(root, slug + ".html")).href;
+    await page.goto(local("illinois-dmv-road-signs-practice") + "?focus=Warning%20signs#practice");
+    const question = page.locator("[data-quiz] .question.is-active");
+    const clue = question.getByRole("img", { name: /yellow diamond.*upward arrow.*curves toward it from the right/i });
+    assert.equal(await clue.count(), 1);
+    const clueId = await clue.getAttribute("id");
+    assert.ok((await question.locator("h3").getAttribute("aria-describedby")).split(/\s+/).includes(clueId));
+    assert.equal(await question.getByRole("img", { name: /merge warning sign/i }).count(), 0);
+
+    await page.goto(local("dmv-permit-test-question-of-the-day") + "?state=illinois");
+    const daily = page.locator("[data-daily-card].is-active");
+    if (!await daily.getByRole("img").count()) await page.locator("[data-daily-next]").click();
+    assert.equal(await daily.getByRole("img", { name: "Yellow circle with a black X and an R on each side.", exact: true }).count(), 1);
+    assert.equal(await daily.getByRole("img", { name: "railroad crossing sign", exact: true }).count(), 0);
   } finally { await context.close(); }
 });
 
