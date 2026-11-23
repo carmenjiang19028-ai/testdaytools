@@ -369,3 +369,30 @@ test("the five current mixed-practice pages explain the state decision and where
     await context.close();
   }
 });
+
+test("the two legacy mixed rounds distinguish practice from official requirements and lead to real sign lessons", async () => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 850 } });
+  try {
+    await context.route(/^https?:/, (route) => route.abort());
+    const page = await context.newPage();
+    for (const [state, official, recovery, lesson] of [
+      ["texas", /Teen applicants:.*bring proof.*driver license office.*not proof/s, /Separate a sign.*from a rule/s, "texas-work-zone-panels"],
+      ["illinois", /28 correct at 80 percent.*35 as the minimum.*32 correct as a study target only/s, /identify.*actions you chose incorrectly/s, "illinois-school-zone"],
+    ]) {
+      await page.goto(file(`${state}-dmv-permit-practice-test`));
+      assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "noindex,follow");
+      assert.match(await page.locator("#official-details .section-intro").innerText(), official);
+      assert.match(await page.locator("#practice-topics .section-intro").innerText(), recovery);
+      assert.equal(await page.locator('[data-mode-panel="mock"] [data-quiz]').getAttribute("data-pass-score"), "32");
+      const link = page.locator(`#sign-study a[href$="#${lesson}"]`);
+      await link.click();
+      assert.equal(new URL(page.url()).hash, `#${lesson}`);
+      assert.equal(await page.locator(`#${lesson} h2`).isVisible(), true);
+    }
+    assert.equal(await page.locator('meta[name="robots"][content*="noindex"]').count(), 0);
+    assert.match(await page.locator("#official-details .section-intro").innerText(), /does not cover the whole written test/);
+    assert.equal(await page.locator('.sources a[href*="/commission/jcar/admincode/"]').count(), 1);
+  } finally {
+    await context.close();
+  }
+});

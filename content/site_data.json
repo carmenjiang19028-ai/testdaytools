@@ -8902,7 +8902,7 @@
         },
         {
           "q": "Why does the mock exam use 40 questions?",
-          "a": "The mock mode is a longer diagnostic. Some states have shorter or longer official exams, so the official format is shown in the exam snapshot."
+          "a": "Forty questions give you a longer practice round. The 32-of-40 target applies only here. This is not the official Texas exam and cannot replace proof that you passed it."
         },
         {
           "q": "Should I trust practice questions or the official handbook?",
@@ -8925,8 +8925,8 @@
       ],
       "examDetails": {
         "kicker": "Real test details",
-        "heading": "Texas permit test facts people look for first",
-        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "heading": "What to check before your Texas learner-license visit",
+        "intro": "Teen applicants: if you passed the knowledge exam during driver education, bring proof. If you have not taken it during the course, Texas DPS says you will take it at the driver license office. This practice result is not proof.",
         "items": [
           {
             "label": "Official source",
@@ -8946,14 +8946,18 @@
           {
             "label": "Practice target here",
             "value": "32 of 40 on mock exam",
-            "text": "Use this target as a confidence check before the real knowledge exam."
+            "text": "Use the missed topics to choose what to reread in the handbook. This target does not tell you the length or result of your official exam."
           }
         ]
       },
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Texas signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "If orange work-zone signs cost you points, check which side of a barricade is open before repeating the whole set. When a flagger is present, read the paddle and follow the flagger's direction.",
+        "reviewLink": {
+          "label": "Try the Texas barricade and flagger cases",
+          "href": "texas-dmv-road-signs-practice.html#texas-work-zone-panels"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -8993,7 +8997,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "Texas permit topics to study after each quiz",
-        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "intro": "Separate a sign you did not recognize from a rule you did not know. Use the sign review for the first kind of miss; for the second, pick the matching rule below and check it in the Texas handbook.",
         "items": [
           {
             "label": "Topic 1",
@@ -11733,8 +11737,8 @@
       ],
       "sources": [
         {
-          "label": "Illinois Administrative Code: Driver License Testing/Written Test",
-          "url": "https://www.ilga.gov/ftp/JCAR/AdminCode/092/092010300000800R.html"
+          "label": "Illinois Administrative Code: Class D written test (section 1030.80)",
+          "url": "https://www.ilga.gov/commission/jcar/admincode/092/092010300000800R.html"
         },
         {
           "label": "Illinois Secretary of State: Driver Services",
@@ -11743,13 +11747,13 @@
       ],
       "examDetails": {
         "kicker": "Real test details",
-        "heading": "Illinois permit test facts people look for first",
-        "intro": "These are the high-intent facts users usually look for before deciding whether a practice page is trustworthy.",
+        "heading": "Illinois Class D written test and this practice target",
+        "intro": "A 35-question test would require 28 correct at 80 percent. The rule sets 35 as the minimum, not a fixed length. Our longer 40-question round uses 32 correct as a study target only.",
         "items": [
           {
             "label": "Official agency",
             "value": "Secretary of State",
-            "text": "Illinois licensing is handled by Secretary of State Driver Services, even though many people search DMV."
+            "text": "Use Secretary of State Driver Services for licensing and written-test information."
           },
           {
             "label": "Class D format",
@@ -11764,14 +11768,18 @@
           {
             "label": "Practice target here",
             "value": "32 of 40 on mock exam",
-            "text": "This site uses a long mixed round to make the 80 percent target visible."
+            "text": "Check which rules you missed before repeating the mixed round; this score is not an official result."
           }
         ]
       },
       "signStudy": {
         "kicker": "Road sign study guide",
         "heading": "Illinois signs by shape, color, and markings",
-        "intro": "Search-result competitors usually teach sign patterns, not only quiz answers. Use these patterns before retaking the image round.",
+        "intro": "The Illinois written test covers signs by shape, color or symbol, as well as signals and pavement markings. A school sign you recognize can still lead to a missed rule: check the posted limit and when it applies.",
+        "reviewLink": {
+          "label": "Try the Illinois school-zone cases",
+          "href": "illinois-dmv-road-signs-practice.html#illinois-school-zone"
+        },
         "groups": [
           {
             "label": "Shapes",
@@ -11811,7 +11819,7 @@
       "practiceTopics": {
         "kicker": "Practice by topic",
         "heading": "Illinois permit topics to study after each quiz",
-        "intro": "A useful practice site should tell you what to study next. Use these topic cards with the weak-area chips after a missed answer.",
+        "intro": "Review wrong answers in two groups: signs or markings you could not identify, and actions you chose incorrectly. Use the sign guide for the first group and the matching rule topic below for the second.",
         "items": [
           {
             "label": "Topic 1",
@@ -12194,8 +12202,8 @@
       ],
       "sources": [
         {
-          "label": "Illinois Administrative Code: Driver License Testing/Written Test",
-          "url": "https://www.ilga.gov/ftp/JCAR/AdminCode/092/092010300000800R.html"
+          "label": "Illinois Administrative Code: Class D written test (section 1030.80)",
+          "url": "https://www.ilga.gov/commission/jcar/admincode/092/092010300000800R.html"
         },
         {
           "label": "Illinois Secretary of State: Driver Services",
@@ -12205,12 +12213,12 @@
       "examDetails": {
         "kicker": "Illinois test context",
         "heading": "Illinois road signs in the real permit-test context",
-        "intro": "Road-sign practice works better when you also know how signs fit into the real test and official study source.",
+        "intro": "Use this picture round to practice identifying signs by shape, color or symbol. Illinois also tests signals, pavement markings and driving rules; this sign drill does not cover the whole written test.",
         "items": [
           {
             "label": "Official agency",
             "value": "Secretary of State",
-            "text": "Illinois licensing is handled by Secretary of State Driver Services, even though many people search DMV."
+            "text": "Use the Secretary of State's Rules of the Road for written-test topics and sign meanings."
           },
           {
             "label": "Class D format",

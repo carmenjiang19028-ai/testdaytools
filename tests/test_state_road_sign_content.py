@@ -250,10 +250,12 @@ class StateRoadSignContentTest(unittest.TestCase):
         sitemap = ElementTree.parse(ROOT / "sitemap.xml")
         locations = sitemap.findall("m:url/m:loc", {"m": "http://www.sitemaps.org/schemas/sitemap/0.9"})
         self.assertTrue(locations)
-        for loc in locations:
-            name = urlsplit(loc.text).path.lstrip("/") or "index.html"
+        names = [urlsplit(loc.text).path.lstrip("/") or "index.html" for loc in locations]
+        names += ["texas-dmv-permit-practice-test.html", "illinois-dmv-permit-practice-test.html"]
+        for name in names:
             with self.subTest(page=name):
-                self.assertNotIn("Search-result competitors", (ROOT / name).read_text())
+                self.assertNotRegex((ROOT / name).read_text(),
+                                    r"(?i)search-result competitors|high-intent facts|many people search DMV|a useful practice site should")
 
     def test_full_mixed_benchmark_matches_an_available_quiz(self):
         records = dmv_requirement_records()
