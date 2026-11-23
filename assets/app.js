@@ -3106,6 +3106,7 @@ function initDmvChecklists() {
     const manualLink = widget.querySelector("[data-dmv-manual-link]");
     const permitLink = widget.querySelector("[data-dmv-permit-link]");
     const signLink = widget.querySelector("[data-dmv-sign-link]");
+    const scoreLink = document.querySelector("[data-checklist-score-link]");
     const score = widget.querySelector("[data-dmv-ready-score]");
     const message = widget.querySelector("[data-dmv-ready-message]");
     const nextStep = widget.querySelector("[data-dmv-next-step]");
@@ -3271,6 +3272,11 @@ function initDmvChecklists() {
       if (appointmentHint) appointmentHint.textContent = option.dataset.appointment || "Check appointment, payment, and arrival instructions before you leave.";
       if (retakeHint) retakeHint.textContent = option.dataset.retake || "Know what happens if you need another attempt.";
       if (manualLink) manualLink.href = option.dataset.manualUrl || "#";
+      if (scoreLink) {
+        const target = new URL(scoreLink.href);
+        target.searchParams.set("state", option.value);
+        scoreLink.href = target.href;
+      }
       if (permitLink) {
         permitLink.hidden = !option.dataset.mixedPracticeUrl;
         if (option.dataset.mixedPracticeUrl) {

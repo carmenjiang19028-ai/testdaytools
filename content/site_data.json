@@ -7502,7 +7502,7 @@
         },
         {
           "label": "Official pass rule",
-          "value": "14 correct and 2 sign questions"
+          "value": "14+ of 20, including 2+ signs"
         },
         {
           "label": "Practice target",
@@ -7703,7 +7703,7 @@
           },
           {
             "label": "Official pass rule",
-            "value": "14 correct plus 2 sign questions",
+            "value": "14+ of 20, including 2+ signs",
             "note": "You need at least 14 correct overall and at least 2 of the 4 road-sign questions."
           },
           {
@@ -8050,7 +8050,7 @@
         },
         {
           "label": "Check passing score",
-          "href": "dmv-permit-test-passing-score-calculator.html#score-calculator"
+          "href": "dmv-permit-test-passing-score-calculator.html?state=new-york#score-calculator"
         },
         {
           "label": "Official NY sign chart",
@@ -8354,7 +8354,7 @@
           },
           {
             "label": "Official pass rule",
-            "value": "14 correct plus 2 sign questions",
+            "value": "14+ of 20, including 2+ signs",
             "note": "You need at least 14 correct overall and at least 2 of the 4 road-sign questions."
           },
           {
@@ -9641,7 +9641,7 @@
         },
         {
           "label": "Passing score",
-          "href": "dmv-permit-test-passing-score-calculator.html"
+          "href": "dmv-permit-test-passing-score-calculator.html?state=florida#score-calculator"
         },
         {
           "label": "Florida road signs",
@@ -10054,7 +10054,7 @@
               "label": "40 of 50 target",
               "title": "Use 80 percent as the minimum, not the goal",
               "text": "If a practice round is near the line, build margin before test day. One missed sign or right-of-way cluster can move the result quickly.",
-              "href": "dmv-permit-test-passing-score-calculator.html",
+              "href": "dmv-permit-test-passing-score-calculator.html?state=florida#score-calculator",
               "cta": "Open score calculator"
             },
             {

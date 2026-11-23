@@ -1290,7 +1290,7 @@ def render_tool_actions(tool):
         ]
         actions = [action for action in actions if action]
         if state:
-            actions.append(("Passing score", "dmv-permit-test-passing-score-calculator.html#score-calculator"))
+            actions.append(("Passing score", f'{DMV_SCORE_SLUG}.html?state={state["value"]}#score-calculator'))
             actions.append(("Test-day checklist", checklist_href_for_state(state)))
         elif slug == "road-signs-practice-test":
             actions.append(("Passing score", "dmv-permit-test-passing-score-calculator.html#score-calculator"))
@@ -1308,7 +1308,10 @@ def render_tool_actions(tool):
         ]
         if state:
             actions.append(("Test-day checklist", checklist_href_for_state(state)))
-    links = "".join(f'<a href="{esc(href)}">{esc(label)}</a>' for label, href in actions)
+    links = "".join(
+        f'<a href="{esc(href)}"{" data-checklist-score-link" if is_checklist_page and label == "Passing score" else ""}>{esc(label)}</a>'
+        for label, href in actions
+    )
     return f'\n    <div class="hero-actions">{links}</div>'
 
 

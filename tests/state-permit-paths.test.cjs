@@ -21,6 +21,81 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
 
+const scoreCalculator = "dmv-permit-test-passing-score-calculator";
+const scoreEntrances = [
+  ["new-york-dmv-road-signs-practice", "Check passing score", "new-york", /14 correct out of 20, including at least 2 road-sign/],
+  ["texas-dmv-road-signs-practice", "Passing score", "texas", /70% or better/],
+  ["illinois-dmv-road-signs-practice", "Passing score", "illinois", /80% correct; at least 35 questions/],
+  ["pennsylvania-dmv-road-signs-practice", "Passing score", "pennsylvania", /15 correct out of 18/],
+  ["new-jersey-mvc-road-signs-practice", "Passing score", "new-jersey", /40 correct out of 50/],
+  ["florida-dmv-permit-practice-test", "Passing score", "florida", /40 correct out of 50/],
+  ["florida-dmv-permit-practice-test", "Open score calculator", "florida", /40 correct out of 50/],
+];
+
+for (const [slug, name, state, rule] of scoreEntrances) {
+  test(`${slug}: ${name} opens the matching state rule`, async () => {
+    const context = await browser.newContext({ viewport: { width: state === "new-york" ? 390 : 1280, height: 850 } });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      await page.goto(file(slug));
+      const link = page.locator(name === "Open score calculator" ? "main" : ".hero-actions").getByRole("link", { name, exact: true });
+      assert.equal(await link.getAttribute("href"), `${scoreCalculator}.html?state=${state}#score-calculator`);
+      if (state === "new-york") {
+        assert.match(await page.locator(".exam-brief").innerText(), /14\+ of 20, including 2\+ signs/);
+      }
+      await link.click();
+      await page.waitForURL(`${file(scoreCalculator)}?state=${state}#score-calculator`);
+      await page.waitForLoadState("load");
+      assert.equal(await page.locator("[data-score-state]").inputValue(), state);
+      assert.match(await page.locator("[data-score-rule]").innerText(), rule);
+    } finally { await context.close(); }
+  });
+}
+
+test("New York mixed-practice summaries count the signs inside the overall minimum", async () => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    await page.goto(file("new-york-dmv-permit-practice-test"));
+    const main = await page.locator("main").innerText();
+    assert.equal((main.match(/14\+ of 20, including 2\+ signs/g) || []).length, 3);
+    assert.doesNotMatch(main, /14 correct (?:plus|and) 2 sign questions/);
+  } finally { await context.close(); }
+});
+
+for (const width of [390, 1280]) {
+  test(`${width}px: checklist keeps URL, saved and changed states on the score shortcut`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const checklist = file("dmv-test-day-checklist");
+      await page.goto(`${checklist}?state=new-york#dmv-checklist`);
+      const link = page.locator("[data-checklist-score-link]");
+      const checkDestination = async state => {
+        const target = new URL(await link.getAttribute("href"), page.url());
+        assert.equal(target.hash, "#score-calculator");
+        assert.equal(target.searchParams.get("source"), "checklist_hero");
+        assert.equal(target.searchParams.get("state"), state);
+      };
+      await checkDestination("new-york");
+      await page.locator("[data-dmv-checklist-state]").selectOption("pennsylvania");
+      await checkDestination("pennsylvania");
+      await page.goto(checklist);
+      assert.equal(await page.locator("[data-dmv-checklist-state]").inputValue(), "pennsylvania");
+      await checkDestination("pennsylvania");
+      await page.goto(`${checklist}?state=florida`);
+      await checkDestination("florida");
+      await link.click();
+      await page.waitForURL(`${file(scoreCalculator)}?source=checklist_hero&state=florida#score-calculator`);
+      await page.waitForLoadState("load");
+      assert.equal(await page.locator("[data-score-state]").inputValue(), "florida");
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: Florida document routes distinguish address, consent, proctor and appointment`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
