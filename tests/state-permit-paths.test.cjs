@@ -25,6 +25,46 @@ before(async () => { browser = await chromium.launch({ channel: "chrome", headle
 after(async () => { await browser?.close(); });
 
 for (const width of [320, 1280]) {
+  test(`${width}px: Arizona HAWK distinguishes steady red, alternating red and an inoperative signal`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("arizona-mvd-road-signs-practice");
+      await page.goto(guide);
+      await page.getByRole("link", { name: "Practice HAWK signal decisions", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#arizona-hawk");
+      const lesson = page.getByRole("region", { name: /Arizona HAWK crosswalk/ });
+      const diagram = lesson.getByRole("img", { name: /three-lens beacon.*both upper red lenses.*one upper red on at a time/i });
+      assert.ok(await diagram.evaluate((image) => image.complete && image.naturalWidth === 560 && image.naturalHeight === 160));
+      assert.match(await lesson.locator("figcaption").innerText(), /two red lenses above one yellow lens.*yellow flashes, then holds steady/is);
+      const expected = [
+        /stay stopped while both reds are steady/,
+        /own full stop.*cleared your half of the roadway.*safe/is,
+        /proceed cautiously after the stop.*cleared your half of the roadway/is,
+        /goes dark between activations.*crosswalk is clear.*out at an intersection.*come to a complete stop/is,
+      ];
+      const cases = lesson.locator("details");
+      assert.equal(await cases.count(), expected.length);
+      for (const [index, pattern] of expected.entries()) {
+        const example = cases.nth(index);
+        assert.equal(await example.locator("p").isVisible(), false);
+        await example.locator("summary").press("Enter");
+        assert.match(await example.locator("p").innerText(), pattern);
+      }
+      assert.equal(await lesson.getByRole("link", { name: /pedestrian activated signals/ }).getAttribute("href"),
+        "https://apps.azdot.gov/files/mvd/mvd-forms-lib/99-0117.pdf");
+      assert.equal(await lesson.getByRole("link", { name: /phase sequence/ }).getAttribute("href"),
+        "https://azdot.gov/business/traffic-safety/pedestrian-hybrid-beacon");
+      assert.equal(await lesson.getByRole("link", { name: /inoperative intersection signals/ }).getAttribute("href"),
+        "https://www.azleg.gov/ars/28/00645.htm");
+      assert.equal(await page.locator("[data-quiz]").count(), 0);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: Ohio separates permit supervision, training hours, and first road retest without scripts`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

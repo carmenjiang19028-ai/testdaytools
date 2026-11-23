@@ -15266,9 +15266,49 @@
       "summary": "Check the Arizona MVD permit-test format, decide whether to test at home or in an office, and see what you still need to do after passing. Sign recognition practice uses a shared nationwide picture quiz.",
       "heroActions": [
         {"label": "Arizona test and permit paths", "href": "#arizona-permit-path"},
+        {"label": "Practice HAWK signal decisions", "href": "#arizona-hawk"},
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
         {"label": "Official sources", "href": "#sources"}
       ],
+      "stateRulePractice": {
+        "id": "arizona-hawk",
+        "heading": "Arizona HAWK crosswalk: stay stopped or go after stopping?",
+        "imageAsset": {"src": "assets/arizona-hawk-phases.svg", "width": 560, "height": 160},
+        "imageLabel": "The same three-lens beacon in three snapshots: both upper red lenses on at left, then one upper red on at a time in the two alternating snapshots.",
+        "caption": "A pedestrian hybrid beacon (HAWK) has two red lenses above one yellow lens. After activation, the bottom yellow flashes, then holds steady. The diagrams show what comes next: both reds steady on the left, then two moments of alternating red on the right. These are practice examples, not official test questions.",
+        "scenarios": [
+          {
+            "question": "Both red lights are steady. You do not see anyone in the crosswalk yet. Do you drive through?",
+            "answer": "No. Stop before the stop line and stay stopped while both reds are steady. This is the pedestrian walk interval; someone may be about to step out even when the crosswalk looks empty."
+          },
+          {
+            "question": "The lights alternate red and a stopped van hides part of your half of the road. The car ahead moves. Do you follow?",
+            "answer": "No. Make your own full stop. Do not proceed until you can see that anyone crossing has cleared your half of the roadway and it is safe. Use the crosswalk, not the driver in front, to decide."
+          },
+          {
+            "question": "You have stopped on alternating red. The only pedestrian is now on the far half, your half is visibly clear and no one is at risk. Must you wait for the lights to go dark?",
+            "answer": "No. Arizona's driver manual allows you to proceed cautiously after the stop once the pedestrian has cleared your half of the roadway. Keep yielding if anyone is starting to cross or it is not safe to go."
+          },
+          {
+            "question": "All three HAWK lenses are dark at the marked midblock crossing. Is it an out-of-service intersection signal?",
+            "answer": "Not necessarily. A HAWK normally goes dark between activations. Proceed cautiously only if the crosswalk is clear. A regular traffic signal that is out at an intersection is different: come to a complete stop, then proceed only when safe."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Arizona driver manual: pedestrian activated signals (PDF)",
+            "url": "https://apps.azdot.gov/files/mvd/mvd-forms-lib/99-0117.pdf"
+          },
+          {
+            "label": "Arizona DOT: pedestrian hybrid beacon and phase sequence",
+            "url": "https://azdot.gov/business/traffic-safety/pedestrian-hybrid-beacon"
+          },
+          {
+            "label": "Arizona Revised Statutes 28-645: inoperative intersection signals",
+            "url": "https://www.azleg.gov/ars/28/00645.htm"
+          }
+        ]
+      },
       "quickFacts": [
         {
           "label": "Official source",
@@ -15454,10 +15494,10 @@
           }
         ]
       },
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
-      "replacementText": "This page summarizes Arizona-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."
+      "replacementText": "The Arizona crosswalk cases below are unscored. Scored picture rounds use the shared question bank on the nationwide quiz."
     }
   ],
   "quizzes": {
