@@ -243,6 +243,7 @@ def render_contrast_practice_links(return_page):
   <p>Choose the pair you mix up. Explain how the signs change the driver's decision, then try two short situations before returning to your study material.</p>
   <ul class="material-links">{"".join(links)}</ul>
   <p>{speed_sign_comparison_link()}</p>
+  <p><a href="road-sign-shapes-and-colors-finder.html#school-crossing-location">Compare school crossing plaques with pictures</a></p>
 </section>'''
 
 
@@ -3639,12 +3640,45 @@ def render_crossing_shape_drill():
         <summary>Compare the shape and symbol</summary>
         <p><strong>B is the school sign.</strong> The pentagon and the two figures identify it. A is a general pedestrian warning sign: it can be standard yellow or fluorescent yellow-green. Slow down and look for people at either sign. The background color alone does not tell you the speed limit.</p>
       </details>
-      <details class="contrast-transfer">
-        <summary>What changes if B has an AHEAD plaque?</summary>
-        <p><strong>Prepare for a school crossing farther along the road.</strong> If B instead has a diagonal arrow pointing down toward the roadway, the sign marks the crossing location. Check the separate posted speed limit and any times or flashing conditions that apply.</p>
-      </details>
+      <p><a class="info-card-link" href="#school-crossing-location">Compare the plaques below the school sign</a></p>
       <p><a class="info-card-link" href="road-signs-practice-test.html?focus=School%20and%20pedestrian%20signs#practice">Practice school and pedestrian signs</a></p>
       <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">FHWA 2C.55: pedestrian warning</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf">FHWA 7B.01&ndash;7B.03: school signs and plaques</a></p>
+    </div>
+  </div>
+</section>"""
+
+
+def render_school_crossing_location_drill():
+    school = SIGN_SVGS["school-crossing"]
+    plaque = f'<rect x="34" y="5" width="152" height="52" rx="5" fill="{SCHOOL_WARNING_GREEN}" stroke="#222" stroke-width="5"/>'
+    ahead = '<text x="110" y="42" text-anchor="middle" fill="#111" font-family="Arial, sans-serif" font-size="31" font-weight="900">AHEAD</text>'
+    arrow = '<path d="M123 17 99 42 M99 24v18h18" fill="none" stroke="#111" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/>'
+
+    def assembly(label, mark):
+        return f'<span role="img" aria-label="{esc(label)}">{school}<svg viewBox="0 0 220 63" aria-hidden="true">{plaque}{mark}</svg></span>'
+
+    return f"""<section class="content-section state-sign-lesson" id="school-crossing-location" aria-labelledby="school-crossing-location-heading">
+  <h2 id="school-crossing-location-heading">School crossing ahead or at this location?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair school-crossing-pair">
+        {assembly("Sign A: school pentagon over an AHEAD plaque", ahead)}
+        <span aria-hidden="true">/</span>
+        {assembly("Sign B: school pentagon over a plaque with an arrow pointing diagonally down and left", arrow)}
+      </div>
+      <figcaption><strong>A:</strong> Read the word below the pentagon. <strong>B:</strong> Notice where the arrow points.</figcaption>
+    </figure>
+    <div>
+      <p>On the same road, you pass A first and see B farther on. Both have the same school symbol. Which tells you where to look for the crossing itself?</p>
+      <details class="contrast-transfer">
+        <summary>Check where the crossing is</summary>
+        <p><strong>A warns before the crossing. B marks the crossing location.</strong> At A, slow and scan ahead. At B, check both sides of the roadway and be ready to yield or stop as required. The diagonal arrow points to the crossing; it is not a direction to change lanes or turn.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>Does either plaque set a speed limit?</summary>
+        <p><strong>No.</strong> These two plaques tell you where to expect people crossing. Look for a separate speed-limit sign and any posted times or flashing conditions. The yellow-green background does not give you a speed.</p>
+      </details>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf">FHWA: Figure 7B-1 and Section 7B.03 (W16-9P and W16-7P)</a></p>
     </div>
   </div>
 </section>"""
@@ -3828,6 +3862,7 @@ def render_road_sign_shapes_page():
 </section>
 {render_road_sign_shapes_finder()}
 {render_crossing_shape_drill()}
+{render_school_crossing_location_drill()}
 {render_railroad_crossing_drill()}
 {render_passing_sign_drill()}
 {render_divided_highway_drill()}

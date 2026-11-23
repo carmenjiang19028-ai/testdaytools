@@ -526,8 +526,8 @@ for (const width of [1280, 390]) {
       await drill.getByText('Compare the shape and symbol').focus();
       await page.keyboard.press('Enter');
       assert.equal(await drill.getByText('B is the school sign.').isVisible(), true);
-      await drill.getByText('What changes if B has an AHEAD plaque?').click();
-      assert.equal(await drill.getByText('Prepare for a school crossing farther along the road.').isVisible(), true);
+      assert.equal(await drill.getByRole('link', {name: 'Compare the plaques below the school sign'}).getAttribute('href'),
+        '#school-crossing-location');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
       if (process.env.VERIFY_SCREENSHOTS_DIR) {
         fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });

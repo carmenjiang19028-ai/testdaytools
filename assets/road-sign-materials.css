@@ -59,6 +59,7 @@
 .sign-recall-grid figure { margin: 0 0 8px; }
 .sign-recall-grid details { padding-bottom: 0; }
 .shape-crossing-drill .contrast-sign-pair svg { display: block; width: 100%; height: auto; aspect-ratio: 220 / 160; }
+.school-crossing-pair svg { display: block; width: 100%; max-width: 220px; height: auto; margin-inline: auto; }
 .shape-page .requirements-table-scroll { max-width: 100%; overflow-x: auto; }
 .contrast-sign-pair span { text-align: center; font-size: 14px; }
 .contrast-scene figcaption { margin-top: 14px; line-height: 1.65; }
