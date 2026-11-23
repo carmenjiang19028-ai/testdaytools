@@ -35,6 +35,49 @@ test('legacy study sheet links keep their destination even with a return mode', 
     assert.equal(await page.getByRole('link', { name: 'Return to the study sheet' }).getAttribute('href'), 'dmv-road-signs-cheat-sheet.html');
   } finally { await context.close(); }
 });
+
+for (const width of [320, 1280]) {
+  test(`${width}px: decision pictures describe symbols before grading and name them in feedback`, async () => {
+    const { page, context, errors } = await open(width, 'merge-lane-ends');
+    try {
+      const question = page.locator('[data-loop-question]');
+      const next = page.locator('[data-loop-next]');
+      const figures = question.locator('figure');
+      const captions = () => figures.locator('figcaption').allTextContents();
+      assert.deepEqual(await captions(), ['Picture 1', 'Picture 2']);
+      await answer(page, 1);
+      assert.deepEqual(await captions(), ['Merge', 'Lane Ends']);
+      await next.press('Enter');
+      const worked = page.locator('[data-loop-stage]');
+      assert.match(await worked.getByRole('heading').innerText(), /A worked situation/);
+      assert.deepEqual(await worked.locator('figcaption').allTextContents(), ['Merge', 'Lane Ends']);
+      await next.press('Enter');
+      assert.equal(await question.getAttribute('data-loop-question'), 'merge-main-road');
+      assert.deepEqual(await captions(), ['Picture 1']);
+      const picture = question.getByRole('img');
+      assert.equal(await picture.getAttribute('alt'),
+        'Yellow diamond with a straight upward arrow. A separate black line curves toward it from the right.');
+      assert.match(await picture.getAttribute('src'), /\/merge-road-sign\.svg$/);
+      assert.equal(await question.getByRole('img', { name: 'Merge road sign', exact: true }).count(), 0);
+      await question.locator('[data-loop-option="0"]').press('Enter');
+      assert.deepEqual(await captions(), ['Picture 1']);
+      const shots = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (shots) {
+        fs.mkdirSync(shots, { recursive: true });
+        await question.screenshot({ path: path.join(shots, `before-feedback-${width}.png`) });
+      }
+      await next.press('Enter');
+      assert.deepEqual(await captions(), ['Merge']);
+      assert.equal(await question.getByRole('img', { name: 'Merge road sign', exact: true }).count(), 1);
+      assert.match(await question.locator('[data-loop-feedback]').innerText(), /Correct.*joining traffic/is);
+      await page.reload();
+      assert.deepEqual(await captions(), ['Merge']);
+      assert.match(await question.locator('[data-loop-feedback]').innerText(), /Correct/);
+      assert.deepEqual(errors, []);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
 test('unrecognized return mode leaves the plain picture practice link usable', async () => {
   const { page, context } = await open(1280, 'merge-lane-ends', undefined, {
     return: 'road-signs-practice-test.html', return_mode: 'not-a-picture-round',

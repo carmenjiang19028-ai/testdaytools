@@ -111,9 +111,11 @@
     return true;
   };
   const sourceLink = lesson => `<a href="${esc(lesson.sourceUrl)}">${esc(lesson.sourceLabel)}</a>`;
-  const visuals = ids => ids.map(id => {
+  const visuals = (ids, revealNames = true) => ids.map((id, index) => {
     const sign = curriculum.signs[id];
-    return `<figure><img src="${esc(sign.image)}" alt="${esc(sign.label)} road sign" width="220" height="160"><figcaption>${esc(sign.label)}</figcaption></figure>`;
+    const pictureLabel = revealNames ? sign.label : `Picture ${index + 1}`;
+    const description = revealNames || !sign.clue ? `${sign.label} road sign` : sign.clue;
+    return `<figure><img src="${esc(sign.image)}" alt="${esc(description)}" width="220" height="160"><figcaption>${esc(pictureLabel)}</figcaption></figure>`;
   }).join('');
   const answeredCount = () => questions.filter(({ question }) => state.answers[question.id]).length;
   const applicationCount = () => questions.filter(step => step.phase === 3 && state.answers[step.question.id]).length;
@@ -214,7 +216,7 @@
     }
     const answer = state.answers[q.id];
     const order = state.optionOrders[q.id];
-    stage.innerHTML = `<article class="learning-card" data-loop-question="${esc(q.id)}"><div class="learning-card-visual learning-contrast-visual">${visuals(q.images)}</div><div class="learning-card-copy"><span>${step.phase === 1 ? 'Compare the controls' : 'A changed situation'}</span><h3 tabindex="-1" data-loop-question-title>${esc(q.prompt)}</h3><div class="learning-options" role="group" aria-label="Answer choices">${order.map(i => `<button type="button" data-loop-option="${i}" aria-pressed="${(answer?.selected ?? selected) === i}" ${answer ? 'disabled' : ''} class="${(answer?.selected ?? selected) === i ? 'is-selected' : ''}">${esc(q.options[i].text)}</button>`).join('')}</div>${renderFeedback(q, answer, lesson)}</div></article>`;
+    stage.innerHTML = `<article class="learning-card" data-loop-question="${esc(q.id)}"><div class="learning-card-visual learning-contrast-visual">${visuals(q.images, Boolean(answer))}</div><div class="learning-card-copy"><span>${step.phase === 1 ? 'Compare the controls' : 'A changed situation'}</span><h3 tabindex="-1" data-loop-question-title>${esc(q.prompt)}</h3><div class="learning-options" role="group" aria-label="Answer choices">${order.map(i => `<button type="button" data-loop-option="${i}" aria-pressed="${(answer?.selected ?? selected) === i}" ${answer ? 'disabled' : ''} class="${(answer?.selected ?? selected) === i ? 'is-selected' : ''}">${esc(q.options[i].text)}</button>`).join('')}</div>${renderFeedback(q, answer, lesson)}</div></article>`;
     stage.querySelectorAll('[data-loop-option]').forEach(button => button.addEventListener('click', () => {
       if (state.answers[q.id]) return;
       selected = Number(button.dataset.loopOption);

@@ -351,7 +351,14 @@ def render_case_data():
     lessons = {x['id']: x for x in material['lessons']}
     records = {x['image']: x for x in road_sign_image_records()}
     used_signs = {key for lesson in data['lessons'] for question in [lesson['diagnosis'], *lesson['applications']] for key in question['images']}
-    data['signs'] = {key: {'label': records[key]['title'], 'image': f'assets/road-signs/{key}-road-sign.svg'} for key in sorted(used_signs)}
+    data['signs'] = {
+        key: {
+            'label': records[key]['title'],
+            'clue': ROAD_SIGN_RECALL_CUES[key],
+            'image': f'assets/road-signs/{key}-road-sign.svg',
+        }
+        for key in sorted(used_signs)
+    }
     for case in data['lessons']:
         lesson = lessons[case['id']]
         case.update({key: lesson[key] for key in ['title', 'scene', 'cue', 'decision', 'reason']})
