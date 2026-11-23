@@ -1787,6 +1787,7 @@ def render_sat_date_planner(tool, widget):
             "label": event.get("label", event.get("title", "SAT date").replace("SAT - ", "")),
             "registrationDate": event["registrationDate"],
             "lateDate": event["lateDate"],
+            "scoreReleaseDate": event.get("scoreReleaseDate"),
             "description": event.get("description", ""),
             "calendarDeadlines": sat_calendar_deadlines(event),
         })
@@ -1829,18 +1830,20 @@ def render_sat_date_planner(tool, widget):
         </select>
       </label>
       <label class="sat-date-checkbox"><input type="checkbox" checked data-sat-retake> <span><strong>Leave room for a retake</strong><em>Recommend the next workable backup administration.</em></span></label>
+      <label class="sat-date-checkbox"><input type="checkbox" data-sat-wait-for-score> <span><strong>Wait for my score before booking a backup</strong><em>Skip backups whose last available cutoff is on or before the first scheduled score release.</em></span></label>
       <label class="sat-date-checkbox"><input type="checkbox" aria-describedby="sat-date-device-note" data-sat-device-loan> <span><strong>I still need to request a College Board device</strong></span></label>
       <p class="sat-widget-note" id="sat-date-device-note">For SAT Weekend, register and finish the device request at least 30 days before test day. <a href="https://satsuite.collegeboard.org/sat/device-lending">Check the official lending steps</a>.</p>
       <button type="button" data-sat-plan-button>Build my SAT date plan</button>
     </div>
     <aside class="sat-result-panel sat-date-result" aria-live="polite">
       <span>Your date plan</span>
-      <strong data-sat-plan-headline>Answer the questions to compare dates</strong>
+      <strong tabindex="-1" data-sat-plan-headline>Answer the questions to compare dates</strong>
       <p data-sat-plan-reason>The result uses today's date, registration deadlines, preparation runway, and retake room.</p>
       <div class="sat-date-picks" hidden data-sat-plan-picks>
-        <div><span>Primary date</span><strong data-sat-primary-date>--</strong><p data-sat-primary-deadline>--</p><p hidden data-sat-primary-device></p></div>
-        <div><span>Backup date</span><strong data-sat-backup-date>--</strong><p data-sat-backup-deadline>--</p><p hidden data-sat-backup-device></p></div>
+        <div><span>Primary date</span><strong data-sat-primary-date>--</strong><p data-sat-primary-deadline>--</p><p hidden data-sat-primary-device></p><p hidden data-sat-primary-score></p></div>
+        <div><span>Backup date</span><strong data-sat-backup-date>--</strong><p data-sat-backup-deadline>--</p><p hidden data-sat-backup-device></p><p hidden data-sat-backup-score></p></div>
       </div>
+      <p class="sat-retake-window" data-sat-retake-window hidden></p>
       <div class="sat-plan-actions">
         <button type="button" disabled data-sat-plan-save>Save this plan</button>
         <button type="button" disabled data-sat-date-calendar>Download primary date &amp; deadlines</button>
@@ -1848,6 +1851,7 @@ def render_sat_date_planner(tool, widget):
       </div>
       <p class="sat-saved-status" hidden data-sat-saved-status></p>
       <p class="sat-widget-note">This planner does not check your test center, country, accommodations, or a college's score deadline. Confirm those details before registering.</p>
+      <p class="sat-widget-note"><a href="https://satsuite.collegeboard.org/scores/score-release-dates">Official student score release dates</a> are scheduled dates, not guarantees of when scores post or reach a college.</p>
     </aside>
   </div>
   <script type="application/json" data-sat-date-data>{event_data}</script>

@@ -3987,6 +3987,7 @@ function initSatDatePlanners() {
     const deadlineSelect = widget.querySelector("[data-sat-deadline]");
     const readinessSelect = widget.querySelector("[data-sat-readiness]");
     const retakeInput = widget.querySelector("[data-sat-retake]");
+    const waitForScoreInput = widget.querySelector("[data-sat-wait-for-score]");
     const deviceLoanInput = widget.querySelector("[data-sat-device-loan]");
     const buildButton = widget.querySelector("[data-sat-plan-button]");
     const headline = widget.querySelector("[data-sat-plan-headline]");
@@ -3995,9 +3996,12 @@ function initSatDatePlanners() {
     const primaryDate = widget.querySelector("[data-sat-primary-date]");
     const primaryDeadline = widget.querySelector("[data-sat-primary-deadline]");
     const primaryDevice = widget.querySelector("[data-sat-primary-device]");
+    const primaryScore = widget.querySelector("[data-sat-primary-score]");
     const backupDate = widget.querySelector("[data-sat-backup-date]");
     const backupDeadline = widget.querySelector("[data-sat-backup-deadline]");
     const backupDevice = widget.querySelector("[data-sat-backup-device]");
+    const backupScore = widget.querySelector("[data-sat-backup-score]");
+    const retakeWindowNote = widget.querySelector("[data-sat-retake-window]");
     const saveButton = widget.querySelector("[data-sat-plan-save]");
     const calendarButton = widget.querySelector("[data-sat-date-calendar]");
     const registerLink = widget.querySelector("[data-sat-register-link]");
@@ -4031,6 +4035,33 @@ function initSatDatePlanners() {
       node.hidden = !event || !needsDevice;
       node.textContent = node.hidden ? "" : deviceText(event);
     };
+    const showScoreRelease = (node, event) => {
+      if (!node) return;
+      node.hidden = !event?.scoreReleaseDate;
+      node.textContent = node.hidden ? "" : `Scheduled student score release: ${dateLabel(event.scoreReleaseDate)}.`;
+    };
+    const backupWindow = (primary, backup, needsDevice) => {
+      const release = primary.scoreReleaseDate;
+      const loanCutoff = needsDevice ? deviceDeadline(backup) : "";
+      const usesLoanCutoff = loanCutoff && loanCutoff <= backup.lateDate;
+      const cutoff = usesLoanCutoff ? loanCutoff : backup.lateDate;
+      const action = usesLoanCutoff ? "device request" : "late registration";
+      if (!release) return { canWait: false, note: "A scheduled student score release is not listed for the primary date." };
+      // Same-day score availability cannot be relied on to meet a cutoff.
+      if (release === cutoff) {
+        return { canWait: false, note: `The backup's ${action} cutoff and scheduled first score release both fall on ${dateLabel(cutoff)}. Do not rely on seeing the score before that cutoff.` };
+      }
+      if (release > cutoff) {
+        return { canWait: false, note: `The backup's ${action} cutoff is ${dateLabel(cutoff)}, before the scheduled first score release on ${dateLabel(release)}.` };
+      }
+      if (usesLoanCutoff) {
+        return { canWait: true, note: `If the first score posts as scheduled, it will be before the backup's device request cutoff on ${dateLabel(cutoff)}. Confirm seats and device availability.` };
+      }
+      if (release >= backup.registrationDate) {
+        return { canWait: true, note: `Do not count on regular registration if you wait for the first score. Check seats and fees for late registration by ${dateLabel(cutoff)}.` };
+      }
+      return { canWait: true, note: `The first score is scheduled before the backup's regular registration cutoff on ${dateLabel(backup.registrationDate)}. Check actual score and seat availability.` };
+    };
     const preferredKeys = (stage, deadline) => {
       if (stage === "junior_first") return ["2027-03", "2027-05", "2027-06"];
       if (stage === "junior_retake") return ["2027-05", "2027-06", "2027-03"];
@@ -4059,6 +4090,10 @@ function initSatDatePlanners() {
       if (headline) headline.textContent = message;
       if (reason) reason.textContent = detail;
       if (picks) picks.hidden = true;
+      if (retakeWindowNote) {
+        retakeWindowNote.hidden = true;
+        retakeWindowNote.textContent = "";
+      }
       if (saveButton) {
         saveButton.disabled = true;
         saveButton.textContent = "Save this plan";
@@ -4075,6 +4110,7 @@ function initSatDatePlanners() {
       const deadline = deadlineSelect?.value || "unsure";
       const readiness = readinessSelect?.value || "focused";
       const wantsRetake = Boolean(retakeInput?.checked);
+      const waitForScore = wantsRetake && Boolean(waitForScoreInput?.checked);
       const needsDevice = Boolean(deviceLoanInput?.checked);
       const minimumDays = readinessDays[readiness] || readinessDays.focused;
       const eligibleForRegistration = events
@@ -4088,9 +4124,6 @@ function initSatDatePlanners() {
         .map((key) => valid.find((event) => monthKey(event) === key))
         .filter(Boolean);
       const primary = preferred[0] || valid[0] || null;
-      const backup = wantsRetake && primary
-        ? valid.find((event) => event.date > primary.date) || null
-        : null;
 
       if (!primary) {
         if (needsDevice && eligibleForRegistration.length) {
@@ -4101,7 +4134,12 @@ function initSatDatePlanners() {
         return;
       }
 
-      currentPlan = { stage, deadline, readiness, wantsRetake, needsDevice, primary, backup, createdAt: Date.now() };
+      const backups = wantsRetake ? valid.filter((event) => event.date > primary.date)
+        .map((event) => ({ event, ...backupWindow(primary, event, needsDevice) })) : [];
+      const firstBackup = backups[0];
+      const choice = waitForScore ? backups.find((entry) => entry.canWait) : firstBackup;
+      const backup = choice?.event || null;
+      currentPlan = { stage, deadline, readiness, wantsRetake, waitForScore, needsDevice, primary, backup, createdAt: Date.now() };
       if (headline) headline.textContent = `${primary.label} matches your study runway`;
       if (reason) {
         reason.textContent = `${stageReason(stage, deadline)} It is ${daysUntil(primary.date)} calendar days away (U.S. Eastern time), meeting the ${minimumDays}-day minimum you chose.`;
@@ -4109,11 +4147,26 @@ function initSatDatePlanners() {
       if (primaryDate) primaryDate.textContent = primary.label;
       if (primaryDeadline) primaryDeadline.textContent = registrationText(primary, now);
       showDeviceDeadline(primaryDevice, primary, needsDevice);
-      if (backupDate) backupDate.textContent = backup?.label || (wantsRetake ? "No later listed date" : "Not requested");
+      showScoreRelease(primaryScore, primary);
+      const noAfterScore = waitForScore && firstBackup && !choice;
+      if (backupDate) {
+        backupDate.textContent = backup?.label || (noAfterScore ? "No listed date fits after scores"
+          : wantsRetake ? "No later listed date" : "Not requested");
+      }
       if (backupDeadline) {
-        backupDeadline.textContent = backup ? registrationText(backup, now) : "You can rebuild the plan whenever your timeline changes.";
+        backupDeadline.textContent = backup ? registrationText(backup, now)
+          : noAfterScore ? "Check later official dates or consider an earlier primary date if you are prepared."
+          : "You can rebuild the plan whenever your timeline changes.";
       }
       showDeviceDeadline(backupDevice, backup, needsDevice);
+      showScoreRelease(backupScore, backup);
+      if (retakeWindowNote) {
+        const skipped = firstBackup && firstBackup !== choice
+          ? `Skipped ${firstBackup.event.label}: ${firstBackup.note} ` : "";
+        const result = choice ? choice.note + (choice.canWait ? "" : " Reserve before the cutoff or choose a later date.") : "";
+        retakeWindowNote.hidden = !firstBackup;
+        retakeWindowNote.textContent = (skipped + result).trim();
+      }
       if (picks) picks.hidden = false;
       if (saveButton) saveButton.disabled = false;
       if (calendarButton) calendarButton.disabled = false;
@@ -4130,10 +4183,20 @@ function initSatDatePlanners() {
       }
     };
 
-    [stageSelect, deadlineSelect, readinessSelect, retakeInput, deviceLoanInput].forEach((input) => {
-      input?.addEventListener("change", () => clearPlan("Build a plan for these choices", "Build again before saving or downloading a date."));
+    const updateRetakePreference = () => {
+      if (waitForScoreInput) waitForScoreInput.disabled = !retakeInput?.checked;
+    };
+    [stageSelect, deadlineSelect, readinessSelect, retakeInput, waitForScoreInput, deviceLoanInput].forEach((input) => {
+      input?.addEventListener("change", () => {
+        updateRetakePreference();
+        clearPlan("Build a plan for these choices", "Build again before saving or downloading a date.");
+      });
     });
-    buildButton?.addEventListener("click", () => buildPlan());
+    buildButton?.addEventListener("click", () => {
+      buildPlan();
+      headline?.focus({ preventScroll: true });
+      headline?.scrollIntoView({ block: "start", behavior: "instant" });
+    });
     saveButton?.addEventListener("click", () => {
       if (!currentPlan) return;
       try {
@@ -4240,6 +4303,7 @@ function initSatDatePlanners() {
         if (deadlineSelect && saved.deadline) deadlineSelect.value = saved.deadline;
         if (readinessSelect && saved.readiness) readinessSelect.value = saved.readiness;
         if (retakeInput) retakeInput.checked = Boolean(saved.wantsRetake);
+        if (waitForScoreInput) waitForScoreInput.checked = saved.waitForScore === true;
         if (deviceLoanInput) deviceLoanInput.checked = saved.needsDevice === true;
         buildPlan({ track: false });
         if (savedStatus && currentPlan) {
@@ -4253,6 +4317,7 @@ function initSatDatePlanners() {
     } catch (error) {
       // A fresh plan remains available when saved browser data cannot be read.
     }
+    updateRetakePreference();
   });
 }
 

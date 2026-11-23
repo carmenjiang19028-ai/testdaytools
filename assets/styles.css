@@ -3856,6 +3856,7 @@ h3 {
 .sat-date-result > strong {
   font-size: 1.8rem;
   line-height: 1.12;
+  scroll-margin-top: 90px;
 }
 
 .sat-date-picks {
@@ -3893,6 +3894,15 @@ h3 {
 .sat-date-picks p {
   margin-top: 7px;
   font-size: 0.86rem;
+}
+
+.sat-retake-window {
+  border-left: 3px solid var(--blue);
+  padding-left: 10px;
+}
+
+@media (max-width: 760px) {
+  .sat-date-result > strong { scroll-margin-top: 180px; }
 }
 
 .sat-plan-actions {

@@ -8,6 +8,8 @@ const { chromium } = require("playwright");
 const root = path.resolve(__dirname, "..");
 const pages = ["sat-test-dates-2026-2027.html", "sat-august-22-2026-planning.html"];
 const fallDates = ["2027-08-28", "2027-09-18", "2027-10-09", "2027-11-06", "2027-12-04"];
+const studentReleaseDates = ["2026-09-04", "2026-09-25", "2026-10-16", "2026-11-20",
+  "2026-12-18", "2027-03-19", "2027-05-14", "2027-06-21"];
 const unfold = (ics) => ics.replace(/\r\n[ \t]/g, "");
 const calendarEvents = (ics) => unfold(ics).split("BEGIN:VEVENT\r\n").slice(1).map(event => event.split("END:VEVENT")[0]);
 let browser;
@@ -32,6 +34,7 @@ for (const file of pages) {
     try {
       const events = JSON.parse(await page.locator("[data-sat-date-data]").textContent());
       assert.equal(events.length, 8);
+      assert.deepEqual(events.map((event) => event.scoreReleaseDate), studentReleaseDates);
       const schedule = JSON.parse(fs.readFileSync(path.join(root, "content/site_data.json"), "utf8"))
         .tools.find((tool) => tool.slug === "sat-test-dates-2026-2027").calendarDownload.events;
       assert.deepEqual(events.map(({ date, registrationDate, lateDate }) => ({ date, registrationDate, lateDate })),
@@ -47,6 +50,8 @@ for (const file of pages) {
       await page.locator("[data-sat-plan-button]").click();
       assert.equal(await page.locator("[data-sat-primary-date]").textContent(), "November 7, 2026");
       assert.equal(await page.locator("[data-sat-backup-date]").textContent(), "December 5, 2026");
+      assert.equal(await page.locator("[data-sat-primary-score]").textContent(), "Scheduled student score release: November 20, 2026.");
+      assert.match(await page.locator("[data-sat-retake-window]").textContent(), /Do not count on regular registration.*late registration by November 24, 2026/);
       assert.match(await page.locator("[data-sat-primary-deadline]").textContent(), /October 23, 2026.*October 27, 2026/);
       assert.match(await page.locator("[data-sat-plan-reason]").textContent(), /may be too late for early applications/);
       const downloadPromise = page.waitForEvent("download");
@@ -81,6 +86,86 @@ for (const file of pages) {
     } finally { await context.close(); }
   });
 }
+
+for (const [width, timezone] of [[320, "Pacific/Auckland"], [1280, "America/New_York"]]) {
+  test(`${width}: May score cannot be used to wait for the June loaner cutoff`, async () => {
+    const { context, page } = await openPage(pages[0], "2026-11-23T12:00:00Z", { width, height: 900 }, timezone);
+    try {
+      const wait = page.locator("[data-sat-wait-for-score]");
+      const loan = page.locator("[data-sat-device-loan]");
+      const build = page.locator("[data-sat-plan-button]");
+      const primary = page.locator("[data-sat-primary-date]");
+      const backup = page.locator("[data-sat-backup-date]");
+      const note = page.locator("[data-sat-retake-window]");
+      await page.locator("[data-sat-stage]").selectOption("junior_retake");
+      await loan.check();
+      await build.click();
+      const focus = await page.locator(":focus").evaluate(el => ({
+        headline: el.hasAttribute("data-sat-plan-headline"),
+        top: el.getBoundingClientRect().top,
+        bottom: document.querySelector(".site-header").getBoundingClientRect().bottom,
+      }));
+      assert(focus.headline && focus.top >= focus.bottom && focus.top < 900);
+      assert.equal(await primary.textContent(), "May 1, 2027");
+      assert.equal(await backup.textContent(), "June 5, 2027");
+      assert.match(await page.locator("[data-sat-primary-score]").textContent(), /May 14, 2027/);
+      assert.match(await page.locator("[data-sat-backup-score]").textContent(), /June 21, 2027/);
+      assert.match(await note.textContent(), /device request cutoff is May 6, 2027, before.*May 14, 2027.*Reserve before/);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await page.locator(".sat-date-result").screenshot({
+          path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `retake-window-${width}.png`),
+          style: ".site-header { visibility: hidden; }",
+        });
+      }
+      await wait.check();
+      assert.equal(await note.isVisible(), false);
+      await build.click();
+      assert.equal(await primary.textContent(), "May 1, 2027");
+      assert.equal(await backup.textContent(), "No listed date fits after scores");
+      assert.equal(await page.locator("[data-sat-backup-score]").isVisible(), false);
+      assert.match(await note.textContent(), /Skipped June 5, 2027.*May 6, 2027.*May 14, 2027/);
+      await page.locator("[data-sat-plan-save]").click();
+      await page.reload();
+      assert.equal(await wait.isChecked(), true);
+      assert.equal(await loan.isChecked(), true);
+      assert.equal(await backup.textContent(), "No listed date fits after scores");
+      await loan.uncheck();
+      await build.click();
+      assert.equal(await backup.textContent(), "June 5, 2027");
+      assert.match(await note.textContent(), /before the backup's regular registration cutoff on May 21, 2027/);
+      await page.locator("[data-sat-retake]").uncheck();
+      assert.equal(await wait.isDisabled(), true);
+      await build.click();
+      assert.equal(await backup.textContent(), "Not requested");
+      assert.equal(await note.isVisible(), false);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    } finally { await context.close(); }
+  });
+}
+
+test("waiting for a September SAT result skips the October registration cutoff", async () => {
+  const { context, page } = await openPage(pages[0], "2026-08-29T13:00:00Z");
+  try {
+    const build = page.locator("[data-sat-plan-button]");
+    await page.locator("[data-sat-stage]").selectOption("senior");
+    await page.locator("[data-sat-readiness]").selectOption("ready");
+    await build.click();
+    assert.equal(await page.locator("[data-sat-primary-date]").textContent(), "September 12, 2026");
+    assert.equal(await page.locator("[data-sat-backup-date]").textContent(), "October 3, 2026");
+    assert.match(await page.locator("[data-sat-retake-window]").textContent(), /September 22, 2026, before.*September 25, 2026/);
+    await page.locator("[data-sat-wait-for-score]").check();
+    await build.click();
+    assert.equal(await page.locator("[data-sat-backup-date]").textContent(), "November 7, 2026");
+    assert.match(await page.locator("[data-sat-retake-window]").textContent(), /Skipped October 3, 2026.*regular registration cutoff on October 23, 2026/);
+    const events = await page.evaluate(() => window.dataLayer
+      .filter(event => event[0] === "event" && event[1] === "sat_plan_generated")
+      .map(event => Object.keys(event[2]).sort()));
+    assert.equal(events.length, 2);
+    assert.deepEqual(events[0], events[1]);
+    assert(!events.flat().some(key => /wait|loan|score/i.test(key)));
+  } finally { await context.close(); }
+});
 
 test("registration status honors Eastern time at regular and late deadline boundaries", async () => {
   const { context, page } = await openPage(pages[0], "2026-10-08T16:00:00Z");
