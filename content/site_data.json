@@ -14633,6 +14633,7 @@
       "summary": "Check Ohio's 40-question exam, when online testing needs an adult supervisor, and what follows a pass or a failed attempt. Sign practice uses the shared nationwide picture quiz.",
       "heroActions": [
         {"label": "Ohio test and permit cases", "href": "#ohio-knowledge-cases"},
+        {"label": "After your Ohio permit", "href": "#ohio-after-permit"},
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
         {"label": "Official Ohio sample test", "href": "https://www.bmv.ohio.gov/dl-sample-test.aspx"}
       ],
@@ -14737,9 +14738,37 @@
             {
               "label": "After passing online",
               "title": "I passed the knowledge test online. Can I practice driving now?",
-              "text": "Not yet. Take your required documents to a deputy registrar, complete the vision screening there, and buy your temporary instruction permit (TIPIC) within 60 days of passing. If you are an unemancipated minor, check the responsible adult co-signing and ID requirements too. Begin supervised practice only after issuance.",
+              "text": "Not yet. Take your required documents to a deputy registrar, complete the vision screening there, and buy your temporary instruction permit (TIPIC) within 60 days of passing. If you are an unemancipated minor, check the responsible adult co-signing and ID requirements too. Begin supervised practice only after issuance. At 18 or older, practice with a licensed driver age 21 or older.",
               "href": "https://www.bmv.ohio.gov/dl-gdl.aspx",
               "cta": "Ohio BMV: temporary permit issuance"
+            }
+          ]
+        },
+        {
+          "id": "ohio-after-permit",
+          "heading": "After the Ohio permit: what is still missing before the road test?",
+          "intro": "A passing knowledge-test score does not make you eligible for the road test. Compare these first-license examples. If your permit says Non-Renewable/Non-Transferable, check the separate limited-term training and affidavit rules in BMV's first-issuance guidance; do not use age alone.",
+          "items": [
+            {
+              "label": "Under 18",
+              "title": "I am 17, and my training is done after four months",
+              "text": "If you are still under 18, finish the six-month holding period from when your TIPIC was issued, not when you passed the written test. Completing the course and driving log early does not shorten that wait. If you turn 18 first, check BMV's 18-20 path instead.",
+              "href": "https://www.bmv.ohio.gov/dl-gdl.aspx",
+              "cta": "Ohio BMV: under-18 licensing requirements"
+            },
+            {
+              "label": "Ages 18-20",
+              "title": "I am 19, with 45 practice hours including eight at night",
+              "text": "You still need five supervised hours, at least two of them at night. The 50-hour log must include 10 hours at night and is separate from the Class D course: 24 hours of instruction plus eight driving hours with an instructor. Bring training evidence and form BMV 5791 with the required eligible adult's signature. The six-month permit hold for minors does not apply to this adult path.",
+              "href": "https://dam.assets.ohio.gov/image/upload/publicsafety.ohio.gov/bmv5791.pdf",
+              "cta": "Ohio BMV: affidavit and supervised driving log (PDF)"
+            },
+            {
+              "label": "Age 21 or older",
+              "title": "I am 22 and failed maneuverability on my first attempt",
+              "text": "For an initial driver's license, if you did not complete driver training in the 12 months before your application, complete an approved abbreviated adult course before trying the driving test again. This is a road or maneuverability retest requirement, not a response to failing the written test. Check the state course and proof requirements before booking.",
+              "href": "https://codes.ohio.gov/ohio-revised-code/section-4507.21",
+              "cta": "Ohio Revised Code: training and retest rules"
             }
           ]
         }
@@ -14770,6 +14799,10 @@
         {
           "label": "Ohio BMV: Official sample knowledge test",
           "url": "https://www.bmv.ohio.gov/dl-sample-test.aspx"
+        },
+        {
+          "label": "Ohio Revised Code 4507.21: training, affidavit, and retest requirements",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-4507.21"
         }
       ],
       "examDetails": {
@@ -14809,7 +14842,7 @@
           }
         ]
       },
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 23, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
       "replacementText": "This page summarizes Ohio-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."

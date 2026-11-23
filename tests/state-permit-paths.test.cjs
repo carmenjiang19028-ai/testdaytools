@@ -15,12 +15,49 @@ const azTeen = "https://azdot.gov/mvd/services/driver-services/teen-drivers/perm
 const gaExam = "https://dds.georgia.gov/testing-and-training/test-and-exams-information";
 const gaLanguages = "https://dds.georgia.gov/list-languages";
 const ohPermit = "https://www.bmv.ohio.gov/dl-gdl.aspx";
+const ohDrivingLog = "https://dam.assets.ohio.gov/image/upload/publicsafety.ohio.gov/bmv5791.pdf";
+const ohTrainingLaw = "https://codes.ohio.gov/ohio-revised-code/section-4507.21";
 const floridaDocuments = "florida-dmv-permit-documents-checklist";
 const hillsboroughAddress = "https://www.hillstaxfl.gov/drivers-license-id/document-requirements/";
 const hillsboroughForms = "https://www.hillstaxfl.gov/forms/";
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
+
+for (const width of [320, 1280]) {
+  test(`${width}px: Ohio separates permit supervision, training hours, and first road retest without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("ohio-bmv-road-signs-practice");
+      await page.goto(guide);
+      assert.match(await page.locator("#ohio-knowledge-cases article").last().innerText(),
+        /only after issuance.*At 18 or older.*licensed driver age 21 or older/is);
+      await page.getByRole("link", { name: "After your Ohio permit", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#ohio-after-permit");
+      const section = page.locator("#ohio-after-permit");
+      assert.match(await section.locator(".section-intro").innerText(), /Non-Renewable\/Non-Transferable.*limited-term/);
+      const examples = [
+        [/four months.*six-month holding period.*TIPIC was issued/is, ohPermit],
+        [/45 practice hours including eight at night.*five supervised hours, at least two of them at night.*50-hour log.*10 hours at night.*separate from the Class D course.*24 hours.*eight driving hours.*BMV 5791.*does not apply/is, ohDrivingLog],
+        [/failed maneuverability.*initial driver's license.*12 months before your application.*abbreviated adult course.*not a response to failing the written test/is, ohTrainingLaw],
+      ];
+      const cards = section.locator("article");
+      assert.equal(await cards.count(), examples.length);
+      for (const [index, [text, href]] of examples.entries()) {
+        const card = cards.nth(index);
+        assert.match(await card.innerText(), text);
+        assert.equal(await card.getByRole("link").getAttribute("href"), href);
+      }
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      assert.equal(await page.locator("[data-quiz]").count(), 0);
+    } finally { await context.close(); }
+  });
+}
 
 for (const width of [390, 1280]) {
   test(`${width}px: New York school bus cases distinguish the median exception and link official guidance`, async () => {
