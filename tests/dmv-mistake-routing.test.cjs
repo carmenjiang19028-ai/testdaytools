@@ -96,7 +96,7 @@ for (const width of [390, 1280]) {
       assert.ok(await decision.getByRole("heading", { name: "Same number, different speed decision" }).isVisible());
       await decision.getByText("Check the decision", { exact: true }).press("Enter");
       assert.match(await decision.locator("details[open]").innerText(), /does not replace the posted limit/);
-      assert.equal(await decision.getByRole("link").count(), 2);
+      assert.equal(await decision.locator('a[href^="https://mutcd.fhwa.dot.gov/"]').count(), 2);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       await saveNote(page, "new-york", "score", "New York score");
       await saveNote(page, "florida", "documents-appointment", "Florida address proof");

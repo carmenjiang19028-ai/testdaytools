@@ -108,6 +108,50 @@ test('static explanations and sources work without JavaScript', async () => {
   }
   await context.close();
 });
+
+for (const width of [320, 390, 1280]) {
+  test(`${width}px: study entrances reach the two speed sign decisions without JavaScript`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const destination = pathToFileURL(path.resolve('road-sign-learning-loop.html')).href + '#speed-sign-comparison';
+      for (const entrance of ['road-signs-practice-test', 'dmv-road-signs-cheat-sheet', 'dmv-permit-test-mistake-log']) {
+        await page.goto(pathToFileURL(path.resolve(entrance + '.html')).href);
+        const link = page.getByRole('link', { name: 'Compare posted and advisory speeds with pictures', exact: true });
+        assert.equal(await link.count(), 1, entrance);
+        await link.press('Enter');
+        await page.waitForURL(destination);
+      }
+      const lesson = page.locator('#speed-sign-comparison');
+      const heading = await lesson.getByRole('heading', { level: 2 }).boundingBox();
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(heading.y >= header.y + header.height, 'heading clears the sticky navigation');
+      assert.ok(heading.x >= 16, 'heading keeps a readable gutter');
+      const images = lesson.getByRole('img');
+      assert.equal(await images.count(), 2);
+      assert.deepEqual(await images.evaluateAll(items => items.map(i => [i.complete && i.naturalWidth > 0, i.alt])), [
+        [true, 'White rectangular sign reading SPEED LIMIT 35'],
+        [true, 'Yellow right-curve diamond with a separate yellow 35 MPH plaque underneath'],
+      ]);
+      assert.equal(await lesson.locator('details[open]').count(), 0);
+      await lesson.getByText('Check which sign sets the limit', { exact: true }).press('Enter');
+      await lesson.getByText('Check what changes in rain', { exact: true }).press('Enter');
+      assert.match(await lesson.locator('details[open]').nth(0).innerText(), /white sign sets the posted limit/);
+      assert.match(await lesson.locator('details[open]').nth(1).innerText(), /Slow before the curve and go below 35/);
+      assert.equal(await lesson.locator('a[href^="https://mutcd.fhwa.dot.gov/"]').count(), 2);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      const shots = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (shots) {
+        fs.mkdirSync(shots, { recursive: true });
+        await page.goto('about:blank');
+        await page.goto(destination);
+        await page.screenshot({ path: path.join(shots, `speed-comparison-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+}
+
 async function answer(page, n = 0) {
   await page.locator(`[data-loop-option="${n}"]`).click();
   await page.locator('[data-loop-next]').click();

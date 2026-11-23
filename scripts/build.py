@@ -227,6 +227,10 @@ def render_material_links():
     return f'<section class="content-section"><h2>Understand the distinctions behind a missed sign</h2><ul class="material-links">{links}</ul></section>'
 
 
+def speed_sign_comparison_link():
+    return '<a href="road-sign-learning-loop.html#speed-sign-comparison">Compare posted and advisory speeds with pictures</a>'
+
+
 def render_contrast_practice_links(return_page):
     links = []
     for lesson in road_sign_materials()["lessons"]:
@@ -237,6 +241,39 @@ def render_contrast_practice_links(return_page):
   <h2 id="contrast-practice-heading">Practice a confusing sign pair</h2>
   <p>Choose the pair you mix up. Explain how the signs change the driver's decision, then try two short situations before returning to your study material.</p>
   <ul class="material-links">{"".join(links)}</ul>
+  <p>{speed_sign_comparison_link()}</p>
+</section>'''
+
+
+def render_speed_sign_comparison():
+    posted = road_sign_image_path("speed-limit")
+    return f'''<section class="contrast-lessons speed-sign-lesson" id="speed-sign-comparison" aria-labelledby="speed-sign-comparison-heading">
+  <h2 id="speed-sign-comparison-heading">Speed limit vs. advisory speed: the number alone is not enough</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair">
+        <img src="{esc(posted)}" width="220" height="160" alt="White rectangular sign reading SPEED LIMIT 35">
+        <span aria-hidden="true">vs.</span>
+        <img src="assets/road-sign-materials/curve-with-advisory-speed.svg" width="220" height="160" alt="Yellow right-curve diamond with a separate yellow 35 MPH plaque underneath">
+      </div>
+      <figcaption>Both signs show 35. On the left, read the words SPEED LIMIT. On the right, read the curve warning and the separate MPH plaque together.</figcaption>
+    </figure>
+    <div>
+      <h3>Which 35 sets the posted limit?</h3>
+      <p>On an unfamiliar road you see these signs at different locations. Which sign establishes the posted maximum, and which gives advice for a specific condition ahead?</p>
+      <details class="contrast-transfer">
+        <summary>Check which sign sets the limit</summary>
+        <p>The white sign sets the posted limit for its road segment. The yellow plaque advises a speed for the curve; it does not replace the posted limit. Neither sign means you must drive exactly 35.</p>
+      </details>
+      <h3>What if it is raining?</h3>
+      <p>Now a white sign posts 50 on the approach, and the same yellow 35 MPH plaque appears below the curve warning. The road is wet and visibility is poor. Does either number tell you a safe speed for every condition?</p>
+      <details class="contrast-transfer">
+        <summary>Check what changes in rain</summary>
+        <p>No. Slow before the curve and go below 35 when traction or visibility requires it. The 50 sign is not a target, and the advisory speed does not guarantee the curve is safe at 35 in rain.</p>
+      </details>
+    </div>
+  </div>
+  <p class="contrast-source">Teaching illustrations checked November 23, 2026 against <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=22">FHWA Figure 2B-3 (R2-1)</a> and <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=12">Figure 2C-2 (W1-2 and W13-1P)</a>. This comparison is separate from the scored practice above.</p>
 </section>'''
 
 
@@ -268,7 +305,10 @@ def render_contrast_lessons():
   {transfer_block}
   <p class="contrast-source">Source comparison: <a href="{esc(source["url"])}">{esc(source["label"])}</a> - {esc(lesson["sourceSections"])}. Checked {esc(material["checkedOn"])}.</p>
 </article>''')
-    return '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>' + "".join(lessons) + '</section>' + render_material_review()
+    return (
+        '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>'
+        + "".join(lessons) + "</section>" + render_speed_sign_comparison() + render_material_review()
+    )
 
 
 def write_contrast_lessons(output=None):
@@ -4323,6 +4363,7 @@ def render_dmv_mistake_log_page():
     <p><strong>Check yourself:</strong> If the same curve has both a posted limit and a lower advisory speed, do not use the higher number as your target for the curve.</p>
   </details>
   <p>FHWA sign references: <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf">R2-1 speed limit sign</a> and <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">W13-1P advisory speed plaque</a>.</p>
+  <p>{speed_sign_comparison_link()}</p>
 </section>
 <section class="content-section" id="right-of-way-texas" aria-labelledby="right-of-way-texas-heading">
   <h2 id="right-of-way-texas-heading">Texas: a two-lane road meets a divided highway</h2>

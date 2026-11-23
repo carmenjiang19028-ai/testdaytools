@@ -551,13 +551,14 @@ for (const width of [1280, 390]) {
         assert.match(await page.locator('#material-review').textContent(), /not a driving-instructor assessment/);
         if (file === 'road-sign-learning-loop.html') {
           assert.equal(await page.locator('.contrast-lesson').count(), 3);
-          const oldState = await page.evaluate(() => localStorage.getItem('tdt-learning-loop:v1:all'));
+          const savedPractice = () => page.evaluate(() => ['v1', 'v2'].map(version => localStorage.getItem(`tdt-learning-loop:${version}:all`)));
+          const oldState = await savedPractice();
           for (const detail of await page.locator('.contrast-transfer').all()) {
             await detail.locator('summary').click();
             assert.equal(await detail.getAttribute('open'), '');
           }
-          assert.equal(await page.evaluate(() => localStorage.getItem('tdt-learning-loop:v1:all')), oldState);
-          assert.equal(await page.locator('.contrast-sign-pair img').count(), 6);
+          assert.deepEqual(await savedPractice(), oldState);
+          assert.equal(await page.locator('.contrast-lesson .contrast-sign-pair img').count(), 6);
         } else {
           assert.equal(await page.locator('.material-links a[href^="road-sign-learning-loop.html#lesson-"]').count(), 3);
         }
@@ -565,7 +566,7 @@ for (const width of [1280, 390]) {
         assert.equal(overflow, false);
         if (process.env.VERIFY_SCREENSHOTS_DIR) {
           fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
-          await page.locator(file === 'road-sign-learning-loop.html' ? '.contrast-lessons' : '#material-review').screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `${file}-${width}.png`) });
+          await page.locator(file === 'road-sign-learning-loop.html' ? '[aria-labelledby="contrast-lessons-title"]' : '#material-review').screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `${file}-${width}.png`) });
         }
         assert.deepEqual(errors, []);
       } finally { await context.close(); }
