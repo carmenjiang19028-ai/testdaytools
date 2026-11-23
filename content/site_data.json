@@ -12466,7 +12466,14 @@
       "description": "Pennsylvania permit practice test with quick practice, image road signs, mock exam mode, instant explanations, and official PennDOT source links.",
       "heroKicker": "Pennsylvania permit practice",
       "summary": "Practice Pennsylvania permit-test topics with a short quiz, a road-sign image round, and a 40-question mock exam. Use the results to decide what to reread in the Pennsylvania Driver's Manual.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
+      "heroActions": [
+        {"label": "Start practice", "href": "#practice"},
+        {"label": "First permit visit", "href": "#pennsylvania-first-permit"},
+        {"label": "Official test facts", "href": "#official-details"},
+        {"label": "Study by topic", "href": "#practice-topics"},
+        {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=pennsylvania#dmv-checklist"}
+      ],
       "quickFacts": [
         {
           "label": "Official source",
@@ -12766,6 +12773,34 @@
         }
       ],
       "cardGroups": [
+        {
+          "id": "pennsylvania-first-permit",
+          "heading": "Before your first Pennsylvania learner's permit visit",
+          "intro": "A passing practice score does not make you ready for the counter. For a first noncommercial permit, use these checks before going to a PennDOT Driver License Center for the knowledge test.",
+          "items": [
+            {
+              "label": "Before the visit",
+              "title": "Take DL-180 to your health care provider first",
+              "text": "Have your provider complete the medical section after your physical exam. You cannot apply before turning 16. If you get the exam before your 16th birthday, it must be within the six months leading up to it. The form is valid for one year from the exam date, not from the date you first visit PennDOT.",
+              "href": "https://www.pa.gov/content/dam/copapwp-pagov/en/penndot/documents/public/dvspubsforms/bdl/bdl-form/dl-180.pdf",
+              "cta": "Open PennDOT Form DL-180 (PDF)"
+            },
+            {
+              "label": "If you are under 18",
+              "title": "Decide where your consent form will be signed",
+              "text": "Bring Form DL-180TD. For example, if your parent cannot come with you, have your parent sign in front of a notary before you leave; a signature made at home without a notary does not replace that step. If your parent comes to the center, they can sign in front of the examiner. Check the official form for who else may sign.",
+              "href": "https://www.pa.gov/content/dam/copapwp-pagov/en/penndot/documents/public/dvspubsforms/bdl/bdl-form/dl-180td.pdf",
+              "cta": "Open PennDOT Form DL-180TD (PDF)"
+            },
+            {
+              "label": "Pack before leaving",
+              "title": "Check originals, residency documents and the fee",
+              "text": "Bring the completed DL-180, original proof of identity and date of birth, your signed Social Security card, and the applicable fee. For example, if you are 19, PennDOT also asks for two proofs of Pennsylvania residency. Use the official list for accepted documents and payment details. If you use glasses or contacts, bring them for the vision screening.",
+              "href": "https://www.pa.gov/services/dmv/get-a-learners-permit",
+              "cta": "Check the official PennDOT visit steps"
+            }
+          ]
+        },
         {
           "heading": "Pennsylvania study moves that save time",
           "intro": "The goal is not to click practice questions forever. Use each result to decide the next handbook section.",

@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 from urllib.parse import urlsplit
 from xml.etree import ElementTree
-from scripts.build import dmv_requirement_records, render_sign_recall, render_state_rule_practice
+from scripts.build import dmv_requirement_records, render_card_groups, render_sign_recall, render_state_rule_practice
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -221,6 +221,27 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn('data-total="20" data-pass-score="16"', page)
         permit = (ROOT / "pennsylvania-dmv-permit-practice-test.html").read_text()
         self.assertIn(f'href="{slug}.html#pennsylvania-school-bus"', permit)
+
+    def test_pennsylvania_first_permit_visit_covers_the_medical_and_consent_form_branches(self):
+        slug = "pennsylvania-dmv-permit-practice-test"
+        tool = self.tools[slug]
+        page = (ROOT / f"{slug}.html").read_text()
+        group = next(group for group in tool["cardGroups"] if group.get("id") == "pennsylvania-first-permit")
+        medical, minor, documents = group["items"]
+        self.assertIn("within the six months leading up to it", medical["text"])
+        self.assertIn("valid for one year from the exam date", medical["text"])
+        self.assertIn("in front of a notary", minor["text"])
+        self.assertIn("in front of the examiner", minor["text"])
+        self.assertIn("original proof of identity and date of birth", documents["text"])
+        self.assertIn("two proofs of Pennsylvania residency", documents["text"])
+        self.assertEqual({urlsplit(item["href"]).netloc for item in group["items"]}, {"www.pa.gov"})
+        self.assertTrue(medical["href"].endswith("/dl-180.pdf"))
+        self.assertTrue(minor["href"].endswith("/dl-180td.pdf"))
+        self.assertTrue(documents["href"].endswith("/get-a-learners-permit"))
+        self.assertIn(render_card_groups([group]), page)
+        self.assertIn('href="#pennsylvania-first-permit">First permit visit</a>', page)
+        self.assertIn('href="dmv-test-day-checklist.html?state=pennsylvania#dmv-checklist"', page)
+        self.assertIn('data-total="40" data-pass-score="32"', page)
 
     def test_new_jersey_move_over_cases_cover_the_amended_scope_and_safe_fallback(self):
         slug = "new-jersey-mvc-road-signs-practice"

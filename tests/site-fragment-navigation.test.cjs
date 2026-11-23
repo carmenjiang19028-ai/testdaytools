@@ -44,6 +44,7 @@ for (const width of [320, 390, 761, 1280]) {
     ["dmv-practice.html", "permit-tests"],
     ["road-signs-practice-test.html", "sign-meaning-finder"],
     ["new-jersey-mvc-permit-practice-test.html", "official-details"],
+    ["pennsylvania-dmv-permit-practice-test.html", "pennsylvania-first-permit"],
     ["digital-sat-checklist.html", "sat-id-cases"],
     ["sat-superscore-guide.html", "sat-superscore-compare"],
     ["ap-exam-day-checklist.html", "ap-answer-submission"],
@@ -59,6 +60,28 @@ for (const width of [320, 390, 761, 1280]) {
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       }));
   }
+}
+
+for (const width of [320, 1280]) {
+  test(`${width}px: Pennsylvania applicants can read the permit steps with scripts off`, () =>
+    withPage(width, async page => {
+      await page.goto(fileUrl("pennsylvania-dmv-permit-practice-test.html"));
+      await page.getByRole("link", { name: "First permit visit", exact: true }).press("Enter");
+      await page.waitForURL(url => url.hash === "#pennsylvania-first-permit");
+      await visibleTitle(page, "pennsylvania-first-permit", width > 760);
+      const cases = page.locator("#pennsylvania-first-permit article");
+      assert.equal(await cases.count(), 3);
+      assert.match(await cases.nth(0).innerText(), /physical exam.*one year from the exam date/s);
+      assert.match(await cases.nth(1).innerText(), /in front of a notary.*in front of the examiner/s);
+      assert.match(await cases.nth(2).innerText(), /original proof.*two proofs of Pennsylvania residency/s);
+      for (const [index, suffix] of ["/dl-180.pdf", "/dl-180td.pdf", "/get-a-learners-permit"].entries()) {
+        const source = new URL(await cases.nth(index).getByRole("link").getAttribute("href"));
+        assert.equal(source.origin, "https://www.pa.gov");
+        assert.ok(source.pathname.endsWith(suffix));
+      }
+      assert.equal(await page.locator("#pennsylvania-first-permit input").count(), 0);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    }, false));
 }
 
 for (const [file, id] of [
