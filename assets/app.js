@@ -554,6 +554,7 @@ function shuffleChoiceButtons(group) {
 }
 
 const MISSED_SIGN_CARDS_KEY = "tdt-missed-sign-cards";
+const DMV_PERMIT_PROCESS_TOPICS = new Set(["Exam readiness", "Florida licensing", "MVC process", "Learner license rules"]);
 
 function initQuizzes() {
   const siteHeader = document.querySelector(".site-header");
@@ -1089,6 +1090,12 @@ function initQuizzes() {
             nextPlanAction.href = roundHref("saved");
             nextPlanAction.textContent = "Retry saved questions";
           }
+        } else if (state && missedCount && document.getElementById("official-details") &&
+          missedQuestions.every((question) => DMV_PERMIT_PROCESS_TOPICS.has(question.dataset.category))) {
+          nextPlanTitle.textContent = "Review the official test and permit requirements";
+          nextPlanCopy.textContent = "These misses were about the test or permit process, not driving decisions. Check the state guidance before planning your visit.";
+          nextPlanAction.href = "#official-details";
+          nextPlanAction.textContent = "Read the state test details";
         } else if (missedCount) {
           nextPlanTitle.textContent = `Repair ${missed[0] || "the weak rule area"}`;
           nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";

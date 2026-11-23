@@ -27,6 +27,25 @@ async function openPlan(width, query, run) {
 const rows = page => page.locator("[data-study-plan-list] > li");
 const score = page => page.locator("[data-study-score]");
 
+async function openMock(page, file, focus) {
+  const url = pathToFileURL(path.resolve(__dirname, "..", file));
+  url.search = new URLSearchParams(focus ? { mode: "mock", focus } : { mode: "mock" });
+  await page.goto(url.href);
+  return page.locator('[data-mode-panel="mock"].is-active [data-quiz]');
+}
+
+async function completeMock(quiz, count, shouldMiss) {
+  for (let i = 0; i < count; i++) {
+    const question = quiz.locator(".question.is-active");
+    const category = await question.getAttribute("data-category");
+    const answer = await question.getAttribute("data-answer");
+    const current = `[data-choice="${answer}"]`;
+    await question.locator(`button[data-choice]${shouldMiss(category, i) ? `:not(${current})` : current}`).first().click();
+    if (i < count - 1) await quiz.locator("[data-quiz-forward]").click();
+  }
+  assert(await quiz.evaluate(el => el.classList.contains("is-complete")));
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: the state survives the trip from planner to score calculator`, () =>
     openPlan(width, "?state=new-york", async page => {
@@ -78,7 +97,46 @@ for (const width of [390, 1280]) {
       await page.goto(url);
       assert.deepEqual(await open("Repeat the 10-sign baseline"), first);
     }));
+
+  for (const [file, topic, count, heading] of [
+    ["florida-dmv-permit-practice-test.html", "Exam readiness", 2, /Florida Class E exam/],
+    ["florida-dmv-permit-practice-test.html", "Florida licensing", 1, /Florida Class E exam/],
+    ["pennsylvania-dmv-permit-practice-test.html", "Exam readiness", 3, /PennDOT/],
+    ["new-jersey-mvc-permit-practice-test.html", "MVC process", 1, /New Jersey documents/],
+  ]) {
+    test(`${width}px: ${file} sends only ${topic} misses to its own test details`, () =>
+      openPlan(width, "", async page => {
+        const quiz = await openMock(page, file, topic);
+        await completeMock(quiz, count, category => {
+          assert.equal(category, topic);
+          return true;
+        });
+        const action = quiz.getByRole("link", { name: "Read the state test details" });
+        assert.equal(await action.getAttribute("href"), "#official-details");
+        assert.match(await quiz.locator("[data-quiz-result]").textContent(), new RegExp(`0 of ${count} correct`));
+        await action.click();
+        await page.waitForURL(url => url.pathname.endsWith(file) && url.hash === "#official-details");
+        assert.match(await page.locator("#official-details h2").textContent(), heading);
+        assert.match(await quiz.locator("[data-quiz-result]").textContent(), new RegExp(`0 of ${count} correct`));
+      }));
+  }
 }
+
+test("a full round with both a permit-process and a driving-rule miss still opens a rules plan", () =>
+  openPlan(1280, "", async page => {
+    const quiz = await openMock(page, "pennsylvania-dmv-permit-practice-test.html");
+    const count = await quiz.locator(".question").count();
+    const missed = new Set();
+    await completeMock(quiz, count, category => {
+      if (!["Exam readiness", "Emergencies"].includes(category) || missed.has(category)) return false;
+      missed.add(category);
+      return true;
+    });
+    assert.deepEqual([...missed], ["Exam readiness", "Emergencies"]);
+    assert.match(await quiz.locator("[data-quiz-result]").textContent(), /38 of 40 correct/);
+    const next = quiz.getByRole("link", { name: "Build a focused plan" });
+    assert.equal(await next.getAttribute("href"), "dmv-permit-test-study-plan.html?state=pennsylvania&focus=rules#study-plan");
+  }));
 
 test("each horizon schedules a baseline, a deliberate recheck and a final day", () =>
   openPlan(390, "?state=new-york", async page => {
