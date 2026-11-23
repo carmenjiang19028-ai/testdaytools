@@ -1,4 +1,43 @@
 {
+  "california-dmv-road-signs-practice": {
+    "id": "california-curb-decisions",
+    "heading": "California: choose a curb for the stop you need",
+    "intro": "Read beyond the paint. Decide what you are doing, how long you need, and whether you are allowed in the space. These original cases are separate from the scored curb checkpoint.",
+    "examples": [
+      {
+        "title": "A passenger pickup turns into a wait",
+        "question": "You reach a white curb in California for a passenger pickup. The passenger texts that they will be out in ten minutes. Can you wait where you are if you stay behind the wheel?",
+        "steps": [
+          "No. The white curb is for the brief stop needed to pick up or drop off a passenger, not for waiting for someone to arrive.",
+          "Move to a legal waiting spot instead of treating the white curb as short-term parking.",
+          "When your passenger is ready, return to an available pickup space and leave after they get in."
+        ],
+        "mistake": "Staying in the driver's seat does not turn waiting into loading a passenger.",
+        "check": "You find an open green curb marked 15 MIN PARKING. The restriction is in force, and no other sign limits you. Can you use it for the ten-minute wait?",
+        "answer": "Yes. It allows time-limited parking. Stay within the posted 15 minutes; if the pickup takes longer, leave or find another legal spot.",
+        "source": {
+          "label": "California Driver's Handbook: Parking at Colored Curbs",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/navigating-the-roads-cont1/"
+        }
+      },
+      {
+        "title": "A parking space and its access aisle are different",
+        "question": "You are driving a passenger with their valid disabled-person placard. The marked accessible space is open, and a striped access aisle is beside it. Where may you park?",
+        "steps": [
+          "Use the marked accessible parking space when driving the eligible passenger and displaying their valid placard.",
+          "Keep the striped access aisle clear. It is space for people and wheelchair lifts, not an extra parking spot.",
+          "Check the whole vehicle fits inside the parking space. Briefly stopping across the stripes to unload still blocks the access area."
+        ],
+        "mistake": "A placard gives parking privileges in the marked space; it does not make the adjacent stripes part of that space.",
+        "check": "The next day you drive back alone for your own errand and still have the passenger's placard. May you use the accessible space?",
+        "answer": "No. The placard is not yours to use for your own trip. Park in a space you are allowed to use without it.",
+        "source": {
+          "label": "California DMV: Disabled Person Parking Placards and Plates",
+          "url": "https://www.dmv.ca.gov/portal/vehicle-registration/license-plates-decals-and-placards/disabled-person-parking-placards-plates/"
+        }
+      }
+    ]
+  },
   "illinois-dmv-road-signs-practice": {
     "id": "illinois-work-zone-speed",
     "heading": "Illinois: when does the work-zone speed limit apply?",

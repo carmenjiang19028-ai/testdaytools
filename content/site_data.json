@@ -6940,11 +6940,11 @@
       "description": "California DMV road signs practice with 28 original image questions, a five-color curb checkpoint, instant explanations, and official handbook guidance.",
       "heroKicker": "California road signs",
       "summary": "Practice California DMV road signs with 28 original image prompts, then use a five-color curb checkpoint to turn handbook rules into quick parking decisions.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroActions": [
         {
           "label": "Start 5-color checkpoint",
-          "href": "#practice"
+          "href": "?mode=ca-curb-checkpoint#practice"
         },
         {
           "label": "Open full 28-sign round",
@@ -7108,7 +7108,7 @@
               "label": "Curbs",
               "title": "Use the five-color decision check",
               "text": "Separate passenger stops, time-limited parking, loading, prohibited stopping, and accessible parking before the full picture round.",
-              "href": "#practice",
+              "href": "?mode=ca-curb-checkpoint#practice",
               "cta": "Start curb checkpoint"
             },
             {
@@ -7122,11 +7122,11 @@
               "text": "Leave space before railroad tracks and crosswalks so you are not trapped in a danger area."
             },
             {
-              "label": "Compare",
-              "title": "Use Florida regulatory signs for action drills",
-              "text": "If the weak spot is required or prohibited movement, compare with the Florida regulatory traffic signs page for Right Turn Only, No Right Turn, One Way, and Keep Right practice.",
-              "href": "florida-dmv-road-signs-practice.html",
-              "cta": "Florida regulatory traffic signs"
+              "label": "Apply the rule",
+              "title": "Decide what you can do at the curb",
+              "text": "Try two California cases: a passenger who is not ready for pickup, and an accessible parking space next to a striped access aisle.",
+              "href": "#california-curb-decisions",
+              "cta": "Work through curb decisions"
             }
           ]
         }
@@ -7999,7 +7999,7 @@
       "description": "Practice NY DMV road signs with 25 picture questions aligned to the official must-know sign chart, a 4-sign checkpoint, PDF study sheet, and instant explanations.",
       "heroKicker": "New York road signs",
       "summary": "Practice the road signs New York DMV says you must know with 25 original picture prompts, a four-sign checkpoint, instant explanations, and a printable 31-sign study sheet.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "stateRulePractice": {
         "id": "new-york-right-on-red",
         "linkLabel": "NY right on red",
@@ -8035,7 +8035,7 @@
       "heroActions": [
         {
           "label": "Start 4-sign checkpoint",
-          "href": "#practice"
+          "href": "?mode=ny-four-sign-checkpoint#practice"
         },
         {
           "label": "NY right on red",
@@ -8196,11 +8196,7 @@
       "body": [
         {
           "heading": "Fast answer: New York DMV road signs practice",
-          "text": "Use this page for New York DMV road signs practice when you need image questions, not a long handbook chapter. Start with the 25-question sign round, then use the official-coverage table to confirm that you practiced every sign group on New York DMV's must-know chart."
-        },
-        {
-          "heading": "Why signs are a useful quick win",
-          "text": "Road sign questions are concrete and searchable. If you can quickly connect a shape or color with the right action, you remove one source of permit-test uncertainty."
+          "text": "Pick the four-sign checkpoint for a short diagnostic or the 25-question picture round for a broader review. After the full round, use the coverage table to match the signs you missed to the groups on New York DMV's must-know chart."
         },
         {
           "heading": "Study the action, not only the image",
@@ -8218,14 +8214,14 @@
       "cardGroups": [
         {
           "heading": "New York road-sign study path",
-          "intro": "Use this route when Search Console shows New York sign interest but the click path still needs to be clearer.",
+          "intro": "Use the four-sign checkpoint to practice the sign portion. Open the full picture round to find any sign categories you still confuse before moving to mixed practice.",
           "items": [
             {
-              "label": "Start here",
-              "title": "Take the New York picture round",
-              "text": "Use the image quiz first so you can see whether the weak spot is regulatory signs, yellow warnings, crossings, or signals.",
-              "href": "#practice",
-              "cta": "Start NY sign quiz"
+              "label": "Full image round",
+              "title": "Take the 25-question New York picture round",
+              "text": "Use the larger set to check regulatory signs, warnings, crossings, and signals. This is a study round, not the four-sign checkpoint or the official permit test.",
+              "href": "?mode=signs#practice",
+              "cta": "Open full 25-sign round"
             },
             {
               "label": "Regulatory signs",
@@ -8242,11 +8238,11 @@
               "cta": "NY permit practice"
             },
             {
-              "label": "Compare",
-              "title": "Check Florida regulatory traffic signs",
-              "text": "When the miss is about required movement, compare with the Florida regulatory traffic signs page for Right Turn Only, No Right Turn, One Way, and Keep Right actions.",
-              "href": "florida-dmv-road-signs-practice.html",
-              "cta": "Florida regulatory traffic signs"
+              "label": "New York rule",
+              "title": "Check whether a red-light turn is allowed",
+              "text": "Compare an intersection in New York City with one elsewhere in the state. The same absence of a NO TURN ON RED sign does not give you the same answer.",
+              "href": "#new-york-right-on-red",
+              "cta": "Compare New York right-turn cases"
             }
           ]
         },

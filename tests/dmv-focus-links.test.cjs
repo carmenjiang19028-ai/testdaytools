@@ -51,6 +51,74 @@ const mode = page => page.locator("[data-mode-panel].is-active");
 const filter = page => mode(page).locator("[data-quiz-filter]");
 
 for (const width of [390, 1280]) {
+  test(`${width}px: California and New York study links open the named round from another active mode`, () =>
+    open(width, async page => {
+      const paths = [
+        ["california", "signs", "Start 5-color checkpoint", "ca-curb-checkpoint", 5, 4],
+        ["california", "signs", "Start curb checkpoint", "ca-curb-checkpoint", 5, 4],
+        ["california", "ca-curb-checkpoint", "Open full 28-sign round", "signs", 28, 23],
+        ["new-york", "signs", "Start 4-sign checkpoint", "ny-four-sign-checkpoint", 4, 2],
+        ["new-york", "ny-four-sign-checkpoint", "Open full 25-sign round", "signs", 25, 20],
+      ];
+      for (const [state, starting, label, destination, total, target] of paths) {
+        await page.goto(urlFor(`${state}-dmv-road-signs-practice.html`, { mode: starting }).href);
+        assert.equal(await mode(page).getAttribute("data-mode-panel"), starting);
+        await page.getByRole("link", { name: label, exact: true }).press("Enter");
+        await page.waitForURL(url => url.searchParams.get("mode") === destination && url.hash === "#practice");
+        assert.equal(await mode(page).getAttribute("data-mode-panel"), destination, label);
+        const quiz = mode(page).locator("[data-quiz]");
+        assert.equal(await quiz.locator(".question").count(), total, label);
+        assert.equal(await quiz.getAttribute("data-pass-score"), String(target), label);
+        assert.ok(await quiz.locator(".question.is-active").isVisible(), label);
+        if (state === "new-york") {
+          assert.doesNotMatch(await page.locator("main").innerText(), /search console|concrete and searchable/i);
+          assert.equal(await page.getByRole("link", { name: "Compare New York right-turn cases" }).getAttribute("href"),
+            "#new-york-right-on-red");
+        }
+      }
+    }));
+}
+
+for (const width of [320, 1280]) {
+  test(`${width}px: California curb examples apply the rule when the situation changes without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      const page = await context.newPage();
+      await context.route(/^https?:/, route => route.abort());
+      const guide = urlFor("california-dmv-road-signs-practice.html").href;
+      await page.goto(guide);
+      await page.getByRole("link", { name: "Work through curb decisions", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#california-curb-decisions");
+      const lesson = page.locator("#california-curb-decisions");
+      const heading = await lesson.locator("h2").boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const cases = lesson.locator("article");
+      assert.equal(await cases.count(), 2);
+      const expected = [
+        [/not for waiting for someone to arrive/, /Stay within the posted 15 minutes/,
+          "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/navigating-the-roads-cont1/"],
+        [/valid placard.*Keep the striped access aisle clear/is, /not yours to use for your own trip/,
+          "https://www.dmv.ca.gov/portal/vehicle-registration/license-plates-decals-and-placards/disabled-person-parking-placards-plates/"],
+      ];
+      for (const [i, [reason, answer, source]] of expected.entries()) {
+        const card = cases.nth(i);
+        const reasoning = card.locator("details").first();
+        const check = card.locator("details").last();
+        assert.equal(await reasoning.locator("li").first().isVisible(), false);
+        assert.equal(await check.locator("p").isVisible(), false);
+        await reasoning.locator("summary").press("Enter");
+        assert.match(await reasoning.innerText(), reason);
+        await check.locator("summary").press("Enter");
+        assert.match(await check.innerText(), answer);
+        assert.equal(await card.getByRole("link").getAttribute("href"), source);
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [390, 1280]) {
   test(`${width}px: Florida course paths distinguish age and land clear of the sticky header`, () =>
     open(width, async page => {
       const slug = "florida-class-e-knowledge-exam-tlsae";
