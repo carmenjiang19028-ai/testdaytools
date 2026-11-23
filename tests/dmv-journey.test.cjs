@@ -224,6 +224,106 @@ test("immediate repeats cannot skip the next-day review, and an on-time recall s
     assert.equal(await page.locator("[data-journey-reliable]").locator("..").locator("dt").textContent(), "Weekly review");
   }));
 
+for (const width of [390, 1280]) {
+  test(`${width}px: a cleared review queue leads to unseen baseline questions and resumes its draft`, () =>
+    withSite(width, async (page) => {
+      const home = origin + "/index.html";
+      const baselineHref = "road-signs-practice-test.html?mode=road-signs-core&focus=baseline#practice";
+      const primary = page.locator(`${dashboard} [data-journey-primary]`);
+      const round = page.locator("[data-mode-panel].is-active [data-quiz]");
+      const current = round.locator(".question.is-active");
+      const answerCurrent = async () => {
+        const answer = await current.getAttribute("data-answer");
+        await current.locator(`button[data-choice="${answer}"]`).click();
+      };
+      const readMastery = () => page.evaluate((key) => Object.values(JSON.parse(localStorage.getItem(key)).items), masteryKey);
+      await page.goto(home);
+      await page.locator("[data-journey-state]").selectOption("new-york");
+      await primary.click();
+      const firstPrompt = await current.getAttribute("data-prompt");
+      await answerCurrent();
+      await page.clock.setFixedTime(now + day);
+      await page.goto(home);
+      await primary.click();
+      await page.waitForLoadState("load");
+      assert.equal(await round.locator("[data-quiz-filter]").inputValue(), "due");
+      assert.equal(await round.locator("[data-quiz-position]").textContent(), "Question 1 of 1");
+      await answerCurrent();
+      assert.equal((await readMastery()).length, 1);
+      assert.match((await getJourney(page)).sessions[0].href, /focus=due/);
+      await page.goto(home);
+      assert.equal(await page.locator('[data-journey-step="warmup"] [data-journey-step-status]').textContent(), "1 of 10");
+      assert.equal(await primary.getAttribute("href"), baselineHref);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await page.locator(".journey-priority").screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `baseline-${width}.png`) });
+      }
+      await primary.click();
+      await page.waitForLoadState("load");
+      assert.equal(await round.locator("[data-quiz-position]").textContent(), "Question 1 of 9");
+      assert.notEqual(await current.getAttribute("data-prompt"), firstPrompt);
+      await answerCurrent();
+      await round.locator("[data-quiz-forward]").click();
+      const nextPrompt = await current.getAttribute("data-prompt");
+      const savedMastery = await readMastery();
+      await page.goto(home);
+      assert.match(await primary.getAttribute("href"), /focus=baseline&resume=1/);
+      await primary.click();
+      await page.waitForLoadState("load");
+      assert.equal(await current.getAttribute("data-prompt"), nextPrompt);
+      assert.equal(await round.locator("[data-quiz-position]").textContent(), "Question 2 of 9");
+      assert.equal(await round.locator("[data-quiz-answered]").textContent(), "1 of 9 answered");
+      assert.deepEqual(await readMastery(), savedMastery);
+      for (let i = 1; i < 9; i++) {
+        await answerCurrent();
+        if (i < 8) await round.locator("[data-quiz-forward]").click();
+      }
+      assert.equal((await readMastery()).length, 10);
+      const last = (await getJourney(page)).sessions[0];
+      assert.equal(last.fullRound, false);
+      assert.equal(last.practiceTargetMet, false);
+      await round.locator("[data-quiz-next-action]").click();
+      await page.waitForLoadState("load");
+      assert.equal(await page.locator('[data-journey-step="warmup"] [data-journey-step-status]').textContent(), "Complete");
+      assert.equal(await passes(page).textContent(), "0 of 2");
+      assert.match(await primary.getAttribute("href"), /new-york-dmv-permit-practice-test\.html\?mode=mock/);
+      await page.goto(origin + "/" + baselineHref);
+      assert.match(await round.locator("[data-quiz-next]").textContent(), /already complete/);
+    }));
+}
+
+test("the baseline counts the same shared and state question once and resets to only new items", () =>
+  withSite(390, async (page) => {
+    const home = origin + "/index.html";
+    await page.goto(home);
+    await page.locator("[data-journey-state]").selectOption("new-york");
+    const primary = page.locator(`${dashboard} [data-journey-primary]`);
+    await primary.click();
+    const round = page.locator("[data-mode-panel].is-active [data-quiz]");
+    const current = round.locator(".question.is-active");
+    const answer = await current.getAttribute("data-answer");
+    await current.locator(`button[data-choice="${answer}"]`).click();
+    await page.evaluate((key) => {
+      const mastery = JSON.parse(localStorage.getItem(key));
+      const [id, record] = Object.entries(mastery.items)[0];
+      mastery.items[id.replace(/^general\|/, "new-york|")] = { ...record, state: "new-york" };
+      mastery.items["florida|other question|other answer"] = { ...record, state: "florida" };
+      localStorage.setItem(key, JSON.stringify(mastery));
+      localStorage.removeItem("tdt-recent-practice");
+    }, masteryKey);
+    await page.goto(home);
+    assert.equal(await page.locator('[data-journey-step="warmup"] [data-journey-step-status]').textContent(), "1 of 10");
+    await primary.click();
+    await page.waitForLoadState("load");
+    assert.equal(await round.locator("[data-quiz-position]").textContent(), "Question 1 of 9");
+    const prompt = await current.getAttribute("data-prompt");
+    const correct = await current.getAttribute("data-answer");
+    await current.locator(`button[data-choice="${correct}"]`).click();
+    await round.locator("[data-quiz-reset]").click();
+    assert.equal(await round.locator("[data-quiz-position]").textContent(), "Question 1 of 8");
+    assert.notEqual(await current.getAttribute("data-prompt"), prompt);
+  }));
+
 test("an incorrect answer is due now and its immediate correction requires a later recall", () =>
   withSite(1280, async (page) => {
     await page.goto(origin + "/road-signs-practice-test.html?mode=road-signs-starter#practice");

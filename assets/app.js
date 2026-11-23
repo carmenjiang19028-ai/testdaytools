@@ -192,6 +192,7 @@ function initScoreEntryTracking() {
 
 const DMV_JOURNEY_STORAGE_KEY = "tdt-dmv-journey:v1";
 const DMV_MASTERY_STORAGE_KEY = "tdt-dmv-mastery:v1";
+const DMV_BASELINE_SIZE = 10;
 const DAY_MS = 86400000;
 const RECENT_PRACTICE_KEY = "tdt-recent-practice";
 
@@ -281,19 +282,22 @@ function isDmvReviewDue(record, now) {
   return Number.isFinite(dueAt) && dueAt > 0 && dueAt <= now;
 }
 
-function getDmvMasterySummary(state = "") {
+function getDmvMasterySummary(state = "", mastery = readDmvMastery()) {
   const selectedState = normalizeDmvState(state);
   const now = Date.now();
-  const items = Object.values(readDmvMastery().items).filter((item) => {
+  const records = Object.entries(mastery.items).filter(([, item]) => {
     const itemState = normalizeDmvState(item?.state);
     return !selectedState || itemState === selectedState || itemState === "general";
   });
+  const items = records.map(([, item]) => item);
+  // The same prompt and correct answer can appear in shared and state practice.
+  const distinct = new Set(records.map(([id]) => id.slice(id.indexOf("|") + 1)));
   const learning = items.filter((item) => !Number(item.reliableAt));
   const dueItems = items
     .filter((item) => isDmvReviewDue(item, now))
     .sort((a, b) => Number(a.dueAt) - Number(b.dueAt) || Number(a.updatedAt) - Number(b.updatedAt));
   return {
-    attempted: items.length,
+    attempted: distinct.size,
     learning: learning.length,
     reliable: items.length - learning.length,
     due: dueItems.length,
@@ -654,6 +658,7 @@ function initQuizzes() {
 
     const pageName = window.location.pathname.split("/").pop() || "index.html";
     const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
+    const supportsBaseline = isDmvQuiz && pageName === "road-signs-practice-test.html" && mode === "road-signs-core";
 
     const roundHref = (focus = "all") => {
       const params = new URLSearchParams();
@@ -882,9 +887,10 @@ function initQuizzes() {
       const halfwayReached = activeTotal > 1 && answeredCount >= Math.ceil(activeTotal / 2);
       const focus = filterSelect?.value || "all";
       const focusedDmv = isDmvQuiz && focus !== "all";
+      const baseline = supportsBaseline && focus === "baseline";
       const effectivePassScore = isDmvQuiz ? passScore : Math.min(passScore, Math.max(activeTotal - 1, 1));
       const practiceTargetMet = !focusedDmv && correctCount >= effectivePassScore;
-      nextRoundFocus = complete && focusedDmv && !missedCount ? "all" : "";
+      nextRoundFocus = complete && focusedDmv && !baseline && !missedCount ? "all" : "";
       const resultText = !activeTotal
         ? "No questions selected"
         : complete
@@ -1021,7 +1027,12 @@ function initQuizzes() {
         const state = normalizeDmvState(quiz.dataset.state || readDmvJourney().state);
         const missedQuestions = missedIndexes.map(index => questions[index]);
         const imageMisses = missedQuestions.filter(questionSign);
-        if (!complete) {
+        if (baseline && (!activeTotal || (complete && !missedCount))) {
+          nextPlanTitle.textContent = "Continue your study path";
+          nextPlanCopy.textContent = "Use your baseline to choose your next practice step.";
+          nextPlanAction.href = "dmv-practice.html#dmv-journey-title";
+          nextPlanAction.textContent = "Open your study path";
+        } else if (!complete) {
           nextPlanTitle.textContent = answeredCount ? "Finish the current evidence" : "Create a real baseline";
           nextPlanCopy.textContent = answeredCount
             ? `${leftCount} questions remain. Finish before switching tools so the weak-area result is reliable.`
@@ -1205,6 +1216,7 @@ function initQuizzes() {
       filterSelect.replaceChildren();
       [
         ["all", "All categories"],
+        ...(supportsBaseline ? [["baseline", "Finish baseline with new questions"]] : []),
         ...(isDmvQuiz ? [["due", "Review due"]] : []),
         ["saved", "Saved mistakes"],
         ...Array.from(sheetFocuses, ([value, label]) => [value, `Study sheet: ${label}`]),
@@ -1219,6 +1231,25 @@ function initQuizzes() {
 
     const applyFocusFilter = (value) => {
       toolMessage = "";
+      if (value === "baseline" && supportsBaseline) {
+        const mastery = readDmvMastery();
+        const state = readDmvJourney().state;
+        const remaining = Math.max(DMV_BASELINE_SIZE - getDmvMasterySummary(state, mastery).attempted, 0);
+        const seen = new Set();
+        const newIndexes = allQuestionIndexes().filter((index) => {
+          const question = questions[index];
+          const generalId = questionMasteryId(question);
+          if (seen.has(generalId) || mastery.items[generalId] ||
+              (state && mastery.items[questionMasteryId(question, state)])) return false;
+          seen.add(generalId);
+          return true;
+        }).slice(0, remaining);
+        resetQuiz();
+        setActiveSequence(newIndexes, newIndexes.length
+          ? "Only questions you have not answered in this study path are included."
+          : "Your baseline is already complete. Open your study path or choose All categories.");
+        return;
+      }
       if (value === "due" && isDmvQuiz) {
         const dueIndexes = dueQuestionIndexes();
         resetQuiz();
@@ -1351,7 +1382,11 @@ function initQuizzes() {
       resetButton.addEventListener("click", () => {
         const draft = readRecentPractice()?.draft;
         if (isDmvQuiz) shuffleChoices();
-        resetQuiz();
+        if (supportsBaseline && filterSelect?.value === "baseline") {
+          applyFocusFilter("baseline");
+        } else {
+          resetQuiz();
+        }
         if (draft?.scope === roundHref()) saveRecentPractice();
       });
     }
@@ -2123,7 +2158,8 @@ function initDmvJourneyDashboards() {
         ? recentPracticeHref(recentPractice)
         : "";
       const mastery = getDmvMasterySummary(state);
-      const baselineCount = Math.min(mastery.attempted, 10);
+      const baselineCount = Math.min(mastery.attempted, DMV_BASELINE_SIZE);
+      const baselineComplete = baselineCount === DMV_BASELINE_SIZE;
       const twoWeeksAgo = Date.now() - 14 * 86400000;
       const permitPage = option.dataset.mixedPracticeUrl || "";
       const targetRounds = stateSessions.filter((session) => (
@@ -2146,18 +2182,18 @@ function initDmvJourneyDashboards() {
       if (due) due.textContent = `${mastery.due} ${mastery.due === 1 ? "question" : "questions"}`;
       if (reliable) reliable.textContent = `${mastery.reliable} ${mastery.reliable === 1 ? "question" : "questions"}`;
 
-      setStep("warmup", baselineCount >= 10 ? "Complete" : `${baselineCount} of 10`, baselineCount >= 10, baselineCount < 10);
+      setStep("warmup", baselineComplete ? "Complete" : `${baselineCount} of ${DMV_BASELINE_SIZE}`, baselineComplete, !baselineComplete);
       if (mastery.due) {
-        setStep("review", `${mastery.due} due`, false, baselineCount >= 10);
-      } else if (baselineCount >= 10) {
+        setStep("review", `${mastery.due} due`, false, baselineComplete);
+      } else if (baselineComplete) {
         setStep("review", "Queue clear", true, false);
       } else if (weak) {
         setStep("review", `Review ${weak}`, false, false);
       } else {
         setStep("review", "Waiting", false, false);
       }
-      setStep("passes", permitPage ? `${Math.min(targetRounds, 2)} of 2` : "Not available", targetRounds >= 2, Boolean(permitPage) && baselineCount >= 10 && targetRounds < 2 && !mastery.due);
-      const checklistNext = targetRounds >= 2 || (!permitPage && baselineCount >= 10 && !mastery.due);
+      setStep("passes", permitPage ? `${Math.min(targetRounds, 2)} of 2` : "Not available", targetRounds >= 2, Boolean(permitPage) && baselineComplete && targetRounds < 2 && !mastery.due);
+      const checklistNext = targetRounds >= 2 || (!permitPage && baselineComplete && !mastery.due);
       setStep("ready", `${readyCount} of 12`, readyCount >= 12, checklistNext && readyCount < 12);
 
       if (recent && recentBox) {
@@ -2195,12 +2231,12 @@ function initDmvJourneyDashboards() {
         copy.textContent = "A short first round creates a baseline and reveals which sign family or rule deserves the next ten minutes.";
         primary.href = "road-signs-practice-test.html?mode=road-signs-starter#practice";
         primary.textContent = "Start 10 questions";
-      } else if (mastery.attempted < 10) {
+      } else if (!baselineComplete) {
         kicker.textContent = "Finish the baseline";
-        title.textContent = `${10 - mastery.attempted} different questions left before switching tools`;
-        copy.textContent = "Attempt different questions so the weak-area recommendation cannot be inflated by repeating one familiar item.";
-        primary.href = resumeHref || recent?.href || option.dataset.practiceUrl || "road-signs-practice-test.html#practice";
-        primary.textContent = resumeHref ? "Resume unfinished round" : "Open baseline practice";
+        title.textContent = `${DMV_BASELINE_SIZE - baselineCount} new ${baselineCount === DMV_BASELINE_SIZE - 1 ? "question" : "questions"} to finish your baseline`;
+        copy.textContent = "Repeating a question you have already answered does not advance the baseline.";
+        primary.href = resumeHref || "road-signs-practice-test.html?mode=road-signs-core&focus=baseline#practice";
+        primary.textContent = resumeHref ? "Resume unfinished round" : "Practice new questions";
       } else if (missedToday && weak) {
         kicker.textContent = "Best next study block";
         title.textContent = `Repair ${weak}`;
