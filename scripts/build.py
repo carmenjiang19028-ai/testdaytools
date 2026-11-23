@@ -4185,10 +4185,33 @@ def render_dmv_daily_question_page():
 def render_dmv_mistake_log_page():
     records = dmv_score_records()
     default = next((item for item in records if item["value"] == "florida"), records[0] if records else {})
-    options = "".join(
-        f"""<option value="{esc(item["value"])}" data-state-label="{esc(item["label"])}" data-agency="{esc(item["agency"])}" data-source-url="{esc(item["manualUrl"])}" data-practice-url="{esc(item["permitUrl"])}" data-signs-url="{esc(item["signUrl"])}" data-checklist-url="{esc(item["checklistUrl"])}" data-rule="{esc(item["rule"])}" {"selected" if item["value"] == default.get("value") else ""}>{esc(item["label"])}</option>"""
-        for item in records
-    )
+    options = []
+    for item in records:
+        mixed = item["mixedPracticeUrl"]
+        permit = find_dmv_permit_tool_for_state(item) if mixed else None
+        mode = next((mode for mode in (permit or {}).get("quizModes", []) if mode["id"] == "mock"), None)
+        right_of_way = ""
+        if mode and any(q.get("category") == "Right of way" for q in quiz_questions(mode["quiz"], mode)):
+            right_of_way = f'{mixed.partition("#")[0]}&focus={quote("Right of way")}#practice'
+        local_case = f'#right-of-way-{item["value"]}' if item["value"] in {"texas", "illinois"} else ""
+        options.append(
+            f'<option value="{esc(item["value"])}" data-state-label="{esc(item["label"])}" '
+            f'data-source-url="{esc(item["manualUrl"])}" data-right-of-way-case="{esc(local_case)}" '
+            f'data-practice-url="{esc(item["permitUrl"])}" data-mixed-url="{esc(mixed)}" '
+            f'data-right-of-way-url="{esc(right_of_way)}" data-score-url="{esc(item["scoreUrl"])}" '
+            f'data-signs-url="{esc(item["signUrl"])}" data-checklist-url="{esc(item["checklistUrl"])}" '
+            f'data-rule="{esc(item["rule"])}" {"selected" if item["value"] == default.get("value") else ""}>{esc(item["label"])}</option>'
+        )
+    sign_drills = {
+        "wrong-way-entry": ("Practice entry-control signs", "regulatory-traffic-signs-practice-test", "Prohibited entry signs"),
+        "one-way-lane-direction": ("Practice direction signs", "regulatory-traffic-signs-practice-test", "Lane and direction signs"),
+        "school-pedestrian-crossing": ("Practice crossing signs", ROAD_SIGN_PICTURE_SLUG, "School and pedestrian signs"),
+    }
+    topic_review = {
+        key: (label, f"{slug}.html?focus={quote(focus)}#practice")
+        for key, (label, slug, focus) in sign_drills.items()
+    }
+    topic_review["speed-advisory-speed"] = ("Compare posted and advisory speeds", "#speed-sign-decision")
     topic_options = [
         ("wrong-way-entry", "Wrong-way entry"),
         ("one-way-lane-direction", "One-way or lane direction"),
@@ -4197,10 +4220,14 @@ def render_dmv_mistake_log_page():
         ("speed-advisory-speed", "Speed limit or advisory speed"),
         ("course-exam-permit", "Course, exam, or permit step"),
         ("documents-appointment", "Documents or appointment confusion"),
-        ("score", "Passing score or timing"),
+        ("score", "Passing score or miss limit"),
         ("other", "Other missed topic"),
     ]
-    topics = "".join(f'<option value="{esc(value)}">{esc(label)}</option>' for value, label in topic_options)
+    topics = "".join(
+        f'<option value="{esc(value)}" data-review-href="{esc(topic_review[value][1])}" data-review-label="{esc(topic_review[value][0])}">{esc(label)}</option>'
+        if value in topic_review else f'<option value="{esc(value)}">{esc(label)}</option>'
+        for value, label in topic_options
+    )
     body = f"""<section class="hero tool-hero">
   <div>
     <p class="eyebrow">DMV mistake log</p>
@@ -4232,7 +4259,7 @@ def render_dmv_mistake_log_page():
   </div>
   <div class="mistake-log-grid">
     <form class="mistake-log-form" data-mistake-form>
-      <label>State <select data-mistake-state>{options}</select></label>
+      <label>State <select data-mistake-state>{''.join(options)}</select></label>
       <label>Weak area <select data-mistake-topic>{topics}</select></label>
       <label>Missed question or cue <input type="text" data-mistake-prompt placeholder="Example: Wrong Way sign, one-way arrow, advisory speed, permit appointment..."></label>
       <label>Correct rule or fix <textarea data-mistake-fix rows="4" placeholder="Write the rule, sign meaning, or habit to remember next time."></textarea></label>
@@ -4243,13 +4270,13 @@ def render_dmv_mistake_log_page():
     </form>
     <aside class="mistake-log-summary">
       <article><span>Total saved</span><strong data-mistake-total>0</strong><p>Keep the list short and current.</p></article>
-      <article><span>Top weak area</span><strong data-mistake-top-topic>None yet</strong><p data-mistake-next>Save a mistake to get a next action.</p></article>
+      <article><span data-mistake-top-label>Top {esc(default.get("label", "Florida"))} weak area</span><strong data-mistake-top-topic>None yet</strong><p data-mistake-next>Save a mistake to get a next action.</p></article>
       <article><span>Selected state</span><strong data-mistake-state-label>{esc(default.get("label", "Florida"))}</strong><p data-mistake-rule>{esc(default.get("rule", "Confirm with official source"))}</p></article>
       <div class="mistake-log-actions">
         <a href="{esc(default.get("manualUrl", "#"))}" target="_blank" rel="noopener" data-mistake-source>Official source</a>
-        <a href="{esc(default.get("permitUrl", "dmv-practice.html"))}" data-mistake-practice>Practice</a>
+        <a href="{esc(default.get("mixedPracticeUrl") or "dmv-practice.html")}" data-mistake-practice>Open Florida mixed practice</a>
         <a href="{esc(default.get("signUrl", "road-signs-practice-test.html"))}" data-mistake-signs>Signs</a>
-        <a href="dmv-permit-test-study-plan.html" data-mistake-plan>Study plan</a>
+        <a href="dmv-permit-test-study-plan.html?state=florida#study-plan" data-mistake-plan>Study plan</a>
         <a href="{esc(default.get("checklistUrl", "dmv-test-day-checklist.html"))}" data-mistake-checklist>Checklist</a>
       </div>
     </aside>
@@ -4270,12 +4297,40 @@ def render_dmv_mistake_log_page():
   <h2>Turn common misses into the next drill</h2>
   <p class="section-intro">Use the log as a routing tool. The point is to stop repeating full quizzes when one specific confusion is doing the damage.</p>
   <div class="card-grid">
-    <article class="info-card"><span>Wrong-way entry</span><h3>Review red entry-control signs</h3><p>Do Not Enter, Wrong Way, Stop, and Yield belong together because the next action is immediate. Practice the sign family before broad warning signs.</p><a class="info-card-link" href="florida-dmv-road-signs-practice.html?focus=Regulatory%20signs#practice">Florida sign drill</a></article>
-    <article class="info-card"><span>One-way or lane direction</span><h3>Separate road direction from lane movement</h3><p>One Way controls the road. Lane arrows control what your lane can do. Save these misses together so the next drill focuses on arrows and permitted turns.</p><a class="info-card-link" href="regulatory-traffic-signs-practice-test.html?focus=Lane%20and%20direction%20signs#practice">Direction drill</a></article>
+    <article class="info-card"><span>Wrong-way entry</span><h3>Review red entry-control signs</h3><p>Do Not Enter tells you not to enter. Wrong Way tells you a movement has already put you against traffic. Practice choosing the correct action for each.</p><a class="info-card-link" href="{esc(topic_review['wrong-way-entry'][1])}">Entry-control drill</a></article>
+    <article class="info-card"><span>One-way or lane direction</span><h3>Separate road direction from lane movement</h3><p>One Way controls the road. Lane arrows control what your lane can do. Save these misses together so the next drill focuses on arrows and permitted turns.</p><a class="info-card-link" href="{esc(topic_review['one-way-lane-direction'][1])}">Direction drill</a></article>
     <article class="info-card"><span>Right-of-way</span><h3>Move from sign cue to driver order</h3><p>If the miss is about who goes first, the next drill should be state practice, not another sign-only round.</p><a class="info-card-link" href="dmv-practice.html#state-paths">State practice</a></article>
     <article class="info-card"><span>Course, exam, permit</span><h3>Map the process before the visit</h3><p>If the miss is about TLSAE, the Class E exam, online testing, documents, or first issuance, switch from practice questions to the process map.</p><a class="info-card-link" href="florida-class-e-knowledge-exam-tlsae.html">Florida Class E map</a></article>
     <article class="info-card"><span>Documents or appointment</span><h3>Use official documents before scheduling</h3><p>A high practice score does not solve identity, Social Security number, address, parent forms, fees, appointment, or local service-center steps.</p><a class="info-card-link" href="dmv-test-day-checklist.html?state=florida#dmv-checklist">Checklist</a></article>
   </div>
+</section>
+<section class="content-section" id="speed-sign-decision" aria-labelledby="speed-sign-decision-heading">
+  <h2 id="speed-sign-decision-heading">Same number, different speed decision</h2>
+  <p>Two drivers see 35. One sees a white rectangle reading <strong>SPEED LIMIT 35</strong>. The other sees a yellow <strong>35 MPH</strong> plaque under a curve warning. Which sign sets the posted legal limit, and when should the second driver slow down?</p>
+  <details>
+    <summary>Check the decision</summary>
+    <p>The white sign sets the posted maximum for that segment, not a speed you must reach. The yellow plaque advises a speed for the curve ahead; it does not replace the posted limit. Slow before entering the curve, and go slower than the advice if rain, traction, or visibility calls for it.</p>
+    <p><strong>Check yourself:</strong> If the same curve has both a posted limit and a lower advisory speed, do not use the higher number as your target for the curve.</p>
+  </details>
+  <p>FHWA sign references: <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf">R2-1 speed limit sign</a> and <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">W13-1P advisory speed plaque</a>.</p>
+</section>
+<section class="content-section" id="right-of-way-texas" aria-labelledby="right-of-way-texas-heading">
+  <h2 id="right-of-way-texas-heading">Texas: a two-lane road meets a divided highway</h2>
+  <p>You're on a two-lane road. There is no signal, stop sign, or yield sign where it meets a divided highway. A vehicle on the highway is close enough that entering would cut it off. Can you cross because there is no sign?</p>
+  <details>
+    <summary>Check the decision</summary>
+    <p><strong>No. Stop and yield to the highway vehicle.</strong> The absence of a sign does not give the narrower road priority. Wait until you can enter or cross without interfering with traffic on the highway. If there is a traffic-control device, follow it instead of assuming this example applies.</p>
+  </details>
+  <p><a href="https://statutes.capitol.texas.gov/?artSec=545.151&amp;chapter=TN.545&amp;code=TN&amp;tab=1">Texas Transportation Code &sect;545.151</a> &middot; <a href="https://www.dps.texas.gov/Internetforms/Forms/DL-7.pdf">Texas Driver Handbook, Chapter 4</a></p>
+</section>
+<section class="content-section" id="right-of-way-illinois" aria-labelledby="right-of-way-illinois-heading">
+  <h2 id="right-of-way-illinois-heading">Illinois: two vehicles arrive at about the same time</h2>
+  <p>You and another driver approach from different roads at about the same time. Neither road has priority and there are no traffic controls. The other driver is to your right. Who yields?</p>
+  <details>
+    <summary>Check the decision</summary>
+    <p><strong>You yield to the driver on your right.</strong> That is the tie rule in this example. Do not treat it as a universal rule for every intersection: a through highway or traffic-control device can change the answer. Even when it is your turn, enter only when the way is clear.</p>
+  </details>
+  <p><a href="https://www.ilga.gov/documents/legislation/ilcs/documents/062500050K11-901.htm">Illinois Vehicle Code &sect;11-901</a> &middot; <a href="https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf#page=29">Illinois Rules of the Road, Right of Way</a></p>
 </section>
 {render_related(["florida-class-e-knowledge-exam-tlsae", "florida-dmv-permit-documents-checklist", "florida-dmv-permit-practice-test", "florida-dmv-road-signs-practice", "dmv-permit-test-question-of-the-day", "dmv-permit-test-study-plan", "dmv-permit-test-passing-score-calculator", "dmv-test-day-checklist", "road-signs-practice-test", "dmv-road-sign-flashcards"])}"""
     return page_shell(

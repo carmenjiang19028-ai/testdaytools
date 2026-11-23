@@ -10,6 +10,7 @@ const california = "california-dmv-road-signs-practice.html";
 const florida = "florida-dmv-permit-practice-test.html";
 const newYork = "new-york-dmv-permit-practice-test.html";
 const signs = "road-signs-practice-test.html";
+const log = origin + "/dmv-permit-test-mistake-log.html";
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -62,6 +63,97 @@ async function seedSaved(page, name, mode, indexes) {
     localStorage.setItem(`tdt-mistakes:${location.pathname}:${mode}`, JSON.stringify(saved));
   }, { mode, indexes });
 }
+
+async function saveNote(page, state, topic, prompt) {
+  await page.locator("[data-mistake-state]").selectOption(state);
+  await page.locator("[data-mistake-topic]").selectOption(topic);
+  await page.locator("[data-mistake-prompt]").fill(prompt);
+  await page.getByRole("button", { name: "Save mistake" }).click();
+}
+
+for (const width of [390, 1280]) {
+  test(`${width}px: the manual mistake log opens the saved topic and state, not a generic quiz`, () =>
+    withSite(width, async (page, quiz) => {
+      await page.goto(log);
+      const list = page.locator("[data-mistake-list]");
+      for (const [topic, prompt, label, slug, category] of [
+        ["wrong-way-entry", "Entered a ramp the wrong way", "Practice entry-control signs", "regulatory-traffic-signs-practice-test.html", "Prohibited entry signs"],
+        ["one-way-lane-direction", "Confused a lane arrow and a One Way sign", "Practice direction signs", "regulatory-traffic-signs-practice-test.html", "Lane and direction signs"],
+        ["school-pedestrian-crossing", "Missed the school crossing", "Practice crossing signs", signs, "School and pedestrian signs"],
+        ["right-of-way", "Unsure which driver yields", "Practice New York right-of-way rules", newYork, "Right of way"],
+      ]) {
+        await saveNote(page, "new-york", topic, prompt);
+        const link = list.getByRole("article").filter({ hasText: prompt }).getByRole("link", { name: label, exact: true });
+        await link.press("Enter");
+        await page.waitForURL(url => url.pathname === "/" + slug && url.searchParams.get("focus") === category);
+        assert.equal(await activeQuestion(quiz).getAttribute("data-category"), category);
+        await page.goto(log);
+      }
+      await saveNote(page, "new-york", "speed-advisory-speed", "Treated an advisory as a posted limit");
+      await list.getByRole("link", { name: "Compare posted and advisory speeds", exact: true }).press("Enter");
+      await page.waitForURL(log + "#speed-sign-decision");
+      const decision = page.locator("#speed-sign-decision");
+      assert.ok(await decision.getByRole("heading", { name: "Same number, different speed decision" }).isVisible());
+      await decision.getByText("Check the decision", { exact: true }).press("Enter");
+      assert.match(await decision.locator("details[open]").innerText(), /does not replace the posted limit/);
+      assert.equal(await decision.getByRole("link").count(), 2);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await saveNote(page, "new-york", "score", "New York score");
+      await saveNote(page, "florida", "documents-appointment", "Florida address proof");
+      assert.equal(await page.locator("[data-mistake-top-label]").textContent(), "Top Florida weak area");
+      assert.equal(await page.locator("[data-mistake-top-topic]").textContent(), "Documents or appointment confusion");
+      assert.equal(await list.getByRole("article").filter({ hasText: "Florida address proof" }).getByRole("link").getAttribute("href"),
+        "florida-dmv-permit-documents-checklist.html#florida-document-route");
+      const score = list.getByRole("article").filter({ hasText: "New York score" }).getByRole("link");
+      await score.press("Enter");
+      await page.waitForURL(url => url.hash === "#score-calculator" && url.searchParams.get("state") === "new-york");
+      assert.equal(await page.locator("[data-score-state]").inputValue(), "new-york");
+    }));
+}
+
+test("existing TX and IL notes open sourced local cases without rewriting notes", () =>
+  withSite(1280, async page => {
+    await page.goto(log);
+    const saved = [
+      { state: "texas", stateLabel: "Texas", topic: "right-of-way", topicLabel: "Right-of-way rules", prompt: "Texas priority", fix: "My Texas note", practiceUrl: "texas-dmv-road-signs-practice.html" },
+      { state: "illinois", stateLabel: "Illinois", topic: "right-of-way", topicLabel: "Right-of-way rules", prompt: "Illinois priority", fix: "My Illinois note", practiceUrl: "illinois-dmv-road-signs-practice.html" },
+    ];
+    await page.evaluate(notes => localStorage.setItem("tdt-dmv-mistake-log", JSON.stringify(notes)), saved);
+    await page.reload();
+    const list = page.locator("[data-mistake-list]");
+    for (const [state, hash, answer, law] of [
+      ["Texas", "#right-of-way-texas", /Stop and yield to the highway vehicle/, "https://statutes.capitol.texas.gov/"],
+      ["Illinois", "#right-of-way-illinois", /You yield to the driver on your right/, "https://www.ilga.gov/"],
+    ]) {
+      await list.getByRole("link", { name: `Review the ${state} right-of-way case` }).press("Enter");
+      await page.waitForURL(log + hash);
+      const lesson = page.locator(hash);
+      await lesson.getByText("Check the decision", { exact: true }).press("Enter");
+      assert.match(await lesson.locator("details[open]").innerText(), answer);
+      assert.equal(await lesson.locator(`a[href^="${law}"]`).count(), 1);
+    }
+    assert.match(await list.innerText(), /My Texas note/);
+    assert.match(await list.innerText(), /My Illinois note/);
+    assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem("tdt-dmv-mistake-log"))), saved);
+  }));
+
+test("right-of-way notes in the other four active mixed banks load their actual filtered questions", () =>
+  withSite(1280, async (page, quiz) => {
+    for (const [state, slug] of [
+      ["california", "california-dmv-permit-practice-test.html"],
+      ["florida", florida],
+      ["pennsylvania", "pennsylvania-dmv-permit-practice-test.html"],
+      ["new-jersey", "new-jersey-mvc-permit-practice-test.html"],
+    ]) {
+      await page.goto(log);
+      const prompt = `Priority in ${state}`;
+      await saveNote(page, state, "right-of-way", prompt);
+      const row = page.locator("[data-mistake-list] article").filter({ hasText: prompt });
+      await row.getByRole("link").click();
+      await page.waitForURL(url => url.pathname === "/" + slug && url.searchParams.get("mode") === "mock");
+      assert.equal(await activeQuestion(quiz).getAttribute("data-category"), "Right of way");
+    }
+  }));
 
 for (const width of [390, 1280]) {
   test(`${width}px: two signs with the same prompt remain separate and resolve independently`, () =>

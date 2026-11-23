@@ -2395,6 +2395,7 @@ function initDmvMistakeLogs() {
     const fixInput = tool.querySelector("[data-mistake-fix]");
     const list = tool.querySelector("[data-mistake-list]");
     const total = tool.querySelector("[data-mistake-total]");
+    const topLabel = tool.querySelector("[data-mistake-top-label]");
     const topTopic = tool.querySelector("[data-mistake-top-topic]");
     const next = tool.querySelector("[data-mistake-next]");
     const stateLabel = tool.querySelector("[data-mistake-state-label]");
@@ -2437,28 +2438,31 @@ function initDmvMistakeLogs() {
       }
     };
 
-    const resolvePracticeHref = (entry) => {
-      if (
-        entry.topic === "road-signs" ||
-        entry.topic === "regulatory-signs" ||
-        entry.topic === "wrong-way-entry" ||
-        entry.topic === "one-way-lane-direction" ||
-        entry.topic === "school-pedestrian-crossing" ||
-        entry.topic === "speed-advisory-speed"
-      ) {
-        return entry.signsUrl;
+    const reviewFor = (entry) => {
+      const drill = Array.from(topicSelect?.options || []).find(option => option.value === entry.topic)?.dataset;
+      if (drill?.reviewHref) return [drill.reviewHref, drill.reviewLabel];
+      const state = Array.from(stateSelect?.options || []).find(option => option.value === entry.state)?.dataset;
+      if (!state) return ["dmv-practice.html", "Open DMV practice"];
+      const label = state.stateLabel;
+      if (entry.topic === "right-of-way") {
+        if (state.rightOfWayUrl) return [state.rightOfWayUrl, `Practice ${label} right-of-way rules`];
+        if (state.rightOfWayCase) return [state.rightOfWayCase, `Review the ${label} right-of-way case`];
+        return [state.sourceUrl, `Read the ${label} handbook`];
       }
-      if (entry.topic === "documents" || entry.topic === "documents-appointment") return entry.checklistUrl;
-      if (entry.topic === "course-exam-permit") {
-        return entry.state === "florida" ? "florida-class-e-knowledge-exam-tlsae.html" : entry.checklistUrl;
+      if (entry.topic === "score") return [state.scoreUrl, `Check the ${label} score rule`];
+      if (entry.topic === "road-signs" || entry.topic === "regulatory-signs") {
+        return [state.signsUrl, `Open ${label} sign practice`];
       }
-      if (entry.topic === "score") return "dmv-permit-test-passing-score-calculator.html";
-      return entry.practiceUrl;
-    };
-
-    const safeRelativeHref = (href) => {
-      const value = String(href || "").trim();
-      return value && !value.includes(":") ? value : "dmv-practice.html";
+      if (entry.topic === "documents" || entry.topic === "documents-appointment" || entry.topic === "course-exam-permit") {
+        if (entry.state === "florida") {
+          return entry.topic === "course-exam-permit"
+            ? ["florida-class-e-knowledge-exam-tlsae.html#florida-course-path", "Check Florida course steps"]
+            : ["florida-dmv-permit-documents-checklist.html#florida-document-route", "Check Florida documents"];
+        }
+        return [state.checklistUrl, `Open the ${label} checklist`];
+      }
+      if (state.mixedUrl) return [state.mixedUrl, `Open ${label} mixed practice`];
+      return [state.sourceUrl, `Read the ${label} handbook`];
     };
 
     const renderLinks = () => {
@@ -2467,25 +2471,29 @@ function initDmvMistakeLogs() {
       if (stateLabel) stateLabel.textContent = option.dataset.stateLabel || option.textContent.trim();
       if (rule) rule.textContent = option.dataset.rule || "Confirm with official source.";
       if (source) source.href = option.dataset.sourceUrl || "#";
-      if (practice) practice.href = option.dataset.practiceUrl || "dmv-practice.html";
+      if (practice) {
+        [practice.href, practice.textContent] = reviewFor({ state: option.value });
+      }
       if (signs) signs.href = option.dataset.signsUrl || "road-signs-practice-test.html";
-      if (plan) plan.href = "dmv-permit-test-study-plan.html";
+      if (plan) plan.href = `dmv-permit-test-study-plan.html?state=${encodeURIComponent(option.value)}#study-plan`;
       if (checklist) checklist.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
     };
 
     const render = () => {
       renderLinks();
       if (total) total.textContent = String(entries.length);
-      const counts = entries.reduce((acc, entry) => {
-        acc[entry.topicLabel] = (acc[entry.topicLabel] || 0) + 1;
-        return acc;
-      }, {});
-      const strongest = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+      const option = selectedState();
+      if (topLabel && option) topLabel.textContent = `Top ${option.dataset.stateLabel} weak area`;
+      const counts = new Map();
+      for (const entry of entries) {
+        if (entry.state === option?.value) counts.set(entry.topicLabel, (counts.get(entry.topicLabel) || 0) + 1);
+      }
+      const strongest = [...counts].sort((a, b) => b[1] - a[1])[0];
       if (topTopic) topTopic.textContent = strongest ? strongest[0] : "None yet";
       if (next) {
         next.textContent = strongest
           ? `Review ${strongest[0]} before the next full practice round.`
-          : "Save a mistake to get a next action.";
+          : "Save a mistake for this state to get a next action.";
       }
 
       if (!list) return;
@@ -2496,7 +2504,7 @@ function initDmvMistakeLogs() {
 
       list.innerHTML = entries
         .map((entry, index) => {
-          const href = safeRelativeHref(resolvePracticeHref(entry));
+          const [href, label] = reviewFor(entry);
           return `<article>
             <div>
               <span>${escapeHtml(entry.stateLabel || "Selected state")} · ${escapeHtml(entry.topicLabel || "Review topic")}</span>
@@ -2504,7 +2512,7 @@ function initDmvMistakeLogs() {
               <p>${escapeHtml(entry.fix || "Add the correct rule before your next review round.")}</p>
             </div>
             <div class="mistake-log-entry-actions">
-              <a href="${escapeHtml(href)}">Practice</a>
+              <a href="${escapeHtml(href)}">${escapeHtml(label)}</a>
               <button type="button" data-mistake-remove="${index}">Remove</button>
             </div>
           </article>`;
