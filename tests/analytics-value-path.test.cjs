@@ -46,7 +46,7 @@ function loadApp({ session = storage(), local = storage(), pathname = "/sat-scor
   ]);
   const widget = { querySelector: (selector) => controls.get(selector) ?? null };
   const window = {
-    location: { pathname, origin: "https://testdaytools.com", href: `https://testdaytools.com${pathname}` },
+    location: new URL(pathname, "https://testdaytools.com"),
     sessionStorage: session,
     localStorage: local,
     addEventListener() {},
@@ -57,6 +57,7 @@ function loadApp({ session = storage(), local = storage(), pathname = "/sat-scor
     window,
     localStorage: local,
     URL,
+    URLSearchParams,
     Date: class extends Date { static now() { return now; } },
     document: {
       querySelectorAll: (selector) => selector === "[data-sat-goal-planner]" ? [widget] : [],
