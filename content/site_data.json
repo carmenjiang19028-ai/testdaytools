@@ -22739,7 +22739,7 @@
       "slug": "privacy",
       "title": "Privacy Policy",
       "description": "Privacy policy for TestDayTools, including browser storage, Google Analytics, hosting logs, and future advertising disclosures.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 23, 2026",
       "content": [
         {
           "heading": "Personal information",
@@ -22751,7 +22751,7 @@
         },
         {
           "heading": "Local practice and checklist storage",
-          "text": "Some tools remember selected states, checked items, or saved weak areas in your browser's local storage. The most recent unfinished DMV round can save selected answers and the current question locally so you can resume. Restoring a round does not send those answers to the site or to Google Analytics. These records are for use in this browser only and are not official DMV records."
+          "text": "Some tools remember selected states, checked items, or saved weak areas in your browser's local storage. Which flashcards you marked and the text you write in the DMV mistake log are stored in this browser, not synced to an account. The most recent unfinished DMV round can save selected answers and the current question locally so you can resume. Restoring a round does not send those answers to the site or to Google Analytics. These records are not official DMV records."
         },
         {
           "heading": "No driver's license data",
@@ -22770,6 +22770,10 @@
           "text": "The site uses Google Analytics 4 to understand how visitors find and use its study tools. Google Analytics may process page views, traffic sources, device and browser information, approximate region, scrolling, downloads, and outbound clicks. Google Analytics may use cookies or similar identifiers. Google processes this information under its own privacy practices. Some tool events include whether a response was correct, practice totals and correct or incorrect counts, or counts entered in the DMV passing-score checker. Planning events may include selected options and calculated values, such as the SAT score gap and weekly study targets. TestDayTools uses these measurements to improve the tools. These tool events do not include your selected answer text or the original SAT scores you enter."
         },
         {
+          "heading": "Flashcard use and analytics choices",
+          "text": "When you mark a flashcard as known or for review, Google Analytics may receive the button used, the selected group, and the number of cards shown. This event does not identify the particular card or include your search text. Google's Analytics opt-out add-on, linked below, is separate from Google Ads Settings. On a supported browser it can block Google Analytics measurement without clearing your saved practice or stopping hosting logs."
+        },
+        {
           "heading": "Advertising",
           "text": "Advertising is not installed yet. If Google AdSense is activated, third-party vendors including Google may use cookies to serve ads based on a visitor's prior visits to TestDayTools or other websites. Google's use of advertising cookies enables Google and its partners to serve, limit, personalize, and measure ads. Any additional advertising vendors used by TestDayTools will be disclosed before their code goes live."
         },
@@ -22786,6 +22790,10 @@
         {
           "label": "Google: How Google uses information from sites that use its services",
           "url": "https://policies.google.com/technologies/partner-sites"
+        },
+        {
+          "label": "Google Analytics opt-out browser add-on",
+          "url": "https://support.google.com/analytics/answer/181881?hl=en"
         },
         {
           "label": "Google Ads Settings",

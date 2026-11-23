@@ -97,3 +97,39 @@ test("a flashcard opens the same picture group as the printable reference", () =
     await page.waitForURL(url => url.searchParams.get("focus") === "sheet-school-work-service");
     assert.match(await page.locator("[data-mode-panel].is-active [data-quiz-position]").textContent(), /of 7/);
   }));
+
+test("flashcard disclosures distinguish local card identity, measured marks and the analytics opt-out", () =>
+  withDeck(390, async page => {
+    await queue(page).selectOption("warning");
+    await page.getByRole("searchbox", { name: "Search cards" }).fill("lane ends");
+    assert.equal(await active(page).getAttribute("data-card-id"), "lane-ends");
+    await reveal(page).click();
+    assert.equal(await marked(page), 0);
+    await known(page).click();
+    await review(page).click();
+    const measures = await page.evaluate(() => window.dataLayer
+      .filter(event => event[0] === "event" && event[1] === "flashcard_mark")
+      .map(event => event[2]));
+    const visibleCards = Number(await page.locator("[data-flashcard-visible]").textContent());
+    assert.deepEqual(measures.map(event => event.status), ["known", "review"]);
+    for (const event of measures) {
+      assert.deepEqual(Object.keys(event).sort(),
+        ["filter", "page_path", "status", "tool", "transport_type", "visible_cards"]);
+      assert.equal(event.filter, "warning");
+      assert.equal(event.visible_cards, visibleCards);
+      assert.doesNotMatch(JSON.stringify(event), /lane[- ]ends/i);
+    }
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("tdt-road-sign-flashcards")));
+    assert.deepEqual(saved.review, ["lane-ends"]);
+    assert.deepEqual(saved.known, []);
+    const faq = page.locator(".faq details").filter({ hasText: "What does the flashcard deck save or share?" });
+    await faq.locator("summary").click();
+    assert.match(await faq.locator("p").innerText(), /saved in this browser.*selected group.*number of cards shown.*does not include the particular card/i);
+
+    await page.locator(".site-footer").getByRole("link", { name: "Privacy" }).click();
+    const choices = page.locator("section").filter({ has: page.getByRole("heading", { name: "Flashcard use and analytics choices" }) });
+    assert.match(await choices.locator("p").innerText(), /separate from Google Ads Settings/);
+    const optOut = page.getByRole("link", { name: "Google Analytics opt-out browser add-on" });
+    assert.equal(await optOut.getAttribute("href"), "https://support.google.com/analytics/answer/181881?hl=en");
+    assert.equal(await page.getByRole("link", { name: "Google Ads Settings", exact: true }).isVisible(), true);
+  }));

@@ -4238,7 +4238,7 @@ def render_road_sign_flashcards_page():
   {"q": "Are these official DMV flashcards?", "a": "No. These are original study flashcards from TestDayTools. Use them for practice, then confirm exact wording with your state driver handbook."},
   {"q": "Should I use flashcards before practice tests?", "a": "Flashcards are useful for recognition. After one pass, use the image quiz so you practice choosing the correct driver action under test-style pressure."},
   {"q": "Are traffic signs flashcards enough for a permit test?", "a": "No. Flashcards help with recognition, but permit tests often ask for the driver action. After flashcards, use an image-based road signs practice test and review missed categories."},
-  {"q": "Does the flashcard deck save my answers?", "a": "The deck saves Know and Review counts only in this browser. TestDayTools does not require signup and does not collect your answers."},
+  {"q": "What does the flashcard deck save or share?", "a": "Which cards you mark as known or for review is saved in this browser, without an account or sync. Google Analytics may receive which button you pressed, the selected group, and the number of cards shown. That event does not include the particular card or what you typed in Search cards."},
   {"q": "Which signs should I review first?", "a": "Start with regulatory signs such as stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and no passing because they often map directly to legal driver actions."},
 ])}
 {render_related(["dmv-road-signs-cheat-sheet", "road-signs-practice-test", "regulatory-traffic-signs-practice-test", "road-sign-shapes-and-colors-finder", "dmv-permit-test-requirements-by-state"])}
