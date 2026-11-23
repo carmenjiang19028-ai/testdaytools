@@ -98,6 +98,20 @@ test("the online worksheet routes each sign and decision to matching practice", 
       }
       assert.fail(`The active practice group does not include ${key}`);
     };
+    const returnToAnswer = async (id, scope) => {
+      const link = scope.getByRole("link", { name: "Return to this worksheet answer", exact: true });
+      assert.equal(await link.count(), 1);
+      assert.equal(await link.getAttribute("href"), `dmv-road-signs-cheat-sheet.html#${id}`);
+      await link.press("Enter");
+      await page.waitForURL(url => url.pathname.endsWith("/dmv-road-signs-cheat-sheet.html") && url.hash === `#${id}`);
+      const destination = page.locator(`#${id}`);
+      assert.equal(await destination.isVisible(), true);
+      assert.equal(await destination.evaluate(node => document.activeElement === node), true);
+      const box = await destination.boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(box.y >= header.y + header.height);
+    };
+    const core = page.locator('[data-mode-panel="road-signs-core"].is-active');
     for (const [index, key] of signKeys.entries()) {
       const part = await openPart(0);
       const answer = part.locator(".worksheet-pictures > li details").nth(index);
@@ -107,6 +121,7 @@ test("the online worksheet routes each sign and decision to matching practice", 
       await link.press("Enter");
       await page.waitForURL(url => url.pathname.endsWith("/road-signs-practice-test.html") && url.hash === "#practice");
       await matchPicture(key);
+      await returnToAnswer(`worksheet-sign-${index + 1}`, core);
     }
     for (const [index, [slug, anchor, heading]] of decisionTargets.entries()) {
       const part = await openPart(1);
@@ -117,9 +132,12 @@ test("the online worksheet routes each sign and decision to matching practice", 
       await link.press("Enter");
       await page.waitForURL(url => url.pathname.endsWith(`/${slug}.html`) && url.hash === `#${anchor}`);
       if (heading) {
-        assert.ok(await page.locator(`#${anchor}`).getByRole("heading", { name: heading }).isVisible());
+        const section = page.locator(`#${anchor}`);
+        assert.ok(await section.getByRole("heading", { name: heading }).isVisible());
+        if (slug !== "road-sign-learning-loop") await returnToAnswer(`worksheet-decision-${index + 1}`, section);
       } else {
         await matchPicture("slippery");
+        await returnToAnswer(`worksheet-decision-${index + 1}`, core);
       }
     }
     const transfer = await openPart(2);
@@ -127,6 +145,49 @@ test("the online worksheet routes each sign and decision to matching practice", 
     await transfer.getByRole("link", { name: "Try the Added Lane comparison" }).press("Enter");
     await page.waitForURL(url => url.pathname.endsWith("/road-sign-learning-loop.html") && url.hash === "#lesson-merge-lane-ends");
     assert.ok(await page.getByText("Does the ramp traffic get its own lane?", { exact: true }).isVisible());
+  }));
+
+test("a direct or mismatched lesson URL does not impersonate a worksheet route", () =>
+  withSheet(1280, async page => {
+    const lesson = pathToFileURL(path.join(root, "texas-dmv-road-signs-practice.html")).href;
+    const returns = page.getByRole("link", { name: "Return to this worksheet answer", exact: true });
+    for (const query of ["", "?return=worksheet-decision-8", "?return=worksheet-sign-2", "?return=https://example.com/"]) {
+      await page.goto(lesson + query + "#texas-work-zone-panels");
+      assert.equal(await returns.count(), 0);
+    }
+    await page.goto(lesson + "?return=worksheet-decision-7#texas-work-zone-panels");
+    assert.equal(await returns.count(), 1);
+    assert.equal(await returns.getAttribute("href"), "dmv-road-signs-cheat-sheet.html#worksheet-decision-7");
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+  }));
+
+test("a completed speed-sign drill still returns to the original worksheet answer", () =>
+  withSheet(1280, async page => {
+    await page.goto(worksheetUrl);
+    const worksheet = page.locator("#online-worksheet");
+    await worksheet.getByText("1. Name eight road signs", { exact: true }).press("Enter");
+    await worksheet.getByText("Check sign 4", { exact: true }).press("Enter");
+    await worksheet.getByRole("link", { name: "Practice the sign group for Speed Limit" }).press("Enter");
+    await page.waitForURL(url => url.searchParams.get("return") === "worksheet-sign-4");
+    const quiz = page.locator('[data-mode-panel="road-signs-core"].is-active [data-quiz]');
+    const count = await quiz.locator("[data-quiz-jump]").count();
+    assert.ok(count > 0 && count < 40);
+    for (const jump of await quiz.locator("[data-quiz-jump]").all()) {
+      await jump.press("Enter");
+      const question = quiz.locator(".question.is-active");
+      const key = await question.getAttribute("data-answer");
+      await question.locator(`button[data-choice="${key}"]`).press("Enter");
+    }
+    assert.match(await quiz.locator("[data-quiz-result]").textContent(), new RegExp(`${count} (of|/) ${count}`));
+    const link = quiz.getByRole("link", { name: "Return to this worksheet answer", exact: true });
+    if (process.env.VERIFY_SCREENSHOTS_DIR) {
+      await quiz.locator(".quiz-next-plan").screenshot({
+        path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, "worksheet-quiz-return-1280.png"),
+      });
+    }
+    await link.press("Enter");
+    await page.waitForURL(url => url.hash === "#worksheet-sign-4");
+    assert.match(await page.locator("#worksheet-sign-4:focus").innerText(), /Speed Limit.*posted legal maximum/);
   }));
 
 test("a 40-question recorded score opens the full round, and group links do not change print layout", () =>

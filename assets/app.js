@@ -2268,6 +2268,20 @@ function initRoadSignFlashcards() {
   });
 }
 
+function initWorksheetReturns() {
+  const answer = new URLSearchParams(window.location.search).get("return");
+  if (!answer) return;
+  document.querySelectorAll("[data-worksheet-return]").forEach((container) => {
+    if (!container.dataset.worksheetReturn.split(" ").includes(answer)) return;
+    const link = container.querySelector("a");
+    if (!link) return;
+    const destination = new URL(link.href);
+    destination.hash = answer;
+    link.setAttribute("href", destination.pathname.split("/").pop() + destination.hash);
+    container.hidden = false;
+  });
+}
+
 function initRecentPracticeCards() {
   document.querySelectorAll("[data-recent-practice]").forEach((card) => {
     const title = card.querySelector("[data-recent-practice-title]");
@@ -4804,6 +4818,7 @@ initPracticeWorkbenches();
 initMiniSignDrills();
 initSignLookups();
 initRoadSignFlashcards();
+initWorksheetReturns();
 initDmvDailyQuestions();
 initDmvMistakeLogs();
 initDmvStudyPlanners();

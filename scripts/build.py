@@ -4,7 +4,7 @@ import html
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import quote, urlencode, urlsplit
+from urllib.parse import parse_qsl, quote, urlencode, urlsplit
 from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
 
@@ -2876,6 +2876,7 @@ def render_quiz(quiz_key, options=None):
         '\n    <a href="dmv-road-sign-flashcards.html#missed-sign-cards" data-quiz-missed-cards hidden>Review missed sign cards</a>'
         if flashcard_keys else ""
     )
+    worksheet_return = options.get("worksheetReturn", "")
     summary = f"""<aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
   <div role="status">
@@ -2915,7 +2916,7 @@ def render_quiz(quiz_key, options=None):
     <span>Next study block</span>
     <strong data-quiz-next-title>Finish this round first</strong>
     <p data-quiz-next-copy>Your score and missed categories will choose the next useful activity.</p>
-    <a href="#practice" data-quiz-next-action>Continue this round</a>{missed_cards_link}
+    <a href="#practice" data-quiz-next-action>Continue this round</a>{missed_cards_link}{worksheet_return}
   </div>
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>"""
@@ -2995,6 +2996,7 @@ def render_dmv_mode_tool(tool):
         quiz_options["state"] = state_value
         quiz_options["domain"] = "dmv"
         if tool.get("slug") == ROAD_SIGN_PICTURE_SLUG:
+            quiz_options["worksheetReturn"] = render_worksheet_return("practice", ROAD_SIGN_PICTURE_SLUG)
             quiz_options["flashcardKeys"] = {record["id"] for record in road_sign_flashcard_records()}
             quiz_options["sheetFocusGroups"] = [
                 group for group in tool["signLibrary"]["groups"]
@@ -3118,13 +3120,15 @@ def render_examples(tool):
         source_link = f'<p class="contrast-source"><a href="{esc(source["url"])}">{esc(source["label"])}</a></p>' if source else ""
         items.append(f'<article><h3>{esc(example["title"])}</h3><p>{esc(example["question"])}</p><details><summary>Show reasoning</summary><ol>{steps}</ol><p>{esc(example["mistake"])}</p></details><p>{esc(example["check"])}</p><details><summary>Check</summary><p>{esc(example["answer"])}</p></details>{source_link}</article>')
     anchor = f' id="{esc(record["id"])}"' if record.get("id") else ""
-    return f'<section class="worked-examples"{anchor}><h2>{esc(record["heading"])}</h2><p>{esc(record["intro"])}</p>{"".join(items)}</section>'
+    worksheet_return = render_worksheet_return(record.get("id"), tool["slug"])
+    return f'<section class="worked-examples"{anchor}><h2>{esc(record["heading"])}</h2><p>{esc(record["intro"])}</p>{"".join(items)}{worksheet_return}</section>'
 
 
 def render_state_rule_practice(lesson):
     if not lesson:
         return ""
     anchor = esc(lesson["id"])
+    worksheet_return = render_worksheet_return(lesson["id"])
     scenarios = "".join(
         f'<details class="contrast-transfer"><summary>{esc(case["question"])}</summary><p>{esc(case["answer"])}</p></details>'
         for case in lesson["scenarios"]
@@ -3147,7 +3151,7 @@ def render_state_rule_practice(lesson):
     </figure>
     <div>
       {scenarios}
-      <p class="contrast-source">{sources}</p>
+      <p class="contrast-source">{sources}</p>{worksheet_return}
     </div>
   </div>
 </section>"""
@@ -3682,7 +3686,7 @@ def render_crossing_shape_drill():
       </details>
       <p><a class="info-card-link" href="#school-crossing-location">Compare the plaques below the school sign</a></p>
       <p><a class="info-card-link" href="road-signs-practice-test.html?focus=School%20and%20pedestrian%20signs#practice">Practice school and pedestrian signs</a></p>
-      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">FHWA 2C.55: pedestrian warning</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf">FHWA 7B.01&ndash;7B.03: school signs and plaques</a></p>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">FHWA 2C.55: pedestrian warning</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf">FHWA 7B.01&ndash;7B.03: school signs and plaques</a></p>{render_worksheet_return("crossing-shape-check", ROAD_SIGN_SHAPES_SLUG)}
     </div>
   </div>
 </section>"""
@@ -3812,7 +3816,7 @@ def render_railroad_crossing_drill():
         <p><strong>Prepare to stop.</strong> The yellow circle tells you tracks are ahead; the white crossbuck identifies the crossing itself. Slow down, look both ways, and listen for a train. Follow the actual signs and signals at the tracks.</p>
       </details>
       <p><a class="info-card-link" href="road-signs-practice-test.html?focus=Warning%20signs#practice">Practice the round advance warning sign</a></p>
-      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part8r1.pdf">FHWA: Sections 8B.03 and 8B.06</a> &middot; <a href="https://railroads.dot.gov/highway-rail-crossing-and-trespasser-programs/pedestrian-motorist">FRA: crossing safety</a> &middot; <a href="https://www.nhtsa.gov/campaign/railroad-crossing">NHTSA: lights and gates</a></p>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part8r1.pdf">FHWA: Sections 8B.03 and 8B.06</a> &middot; <a href="https://railroads.dot.gov/highway-rail-crossing-and-trespasser-programs/pedestrian-motorist">FRA: crossing safety</a> &middot; <a href="https://www.nhtsa.gov/campaign/railroad-crossing">NHTSA: lights and gates</a></p>{render_worksheet_return("railroad-crossing-check", ROAD_SIGN_SHAPES_SLUG)}
     </div>
   </div>
 </section>"""
@@ -3989,11 +3993,25 @@ def render_cheat_group_link(group):
     )
 
 
+def render_worksheet_return(fragment, slug=None):
+    if not fragment:
+        return ""
+    answers = []
+    if fragment == "practice" and slug == ROAD_SIGN_PICTURE_SLUG:
+        answers.extend(f"worksheet-sign-{n}" for n, _ in enumerate(classroom.RECOGNITION_ITEMS, 1))
+    for number, (_, _, _, _, (_, href)) in enumerate(classroom.DECISION_CASES, 1):
+        destination = urlsplit(href)
+        if destination.fragment == fragment and (not slug or destination.path == f"{slug}.html"):
+            answers.append(f"worksheet-decision-{number}")
+    if not answers:
+        return ""
+    return (f'<div data-worksheet-return="{esc(" ".join(answers))}" hidden>'
+            f'<a class="info-card-link" href="{ROAD_SIGN_CHEAT_SHEET_SLUG}.html#online-worksheet">Return to this worksheet answer</a></div>')
+
+
 def worksheet_review_href(href, answer_id):
     destination = urlsplit(href)
-    if destination.path != "road-sign-learning-loop.html":
-        return href
-    query = destination.query + "&" + urlencode({"return": answer_id})
+    query = urlencode([*parse_qsl(destination.query), ("return", answer_id)])
     return destination._replace(query=query).geturl()
 
 
@@ -4003,10 +4021,11 @@ def render_online_classroom_worksheet():
     pictures = []
     for number, (_, image, name, action) in enumerate(classroom.RECOGNITION_ITEMS, 1):
         card = cards[image]
+        answer_id = f"worksheet-sign-{number}"
         pictures.append(f"""<li>
   <img src="{esc(road_sign_image_path(image))}" alt="{esc(card["cue"])}" width="220" height="160" loading="lazy">
-  <details><summary>Check sign {number}</summary><p><strong>{esc(name)}</strong>. {esc(action)}</p>
-    <p><a href="{esc(practice[image])}" aria-label="{esc(f'Practice the sign group for {name}')}">Practice this sign group</a></p>
+  <details><summary>Check sign {number}</summary><p id="{answer_id}" tabindex="-1"><strong>{esc(name)}</strong>. {esc(action)}</p>
+    <p><a href="{esc(worksheet_review_href(practice[image], answer_id))}" aria-label="{esc(f'Practice the sign group for {name}')}">Practice this sign group</a></p>
   </details>
 </li>""")
 

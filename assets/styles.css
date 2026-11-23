@@ -5403,7 +5403,8 @@ button:disabled {
   width: 100%;
 }
 
-.quiz-next-plan [data-quiz-missed-cards] {
+.quiz-next-plan [data-quiz-missed-cards],
+.quiz-next-plan [data-worksheet-return] a {
   margin-top: 8px;
   border-color: var(--line);
   background: var(--paper);
