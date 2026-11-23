@@ -4612,7 +4612,7 @@ def render_dmv_score_calculator():
   <div class="tool-section-head">
     <span class="eyebrow">Score calculator</span>
     <h2>How many questions can you miss on the DMV permit test?</h2>
-    <p class="section-intro">Choose a state, then enter a practice score to compare with the official rule. If you used one of our full mixed sets, check its separate practice goal below the result.</p>
+    <p class="section-intro">Choose a state and enter the number of questions to see how many you can miss. Add your correct answers to compare a practice result with the state rule.</p>
   </div>
   <div class="score-grid">
     <aside class="score-control">
@@ -4645,6 +4645,7 @@ def render_dmv_score_calculator():
         </div>
         <button type="button" data-score-use-official disabled>Enter your own total</button>
       </div>
+      <div role="status"><p data-score-count-answer hidden></p></div>
       <div class="practice-score-check" data-score-section hidden>
         <div>
           <label for="score-section-correct" data-score-section-label>Road signs correct</label>

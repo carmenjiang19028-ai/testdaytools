@@ -29,6 +29,59 @@ const tracked = (page) => page.evaluate(() => (window.dataLayer || [])
   .filter((entry) => entry[0] === "event" && entry[1] === "dmv_score_checked")
   .map((entry) => entry[2]));
 
+for (const width of [320, 1280]) {
+  test(`${width}px: a total alone answers how many you can miss without grading a score`, async () => {
+    const { context, page } = await openScore({ width, height: 844 });
+    try {
+      const state = page.locator("[data-score-state]");
+      const count = page.locator("[data-score-count-answer]");
+      assert.equal(await count.isVisible(), false);
+      await state.selectOption("california");
+      await totalInput(page).fill("36");
+      assert.match(await count.innerText(), /36 questions: need 29 correct; can miss up to 7.*Confirm your current test length/);
+      assert.equal(await correctInput(page).inputValue(), "");
+      assert.equal(await score(page), "Enter your practice score.");
+      assert.equal(await page.locator("[data-score-next]").isVisible(), false);
+      await check(page);
+      assert.match(await count.innerText(), /can miss up to 7/);
+      assert.equal((await tracked(page)).length, 0);
+      await state.selectOption("texas");
+      assert.equal(await count.isVisible(), false);
+      await totalInput(page).fill("31");
+      assert.match(await count.innerText(), /31 questions: need 22 correct; can miss up to 9/);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      for (const invalid of ["", "0", "10.5", "101"]) {
+        await totalInput(page).fill(invalid);
+        assert.equal(await count.isVisible(), false);
+        assert.equal(await count.textContent(), "");
+      }
+      assert.equal((await tracked(page)).length, 0);
+    } finally { await context.close(); }
+  });
+}
+
+test("miss counts retain separate sign requirements and distinguish scaled practice", async () => {
+  const { context, page } = await openScore();
+  try {
+    const state = page.locator("[data-score-state]");
+    const count = page.locator("[data-score-count-answer]");
+    for (const [name, exact] of [
+      ["new-york", /20 questions: need 14 correct; can miss up to 6/],
+      ["georgia", /20 questions on road rules: need 15 correct; can miss up to 5/],
+      ["virginia", /30 questions on general knowledge: need 24 correct; can miss up to 6/],
+    ]) {
+      await state.selectOption(name);
+      await useLength(page).click();
+      assert.match(await count.innerText(), exact);
+      assert.match(await count.innerText(), /road-sign requirement still applies/);
+      assert.doesNotMatch(await count.innerText(), /scaled practice/);
+      await totalInput(page).fill("10");
+      assert.match(await count.innerText(), /road-sign requirement still applies.*scaled practice math, not the official test format/);
+    }
+    assert.equal((await tracked(page)).length, 0);
+  } finally { await context.close(); }
+});
+
 test("no state invents a practice score; a length shortcut cannot turn 39 correct into 40", async () => {
   for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
     const { context, page } = await openScore(viewport);

@@ -2777,6 +2777,7 @@ function initDmvScoreCalculators() {
     const sectionNote = widget.querySelector("[data-score-section-note]");
     const useOfficial = widget.querySelector("[data-score-use-official]");
     const checkScore = widget.querySelector("[data-score-check]");
+    const countAnswer = widget.querySelector("[data-score-count-answer]");
     const percent = widget.querySelector("[data-score-percent]");
     const status = widget.querySelector("[data-score-status]");
     const message = widget.querySelector("[data-score-message]");
@@ -2832,6 +2833,21 @@ function initDmvScoreCalculators() {
       const signsIncluded = option.dataset.sectionIncluded === "true";
       const primaryTopic = option.dataset.primaryTopic;
       const officialLength = validTotal && total === Number(option.dataset.questions);
+      const needed = validTotal ? thresholdFor(option, total) : 0;
+      if (countAnswer) {
+        const missed = total - needed;
+        const topic = primaryTopic ? ` on ${primaryTopic}` : "";
+        const scope = separateRule
+          ? " The road-sign requirement still applies; this only calculates the main score."
+          : "";
+        const estimate = !officialLength && option.dataset.questions
+          ? " This is scaled practice math, not the official test format."
+          : !option.dataset.questions ? " Confirm your current test length with the state." : "";
+        countAnswer.hidden = !validTotal;
+        countAnswer.textContent = validTotal
+          ? `For ${total} ${total === 1 ? "question" : "questions"}${topic}: need ${needed} correct; can miss up to ${missed}.${scope}${estimate}`
+          : "";
+      }
       const checkSection = separateRule && officialLength;
       const sectionValue = sectionInput?.value.trim() || "";
       const sectionCorrect = Number(sectionValue);
@@ -2878,7 +2894,6 @@ function initDmvScoreCalculators() {
         return invalidScore("The road-sign score and overall score do not match. Include the sign answers in the total correct count.");
       }
 
-      const needed = thresholdFor(option, total);
       const pct = signOnly ? Math.round((sectionCorrect / sectionQuestions) * 100) : Math.round((correct / total) * 100);
       const gap = signOnly ? 0 : Math.max(0, needed - correct);
       const sectionGap = sectionKnown ? Math.max(0, sectionNeeded - sectionCorrect) : 0;
