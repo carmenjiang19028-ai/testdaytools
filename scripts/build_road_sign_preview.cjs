@@ -5,10 +5,9 @@ const { chromium } = require("playwright");
 const root = path.resolve(__dirname, "..");
 const signs = ["stop", "yield", "merge", "railroad", "no-right-turn", "school-crossing"];
 
-async function main() {
-  const browser = await chromium.launch({ channel: "chrome", headless: true });
+async function renderPreview(browser) {
+  const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
   try {
-    const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
     await page.route(/^https?:/, (route) => route.abort());
     const images = signs.map((key) => {
       const svg = fs.readFileSync(path.join(root, "assets/road-signs", `${key}-road-sign.svg`));
@@ -22,15 +21,28 @@ async function main() {
         img { display: block; width: 330px; height: 240px; object-fit: contain; margin: auto; }
       </style></head><body><main>${images.join("")}</main></body></html>`);
     await page.locator("img").evaluateAll((images) => Promise.all(images.map((image) => image.decode())));
+    return await page.screenshot();
+  } finally {
+    await page.close();
+  }
+}
+
+async function main() {
+  const browser = await chromium.launch({ channel: "chrome", headless: true });
+  try {
     const output = path.join(root, "assets/road-signs-practice-test-preview.png");
-    await page.screenshot({ path: output });
-    console.log(`Built ${path.relative(root, output)} (${fs.statSync(output).size} bytes).`);
+    const png = await renderPreview(browser);
+    fs.writeFileSync(output, png);
+    console.log(`Built ${path.relative(root, output)} (${png.length} bytes).`);
   } finally {
     await browser.close();
   }
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+module.exports = { renderPreview, signs };
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

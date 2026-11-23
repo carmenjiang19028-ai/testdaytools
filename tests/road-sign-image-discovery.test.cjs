@@ -6,6 +6,7 @@ const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const { chromium } = require("playwright");
 const sharp = require("sharp");
+const { renderPreview, signs } = require("../scripts/build_road_sign_preview.cjs");
 
 const root = path.resolve(__dirname, "..");
 const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
@@ -155,16 +156,26 @@ test("picture-test preview contains six real sign illustrations at the declared 
   const { data, info } = await sharp(preview).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   assert.equal(info.width, 1200);
   assert.equal(info.height, 630);
+  const expected = await sharp(await renderPreview(browser)).removeAlpha().raw().toBuffer();
+  assert.equal(data.length, expected.length);
+  const staleSigns = [];
   for (let row = 0; row < 2; row += 1) {
     for (let col = 0; col < 3; col += 1) {
       let colored = 0;
+      let changed = 0;
       for (let y = row * 315; y < (row + 1) * 315; y += 1) {
         for (let x = col * 400; x < (col + 1) * 400; x += 1) {
           const offset = (y * info.width + x) * info.channels;
-          if (data[offset] < 235 || data[offset + 1] < 235 || data[offset + 2] < 235) colored += 1;
+          const rgb = [expected[offset], expected[offset + 1], expected[offset + 2]];
+          if (rgb.some(channel => channel < 235)) colored += 1;
+          if (rgb.some((channel, i) => Math.abs(channel - data[offset + i]) > 80)) changed += 1;
         }
       }
-      assert.ok(colored > 5000, `Sign ${row * 3 + col + 1} must not be blank`);
+      const sign = signs[row * 3 + col];
+      assert.ok(colored > 5000, `The ${sign} source must not be blank`);
+      // Tolerate minor edge or font rasterization differences, not a changed symbol.
+      if (changed / colored > 0.02) staleSigns.push({ sign, changed, colored });
     }
   }
+  assert.deepEqual(staleSigns, [], "Rebuild the preview after changing its source illustrations");
 });
