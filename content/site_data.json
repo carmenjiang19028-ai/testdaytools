@@ -2483,14 +2483,15 @@
       "category": "SAT",
       "title": "Digital SAT Checklist",
       "schema": {"learningResourceType": "Checklist", "educationalUse": "Test preparation"},
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
       "description": "A digital SAT checklist for devices, Bluebook setup, ID, admission ticket, calculator, and test morning logistics.",
       "heroKicker": "SAT checklist",
       "summary": "The digital SAT depends on both preparation and device readiness. Use this checklist before test day so you are not troubleshooting at the door.",
       "heroActions": [
         {"label": "Check device options", "href": "sat-device-troubleshooting-guide.html#sat-device-cases"},
         {"label": "Bluebook setup checklist", "href": "digital-sat-bluebook-checklist.html"},
-        {"label": "Plan your departure", "href": "sat-test-day-timing-guide.html#sat-arrival-plan"}
+        {"label": "Plan your departure", "href": "sat-test-day-timing-guide.html#sat-arrival-plan"},
+        {"label": "Fix an answer submission", "href": "sat-device-troubleshooting-guide.html#sat-weekend-answer-submission"}
       ],
       "quickFacts": [
         {
@@ -2721,12 +2722,13 @@
       "category": "SAT",
       "title": "Digital SAT Bluebook Checklist",
       "schema": {"learningResourceType": "Checklist", "educationalUse": "Test preparation"},
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
       "description": "A Bluebook-focused digital SAT checklist for approved devices, setup timing, battery life, admission ticket, and test-day troubleshooting.",
       "heroKicker": "Bluebook checklist",
       "summary": "Bluebook is part of the SAT test-day workflow. This checklist focuses on device approval, setup timing, battery planning, and the small technical issues that can derail a test morning.",
       "heroActions": [
         {"label": "Resolve a device problem", "href": "sat-device-troubleshooting-guide.html#sat-device-cases"},
+        {"label": "Fix an answer submission", "href": "sat-device-troubleshooting-guide.html#sat-weekend-answer-submission"},
         {"label": "Official device requirements", "href": "https://bluebook.collegeboard.org/students/prepare-your-device/approved-devices"}
       ],
       "quickFacts": [
@@ -4625,12 +4627,13 @@
       "slug": "sat-device-troubleshooting-guide",
       "category": "SAT",
       "title": "Digital SAT Device Troubleshooting Guide",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "description": "Troubleshoot common Digital SAT device issues before test day, including Bluebook access, battery, approved devices, passwords, updates, and admission ticket setup.",
       "heroKicker": "SAT device help",
       "summary": "Find the next step if your SAT device is unsupported, your school-managed Chromebook fails its check, or you have to change devices after exam setup.",
       "heroActions": [
         {"label": "Find your device case", "href": "#sat-device-cases"},
+        {"label": "Fix an answer submission", "href": "#sat-weekend-answer-submission"},
         {"label": "Official device requirements", "href": "https://bluebook.collegeboard.org/students/prepare-your-device/approved-devices"}
       ],
       "quickFacts": [
@@ -4674,7 +4677,37 @@
         },
         {
           "heading": "If Bluebook fails after the test starts",
-          "text": "Get the proctor's attention and follow their instructions. Do not switch devices or start another test yourself. The proctor can determine whether a supervised Bluebook device swap is appropriate."
+          "text": "If time is still running, get the proctor's attention. Do not switch devices or start another test yourself. The proctor can decide whether a supervised swap is appropriate. If time has ended, keep the original device and follow the submission steps below."
+        }
+      ],
+      "cardGroups": [
+        {
+          "id": "sat-weekend-answer-submission",
+          "heading": "If Bluebook has not sent your SAT Weekend answers",
+          "intro": "Bluebook normally sends your answers when time ends. Keep your device open and wait for the proctor to dismiss you. If you're testing on SAT School Day, follow your school's instructions instead.",
+          "items": [
+            {
+              "label": "In the room",
+              "title": "Answer Submission Pending",
+              "text": "Do not retry from any device. Show the screen to the proctor and follow their dismissal instructions.",
+              "href": "https://bluebook.collegeboard.org/help-center/what-if-students-answers-arent-submitted",
+              "cta": "Check the official Pending instructions"
+            },
+            {
+              "label": "In the room",
+              "title": "Answer Submission Incomplete or an internet error",
+              "text": "Raise your hand for help. Do not switch devices after time ends: your answers are saved on the device you finished on. Using a College Board loaner? Tell staff and stay at the test center until your answers are submitted.",
+              "href": "https://satsuite.collegeboard.org/media/pdf/sat-student-guide.pdf#page=19",
+              "cta": "Read the SAT Weekend Student Guide"
+            },
+            {
+              "label": "After dismissal",
+              "title": "You still need to submit answers",
+              "text": "Reconnect on the device you finished on and sign in to Bluebook. Choose Submit Answers under Your Tests, or check Past for a submission confirmation. Act now: the SAT Weekend rules give you until 11:59 p.m. local time the next day if you were offline at the end of the test.",
+              "href": "https://satsuite.collegeboard.org/testing-rules/sat",
+              "cta": "Check the current SAT Weekend testing rules"
+            }
+          ]
         }
       ],
       "tables": [

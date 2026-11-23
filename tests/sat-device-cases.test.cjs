@@ -46,3 +46,40 @@ for (const width of [390, 1280]) {
     }
   });
 }
+
+for (const width of [320, 1280]) {
+  test(`${width}px: SAT Weekend submission recovery is reachable and separates Pending from failure`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const local = slug => pathToFileURL(path.join(root, `${slug}.html`)).href;
+      const guide = local("sat-device-troubleshooting-guide");
+      for (const slug of ["digital-sat-checklist", "digital-sat-bluebook-checklist", "sat-device-troubleshooting-guide"]) {
+        await page.goto(local(slug));
+        await page.getByRole("link", { name: "Fix an answer submission", exact: true }).press("Enter", { timeout: 2500 });
+        await page.waitForURL(guide + "#sat-weekend-answer-submission");
+        const heading = await page.locator("#sat-weekend-answer-submission h2").boundingBox();
+        const header = await page.locator(".site-header").boundingBox();
+        assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      }
+      const section = page.locator("#sat-weekend-answer-submission");
+      assert.match(await section.locator("h2").innerText(), /SAT Weekend/);
+      const cases = section.locator("article");
+      assert.equal(await cases.count(), 3);
+      assert.match(await cases.nth(0).innerText(), /Pending.*do not retry.*any device.*proctor/is);
+      assert.match(await cases.nth(1).innerText(), /Incomplete.*raise your hand.*not switch devices.*College Board loaner.*stay at the test center until your answers are submitted/is);
+      assert.match(await cases.nth(2).innerText(), /device you finished on.*Submit Answers.*Your Tests.*Past.*11:59 p\.m\. local time the next day/is);
+      assert.deepEqual(await cases.locator("a").evaluateAll(links => links.map(link => link.href)), [
+        "https://bluebook.collegeboard.org/help-center/what-if-students-answers-arent-submitted",
+        "https://satsuite.collegeboard.org/media/pdf/sat-student-guide.pdf#page=19",
+        "https://satsuite.collegeboard.org/testing-rules/sat",
+      ]);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const images = process.env.SAT_DEVICE_SHOTS;
+      if (images) await section.screenshot({ path: path.join(images, `sat-submission-${width}.png`) });
+    } finally {
+      await context.close();
+    }
+  });
+}
