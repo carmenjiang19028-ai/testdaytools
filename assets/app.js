@@ -2452,6 +2452,15 @@ function initDmvDailyQuestions() {
   });
 }
 
+const DMV_STUDY_DAYS = ["3", "7", "14", "21"];
+const DMV_STUDY_FOCUS = new Map([
+  ["mixed", "Choose from your misses"],
+  ["road-signs", "Road-sign recognition"],
+  ["rules", "Rules and right-of-way"],
+  ["score", "Passing-score confidence"],
+  ["documents", "Documents and logistics"],
+]);
+
 function initDmvMistakeLogs() {
   document.querySelectorAll("[data-dmv-mistake-log]").forEach((tool) => {
     const form = tool.querySelector("[data-mistake-form]");
@@ -2473,6 +2482,7 @@ function initDmvMistakeLogs() {
     const checklist = tool.querySelector("[data-mistake-checklist]");
     const copyButton = tool.querySelector("[data-mistake-copy]");
     const storageKey = "tdt-dmv-mistake-log";
+    const params = new URLSearchParams(window.location.search);
     let entries = [];
 
     const escapeHtml = (value) =>
@@ -2541,7 +2551,14 @@ function initDmvMistakeLogs() {
         [practice.href, practice.textContent] = reviewFor({ state: option.value });
       }
       if (signs) signs.href = option.dataset.signsUrl || "road-signs-practice-test.html";
-      if (plan) plan.href = `dmv-permit-test-study-plan.html?state=${encodeURIComponent(option.value)}#study-plan`;
+      if (plan) {
+        const planParams = new URLSearchParams({ state: option.value });
+        const days = params.get("days");
+        const focus = params.get("focus");
+        if (DMV_STUDY_DAYS.includes(days)) planParams.set("days", days);
+        if (DMV_STUDY_FOCUS.has(focus)) planParams.set("focus", focus);
+        plan.href = `dmv-permit-test-study-plan.html?${planParams}#study-plan`;
+      }
       if (checklist) checklist.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
     };
 
@@ -2638,6 +2655,10 @@ function initDmvMistakeLogs() {
       }
     });
 
+    const requestedState = normalizeDmvState(params.get("state"));
+    if (requestedState && Array.from(stateSelect?.options || []).some(option => option.value === requestedState)) {
+      stateSelect.value = requestedState;
+    }
     stateSelect?.addEventListener("change", render);
     load();
     render();
@@ -2660,21 +2681,16 @@ function initDmvStudyPlanners() {
     const score = planner.querySelector("[data-study-score]");
     const planList = planner.querySelector("[data-study-plan-list]");
 
-    const weakLabels = {
-      "mixed": "Choose from your misses",
-      "road-signs": "Road-sign recognition",
-      "rules": "Rules and right-of-way",
-      "score": "Passing-score confidence",
-      "documents": "Documents and logistics",
-    };
+    const baselineHref = planner.dataset.studyBaselineHref;
 
     const setLink = (element, href) => {
       if (element && href) element.href = href;
     };
 
-    const buildSteps = (days, weak, data) => {
-      const baselineHref = "road-signs-practice-test.html?mode=road-signs-starter#practice";
-      const logHref = "dmv-permit-test-mistake-log.html#mistake-log";
+    const buildSteps = (days, weak, state, data) => {
+      const logParams = new URLSearchParams({ state, days, focus: weak });
+      const logHref = `dmv-permit-test-mistake-log.html?${logParams}#mistake-log`;
+      const repeatLink = [baselineHref, "Repeat the 10-sign baseline"];
       const checkLink = [data.scoreUrl, "Compare with state rule"];
       const checklistLink = [data.checklistUrl, "Open test-day checklist"];
       const recheckStart = days === 3 ? 3 : days - 2;
@@ -2699,14 +2715,14 @@ function initDmvStudyPlanners() {
       }
       if (days > 3) {
         steps.push(data.mixedPracticeUrl
-          ? [recheckStart, days - 1, "Recheck the score before test day", `Take the full mixed practice set and record correct answers and total questions. Apply the official rule only when the length and sections match the official format.${signCheck}`, [[data.mixedPracticeUrl, "Open mixed practice"], checkLink]]
-          : [recheckStart, days - 1, "Recheck rules and signs separately", "This site has no full mixed practice set for this state. Explain one rule from the official manual, then repeat the same sign drill and compare it only with your earlier sign score.", [[data.sourceUrl, "Check the official manual"], [data.signsUrl, "Recheck road signs"]]]);
+          ? [recheckStart, days - 1, "Recheck the score before test day", `Repeat the same 10 signs to check recall. For broader practice, record the mixed score separately. Apply the official rule only when the length and sections match the official format.${signCheck}`, [repeatLink, [data.mixedPracticeUrl, "Open mixed practice"], checkLink]]
+          : [recheckStart, days - 1, "Recheck rules and signs separately", "This site has no full mixed practice set for this state. Explain one rule from the official manual, then repeat the same 10 signs from day one. Compare the two scores as recall, not as readiness for a full exam.", [repeatLink, [data.sourceUrl, "Check the official manual"]]]);
       }
       const finalReview = days === 3
-        ? `Retake one focused set and compare it only with an earlier set of the same scope. Check the official rule separately.${signCheck} Then confirm documents, appointment and arrival details.`
+        ? `Repeat the same 10 signs from day one to check recall. Check the official rule separately.${signCheck} Then confirm documents, appointment and arrival details.`
         : "Review only the items you still miss. Confirm documents, appointment and arrival details instead of starting another long session.";
       const finalLinks = days === 3
-        ? [data.mixedPracticeUrl ? checkLink : [data.sourceUrl, "Check the official manual"], checklistLink]
+        ? [repeatLink, data.mixedPracticeUrl ? checkLink : [data.sourceUrl, "Check the official manual"], checklistLink]
         : [checklistLink];
       steps.push([days, days, "Close the remaining gaps", finalReview, finalLinks]);
       return steps;
@@ -2719,7 +2735,7 @@ function initDmvStudyPlanners() {
       const weak = weakSelect?.value || "mixed";
       if (agency) agency.textContent = selected.dataset.agency || "State agency";
       if (rule) rule.textContent = selected.dataset.rule || "Confirm with official source";
-      if (focus) focus.textContent = weakLabels[weak] || weakLabels.mixed;
+      if (focus) focus.textContent = DMV_STUDY_FOCUS.get(weak) || DMV_STUDY_FOCUS.get("mixed");
       if (checkpoint) checkpoint.textContent = `Day ${days}: final checklist`;
 
       setLink(source, selected.dataset.sourceUrl);
@@ -2733,7 +2749,7 @@ function initDmvStudyPlanners() {
       annotateDmvStateLink(checklist, selected, "checklist");
       annotateDmvStateLink(score, selected, "score");
 
-      const steps = buildSteps(days, weak, selected.dataset);
+      const steps = buildSteps(days, weak, selected.value, selected.dataset);
       planList.replaceChildren();
       steps.forEach(([start, end, stepTitle, stepBody, actions]) => {
         const item = document.createElement("li");
@@ -2766,8 +2782,10 @@ function initDmvStudyPlanners() {
         (option) => normalizeDmvState(option.value || option.dataset.state || option.textContent) === savedState,
       );
       if (stateOption) stateSelect.value = stateOption.value;
+      const requestedDays = params.get("days");
+      if (daysSelect && DMV_STUDY_DAYS.includes(requestedDays)) daysSelect.value = requestedDays;
       const requestedFocus = params.get("focus");
-      if (weakSelect && Array.from(weakSelect.options).some((option) => option.value === requestedFocus)) {
+      if (weakSelect && DMV_STUDY_FOCUS.has(requestedFocus)) {
         weakSelect.value = requestedFocus;
       }
     } catch (error) {

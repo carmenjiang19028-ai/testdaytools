@@ -39,6 +39,45 @@ for (const width of [390, 1280]) {
       assert.equal(await page.locator("[data-score-state]").inputValue(), "new-york");
       assert.match(await page.locator("[data-score-rule]").textContent(), /14 correct out of 20/);
     }));
+
+  test(`${width}px: a New York note keeps its state and returns to the same plan`, () =>
+    openPlan(width, "?state=new-york&focus=rules#study-plan", async page => {
+      await page.locator("[data-study-days]").selectOption("14");
+      await page.getByRole("link", { name: "Record a missed rule" }).click();
+      await page.waitForURL(/state=new-york&days=14&focus=rules#mistake-log$/);
+      assert.equal(await page.locator("[data-mistake-state]").inputValue(), "new-york");
+      assert.equal(await page.locator("[data-mistake-state-label]").innerText(), "New York");
+      await page.getByLabel("Missed question or cue").fill("Local practice note");
+      await page.getByRole("button", { name: "Save mistake" }).click();
+      const entries = await page.evaluate(() => JSON.parse(localStorage.getItem("tdt-dmv-mistake-log")));
+      assert.equal(entries.length, 1);
+      assert.equal(entries[0].state, "new-york");
+      const plan = page.locator("[data-mistake-plan]");
+      assert.doesNotMatch(await plan.getAttribute("href"), /practice.note/i);
+      await plan.click();
+      await page.waitForURL(/state=new-york&days=14&focus=rules#study-plan$/);
+      assert.equal(await page.locator("[data-study-state]").inputValue(), "new-york");
+      assert.equal(await page.locator("[data-study-days]").inputValue(), "14");
+      assert.equal(await page.locator("[data-study-weak]").inputValue(), "rules");
+      assert.equal(await rows(page).last().locator("[data-study-range]").textContent(), "Day 14");
+    }));
+
+  test(`${width}px: Texas links back to the same 10 pictures rather than a 20-question drill`, () =>
+    openPlan(width, "?state=texas#study-plan", async page => {
+      const baseline = page.getByRole("link", { name: "Start 10 sign questions" });
+      const repeat = page.getByRole("link", { name: "Repeat the 10-sign baseline" });
+      const open = async label => {
+        await page.getByRole("link", { name: label }).click();
+        const questions = page.locator('[data-mode-panel="road-signs-starter"].is-active .question');
+        assert.equal(await questions.count(), 10);
+        return questions.evaluateAll(items => items.map(item => item.dataset.prompt));
+      };
+      const url = page.url();
+      assert.equal(await repeat.getAttribute("href"), await baseline.getAttribute("href"));
+      const first = await open("Start 10 sign questions");
+      await page.goto(url);
+      assert.deepEqual(await open("Repeat the 10-sign baseline"), first);
+    }));
 }
 
 test("each horizon schedules a baseline, a deliberate recheck and a final day", () =>
@@ -52,6 +91,8 @@ test("each horizon schedules a baseline, a deliberate recheck and a final day", 
       assert.match(await rows(page).last().textContent(), /documents.*appointment/i);
       assert.match(await rows(page).locator("a[href*='state=new-york#score-calculator']").first().getAttribute("href"), /state=new-york#score-calculator$/);
       assert.match(await rows(page).allTextContents().then(text => text.join(" ")), /2 of 4 sign questions/);
+      assert.equal(await page.getByRole("link", { name: "Repeat the 10-sign baseline" }).getAttribute("href"),
+        await page.getByRole("link", { name: "Start 10 sign questions" }).getAttribute("href"));
     }
     if (process.env.VERIFY_SCREENSHOTS_DIR) {
       fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
@@ -103,3 +144,30 @@ test("a reported rule miss leads to the right state and assignment", () =>
     assert.equal(await page.locator("[data-study-weak]").inputValue(), "rules");
     assert.match(await rows(page).nth(1).textContent(), /missed rule/);
   }));
+
+test("invalid plan preferences neither replace defaults nor appear in a return link", () =>
+  openPlan(390, "?state=not-a-state&days=400&focus=not-a-topic#study-plan", async page => {
+    assert.equal(await page.locator("[data-study-state]").inputValue(), "florida");
+    assert.equal(await page.locator("[data-study-days]").inputValue(), "7");
+    assert.equal(await page.locator("[data-study-weak]").inputValue(), "mixed");
+    await page.goto(pathToFileURL(path.resolve(__dirname, "../dmv-permit-test-mistake-log.html")).href +
+      "?state=not-a-state&days=400&focus=not-a-topic#mistake-log");
+    assert.equal(await page.locator("[data-mistake-state]").inputValue(), "florida");
+    assert.equal(await page.locator("[data-mistake-plan]").getAttribute("href"),
+      "dmv-permit-test-study-plan.html?state=florida#study-plan");
+  }));
+
+test("the example plan uses the same baseline and repeat links without JavaScript", async () => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 900 } });
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    await page.goto(pathToFileURL(path.resolve(__dirname, "../dmv-permit-test-study-plan.html")).href);
+    const baseline = page.getByRole("link", { name: "Start 10 sign questions" });
+    const recheck = page.getByRole("link", { name: "Repeat the 10-sign baseline" });
+    assert.equal(await recheck.getAttribute("href"), await baseline.getAttribute("href"));
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+  } finally {
+    await context.close();
+  }
+});

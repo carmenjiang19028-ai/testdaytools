@@ -4540,6 +4540,7 @@ def render_dmv_study_plan_page():
             "tool-page study-plan-page",
         )
     default = next((item for item in records if item["value"] == "florida"), records[0])
+    baseline_href = "road-signs-practice-test.html?mode=road-signs-starter#practice"
     def score_href(item):
         return f'{DMV_SCORE_SLUG}.html?state={item["value"]}#score-calculator'
 
@@ -4609,7 +4610,7 @@ def render_dmv_study_plan_page():
   <div><span>Best use</span><strong>What to do next</strong></div>
   <div><span>Updated</span><strong>{esc(DMV_STUDY_PLAN_PAGE["lastUpdated"])}</strong></div>
 </section>
-<section class="study-plan-tool tool-block" id="study-plan" data-dmv-study-plan>
+<section class="study-plan-tool tool-block" id="study-plan" data-dmv-study-plan data-study-baseline-href="{esc(baseline_href)}">
   <div class="tool-section-head">
     <span class="eyebrow">Plan builder</span>
     <h2>Build your DMV study plan</h2>
@@ -4645,9 +4646,9 @@ def render_dmv_study_plan_page():
     <a href="{esc(score_href(default))}" data-study-score>Passing score</a>
   </div>
   <ol class="study-plan-list" data-study-plan-list>
-    <li><strong>Day 1: Check logistics and take a baseline.</strong><span>Confirm appointment and document requirements, then write down one mistake from a short sign round.</span><a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Start 10 sign questions</a></li>
+    <li><strong>Day 1: Check logistics and take a baseline.</strong><span>Confirm appointment and document requirements, then write down one mistake from a short sign round.</span><a href="{esc(baseline_href)}">Start 10 sign questions</a></li>
     <li><strong>Days 2-4: Repair one weak area.</strong><span>Explain what the sign or rule means, then re-answer the question without notes.</span></li>
-    <li><strong>Days 5-6: Recheck the score.</strong><span>Record correct answers and the question count. Compare like with like.</span><a href="{esc(score_href(default))}">Compare with state rule</a></li>
+    <li><strong>Days 5-6: Recheck the score.</strong><span>Repeat the same 10 signs to check recall. Keep that score separate from any full exam.</span><div class="study-plan-actions"><a href="{esc(baseline_href)}">Repeat the 10-sign baseline</a><a href="{esc(score_href(default))}">Compare with state rule</a></div></li>
     <li><strong>Day 7: Close the remaining gaps.</strong><span>Review remaining missed items and recheck documents, appointment and arrival details.</span></li>
   </ol>
 </section>
