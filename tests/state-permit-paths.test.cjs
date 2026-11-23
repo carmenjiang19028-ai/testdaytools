@@ -65,6 +65,62 @@ test("New York mixed-practice summaries count the signs inside the overall minim
   } finally { await context.close(); }
 });
 
+test("published practice pages omit the generic editorial console without losing their quiz modes", async () => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    for (const slug of [
+      "california-dmv-permit-practice-test",
+      "new-york-dmv-permit-practice-test",
+      "florida-dmv-permit-practice-test",
+      "pennsylvania-dmv-permit-practice-test",
+      "new-jersey-mvc-permit-practice-test",
+      "california-dmv-road-signs-practice",
+      "florida-dmv-road-signs-practice",
+      "regulatory-traffic-signs-practice-test",
+    ]) {
+      await page.goto(file(slug));
+      assert.equal(await page.locator("main .task-console").count(), 0, slug);
+      assert.ok(await page.getByRole("heading", { name: "Choose a practice mode" }).isVisible(), slug);
+      assert.ok(await page.locator("#practice").count(), slug);
+    }
+    await page.goto(file("road-signs-practice-test"));
+    assert.ok(await page.getByRole("heading", { name: "Review the reason behind a missed sign" }).isVisible());
+    await page.goto(file("new-york-dmv-road-signs-practice"));
+    assert.ok(await page.getByRole("heading", { name: "Can you turn right on red in New York?" }).isVisible());
+  } finally { await context.close(); }
+});
+
+for (const width of [390, 1280]) {
+  test(`${width}px: permit guides link to the real decision without advertising a quiz`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      for (const [slug, action, anchor, heading] of [
+        ["florida-class-e-knowledge-exam-tlsae", "Choose a course", "florida-course-path", /course/i],
+        [floridaDocuments, "Find your document route", "florida-document-route", /steps that apply to your visit/i],
+      ]) {
+        await page.goto(file(slug));
+        const main = page.locator("main");
+        assert.ok(await main.getByRole("complementary", { name: "Permit guide summary" }).isVisible());
+        assert.doesNotMatch(await main.innerText(), /Original practice questions|Instant feedback|Choose a round|Use this practice page/);
+        await main.getByRole("link", { name: action, exact: true }).press("Enter");
+        await page.waitForURL(`${file(slug)}#${anchor}`);
+        assert.match(await main.locator(`#${anchor}`).getByRole("heading", { level: 2 }).innerText(), heading);
+        assert.ok(await main.locator('a[href^="https://www.flhsmv.gov/"]').count());
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), slug);
+      }
+      await page.goto(file("dmv-test-day-checklist"));
+      const main = page.locator("main");
+      assert.ok(await main.getByRole("complementary", { name: "Checklist summary" }).isVisible());
+      assert.equal(await main.locator(".task-console, .trust-strip").count(), 0);
+      assert.ok(await main.locator("#dmv-checklist").isVisible());
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: checklist keeps URL, saved and changed states on the score shortcut`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 } });

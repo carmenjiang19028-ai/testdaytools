@@ -1585,12 +1585,17 @@ def render_tool_hero_panel(tool):
   <ol class="panel-mode-list">{mode_rows}</ol>
   <p class="panel-source">Use with: {esc(source)}</p>
 </aside>"""
-    if tool.get("category") == "DMV" and "road-signs" in tool.get("slug", "") and not (tool.get("quiz") or tool.get("quizModes")):
-        return f"""<aside class="tool-hero-panel" aria-label="State guide summary">
+    if not (tool.get("quiz") or tool.get("quizModes")):
+        if "road-signs" in tool.get("slug", ""):
+            return f"""<aside class="tool-hero-panel" aria-label="State guide summary">
   <div class="panel-status"><span>State study guide</span><strong>Official sources</strong></div>
   <div class="panel-facts">{fact_rows}</div>
   <ol class="panel-mode-list"><li><span>Interactive practice</span><strong>Shared nationwide quiz</strong></li></ol>
   <p class="panel-source">Use the official state links for current rules and test details.</p>
+</aside>"""
+        return f"""<aside class="tool-hero-panel" aria-label="Permit guide summary">
+  <div class="panel-status"><span>Permit guide</span><strong>Official sources</strong></div>
+  <div class="panel-facts">{fact_rows}</div>
 </aside>"""
     modes = tool.get("quizModes", [])
     mode_rows = "".join(
@@ -1613,30 +1618,20 @@ def render_practice_console(tool):
     if tool.get("category") != "DMV":
         return ""
     slug = tool.get("slug", "")
-    is_checklist_page = tool.get("toolWidget", {}).get("type") == "dmvTestDayChecklist"
     is_sign_page = "road-signs" in slug or "regulatory-traffic-signs" in slug
-    if is_checklist_page:
-        items = [
-            ("Source", "Choose your state", "Open the state source before trusting any summary."),
-            ("Practice", "Run a full round", "Use the state practice link after the official source check."),
-            ("Signs", "Retake image signs", "Make regulatory and warning signs feel automatic."),
-            ("Ready", "Save the checklist", "Track the last few practical items before test day."),
-        ]
-        heading = "Test-day readiness console"
-        intro = "This page is built for the final stretch: official source, state practice, road signs, saved mistakes, and logistics in one low-friction flow."
-    elif is_sign_page and (tool.get("quiz") or tool.get("quizModes")):
+    if is_sign_page and (tool.get("quiz") or tool.get("quizModes")):
+        if slug != ROAD_SIGN_PICTURE_SLUG and not tool.get("stateRulePractice"):
+            return ""
         items = [
             ("Step 1", "Identify the sign", "Use the image first, then read the choices."),
             ("Step 2", "Check shape and color", "Connect the sign to the study guide below."),
             ("Step 3", "Save missed signs", "Wrong answers stay in your browser for quick review."),
             ("Step 4", "Review the sign library", "Retake the round after the meaning feels obvious."),
         ]
-        heading = "Road sign lab built for visual practice"
-        intro = "Road-sign pages should feel like a small image tool, not a plain article. Start the quiz, review misses, then use the sign guide without leaving the page."
         if slug == ROAD_SIGN_PICTURE_SLUG:
             heading = "Review the reason behind a missed sign"
             intro = "Name the driver action before reading the choices. If two signs lead you to different answers, practice that pair before retaking a mixed round."
-        elif tool.get("stateRulePractice"):
+        else:
             heading = "Separate sign recognition from the state rule"
             intro = "Recognize the sign in the picture drill, then use the local examples to decide which conditions make the rule apply."
     elif is_sign_page:
@@ -1649,14 +1644,7 @@ def render_practice_console(tool):
         heading = "Study path for this state"
         intro = "This guide combines state-specific exam details with official references and points to the shared picture quiz for interactive practice."
     else:
-        items = [
-            ("Mode", "Choose a round", "Quick practice, road signs, or a longer mock exam."),
-            ("Answer", "One question at a time", "Instant feedback keeps the page from becoming a wall of text."),
-            ("Review", "Use weak-area chips", "Missed categories point to the next handbook section."),
-            ("Source", "Confirm official rules", "Use the state handbook for exact wording and requirements."),
-        ]
-        heading = "Practice console for this state"
-        intro = "This page is organized around the real study flow: pick a mode, answer questions, review weak areas, then confirm details with the official state source."
+        return ""
     cards = "".join(
         f'<article><span>{esc(label)}</span><strong>{esc(title)}</strong><p>{esc(text)}</p></article>'
         for label, title, text in items
@@ -1680,7 +1668,9 @@ def render_trust_strip(tool):
             official = fact.get("value", official)
             break
     updated = tool.get("lastUpdated", SITE["lastUpdated"])
-    if tool.get("category") == "DMV" and "road-signs" in tool.get("slug", "") and not (tool.get("quiz") or tool.get("quizModes")):
+    if not (tool.get("quiz") or tool.get("quizModes")):
+        if "road-signs" not in tool.get("slug", ""):
+            return ""
         quality_note = "State-specific exam details"
         privacy_note = "No answers collected on this guide"
     else:
@@ -2937,12 +2927,17 @@ def render_dmv_test_day_bridge(tool):
         pair_label = "Separate mixed practice"
         pair_title = "Open the 40-question mixed practice"
         pair_text = f'Site practice target: {mixed["target"]}. This is separate from the {mixed.get("signQuestions", 20)}-question sign drill.'
+    intro = (
+        "Use this practice page, then finish with what to bring, official documents, road signs, mistakes, and visit logistics in one saved checklist."
+        if tool.get("quiz") or tool.get("quizModes")
+        else "Confirm the current state rules. Use the checklist for your visit and the separate practice link if you still need to study."
+    )
     checklist_href = checklist_href_for_state(state)
     return f"""<section class="dmv-test-day-bridge" id="test-day-path">
   <div>
     <p class="eyebrow">Before test day</p>
     <h2>{esc(state["label"])} DMV test-day path</h2>
-    <p class="section-intro">Use this practice page, then finish with what to bring, official documents, road signs, mistakes, and visit logistics in one saved checklist.</p>
+    <p class="section-intro">{esc(intro)}</p>
   </div>
   <div class="dmv-bridge-actions">
     <a href="{esc(checklist_href)}"><span>Checklist</span><strong>Open {esc(state["label"])} test-day checklist</strong><em>Plan ID, residency proof, forms, appointment, fees, signs, mistakes, and retake rules.</em></a>
