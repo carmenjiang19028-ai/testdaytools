@@ -71,6 +71,91 @@ async function saveNote(page, state, topic, prompt) {
   await page.getByRole("button", { name: "Save mistake" }).click();
 }
 
+test("saving and removing manual notes from stale tabs keeps other notes", () =>
+  withSite(320, async first => {
+    const second = await first.context().newPage();
+    for (const page of [first, second]) {
+      // An inactive tab need not have delivered its storage event before an action.
+      await page.addInitScript(() => window.addEventListener("storage", event => event.stopImmediatePropagation()));
+      await page.goto(log);
+    }
+    await saveNote(first, "new-york", "right-of-way", "Synthetic original note");
+    await saveNote(second, "florida", "school-pedestrian-crossing", "Synthetic newer note");
+    const prompts = page => page.evaluate(() =>
+      JSON.parse(localStorage.getItem("tdt-dmv-mistake-log")).map(entry => entry.prompt));
+    assert.deepEqual(await prompts(second), ["Synthetic newer note", "Synthetic original note"]);
+    const removeOriginal = page => page.locator("[data-mistake-list] article")
+      .filter({ hasText: "Synthetic original note" }).getByRole("button", { name: "Remove" });
+    await removeOriginal(first).click();
+    assert.deepEqual(await prompts(second), ["Synthetic newer note"]);
+    await removeOriginal(second).click();
+    assert.deepEqual(await prompts(second), ["Synthetic newer note"]);
+    assert.equal(await second.locator("[data-mistake-total]").textContent(), "1");
+  }));
+
+test("notes remain available for review and copy when browser writes are denied", () =>
+  withSite(390, async page => {
+    await page.addInitScript(() => {
+      Storage.prototype.setItem = () => { throw new Error("Storage denied"); };
+      Object.defineProperty(navigator, "clipboard", {
+        value: { writeText: async text => { window.copiedReview = text; } },
+      });
+    });
+    await page.goto(log);
+    await saveNote(page, "new-york", "right-of-way", "Synthetic first note");
+    await saveNote(page, "florida", "school-pedestrian-crossing", "Synthetic second note");
+    assert.equal(await page.locator("[data-mistake-total]").textContent(), "2");
+    assert.equal(await page.locator("[data-mistake-total-label]").textContent(), "Notes in this tab");
+    assert.match(await page.locator("[data-mistake-save-status]").innerText(), /Copy your review plan/);
+    await page.getByRole("button", { name: "Copy review plan", exact: true }).click();
+    const copied = await page.evaluate(() => window.copiedReview);
+    assert.match(copied, /Synthetic first note/);
+    assert.match(copied, /Synthetic second note/);
+  }));
+
+test("two picture practice tabs preserve both misses and clearing needs current confirmation", () =>
+  withSite(1280, async (first, firstQuiz) => {
+    const second = await first.context().newPage();
+    const mode = "road-signs-core";
+    const params = { mode };
+    await second.addInitScript(() => window.addEventListener("storage", event => event.stopImmediatePropagation()));
+    await open(first, signs, params);
+    await open(second, signs, params);
+    const secondQuiz = second.locator("[data-mode-panel].is-active [data-quiz]");
+    await answer(firstQuiz, false);
+    await secondQuiz.locator('[data-quiz-jump="1"]').click();
+    await answer(secondQuiz, false);
+    const key = await second.evaluate(mode => `tdt-mistakes:${location.pathname}:${mode}`, mode);
+    const read = () => second.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+    const two = await read();
+    assert.equal(two.length, 2);
+    assert.equal(new Set(two.map(entry => entry.questionId)).size, 2);
+    const clear = secondQuiz.locator("[data-quiz-clear-mistakes]");
+    const popup = second.waitForEvent("dialog");
+    const click = clear.click();
+    const dialog = await popup;
+    const prompt = dialog.message();
+    await dialog.dismiss();
+    await click;
+    assert.match(prompt, /Clear this round's saved mistakes/);
+    assert.deepEqual(await read(), two);
+
+    await second.evaluate(key => {
+      window.confirm = () => {
+        const saved = JSON.parse(localStorage.getItem(key));
+        localStorage.setItem(key, JSON.stringify([{ prompt: "A newer mistake", category: "Review", questionId: "newer" }, ...saved]));
+        return true;
+      };
+    }, key);
+    await clear.click();
+    assert.equal((await read()).length, 3);
+    assert.match(await secondQuiz.locator("[data-quiz-next]").textContent(), /Nothing was cleared/);
+    await second.evaluate(() => { window.confirm = () => true; });
+    await clear.click();
+    assert.deepEqual(await read(), []);
+    assert.match(await secondQuiz.locator("[data-quiz-answered]").textContent(), /^1 of/);
+  }));
+
 for (const width of [390, 1280]) {
   test(`${width}px: the manual mistake log opens the saved topic and state, not a generic quiz`, () =>
     withSite(width, async (page, quiz) => {

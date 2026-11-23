@@ -4576,9 +4576,10 @@ def render_dmv_mistake_log_page():
         <button type="submit">Save mistake</button>
         <button type="button" data-mistake-copy>Copy review plan</button>
       </div>
+      <p data-mistake-save-status role="status" hidden>Browser storage is unavailable. Copy your review plan before leaving this page.</p>
     </form>
     <aside class="mistake-log-summary">
-      <article><span>Total saved</span><strong data-mistake-total>0</strong><p>Keep the list short and current.</p></article>
+      <article><span data-mistake-total-label>Total saved</span><strong data-mistake-total>0</strong><p>Keep the list short and current.</p></article>
       <article><span data-mistake-top-label>Top {esc(default.get("label", "Florida"))} weak area</span><strong data-mistake-top-topic>None yet</strong><p data-mistake-next>Save a mistake to get a next action.</p></article>
       <article><span>Selected state</span><strong data-mistake-state-label>{esc(default.get("label", "Florida"))}</strong><p data-mistake-rule>{esc(default.get("rule", "Confirm with official source"))}</p></article>
       <div class="mistake-log-actions">

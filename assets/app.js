@@ -604,6 +604,7 @@ function initQuizzes() {
     const storageKey = `tdt-mistakes:${window.location.pathname}:${quiz.dataset.modeId || quizLabel}`;
     let draftSignature;
     let savedMistakes = [];
+    let mistakeStorageAvailable = true;
     let activeSequence = questions.map((_, index) => index);
     let activePosition = 0;
     let toolMessage = "";
@@ -748,10 +749,17 @@ function initQuizzes() {
     };
 
     const loadMistakes = () => {
+      if (!mistakeStorageAvailable) return;
+      let stored;
       try {
-        const stored = window.localStorage.getItem(storageKey);
-        const entries = stored ? JSON.parse(stored) : [];
-        if (!Array.isArray(entries)) return;
+        stored = window.localStorage.getItem(storageKey);
+      } catch (error) {
+        mistakeStorageAvailable = false;
+        return;
+      }
+      try {
+        const parsed = stored ? JSON.parse(stored) : [];
+        const entries = Array.isArray(parsed) ? parsed : [];
         savedMistakes = entries.filter(item => typeof item?.prompt === "string").map((item) => {
           if (typeof item.questionId === "string" && item.questionId) return item;
           // Older entries know only the prompt and category; do not guess when they match more than one item.
@@ -760,15 +768,18 @@ function initQuizzes() {
           return matching.length === 1 ? { ...item, questionId: mistakeId(matching[0]) } : item;
         });
       } catch (error) {
-        // Keep this round usable even when browser storage cannot be read.
+        savedMistakes = [];
       }
+      return stored;
     };
 
     const saveMistakes = () => {
+      savedMistakes = savedMistakes.slice(0, Math.max(12, questions.length));
+      if (!mistakeStorageAvailable) return;
       try {
-        window.localStorage.setItem(storageKey, JSON.stringify(savedMistakes.slice(0, Math.max(12, questions.length))));
+        window.localStorage.setItem(storageKey, JSON.stringify(savedMistakes));
       } catch (error) {
-        // Browser storage can be unavailable in private modes; the quiz still works without it.
+        mistakeStorageAvailable = false;
       }
     };
 
@@ -796,6 +807,7 @@ function initQuizzes() {
     };
 
     const rememberMistake = (question) => {
+      loadMistakes();
       const prompt = questionPrompt(question);
       const category = question.dataset.category || "Review topic";
       const questionId = mistakeId(question);
@@ -806,6 +818,7 @@ function initQuizzes() {
     };
 
     const resolveMistake = (question) => {
+      loadMistakes();
       const questionId = mistakeId(question);
       const nextMistakes = savedMistakes.filter((item) => item.questionId !== questionId);
       if (nextMistakes.length === savedMistakes.length) return;
@@ -1432,6 +1445,15 @@ function initQuizzes() {
 
     if (clearMistakesButton) {
       clearMistakesButton.addEventListener("click", () => {
+        const before = loadMistakes();
+        renderMistakes();
+        if (!savedMistakes.length || !window.confirm("Clear this round's saved mistakes? Your answers and scheduled review will stay unchanged.")) return;
+        if (loadMistakes() !== before) {
+          renderMistakes();
+          toolMessage = "Saved mistakes changed while you were confirming. Nothing was cleared.";
+          renderScore();
+          return;
+        }
         savedMistakes = [];
         saveMistakes();
         renderMistakes();
@@ -1439,8 +1461,20 @@ function initQuizzes() {
       });
     }
 
+    if (mistakesBox) {
+      window.addEventListener("storage", (event) => {
+        if (event.key !== storageKey && event.key !== null) return;
+        loadMistakes();
+        renderMistakes();
+      });
+    }
+
     if (filterSelect) {
       filterSelect.addEventListener("change", () => {
+        if (filterSelect.value === "saved") {
+          loadMistakes();
+          renderMistakes();
+        }
         applyFocusFilter(filterSelect.value);
         saveMovedCursor();
       });
@@ -2507,6 +2541,7 @@ function initDmvMistakeLogs() {
     const fixInput = tool.querySelector("[data-mistake-fix]");
     const list = tool.querySelector("[data-mistake-list]");
     const total = tool.querySelector("[data-mistake-total]");
+    const totalLabel = tool.querySelector("[data-mistake-total-label]");
     const topLabel = tool.querySelector("[data-mistake-top-label]");
     const topTopic = tool.querySelector("[data-mistake-top-topic]");
     const next = tool.querySelector("[data-mistake-next]");
@@ -2518,9 +2553,11 @@ function initDmvMistakeLogs() {
     const plan = tool.querySelector("[data-mistake-plan]");
     const checklist = tool.querySelector("[data-mistake-checklist]");
     const copyButton = tool.querySelector("[data-mistake-copy]");
+    const saveStatus = tool.querySelector("[data-mistake-save-status]");
     const storageKey = "tdt-dmv-mistake-log";
     const params = new URLSearchParams(window.location.search);
     let entries = [];
+    let storageAvailable = true;
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -2535,19 +2572,28 @@ function initDmvMistakeLogs() {
     const selectedTopicLabel = () => topicSelect?.selectedOptions?.[0]?.textContent?.trim() || "Review topic";
 
     const load = () => {
+      if (!storageAvailable) return;
+      let raw;
       try {
-        const saved = JSON.parse(window.localStorage.getItem(storageKey) || "[]");
-        entries = Array.isArray(saved) ? saved : [];
+        raw = window.localStorage.getItem(storageKey);
+      } catch (error) {
+        storageAvailable = false;
+        return;
+      }
+      try {
+        const saved = JSON.parse(raw || "[]");
+        entries = Array.isArray(saved) ? saved.filter(entry => entry && typeof entry.prompt === "string") : [];
       } catch (error) {
         entries = [];
       }
     };
 
     const save = () => {
+      if (!storageAvailable) return;
       try {
         window.localStorage.setItem(storageKey, JSON.stringify(entries.slice(0, 30)));
       } catch (error) {
-        // The log is a convenience layer; the page still works when storage is unavailable.
+        storageAvailable = false;
       }
     };
 
@@ -2601,6 +2647,8 @@ function initDmvMistakeLogs() {
 
     const render = () => {
       renderLinks();
+      if (saveStatus) saveStatus.hidden = storageAvailable;
+      if (totalLabel) totalLabel.textContent = storageAvailable ? "Total saved" : "Notes in this tab";
       if (total) total.textContent = String(entries.length);
       const option = selectedState();
       if (topLabel && option) topLabel.textContent = `Top ${option.dataset.stateLabel} weak area`;
@@ -2640,9 +2688,15 @@ function initDmvMistakeLogs() {
         .join("");
 
       list.querySelectorAll("[data-mistake-remove]").forEach((button) => {
+        const record = JSON.stringify(entries[Number(button.dataset.mistakeRemove)]);
         button.addEventListener("click", () => {
-          entries.splice(Number(button.dataset.mistakeRemove), 1);
-          save();
+          load();
+          // The row index can change in another tab; delete only the note shown on this row.
+          const currentIndex = entries.findIndex(entry => JSON.stringify(entry) === record);
+          if (currentIndex !== -1) {
+            entries.splice(currentIndex, 1);
+            save();
+          }
           render();
         });
       });
@@ -2654,6 +2708,7 @@ function initDmvMistakeLogs() {
       if (!option) return;
       const prompt = promptInput?.value.trim() || `${selectedTopicLabel()} review`;
       const fix = fixInput?.value.trim() || "";
+      load();
       entries.unshift({
         state: option.value,
         stateLabel: option.dataset.stateLabel || option.textContent.trim(),
@@ -2674,6 +2729,8 @@ function initDmvMistakeLogs() {
     });
 
     copyButton?.addEventListener("click", async () => {
+      load();
+      render();
       const lines = entries.length
         ? entries.map((entry, index) => `${index + 1}. ${entry.stateLabel} - ${entry.topicLabel}: ${entry.prompt}${entry.fix ? ` | Fix: ${entry.fix}` : ""}`)
         : ["No DMV mistakes saved yet."];
@@ -2697,6 +2754,11 @@ function initDmvMistakeLogs() {
       stateSelect.value = requestedState;
     }
     stateSelect?.addEventListener("change", render);
+    window.addEventListener("storage", (event) => {
+      if (event.key !== storageKey && event.key !== null) return;
+      load();
+      render();
+    });
     load();
     render();
   });
