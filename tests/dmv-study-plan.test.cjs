@@ -87,7 +87,10 @@ for (const width of [390, 1280]) {
       const repeat = page.getByRole("link", { name: "Repeat the 10-sign baseline" });
       const open = async label => {
         await page.getByRole("link", { name: label }).click();
-        const questions = page.locator('[data-mode-panel="road-signs-starter"].is-active .question');
+        await page.waitForURL(url => url.pathname.endsWith("/road-signs-practice-test.html"));
+        const panel = page.locator('[data-mode-panel="road-signs-starter"].is-active');
+        await panel.waitFor();
+        const questions = panel.locator(".question");
         assert.equal(await questions.count(), 10);
         return questions.evaluateAll(items => items.map(item => item.dataset.prompt));
       };

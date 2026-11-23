@@ -243,6 +243,81 @@ test("resume selects the saved full mode and preserves shuffled focused order", 
     assert.equal(await page.locator(resumeLink).textContent(), "Open practice set");
   }));
 
+for (const width of [390, 1280]) {
+  test(`${width}px: viewing a completed category cannot erase the unfinished round`, async () =>
+    withSite(width, async page => {
+      await page.goto(starter + "#practice");
+      const quiz = active(page);
+      await answer(quiz, false);
+      await quiz.locator('[data-quiz-jump="6"]').click();
+      await answer(quiz, true);
+      assert.equal(await progress(quiz), "2 of 10 answered");
+      await quiz.locator("[data-quiz-filter]").selectOption("Speed signs");
+      assert.equal(await progress(quiz), "1 of 1 answered");
+      const saved = await read(page, recentKey);
+      assert.deepEqual([saved.answered, saved.total, saved.correct, saved.missed], [2, 10, 1, 1]);
+      assert.equal(saved.draft.picks.length, 2);
+      assert.doesNotMatch(saved.href, /focus=/);
+      const mastery = await read(page, masteryKey);
+      await page.goto(study);
+      assert.equal(await page.locator(resumeLink).textContent(), "Resume unfinished round");
+      await resume(page);
+      assert.equal(await progress(quiz), "2 of 10 answered");
+      assert.equal(await cursor(quiz), "6");
+      assert.match(await question(quiz).locator(".feedback").innerText(), /^Correct\./);
+      await quiz.locator('[data-quiz-jump="0"]').click();
+      assert.match(await question(quiz).locator(".feedback").innerText(), /^Not quite\./);
+      assert.deepEqual(await milestones(page), []);
+      assert.deepEqual(await read(page, masteryKey), mastery);
+    }));
+}
+
+test("answers across two category views resume together in the original mode", async () =>
+  withSite(390, async page => {
+    await page.goto(starter + "&focus=Warning%20signs#practice");
+    const quiz = active(page);
+    await answer(quiz, true);
+    assert.equal(await progress(quiz), "1 of 2 answered");
+    assert.match((await read(page, recentKey)).href, /focus=Warning\+signs/);
+    await quiz.locator("[data-quiz-filter]").selectOption("Regulatory signs");
+    assert.equal(await progress(quiz), "0 of 5 answered");
+    await answer(quiz, false);
+    assert.equal(await progress(quiz), "1 of 5 answered");
+    const saved = await read(page, recentKey);
+    assert.deepEqual(saved.draft.picks.map(([index]) => index), [0, 8]);
+    await page.goto(study);
+    await resume(page);
+    assert.equal(await quiz.getAttribute("data-mode-id"), "road-signs-starter");
+    assert.equal(await progress(quiz), "2 of 10 answered");
+    assert.equal(await cursor(quiz), "0");
+    assert.deepEqual(await milestones(page), []);
+  }));
+
+test("the only answered question and shuffled order survive a completed category view", async () =>
+  withSite(1280, async page => {
+    await page.goto(starter + "#practice");
+    const quiz = active(page);
+    await quiz.locator("[data-quiz-shuffle]").click();
+    const position = await quiz.locator("[data-quiz-jump]").evaluateAll(buttons => buttons.length);
+    for (let i = 0; i < position; i += 1) {
+      await quiz.locator(`[data-quiz-jump="${i}"]`).click();
+      if (await cursor(quiz) === "6") break;
+    }
+    assert.equal(await cursor(quiz), "6");
+    await answer(quiz, true);
+    const before = await read(page, recentKey);
+    await quiz.locator("[data-quiz-filter]").selectOption("Speed signs");
+    assert.equal(await progress(quiz), "1 of 1 answered");
+    const saved = await read(page, recentKey);
+    assert.equal(saved.answered, 1);
+    assert.deepEqual(saved.draft.sequence, before.draft.sequence);
+    assert.equal(saved.draft.position, before.draft.position);
+    await page.goto(study);
+    await resume(page);
+    assert.equal(await progress(quiz), "1 of 10 answered");
+    assert.equal(await cursor(quiz), "6");
+  }));
+
 test("legacy results and incompatible drafts never claim to restore answers", async () =>
   withSite(1280, async page => {
     await page.goto(study);

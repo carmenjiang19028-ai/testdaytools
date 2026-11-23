@@ -627,6 +627,7 @@ function initQuizzes() {
     let savedMistakes = [];
     let mistakeStorageAvailable = true;
     let activeSequence = questions.map((_, index) => index);
+    let fullSequence = activeSequence;
     let activePosition = 0;
     let toolMessage = "";
     const timerLength = 10 * 60 * 1000;
@@ -639,6 +640,7 @@ function initQuizzes() {
     let quizCompletedTracked = false;
     let savedRound = null;
     let ownedDraftSnapshot = "";
+    let keepFullProgress = false;
     let tenQuestionsTracked = false;
     let nextRoundFocus = "";
     let missedCardIds = [];
@@ -883,6 +885,7 @@ function initQuizzes() {
 
     const setActiveSequence = (indexes, message = "") => {
       activeSequence = indexes;
+      if (indexes.length === questions.length) fullSequence = indexes;
       activePosition = 0;
       toolMessage = message;
       renderScore();
@@ -1168,19 +1171,26 @@ function initQuizzes() {
     const saveRecentPractice = () => {
       try {
         const selectedFocus = filterSelect?.value || "all";
-        const activeTotal = activeSequence.length;
-        const picks = activeSequence.filter(index => pickedAnswers.has(index)).map(index => [index, pickedAnswers.get(index)]);
+        const visiblePicks = activeSequence.filter(index => pickedAnswers.has(index));
+        // A category view must not replace a full-round draft or drop answers in other categories.
+        if (isDmvQuiz && pickedAnswers.size && (selectedFocus === "all" || visiblePicks.length < pickedAnswers.size)) {
+          keepFullProgress = true;
+        }
+        const focus = keepFullProgress ? "all" : selectedFocus;
+        const sequence = focus === selectedFocus ? activeSequence : fullSequence;
+        const activeTotal = sequence.length;
+        const picks = sequence.filter(index => pickedAnswers.has(index)).map(index => [index, pickedAnswers.get(index)]);
         const answeredCount = picks.length;
-        const correctCount = activeSequence.filter((index) => correctAnswers.has(index)).length;
-        const missedCount = activeSequence.filter((index) => wrongAnswers.has(index)).length;
-        const label = selectedFocus === "all" ? quizLabel : `${quizLabel} · ${filterSelect.selectedOptions[0].textContent}`;
+        const correctCount = sequence.filter((index) => correctAnswers.has(index)).length;
+        const missedCount = sequence.filter((index) => wrongAnswers.has(index)).length;
+        const label = focus === "all" ? quizLabel : `${quizLabel} · ${filterSelect.selectedOptions[0].textContent}`;
         const draft = isDmvQuiz && answeredCount > 0 && answeredCount < activeTotal ? {
           version: 2,
           revision: createLocalPracticeId(),
           scope: roundHref(),
           signature: roundSignature(),
-          sequence: activeSequence,
-          position: activePosition,
+          sequence,
+          position: Math.max(0, sequence.indexOf(getActiveQuestionIndex())),
           picks,
           halfway: quizHalfwayTracked,
           ten: tenQuestionsTracked,
@@ -1190,7 +1200,7 @@ function initQuizzes() {
 
         const snapshot = JSON.stringify({
           label,
-          href: roundHref(selectedFocus),
+          href: roundHref(focus),
           state: quiz.dataset.state || "",
           answered: answeredCount,
           total: activeTotal,
@@ -1237,7 +1247,9 @@ function initQuizzes() {
           if (picks.size === draft.picks.length) {
             ownedDraftSnapshot = JSON.stringify(progress);
             activeSequence = draft.sequence;
+            if (activeSequence.length === questions.length) fullSequence = activeSequence;
             activePosition = draft.position;
+            keepFullProgress = focus === "all";
             // Restore the saved display without replaying answered-question side effects.
             picks.forEach((button, index) => showCheckedAnswer(index, button));
             quizStartedTracked = true;
@@ -1270,6 +1282,7 @@ function initQuizzes() {
       quizCompletedTracked = false;
       savedRound = null;
       ownedDraftSnapshot = "";
+      keepFullProgress = false;
       tenQuestionsTracked = false;
       questions.forEach((question) => {
         question.querySelectorAll("button").forEach((button) => {
