@@ -133,6 +133,24 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual(root.find("text").attrib["y"], "43")
         self.assertIn("l-14-22z", root.findall("path")[1].attrib["d"])
 
+    def test_workers_symbol_and_driver_action_agree_in_the_reference(self):
+        art = ET.fromstring(SIGN_SVGS["work-zone"])
+        self.assertEqual(art.find("polygon").attrib["fill"], "#f59e2e")
+        self.assertEqual(len(art.findall("path")), 3)
+        self.assertIn("L143 105", art.findall("path")[1].attrib["d"])
+        cues = json.loads((ROOT / "content/road_sign_recall_cues.json").read_text())
+        self.assertIn("shovel beside a pile", cues["work-zone"])
+        legacy = 'M85 94 h62 M76 118 h78'
+        for loc in ET.parse(ROOT / "sitemap.xml").findall("./{*}url/{*}loc"):
+            path = loc.text.removeprefix("https://testdaytools.com/") or "index.html"
+            self.assertNotIn(legacy, (ROOT / path).read_text(), path)
+        text = (ROOT / "dmv-road-signs-cheat-sheet.html").read_text()
+        self.assertIn("Figure 6H-1 and section 6H.18", text)
+        pdf = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")
+        page = " ".join(pdf.pages[2].extract_text().split())
+        self.assertIn("Workers (Work Zone)", page)
+        self.assertIn("The shovel warns of workers in or near the road.", page)
+
     def test_rectangular_do_not_pass_question_and_pennant_remain_distinct(self):
         question = next(q for q in DATA["quizzes"]["roadSignsCore"] if q["image"] == "no-passing")
         self.assertIn("white rectangular sign", question["q"])

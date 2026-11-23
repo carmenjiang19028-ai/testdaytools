@@ -72,6 +72,8 @@ test("a 40-question recorded score opens the full round, and group links do not 
     const link = page.getByRole("link", { name: "Start the full 40-question round", exact: true });
     assert.equal(await link.count(), 1);
     await page.emulateMedia({ media: "print" });
+    assert.deepEqual(await page.locator(".cheat-legend .legend-swatch").evaluateAll(nodes =>
+      nodes.map(node => getComputedStyle(node).printColorAdjust)), Array(4).fill("exact"));
     assert.equal(await page.locator("#printable-sheet").isVisible(), true);
     assert.equal(await page.locator(".cheat-group-practice-link").first().isVisible(), false);
     assert.equal(await link.isVisible(), false);

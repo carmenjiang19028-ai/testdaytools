@@ -6445,8 +6445,8 @@
               },
               {
                 "image": "work-zone",
-                "title": "Work Zone",
-                "meaning": "Expect temporary traffic control, workers, or lane changes."
+                "title": "Workers (Work Zone)",
+                "meaning": "The shovel warns of workers in or near the road. Slow down and watch for temporary directions."
               },
               {
                 "image": "hospital",
@@ -22109,7 +22109,7 @@
       {
         "q": "This orange sign usually means:",
         "image": "work-zone",
-        "imageAlt": "Orange diamond with a black figure leaning over horizontal bars",
+        "imageAlt": "Orange diamond with a black figure holding a shovel beside a pile",
         "category": "Work zone signs",
         "choices": [
           "Road work or maintenance activity ahead",
@@ -22377,7 +22377,7 @@
       {
         "q": "Which clue separates a temporary work-zone warning from a permanent warning sign?",
         "image": "work-zone",
-        "imageAlt": "Orange diamond with a black figure leaning over horizontal bars",
+        "imageAlt": "Orange diamond with a black figure holding a shovel beside a pile",
         "category": "Work zone signs",
         "choices": [
           "Its orange background",
