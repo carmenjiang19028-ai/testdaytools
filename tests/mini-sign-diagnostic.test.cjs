@@ -75,3 +75,46 @@ for (const file of ['index.html', 'dmv-practice.html']) {
     });
   }
 }
+
+for (const [file, width] of [['index.html', 390], ['dmv-practice.html', 1280]]) {
+  test(`${file} at ${width}px: every missed topic keeps its own useful follow-up`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    try {
+      const page = await context.newPage();
+      await page.goto(pathToFileURL(path.resolve(file)).href);
+      const drill = page.locator('[data-mini-sign-drill]');
+      const next = drill.locator('[data-mini-drill-next]');
+      const active = drill.locator('.mini-question.is-active');
+      const practice = drill.locator('[data-mini-drill-focus-link]');
+      const speed = drill.getByRole('link', { name: 'Compare posted and advisory speeds', exact: true });
+      const answerRound = async choices => {
+        for (const [index, choice] of choices.entries()) {
+          await active.locator(`[data-mini-choice="${choice}"]`).press('Enter');
+          if (index < choices.length - 1) await next.press('Enter');
+        }
+      };
+      assert.equal(await speed.count(), 0, 'no missed-speed link before answering');
+      await answerRound([0, 0, 1, 0]);
+      assert.equal(await drill.locator('[data-mini-drill-score]').textContent(), '2/4');
+      assert.equal(await speed.count(), 1, 'keep speed review even when another area was also missed');
+      const regulation = new URL(await practice.getAttribute('href'), page.url());
+      assert.equal(regulation.searchParams.get('mode'), 'road-signs-core');
+      assert.equal(regulation.searchParams.get('focus'), 'Regulatory signs');
+      await next.press('Enter');
+      assert.equal(await speed.count(), 0, 'restart clears the prior recommendations');
+      assert.equal(await practice.textContent(), 'Full road signs test');
+
+      await answerRound([1, 0, 1, 0]);
+      assert.equal(await drill.locator('[data-mini-drill-score]').textContent(), '3/4');
+      assert.equal(await practice.isVisible(), false, 'only the missed area is suggested');
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await speed.press('Enter');
+      await page.waitForURL('**/road-sign-learning-loop.html#speed-sign-comparison');
+      const section = page.locator('#speed-sign-comparison');
+      assert.equal(await section.getByRole('img').count(), 2);
+      await section.getByText('Check which sign sets the limit', { exact: true }).press('Enter');
+      assert.match(await section.innerText(), /the yellow plaque advises a speed/i);
+    } finally { await context.close(); }
+  });
+}

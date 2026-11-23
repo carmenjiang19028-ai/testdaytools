@@ -1820,26 +1820,23 @@ function initMiniSignDrills() {
     const feedback = drill.querySelector("[data-mini-drill-feedback]");
     const nextButton = drill.querySelector("[data-mini-drill-next]");
     const focusLink = drill.querySelector("[data-mini-drill-focus-link]");
-    let missedFocus = {};
+    const speedLink = drill.querySelector("[data-mini-drill-speed-link]");
+    const missedFocus = new Set();
     let activeIndex = 0;
     let correct = 0;
     let answered = 0;
 
-    const bestMissedFocus = () =>
-      Object.entries(missedFocus)
-        .sort((a, b) => b[1] - a[1])
-        .map(([focus]) => focus)[0] || "";
-
-    const updateFocusLink = () => {
-      if (!focusLink) return;
-      const focus = bestMissedFocus();
-      if (!focus) {
-        focusLink.href = "road-signs-practice-test.html?mode=road-signs-core#practice";
-        focusLink.textContent = "Full road signs test";
-        return;
+    const updateReviewLinks = () => {
+      const missedRegulatory = missedFocus.has("Regulatory signs");
+      const missedSpeed = missedFocus.has("Speed signs");
+      if (focusLink) {
+        focusLink.hidden = missedSpeed && !missedRegulatory;
+        const params = new URLSearchParams({ mode: "road-signs-core" });
+        if (missedRegulatory) params.set("focus", "Regulatory signs");
+        focusLink.href = `road-signs-practice-test.html?${params}#practice`;
+        focusLink.textContent = missedRegulatory ? "Practice regulatory signs" : "Full road signs test";
       }
-      focusLink.href = `road-signs-practice-test.html?focus=${encodeURIComponent(focus)}#practice`;
-      focusLink.textContent = `Practice ${focus.toLowerCase()}`;
+      if (speedLink) speedLink.hidden = !missedSpeed;
     };
 
     const updateNextButton = () => {
@@ -1872,7 +1869,7 @@ function initMiniSignDrills() {
           const isCorrect = Number(button.dataset.miniChoice) === Number(question.dataset.miniAnswer);
           if (isCorrect) correct += 1;
           if (!isCorrect && question.dataset.miniFocus) {
-            missedFocus[question.dataset.miniFocus] = (missedFocus[question.dataset.miniFocus] || 0) + 1;
+            missedFocus.add(question.dataset.miniFocus);
           }
           trackToolEvent("mini_diagnostic_answer", {
             tool: "road_sign_mini_diagnostic",
@@ -1893,7 +1890,7 @@ function initMiniSignDrills() {
             feedback.textContent = `${isCorrect ? "Correct." : "Not quite."} ${question.dataset.miniExplanation}${result}`;
           }
           updateScore();
-          updateFocusLink();
+          updateReviewLinks();
           updateNextButton();
           nextButton?.focus({ preventScroll: true });
         });
@@ -1908,7 +1905,7 @@ function initMiniSignDrills() {
         activeIndex = 0;
         correct = 0;
         answered = 0;
-        missedFocus = {};
+        missedFocus.clear();
         questions.forEach((question) => {
           delete question.dataset.answered;
           question.querySelectorAll("[data-mini-choice]").forEach((choice) => {
@@ -1917,13 +1914,13 @@ function initMiniSignDrills() {
           });
         });
         updateScore();
-        updateFocusLink();
+        updateReviewLinks();
       }
       showQuestion({ focus: true });
     });
 
     updateScore();
-    updateFocusLink();
+    updateReviewLinks();
     showQuestion();
   });
 }

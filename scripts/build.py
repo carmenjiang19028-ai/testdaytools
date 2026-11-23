@@ -650,6 +650,7 @@ def render_mini_sign_drill():
   <div class="mini-drill-actions">
     <button type="button" data-mini-drill-next disabled>Next sign</button>
     <a href="road-signs-practice-test.html?mode=road-signs-core#practice" data-mini-drill-focus-link>Full road signs test</a>
+    <a href="road-sign-learning-loop.html#speed-sign-comparison" data-mini-drill-speed-link hidden>Compare posted and advisory speeds</a>
   </div>
 </div>"""
 

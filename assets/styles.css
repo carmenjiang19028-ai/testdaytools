@@ -608,6 +608,14 @@ h3 {
   color: white;
 }
 
+.mini-drill-actions a[hidden] {
+  display: none;
+}
+
+.mini-drill-actions [data-mini-drill-focus-link]:not([hidden]) + [data-mini-drill-speed-link] {
+  grid-column: 1 / -1;
+}
+
 .mini-drill-actions [data-mini-drill-next]:disabled {
   border-color: var(--line);
   background: #f4f7fb;
