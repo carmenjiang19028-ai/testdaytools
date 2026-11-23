@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="160" viewBox="0 0 220 160">
+  <title>Added Lane warning sign, from the right</title>
+  <polygon points="110,12 190,80 110,148 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>
+  <path d="M110 128V78 M110 78C111 94 120 102 136 113 M110 72V61 M110 54V43 M110 36V27" fill="none" stroke="#111" stroke-width="4"/>
+  <path d="M87 115V60 M150 102C141 92 131 87 131 74V60" fill="none" stroke="#111" stroke-width="11"/>
+  <path d="M87 46L74 66H100Z M131 46L118 66H144Z" fill="#111"/>
+</svg>

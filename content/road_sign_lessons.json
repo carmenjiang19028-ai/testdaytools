@@ -55,9 +55,17 @@
       "decision": "Look ahead and manage speed and space for the actual conflict. Do not assume the adjacent driver will stop for you. Follow the posted controls, markings and applicable local merging rules rather than memorizing one universal merge point.",
       "mistake": "Both yellow signs mean my lane ends, so I must immediately move sideways.",
       "reason": "The color identifies a warning, not the exact geometry. Joining traffic can require attention without removing your lane. A lane reduction requires preparing for the indicated change, not a sudden move without checking whether there is a safe gap.",
-      "transfer": "Imagine the sign is before a ramp, but the entering traffic gets its own added lane. What extra information would you need before calling it a merge conflict?",
-      "explanation": "Check the sign's specific symbol, the lane markings and the roadway ahead. A nearby ramp alone does not prove that two streams must immediately share one lane. Compare the official manual's Added Lane example with its Merging Traffic and Lane Ends examples.",
-      "sourceSections": "Warning Signs: MERGING TRAFFIC, ADDED LANE and LANE ENDS; NY must-know chart",
+      "transferSign": {
+        "image": "assets/road-sign-materials/added-lane.svg",
+        "alt": "Yellow diamond: a straight upward arrow and an arrow bending in from the right stay separated by a line that becomes dashed.",
+        "heading": "Does the ramp traffic get its own lane?",
+        "answerLabel": "Check the sign and the decision",
+        "sourceLabel": "FHWA MUTCD Figure 2C-11 and Section 2C.46",
+        "sourceUrl": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=38"
+      },
+      "transfer": "You are in the right lane of the main road. A ramp approaches from the right. In this sign, do the two paths join into one arrow, or does each keep its own path? Does the sign call for an immediate lane change?",
+      "explanation": "This is Added Lane. The two arrows stay separate, so ramp traffic gets its own lane where the roadways meet. No merge or lane change is needed at that point just because the ramp joins. Stay alert to nearby traffic and follow the actual markings. Compare Merge, where a branch joins one arrow, and Lane Ends, where the space between the lane boundaries narrows.",
+      "sourceSections": "Warning Signs: MERGING TRAFFIC, ADDED LANE and LANE ENDS",
       "source": "pa"
     }
   ]

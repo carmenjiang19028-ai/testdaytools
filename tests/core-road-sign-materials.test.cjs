@@ -457,6 +457,36 @@ for (const width of [1280, 390]) {
       }
     } finally { await context.close(); }
   });
+  test(`${width}px: distinguish an added lane from a merge without JavaScript`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const url = pathToFileURL(path.join(root, 'road-sign-learning-loop.html')).href;
+      await page.goto(url + '#lesson-merge-lane-ends');
+      const transfer = page.getByRole('region', { name: 'Does the ramp traffic get its own lane?' });
+      const sign = transfer.getByRole('img', { name: /arrows? .*stay separated/ });
+      await sign.evaluate(image => image.decode());
+      assert.equal(await sign.isVisible(), true);
+      assert.equal(await sign.getAttribute('src'), 'assets/road-sign-materials/added-lane.svg');
+      assert.match(await transfer.innerText(), /paths join into one arrow/);
+      const explanation = transfer.getByText(/This is Added Lane/);
+      assert.equal(await explanation.isVisible(), false);
+      await transfer.locator('summary').press('Enter');
+      assert.equal(await explanation.isVisible(), true);
+      assert.match(await explanation.textContent(), /gets its own lane.*No merge or lane change.*Compare Merge.*Lane Ends/);
+      assert.equal(await transfer.getByRole('link').getAttribute('href'), 'https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=38');
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await transfer.evaluate(section => {
+          const header = document.querySelector('.site-header');
+          scrollBy(0, section.getBoundingClientRect().top - header.getBoundingClientRect().bottom - 12);
+        });
+        await page.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `added-lane-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
   for (const file of ['road-signs-practice-test.html', 'dmv-road-signs-cheat-sheet.html', 'road-sign-learning-loop.html']) {
     test(`${file} ${width}px: material record, images and unscored explanations`, async () => {
       const context = await browser.newContext({ viewport: { width, height: 900 } });

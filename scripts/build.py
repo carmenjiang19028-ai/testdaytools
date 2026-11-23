@@ -247,13 +247,24 @@ def render_contrast_lessons():
     for lesson in material["lessons"]:
         pictures = '<span>vs.</span>'.join(render_road_sign_image(key, records[key]["title"], lazy=False) for key in lesson["signs"])
         source = sources[lesson["source"]]
+        transfer = lesson.get("transferSign")
+        if transfer:
+            transfer_block = f'''<section aria-label="{esc(transfer["heading"])}">
+    <h4>{esc(transfer["heading"])}</h4>
+    <img src="{esc(transfer["image"])}" width="220" height="160" alt="{esc(transfer["alt"])}">
+    <p>{esc(lesson["transfer"])}</p>
+    <details class="contrast-transfer"><summary>{esc(transfer["answerLabel"])}</summary><p>{esc(lesson["explanation"])}</p></details>
+    <p class="contrast-source"><a href="{esc(transfer["sourceUrl"])}">{esc(transfer["sourceLabel"])}</a></p>
+  </section>'''
+        else:
+            transfer_block = f'''<details class="contrast-transfer"><summary>Explain a changed situation</summary><p>{esc(lesson["transfer"])}</p><p>{esc(lesson["explanation"])}</p></details>'''
         lessons.append(f'''<article class="contrast-lesson" id="lesson-{esc(lesson["id"])}">
   <h3>{esc(lesson["title"])}</h3><div class="contrast-lesson-grid">
     <figure class="contrast-scene"><div class="contrast-sign-pair">{pictures}</div><figcaption>{esc(lesson["scene"])}</figcaption></figure>
     <dl class="contrast-reasoning"><dt>The distinction</dt><dd>{esc(lesson["cue"])}</dd><dt>The decision</dt><dd>{esc(lesson["decision"])}</dd></dl>
   </div>
   <div class="contrast-trap"><h4>A tempting mistake</h4><p>{esc(lesson["mistake"])}</p><h4>Why that reasoning fails</h4><p>{esc(lesson["reason"])}</p></div>
-  <details class="contrast-transfer"><summary>Explain a changed situation</summary><p>{esc(lesson["transfer"])}</p><p>{esc(lesson["explanation"])}</p></details>
+  {transfer_block}
   <p class="contrast-source">Source comparison: <a href="{esc(source["url"])}">{esc(source["label"])}</a> - {esc(lesson["sourceSections"])}. Checked {esc(material["checkedOn"])}.</p>
 </article>''')
     return '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>' + "".join(lessons) + '</section>' + render_material_review()

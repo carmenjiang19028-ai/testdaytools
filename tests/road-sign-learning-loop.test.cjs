@@ -101,8 +101,11 @@ test('static explanations and sources work without JavaScript', async () => {
   await context.route(/^https?:/, route => route.abort());
   const page = await context.newPage();
   await page.goto(pathToFileURL(path.resolve('road-sign-learning-loop.html')).href);
-  assert.equal(await page.locator('.contrast-lesson').count(), 3);
-  assert.equal(await page.locator('.contrast-lesson .contrast-source a').count(), 3);
+  const lessons = page.locator('.contrast-lesson');
+  assert.equal(await lessons.count(), 3);
+  for (const lesson of await lessons.all()) {
+    assert.ok(await lesson.locator(':scope > .contrast-source a').isVisible());
+  }
   await context.close();
 });
 async function answer(page, n = 0) {
