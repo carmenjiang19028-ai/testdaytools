@@ -165,6 +165,36 @@ test('lettering stays inside its red field and above the Keep Right diagram', as
   } finally { await context.close(); }
 });
 
+test('the Merge symbol joins two approaches into one arrow clear of the diamond border', async () => {
+  const svg = fs.readFileSync(path.join(root, 'assets/road-signs/merge-road-sign.svg'));
+  const { data, info } = await sharp(svg, { density: 144 }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const scale = info.width / 220;
+  const points = [];
+  const runs = new Map();
+  for (let y = 0; y < info.height; y++) {
+    let runsOnRow = 0;
+    let lastWasInk = false;
+    for (let x = 0; x < info.width; x++) {
+      const i = (y * info.width + x) * 4;
+      // The artwork uses #111 for the symbol and #222 for the outline.
+      const ink = data[i] === 17 && data[i + 1] === 17 && data[i + 2] === 17 && data[i + 3] === 255;
+      if (ink) points.push([(x + 0.5) / scale, (y + 0.5) / scale]);
+      if (ink && !lastWasInk) runsOnRow++;
+      lastWasInk = ink;
+    }
+    runs.set(y, runsOnRow);
+  }
+  assert.ok(points.length > 500, 'the symbol must render');
+  const clearance = Math.min(...points.map(([x, y]) =>
+    (1 - Math.abs(x - 110) / 80 - Math.abs(y - 80) / 66) / Math.hypot(1 / 80, 1 / 66)));
+  assert.ok(clearance >= 8, `the symbol must clear the border (got ${clearance.toFixed(1)} px)`);
+  assert.equal(runs.get(108 * scale), 2, 'two distinct approaches below the join');
+  assert.equal(runs.get(74 * scale), 1, 'a single lane above the join');
+  assert.equal(runs.get(56 * scale), 1, 'a single arrowhead');
+  const widthAt = n => points.filter(([, y]) => Math.floor(y) === n).length;
+  assert.ok(widthAt(56) > widthAt(71) * 1.5, 'the arrowhead must widen beyond the stem');
+});
+
 test('all eight classroom PDF images exactly preserve rendered shared SVG pixels', async () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'tdt-art-test-'));
   try {
