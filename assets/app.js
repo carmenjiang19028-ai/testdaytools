@@ -3704,14 +3704,17 @@ function initSatDatePlanners() {
     const deadlineSelect = widget.querySelector("[data-sat-deadline]");
     const readinessSelect = widget.querySelector("[data-sat-readiness]");
     const retakeInput = widget.querySelector("[data-sat-retake]");
+    const deviceLoanInput = widget.querySelector("[data-sat-device-loan]");
     const buildButton = widget.querySelector("[data-sat-plan-button]");
     const headline = widget.querySelector("[data-sat-plan-headline]");
     const reason = widget.querySelector("[data-sat-plan-reason]");
     const picks = widget.querySelector("[data-sat-plan-picks]");
     const primaryDate = widget.querySelector("[data-sat-primary-date]");
     const primaryDeadline = widget.querySelector("[data-sat-primary-deadline]");
+    const primaryDevice = widget.querySelector("[data-sat-primary-device]");
     const backupDate = widget.querySelector("[data-sat-backup-date]");
     const backupDeadline = widget.querySelector("[data-sat-backup-deadline]");
+    const backupDevice = widget.querySelector("[data-sat-backup-device]");
     const saveButton = widget.querySelector("[data-sat-plan-save]");
     const calendarButton = widget.querySelector("[data-sat-date-calendar]");
     const registerLink = widget.querySelector("[data-sat-register-link]");
@@ -3737,6 +3740,14 @@ function initSatDatePlanners() {
     });
     const monthKey = (event) => `${event.date.slice(0, 4)}-${event.date.slice(5, 7)}`;
     const readinessDays = { ready: 14, focused: 42, starting: 70 };
+    const deviceLoanDays = 30;
+    const deviceDeadline = (event) => new Date(calendarDay(event.date) - deviceLoanDays * DAY_MS).toISOString().slice(0, 10);
+    const deviceText = (event) => `Register and finish the College Board device request by ${dateLabel(deviceDeadline(event))}. Device approval is not guaranteed.`;
+    const showDeviceDeadline = (node, event, needsDevice) => {
+      if (!node) return;
+      node.hidden = !event || !needsDevice;
+      node.textContent = node.hidden ? "" : deviceText(event);
+    };
     const preferredKeys = (stage, deadline) => {
       if (stage === "junior_first") return ["2027-03", "2027-05", "2027-06"];
       if (stage === "junior_retake") return ["2027-05", "2027-06", "2027-03"];
@@ -3781,10 +3792,14 @@ function initSatDatePlanners() {
       const deadline = deadlineSelect?.value || "unsure";
       const readiness = readinessSelect?.value || "focused";
       const wantsRetake = Boolean(retakeInput?.checked);
+      const needsDevice = Boolean(deviceLoanInput?.checked);
       const minimumDays = readinessDays[readiness] || readinessDays.focused;
-      const valid = events
+      const eligibleForRegistration = events
         .filter((event) => satRegistrationStatus(event, now) !== "closed" && daysUntil(event.date) >= minimumDays)
         .sort((a, b) => a.date.localeCompare(b.date));
+      const valid = needsDevice
+        ? eligibleForRegistration.filter((event) => daysUntil(event.date) >= deviceLoanDays)
+        : eligibleForRegistration;
       const priorities = preferredKeys(stage, deadline);
       const preferred = priorities
         .map((key) => valid.find((event) => monthKey(event) === key))
@@ -3795,21 +3810,27 @@ function initSatDatePlanners() {
         : null;
 
       if (!primary) {
-        clearPlan("No listed date fits that runway", "Check College Board for later dates, or choose a shorter runway only if it fits your preparation.");
+        if (needsDevice && eligibleForRegistration.length) {
+          clearPlan("No listed date still fits the device request deadline", "Check College Board for a later date, or ask your school, family or a friend about a Bluebook-compatible device. There is no guarantee of a device from College Board.");
+        } else {
+          clearPlan("No listed date fits that runway", "Check College Board for later dates, or choose a shorter runway only if it fits your preparation.");
+        }
         return;
       }
 
-      currentPlan = { stage, deadline, readiness, wantsRetake, primary, backup, createdAt: Date.now() };
+      currentPlan = { stage, deadline, readiness, wantsRetake, needsDevice, primary, backup, createdAt: Date.now() };
       if (headline) headline.textContent = `${primary.label} matches your study runway`;
       if (reason) {
         reason.textContent = `${stageReason(stage, deadline)} It is ${daysUntil(primary.date)} calendar days away (U.S. Eastern time), meeting the ${minimumDays}-day minimum you chose.`;
       }
       if (primaryDate) primaryDate.textContent = primary.label;
       if (primaryDeadline) primaryDeadline.textContent = registrationText(primary, now);
+      showDeviceDeadline(primaryDevice, primary, needsDevice);
       if (backupDate) backupDate.textContent = backup?.label || (wantsRetake ? "No later listed date" : "Not requested");
       if (backupDeadline) {
         backupDeadline.textContent = backup ? registrationText(backup, now) : "You can rebuild the plan whenever your timeline changes.";
       }
+      showDeviceDeadline(backupDevice, backup, needsDevice);
       if (picks) picks.hidden = false;
       if (saveButton) saveButton.disabled = false;
       if (calendarButton) calendarButton.disabled = false;
@@ -3826,7 +3847,7 @@ function initSatDatePlanners() {
       }
     };
 
-    [stageSelect, deadlineSelect, readinessSelect, retakeInput].forEach((input) => {
+    [stageSelect, deadlineSelect, readinessSelect, retakeInput, deviceLoanInput].forEach((input) => {
       input?.addEventListener("change", () => clearPlan("Build a plan for these choices", "Build again before saving or downloading a date."));
     });
     buildButton?.addEventListener("click", () => buildPlan());
@@ -3860,6 +3881,7 @@ function initSatDatePlanners() {
       const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
       const nextDay = new Date(calendarDay(event.date) + DAY_MS).toISOString().slice(0, 10).replace(/-/g, "");
       const startDay = event.date.replace(/-/g, "");
+      const description = [event.description, currentPlan.needsDevice ? deviceText(event) : ""].filter(Boolean).join("\n");
       const escapeIcs = (value) => String(value).replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\n/g, "\\n");
       const ics = [
         "BEGIN:VCALENDAR",
@@ -3872,7 +3894,7 @@ function initSatDatePlanners() {
         `DTSTART;VALUE=DATE:${startDay}`,
         `DTEND;VALUE=DATE:${nextDay}`,
         `SUMMARY:${escapeIcs(`SAT - ${event.label}`)}`,
-        `DESCRIPTION:${escapeIcs(event.description)}`,
+        `DESCRIPTION:${escapeIcs(description)}`,
         "END:VEVENT",
         "END:VCALENDAR",
         "",
@@ -3905,6 +3927,7 @@ function initSatDatePlanners() {
         if (deadlineSelect && saved.deadline) deadlineSelect.value = saved.deadline;
         if (readinessSelect && saved.readiness) readinessSelect.value = saved.readiness;
         if (retakeInput) retakeInput.checked = Boolean(saved.wantsRetake);
+        if (deviceLoanInput) deviceLoanInput.checked = saved.needsDevice === true;
         buildPlan({ track: false });
         if (savedStatus && currentPlan) {
           const datesUnchanged = currentPlan.primary.date === saved.primary.date && currentPlan.backup?.date === saved.backup?.date;

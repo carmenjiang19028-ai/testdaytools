@@ -1697,7 +1697,7 @@ def render_sat_date_planner(tool, widget):
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "Interactive SAT date tool"))}</span>
     <h2>{esc(widget.get("heading", "Choose your primary SAT date and backup"))}</h2>
-    <p class="section-intro">{esc(widget.get("intro", "Answer three planning questions to get a date pair that leaves realistic preparation and retake room."))}</p>
+    <p class="section-intro">{esc(widget.get("intro", "Compare a primary SAT Weekend date and an optional backup for your timeline."))}</p>
   </div>
   <div class="sat-widget-grid">
     <div class="sat-input-panel sat-date-inputs">
@@ -1729,6 +1729,8 @@ def render_sat_date_planner(tool, widget):
         </select>
       </label>
       <label class="sat-date-checkbox"><input type="checkbox" checked data-sat-retake> <span><strong>Leave room for a retake</strong><em>Recommend the next workable backup administration.</em></span></label>
+      <label class="sat-date-checkbox"><input type="checkbox" aria-describedby="sat-date-device-note" data-sat-device-loan> <span><strong>I still need to request a College Board device</strong></span></label>
+      <p class="sat-widget-note" id="sat-date-device-note">For SAT Weekend, register and finish the device request at least 30 days before test day. <a href="https://satsuite.collegeboard.org/sat/device-lending">Check the official lending steps</a>.</p>
       <button type="button" data-sat-plan-button>Build my SAT date plan</button>
     </div>
     <aside class="sat-result-panel sat-date-result" aria-live="polite">
@@ -1736,8 +1738,8 @@ def render_sat_date_planner(tool, widget):
       <strong data-sat-plan-headline>Answer the questions to compare dates</strong>
       <p data-sat-plan-reason>The result uses today's date, registration deadlines, preparation runway, and retake room.</p>
       <div class="sat-date-picks" hidden data-sat-plan-picks>
-        <div><span>Primary date</span><strong data-sat-primary-date>--</strong><p data-sat-primary-deadline>--</p></div>
-        <div><span>Backup date</span><strong data-sat-backup-date>--</strong><p data-sat-backup-deadline>--</p></div>
+        <div><span>Primary date</span><strong data-sat-primary-date>--</strong><p data-sat-primary-deadline>--</p><p hidden data-sat-primary-device></p></div>
+        <div><span>Backup date</span><strong data-sat-backup-date>--</strong><p data-sat-backup-deadline>--</p><p hidden data-sat-backup-device></p></div>
       </div>
       <div class="sat-plan-actions">
         <button type="button" disabled data-sat-plan-save>Save this plan</button>

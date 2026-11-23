@@ -2016,7 +2016,7 @@
         "type": "satDatePlanner",
         "kicker": "Interactive SAT date planner",
         "heading": "Choose your primary SAT date and backup",
-        "intro": "Answer three planning questions. The tool filters out dates with too little preparation runway, then recommends a primary date and an optional retake window without asking for personal information.",
+        "intro": "Find a primary SAT Weekend date and an optional retake that fit your preparation time and any College Board device-request deadline.",
         "sourceUrl": "https://satsuite.collegeboard.org/sat/dates-deadlines"
       }
     },

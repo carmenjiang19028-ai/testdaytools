@@ -150,6 +150,65 @@ test("the 14-day threshold uses Eastern calendar dates, not rounded local hours"
   } finally { await context.close(); }
 });
 
+for (const [i, file] of pages.entries()) {
+  test(`${file}: a device request uses its own Eastern calendar deadline`, async () => {
+    const { context, page } = await openPage(file, "2026-11-06T04:59:00Z", { width: i ? 320 : 1280, height: 900 }, "Pacific/Auckland");
+    try {
+      const build = page.locator("[data-sat-plan-button]");
+      const loan = page.getByRole("checkbox", { name: "I still need to request a College Board device" });
+      const primary = page.locator("[data-sat-primary-date]");
+      const primaryDevice = page.locator("[data-sat-primary-device]");
+      const backupDevice = page.locator("[data-sat-backup-device]");
+      const save = page.locator("[data-sat-plan-save]");
+      await page.locator("[data-sat-stage]").selectOption("senior");
+      await page.locator("[data-sat-deadline]").selectOption("regular");
+      await page.locator("[data-sat-readiness]").selectOption("ready");
+      await loan.check();
+      await build.click();
+      assert.equal(await primary.textContent(), "December 5, 2026");
+      assert.match(await primaryDevice.innerText(), /November 5, 2026.*not guaranteed/);
+      assert.match(await backupDevice.innerText(), /February 4, 2027/);
+      const download = page.waitForEvent("download");
+      await page.locator("[data-sat-date-calendar]").click();
+      assert.match(fs.readFileSync(await (await download).path(), "utf8"), /device request by November 5\\, 2026/);
+      await save.click();
+      await page.clock.setSystemTime(new Date("2026-11-06T05:00:01Z"));
+      await page.reload();
+      assert.equal(await loan.isChecked(), true);
+      assert.equal(await primary.textContent(), "March 6, 2027");
+      assert.match(await primaryDevice.innerText(), /February 4, 2027/);
+      assert.match(await backupDevice.innerText(), /April 1, 2027/);
+      assert.match(await page.locator("[data-sat-saved-status]").innerText(), /not saved yet/);
+      assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem("tdt-sat-date-plan:v1")).primary.date), "2026-12-05");
+      await loan.uncheck();
+      assert.equal(await save.isDisabled(), true);
+      await build.click();
+      assert.equal(await primary.textContent(), "December 5, 2026");
+      assert.equal(await primaryDevice.isVisible(), false);
+      assert.equal(await backupDevice.isVisible(), false);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    } finally { await context.close(); }
+  });
+}
+
+test("when the last test is open but the device cutoff passed, show a next step and no plan", async () => {
+  const { context, page } = await openPage(pages[0], "2027-05-07T15:00:00Z");
+  try {
+    await page.locator("[data-sat-readiness]").selectOption("ready");
+    const build = page.locator("[data-sat-plan-button]");
+    await build.click();
+    assert.equal(await page.locator("[data-sat-primary-date]").textContent(), "June 5, 2027");
+    await page.locator("[data-sat-device-loan]").check();
+    await build.click();
+    assert.match(await page.locator("[data-sat-plan-headline]").textContent(), /No listed date still fits the device request deadline/);
+    assert.match(await page.locator("[data-sat-plan-reason]").textContent(), /later date.*school/);
+    assert.equal(await page.locator("[data-sat-plan-picks]").isVisible(), false);
+    assert.equal(await page.locator("[data-sat-plan-save]").isDisabled(), true);
+    assert.equal(await page.locator("[data-sat-date-calendar]").isDisabled(), true);
+    assert.equal(await page.evaluate(() => localStorage.getItem("tdt-sat-date-plan:v1")), null);
+  } finally { await context.close(); }
+});
+
 for (const width of [320, 390, 1280]) {
   test(`${width}px: SAT tools leads to the planner without hiding its heading`, async () => {
     const { context, page } = await openPage("sat-tools.html", "2026-11-20T18:00:00Z", { width, height: 844 });
