@@ -1073,12 +1073,25 @@ def road_sign_shape_records():
             "color": "Yellow",
             "category": "Warning",
             "filter": "warning",
-            "meaning": "A round yellow sign is commonly used as an advance railroad crossing warning.",
-            "action": "Prepare for tracks",
+            "meaning": "The round yellow sign with two Rs warns of railroad tracks ahead. Slow down and be ready to stop at the crossing.",
+            "action": "Slow down and prepare to stop",
             "examples": "Railroad Crossing Ahead",
             "visual": "shape-circle",
             "text": "RR",
-            "practice": "road-signs-practice-test.html?focus=Warning%20signs#practice",
+            "practice": "#railroad-crossing-check",
+            "practiceLabel": "Compare railroad signs",
+        },
+        {
+            "key": "crossbuck",
+            "label": "Crossbuck (white X)",
+            "color": "White and black",
+            "category": "Regulatory",
+            "filter": "regulatory",
+            "meaning": "The white X reading RAILROAD CROSSING marks the crossing itself. Follow the posted controls and yield to trains.",
+            "action": "Yield to trains and keep the tracks clear",
+            "examples": "Railroad Crossing (R15-1)",
+            "practice": "#railroad-crossing-check",
+            "practiceLabel": "Compare railroad signs",
         },
         {
             "key": "pennant",
@@ -3498,7 +3511,23 @@ def render_florida_dmv_cluster():
 </section>"""
 
 
+def render_railroad_crossbuck(width=220, height=160):
+    return f"""<svg viewBox="0 0 220 160" width="{width}" height="{height}" aria-hidden="true">
+      <g transform="translate(110 80) rotate(45)">
+        <rect x="-86" y="-16" width="172" height="32" fill="#fff" stroke="#222" stroke-width="2"/>
+        <text x="-51" y="1" text-anchor="middle" dominant-baseline="central" font-family="Arial, sans-serif" font-weight="900" font-size="19">RAIL</text>
+        <text x="51" y="1" text-anchor="middle" dominant-baseline="central" font-family="Arial, sans-serif" font-weight="900" font-size="19">ROAD</text>
+      </g>
+      <g transform="translate(110 80) rotate(-45)">
+        <rect x="-86" y="-16" width="172" height="32" fill="#fff" stroke="#222" stroke-width="2"/>
+        <text x="0" y="1" text-anchor="middle" dominant-baseline="central" font-family="Arial, sans-serif" font-weight="900" font-size="19">CROSSING</text>
+      </g>
+    </svg>"""
+
+
 def render_shape_swatch(record):
+    if record["key"] == "crossbuck":
+        return f'<div role="img" aria-label="White X reading Railroad Crossing">{render_railroad_crossbuck(84, 61)}</div>'
     return (
         f'<div class="shape-swatch {esc(record["visual"])}" role="img" '
         f'aria-label="{esc(record["color"])} {esc(record["label"])} road sign shape">'
@@ -3542,7 +3571,7 @@ def render_road_sign_shapes_finder():
   <div class="tool-section-head">
     <span class="eyebrow">Shape and color finder</span>
     <h2>Search road sign shapes, colors, and driver actions</h2>
-    <p class="section-intro">Type a shape, color, sign category, or action. Use the result to move into the matching image practice round.</p>
+    <p class="section-intro">Type a shape, color, sign category, or action. Open the matching practice or illustrated example.</p>
   </div>
   <div class="sign-lookup-toolbar">
     <label>Find a shape or color <input type="search" placeholder="Try red, diamond, school, yield, work zone..." data-sign-search></label>
@@ -3645,11 +3674,40 @@ def render_divided_highway_drill():
 </section>"""
 
 
+def render_railroad_crossing_drill():
+    return f"""<section class="content-section shape-crossing-drill" id="railroad-crossing-check" aria-labelledby="railroad-crossing-heading">
+  <h2 id="railroad-crossing-heading">Railroad warning ahead or crossing here?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair">
+        <span role="img" aria-label="Sign A: yellow circle with a black X and two Rs">{SIGN_SVGS["railroad"]}</span>
+        <span aria-hidden="true">/</span>
+        <span role="img" aria-label="Sign B: white X-shaped crossbuck reading Railroad Crossing">{render_railroad_crossbuck()}</span>
+      </div>
+      <figcaption><strong>A:</strong> Round advance warning (W10-1). <strong>B:</strong> Crossbuck at the tracks (R15-1).</figcaption>
+    </figure>
+    <div>
+      <p>In a passenger car, you pass A and reach B. The lights are not flashing, but stopped traffic leaves room for only the front half of your car beyond the tracks. Where should you wait?</p>
+      <details class="contrast-transfer">
+        <summary>Check the decision at the tracks</summary>
+        <p><strong>Wait before the tracks.</strong> Even when the lights are off, do not enter unless your entire vehicle can clear the last rail and you can cross safely. Follow any STOP or YIELD sign. Do not enter when lights are flashing or a gate is down or lowering.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>What if you have only reached the round warning sign?</summary>
+        <p><strong>Prepare to stop.</strong> The yellow circle tells you tracks are ahead; the white crossbuck identifies the crossing itself. Slow down, look both ways, and listen for a train. Follow the actual signs and signals at the tracks.</p>
+      </details>
+      <p><a class="info-card-link" href="road-signs-practice-test.html?focus=Warning%20signs#practice">Practice the round advance warning sign</a></p>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part8r1.pdf">FHWA: Sections 8B.03 and 8B.06</a> &middot; <a href="https://railroads.dot.gov/highway-rail-crossing-and-trespasser-programs/pedestrian-motorist">FRA: crossing safety</a> &middot; <a href="https://www.nhtsa.gov/campaign/railroad-crossing">NHTSA: lights and gates</a></p>
+    </div>
+  </div>
+</section>"""
+
+
 def render_road_sign_shapes_page():
     records = road_sign_shape_records()
     stats = "".join(
         f'<div><strong>{esc(value)}</strong><span>{esc(label)}</span></div>'
-        for value, label in [("12", "shape/color rules"), ("4", "main sign families"), ("0", "signup required")]
+        for value, label in [(str(len(records)), "shape/color rules"), ("4", "main sign families"), ("0", "signup required")]
     )
     quick_cards = "".join(
         f"""<article>
@@ -3727,12 +3785,13 @@ def render_road_sign_shapes_page():
   <div class="tool-section-head">
     <span class="eyebrow">Permit-test method</span>
     <h2>Read the sign before you read the answer choices</h2>
-    <p class="section-intro">Read the color, shape and symbol, then name the driver action. If two signs share the same shape and color, compare what their symbols show. <a href="#divided-highway-check">Try the median signs</a>.</p>
+    <p class="section-intro">Read the color, shape and symbol, then name the driver action. If two signs share the same shape and color, compare what their symbols show. <a href="#divided-highway-check">Try the median signs</a> or <a href="#railroad-crossing-check">compare the railroad warning and crossbuck</a>.</p>
   </div>
   <div class="task-console-grid">{decision_cards}</div>
 </section>
 {render_road_sign_shapes_finder()}
 {render_crossing_shape_drill()}
+{render_railroad_crossing_drill()}
 {render_passing_sign_drill()}
 {render_divided_highway_drill()}
 <section class="content-section">

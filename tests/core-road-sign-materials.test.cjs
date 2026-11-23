@@ -246,6 +246,59 @@ for (const width of [1280, 390]) {
     } finally { await context.close(); }
   });
 
+  test(`${width}px: find the crossbuck and decide whether to enter when traffic backs up`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    page.setDefaultTimeout(6000);
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'road-sign-shapes-and-colors-finder.html')).href);
+      const search = page.locator('[data-sign-search]');
+      const results = page.locator('[data-sign-card]:visible');
+      assert.equal(await results.count(), 13);
+      const columns = await page.locator('.shape-finder .sign-lookup-grid').evaluate(node => getComputedStyle(node).gridTemplateColumns.split(' ').length);
+      assert.equal(columns, width <= 680 ? 1 : 3);
+      for (const term of ['crossbuck', 'white x']) {
+        await search.fill(term);
+        assert.equal(await results.count(), 1);
+        assert.match(await results.innerText(), /crossbuck.*crossing/is);
+      }
+      await results.getByRole('link', { name: 'Compare railroad signs' }).click();
+      assert.equal(new URL(page.url()).hash, '#railroad-crossing-check');
+      const compare = page.getByRole('region', { name: 'Railroad warning ahead or crossing here?' });
+      const [heading, header] = await Promise.all([compare.getByRole('heading').boundingBox(), page.locator('.site-header').boundingBox()]);
+      assert.ok(heading.y >= header.y + header.height);
+      assert.equal(await compare.getByRole('img', { name: /yellow circle/ }).count(), 1);
+      const crossbuck = compare.getByRole('img', { name: /white X-shaped/ });
+      assert.deepEqual(await crossbuck.locator('svg text').allTextContents(), ['RAIL', 'ROAD', 'CROSSING']);
+      const fit = await crossbuck.locator('svg').evaluate(svg => [...svg.querySelectorAll('g')].every(blade => {
+        const r = blade.querySelector('rect').getBBox();
+        return [...blade.querySelectorAll('text')].every(text => {
+          const box = text.getBBox();
+          return box.x >= r.x && box.x + box.width <= r.x + r.width && box.y >= r.y && box.y + box.height <= r.y + r.height;
+        });
+      }));
+      assert.ok(fit);
+      const [decision, transfer] = await compare.locator('details').all();
+      assert.equal(await decision.locator('p').isVisible(), false);
+      await decision.locator('summary').press('Enter');
+      assert.match(await decision.innerText(), /before the tracks.*entire vehicle.*clear the last rail/is);
+      assert.match(await decision.innerText(), /do not enter.*lights.*flashing.*gate/is);
+      await transfer.locator('summary').press('Enter');
+      assert.match(await transfer.innerText(), /prepare to stop.*look both ways.*listen/is);
+      assert.ok(await compare.getByRole('link', { name: /FHWA./ }).count());
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+      if (process.env.RAILROAD_SIGN_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.RAILROAD_SIGN_SCREENSHOTS_DIR, { recursive: true });
+        await compare.getByRole('heading').scrollIntoViewIfNeeded();
+        await page.screenshot({ path: path.join(process.env.RAILROAD_SIGN_SCREENSHOTS_DIR, `railroad-${width}.png`) });
+      }
+      const practice = compare.getByRole('link', { name: 'Practice the round advance warning sign' });
+      await practice.click();
+      assert.equal(new URL(page.url()).searchParams.get('focus'), 'Warning signs');
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: distinguish the median signs and apply both cues in the picture quiz`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route(/^https?:/, route => route.abort());

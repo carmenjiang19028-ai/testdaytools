@@ -72,6 +72,8 @@
 .contrast-source { font-size: 14px; }
 .material-links { padding-left: 22px; line-height: 1.8; }
 @media (max-width: 680px) {
+  .shape-page .sign-lookup-grid { grid-template-columns: minmax(0, 1fr); }
+  .shape-page .shape-lookup-card { grid-template-columns: 108px minmax(0, 1fr); }
   .contrast-lesson-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .sign-recall-grid { grid-template-columns: minmax(0, 1fr); }
   .contrast-scene { padding: 12px; }
