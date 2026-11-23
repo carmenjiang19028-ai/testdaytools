@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const { before, after, test } = require("node:test");
 const { chromium } = require("playwright");
+const fs = require("node:fs");
 const { pathToFileURL } = require("node:url");
 const path = require("node:path");
 
@@ -100,6 +101,38 @@ for (const [file, id] of [
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: the AP archive delivers current conflict decisions without scripts`, () =>
+    withPage(width, async page => {
+      await page.goto(fileUrl("2026-ap-exam-schedule.html"));
+      assert.match(await page.locator("h1").innerText(), /2026 AP Exam Schedule/);
+      assert.equal(await page.getByRole("link", { name: "View official 2027 AP exam dates" }).getAttribute("href"),
+        "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates");
+      await page.getByRole("link", { name: "Compare 2027 scheduling conflicts" }).press("Enter");
+      await page.waitForURL(fileUrl("ap-exam-day-checklist.html", "ap-schedule-conflicts"));
+      await visibleTitle(page, "ap-schedule-conflicts", width > 760);
+      const region = page.locator("#ap-schedule-conflicts");
+      const cards = region.locator("article");
+      assert.equal(await cards.count(), 3);
+      assert.match(await cards.nth(0).innerText(), /Session 2 on May 4, 2027.*May 17, Session 1.*May 19, Session 1.*no additional late-testing fee/s);
+      assert.match(await cards.nth(1).innerText(), /Session 1 on May 4, 2027.*Session 2.*not a same-session clash/s);
+      assert.match(await cards.nth(2).innerText(), /approved extended time.*move one subject to late testing.*March 12, 2027/s);
+      assert.deepEqual(await cards.getByRole("link").evaluateAll(links => links.map(link => new URL(link.href).pathname)), [
+        "/exam-administration-ordering-scores/exam-dates/late-testing-dates",
+        "/exam-administration-ordering-scores/exam-dates/start-times",
+        "/media/pdf/ap-coordinators-manual-part-1.pdf",
+      ]);
+      assert.equal(await region.locator("input, form").count(), 0);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.AP_CONFLICT_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.AP_CONFLICT_SCREENSHOTS_DIR, { recursive: true });
+        await region.screenshot({ path: path.join(process.env.AP_CONFLICT_SCREENSHOTS_DIR, `ap-conflicts-${width}.png`) });
+      }
+      await page.goto(fileUrl("ap-exam-day-checklist.html"));
+      await page.getByRole("link", { name: "Compare scheduling conflicts", exact: true }).press("Enter");
+      await page.waitForURL(fileUrl("ap-exam-day-checklist.html", "ap-schedule-conflicts"));
+      assert(await region.isVisible());
+    }, false));
+
   test(`${width}px: AP answers use three distinct recovery paths without scripts`, () =>
     withPage(width, async page => {
       await page.goto(fileUrl("ap-exam-day-checklist.html", "ap-answer-submission"));

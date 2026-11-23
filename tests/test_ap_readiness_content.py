@@ -123,6 +123,32 @@ class APReadinessContentTest(unittest.TestCase):
         self.assertIn("April 30, 2027 at 11:59 p.m. ET", PAGE)
         self.assertIn("May 7, 2027 at 11:59 p.m. ET", PAGE)
 
+    def test_2027_conflict_examples_separate_dates_accommodations_and_fees(self):
+        group = next(group for group in TOOL["cardGroups"] if group["id"] == "ap-schedule-conflicts")
+        same, different, extended = group["items"]
+        self.assertIn("Both are in Session 2 on May 4, 2027", same["text"])
+        self.assertIn("European History on May 17, Session 1", same["text"])
+        self.assertIn("Microeconomics on May 19, Session 1", same["text"])
+        self.assertIn("no additional late-testing fee", same["text"])
+        self.assertIn("new exam order is a separate policy", same["text"])
+        self.assertIn("U.S. Government and Politics is in Session 1", different["text"])
+        self.assertIn("Microeconomics is in Session 2", different["text"])
+        self.assertIn("not a same-session clash", different["text"])
+        self.assertIn("approved extended time", extended["text"])
+        self.assertIn("move one subject to late testing", extended["text"])
+        self.assertIn("known cases by March 12, 2027", extended["text"])
+        self.assertIn("switch existing orders later if something unexpected", extended["text"])
+        section = PAGE.split('id="ap-schedule-conflicts"', 1)[1].split("</section>", 1)[0]
+        self.assertIn('href="#ap-schedule-conflicts"', PAGE)
+        self.assertNotIn("<form", section)
+        for item in group["items"]:
+            self.assertIn(html.escape(item["text"]), section)
+            self.assertIn(f'href="{item["href"]}"', section)
+        archive = (ROOT / "2026-ap-exam-schedule.html").read_text()
+        self.assertIn('href="ap-exam-day-checklist.html#ap-schedule-conflicts"', archive)
+        self.assertIn("historical reference only", archive)
+        self.assertIn("2026 AP exam schedule by date (archive)", archive)
+
     def test_submission_states_keep_the_right_answers_and_device(self):
         section = next(group for group in TOOL.get("cardGroups", []) if group["id"] == "ap-answer-submission")
         cases = {item["label"]: item for item in section["items"]}

@@ -1316,6 +1316,10 @@
         {
           "label": "View official 2027 AP exam dates",
           "href": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates"
+        },
+        {
+          "label": "Compare 2027 scheduling conflicts",
+          "href": "ap-exam-day-checklist.html#ap-schedule-conflicts"
         }
       ],
       "tables": [
@@ -1476,6 +1480,10 @@
         {
           "label": "Check your 2027 subject",
           "href": "#ap-subject-checks"
+        },
+        {
+          "label": "Compare scheduling conflicts",
+          "href": "#ap-schedule-conflicts"
         },
         {
           "label": "Check Bluebook submission",
@@ -1675,6 +1683,34 @@
       ],
       "cardGroups": [
         {
+          "id": "ap-schedule-conflicts",
+          "heading": "Do your 2027 AP exams need different sessions?",
+          "intro": "Match the date and session for each subject in the official schedule, then check your school's local times. Tell your AP coordinator both subjects and the sessions you found. If you have approved extended time, ask the school to confirm how it affects your schedule. Do not choose an alternate date yourself.",
+          "items": [
+            {
+              "label": "Same date and same session",
+              "title": "European History and Microeconomics",
+              "text": "Both are in Session 2 on May 4, 2027. Ask your coordinator to move one of the existing exam orders to late testing. The published options for these subjects are European History on May 17, Session 1, or Microeconomics on May 19, Session 1. Do not assume which one will move until the school confirms. College Board lists this conflict as a reason with no additional late-testing fee; a late fee for a new exam order is a separate policy.",
+              "href": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates/late-testing-dates",
+              "cta": "Compare the official late-testing dates"
+            },
+            {
+              "label": "Same date, different sessions",
+              "title": "U.S. Government and Microeconomics",
+              "text": "U.S. Government and Politics is in Session 1 on May 4, 2027; Microeconomics is in Session 2. Without another conflict or approved extended time, this is not a same-session clash. Confirm the reporting time, room, and travel or lunch gap for each exam. Do not assume Session 2 starts at noon everywhere.",
+              "href": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates/start-times",
+              "cta": "Check your school's official session times"
+            },
+            {
+              "label": "Same date with approved extended time",
+              "title": "Extended time changes the two-session plan",
+              "text": "If you have approved extended time for the two May 4 exams above, do not treat different sessions as a solution. College Board advises the coordinator to move one subject to late testing. Raise a known conflict early: the coordinator manual says to switch known cases by March 12, 2027, but allows schools to switch existing orders later if something unexpected comes up.",
+              "href": "https://apcentral.collegeboard.org/media/pdf/ap-coordinators-manual-part-1.pdf",
+              "cta": "Read the coordinator manual (printed page 33)"
+            }
+          ]
+        },
+        {
           "id": "ap-answer-submission",
           "heading": "Check that Bluebook has your answers",
           "intro": "When testing time ends, keep the device open until the proctor dismisses you. A successful submission needs no retry. For hybrid AP, handing in the paper booklet does not confirm that your Bluebook answers were sent.",
@@ -1749,6 +1785,10 @@
         {
           "label": "College Board AP Central: 2027 start times and school lookup",
           "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/exam-dates/start-times"
+        },
+        {
+          "label": "College Board AP Central: Late-testing reasons and fees",
+          "url": "https://apcentral.collegeboard.org/exam-administration-ordering-scores/ordering-fees/late-testing"
         },
         {
           "label": "College Board AP Central: 2027 exam format updates",
