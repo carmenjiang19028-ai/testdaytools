@@ -10216,11 +10216,19 @@
       "description": "Practice Florida regulatory signs with 24 picture questions, including Right Turn Only, No Right Turn, One Way, speed limits, and FDOT/FLHSMV sources.",
       "lastUpdated": "November 24, 2026",
       "heroKicker": "Florida regulatory signs practice",
-      "summary": "Practice 24 Florida regulatory traffic sign pictures, starting with the official-source sign groups Florida learners search for most: stop, yield, do not enter, wrong way, one way, Right Turn Only and No Right Turn signs, keep right, speed, lane-control, and no-passing signs. Then source-check Florida traffic signs with FDOT and FLHSMV before reviewing yellow warning, school, rail, work-zone, and service signs by shape, color, and driver action.",
+      "summary": "Start with 8 regulatory sign questions or take the full 24-picture round. Use the cases below to tell a required turn from a prohibited turn and a turn that's blocked only on red.",
       "heroActions": [
         {
-          "label": "Start image quiz",
-          "href": "#practice"
+          "label": "Start 8-sign round",
+          "href": "?mode=florida-regulatory-starter#practice"
+        },
+        {
+          "label": "Open full 24-sign round",
+          "href": "?mode=signs#practice"
+        },
+        {
+          "label": "Work through right-turn cases",
+          "href": "#florida-right-turn-decisions"
         },
         {
           "label": "Weak-area shortcuts",
@@ -10352,7 +10360,7 @@
       "examBrief": {
         "kicker": "Florida sign practice",
         "heading": "Florida traffic signs from official source check to practice",
-        "intro": "Start with official-source queries Florida learners often bring here: regulatory traffic signs, Right Turn Only, one-way movement, speed, lane direction, and no-passing signs. Then use the image quiz and sign library for warning, school, rail, work-zone, and service signs.",
+        "intro": "The 8-sign round checks entry, yield, and direction controls. The 24-picture round adds warnings, crossings, work zones, and service signs. Both are unofficial practice, not the Florida Class E exam.",
         "facts": [
           {
             "label": "Official source",
@@ -10597,64 +10605,19 @@
       ],
       "body": [
         {
-          "heading": "Fast answer: Florida regulatory traffic signs practice",
-          "text": "This page is built for common Florida sign searches: regulatory signs Florida, official traffic signs Florida, official Right Turn Only traffic sign Florida, wrong-way signs, one-way signs, and yellow traffic warning signs. Start with 24 original picture questions, then use the missed-sign path to source-check with FLHSMV and FDOT."
+          "heading": "Check the lane, the sign, and the signal",
+          "text": "An arrow with ONLY tells you what your lane can do. A NO RIGHT TURN sign bars the turn even at a circular green signal when the sign applies. NO TURN ON RED bars the turn while the signal is red. Check for a posted time or lane exception, then look for people crossing before moving."
         },
         {
-          "heading": "What counts as a Florida regulatory traffic sign?",
-          "text": "Regulatory traffic signs are the signs that control driver behavior: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, and no passing. Learn those first, then use warning and work-zone signs for broader Florida permit-test practice."
+          "heading": "Name the hazard on a warning sign",
+          "text": "If you miss a warning sign, say what changes ahead before retrying the category. A merge sign tells you to watch for joining traffic; a lane-ends sign tells you a lane drops. Check which lane or movement the picture shows before deciding what to do."
         },
         {
-          "heading": "Regulatory traffic signs Florida learners should study first",
-          "text": "If your search is regulatory traffic signs Florida, start with signs that control an immediate driver action: stop, yield, do not enter, wrong way, one way, speed limit, no U-turn, no right turn, no turn on red, no passing, keep right, lane arrows, and turn-only signs. Then use the weak-area shortcuts on this page for the exact miss instead of rereading every sign at once."
-        },
-        {
-          "heading": "Official traffic signs Florida: source-check path",
-          "text": "Use this page for practice, then use FDOT sign references and the Official Florida Driver License Handbook for the source check. The practical study order is official source for correctness, this page for visual recognition, and the quiz result for the next drill. This wording is intentional: the practice illustrations here are original, while official Florida traffic sign wording belongs to FLHSMV and FDOT sources."
-        },
-        {
-          "heading": "Right Turn Only, No Right Turn, and No Turn on Red",
-          "text": "Right-turn signs are easy to mix up because the answer may ask what your vehicle may do next from a specific lane or approach. A Right Turn Only sign points to a required lane movement, No Right Turn blocks a right turn from that approach, and No Turn on Red means stopping first is not enough while the signal is red."
-        },
-        {
-          "heading": "Yellow traffic warning signs in Florida practice",
-          "text": "Yellow warning signs usually tell you to slow down, scan ahead, and prepare for a road condition such as merging traffic, lane endings, signals, pedestrians, school areas, slippery pavement, or divided roadways. Do not answer every yellow sign as danger; name the specific hazard."
-        },
-        {
-          "heading": "How to use the Florida road signs page",
-          "text": "Start with the visual quiz without looking at the library. After you miss a sign, review the matching regulatory, warning, or work-zone category below and retake the round later."
-        },
-        {
-          "heading": "Why visual regulatory-sign practice matters",
-          "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice helps you connect a Florida traffic sign to the required driver action faster."
-        },
-        {
-          "heading": "Signs, signals, and pavement markings",
-          "text": "Treat every prompt as a visual traffic-control decision: read the shape and color first, then look for arrows, lane direction, signal context, or pavement marking clues. This keeps the page focused on recognition instead of turning it into a general handbook chapter. When a sign depends on lane position, match the symbol to what your vehicle is allowed to do next. If the clue is about a signal or pavement marking, use it as context and confirm the rule in the official Florida driver handbook or FDOT sign reference."
+          "heading": "Check Florida's official wording",
+          "text": "Use the Florida Driver License Handbook for driver actions and FDOT's sign library for sign designs. The pictures here are simplified study illustrations, not official exam questions."
         }
       ],
       "cardGroups": [
-        {
-          "heading": "Florida study moves that save time",
-          "intro": "The goal is not to click practice questions forever. Use each result to decide the next handbook section.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Do not chase a perfect score early",
-              "text": "A low first score is useful if it shows exactly which categories need reading."
-            },
-            {
-              "label": "Signs",
-              "title": "Review signs by shape and color",
-              "text": "Shape and color often reveal the action before you read the words."
-            },
-            {
-              "label": "Retake",
-              "title": "Retake only the missed category",
-              "text": "Use the focus-area selector or weak-area shortcuts before running another full sign round."
-            }
-          ]
-        },
         {
           "heading": "Real learner trouble spots",
           "items": [
@@ -10717,36 +10680,6 @@
           ]
         },
         {
-          "heading": "Florida sign searches this page answers directly",
-          "intro": "Use these blocks when you need a fast answer before practice.",
-          "items": [
-            {
-              "label": "regulatory traffic signs florida",
-              "title": "Rules that require or prohibit a driver action",
-              "text": "Start with stop, yield, do not enter, wrong way, one way, no-turn, keep-right, speed limit, and no-passing signs, then take the image quiz."
-            },
-            {
-              "label": "official traffic signs florida",
-              "title": "Practice here, source-check with FLHSMV and FDOT",
-              "text": "This page uses original practice illustrations and links to official Florida sources for final wording and sign reference checks.",
-              "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library",
-              "cta": "FDOT regulatory signs"
-            },
-            {
-              "label": "official right turn only sign florida",
-              "title": "Separate required movement from prohibited movement",
-              "text": "Right Turn Only means your lane must turn right. No Right Turn and No Turn on Red are restriction signs with different driver actions.",
-              "href": "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library",
-              "cta": "FDOT regulatory signs"
-            },
-            {
-              "label": "yellow traffic warning signs",
-              "title": "Name the specific hazard",
-              "text": "Yellow signs usually warn of a condition ahead. The test answer often depends on whether the hazard is a merge, lane end, signal, crossing, or road surface."
-            }
-          ]
-        },
-        {
           "heading": "If you missed this, review that",
           "items": [
             {
@@ -10801,7 +10734,7 @@
           "a": "Use FLHSMV and FDOT sources for official wording and sign references. This page is an unofficial practice tool that links to those official sources for source checks."
         },
         {
-          "q": "What does an official Right Turn Only traffic sign mean in Florida practice?",
+          "q": "What does a Right Turn Only sign require?",
           "a": "A Right Turn Only sign means traffic in that lane or approach must turn right. Do not mix it up with No Right Turn, which prohibits the right turn, or No Turn on Red, which blocks the turn while the signal is red."
         },
         {

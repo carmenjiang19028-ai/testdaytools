@@ -50,6 +50,69 @@ const urlFor = (file, params = {}) => {
 const mode = page => page.locator("[data-mode-panel].is-active");
 const filter = page => mode(page).locator("[data-quiz-filter]");
 
+for (const width of [320, 1280]) {
+  test(`${width}px: Florida opens the named sign round and removes editorial search copy`, () =>
+    open(width, async page => {
+      const file = "florida-dmv-road-signs-practice.html";
+      for (const [initial, label, targetMode, count, score] of [
+        ["signs", "Start 8-sign round", "florida-regulatory-starter", 8, "6"],
+        ["florida-regulatory-starter", "Open full 24-sign round", "signs", 24, "19"],
+      ]) {
+        await page.goto(urlFor(file, { mode: initial }).href);
+        assert.equal(await mode(page).getAttribute("data-mode-panel"), initial);
+        await page.getByRole("link", { name: label, exact: true }).press("Enter");
+        await page.waitForURL(url => url.searchParams.get("mode") === targetMode && url.hash === "#practice");
+        assert.equal(await mode(page).getAttribute("data-mode-panel"), targetMode);
+        const quiz = mode(page).locator("[data-quiz]");
+        assert.equal(await quiz.locator(".question").count(), count);
+        assert.equal(await quiz.getAttribute("data-pass-score"), score);
+        assert.ok(await quiz.locator(".question.is-active").isVisible());
+      }
+      assert.doesNotMatch(await page.locator("main").innerText(),
+        /official-source queries|if your search is|built for common Florida sign searches|this wording is intentional|sign searches this page answers/i);
+      assert.equal(await page.getByRole("link", { name: "FDOT sign library", exact: true }).getAttribute("href"),
+        "https://www.fdot.gov/traffic/trafficservices/sign_library/highway-sign-library");
+    }));
+
+  test(`${width}px: Florida right-turn cases give different decisions for lane, sign and signal without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = urlFor("florida-dmv-road-signs-practice.html").href;
+      await page.goto(guide);
+      await page.getByRole("link", { name: "Work through right-turn cases", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#florida-right-turn-decisions");
+      const lesson = page.locator("#florida-right-turn-decisions");
+      const heading = await lesson.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const cases = lesson.locator("article");
+      assert.equal(await cases.count(), 2);
+      const expected = [
+        [/turn-only instruction.*not make the through movement available.*does not give you priority.*reroute/is,
+          /NO TURN ON RED tells you to wait/i, "074"],
+        [/NO RIGHT TURN sign still prohibits.*circular green/is,
+          /no longer blocks the turn.*still must yield to the pedestrian/is, "075"],
+      ];
+      for (const [index, [reason, answer, section]] of expected.entries()) {
+        const card = cases.nth(index);
+        const reasoning = card.locator("details").first();
+        const check = card.locator("details").last();
+        assert.equal(await reasoning.locator("li").first().isVisible(), false);
+        assert.equal(await check.locator("p").isVisible(), false);
+        await reasoning.locator("summary").press("Enter");
+        assert.match(await reasoning.innerText(), reason);
+        await check.locator("summary").press("Enter");
+        assert.match(await check.innerText(), answer);
+        assert.equal(await card.getByRole("link").getAttribute("href"),
+          `https://www.flsenate.gov/Laws/Statutes/2026/316.${section}`);
+      }
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: California and New York study links open the named round from another active mode`, () =>
     open(width, async page => {

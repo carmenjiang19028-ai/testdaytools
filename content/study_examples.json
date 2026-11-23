@@ -1,4 +1,43 @@
 {
+  "florida-dmv-road-signs-practice": {
+    "id": "florida-right-turn-decisions",
+    "heading": "Florida: does this sign require, prohibit, or delay a right turn?",
+    "intro": "The arrow, the wording, and the signal answer different questions. Try these original cases before opening the explanation. They do not count toward your picture-quiz score.",
+    "examples": [
+      {
+        "title": "Navigation says straight, but your lane says ONLY",
+        "question": "At a Florida intersection you are already at the stop line in a lane marked with a right arrow and ONLY. The light turns circular green. Your directions say to go straight, and you cannot legally move into the through lane from here. What should you do?",
+        "steps": [
+          "Follow the turn-only instruction for your lane. The green light does not make the through movement available from that lane.",
+          "Check for people crossing and for conflicting traffic. The lane sign does not give you priority.",
+          "When the turn is permitted and clear, turn right and reroute. Do not swerve into the through lane or go straight from the turn lane."
+        ],
+        "mistake": "An arrow and ONLY identify a permitted movement, not an order to turn immediately.",
+        "check": "You are still in that lane, but the light is steady red and a NO TURN ON RED sign applies to it. Does ONLY mean you should turn after stopping?",
+        "answer": "No. ONLY tells you where that lane can go; NO TURN ON RED tells you to wait. Turn right only when the signal permits it and the path is clear.",
+        "source": {
+          "label": "Florida Statutes 316.074: obeying applicable traffic controls",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.074"
+        }
+      },
+      {
+        "title": "Green does not cancel NO RIGHT TURN",
+        "question": "You want to turn right at another Florida intersection. You face a circular green signal, but there is a NO RIGHT TURN sign for your approach, with no time or lane exception. No one is in the crosswalk. Can you turn right?",
+        "steps": [
+          "No. An applicable NO RIGHT TURN sign still prohibits the turn when the signal is circular green.",
+          "Make a movement your lane and signal actually allow, then choose a legal route to your destination.",
+          "The crosswalk being empty does not make a prohibited movement legal."
+        ],
+        "mistake": "Do not read NO RIGHT TURN as if it said NO TURN ON RED. Only the latter restriction is tied to red in this example.",
+        "check": "Replace NO RIGHT TURN with NO TURN ON RED. The light is now circular green, but a pedestrian is crossing the street you would turn into. What changes?",
+        "answer": "The red-light restriction no longer blocks the turn at this green signal. You still must yield to the pedestrian. Turn only after the path is clear and your lane permits it.",
+        "source": {
+          "label": "Florida Statutes 316.075: green and steady red signals",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.075"
+        }
+      }
+    ]
+  },
   "digital-sat-scoring-explained": {
     "id": "sat-scoring-cases",
     "heading": "Three SAT scoring cases: what can you conclude?",
