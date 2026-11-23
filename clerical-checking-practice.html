@@ -39,7 +39,7 @@ window.trackSkillRetry = function(tool) {
 @media print{body{background:#fff}.site-header,.site-footer,.no-print,.rule-panel,.timer-row,.button-row,.notice{display:none!important}.skill-main{padding:0}.practice-layout{display:block}.practice-panel,.result-panel{box-shadow:none;border:0;padding:0}.print-only{display:block}.question-card{break-inside:avoid}}
 </style></head>
 <body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="index.html" aria-label="TestDayTools home"><span class="brand-mark">T</span><span>TestDayTools</span></a><nav aria-label="Main navigation"><a href="skills-practice.html">Skills hub</a><a href="dmv-practice.html">DMV</a><a href="sat-tools.html">SAT</a><a href="ap-tools.html">AP</a></nav></header>
-<main id="main" class="skill-main"><section class="practice-layout"><div class="practice-panel"><p class="eyebrow">TOOL A · COMPARE RECORDS</p><h1>Clerical checking practice</h1><p class="lede">Compare the name and record code. They may differ by one character, an extra space, or two digits in the wrong order.</p><div class="switches no-print"><label><input type="radio" name="mode" value="timed" checked> Timed · 90 seconds</label><label><input type="radio" name="mode" value="untimed"> Untimed</label></div><div class="timer-row no-print"><span class="timer" data-timer>01:30</span><button class="secondary" type="button" id="pause" data-pause>Pause</button><button class="secondary" type="button" data-new>New round</button></div><p class="subtle" data-checking-storage-notice role="status" hidden>This browser could not save all progress. You can keep practicing, but some results may be available only in this visit.</p><div class="metric-grid"><div class="metric"><span>Answered</span><strong data-done>0 / 12</strong></div><div class="metric"><span>Correct</span><strong data-correct>0</strong></div><div class="metric"><span>Checks / min</span><strong data-rate>0.0</strong></div><div class="metric"><span>Accuracy</span><strong data-accuracy>—</strong></div></div><div class="progress" aria-label="Round progress"><i data-progress style="width:0%"></i></div><article class="question-card" data-question><p class="eyebrow">Record comparison <span data-qnum>1</span> of 12</p><div class="compare-grid"><div class="compare-cell"><p class="eyebrow">Source record</p><div id="left"></div></div><div class="compare-cell"><p class="eyebrow">Copied record</p><div id="right"></div></div></div><div class="choice-grid no-print"><button class="choice" type="button" data-answer="match">Match exactly</button><button class="choice" type="button" data-answer="mismatch">Not a match</button><button class="choice" type="button" data-answer="unsure">Unsure / flag for review</button></div><div class="feedback" role="status" data-feedback hidden></div></article>
+<main id="main" class="skill-main"><section class="practice-layout"><div class="practice-panel"><p class="eyebrow">TOOL A · COMPARE RECORDS</p><h1>Clerical checking practice</h1><p class="lede">Compare the name and record code. They may differ by one character, an extra space, or two digits in the wrong order.</p><div class="switches no-print"><label><input type="radio" name="mode" value="timed" checked> Timed · 90 seconds</label><label><input type="radio" name="mode" value="untimed"> Untimed</label></div><div class="timer-row no-print"><span class="timer" data-timer>01:30</span><button class="secondary" type="button" aria-controls="checking-question" id="pause" data-pause disabled>Start 90-second round</button><button class="secondary" type="button" data-new>New round</button></div><p class="subtle" data-checking-storage-notice role="status" hidden>This browser could not save all progress. You can keep practicing, but some results may be available only in this visit.</p><div class="metric-grid"><div class="metric"><span>Answered</span><strong data-done>0 / 12</strong></div><div class="metric"><span>Correct</span><strong data-correct>0</strong></div><div class="metric"><span>Checks / min</span><strong data-rate>0.0</strong></div><div class="metric"><span>Accuracy</span><strong data-accuracy>—</strong></div></div><div class="progress" aria-label="Round progress"><i data-progress style="width:0%"></i></div><article class="question-card" id="checking-question" data-question tabindex="-1" aria-labelledby="checking-question-label" hidden><p class="eyebrow" id="checking-question-label">Record comparison <span data-qnum>1</span> of 12</p><div class="compare-grid"><div class="compare-cell"><p class="eyebrow">Source record</p><div id="left"></div></div><div class="compare-cell"><p class="eyebrow">Copied record</p><div id="right"></div></div></div><div class="choice-grid no-print"><button class="choice" type="button" data-answer="match">Match exactly</button><button class="choice" type="button" data-answer="mismatch">Not a match</button><button class="choice" type="button" data-answer="unsure">Unsure / flag for review</button></div><div class="feedback" role="status" data-feedback hidden></div></article>
 <section data-timeout aria-labelledby="checking-timeout-title" hidden>
   <h2 id="checking-timeout-title" tabindex="-1">Time up: review this round</h2>
   <p data-timeout-summary role="status"></p>
@@ -61,7 +61,7 @@ window.trackSkillRetry = function(tool) {
   const STATS = 'tdt-skills-checking-stats-v1';
   let seed = Date.now() % 1000000;
   let items = [], i = 0, answers = [], started = 0, elapsed = 0;
-  let paused = false, mode = 'timed', finished = false;
+  let paused = false, mode = 'timed', finished = false, awaitingStart = false;
   let startedTracked = false, completeTracked = false, attemptType = 'first';
   let storageAvailable = true;
   let totals = { rounds: 0, checks: 0, correct: 0, errors: {} };
@@ -142,7 +142,10 @@ window.trackSkillRetry = function(tool) {
       const q = { left, right, truth: kind === 'exact' ? 'match' : 'mismatch' };
       return { ...q, why: explanation(differences(q)) };
     });
-    i = 0; answers = []; elapsed = 0; paused = false; finished = false; started = performance.now(); startedTracked = false; completeTracked = false; render(); save();
+    awaitingStart = mode === 'timed';
+    i = 0; answers = []; elapsed = 0; paused = false; finished = false;
+    started = awaitingStart ? 0 : performance.now();
+    startedTracked = false; completeTracked = false; render(); save();
   }
   function currentElapsed() { return elapsed + (started && !paused ? (performance.now() - started) / 1000 : 0); }
   function isExpired() { return mode === 'timed' && currentElapsed() >= LIMIT; }
@@ -207,7 +210,7 @@ window.trackSkillRetry = function(tool) {
     const expired = isExpired(), held = paused && !finished && !expired;
     const timedOut = expired && !finished && answers.length < N;
     renderTimeout(timedOut);
-    $('[data-question]').hidden = timedOut || finished;
+    $('[data-question]').hidden = awaitingStart || timedOut || finished;
     renderCompleted(finished, focusReview);
     const diffs = answers[i] ? differences(q) : [];
     showRecord($('#left'), held && !answers[i] ? 'Paused' : q.left, diffs, 'left');
@@ -218,12 +221,12 @@ window.trackSkillRetry = function(tool) {
     $('[data-progress]').style.width = `${answers.length / N * 100}%`;
     renderClock();
     $('[data-timer]').classList.toggle('paused', paused);
-    $('[data-next]').hidden = timedOut;
-    $('[data-next]').disabled = !answers[i] || held || finished || timedOut;
+    $('[data-next]').hidden = awaitingStart || timedOut;
+    $('[data-next]').disabled = awaitingStart || !answers[i] || held || finished || timedOut;
     $('[data-next]').textContent = finished ? (storageAvailable ? 'Round saved' : 'Round complete') : i === N - 1 ? 'Finish round' : 'Next comparison';
     $('[data-pause]').disabled = expired || finished;
-    $('[data-pause]').textContent = finished ? 'Complete' : expired ? 'Time up' : held ? 'Resume' : 'Pause';
-    $$('[data-answer]').forEach((b) => { b.disabled = !!answers[i] || expired || paused; b.className = 'choice'; if (answers[i] && b.dataset.answer === answers[i].choice) b.classList.add(answers[i].ok ? 'correct' : answers[i].choice === 'unsure' ? 'neutral' : 'wrong'); });
+    $('[data-pause]').textContent = awaitingStart ? 'Start 90-second round' : finished ? 'Complete' : expired ? 'Time up' : held ? 'Resume' : 'Pause';
+    $$('[data-answer]').forEach((b) => { b.disabled = awaitingStart || !!answers[i] || expired || paused; b.className = 'choice'; if (answers[i] && b.dataset.answer === answers[i].choice) b.classList.add(answers[i].ok ? 'correct' : answers[i].choice === 'unsure' ? 'neutral' : 'wrong'); });
     const f = $('[data-feedback]'); f.hidden = !answers[i];
     if (answers[i]) {
       const heading = document.createElement('strong');
@@ -232,7 +235,7 @@ window.trackSkillRetry = function(tool) {
     }
     historyView();
   }
-  function answer(choice) { if (answers[i] || paused || finished) return; if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); return; } const q = items[i]; if (!startedTracked && typeof window.trackSkillStart === 'function') startedTracked = window.trackSkillStart('clerical_checking', attemptType); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
+  function answer(choice) { if (awaitingStart || answers[i] || paused || finished) return; if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); return; } const q = items[i]; if (!startedTracked && typeof window.trackSkillStart === 'function') startedTracked = window.trackSkillStart('clerical_checking', attemptType); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
   function next() { if (finished || !answers[i] || (isExpired() ? answers.length < N : paused)) return; if (i < N - 1) { i += 1; render(); save(); } else finish(); }
   function finish() {
     if (answers.filter(Boolean).length < N || finished) return;
@@ -284,7 +287,7 @@ window.trackSkillRetry = function(tool) {
     }));
   }
   function save(active = true) {
-    writeStored(KEY, { seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active, startedTracked, completeTracked, attemptType });
+    writeStored(KEY, { seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active, awaitingStart, startedTracked, completeTracked, attemptType });
   }
   function clear() {
     if (storageAvailable) {
@@ -312,8 +315,10 @@ window.trackSkillRetry = function(tool) {
     }
     seed = Number.isFinite(h.seed) ? h.seed : seed;
     items = h.items; i = h.i; answers = h.answers;
-    elapsed = Number.isFinite(h.elapsed) && h.elapsed >= 0 ? h.elapsed : 0;
-    paused = true; mode = h.mode === 'untimed' ? 'untimed' : 'timed'; finished = !h.roundActive;
+    mode = h.mode === 'untimed' ? 'untimed' : 'timed'; finished = !h.roundActive;
+    awaitingStart = !finished && mode === 'timed' && h.awaitingStart === true && answers.length === 0;
+    elapsed = !awaitingStart && Number.isFinite(h.elapsed) && h.elapsed >= 0 ? h.elapsed : 0;
+    paused = !awaitingStart;
     startedTracked = !!h.startedTracked; completeTracked = !!h.completeTracked; attemptType = h.attemptType === 'retry' ? 'retry' : 'first';
     $$('input[name=mode]').forEach(x => { x.checked = x.value === mode; });
     render();
@@ -330,10 +335,28 @@ window.trackSkillRetry = function(tool) {
   }
   $$('[data-answer]').forEach((b) => b.addEventListener('click', () => answer(b.dataset.answer)));
   $('[data-next]').addEventListener('click', next); $('[data-new]').addEventListener('click', () => { if (startedTracked && typeof window.trackSkillRetry === 'function') window.trackSkillRetry('clerical_checking'); if (startedTracked) attemptType = 'retry'; make(); }); $('[data-clear]').addEventListener('click', clear);
-  $('[data-pause]').addEventListener('click', () => { if (finished || isExpired()) return; if (paused) { paused = false; started = performance.now(); } else { elapsed = currentElapsed(); paused = true; } render(); save(); });
+  $('[data-pause]').addEventListener('click', () => {
+    if (finished || isExpired()) return;
+    const starting = awaitingStart;
+    if (starting || paused) {
+      awaitingStart = false;
+      paused = false;
+      started = performance.now();
+    } else {
+      elapsed = currentElapsed();
+      paused = true;
+    }
+    render();
+    save();
+    if (starting) $('[data-question]').focus();
+  });
   $$('input[name=mode]').forEach((x) => x.addEventListener('change', (e) => { mode = e.target.value; make(); }));
-  document.addEventListener('visibilitychange', () => { if (document.hidden && !paused) { elapsed = currentElapsed(); paused = true; render(); save(); } });
-  setInterval(() => { if (!paused && isExpired()) { elapsed = LIMIT; paused = true; render(); save(); } else if (!paused) renderClock(); }, 500);
+  document.addEventListener('visibilitychange', () => { if (document.hidden && !awaitingStart && !paused) { elapsed = currentElapsed(); paused = true; render(); save(); } });
+  setInterval(() => {
+    if (awaitingStart || paused) return;
+    if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); }
+    else renderClock();
+  }, 500);
   load();
 })();
 </script></body></html>

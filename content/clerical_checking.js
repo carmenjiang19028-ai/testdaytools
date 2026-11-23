@@ -6,7 +6,7 @@
   const STATS = 'tdt-skills-checking-stats-v1';
   let seed = Date.now() % 1000000;
   let items = [], i = 0, answers = [], started = 0, elapsed = 0;
-  let paused = false, mode = 'timed', finished = false;
+  let paused = false, mode = 'timed', finished = false, awaitingStart = false;
   let startedTracked = false, completeTracked = false, attemptType = 'first';
   let storageAvailable = true;
   let totals = { rounds: 0, checks: 0, correct: 0, errors: {} };
@@ -87,7 +87,10 @@
       const q = { left, right, truth: kind === 'exact' ? 'match' : 'mismatch' };
       return { ...q, why: explanation(differences(q)) };
     });
-    i = 0; answers = []; elapsed = 0; paused = false; finished = false; started = performance.now(); startedTracked = false; completeTracked = false; render(); save();
+    awaitingStart = mode === 'timed';
+    i = 0; answers = []; elapsed = 0; paused = false; finished = false;
+    started = awaitingStart ? 0 : performance.now();
+    startedTracked = false; completeTracked = false; render(); save();
   }
   function currentElapsed() { return elapsed + (started && !paused ? (performance.now() - started) / 1000 : 0); }
   function isExpired() { return mode === 'timed' && currentElapsed() >= LIMIT; }
@@ -152,7 +155,7 @@
     const expired = isExpired(), held = paused && !finished && !expired;
     const timedOut = expired && !finished && answers.length < N;
     renderTimeout(timedOut);
-    $('[data-question]').hidden = timedOut || finished;
+    $('[data-question]').hidden = awaitingStart || timedOut || finished;
     renderCompleted(finished, focusReview);
     const diffs = answers[i] ? differences(q) : [];
     showRecord($('#left'), held && !answers[i] ? 'Paused' : q.left, diffs, 'left');
@@ -163,12 +166,12 @@
     $('[data-progress]').style.width = `${answers.length / N * 100}%`;
     renderClock();
     $('[data-timer]').classList.toggle('paused', paused);
-    $('[data-next]').hidden = timedOut;
-    $('[data-next]').disabled = !answers[i] || held || finished || timedOut;
+    $('[data-next]').hidden = awaitingStart || timedOut;
+    $('[data-next]').disabled = awaitingStart || !answers[i] || held || finished || timedOut;
     $('[data-next]').textContent = finished ? (storageAvailable ? 'Round saved' : 'Round complete') : i === N - 1 ? 'Finish round' : 'Next comparison';
     $('[data-pause]').disabled = expired || finished;
-    $('[data-pause]').textContent = finished ? 'Complete' : expired ? 'Time up' : held ? 'Resume' : 'Pause';
-    $$('[data-answer]').forEach((b) => { b.disabled = !!answers[i] || expired || paused; b.className = 'choice'; if (answers[i] && b.dataset.answer === answers[i].choice) b.classList.add(answers[i].ok ? 'correct' : answers[i].choice === 'unsure' ? 'neutral' : 'wrong'); });
+    $('[data-pause]').textContent = awaitingStart ? 'Start 90-second round' : finished ? 'Complete' : expired ? 'Time up' : held ? 'Resume' : 'Pause';
+    $$('[data-answer]').forEach((b) => { b.disabled = awaitingStart || !!answers[i] || expired || paused; b.className = 'choice'; if (answers[i] && b.dataset.answer === answers[i].choice) b.classList.add(answers[i].ok ? 'correct' : answers[i].choice === 'unsure' ? 'neutral' : 'wrong'); });
     const f = $('[data-feedback]'); f.hidden = !answers[i];
     if (answers[i]) {
       const heading = document.createElement('strong');
@@ -177,7 +180,7 @@
     }
     historyView();
   }
-  function answer(choice) { if (answers[i] || paused || finished) return; if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); return; } const q = items[i]; if (!startedTracked && typeof window.trackSkillStart === 'function') startedTracked = window.trackSkillStart('clerical_checking', attemptType); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
+  function answer(choice) { if (awaitingStart || answers[i] || paused || finished) return; if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); return; } const q = items[i]; if (!startedTracked && typeof window.trackSkillStart === 'function') startedTracked = window.trackSkillStart('clerical_checking', attemptType); if (typeof window.trackSkillAnswer === 'function') window.trackSkillAnswer('clerical_checking'); answers[i] = { choice, ok: choice === q.truth }; render(); save(); }
   function next() { if (finished || !answers[i] || (isExpired() ? answers.length < N : paused)) return; if (i < N - 1) { i += 1; render(); save(); } else finish(); }
   function finish() {
     if (answers.filter(Boolean).length < N || finished) return;
@@ -229,7 +232,7 @@
     }));
   }
   function save(active = true) {
-    writeStored(KEY, { seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active, startedTracked, completeTracked, attemptType });
+    writeStored(KEY, { seed, items, i, answers, elapsed: currentElapsed(), paused, mode, started, roundActive: active, awaitingStart, startedTracked, completeTracked, attemptType });
   }
   function clear() {
     if (storageAvailable) {
@@ -257,8 +260,10 @@
     }
     seed = Number.isFinite(h.seed) ? h.seed : seed;
     items = h.items; i = h.i; answers = h.answers;
-    elapsed = Number.isFinite(h.elapsed) && h.elapsed >= 0 ? h.elapsed : 0;
-    paused = true; mode = h.mode === 'untimed' ? 'untimed' : 'timed'; finished = !h.roundActive;
+    mode = h.mode === 'untimed' ? 'untimed' : 'timed'; finished = !h.roundActive;
+    awaitingStart = !finished && mode === 'timed' && h.awaitingStart === true && answers.length === 0;
+    elapsed = !awaitingStart && Number.isFinite(h.elapsed) && h.elapsed >= 0 ? h.elapsed : 0;
+    paused = !awaitingStart;
     startedTracked = !!h.startedTracked; completeTracked = !!h.completeTracked; attemptType = h.attemptType === 'retry' ? 'retry' : 'first';
     $$('input[name=mode]').forEach(x => { x.checked = x.value === mode; });
     render();
@@ -275,9 +280,27 @@
   }
   $$('[data-answer]').forEach((b) => b.addEventListener('click', () => answer(b.dataset.answer)));
   $('[data-next]').addEventListener('click', next); $('[data-new]').addEventListener('click', () => { if (startedTracked && typeof window.trackSkillRetry === 'function') window.trackSkillRetry('clerical_checking'); if (startedTracked) attemptType = 'retry'; make(); }); $('[data-clear]').addEventListener('click', clear);
-  $('[data-pause]').addEventListener('click', () => { if (finished || isExpired()) return; if (paused) { paused = false; started = performance.now(); } else { elapsed = currentElapsed(); paused = true; } render(); save(); });
+  $('[data-pause]').addEventListener('click', () => {
+    if (finished || isExpired()) return;
+    const starting = awaitingStart;
+    if (starting || paused) {
+      awaitingStart = false;
+      paused = false;
+      started = performance.now();
+    } else {
+      elapsed = currentElapsed();
+      paused = true;
+    }
+    render();
+    save();
+    if (starting) $('[data-question]').focus();
+  });
   $$('input[name=mode]').forEach((x) => x.addEventListener('change', (e) => { mode = e.target.value; make(); }));
-  document.addEventListener('visibilitychange', () => { if (document.hidden && !paused) { elapsed = currentElapsed(); paused = true; render(); save(); } });
-  setInterval(() => { if (!paused && isExpired()) { elapsed = LIMIT; paused = true; render(); save(); } else if (!paused) renderClock(); }, 500);
+  document.addEventListener('visibilitychange', () => { if (document.hidden && !awaitingStart && !paused) { elapsed = currentElapsed(); paused = true; render(); save(); } });
+  setInterval(() => {
+    if (awaitingStart || paused) return;
+    if (isExpired()) { elapsed = LIMIT; paused = true; render(); save(); }
+    else renderClock();
+  }, 500);
   load();
 })();

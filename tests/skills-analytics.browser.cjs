@@ -9,6 +9,7 @@ const output = process.env.SKILLS_QA_DIR || '/private/tmp/testdaytools-skills-an
 const measurementId = JSON.parse(fs.readFileSync(path.join(root, 'content/site_data.json'), 'utf8')).site.analytics.ga4MeasurementId;
 const googleTag = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
 const events = page => page.evaluate(() => (window.dataLayer || []).filter(item => item[0] === 'event').map(item => ({ name: item[1], params: item[2] })));
+const startChecking = page => page.getByRole('button', { name: 'Start 90-second round' }).click();
 
 async function isolatedPage(browser, viewport) {
   const context = await browser.newContext({ viewport, serviceWorkers: 'block' });
@@ -75,6 +76,10 @@ async function practice(browser, viewport, slug, tool, selector) {
     await page.locator('[data-new]').click();
     if (tool === 'filing_order') await page.locator('[data-rule]').selectOption('date');
     assert.deepEqual(await events(page), [], 'Generating a question or round is not an answer');
+    if (tool === 'clerical_checking') {
+      await startChecking(page);
+      assert.deepEqual(await events(page), [], 'Starting the clock is not an answer');
+    }
     await page.locator(selector).first().click();
     const firstExpected = ['skills_practice_start', 'skills_answer_checked'];
     if (tool === 'filing_order') firstExpected.push('skills_practice_complete');
@@ -96,6 +101,7 @@ async function practice(browser, viewport, slug, tool, selector) {
     const beforeRetry = (await events(page)).length;
     await page.locator('[data-new]').click();
     await checkEvent(page, ['skills_practice_retry'], tool, slug, 'retry', beforeRetry);
+    if (tool === 'clerical_checking') await startChecking(page);
     await page.locator(selector).first().click();
     const retryExpected = ['skills_practice_retry', 'skills_practice_start', 'skills_answer_checked'];
     if (tool === 'filing_order') retryExpected.push('skills_practice_complete');
@@ -111,6 +117,7 @@ async function expired(browser, viewport) {
   const { context, page, errors } = await isolatedPage(browser, viewport);
   try {
     await assertPageTag(page, 'clerical-checking-practice');
+    await startChecking(page);
     await page.evaluate(() => {
       Object.defineProperty(performance, 'now', { value: () => 1e9 });
       document.querySelector('[data-answer]').click();
@@ -131,6 +138,7 @@ async function timedReview(browser, viewport) {
     const stats = 'tdt-skills-checking-stats-v1';
     const read = key => page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
     await assertPageTag(page, 'clerical-checking-practice');
+    await startChecking(page);
     const { items } = await read(key);
     const [wrong, flagged, correct] = items;
     const next = page.locator('[data-next]');
@@ -177,6 +185,7 @@ async function finishAtTimeLimit(browser, viewport) {
   const { context, page, errors, unexpected } = await isolatedPage(browser, viewport);
   try {
     await assertPageTag(page, 'clerical-checking-practice');
+    await startChecking(page);
     const next = page.locator('[data-next]');
     const match = page.locator('[data-answer="match"]');
     for (let n = 0; n < 12; n += 1) {
@@ -236,6 +245,7 @@ async function checkingQuality(browser, viewport) {
     const next = page.locator('[data-next]');
     const match = page.getByRole('button', { name: 'Match exactly' });
     const pause = page.locator('[data-pause]');
+    await startChecking(page);
     await pause.click();
     assert.equal(await page.locator('#left').innerText(), 'Paused');
     assert.equal(await match.isDisabled(), true);

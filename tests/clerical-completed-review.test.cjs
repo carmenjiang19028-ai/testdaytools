@@ -12,6 +12,7 @@ const read = (page, key) => page.evaluate(key => JSON.parse(localStorage.getItem
 const events = (page) => page.evaluate(() => window.dataLayer.filter(e => e[0] === "event").map(e => e[1]));
 const feedback = (page) => page.locator("[data-feedback]");
 const review = (page) => page.getByRole("region", { name: "Completed round review" });
+const start = (page) => page.getByRole("button", { name: "Start 90-second round" });
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome" }); });
 after(async () => { await browser?.close(); });
@@ -32,10 +33,57 @@ async function practice(width, run, init) {
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: reading and reload do not use the timed practice allowance`, () =>
+    practice(width, async (page) => {
+      await page.clock.install();
+      await page.reload();
+      const timer = page.locator("[data-timer]");
+      const records = page.locator("[data-question]");
+      const timeout = page.locator("[data-timeout]");
+      const original = (await read(page, activeKey)).items;
+      await page.clock.fastForward(91000);
+      assert.equal(await timer.textContent(), "01:30");
+      assert.equal(await records.isVisible(), false);
+      assert.equal(await timeout.isVisible(), false);
+      assert.equal(await start(page).isEnabled(), true);
+      assert.deepEqual(await events(page), []);
+      await page.reload();
+      assert.deepEqual((await read(page, activeKey)).items, original);
+      await start(page).press("Enter");
+      assert.equal(await records.isVisible(), true);
+      assert.equal(await page.locator(":focus").getAttribute("id"), "checking-question");
+      assert.deepEqual(await events(page), [], "Opening the timed comparison is not an answer");
+      await page.clock.fastForward(11000);
+      assert.match(await timer.textContent(), /^01:1[8-9]$/);
+      await page.locator('[data-answer="match"]').click();
+      assert.deepEqual(await events(page), ["skills_practice_start", "skills_answer_checked"]);
+      const running = await read(page, activeKey);
+
+      // A draft from before the explicit start control keeps its answers and time.
+      delete running.awaitingStart;
+      await page.evaluate(({ key, running }) => localStorage.setItem(key, JSON.stringify(running)),
+        { key: activeKey, running });
+      await page.reload();
+      assert.equal(await start(page).count(), 0);
+      assert.equal(await page.getByRole("button", { name: "Resume", exact: true }).isVisible(), true);
+      assert.equal(await page.locator("[data-done]").textContent(), "1 / 12");
+      assert.equal(await feedback(page).isVisible(), true);
+      const pausedTime = await timer.textContent();
+      await page.clock.fastForward(91000);
+      assert.equal(await timer.textContent(), pausedTime);
+      assert.deepEqual(await events(page), []);
+      await page.getByRole("button", { name: "Resume", exact: true }).click();
+      await page.clock.fastForward(91000);
+      assert.match(await timeout.textContent(), /1 of 12 answered.*11 not reached/s);
+      assert.equal(await read(page, totalsKey), null);
+      assert.deepEqual(await events(page), []);
+    }));
+
   test(`${width}px: completed review preserves exact mistakes after reload without recounting`, () =>
     practice(width, async (page) => {
       const { items } = await read(page, activeKey);
       const next = page.locator("[data-next]");
+      await start(page).click();
       for (const [index, q] of items.entries()) {
         const answer = index === 0 ? (q.truth === "match" ? "mismatch" : "match")
           : index === 1 ? "unsure" : q.truth;
@@ -110,6 +158,7 @@ test("a corrupt draft does not prevent practice or discard valid totals", () =>
   practice(390, async (page) => {
     assert.equal(await page.locator("[data-checking-storage-notice]").isVisible(), false);
     assert.match(await page.locator("[data-history]").textContent(), /2 saved rounds.*24 comparisons.*16 correct/);
+    await start(page).click();
     await page.locator('[data-answer="match"]').click();
     assert.equal(await feedback(page).isVisible(), true);
     assert.equal(await page.locator("[data-done]").textContent(), "1 / 12");
@@ -121,6 +170,7 @@ test("a corrupt draft does not prevent practice or discard valid totals", () =>
 test("a history write failure does not erase a saved completed review or replay it", () =>
   practice(390, async (page) => {
     const { items } = await read(page, activeKey);
+    await start(page).click();
     for (const q of items) {
       await page.locator(`[data-answer="${q.truth}"]`).click();
       await page.locator("[data-next]").click();
