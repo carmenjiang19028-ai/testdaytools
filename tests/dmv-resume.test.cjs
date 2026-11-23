@@ -48,6 +48,15 @@ async function answer(quiz, correct) {
   await question(quiz).locator(`[data-choice="${correct ? result : (result + 1) % 4}"]`).click();
 }
 
+async function serveRevisedFirstQuestion(page, revision) {
+  const original = fs.readFileSync(path.join(root, "road-signs-practice-test.html"), "utf8");
+  const revised = original.replace(/<article class="question" data-question-index="0"[\s\S]+?<\/article>/, revision);
+  assert.notEqual(revised, original);
+  const pathName = new URL(quizUrl).pathname;
+  await page.route(url => url.origin === origin && url.pathname === pathName && url.searchParams.get("resume") === "1",
+    route => route.fulfill({ contentType: "text/html", body: revised }));
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: resume preserves results, feedback and cursor without replaying activity`, async () =>
     withSite(width, async page => {
@@ -89,6 +98,60 @@ for (const width of [390, 1280]) {
       await page.goto(study);
       assert.equal(await link.textContent(), "Open practice set");
       assert.doesNotMatch(await link.getAttribute("href"), /resume/);
+    }));
+}
+
+for (const [width, version] of [[390, 1], [1280, 2]]) {
+  test(`${width}px: editorial feedback changes preserve v${version} saved answers and show the revised reason`, async () =>
+    withSite(width, async page => {
+      const quiz = active(page);
+      await page.goto(quizUrl + "?mode=road-signs-starter#practice");
+      await answer(quiz, false);
+      await quiz.locator("[data-quiz-forward]").click();
+      await answer(quiz, true);
+      if (version === 1) {
+        await page.evaluate(key => {
+          const record = JSON.parse(localStorage.getItem(key));
+          const rows = JSON.parse(record.draft.signature);
+          rows.forEach(row => { row[5] = null; });
+          record.draft.version = 1;
+          record.draft.signature = JSON.stringify(rows);
+          localStorage.setItem(key, JSON.stringify(record));
+        }, recentKey);
+      }
+      const saved = await read(page, recentKey);
+      assert.equal(saved.draft.version, version);
+      const mastery = await read(page, masteryKey);
+      await serveRevisedFirstQuestion(page, card => card.replace(/data-explanation="[^"]*"/,
+        'data-explanation="Come to a full stop before the marked line; then check traffic."'));
+      await page.goto(study);
+      await resume(page);
+      assert.equal(await progress(quiz), "2 of 10 answered");
+      assert.equal(await cursor(quiz), String(saved.draft.sequence[saved.draft.position]));
+      await quiz.locator('[data-quiz-jump="0"]').click();
+      await question(quiz).getByRole("heading").waitFor();
+      assert.match(await question(quiz).locator(".feedback").innerText(), /^Not quite\. Come to a full stop before the marked line/);
+      assert.equal(await question(quiz).locator("[data-choice]:disabled").count(), 4);
+      assert.deepEqual(await milestones(page), []);
+      assert.deepEqual(await read(page, masteryKey), mastery);
+    }));
+}
+
+for (const [label, revision] of [
+  ["a changed correct answer", card => card.replace(/data-answer="\d+"/, 'data-answer="3"')],
+  ["a changed choice", card => card.replace(">Slow down only if traffic is present<", ">Slow briefly before yielding<")],
+  ["a changed picture clue", card => card.replace('aria-label="Red octagon reading STOP in white"', 'aria-label="White triangle with a red border"')],
+]) {
+  test(`${label} does not restore the previous round`, async () =>
+    withSite(390, async page => {
+      await page.goto(quizUrl + "?mode=road-signs-starter#practice");
+      await answer(active(page), false);
+      await serveRevisedFirstQuestion(page, revision);
+      await page.goto(study);
+      await resume(page);
+      assert.equal(await progress(active(page)), "0 of 10 answered");
+      assert.match(await active(page).locator("[data-quiz-next]").textContent(), /no longer available/);
+      assert.deepEqual(await milestones(page), []);
     }));
 }
 

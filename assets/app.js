@@ -679,12 +679,29 @@ function initQuizzes() {
     const roundSignature = () => draftSignature ??= JSON.stringify(questions.map((question) => [
       questionPrompt(question), question.dataset.answer, question.dataset.explanation,
       question.dataset.category, question.dataset.sheetFocus,
-      question.querySelector(".sign-art [role=img]")?.getAttribute("aria-label"),
+      questionSign(question)?.getAttribute("aria-label"),
       // Drafts use authored choice IDs, not the current display order.
       ...Array.from(question.querySelectorAll("[data-choice]"))
         .sort((left, right) => Number(left.dataset.choice) - Number(right.dataset.choice))
         .map(button => button.textContent),
     ]));
+
+    const matchesRoundSignature = (saved, version) => {
+      const current = roundSignature();
+      if (saved === current) return true;
+      if (typeof saved !== "string") return false;
+      try {
+        const previous = JSON.parse(saved);
+        const rows = JSON.parse(current);
+        // Feedback is rendered from the current question. Older v1 drafts may not record the image clue.
+        return Array.isArray(previous) && previous.length === rows.length && previous.every((row, index) =>
+          Array.isArray(row) && row.length === rows[index].length &&
+          row.every((value, field) => field === 2 || value === rows[index][field] ||
+            (version === 1 && field === 5 && value === null)));
+      } catch (error) {
+        return false;
+      }
+    };
 
     const showCheckedAnswer = (index, button) => {
       const question = questions[index];
@@ -1112,7 +1129,7 @@ function initQuizzes() {
         const missedCount = activeSequence.filter((index) => wrongAnswers.has(index)).length;
         const label = selectedFocus === "all" ? quizLabel : `${quizLabel} · ${filterSelect.selectedOptions[0].textContent}`;
         const draft = isDmvQuiz && answeredCount > 0 && answeredCount < activeTotal ? {
-          version: 1,
+          version: 2,
           scope: roundHref(),
           signature: roundSignature(),
           sequence: activeSequence,
@@ -1151,8 +1168,8 @@ function initQuizzes() {
       const progress = readRecentPractice();
       const focus = filterSelect?.value || "all";
       const draft = progress?.href === roundHref(focus) ? progress.draft : null;
-      const canUseDraft = draft?.version === 1 && draft.scope === roundHref() &&
-        draft.signature === roundSignature() && Array.isArray(draft.sequence) && Array.isArray(draft.picks);
+      const canUseDraft = [1, 2].includes(draft?.version) && draft.scope === roundHref() &&
+        matchesRoundSignature(draft.signature, draft.version) && Array.isArray(draft.sequence) && Array.isArray(draft.picks);
       if (canUseDraft) {
         const sequence = new Set(draft.sequence);
         const picks = new Map();
