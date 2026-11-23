@@ -61,6 +61,24 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn('href="#north-carolina-sign-recall"', page)
         self.assertIn('href="road-signs-practice-test.html?mode=road-signs-core#practice"', page)
 
+    def test_virginia_left_on_red_lesson_keeps_round_and_arrow_rules_distinct(self):
+        slug = "virginia-dmv-road-signs-practice"
+        lesson = self.tools[slug]["stateRulePractice"]
+        page = (ROOT / f"{slug}.html").read_text()
+        allowed, two_way, banned, arrow = lesson["scenarios"]
+        self.assertIn("steady round red", allowed["question"])
+        self.assertIn("after a full stop and after yielding", allowed["answer"])
+        self.assertIn("Both streets must be one-way", two_way["answer"])
+        self.assertIn("posted restriction overrides", banned["answer"])
+        self.assertIn("No sign permits", arrow["question"])
+        self.assertIn("wait for a signal", arrow["answer"])
+        self.assertIn("Left on Red Arrow After Stop", arrow["answer"])
+        self.assertEqual([urlsplit(source["url"]).netloc for source in lesson["sources"]],
+                         ["www.dmv.virginia.gov", "law.lis.virginia.gov"])
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('href="#virginia-left-on-red"', page)
+        self.assertIn('href="#virginia-knowledge-retest"', page)
+
     def test_illinois_school_case_is_distinct_from_the_twenty_question_drill(self):
         slug = "illinois-dmv-road-signs-practice"
         tool = self.tools[slug]

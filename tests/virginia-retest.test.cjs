@@ -11,16 +11,16 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome" }); });
 after(async () => { await browser?.close(); });
 
-async function withPage(width, javaScriptEnabled, run) {
+async function withPage(width, javaScriptEnabled, run, anchor = id, linkName = "Check retake timing") {
   const context = await browser.newContext({ viewport: { width, height: 900 }, javaScriptEnabled });
   await context.route(/^https?:/, route => route.abort());
   const page = await context.newPage();
   try {
     await page.clock.setFixedTime(new Date("2026-11-20T03:00:00Z"));
     await page.goto(url);
-    await page.getByRole("link", { name: "Check retake timing", exact: true }).click();
-    await page.waitForURL(url + id);
-    const tool = page.locator(id);
+    await page.getByRole("link", { name: linkName, exact: true }).click();
+    await page.waitForURL(url + anchor);
+    const tool = page.locator(anchor);
     const heading = await tool.getByRole("heading", { level: 2 }).boundingBox();
     const header = await page.locator(".site-header").boundingBox();
     assert.ok(heading.y >= header.y + header.height);
@@ -90,3 +90,33 @@ test("Virginia retake rules and training link remain available without JavaScrip
     assert.match(await tool.getByRole("link", {name: "Virginia-approved driver training schools"}).getAttribute("href"),
       /dmv\.virginia\.gov\/licenses-ids\/training\/driver-training-schools$/);
   }));
+
+for (const [width, javaScriptEnabled] of [[320, false], [1280, true]]) {
+  test(`${width}px: Virginia signal cases reveal the right action from the keyboard`, () =>
+    withPage(width, javaScriptEnabled, async (page, lesson) => {
+      const sign = lesson.getByRole("img", { name: "No Turn on Red sign" });
+      assert.equal(await sign.isVisible(), true);
+      assert.ok(await sign.evaluate(img => img.naturalWidth > 0));
+      const cases = lesson.locator("details");
+      assert.equal(await cases.count(), 4);
+      const before = await page.evaluate(() => window.dataLayer?.length);
+      for (const [index, expected] of [
+        [0, /full stop and after yielding/],
+        [1, /Both streets must be one-way/],
+        [2, /posted restriction overrides/],
+        [3, /Stop and wait.*Left on Red Arrow After Stop/],
+      ]) {
+        const card = cases.nth(index);
+        const answer = card.locator("p");
+        assert.equal(await answer.isVisible(), false);
+        const toggle = card.locator("summary");
+        await toggle.focus();
+        await page.keyboard.press("Enter");
+        assert.equal(await answer.isVisible(), true);
+        assert.match(await answer.textContent(), expected);
+      }
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      assert.equal(await lesson.getByRole("link").count(), 2);
+      assert.equal(await page.evaluate(() => window.dataLayer?.length), before);
+    }, "#virginia-left-on-red", "Virginia left on red"));
+}

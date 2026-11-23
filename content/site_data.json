@@ -14728,10 +14728,46 @@
       "summary": "Review Virginia-specific test details and official study sources, then use the shared nationwide road-sign picture quiz for interactive practice.",
       "heroActions": [
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
+        {"label": "Virginia left on red", "href": "#virginia-left-on-red"},
         {"label": "Check retake timing", "href": "#virginia-knowledge-retest"},
         {"label": "State test details", "href": "#official-details"},
         {"label": "Official sources", "href": "#sources"}
       ],
+      "stateRulePractice": {
+        "id": "virginia-left-on-red",
+        "heading": "Can you turn left on red in Virginia?",
+        "image": "no-turn-on-red",
+        "imageLabel": "No Turn on Red sign",
+        "caption": "Read the signal and the turn sign separately. Even at two one-way streets, this sign can rule out the turn.",
+        "scenarios": [
+          {
+            "question": "You are on a one-way street facing a steady round red. The street to your left is one-way in the direction of your turn, and no sign forbids it. Can you turn?",
+            "answer": "You may turn only after a full stop and after yielding to pedestrians in the adjacent crosswalk and to other traffic using the intersection. Proceed cautiously only when clear. A one-way arrow tells you the direction of travel; it does not give you right of way."
+          },
+          {
+            "question": "The street you are on carries traffic both ways, but the one you want to enter is one-way. Does the same round red rule apply?",
+            "answer": "No. Both streets must be one-way for this left turn on a steady round red. Stay stopped until a signal allows your turn."
+          },
+          {
+            "question": "Both streets are one-way, but there is a No Turn on Red sign. Can you turn after a full stop?",
+            "answer": "No. The posted restriction overrides the round-red exception. A full stop does not remove the restriction."
+          },
+          {
+            "question": "Both streets are one-way, but the signal shows a steady red left arrow. No sign permits a turn on that arrow. What now?",
+            "answer": "Stop and wait for a signal permitting the turn. Do not use the round-red exception for a red arrow. Virginia's manual describes a separately posted Left on Red Arrow After Stop sign that can permit a turn after stopping; it is not present here."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Virginia DMV Driver's Manual, Section 2: Traffic Signals (PDF)",
+            "url": "https://www.dmv.virginia.gov/sites/default/files/documents/dmv39c.pdf"
+          },
+          {
+            "label": "Code of Virginia, section 46.2-836",
+            "url": "https://law.lis.virginia.gov/vacode/title46.2/chapter8/section46.2-836/"
+          }
+        ]
+      },
       "toolWidget": {"type": "virginiaKnowledgeRetest"},
       "quickFacts": [
         {
