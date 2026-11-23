@@ -24,6 +24,8 @@
   const get = name => root.querySelector(`[data-loop-${name}]`);
   const stage = get('stage');
   const next = get('next');
+  const reset = get('reset');
+  const resetDialog = get('reset-dialog');
   const report = document.querySelector('[data-loop-report]');
   const steps = selectedLessons.flatMap(lesson => [
     { lesson, question: lesson.diagnosis, phase: 1 },
@@ -113,6 +115,21 @@
     }).join('');
     report.querySelector('[data-loop-report-text]').value = reportText();
   };
+  const renderFeedback = (question, answer, lesson) => {
+    if (!answer) return '<div class="learning-feedback" data-loop-feedback></div>';
+    const description = answer.correct ? 'loop-feedback-reason' : 'loop-feedback-reason loop-feedback-rule';
+    const correction = answer.correct ? '' : `<p id="loop-feedback-rule">Keep this rule: ${esc(question.options[0].text)}</p>`;
+    return `<div class="learning-feedback" data-loop-feedback role="group" tabindex="-1" aria-labelledby="loop-feedback-result" aria-describedby="${description}">
+      <strong id="loop-feedback-result">${answer.correct ? 'Correct in this situation.' : 'Not quite. Review this decision.'}</strong>
+      <p id="loop-feedback-reason">${esc(question.options[answer.selected].why)}</p>${correction}
+      <p class="contrast-source">${sourceLink(lesson)}</p>
+    </div>`;
+  };
+  const focusAnswer = () => {
+    const feedback = stage.querySelector('[data-loop-feedback]');
+    feedback?.focus({ preventScroll: true });
+    feedback?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
   const render = () => {
     const step = steps[state.index];
     const q = step?.question;
@@ -149,7 +166,7 @@
     }
     const answer = state.answers[q.id];
     const order = state.optionOrders[q.id];
-    stage.innerHTML = `<article class="learning-card" data-loop-question="${esc(q.id)}"><div class="learning-card-visual learning-contrast-visual">${visuals(q.images)}</div><div class="learning-card-copy"><span>${step.phase === 1 ? 'Compare the controls' : 'A changed situation'}</span><h3 tabindex="-1" data-loop-question-title>${esc(q.prompt)}</h3><div class="learning-options" role="group" aria-label="Answer choices">${order.map(i => `<button type="button" data-loop-option="${i}" aria-pressed="${(answer?.selected ?? selected) === i}" ${answer ? 'disabled' : ''} class="${(answer?.selected ?? selected) === i ? 'is-selected' : ''}">${esc(q.options[i].text)}</button>`).join('')}</div><div class="learning-feedback" data-loop-feedback role="status" aria-live="polite">${answer ? `<strong>${answer.correct ? 'Correct in this situation.' : 'Not quite. Review this decision.'}</strong><p>${esc(q.options[answer.selected].why)}</p>${answer.correct ? '' : `<p>Keep this rule: ${esc(q.options[0].text)}</p>`}<p class="contrast-source">${sourceLink(lesson)}</p>` : ''}</div></div></article>`;
+    stage.innerHTML = `<article class="learning-card" data-loop-question="${esc(q.id)}"><div class="learning-card-visual learning-contrast-visual">${visuals(q.images)}</div><div class="learning-card-copy"><span>${step.phase === 1 ? 'Compare the controls' : 'A changed situation'}</span><h3 tabindex="-1" data-loop-question-title>${esc(q.prompt)}</h3><div class="learning-options" role="group" aria-label="Answer choices">${order.map(i => `<button type="button" data-loop-option="${i}" aria-pressed="${(answer?.selected ?? selected) === i}" ${answer ? 'disabled' : ''} class="${(answer?.selected ?? selected) === i ? 'is-selected' : ''}">${esc(q.options[i].text)}</button>`).join('')}</div>${renderFeedback(q, answer, lesson)}</div></article>`;
     stage.querySelectorAll('[data-loop-option]').forEach(button => button.addEventListener('click', () => {
       if (state.answers[q.id]) return;
       selected = Number(button.dataset.loopOption);
@@ -171,6 +188,7 @@
       state.answers[step.question.id] = { selected, correct: selected === 0 };
       state.exposures[step.question.id] = (state.exposures[step.question.id] || 0) + 1;
       render();
+      focusAnswer();
       return;
     }
     state.index += step.phase === 1 && state.answers[step.question.id].correct ? 2 : 1;
@@ -184,10 +202,28 @@
     }
     (complete ? heading : stage)?.scrollIntoView({ block: 'start', behavior: 'instant' });
   });
-  get('reset').addEventListener('click', () => {
+  const restartPractice = () => {
     state = newSession();
     selected = null;
     render();
+    const question = stage.querySelector('[data-loop-question-title]');
+    question?.focus({ preventScroll: true });
+    stage.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
+  reset.addEventListener('click', () => {
+    if (!answeredCount()) {
+      restartPractice();
+    } else if (typeof resetDialog?.showModal === 'function') {
+      resetDialog.showModal();
+    } else if (window.confirm('Restart this practice and clear the saved answers for this session?')) {
+      restartPractice();
+    }
+  });
+  resetDialog?.addEventListener('submit', (event) => {
+    if (event.submitter?.value !== 'restart') return;
+    event.preventDefault();
+    resetDialog.close('restart');
+    restartPractice();
   });
   get('print').addEventListener('click', () => { if (answeredCount()) window.print(); });
   report.querySelector('[data-loop-copy-record]').addEventListener('click', async () => {

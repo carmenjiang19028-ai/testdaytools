@@ -50,8 +50,85 @@ test('keyboard works', async () => {
   await page.keyboard.press('Enter');
   await page.locator('[data-loop-next]').focus();
   await page.keyboard.press('Enter');
-  assert.match(await page.locator('[data-loop-feedback]').textContent(), /Correct/);
+  const feedback = page.getByRole('group', { name: 'Correct in this situation.' });
+  assert.ok(await feedback.evaluate(el => document.activeElement === el));
+  assert.equal(await feedback.getAttribute('aria-describedby'), 'loop-feedback-reason');
   await context.close();
+});
+
+for (const width of [320, 390, 1280]) {
+  test(`${width}px: submitted feedback gets focus with the reason, and Continue is still reachable`, async () => {
+    const { page, context } = await open(width, 'stop-yield');
+    try {
+      const next = page.locator('[data-loop-next]');
+      await page.locator('[data-loop-option="1"]').press('Enter');
+      await next.press('Enter');
+      const feedback = page.getByRole('group', { name: 'Not quite. Review this decision.' });
+      assert.equal(await feedback.count(), 1);
+      assert.equal(await feedback.evaluate(el => document.activeElement === el), true);
+      const inspector = await page.context().newCDPSession(page);
+      try {
+        const { root } = await inspector.send('DOM.getDocument');
+        const { nodeId } = await inspector.send('DOM.querySelector', { nodeId: root.nodeId, selector: ':focus' });
+        const { nodes } = await inspector.send('Accessibility.getPartialAXTree', { nodeId, fetchRelatives: false });
+        assert.equal(nodes[0].name.value, 'Not quite. Review this decision.');
+        assert.match(nodes[0].description.value, /This treats STOP as conditional.*Keep this rule/);
+      } finally { await inspector.detach(); }
+      const feedbackTop = (await feedback.boundingBox()).y;
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(feedbackTop >= header.y + header.height && feedbackTop < 850);
+      assert.notEqual(await feedback.evaluate(el => getComputedStyle(el).outlineStyle), 'none');
+      const shots = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (shots) {
+        fs.mkdirSync(shots, { recursive: true });
+        await page.screenshot({ path: path.join(shots, `focused-feedback-${width}.png`) });
+      }
+      await page.keyboard.press('Tab');
+      assert.equal(await feedback.getByRole('link').evaluate(el => document.activeElement === el), true);
+      await page.keyboard.press('Tab');
+      assert.equal(await next.evaluate(el => document.activeElement === el), true);
+      await page.keyboard.press('Enter');
+      assert.equal(await page.locator('[data-loop-question-title]').evaluate(el => document.activeElement === el), true);
+      assert.match(await page.locator('[data-loop-phase-label]').innerText(), /Phase 2/);
+    } finally { await context.close(); }
+  });
+}
+
+test('restart requires a separate confirmation and does not clear another practice session', async () => {
+  const concept = 'stop-yield';
+  const { page, context } = await open(320, concept);
+  try {
+    const otherKey = 'tdt-learning-loop:v2:all';
+    await page.evaluate(k => localStorage.setItem(k, JSON.stringify({ preserved: true })), otherKey);
+    await answer(page, 1);
+    const saved = await state(page, concept);
+    const restart = page.getByRole('button', { name: 'Restart session', exact: true });
+    const dialog = page.getByRole('dialog', { name: 'Restart this practice?' });
+    await restart.press('Enter');
+    assert.equal(await dialog.count(), 1);
+    assert.deepEqual(await state(page, concept), saved);
+    assert.equal(await dialog.getByRole('button', { name: 'Keep my answers' }).evaluate(el => document.activeElement === el), true);
+    const box = await dialog.boundingBox();
+    assert.ok(box.x >= 16 && box.x + box.width <= 304);
+    const shots = process.env.VERIFY_SCREENSHOTS_DIR;
+    if (shots) {
+      fs.mkdirSync(shots, { recursive: true });
+      await page.screenshot({ path: path.join(shots, 'restart-confirmation-320.png') });
+    }
+    await page.keyboard.press('Escape');
+    assert.equal(await dialog.isVisible(), false);
+    assert.deepEqual(await state(page, concept), saved);
+    assert.equal(await restart.evaluate(el => document.activeElement === el), true);
+    await restart.press('Enter');
+    await dialog.getByRole('button', { name: 'Keep my answers' }).press('Enter');
+    assert.deepEqual(await state(page, concept), saved);
+    await restart.press('Enter');
+    await dialog.getByRole('button', { name: 'Restart practice', exact: true }).press('Enter');
+    assert.deepEqual((await state(page, concept)).answers, {});
+    assert.equal(await page.locator('[data-loop-report]').isVisible(), false);
+    assert.equal(await page.locator('[data-loop-question-title]').evaluate(el => document.activeElement === el), true);
+    assert.deepEqual(await page.evaluate(k => JSON.parse(localStorage.getItem(k)), otherKey), { preserved: true });
+  } finally { await context.close(); }
 });
 test('blocked storage does not break practice', async () => {
   const { page, context, errors } = await open(1280, '', () => Object.defineProperty(window, 'localStorage', { get() { throw new Error('blocked'); } }));
@@ -156,6 +233,11 @@ async function answer(page, n = 0) {
   await page.locator(`[data-loop-option="${n}"]`).click();
   await page.locator('[data-loop-next]').click();
 }
+async function restartPractice(page) {
+  await page.getByRole('button', { name: 'Restart session', exact: true }).click();
+  await page.getByRole('dialog', { name: 'Restart this practice?' })
+    .getByRole('button', { name: 'Restart practice', exact: true }).click();
+}
 async function state(page, concept = '') { return page.evaluate(c => JSON.parse(localStorage.getItem(`tdt-learning-loop:v2:${c || 'all'}`)), concept); }
 const displayedOrder = page => page.locator('[data-loop-option]').evaluateAll(buttons =>
   buttons.map(button => Number(button.dataset.loopOption)));
@@ -232,7 +314,7 @@ test('refresh keeps a valid displayed order, and restarting draws a fresh one', 
     await page.reload();
     assert.deepEqual(await displayedOrder(page), [2, 0, 1]);
     assert.equal((await state(page, concept)).answers[id].selected, 2);
-    await page.locator('[data-loop-reset]').click();
+    await restartPractice(page);
     assert.deepEqual(await displayedOrder(page), [0, 1, 2]);
     assert.deepEqual((await state(page, concept)).answers, {});
   } finally {
@@ -279,7 +361,7 @@ for (const width of [390, 1280]) {
       await page.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `record-print-${width}.png`), fullPage: true });
     }
     await page.emulateMedia({ media: 'screen' });
-    await page.locator('[data-loop-reset]').click();
+    await restartPractice(page);
     assert.equal(Object.keys((await state(page)).answers).length, 0);
     assert.equal(await page.locator('[data-loop-report]').isVisible(), false);
     await context.close();

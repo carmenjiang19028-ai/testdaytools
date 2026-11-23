@@ -27,6 +27,14 @@
       <div class="learning-loop-intro"><h2 data-loop-title>Check the difference</h2><p data-loop-copy>Check each sign's meaning, then apply it.</p></div>
       <div class="learning-loop-stage" data-loop-stage></div>
       <div class="learning-loop-actions"><button type="button" class="quiz-nav-button primary" data-loop-next disabled>Choose an answer</button><button type="button" class="quiz-nav-button" data-loop-reset>Restart session</button><button type="button" class="quiz-nav-button" data-loop-print disabled>Print record</button></div>
+      <dialog class="learning-reset-dialog" data-loop-reset-dialog aria-labelledby="loop-reset-title" aria-describedby="loop-reset-description">
+        <h2 id="loop-reset-title">Restart this practice?</h2>
+        <p id="loop-reset-description">This clears the answers and study record for this session in this browser. Other practice sessions are not affected.</p>
+        <form method="dialog" class="learning-loop-actions">
+          <button type="submit" class="quiz-nav-button primary" value="keep" autofocus>Keep my answers</button>
+          <button type="submit" class="quiz-nav-button" value="restart">Restart practice</button>
+        </form>
+      </dialog>
       <p data-loop-status aria-live="polite"></p>
       <noscript><p>The interactive questions need JavaScript. The explanations below are available.</p></noscript>
     </section>
