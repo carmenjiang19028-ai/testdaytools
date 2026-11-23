@@ -4220,6 +4220,8 @@ function initSatAnticipatedFall() {
 
 function initSatDatePlanners() {
   document.querySelectorAll("[data-sat-date-planner]").forEach((widget) => {
+    const controls = widget.querySelector("[data-sat-date-controls]");
+    const fallback = widget.querySelector("[data-sat-date-fallback]");
     const dataNode = widget.querySelector("[data-sat-date-data]");
     const stageSelect = widget.querySelector("[data-sat-stage]");
     const deadlineSelect = widget.querySelector("[data-sat-deadline]");
@@ -4256,7 +4258,11 @@ function initSatDatePlanners() {
     } catch (error) {
       events = [];
     }
-    if (!events.length) return;
+    const isDay = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)
+      && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
+    if (!buildButton || !Array.isArray(events) || !events.length ||
+        !events.every((event) => event && typeof event.label === "string" &&
+          [event.date, event.registrationDate, event.lateDate].every(isDay))) return;
 
     // SAT dates are calendar days, not local instants or elapsed hours across DST.
     const calendarDay = (value) => Date.parse(`${value}T00:00:00Z`);
@@ -4603,6 +4609,8 @@ function initSatDatePlanners() {
       // A fresh plan remains available when saved browser data cannot be read.
     }
     updateRetakePreference();
+    if (controls) controls.hidden = false;
+    if (fallback) fallback.hidden = true;
   });
 }
 

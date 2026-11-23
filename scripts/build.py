@@ -1805,9 +1805,10 @@ def render_sat_date_planner(tool, widget):
     if not events:
         return ""
     event_data = json.dumps(events, separators=(",", ":")).replace("</", "<\\/")
-    accommodations_path = f'{schedule["slug"]}.html' if widget.get("scheduleSource") else ""
+    schedule_path = f'{schedule["slug"]}.html' if widget.get("scheduleSource") else ""
+    source_url = widget.get("sourceUrl", "https://satsuite.collegeboard.org/sat/dates-deadlines")
     accommodations_note = (
-        f'<p class="sat-widget-note"><a href="{esc(accommodations_path)}#sat-weekend-accommodations">Check accommodations deadlines and next steps</a>. '
+        f'<p class="sat-widget-note"><a href="{esc(schedule_path)}#sat-weekend-accommodations">Check accommodations deadlines and next steps</a>. '
         'An open registration does not mean a new request can be applied in time.</p>'
         if schedule.get("satAccommodations") else ""
     )
@@ -1817,6 +1818,8 @@ def render_sat_date_planner(tool, widget):
     <h2>{esc(widget.get("heading", "Choose your primary SAT date and backup"))}</h2>
     <p class="section-intro">{esc(widget.get("intro", "Compare a primary SAT Weekend date and an optional backup for your timeline."))}</p>
   </div>
+  {render_sat_date_fallback(schedule_path, source_url, events)}
+  <div data-sat-date-controls hidden>
   <div class="sat-widget-grid">
     <div class="sat-input-panel sat-date-inputs">
       <label>Where are you in school?
@@ -1865,7 +1868,7 @@ def render_sat_date_planner(tool, widget):
       <div class="sat-plan-actions">
         <button type="button" disabled data-sat-plan-save>Save this plan</button>
         <button type="button" disabled data-sat-date-calendar>Download primary date &amp; deadlines</button>
-        <a href="{esc(widget.get('sourceUrl', 'https://satsuite.collegeboard.org/sat/dates-deadlines'))}" target="_blank" rel="noopener" data-sat-register-link>Check official registration</a>
+        <a href="{esc(source_url)}" target="_blank" rel="noopener" data-sat-register-link>Check official registration</a>
       </div>
       <p class="sat-saved-status" hidden data-sat-saved-status></p>
       <p class="sat-widget-note">This planner cannot confirm your test center, country, approved arrangements, or a college's score deadline.</p>
@@ -1873,8 +1876,35 @@ def render_sat_date_planner(tool, widget):
       <p class="sat-widget-note"><a href="https://satsuite.collegeboard.org/scores/score-release-dates">Official student score release dates</a> are scheduled dates, not guarantees of when scores post or reach a college.</p>
     </aside>
   </div>
+  </div>
   <script type="application/json" data-sat-date-data>{event_data}</script>
 </section>"""
+
+
+def render_sat_date_fallback(schedule_path, source_url, events):
+    by_date = {event["date"]: event for event in events}
+    may, june = by_date.get("2027-05-01"), by_date.get("2027-06-05")
+    example = ""
+    if may and june and may.get("scoreReleaseDate"):
+        cutoff = datetime.fromisoformat(june["date"]) - timedelta(days=30)
+        release = datetime.fromisoformat(may["scoreReleaseDate"])
+        if release >= cutoff:
+            deadline = f"{cutoff:%B} {cutoff.day}"
+            release_label = f"{release:%B} {release.day}"
+            example = (
+                f'<p><strong>Worked retake example:</strong> For the {esc(june["label"])} test, a College Board loaner request is due by {deadline}. '
+                f'The {esc(may["label"])} score is scheduled for {release_label}. Waiting for that result would miss the loaner deadline. '
+                'Arrange a compatible device, complete the request before waiting for scores, or choose a later confirmed date.</p>'
+            )
+    return f"""<div data-sat-date-fallback>
+  <h3>Plan your SAT dates without the interactive tool</h3>
+  <ol>
+    <li>Pick a primary date that leaves enough study time. Compare the <a href="{esc(schedule_path)}#sat-weekend-registration">confirmed dates and registration deadlines</a>, then <a href="{esc(source_url)}">check seats and register with College Board</a>.</li>
+    <li>If you need a College Board device, <a href="https://satsuite.collegeboard.org/sat/device-lending">register and complete the device request at least 30 days before the test</a>. For new or changed accommodations, check the separate <a href="{esc(schedule_path)}#sat-weekend-accommodations">request and document deadlines</a>.</li>
+    <li>For a backup, compare the <a href="https://satsuite.collegeboard.org/scores/score-release-dates">scheduled first score release</a> with the earliest cutoff that applies. Do not rely on a score arriving in time when both fall on the same day.</li>
+  </ol>
+  {example}
+</div>"""
 
 
 def render_sat_accommodations(tool):
@@ -2740,7 +2770,8 @@ def render_tables(tables):
     for table in tables or []:
         headers = "".join(f"<th>{esc(h)}</th>" for h in table["headers"])
         rows = "".join("<tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>" for row in table["rows"])
-        output.append(f'<section class="tool-block"><h2>{esc(table["caption"])}</h2><div class="table-wrap"><table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table></div></section>')
+        anchor = f' id="{esc(table["id"])}"' if table.get("id") else ""
+        output.append(f'<section class="tool-block"{anchor}><h2>{esc(table["caption"])}</h2><div class="table-wrap"><table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table></div></section>')
     return "".join(output)
 
 

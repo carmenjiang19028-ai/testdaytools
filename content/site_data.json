@@ -2002,6 +2002,7 @@
       },
       "tables": [
         {
+          "id": "sat-weekend-registration",
           "caption": "SAT test dates and registration deadlines for 2026-2027",
           "headers": [
             "Test date",

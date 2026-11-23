@@ -139,6 +139,71 @@ const storedPlan = (page) => page.evaluate(key => localStorage.getItem(key), sat
 const planOutputEvents = (page) => page.evaluate(() => (window.dataLayer || []).filter(event =>
   event[0] === "event" && ["sat_plan_saved", "sat_date_selected", "resource_download"].includes(event[1])));
 
+for (const [file, width, javaScriptEnabled] of [
+  [pages[0], 320, false],
+  [pages[1], 1280, true],
+]) {
+  test(`${file}: use real manual steps when planning scripts are disabled or blocked`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 820 }, javaScriptEnabled });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      if (javaScriptEnabled) await context.route("**/assets/app.js", route => route.abort());
+      const page = await context.newPage();
+      await page.goto(pathToFileURL(path.join(root, file)).href);
+      const widget = page.locator("[data-sat-date-planner]");
+      const fallback = widget.locator("[data-sat-date-fallback]");
+      assert.equal(await fallback.isVisible(), true);
+      assert.equal(await widget.getByRole("button", { name: "Build my SAT date plan" }).count(), 0);
+      assert.equal(await widget.locator("[data-sat-date-controls]").isVisible(), false);
+      assert.equal(await fallback.locator("li").count(), 3);
+      assert.match(await fallback.innerText(), /June 5, 2027 test.*due by May 6.*May 1, 2027 score is scheduled for May 14.*miss the loaner deadline/s);
+      const registration = fallback.getByRole("link", { name: "confirmed dates and registration deadlines" });
+      const pathPrefix = file === pages[0] ? "" : pages[0];
+      assert.equal(await registration.getAttribute("href"), pathPrefix + "#sat-weekend-registration");
+      assert.equal(await fallback.getByRole("link", { name: "request and document deadlines" }).getAttribute("href"),
+        pathPrefix + "#sat-weekend-accommodations");
+      assert.equal(await fallback.getByRole("link", { name: "scheduled first score release" }).getAttribute("href"),
+        "https://satsuite.collegeboard.org/scores/score-release-dates");
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.SAT_FALLBACK_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.SAT_FALLBACK_SCREENSHOTS_DIR, { recursive: true });
+        await widget.screenshot({ path: path.join(process.env.SAT_FALLBACK_SCREENSHOTS_DIR, `sat-manual-${width}.png`) });
+      }
+      await registration.press("Enter");
+      await page.waitForURL(pathToFileURL(path.join(root, pages[0])).href + "#sat-weekend-registration");
+      const section = page.locator("#sat-weekend-registration");
+      const row = section.getByRole("row").filter({ hasText: "June 5, 2027" });
+      assert.match(await row.textContent(), /May 21, 2027.*May 25, 2027/s);
+      const h = await section.getByRole("heading").boundingBox();
+      const headerBottom = await page.locator(".site-header").evaluate(el => Math.max(0, el.getBoundingClientRect().bottom));
+      assert.ok(h.y >= headerBottom && h.y + h.height < 820);
+    } finally { await context.close(); }
+  });
+}
+
+test("malformed schedule JSON leaves the SAT manual route in place", async () => {
+  const context = await browser.newContext();
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const target = "http://testdaytools.test/" + pages[0];
+    await context.route("http://testdaytools.test/**", route => {
+      if (route.request().url() === target) {
+        const broken = fs.readFileSync(path.join(root, pages[0]), "utf8").replace(
+          /(<script[^>]*data-sat-date-data>)[^<]*/,
+          '$1[{"date":"not a date","label":"Example"}]',
+        );
+        return route.fulfill({ contentType: "text/html", body: broken });
+      }
+      return route.fulfill({ path: path.join(root, new URL(route.request().url()).pathname.slice(1)) });
+    });
+    const page = await context.newPage();
+    await page.goto(target);
+    assert.equal(await page.locator("[data-sat-date-fallback]").isVisible(), true);
+    assert.equal(await page.locator("[data-sat-date-controls]").isVisible(), false);
+    assert.equal(await page.locator("[data-sat-date-data]").textContent(), '[{"date":"not a date","label":"Example"}]');
+  } finally { await context.close(); }
+});
+
 for (const width of [320, 1280]) {
   test(`${width}px: SAT Weekend accommodation dates and official next steps work without scripts`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
@@ -178,6 +243,8 @@ for (const file of pages) {
     const { context, page } = await openPage(file, "2027-01-08T18:00:00Z", { width: 390, height: 900 }, "Pacific/Auckland");
     try {
       const build = page.locator("[data-sat-plan-button]");
+      assert.equal(await page.locator("[data-sat-date-fallback]").isVisible(), false);
+      assert.equal(await build.isVisible(), true);
       await page.locator("[data-sat-stage]").selectOption("junior_first");
       await page.locator("[data-sat-wait-for-score]").check();
       await build.click();
