@@ -112,6 +112,24 @@ class SATReadinessContentTest(unittest.TestCase):
                 last_updated = datetime.strptime(TOOLS[slug]["lastUpdated"], "%B %d, %Y").date().isoformat()
                 self.assertEqual(sitemap[f"https://testdaytools.com/{slug}.html"], last_updated)
 
+    def test_test_center_cases_use_confirmed_weekend_assignments(self):
+        slug = "sat-test-day-timing-guide"
+        tool = TOOLS[slug]
+        page = (ROOT / f"{slug}.html").read_text()
+        cases = next(group for group in tool["cardGroups"] if group.get("id") == "sat-center-changes")
+        unlisted, moved, closed, makeup = cases["items"]
+        self.assertIn("fully closed centers", unlisted["text"])
+        self.assertIn("not confirm", unlisted["text"])
+        self.assertEqual(moved["href"], "#sat-arrival-plan")
+        self.assertIn("neither is guaranteed", closed["text"])
+        self.assertIn("before paying for another registration", closed["text"])
+        self.assertIn("updated admission ticket", makeup["text"])
+        self.assertIn("entire test", makeup["text"])
+        self.assertIn("For SAT School Day", cases["intro"])
+        self.assertIn('href="#sat-center-changes"', page)
+        for case in cases["items"]:
+            self.assertIn(escape(case["text"]), page)
+
     def test_score_release_cases_distinguish_official_and_illustrative_dates(self):
         tool = TOOLS["sat-score-release-guide"]
         examples = json.loads((ROOT / "content/study_examples.json").read_text())[tool["slug"]]

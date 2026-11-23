@@ -106,6 +106,38 @@ test("examples, the source links and the within-module rule work without JavaScr
     assert.match(await page.locator("main").innerText(), /marked questions do not carry over/);
   }));
 
+for (const width of [320, 1280]) {
+  test(`${width}px: official closure and makeup branches remain readable without scripts`, () =>
+    withPage(width, false, async (page) => {
+      await page.getByRole("link", { name: "Check a test center change" }).press("Enter");
+      await page.waitForURL(url + "#sat-center-changes");
+      const cases = page.locator("#sat-center-changes");
+      const title = await cases.getByRole("heading", { level: 2 }).boundingBox();
+      assert.ok(title.y >= Math.max(0, await page.locator(".site-header").evaluate(el => el.getBoundingClientRect().bottom)));
+      const cards = cases.locator("article");
+      assert.equal(await cards.count(), 4);
+      assert.match(await cards.nth(0).innerText(), /only fully closed centers.*does not confirm/s);
+      assert.match(await cards.nth(2).innerText(), /neither is guaranteed/);
+      assert.match(await cards.nth(3).innerText(), /updated admission ticket.*entire test/s);
+      assert.match(await cases.innerText(), /For SAT School Day, use instructions from your school/);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        await cases.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `center-cases-${width}.png`) });
+      }
+    }));
+}
+
+test("the new-center example returns to the calculator and produces the stated departure", () =>
+  withPage(390, true, async (page, tool) => {
+    await page.getByRole("link", { name: "Check a test center change" }).press("Enter");
+    await page.waitForURL(url + "#sat-center-changes");
+    await page.getByRole("link", { name: "Recalculate for the new address" }).press("Enter");
+    await page.waitForURL(url + "#sat-arrival-plan");
+    await setFields(tool, ["07:45", "44", "8", "10"]);
+    await tool.getByRole("button", { name: "Calculate departure" }).press("Enter");
+    assert.deepEqual(await times(tool), ["6:43 AM", "7:27 AM", "7:35 AM"]);
+  }));
+
 test("the SAT checklist deep link lands at the arrival calculator", () =>
   withPage(390, true, async (page, tool) => {
     await page.goto(new URL("digital-sat-checklist.html", url).href);

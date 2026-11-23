@@ -4554,12 +4554,13 @@
       "category": "SAT",
       "title": "SAT Test Day Timing Guide",
       "description": "Plan SAT test morning timing, arrival margin, check-in, breaks, device setup, pacing, and post-test next steps.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "SAT test day",
       "summary": "Start with the arrival time you were given, budget travel and walking time, and calculate when to leave. Then plan how to use the time inside each Bluebook module.",
       "heroActions": [
         {"label": "Plan your departure", "href": "#sat-arrival-plan"},
         {"label": "See arrival examples", "href": "#sat-arrival-cases"},
+        {"label": "Check a test center change", "href": "#sat-center-changes"},
         {"label": "Official test-day schedule", "href": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"}
       ],
       "toolWidget": {"type": "satArrivalTiming"},
@@ -4651,10 +4652,45 @@
               "cta": "Official School Day preparation"
             }
           ]
+        },
+        {
+          "id": "sat-center-changes",
+          "heading": "What if your SAT Weekend test center changes?",
+          "intro": "Check the official closure list the night before and again before leaving. Compare it with your College Board messages, the test card in Bluebook and My SAT. For SAT School Day, use instructions from your school or test coordinator instead.",
+          "items": [
+            {
+              "label": "No closure result",
+              "title": "My center isn't listed, but I received a change notice",
+              "text": "The public list shows only fully closed centers. A missing entry does not confirm your assignment stayed the same. Check your individual registration and the latest official message before following an older printed ticket.",
+              "href": "https://satsuite.collegeboard.org/sat/test-center-closings",
+              "cta": "Official test center closure lookup"
+            },
+            {
+              "label": "New address, same date",
+              "title": "My updated ticket shows another center",
+              "text": "Use the new address and confirmed reporting time from the updated ticket. For example, if reporting is still 7:45 a.m. but the drive is now 44 minutes, with an 8-minute walk and 10-minute buffer, leave at 6:43 a.m. If you have an approved loaner, confirm whether pickup time or location changed too.",
+              "href": "#sat-arrival-plan",
+              "cta": "Recalculate for the new address"
+            },
+            {
+              "label": "Closed, no new assignment",
+              "title": "My center is closed, but no makeup date is shown",
+              "text": "Do not go to the closed site or assume you can walk in elsewhere. College Board may move your registration or offer a makeup, but neither is guaranteed. Check My SAT and your messages for the next instruction. If your status remains unclear, ask SAT Support before paying for another registration.",
+              "href": "https://satsuite.collegeboard.org/sat/registration/change-cancel/makeup-tests",
+              "cta": "Official makeup rules and eligibility"
+            },
+            {
+              "label": "Confirmed makeup",
+              "title": "College Board assigned a makeup date",
+              "text": "Check that the makeup site is open and bring your updated admission ticket. Use the assigned center and time, not the original ones. A makeup is the entire test, even if you completed a module before the original session stopped.",
+              "href": "https://satsuite.collegeboard.org/sat/registration/change-cancel/makeup-tests",
+              "cta": "Official makeup test requirements"
+            }
+          ]
         }
       ],
       "checklist": [
-        "On test morning, check Bluebook or your school messages for a location or timing change.",
+        "Before leaving for SAT Weekend, confirm the current address and reporting time in your official notices. For SAT School Day, confirm with your school.",
         "Pack the materials required for your administration, such as your SAT Weekend admission ticket and acceptable ID.",
         "Charge your approved device and pack its charger if bringing your own.",
         "Choose a departure time with travel, walking, and a buffer."
@@ -4681,6 +4717,14 @@
         {
           "label": "College Board: SAT Weekend arrival and test-day schedule",
           "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
+        },
+        {
+          "label": "College Board: SAT Weekend test center closings",
+          "url": "https://satsuite.collegeboard.org/sat/test-center-closings"
+        },
+        {
+          "label": "College Board: SAT Weekend makeup tests",
+          "url": "https://satsuite.collegeboard.org/sat/registration/change-cancel/makeup-tests"
         },
         {
           "label": "College Board: SAT timing and structure",
