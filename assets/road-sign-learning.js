@@ -9,6 +9,7 @@
   const lessons = curriculum.lessons.filter(item => !requested || item.id === requested);
   const selectedLessons = lessons.length ? lessons : curriculum.lessons;
   const returnValue = params.get('return') || 'road-signs-practice-test.html';
+  const worksheetAnswer = /^worksheet-(decision-[1-8]|transfer)$/.test(returnValue);
   const returnPath = /^[a-z0-9-]+\.html$/.test(returnValue) ? returnValue : 'road-signs-practice-test.html';
   const fromSheet = returnPath === 'dmv-road-signs-cheat-sheet.html';
   const returnMode = params.get('return_mode');
@@ -16,8 +17,10 @@
     ['road-signs-starter', 'road-signs-core'].includes(returnMode);
   const returnHref = fromRound
     ? `${returnPath}?${new URLSearchParams({ mode: returnMode, focus: 'saved' })}#practice`
-    : fromSheet ? returnPath : `${returnPath}#practice`;
+    : worksheetAnswer ? `dmv-road-signs-cheat-sheet.html#${returnValue}` :
+    fromSheet ? returnPath : `${returnPath}#practice`;
   const returnLabel = fromRound ? 'Retry saved mistakes in this round' :
+    worksheetAnswer ? 'Return to this worksheet answer' :
     fromSheet ? 'Return to the study sheet' : 'Return to picture practice';
   const key = `tdt-learning-loop:v2:${lessons.length && requested ? requested : 'all'}`;
   const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -286,4 +289,8 @@
     }
   });
   render();
+  for (const link of document.querySelectorAll('[data-loop-start]')) {
+    if (link.dataset.loopStart === requested) link.setAttribute('href', '#learning-loop');
+    link.hidden = false;
+  }
 })();

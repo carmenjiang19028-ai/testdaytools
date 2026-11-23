@@ -4,7 +4,7 @@ import html
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import quote, urlencode
+from urllib.parse import quote, urlencode, urlsplit
 from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
 
@@ -313,6 +313,7 @@ def render_contrast_lessons():
   <div class="contrast-trap"><h4>A tempting mistake</h4><p>{esc(lesson["mistake"])}</p><h4>Why that reasoning fails</h4><p>{esc(lesson["reason"])}</p></div>
   {transfer_block}
   <p class="contrast-source">Source comparison: <a href="{esc(source["url"])}">{esc(source["label"])}</a> - {esc(lesson["sourceSections"])}. Checked {esc(material["checkedOn"])}.</p>
+  <p><a hidden data-loop-start="{esc(lesson["id"])}" href="?{esc(urlencode({"concept": lesson["id"]}))}#learning-loop">Practice this distinction</a></p>
 </article>''')
     return (
         '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>'
@@ -3987,6 +3988,14 @@ def render_cheat_group_link(group):
     )
 
 
+def worksheet_review_href(href, answer_id):
+    destination = urlsplit(href)
+    if destination.path != "road-sign-learning-loop.html":
+        return href
+    query = destination.query + "&" + urlencode({"return": answer_id})
+    return destination._replace(query=query).geturl()
+
+
 def render_online_classroom_worksheet():
     cards = {record["image"]: record for record in road_sign_flashcard_records()}
     practice = sign_lookup_drills(TOOL_BY_SLUG[ROAD_SIGN_PICTURE_SLUG])
@@ -4004,11 +4013,12 @@ def render_online_classroom_worksheet():
     for number, (prompt, options, answer, reason, (review_label, review_href)) in enumerate(classroom.DECISION_CASES, 1):
         choices = "".join(f"<li>{esc(option)}</li>" for option in options)
         letter = "ABC"[answer]
+        answer_id = f"worksheet-decision-{number}"
         decisions.append(f"""<li>
   <p><strong>{esc(prompt)}</strong></p>
   <ol type="A">{choices}</ol>
-  <details><summary>Check decision {number}</summary><p><strong>{letter}. {esc(options[answer])}</strong> {esc(reason)}</p>
-    <p><a href="{esc(review_href)}">{esc(review_label)}</a></p>
+  <details><summary>Check decision {number}</summary><p id="{answer_id}" tabindex="-1"><strong>{letter}. {esc(options[answer])}</strong> {esc(reason)}</p>
+    <p><a href="{esc(worksheet_review_href(review_href, answer_id))}">{esc(review_label)}</a></p>
   </details>
 </li>""")
 
@@ -4028,8 +4038,8 @@ def render_online_classroom_worksheet():
   <details class="worksheet-part">
     <summary>3. Apply the rule to a different situation</summary>
     <p>{esc(classroom.TRANSFER_PROMPT)}</p>
-    <details><summary>Check your reasoning</summary><p>{esc(classroom.TRANSFER_KEY)}</p>
-      <p><a href="road-sign-learning-loop.html?concept=merge-lane-ends#lesson-merge-lane-ends">Try the Added Lane comparison</a></p>
+    <details><summary>Check your reasoning</summary><p id="worksheet-transfer" tabindex="-1">{esc(classroom.TRANSFER_KEY)}</p>
+      <p><a href="{esc(worksheet_review_href('road-sign-learning-loop.html?concept=merge-lane-ends#lesson-merge-lane-ends', 'worksheet-transfer'))}">Try the Added Lane comparison</a></p>
     </details>
   </details>
   <p class="worksheet-next"><a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Try the 10-question picture quiz</a></p>

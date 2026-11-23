@@ -154,3 +154,52 @@ test("a 40-question recorded score opens the full round, and group links do not 
     await quiz.waitFor({ state: "visible" });
     assert.match(await quiz.locator("[data-quiz-position]").textContent(), /Question 1 of 40/);
   }));
+
+for (const width of [390, 1280]) {
+  test(`${width}px: a worksheet explanation leads to a focused round and back to the same answer`, () =>
+    withSheet(width, async page => {
+      page.setDefaultTimeout(6000);
+      const cases = [
+        [1, "Check decision 1", "Compare STOP and YIELD", "stop-yield", "worksheet-decision-1"],
+        [1, "Check decision 2", "Compare STOP and YIELD", "stop-yield", "worksheet-decision-2"],
+        [1, "Check decision 3", "Compare Merge and Lane Ends", "merge-lane-ends", "worksheet-decision-3"],
+        [2, "Check your reasoning", "Try the Added Lane comparison", "merge-lane-ends", "worksheet-transfer"],
+      ];
+      for (const [partIndex, answerName, reviewName, concept, answerId] of cases) {
+        await page.goto(worksheetUrl);
+        const part = page.locator("#online-worksheet .worksheet-part").nth(partIndex);
+        if (!(await part.evaluate(node => node.open))) await part.locator(":scope > summary").press("Enter");
+        const answer = part.locator("details").filter({
+          has: page.getByText(answerName, { exact: true }),
+        });
+        if (!(await answer.evaluate(node => node.open))) await answer.getByText(answerName, { exact: true }).press("Enter");
+        await answer.getByRole("link", { name: reviewName, exact: true }).press("Enter");
+        await page.waitForURL(url => url.hash === `#lesson-${concept}`);
+        const lesson = page.locator(`#lesson-${concept}`);
+        const start = lesson.getByRole("link", { name: "Practice this distinction", exact: true });
+        assert.equal(await start.count(), 1, "the related explanation has a visible next step");
+        await start.press("Enter");
+        await page.waitForURL(url => url.hash === "#learning-loop" && url.searchParams.get("concept") === concept);
+        const progress = page.locator("[data-loop-progress]");
+        if (answerId === "worksheet-decision-1" || answerId === "worksheet-decision-3") {
+          assert.equal(await progress.textContent(), "0 of 3 questions");
+          for (let i = 0; i < 3; i++) {
+            await page.locator('[data-loop-option="0"]').press("Enter");
+            await page.locator("[data-loop-next]").press("Enter");
+            await page.locator("[data-loop-next]").press("Enter");
+          }
+        }
+        assert.equal(await progress.textContent(), "3 of 3 questions");
+        await page.getByRole("link", { name: "Return to this worksheet answer", exact: true }).press("Enter");
+        await page.waitForURL(url => url.pathname.endsWith("/dmv-road-signs-cheat-sheet.html") && url.hash === `#${answerId}`);
+        assert.equal(await answer.getByText(answerName, { exact: true }).isVisible(), true);
+        assert.equal(await answer.getByRole("link", { name: reviewName, exact: true }).isVisible(), true);
+        const destination = page.locator(`#${answerId}`);
+        assert.equal(await destination.evaluate(node => document.activeElement === node), true);
+        const { y } = await destination.boundingBox();
+        const header = await page.locator(".site-header").boundingBox();
+        assert.ok(y >= header.y + header.height, "the returned answer is not hidden under navigation");
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      }
+    }));
+}
