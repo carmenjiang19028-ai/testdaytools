@@ -8,6 +8,8 @@ const { chromium } = require("playwright");
 const root = path.resolve(__dirname, "..");
 const pages = ["sat-test-dates-2026-2027.html", "sat-august-22-2026-planning.html"];
 const fallDates = ["2027-08-28", "2027-09-18", "2027-10-09", "2027-11-06", "2027-12-04"];
+const unfold = (ics) => ics.replace(/\r\n[ \t]/g, "");
+const calendarEvents = (ics) => unfold(ics).split("BEGIN:VEVENT\r\n").slice(1).map(event => event.split("END:VEVENT")[0]);
 let browser;
 
 before(async () => {
@@ -48,12 +50,20 @@ for (const file of pages) {
       assert.match(await page.locator("[data-sat-primary-deadline]").textContent(), /October 23, 2026.*October 27, 2026/);
       assert.match(await page.locator("[data-sat-plan-reason]").textContent(), /may be too late for early applications/);
       const downloadPromise = page.waitForEvent("download");
-      await page.locator("[data-sat-date-calendar]").click();
+      await page.getByRole("button", { name: "Download primary date & deadlines" }).click();
       const download = await downloadPromise;
       assert.equal(download.suggestedFilename(), "sat-2026-11-07.ics");
       const calendar = fs.readFileSync(await download.path(), "utf8");
       assert.match(calendar, /DTSTART;VALUE=DATE:20261107/);
-      assert.match(calendar, /October 23/);
+      assert.match(unfold(calendar), /October 23/);
+      assert.equal(calendarEvents(calendar).length, 3);
+      assert.match(calendar, /DTSTART:20261024T035900Z/);
+      assert.match(calendar, /DTSTART:20261028T035900Z/);
+      assert.doesNotMatch(calendar, /device request cutoff/i);
+      const deadlineLines = (entry) => entry.match(/^(?:UID|DTSTART):[^\r\n]+/gm);
+      const season = calendarEvents(fs.readFileSync(path.join(root, "sat-test-dates-2026-2027.ics"), "utf8"));
+      assert.deepEqual(calendarEvents(calendar).slice(1).map(deadlineLines),
+        season.filter(entry => entry.includes("UID:sat-20261107-")).map(deadlineLines));
       await page.locator("[data-sat-plan-save]").click();
       await page.reload();
       assert.match(await page.locator("[data-sat-saved-status]").textContent(), /^Saved in this browser: November 7, 2026/);
@@ -100,7 +110,14 @@ test("anticipated fall dates are public information, not registrable dates or ca
     assert.equal(active.length, 8);
     assert(!active.some(e => fallDates.includes(e.date)));
     const ics = fs.readFileSync(path.join(root, "sat-test-dates-2026-2027.ics"), "utf8");
-    assert.equal((ics.match(/^BEGIN:VEVENT\r?$/gm) || []).length, 8);
+    const calendar = calendarEvents(ics);
+    assert.equal(calendar.filter(event => event.includes("DTSTART;VALUE=DATE:")).length, 8);
+    assert.equal(calendar.length, 24);
+    for (const cutoff of ["20261024T035900Z", "20261125T045900Z", "20270220T045900Z", "20270421T035900Z"]) {
+      assert.ok(calendar.some(event => event.includes(`DTSTART:${cutoff}\r\n`)), cutoff);
+    }
+    assert.equal(new Set(calendar.map(event => event.match(/^UID:(.+)$/m)[1])).size, calendar.length);
+    assert.match(await page.locator("#sat-calendar").innerText(), /11:59 p\.m\. U\.S\. Eastern time/);
     for (const date of fallDates) assert.doesNotMatch(ics, new RegExp(date.replaceAll("-", "")));
   } finally { await context.close(); }
 });
@@ -170,7 +187,14 @@ for (const [i, file] of pages.entries()) {
       assert.match(await backupDevice.innerText(), /February 4, 2027/);
       const download = page.waitForEvent("download");
       await page.locator("[data-sat-date-calendar]").click();
-      assert.match(fs.readFileSync(await (await download).path(), "utf8"), /device request by November 5\\, 2026/);
+      const calendar = fs.readFileSync(await (await download).path(), "utf8");
+      assert.match(unfold(calendar), /device request by November 5\\, 2026/);
+      assert.equal(calendarEvents(calendar).length, 4);
+      const loanEvent = calendarEvents(calendar).find(event => /SUMMARY:SAT device request cutoff/i.test(event));
+      assert.match(loanEvent, /DTSTART;VALUE=DATE:20261105\r\nDTEND;VALUE=DATE:20261106/);
+      assert.match(loanEvent, /device-lending/);
+      assert.match(calendar, /DTSTART:20261121T045900Z/);
+      assert.match(calendar, /DTSTART:20261125T045900Z/);
       await save.click();
       await page.clock.setSystemTime(new Date("2026-11-06T05:00:01Z"));
       await page.reload();
@@ -248,6 +272,8 @@ test("primary-date calendar has a next-day end in a UTC+13 browser", async () =>
     await page.locator("[data-sat-date-calendar]").click();
     const calendar = fs.readFileSync(await (await downloadPromise).path(), "utf8");
     assert.match(calendar, /DTSTART;VALUE=DATE:20261205\r?\nDTEND;VALUE=DATE:20261206/);
+    assert.match(calendar, /DTSTART:20261125T045900Z/);
+    assert.ok(calendar.trimEnd().split("\r\n").every(line => Buffer.byteLength(line) <= 75));
   } finally { await context.close(); }
 });
 

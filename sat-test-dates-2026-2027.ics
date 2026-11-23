@@ -4,11 +4,11 @@ PRODID:-//TestDayTools//SAT Test Dates 2026-2027//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:SAT Test Dates 2026-2027
-X-WR-CALDESC:Confirmed College Board weekend SAT dates with registration
-  deadline reminders.
+X-WR-CALDESC:Confirmed College Board weekend SAT dates and registration
+  deadline entries.
 BEGIN:VEVENT
 UID:sat-20260822@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20260822
 DTEND;VALUE=DATE:20260823
 SUMMARY:SAT - August 22\, 2026
@@ -18,8 +18,30 @@ DESCRIPTION:Regular registration deadline: August 7\, 2026. Late registr
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
 BEGIN:VEVENT
+UID:sat-20260822-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20260808T035900Z
+SUMMARY:SAT regular registration deadline - August 22\, 2026
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the August 22\, 2026 SAT. Confirm seat availability with College Bo
+ ard.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20260822-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20260812T035900Z
+SUMMARY:SAT late registration and changes deadline - August 22\, 2026
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the August 22\, 2026 SAT. Confirm s
+ eat availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:sat-20260912@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20260912
 DTEND;VALUE=DATE:20260913
 SUMMARY:SAT - September 12\, 2026
@@ -29,8 +51,30 @@ DESCRIPTION:Regular registration deadline: August 28\, 2026. Late regist
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
 BEGIN:VEVENT
+UID:sat-20260912-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20260829T035900Z
+SUMMARY:SAT regular registration deadline - September 12\, 2026
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the September 12\, 2026 SAT. Confirm seat availability with College
+  Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20260912-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20260902T035900Z
+SUMMARY:SAT late registration and changes deadline - September 12\, 2026
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the September 12\, 2026 SAT. Confir
+ m seat availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:sat-20261003@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20261003
 DTEND;VALUE=DATE:20261004
 SUMMARY:SAT - October 3\, 2026
@@ -40,8 +84,30 @@ DESCRIPTION:Regular registration deadline: September 18\, 2026. Late reg
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
 BEGIN:VEVENT
+UID:sat-20261003-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20260919T035900Z
+SUMMARY:SAT regular registration deadline - October 3\, 2026
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the October 3\, 2026 SAT. Confirm seat availability with College Bo
+ ard.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20261003-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20260923T035900Z
+SUMMARY:SAT late registration and changes deadline - October 3\, 2026
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the October 3\, 2026 SAT. Confirm s
+ eat availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:sat-20261107@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:SAT - November 7\, 2026
@@ -51,8 +117,30 @@ DESCRIPTION:Regular registration deadline: October 23\, 2026. Late regis
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
 BEGIN:VEVENT
+UID:sat-20261107-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20261024T035900Z
+SUMMARY:SAT regular registration deadline - November 7\, 2026
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the November 7\, 2026 SAT. Confirm seat availability with College B
+ oard.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20261107-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20261028T035900Z
+SUMMARY:SAT late registration and changes deadline - November 7\, 2026
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the November 7\, 2026 SAT. Confirm
+  seat availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:sat-20261205@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
 SUMMARY:SAT - December 5\, 2026
@@ -62,8 +150,30 @@ DESCRIPTION:Regular registration deadline: November 20\, 2026. Late regi
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
 BEGIN:VEVENT
+UID:sat-20261205-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20261121T045900Z
+SUMMARY:SAT regular registration deadline - December 5\, 2026
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the December 5\, 2026 SAT. Confirm seat availability with College B
+ oard.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20261205-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20261125T045900Z
+SUMMARY:SAT late registration and changes deadline - December 5\, 2026
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the December 5\, 2026 SAT. Confirm
+  seat availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:sat-20270306@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20270306
 DTEND;VALUE=DATE:20270307
 SUMMARY:SAT - March 6\, 2027
@@ -73,8 +183,30 @@ DESCRIPTION:Regular registration deadline: February 19\, 2027. Late regi
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
 BEGIN:VEVENT
+UID:sat-20270306-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20270220T045900Z
+SUMMARY:SAT regular registration deadline - March 6\, 2027
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the March 6\, 2027 SAT. Confirm seat availability with College Boar
+ d.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20270306-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20270224T045900Z
+SUMMARY:SAT late registration and changes deadline - March 6\, 2027
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the March 6\, 2027 SAT. Confirm sea
+ t availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:sat-20270501@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20270501
 DTEND;VALUE=DATE:20270502
 SUMMARY:SAT - May 1\, 2027
@@ -84,8 +216,29 @@ DESCRIPTION:Regular registration deadline: April 16\, 2027. Late registr
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
 END:VEVENT
 BEGIN:VEVENT
+UID:sat-20270501-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20270417T035900Z
+SUMMARY:SAT regular registration deadline - May 1\, 2027
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the May 1\, 2027 SAT. Confirm seat availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20270501-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20270421T035900Z
+SUMMARY:SAT late registration and changes deadline - May 1\, 2027
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the May 1\, 2027 SAT. Confirm seat
+  availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:sat-20270605@testdaytools.com
-DTSTAMP:20260714T000000Z
+DTSTAMP:20261123T000000Z
 DTSTART;VALUE=DATE:20270605
 DTEND;VALUE=DATE:20270606
 SUMMARY:SAT - June 5\, 2027
@@ -93,5 +246,27 @@ DESCRIPTION:Regular registration deadline: May 21\, 2027. Late registrat
  ion and changes deadline: May 25\, 2027. Verify test-center availability
   with College Board.
 URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20270605-regular-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20270522T035900Z
+SUMMARY:SAT regular registration deadline - June 5\, 2027
+DESCRIPTION:Regular registration closes at 11:59 p.m. U.S. Eastern time
+  for the June 5\, 2027 SAT. Confirm seat availability with College Board
+ .
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:sat-20270605-late-deadline@testdaytools.com
+DTSTAMP:20261123T000000Z
+DTSTART:20270526T035900Z
+SUMMARY:SAT late registration and changes deadline - June 5\, 2027
+DESCRIPTION:Late registration\, changes\, and regular cancellation close
+  at 11:59 p.m. U.S. Eastern time for the June 5\, 2027 SAT. Confirm seat
+  availability with College Board.
+URL:https://satsuite.collegeboard.org/sat/dates-deadlines
+TRANSP:TRANSPARENT
 END:VEVENT
 END:VCALENDAR

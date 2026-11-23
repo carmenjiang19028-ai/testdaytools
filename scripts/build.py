@@ -2,10 +2,11 @@
 import argparse
 import html
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote, urlencode
 from xml.etree import ElementTree
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -1749,6 +1750,26 @@ def render_quick_facts(facts):
     return f'<section class="fact-section"><h2>Quick facts</h2><dl class="fact-grid">{items}</dl></section>'
 
 
+def sat_calendar_deadlines(event):
+    label = event.get("label", event["title"].removeprefix("SAT - "))
+    day = event["date"].replace("-", "")
+    deadlines = (
+        ("regular", event["registrationDate"], "SAT regular registration deadline", "Regular registration closes"),
+        ("late", event["lateDate"], "SAT late registration and changes deadline", "Late registration, changes, and regular cancellation close"),
+    )
+    return [
+        {
+            "uid": f"sat-{day}-{kind}-deadline@testdaytools.com",
+            "utc": datetime.fromisoformat(f"{date}T23:59:00").replace(tzinfo=ZoneInfo("America/New_York"))
+            .astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ"),
+            "title": f"{title} - {label}",
+            "description": f"{action} at 11:59 p.m. U.S. Eastern time for the {label} SAT. Confirm seat availability with College Board.",
+            "url": "https://satsuite.collegeboard.org/sat/dates-deadlines",
+        }
+        for kind, date, title, action in deadlines
+    ]
+
+
 def render_sat_date_planner(tool, widget):
     schedule = TOOL_BY_SLUG[widget["scheduleSource"]] if widget.get("scheduleSource") else tool
     events = []
@@ -1761,6 +1782,7 @@ def render_sat_date_planner(tool, widget):
             "registrationDate": event["registrationDate"],
             "lateDate": event["lateDate"],
             "description": event.get("description", ""),
+            "calendarDeadlines": sat_calendar_deadlines(event),
         })
     if not events:
         return ""
@@ -1815,7 +1837,7 @@ def render_sat_date_planner(tool, widget):
       </div>
       <div class="sat-plan-actions">
         <button type="button" disabled data-sat-plan-save>Save this plan</button>
-        <button type="button" disabled data-sat-date-calendar>Download primary date</button>
+        <button type="button" disabled data-sat-date-calendar>Download primary date &amp; deadlines</button>
         <a href="{esc(widget.get('sourceUrl', 'https://satsuite.collegeboard.org/sat/dates-deadlines'))}" target="_blank" rel="noopener" data-sat-register-link>Check official registration</a>
       </div>
       <p class="sat-saved-status" hidden data-sat-saved-status></p>
@@ -2685,7 +2707,7 @@ def fold_ics_line(line, width=72):
 
 def render_calendar_file(calendar):
     calendar_name = calendar.get("name", "SAT Test Dates 2026-2027")
-    calendar_description = calendar.get("description", "Confirmed College Board weekend SAT dates with registration deadline reminders.")
+    calendar_description = calendar.get("description", "Confirmed College Board weekend SAT dates and registration deadline entries.")
     source_url = calendar.get("sourceUrl", "https://satsuite.collegeboard.org/sat/dates-deadlines")
     dtstamp = calendar.get("dtstamp", "20260714T000000Z")
     uid_prefix = calendar.get("uidPrefix", "sat")
@@ -2712,6 +2734,19 @@ def render_calendar_file(calendar):
             f'URL:{event.get("url", source_url)}',
             "END:VEVENT",
         ])
+        if calendar.get("includeRegistrationDeadlines"):
+            for deadline in sat_calendar_deadlines(event):
+                lines.extend([
+                    "BEGIN:VEVENT",
+                    f'UID:{deadline["uid"]}',
+                    f"DTSTAMP:{dtstamp}",
+                    f'DTSTART:{deadline["utc"]}',
+                    f'SUMMARY:{ics_escape(deadline["title"])}',
+                    f'DESCRIPTION:{ics_escape(deadline["description"])}',
+                    f'URL:{deadline["url"]}',
+                    "TRANSP:TRANSPARENT",
+                    "END:VEVENT",
+                ])
     lines.append("END:VCALENDAR")
     return "\r\n".join(fold_ics_line(line) for line in lines) + "\r\n"
 

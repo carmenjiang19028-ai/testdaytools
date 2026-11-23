@@ -1642,7 +1642,7 @@
       ],
       "heroActions": [
         {
-          "label": "Download 8 confirmed dates",
+          "label": "Download dates and deadlines",
           "href": "sat-test-dates-2026-2027.ics",
           "resource": "sat_dates_2026_2027_calendar"
         },
@@ -1670,8 +1670,10 @@
         "filename": "sat-test-dates-2026-2027.ics",
         "resource": "sat_dates_2026_2027_calendar",
         "heading": "Download the confirmed August 2026-June 2027 calendar",
-        "buttonLabel": "Download 8 confirmed dates (.ics)",
-        "text": "One file contains eight confirmed weekend dates, including past administrations. Each event includes the regular and late registration deadlines. Anticipated fall 2027 dates are not included.",
+        "buttonLabel": "Download dates and deadlines (.ics)",
+        "text": "Eight confirmed weekend tests, including past dates, plus separate regular and late registration deadlines at 11:59 p.m. U.S. Eastern time. Fall 2027 tentative dates are excluded. If you need a loaner, use the planner for the earlier device-request date.",
+        "dtstamp": "20261123T000000Z",
+        "includeRegistrationDeadlines": true,
         "events": [
           {
             "date": "2026-08-22",

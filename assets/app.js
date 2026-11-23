@@ -4041,24 +4041,54 @@ function initSatDatePlanners() {
       const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
       const nextDay = new Date(calendarDay(event.date) + DAY_MS).toISOString().slice(0, 10).replace(/-/g, "");
       const startDay = event.date.replace(/-/g, "");
-      const description = [event.description, currentPlan.needsDevice ? deviceText(event) : ""].filter(Boolean).join("\n");
       const escapeIcs = (value) => String(value).replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\n/g, "\\n");
-      const ics = [
+      const entry = (uid, timing, title, description, url, transparent = false) => [
+        "BEGIN:VEVENT",
+        `UID:${uid}`,
+        `DTSTAMP:${stamp}`,
+        ...timing,
+        `SUMMARY:${escapeIcs(title)}`,
+        `DESCRIPTION:${escapeIcs(description)}`,
+        `URL:${url}`,
+        ...(transparent ? ["TRANSP:TRANSPARENT"] : []),
+        "END:VEVENT",
+      ];
+      const scheduleUrl = "https://satsuite.collegeboard.org/sat/dates-deadlines";
+      const lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
         "PRODID:-//TestDayTools//SAT Date Planner//EN",
         "CALSCALE:GREGORIAN",
-        "BEGIN:VEVENT",
-        `UID:sat-${event.date}@testdaytools.com`,
-        `DTSTAMP:${stamp}`,
-        `DTSTART;VALUE=DATE:${startDay}`,
-        `DTEND;VALUE=DATE:${nextDay}`,
-        `SUMMARY:${escapeIcs(`SAT - ${event.label}`)}`,
-        `DESCRIPTION:${escapeIcs(description)}`,
-        "END:VEVENT",
-        "END:VCALENDAR",
-        "",
-      ].join("\r\n");
+        ...entry(`sat-${event.date}@testdaytools.com`, [`DTSTART;VALUE=DATE:${startDay}`, `DTEND;VALUE=DATE:${nextDay}`],
+          `SAT - ${event.label}`, event.description, scheduleUrl),
+        ...(event.calendarDeadlines || []).flatMap(deadline => entry(
+          deadline.uid, [`DTSTART:${deadline.utc}`],
+          deadline.title, deadline.description, deadline.url, true)),
+      ];
+      if (currentPlan.needsDevice) {
+        const deviceDay = deviceDeadline(event);
+        const deviceEnd = new Date(calendarDay(deviceDay) + DAY_MS).toISOString().slice(0, 10);
+        lines.push(...entry(`sat-${startDay}-device-request@testdaytools.com`,
+          [`DTSTART;VALUE=DATE:${deviceDay.replace(/-/g, "")}`, `DTEND;VALUE=DATE:${deviceEnd.replace(/-/g, "")}`],
+          `SAT device request cutoff - ${event.label}`, deviceText(event),
+          "https://satsuite.collegeboard.org/sat/device-lending", true));
+      }
+      lines.push("END:VCALENDAR", "");
+      const encoder = new TextEncoder();
+      const fold = (line) => {
+        let result = "", size = 0;
+        for (const char of line) {
+          const bytes = encoder.encode(char).length;
+          if (size + bytes > 75) {
+            result += "\r\n ";
+            size = 1;
+          }
+          result += char;
+          size += bytes;
+        }
+        return result;
+      };
+      const ics = lines.map(fold).join("\r\n");
       const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
       const download = document.createElement("a");
       download.href = url;
