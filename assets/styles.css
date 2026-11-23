@@ -16,6 +16,7 @@
   --warning: #f4c842;
   --shadow: 0 16px 36px rgba(23, 33, 47, 0.09);
   --shadow-soft: 0 4px 16px rgba(23, 33, 47, 0.06);
+  --section-offset: 86px;
 }
 
 * {
@@ -188,30 +189,11 @@ main > section {
 
 main > section,
 [id] {
-  scroll-margin-top: 86px;
+  scroll-margin-top: var(--section-offset);
 }
 
 @media (max-width: 760px) {
-  #california-permit-path,
-  #arizona-permit-path,
-  #georgia-knowledge-cases,
-  #ohio-knowledge-cases,
-  #florida-course-path,
-  #florida-document-route,
-  #virginia-knowledge-retest,
-  #missing-score-cases,
-  #michigan-left-practice,
-  #michigan-test-path,
-  #sat-date-planner,
-  #sat-arrival-plan,
-  #sat-arrival-cases,
-  #ap-credit-cases,
-  #ap-credit-note,
-  #ap-subject-checks,
-  #score-section-correct,
-  #flashcards,
-  #missed-sign-cards,
-  #sat-fall-2027 { scroll-margin-top: 10rem; }
+  :root { --section-offset: 16px; }
 }
 
 .site-header {
@@ -3857,7 +3839,7 @@ h3 {
 .sat-date-result > strong {
   font-size: 1.8rem;
   line-height: 1.12;
-  scroll-margin-top: 90px;
+  scroll-margin-top: var(--section-offset);
 }
 
 .sat-date-picks {
@@ -3900,10 +3882,6 @@ h3 {
 .sat-retake-window {
   border-left: 3px solid var(--blue);
   padding-left: 10px;
-}
-
-@media (max-width: 760px) {
-  .sat-date-result > strong { scroll-margin-top: 180px; }
 }
 
 .sat-plan-actions {
@@ -5439,6 +5417,7 @@ button:disabled {
     min-height: 0;
     padding-top: 14px;
     padding-bottom: 14px;
+    position: static;
   }
 
   .site-header nav {
@@ -6165,14 +6144,6 @@ button:disabled {
 .print-practice-access,
 .cheat-print-group-link {
   display: none;
-}
-
-#printable-sheet {
-  scroll-margin-top: 96px;
-}
-
-@media (max-width: 700px) {
-  #printable-sheet { scroll-margin-top: 160px; }
 }
 
 .cheat-sign-grid {
