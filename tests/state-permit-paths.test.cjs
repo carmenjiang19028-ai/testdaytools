@@ -21,6 +21,58 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
 
+for (const width of [390, 1280]) {
+  test(`${width}px: New York school bus cases distinguish the median exception and link official guidance`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      page.setDefaultTimeout(6000);
+      await page.goto(file("new-york-dmv-permit-practice-test"));
+      await page.locator(".hero-actions").getByRole("link", { name: "NY school bus cases", exact: true }).click();
+      assert.equal(new URL(page.url()).hash, "#new-york-school-bus");
+      const section = page.getByRole("region", { name: "Must you stop across a median in New York?" });
+      const diagram = section.getByRole("img", { name: /painted center lines.*concrete median/i });
+      assert.ok(await diagram.evaluate(image => image.complete && image.naturalWidth > 0));
+      const header = await page.locator(".site-header").boundingBox();
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      const [ny, pa, wait] = await section.locator("details").all();
+      assert.equal(await ny.locator("p").isVisible(), false);
+      await ny.locator("summary").press("Enter");
+      assert.match(await ny.locator("p").innerText(), /Both roads.*before reaching the bus.*at least 20 feet/is);
+      await pa.locator("summary").press("Enter");
+      assert.match(await pa.locator("p").innerText(), /Pennsylvania.*without stopping.*opposite.*painted lines/is);
+      await wait.locator("summary").press("Enter");
+      assert.match(await wait.locator("p").innerText(), /bus moves again.*driver or a police officer/is);
+      assert.equal(await section.getByRole("link", { name: /section 1174/ }).getAttribute("href"), "https://www.nysenate.gov/legislation/laws/VAT/1174");
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.NY_SCHOOL_BUS_EVIDENCE_DIR) {
+        const fs = require("node:fs");
+        fs.mkdirSync(process.env.NY_SCHOOL_BUS_EVIDENCE_DIR, { recursive: true });
+        await section.screenshot({ path: path.join(process.env.NY_SCHOOL_BUS_EVIDENCE_DIR, `ny-school-bus-${width}.png`) });
+      }
+      await page.goto(file("new-york-dmv-permit-practice-test") + "?mode=mock#practice");
+      const quiz = page.locator('[data-mode-panel="mock"] [data-quiz]');
+      const question = quiz.locator(".question", { hasText: "If you see a school bus with red lights flashing" });
+      const index = await question.getAttribute("data-question-index");
+      await quiz.locator(`[data-quiz-jump="${index}"]`).click();
+      await question.getByRole("button", { name: "Stop as required and watch for children" }).click();
+      assert.match(await question.locator(".feedback").innerText(), /^Correct\./);
+      const source = question.getByRole("link", { name: /School Buses.*stop even across a median/ });
+      assert.equal(await source.isVisible(), true);
+      assert.match(await source.getAttribute("href"), /chapter-6-passing/);
+      await page.goto(file("new-york-dmv-permit-practice-test") + "?mode=mock&resume=1#practice");
+      assert.equal(await question.isVisible(), true);
+      assert.match(await question.locator(".feedback").innerText(), /^Correct\./);
+      assert.equal(await source.isVisible(), true);
+      const save = page.locator(".faq details").filter({ hasText: "Does the quiz save my results?" });
+      await save.locator("summary").click();
+      assert.match(await save.innerText(), /in this browser.*counts.*not your selected answers/is);
+    } finally { await context.close(); }
+  });
+}
+
 const scoreCalculator = "dmv-permit-test-passing-score-calculator";
 const scoreEntrances = [
   ["new-york-dmv-road-signs-practice", "Check passing score", "new-york", /14 correct out of 20, including at least 2 road-sign/],

@@ -7343,6 +7343,46 @@
       "lastUpdated": "November 21, 2026",
       "heroKicker": "New York DMV",
       "summary": "Practice New York DMV permit questions with quick review, image-based road signs, and a 40-question mock exam that keeps the official pass rule visible.",
+      "stateRulePractice": {
+        "id": "new-york-school-bus",
+        "linkLabel": "NY school bus cases",
+        "heading": "Must you stop across a median in New York?",
+        "imageAsset": {
+          "src": "assets/road-sign-materials/pennsylvania-school-bus-roads.svg",
+          "width": 360,
+          "height": 288
+        },
+        "imageLabel": "Road A has only painted center lines. Road B has a concrete median. Both diagrams show drivers following a stopped school bus and approaching it from the opposite direction.",
+        "caption": "A school bus is unloading children with its red lights flashing in both drawings. These cases do not affect your practice score.",
+        "scenarios": [
+          {
+            "question": "You meet the bus from the opposite direction in New York. Which road requires you to stop: A, B, or both?",
+            "answer": "Both roads. In New York, stop before reaching the bus even when a concrete median separates the directions. The NY DMV handbook advises leaving at least 20 feet between you and the bus."
+          },
+          {
+            "question": "You meet the same bus on road B just across the state line in Pennsylvania. Does the concrete median change the answer?",
+            "answer": "Yes. In Pennsylvania in this example, slow down and proceed cautiously without stopping for the bus if you are on the opposite, physically separate roadway. Drivers behind it still stop. On road A, painted lines are not a physical division, so both directions stop."
+          },
+          {
+            "question": "Back in New York, you have stopped. The children appear to be clear, but the bus is still stopped and no one has directed you to move. Can you go?",
+            "answer": "No. Wait until the bus moves again or the bus driver or a police officer directs you to proceed. Check for children before moving slowly past the stop."
+          }
+        ],
+        "sources": [
+          {
+            "label": "NY DMV Driver Manual: School Buses",
+            "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-6-passing"
+          },
+          {
+            "label": "New York Vehicle and Traffic Law, section 1174",
+            "url": "https://www.nysenate.gov/legislation/laws/VAT/1174"
+          },
+          {
+            "label": "PennDOT Driver Manual: School Buses",
+            "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/special-circumstances-and-emergencies"
+          }
+        ]
+      },
       "quickFacts": [
         {
           "label": "Official test",
@@ -7434,10 +7474,6 @@
           "text": "Read the official New York driver's manual first, then use practice questions to catch weak spots. Revisit the manual after each missed question."
         },
         {
-          "heading": "Question style",
-          "text": "These questions are written in a general permit-test style and cover safe choices drivers should understand before driving alone."
-        },
-        {
           "heading": "Review by topic",
           "text": "After the quiz, do not only look at the final score. If missed answers cluster around signs, intersections, or road conditions, study that topic before taking another practice set."
         },
@@ -7487,7 +7523,7 @@
         },
         {
           "q": "Does the quiz save my results?",
-          "a": "No. It runs in your browser and does not send your answers to TestDayTools."
+          "a": "Yes, in this browser. An unfinished round can be resumed, and quiz mistakes and practice summaries may be kept here for review. There is no account or device sync. Google Analytics may receive practice counts, but not your selected answers."
         }
       ],
       "sources": [
@@ -17091,7 +17127,11 @@
         ],
         "answer": 0,
         "category": "School bus safety",
-        "explanation": "Flashing red school bus lights warn that children may be entering or leaving the road."
+        "explanation": "Flashing red school bus lights warn that children may be entering or leaving the road.",
+        "source": {
+          "label": "NY DMV: School Buses (stop even across a median)",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-6-passing"
+        }
       },
       {
         "q": "What should you do if you miss your turn in city traffic?",

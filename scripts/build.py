@@ -1383,6 +1383,8 @@ def render_tool_actions(tool):
             ("Official test facts", "#official-details"),
             ("Study by topic", "#practice-topics"),
         ]
+        if lesson := tool.get("stateRulePractice"):
+            actions.append((lesson["linkLabel"], f'#{lesson["id"]}'))
         if state:
             actions.append(("Test-day checklist", checklist_href_for_state(state)))
     links = "".join(
