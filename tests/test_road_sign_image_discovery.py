@@ -144,7 +144,9 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
             with self.subTest(key=key):
                 visual = build.render_sign_visual({"image": key, "imageAlt": "Answer name, not a visual clue"}, "quiz-art-test-1")
                 self.assertIn(f'aria-label="{cue}"', visual)
-                self.assertNotIn("Answer name", visual)
+                self.assertNotIn('aria-label="Answer name', visual)
+                self.assertIn(f'data-quiz-image-key="{key}"', visual)
+                self.assertIn('data-quiz-legacy-label="Answer name, not a visual clue"', visual)
         railroad = next(record for record in build.dmv_daily_question_records() if record["state"] == "illinois" and record["image"] == "railroad")
         self.assertEqual(railroad["imageAlt"], "Yellow circle with a black X and an R on each side.")
 

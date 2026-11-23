@@ -192,8 +192,8 @@ for (const width of [1280, 390]) {
       await page.goto(local('road-signs-practice-test') + '?mode=road-signs-core#practice');
       const quiz = page.locator('[data-mode-panel="road-signs-core"] [data-quiz]');
       const signs = [
-        ['roundabout', 'At a roundabout warning sign, which action should come first?', 'Yellow diamond with three counterclockwise arrows', 'Slow down and look for traffic already circulating', /yield to traffic already circulating.*counterclockwise/],
-        ['bicycle-crossing', 'What hazard does this bicycle sign warn about?', 'Yellow diamond with a black bicycle symbol', 'Bicyclists may enter or cross the roadway', /fluorescent yellow-green background can give the same warning/],
+        ['roundabout', 'At a roundabout warning sign, which action should come first?', 'Yellow diamond with three black arrows curving counterclockwise around the center.', 'Slow down and look for traffic already circulating', /yield to traffic already circulating.*counterclockwise/],
+        ['bicycle-crossing', 'What hazard does this bicycle sign warn about?', 'Yellow diamond with a black bicycle drawn with two outlined wheels.', 'Bicyclists may enter or cross the roadway', /fluorescent yellow-green background can give the same warning/],
       ];
       for (const [key, prompt, description, answer, reason] of signs) {
         const question = quiz.locator(`.question[data-flashcard-key="${key}"][data-prompt="${prompt}"]`);
@@ -481,8 +481,8 @@ for (const width of [1280, 390]) {
       assert.equal(new URL(page.url()).searchParams.get('mode'), 'signs');
       const quiz = page.locator('[data-mode-panel="signs"] [data-quiz]');
       for (const [cue, answer, feedback] of [
-        ['wider at the top', 'A divided roadway or median begins', /bends outward/],
-        ['closer at the top', 'The median or divider ends and opposing traffic will be closer', /bends toward the center/],
+        ['widens toward a black divider at the top', 'A divided roadway or median begins', /bends outward/],
+        ['narrows above a black divider at the bottom', 'The median or divider ends and opposing traffic will be closer', /bends toward the center/],
       ]) {
         const question = quiz.locator('.question').filter({has: page.locator(`[role="img"][aria-label*="${cue}"]`)});
         await quiz.locator(`[data-quiz-jump="${await question.getAttribute('data-question-index')}"]`).click();

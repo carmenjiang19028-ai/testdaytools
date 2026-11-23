@@ -658,11 +658,28 @@ function initQuizzes() {
       question.dataset.prompt || question.querySelector("h3")?.textContent || "Practice question";
 
     const questionSign = (question) => question.querySelector(".question-visual .sign-art");
-    const mistakeId = (question) => JSON.stringify([
+    const signIdentifiers = (question) => {
+      const sign = questionSign(question);
+      if (!sign) return [];
+      const label = sign.getAttribute("aria-label");
+      const key = sign.dataset.quizImageKey;
+      // Older saves may contain either the original label or the revised reading cue.
+      return key ? [`image:${key}`, label, sign.dataset.quizLegacyLabel] : [label];
+    };
+    const mistakeId = (question, sign = signIdentifiers(question)[0] || "") => JSON.stringify([
       questionMasteryId(question, quiz.dataset.state),
       question.dataset.category || "Review topic",
-      questionSign(question)?.getAttribute("aria-label") || "",
+      sign,
     ]);
+    const oldMistakeIds = new Map();
+    questions.forEach(question => {
+      const id = mistakeId(question);
+      for (const label of signIdentifiers(question).slice(1).filter(Boolean)) {
+        const oldId = mistakeId(question, label);
+        const previous = oldMistakeIds.get(oldId);
+        oldMistakeIds.set(oldId, previous === undefined || previous === id ? id : null);
+      }
+    });
 
     const getActiveQuestionIndex = () => activeSequence[activePosition];
 
@@ -705,7 +722,7 @@ function initQuizzes() {
     const roundSignature = () => draftSignature ??= JSON.stringify(questions.map((question) => [
       questionPrompt(question), question.dataset.answer, question.dataset.explanation,
       question.dataset.category, question.dataset.sheetFocus,
-      questionSign(question)?.getAttribute("aria-label"),
+      signIdentifiers(question)[0],
       // Drafts use authored choice IDs, not the current display order.
       ...Array.from(question.querySelectorAll("[data-choice]"))
         .sort((left, right) => Number(left.dataset.choice) - Number(right.dataset.choice))
@@ -722,8 +739,10 @@ function initQuizzes() {
         // Feedback is rendered from the current question. Older v1 drafts may not record the image clue.
         return Array.isArray(previous) && previous.length === rows.length && previous.every((row, index) =>
           Array.isArray(row) && row.length === rows[index].length &&
-          row.every((value, field) => field === 2 || value === rows[index][field] ||
-            (version === 1 && field === 5 && value === null)));
+          row.every((value, field) => {
+            if (field === 2 || value === rows[index][field]) return true;
+            return field === 5 && ((version === 1 && value === null) || signIdentifiers(questions[index]).includes(value));
+          }));
       } catch (error) {
         return false;
       }
@@ -785,12 +804,21 @@ function initQuizzes() {
       try {
         const parsed = stored ? JSON.parse(stored) : [];
         const entries = Array.isArray(parsed) ? parsed : [];
+        const seen = new Set();
         savedMistakes = entries.filter(item => typeof item?.prompt === "string").map((item) => {
-          if (typeof item.questionId === "string" && item.questionId) return item;
+          if (typeof item.questionId === "string" && item.questionId) {
+            const id = oldMistakeIds.get(item.questionId);
+            return id ? { ...item, questionId: id } : item;
+          }
           // Older entries know only the prompt and category; do not guess when they match more than one item.
           const matching = questions.filter(question => questionPrompt(question) === item.prompt &&
             (question.dataset.category || "Review topic") === item.category);
           return matching.length === 1 ? { ...item, questionId: mistakeId(matching[0]) } : item;
+        }).filter(({ questionId }) => {
+          if (!questionId) return true;
+          if (seen.has(questionId)) return false;
+          seen.add(questionId);
+          return true;
         });
       } catch (error) {
         savedMistakes = [];

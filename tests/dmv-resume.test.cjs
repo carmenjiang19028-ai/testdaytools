@@ -201,10 +201,67 @@ for (const [width, version] of [[390, 1], [1280, 2]]) {
     }));
 }
 
+for (const [width, original] of [[390, true], [1280, false]]) {
+  test(`${width}px: restores answers and saved mistakes from ${original ? "before" : "after"} the text clue release`, () =>
+    withSite(width, async page => {
+      const quiz = active(page);
+      const mistakeKey = "tdt-mistakes:/road-signs-practice-test.html:road-signs-starter";
+      await page.goto(starter + "#practice");
+      await answer(quiz, false);
+      await quiz.locator("[data-quiz-forward]").click();
+      await answer(quiz, false);
+      const labels = await quiz.locator(".question").evaluateAll((items, original) => items.map(item => {
+        const art = item.querySelector("[data-quiz-image-key]");
+        return art ? [`image:${art.dataset.quizImageKey}`, original ? art.dataset.quizLegacyLabel : art.getAttribute("aria-label")] : [null, null];
+      }), original);
+      await page.evaluate(({ labels, recentKey, mistakeKey }) => {
+        const record = JSON.parse(localStorage.getItem(recentKey));
+        const rows = JSON.parse(record.draft.signature);
+        rows.forEach((row, index) => { row[5] = labels[index][1]; });
+        record.draft.signature = JSON.stringify(rows);
+        localStorage.setItem(recentKey, JSON.stringify(record));
+        const translated = new Map(labels);
+        const entries = JSON.parse(localStorage.getItem(mistakeKey));
+        const legacy = entries.map(item => {
+          const parts = JSON.parse(item.questionId);
+          parts[2] = translated.get(parts[2]);
+          return { ...item, questionId: JSON.stringify(parts) };
+        });
+        localStorage.setItem(mistakeKey, JSON.stringify([...legacy, entries[0]]));
+      }, { labels, recentKey, mistakeKey });
+      const oldDraft = await read(page, recentKey);
+      const mastery = await read(page, masteryKey);
+      await page.goto(study);
+      await resume(page);
+      assert.equal(await progress(quiz), "2 of 10 answered");
+      assert.equal(await cursor(quiz), String(oldDraft.draft.sequence[oldDraft.draft.position]));
+      assert.deepEqual(await milestones(page), []);
+      assert.deepEqual(await read(page, masteryKey), mastery);
+      assert.equal(await quiz.locator("[data-quiz-mistakes] article").count(), 2);
+      await quiz.locator("[data-quiz-filter]").selectOption("saved");
+      assert.equal(await quiz.locator("[data-quiz-jump]").count(), 2);
+      await answer(quiz, true);
+      const remaining = await read(page, mistakeKey);
+      assert.equal(remaining.length, 1);
+      assert.match(remaining[0].questionId, /image:yield/);
+    }));
+}
+
+test("changing the accessible description again does not invalidate a stable picture draft", () =>
+  withSite(390, async page => {
+    await page.goto(starter + "#practice");
+    await answer(active(page), false);
+    await serveRevisedFirstQuestion(page, card => card.replace(/aria-label="[^"]+"/, 'aria-label="White STOP on a red octagon."'));
+    await page.goto(study);
+    await resume(page);
+    assert.equal(await progress(active(page)), "1 of 10 answered");
+    assert.deepEqual(await milestones(page), []);
+  }));
+
 for (const [label, revision] of [
   ["a changed correct answer", card => card.replace(/data-answer="\d+"/, 'data-answer="3"')],
   ["a changed choice", card => card.replace(">Slow down only if traffic is present<", ">Slow briefly before yielding<")],
-  ["a changed picture clue", card => card.replace('aria-label="Red octagon reading STOP in white"', 'aria-label="White triangle with a red border"')],
+  ["a different picture", card => card.replace('data-quiz-image-key="stop"', 'data-quiz-image-key="yield"')],
 ]) {
   test(`${label} does not restore the previous round`, async () =>
     withSite(390, async page => {

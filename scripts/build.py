@@ -2794,8 +2794,9 @@ def render_sign_visual(question, image_id):
     if not svg:
         return ""
     label = ROAD_SIGN_RECALL_CUES[key]
+    legacy_label = question.get("imageAlt", "Road sign illustration")
     return f"""<figure class="question-visual">
-  <div class="sign-art" id="{esc(image_id)}" role="img" aria-label="{esc(label)}">{svg}</div>
+  <div class="sign-art" id="{esc(image_id)}" role="img" aria-label="{esc(label)}" data-quiz-image-key="{esc(key)}" data-quiz-legacy-label="{esc(legacy_label)}">{svg}</div>
   <figcaption>Look at the sign, then choose the safest meaning or driver action.</figcaption>
 </figure>"""
 
