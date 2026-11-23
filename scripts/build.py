@@ -1797,6 +1797,7 @@ def render_sat_date_planner(tool, widget):
             "label": event.get("label", event.get("title", "SAT date").replace("SAT - ", "")),
             "registrationDate": event["registrationDate"],
             "lateDate": event["lateDate"],
+            "accommodationsDate": event.get("accommodationsDate"),
             "scoreReleaseDate": event.get("scoreReleaseDate"),
             "description": event.get("description", ""),
             "calendarDeadlines": sat_calendar_deadlines(event),
@@ -1804,6 +1805,12 @@ def render_sat_date_planner(tool, widget):
     if not events:
         return ""
     event_data = json.dumps(events, separators=(",", ":")).replace("</", "<\\/")
+    accommodations_path = f'{schedule["slug"]}.html' if widget.get("scheduleSource") else ""
+    accommodations_note = (
+        f'<p class="sat-widget-note"><a href="{esc(accommodations_path)}#sat-weekend-accommodations">Check accommodations deadlines and next steps</a>. '
+        'An open registration does not mean a new request can be applied in time.</p>'
+        if schedule.get("satAccommodations") else ""
+    )
     return f"""<section class="tool-block sat-widget sat-date-planner" id="sat-date-planner" data-sat-date-planner>
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "Interactive SAT date tool"))}</span>
@@ -1840,7 +1847,7 @@ def render_sat_date_planner(tool, widget):
         </select>
       </label>
       <label class="sat-date-checkbox"><input type="checkbox" checked data-sat-retake> <span><strong>Leave room for a retake</strong><em>Recommend the next workable backup administration.</em></span></label>
-      <label class="sat-date-checkbox"><input type="checkbox" data-sat-wait-for-score> <span><strong>Wait for my score before booking a backup</strong><em>Skip backups whose last available cutoff is on or before the first scheduled score release.</em></span></label>
+      <label class="sat-date-checkbox"><input type="checkbox" data-sat-wait-for-score> <span><strong>Wait for my score before booking a backup</strong><em>Check late registration and, if you need it, the device-request cutoff against the first scheduled score release.</em></span></label>
       <label class="sat-date-checkbox"><input type="checkbox" aria-describedby="sat-date-device-note" data-sat-device-loan> <span><strong>I still need to request a College Board device</strong></span></label>
       <p class="sat-widget-note" id="sat-date-device-note">For SAT Weekend, register and finish the device request at least 30 days before test day. <a href="https://satsuite.collegeboard.org/sat/device-lending">Check the official lending steps</a>.</p>
       <button type="button" data-sat-plan-button>Build my SAT date plan</button>
@@ -1850,21 +1857,52 @@ def render_sat_date_planner(tool, widget):
       <strong tabindex="-1" data-sat-plan-headline>Answer the questions to compare dates</strong>
       <p data-sat-plan-reason>The result uses today's date, registration deadlines, preparation runway, and retake room.</p>
       <div class="sat-date-picks" hidden data-sat-plan-picks>
-        <div><span>Primary date</span><strong data-sat-primary-date>--</strong><p data-sat-primary-deadline>--</p><p hidden data-sat-primary-device></p><p hidden data-sat-primary-score></p></div>
-        <div><span>Backup date</span><strong data-sat-backup-date>--</strong><p data-sat-backup-deadline>--</p><p hidden data-sat-backup-device></p><p hidden data-sat-backup-score></p></div>
+        <div><span>Primary date</span><strong data-sat-primary-date>--</strong><p data-sat-primary-deadline>--</p><p hidden data-sat-primary-device></p><p hidden data-sat-primary-accommodations></p><p hidden data-sat-primary-score></p></div>
+        <div><span>Backup date</span><strong data-sat-backup-date>--</strong><p data-sat-backup-deadline>--</p><p hidden data-sat-backup-device></p><p hidden data-sat-backup-accommodations></p><p hidden data-sat-backup-score></p></div>
       </div>
       <p class="sat-retake-window" data-sat-retake-window hidden></p>
+      <p class="sat-widget-note" data-sat-accommodations-backup-note hidden></p>
       <div class="sat-plan-actions">
         <button type="button" disabled data-sat-plan-save>Save this plan</button>
         <button type="button" disabled data-sat-date-calendar>Download primary date &amp; deadlines</button>
         <a href="{esc(widget.get('sourceUrl', 'https://satsuite.collegeboard.org/sat/dates-deadlines'))}" target="_blank" rel="noopener" data-sat-register-link>Check official registration</a>
       </div>
       <p class="sat-saved-status" hidden data-sat-saved-status></p>
-      <p class="sat-widget-note">This planner does not check your test center, country, accommodations, or a college's score deadline. Confirm those details before registering.</p>
+      <p class="sat-widget-note">This planner cannot confirm your test center, country, approved arrangements, or a college's score deadline.</p>
+      {accommodations_note}
       <p class="sat-widget-note"><a href="https://satsuite.collegeboard.org/scores/score-release-dates">Official student score release dates</a> are scheduled dates, not guarantees of when scores post or reach a college.</p>
     </aside>
   </div>
   <script type="application/json" data-sat-date-data>{event_data}</script>
+</section>"""
+
+
+def render_sat_accommodations(tool):
+    record = tool.get("satAccommodations")
+    if not record:
+        return ""
+
+    def date_markup(iso):
+        day = datetime.fromisoformat(iso)
+        return f'<time datetime="{esc(iso)}">{day:%B} {day.day}, {day.year}</time>'
+
+    rows = "".join(
+        f'<tr><th scope="row">{date_markup(event["date"])}</th><td>{date_markup(event["accommodationsDate"])}</td></tr>'
+        for event in tool["calendarDownload"]["events"]
+        if event.get("accommodationsDate")
+    )
+    cases = render_card_groups([{"heading": "What applies to your situation?", "items": record["items"]}])
+    return f"""<section class="content-section" id="sat-weekend-accommodations" aria-labelledby="sat-weekend-accommodations-title">
+  <h2 id="sat-weekend-accommodations-title">SAT Weekend accommodations deadlines</h2>
+  <p>These are the published receipt dates for new or changed requests and required documents, not registration deadlines. The dates include past tests for reference. <a href="{esc(record["deadlinesUrl"])}">Check the current College Board deadline list</a> for changes and the separate SAT School Day schedules.</p>
+  <div class="table-wrap">
+    <table aria-labelledby="sat-weekend-accommodations-title">
+      <thead><tr><th scope="col">Confirmed SAT Weekend date</th><th scope="col">Request and documents due</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+  </div>
+  <p><strong>Retake example:</strong> March 6 scores are scheduled for March 19, 2027. If you need a new or different accommodation for May 1, the request and documents are due March 12. Do not wait for the March score to start that request.</p>
+  {cases}
 </section>"""
 
 
@@ -3256,6 +3294,7 @@ def render_tool(tool):
     lower_sections = [
         render_quick_facts(tool.get("quickFacts")),
         render_tool_widget(tool),
+        render_sat_accommodations(tool),
         render_sat_anticipated_fall(tool.get("anticipatedFall2027")),
         render_countdown(tool.get("countdown")),
         render_calendar_download(tool.get("calendarDownload")),

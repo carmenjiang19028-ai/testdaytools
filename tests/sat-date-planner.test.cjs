@@ -10,6 +10,8 @@ const pages = ["sat-test-dates-2026-2027.html", "sat-august-22-2026-planning.htm
 const fallDates = ["2027-08-28", "2027-09-18", "2027-10-09", "2027-11-06", "2027-12-04"];
 const studentReleaseDates = ["2026-09-04", "2026-09-25", "2026-10-16", "2026-11-20",
   "2026-12-18", "2027-03-19", "2027-05-14", "2027-06-21"];
+const accommodationDeadlines = ["2026-07-07", "2026-07-24", "2026-08-14", "2026-09-18",
+  "2026-10-16", "2027-01-15", "2027-03-12", "2027-04-16"];
 const unfold = (ics) => ics.replace(/\r\n[ \t]/g, "");
 const calendarEvents = (ics) => unfold(ics).split("BEGIN:VEVENT\r\n").slice(1).map(event => event.split("END:VEVENT")[0]);
 let browser;
@@ -79,6 +81,7 @@ for (const file of pages) {
       const events = JSON.parse(await page.locator("[data-sat-date-data]").textContent());
       assert.equal(events.length, 8);
       assert.deepEqual(events.map((event) => event.scoreReleaseDate), studentReleaseDates);
+      assert.deepEqual(events.map((event) => event.accommodationsDate), accommodationDeadlines);
       const schedule = JSON.parse(fs.readFileSync(path.join(root, "content/site_data.json"), "utf8"))
         .tools.find((tool) => tool.slug === "sat-test-dates-2026-2027").calendarDownload.events;
       assert.deepEqual(events.map(({ date, registrationDate, lateDate }) => ({ date, registrationDate, lateDate })),
@@ -135,6 +138,71 @@ const satPlanStorage = "tdt-sat-date-plan:v1";
 const storedPlan = (page) => page.evaluate(key => localStorage.getItem(key), satPlanStorage);
 const planOutputEvents = (page) => page.evaluate(() => (window.dataLayer || []).filter(event =>
   event[0] === "event" && ["sat_plan_saved", "sat_date_selected", "resource_download"].includes(event[1])));
+
+for (const width of [320, 1280]) {
+  test(`${width}px: SAT Weekend accommodation dates and official next steps work without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const url = pathToFileURL(path.join(root, pages[0])).href;
+      await page.goto(url);
+      await page.getByRole("link", { name: "Check accommodations deadlines", exact: true }).press("Enter");
+      await page.waitForURL(url + "#sat-weekend-accommodations");
+      const section = page.locator("#sat-weekend-accommodations");
+      const due = await section.locator("tbody td time").evaluateAll(cells => cells.map(cell => cell.dateTime));
+      assert.deepEqual(due, accommodationDeadlines);
+      assert.match(await section.innerText(), /March 6 scores are scheduled for March 19, 2027.*May 1.*due March 12/is);
+      const cases = section.locator("article");
+      assert.equal(await cases.count(), 3);
+      assert.match(await cases.nth(0).innerText(), /receipt of .*required documents.*up to seven weeks/s);
+      assert.match(await cases.nth(1).innerText(), /do not need to request the same.*admission ticket/s);
+      assert.match(await cases.nth(2).innerText(), /Embedded text-to-speech alone.*screen reader or dictation.*not the same as SAT School Day/s);
+      assert.equal(await section.locator("input, form").count(), 0);
+      assert.equal(await section.getByRole("link", { name: "Check the current College Board deadline list" }).getAttribute("href"),
+        "https://accommodations.collegeboard.org/request-accommodations/dates-deadlines");
+      const headerBottom = await page.locator(".site-header").evaluate(el => Math.max(0, el.getBoundingClientRect().bottom));
+      const title = await section.getByRole("heading", { name: "SAT Weekend accommodations deadlines", exact: true }).boundingBox();
+      assert.ok(title.y >= headerBottom && title.y + title.height < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.SAT_ACCOMMODATIONS_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.SAT_ACCOMMODATIONS_SCREENSHOTS_DIR, { recursive: true });
+        await section.screenshot({ path: path.join(process.env.SAT_ACCOMMODATIONS_SCREENSHOTS_DIR, `accommodations-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const file of pages) {
+  test(`${file}: track neither accommodation choices nor health details when showing a backup deadline`, async () => {
+    const { context, page } = await openPage(file, "2027-01-08T18:00:00Z", { width: 390, height: 900 }, "Pacific/Auckland");
+    try {
+      const build = page.locator("[data-sat-plan-button]");
+      await page.locator("[data-sat-stage]").selectOption("junior_first");
+      await page.locator("[data-sat-wait-for-score]").check();
+      await build.click();
+      assert.equal(await page.locator("[data-sat-primary-date]").textContent(), "March 6, 2027");
+      assert.equal(await page.locator("[data-sat-backup-date]").textContent(), "May 1, 2027");
+      assert.match(await page.locator("[data-sat-primary-accommodations]").textContent(), /January 15, 2027/);
+      assert.match(await page.locator("[data-sat-backup-accommodations]").textContent(), /March 12, 2027/);
+      const note = page.locator("[data-sat-accommodations-backup-note]");
+      assert.match(await note.textContent(), /If you need new or different accommodations.*March 12, 2027, before your scheduled first score release/s);
+      const events = await page.evaluate(() => Array.from(window.dataLayer || []).filter(entry =>
+        entry[0] === "event" && entry[1] === "sat_plan_generated").map(entry => entry[2]));
+      assert.equal(events.length, 1);
+      for (const key of Object.keys(events[0])) assert.doesNotMatch(key, /accommod|health|disability|ssd/i);
+      assert.equal(await page.locator("input[name*='accommod'], select[name*='accommod']").count(), 0);
+      const nextSteps = page.getByRole("link", { name: "Check accommodations deadlines and next steps" });
+      assert.equal(await nextSteps.getAttribute("href"), file === pages[0]
+        ? "#sat-weekend-accommodations" : "sat-test-dates-2026-2027.html#sat-weekend-accommodations");
+      await page.locator("[data-sat-retake]").uncheck();
+      assert.equal(await note.isVisible(), false);
+      await build.click();
+      assert.equal(await page.locator("[data-sat-backup-accommodations]").isVisible(), false);
+      assert.equal(await note.isVisible(), false);
+    } finally { await context.close(); }
+  });
+}
 
 for (const [file, action, width, timezone] of [
   [pages[0], "save", 320, "Pacific/Auckland"],
@@ -454,7 +522,10 @@ for (const width of [320, 390, 1280]) {
       const heading = await page.locator("[data-sat-date-planner] h2").boundingBox();
       const header = await page.locator(".site-header").boundingBox();
       assert.ok(heading.y >= header.y + header.height && heading.y + heading.height < 844, JSON.stringify({ heading, header }));
-      const novemberRow = page.getByRole("row").filter({ hasText: "November 7, 2026" });
+      const registrationTable = page.locator("section.tool-block").filter({
+        has: page.getByRole("heading", { name: "SAT test dates and registration deadlines for 2026-2027", exact: true }),
+      }).getByRole("table");
+      const novemberRow = registrationTable.getByRole("row").filter({ hasText: "November 7, 2026" });
       assert.match(await novemberRow.textContent(), /Past date/);
     } finally { await context.close(); }
   });

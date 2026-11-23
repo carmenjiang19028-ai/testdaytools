@@ -4234,11 +4234,14 @@ function initSatDatePlanners() {
     const primaryDate = widget.querySelector("[data-sat-primary-date]");
     const primaryDeadline = widget.querySelector("[data-sat-primary-deadline]");
     const primaryDevice = widget.querySelector("[data-sat-primary-device]");
+    const primaryAccommodations = widget.querySelector("[data-sat-primary-accommodations]");
     const primaryScore = widget.querySelector("[data-sat-primary-score]");
     const backupDate = widget.querySelector("[data-sat-backup-date]");
     const backupDeadline = widget.querySelector("[data-sat-backup-deadline]");
     const backupDevice = widget.querySelector("[data-sat-backup-device]");
+    const backupAccommodations = widget.querySelector("[data-sat-backup-accommodations]");
     const backupScore = widget.querySelector("[data-sat-backup-score]");
+    const accommodationsBackupNote = widget.querySelector("[data-sat-accommodations-backup-note]");
     const retakeWindowNote = widget.querySelector("[data-sat-retake-window]");
     const saveButton = widget.querySelector("[data-sat-plan-save]");
     const calendarButton = widget.querySelector("[data-sat-date-calendar]");
@@ -4277,6 +4280,12 @@ function initSatDatePlanners() {
       if (!node) return;
       node.hidden = !event?.scoreReleaseDate;
       node.textContent = node.hidden ? "" : `Scheduled student score release: ${dateLabel(event.scoreReleaseDate)}.`;
+    };
+    const showAccommodationsDeadline = (node, event) => {
+      if (!node) return;
+      node.hidden = !event?.accommodationsDate;
+      node.textContent = node.hidden ? ""
+        : `New or changed accommodations: request and documents due ${dateLabel(event.accommodationsDate)}.`;
     };
     const backupWindow = (primary, backup, needsDevice) => {
       const release = primary.scoreReleaseDate;
@@ -4332,6 +4341,10 @@ function initSatDatePlanners() {
         retakeWindowNote.hidden = true;
         retakeWindowNote.textContent = "";
       }
+      if (accommodationsBackupNote) {
+        accommodationsBackupNote.hidden = true;
+        accommodationsBackupNote.textContent = "";
+      }
       if (saveButton) {
         saveButton.disabled = true;
         saveButton.textContent = "Save this plan";
@@ -4385,6 +4398,7 @@ function initSatDatePlanners() {
       if (primaryDate) primaryDate.textContent = primary.label;
       if (primaryDeadline) primaryDeadline.textContent = registrationText(primary, now);
       showDeviceDeadline(primaryDevice, primary, needsDevice);
+      showAccommodationsDeadline(primaryAccommodations, primary);
       showScoreRelease(primaryScore, primary);
       const noAfterScore = waitForScore && firstBackup && !choice;
       if (backupDate) {
@@ -4397,6 +4411,7 @@ function initSatDatePlanners() {
           : "You can rebuild the plan whenever your timeline changes.";
       }
       showDeviceDeadline(backupDevice, backup, needsDevice);
+      showAccommodationsDeadline(backupAccommodations, backup);
       showScoreRelease(backupScore, backup);
       if (retakeWindowNote) {
         const skipped = firstBackup && firstBackup !== choice
@@ -4404,6 +4419,13 @@ function initSatDatePlanners() {
         const result = choice ? choice.note + (choice.canWait ? "" : " Reserve before the cutoff or choose a later date.") : "";
         retakeWindowNote.hidden = !firstBackup;
         retakeWindowNote.textContent = (skipped + result).trim();
+      }
+      if (accommodationsBackupNote) {
+        const due = backup?.accommodationsDate;
+        const release = primary.scoreReleaseDate;
+        accommodationsBackupNote.hidden = !(due && release && due <= release);
+        accommodationsBackupNote.textContent = accommodationsBackupNote.hidden ? "" :
+          `If you need new or different accommodations for your backup, the published request date is ${dateLabel(due)}, ${due === release ? "the same date as" : "before"} your scheduled first score release. Do not wait for that score to start the request.`;
       }
       if (picks) picks.hidden = false;
       if (saveButton) saveButton.disabled = false;

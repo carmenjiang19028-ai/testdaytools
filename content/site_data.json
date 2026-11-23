@@ -1847,6 +1847,10 @@
           "href": "#sat-school-day-2027"
         },
         {
+          "label": "Check accommodations deadlines",
+          "href": "#sat-weekend-accommodations"
+        },
+        {
           "label": "Check official registration deadlines",
           "href": "https://satsuite.collegeboard.org/sat/dates-deadlines"
         }
@@ -1873,6 +1877,7 @@
         "events": [
           {
             "date": "2026-08-22",
+            "accommodationsDate": "2026-07-07",
             "registrationDate": "2026-08-07",
             "lateDate": "2026-08-11",
             "scoreReleaseDate": "2026-09-04",
@@ -1881,6 +1886,7 @@
           },
           {
             "date": "2026-09-12",
+            "accommodationsDate": "2026-07-24",
             "registrationDate": "2026-08-28",
             "lateDate": "2026-09-01",
             "scoreReleaseDate": "2026-09-25",
@@ -1889,6 +1895,7 @@
           },
           {
             "date": "2026-10-03",
+            "accommodationsDate": "2026-08-14",
             "registrationDate": "2026-09-18",
             "lateDate": "2026-09-22",
             "scoreReleaseDate": "2026-10-16",
@@ -1897,6 +1904,7 @@
           },
           {
             "date": "2026-11-07",
+            "accommodationsDate": "2026-09-18",
             "registrationDate": "2026-10-23",
             "lateDate": "2026-10-27",
             "scoreReleaseDate": "2026-11-20",
@@ -1905,6 +1913,7 @@
           },
           {
             "date": "2026-12-05",
+            "accommodationsDate": "2026-10-16",
             "registrationDate": "2026-11-20",
             "lateDate": "2026-11-24",
             "scoreReleaseDate": "2026-12-18",
@@ -1913,6 +1922,7 @@
           },
           {
             "date": "2027-03-06",
+            "accommodationsDate": "2027-01-15",
             "registrationDate": "2027-02-19",
             "lateDate": "2027-02-23",
             "scoreReleaseDate": "2027-03-19",
@@ -1921,6 +1931,7 @@
           },
           {
             "date": "2027-05-01",
+            "accommodationsDate": "2027-03-12",
             "registrationDate": "2027-04-16",
             "lateDate": "2027-04-20",
             "scoreReleaseDate": "2027-05-14",
@@ -1929,11 +1940,38 @@
           },
           {
             "date": "2027-06-05",
+            "accommodationsDate": "2027-04-16",
             "registrationDate": "2027-05-21",
             "lateDate": "2027-05-25",
             "scoreReleaseDate": "2027-06-21",
             "title": "SAT - June 5, 2027",
             "description": "Regular registration deadline: May 21, 2027. Late registration and changes deadline: May 25, 2027. Verify test-center availability with College Board."
+          }
+        ]
+      },
+      "satAccommodations": {
+        "deadlinesUrl": "https://accommodations.collegeboard.org/request-accommodations/dates-deadlines",
+        "items": [
+          {
+            "label": "New or changed request",
+            "title": "Send the request and complete documents early",
+            "text": "Start with your school's Services for Students with Disabilities (SSD) coordinator. The deadline is for receipt of the request and required documents, not for starting the form or reserving a seat. Review can take up to seven weeks once the documents are complete. If the deadline passed, submit promptly and ask about what can be in place on your date or a later test.",
+            "href": "https://accommodations.collegeboard.org/request-accommodations",
+            "cta": "Check official request steps"
+          },
+          {
+            "label": "Already approved",
+            "title": "Verify the approval applies to this booking",
+            "text": "You usually do not need to request the same College Board accommodation again. Check with your coordinator and verify that your admission ticket shows it for this registration. Open registration or prior approval alone does not tell you that all arrangements are in place.",
+            "href": "https://accommodations.collegeboard.org/request-accommodations/after-your-request/after-approval",
+            "cta": "Check what to do after approval"
+          },
+          {
+            "label": "Test center or school",
+            "title": "Do not assume the Saturday seat is your appointment",
+            "text": "Embedded text-to-speech alone can be arranged at a weekend test center if approved. Other arrangements, such as a screen reader or dictation, may require school-based testing. For a school-based arrangement, ask your coordinator for the actual start time and location in the weekend testing window. This is not the same as SAT School Day.",
+            "href": "https://accommodations.collegeboard.org/how-accommodations-work/for-each-test/sat",
+            "cta": "Compare official testing settings"
           }
         ]
       },
