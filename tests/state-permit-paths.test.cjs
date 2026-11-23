@@ -34,6 +34,56 @@ const guideDestinations = [
 ];
 
 for (const width of [320, 1280]) {
+  test(`${width}px: Illinois keeps the posted work-zone limit separate from school-zone conditions`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("illinois-dmv-road-signs-practice");
+      await page.goto(guide);
+      await page.getByRole("link", { name: "Illinois school zones", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#illinois-school-zone");
+      const schoolCases = page.locator("#illinois-school-zone details");
+      assert.equal(await schoolCases.count(), 2);
+      await schoolCases.first().locator("summary").press("Enter");
+      assert.match(await schoolCases.first().innerText(), /6:30 a.m. and ends at 4 p.m.*children are close enough/is);
+
+      await page.getByRole("link", { name: "Illinois work-zone speed", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#illinois-work-zone-speed");
+      const lesson = page.locator("#illinois-work-zone-speed");
+      const heading = await lesson.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      assert.equal(await page.locator("[data-quiz]").getAttribute("data-pass-score"), "16");
+      assert.match(await page.locator(".hero").innerText(), /shared, unofficial 20-question/i);
+      const expected = [
+        [/maximum is 45 mph.*at night, even without workers.*maximum, not a target/is,
+          /slow below it.*rain and limited visibility/is,
+          "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf"],
+        [/does not set a numerical limit.*Slow for the narrowing lane.*regulatory speed-limit sign/is,
+          /40 mph is now the posted maximum.*even without workers/is,
+          "https://idot.illinois.gov/content/dam/soi/en/web/idot/documents/doing-business/manuals-split/local-roads-and-streets/chapter-39.pdf"],
+      ];
+      const cards = lesson.locator("article");
+      assert.equal(await cards.count(), expected.length);
+      for (const [index, [reason, transfer, source]] of expected.entries()) {
+        const card = cards.nth(index);
+        const reasoning = card.locator("details").first();
+        const check = card.locator("details").last();
+        assert.equal(await reasoning.locator("li").first().isVisible(), false);
+        assert.equal(await check.locator("p").isVisible(), false);
+        await reasoning.locator("summary").press("Enter");
+        assert.match(await reasoning.innerText(), reason);
+        await check.locator("summary").press("Enter");
+        assert.match(await check.innerText(), transfer);
+        assert.equal(await card.getByRole("link").getAttribute("href"), source);
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: Pennsylvania and New Jersey give different decisions for the same left turn on red`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

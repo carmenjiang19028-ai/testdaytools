@@ -12007,9 +12007,20 @@
       "category": "DMV",
       "title": "Illinois DMV Road Signs Practice",
       "description": "Illinois road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "Illinois road signs",
       "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the Illinois exam details below to plan the rest of your study.",
+      "heroActions": [
+        {"label": "Start image quiz", "href": "#practice"},
+        {"label": "Illinois school zones", "href": "#illinois-school-zone"},
+        {"label": "Illinois work-zone speed", "href": "#illinois-work-zone-speed"},
+        {"label": "Focus paths", "href": "#sign-focus"},
+        {"label": "Sign finder", "href": "#sign-meaning-finder"},
+        {"label": "Shape and color guide", "href": "#sign-study"},
+        {"label": "Sign library", "href": "#sign-library"},
+        {"label": "Passing score", "href": "dmv-permit-test-passing-score-calculator.html?state=illinois#score-calculator"},
+        {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=illinois#dmv-checklist"}
+      ],
       "stateRulePractice": {
         "id": "illinois-school-zone",
         "linkLabel": "Illinois school zones",
@@ -12268,39 +12279,6 @@
               "Illinois Secretary of State source pages, documents, and official handbook wording.",
               "Process questions are easy points if you read the official page once."
             ]
-          ]
-        }
-      ],
-      "body": [
-        {
-          "heading": "How to use the Illinois road signs page",
-          "text": "Start with the visual quiz without looking at the library. After you miss a sign, review the matching category below and retake the round later."
-        },
-        {
-          "heading": "Why visual practice matters",
-          "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice trains that faster recognition."
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Illinois study moves that save time",
-          "intro": "The goal is not to click practice questions forever. Use each result to decide the next handbook section.",
-          "items": [
-            {
-              "label": "First pass",
-              "title": "Do not chase a perfect score early",
-              "text": "A low first score is useful if it shows exactly which categories need reading."
-            },
-            {
-              "label": "Signs",
-              "title": "Review signs by shape and color",
-              "text": "Shape and color often reveal the action before you read the words."
-            },
-            {
-              "label": "Retake",
-              "title": "Explain the driver action",
-              "text": "On your next round, say what you would do before reading the answer choices."
-            }
           ]
         }
       ],

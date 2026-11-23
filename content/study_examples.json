@@ -1,4 +1,43 @@
 {
+  "illinois-dmv-road-signs-practice": {
+    "id": "illinois-work-zone-speed",
+    "heading": "Illinois: when does the work-zone speed limit apply?",
+    "intro": "The school-zone cases ask you to check the time and whether children are near traffic. Do not carry those conditions over to a posted Illinois work-zone limit. These original cases do not affect the image quiz score.",
+    "examples": [
+      {
+        "title": "The crew is gone, but the limit stays",
+        "question": "At 9 p.m. on a normally 55 mph Illinois road, you pass a WORK ZONE SPEED LIMIT 45 sign. Cones still narrow the lane, but you see no workers. Which maximum applies in the signed zone?",
+        "steps": [
+          "The posted work-zone maximum is 45 mph. The usual 55 mph limit does not apply in that signed zone.",
+          "The sign is still in force at night, even without workers present.",
+          "Treat 45 mph as a maximum, not a target. Slow further if the narrowed lane, traffic or visibility requires it."
+        ],
+        "mistake": "Do not look for a crew to decide whether a posted work-zone limit counts. The school-zone time and presence conditions are a different rule.",
+        "check": "The same 45 mph sign remains in force, but heavy rain cuts visibility. Are you supposed to hold 45 mph?",
+        "answer": "No. 45 mph still caps your speed, but slow below it as needed for the rain and limited visibility.",
+        "source": {
+          "label": "Illinois Rules of the Road 2026: Construction Zones, page 25",
+          "url": "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf"
+        }
+      },
+      {
+        "title": "A warning is not a new speed limit",
+        "question": "You see an orange ROAD WORK AHEAD sign in Illinois. The last posted limit was 55 mph. You have not yet passed a new speed-limit sign, and the lane is narrowing. Does the orange sign by itself set a 45 mph limit?",
+        "steps": [
+          "No. ROAD WORK AHEAD warns of a change ahead. It does not set a numerical limit.",
+          "Slow for the narrowing lane and watch for traffic control. Do not assume that driving at the last posted maximum is safe.",
+          "Look for a regulatory speed-limit sign. Read the posted number instead of guessing a work-zone speed."
+        ],
+        "mistake": "Orange tells you to expect temporary conditions. It does not tell you how many miles per hour to subtract.",
+        "check": "A little farther on you pass a WORK ZONE SPEED LIMIT 40 sign. You still see no workers. What changes?",
+        "answer": "40 mph is now the posted maximum in the signed zone even without workers. Go slower if the conditions require it.",
+        "source": {
+          "label": "Illinois DOT Traffic Control Devices: Speed Limit Signs and Warning Signs, sections 39-2.08 and 39-2.09",
+          "url": "https://idot.illinois.gov/content/dam/soi/en/web/idot/documents/doing-business/manuals-split/local-roads-and-streets/chapter-39.pdf"
+        }
+      }
+    ]
+  },
   "pennsylvania-dmv-road-signs-practice": {
     "id": "pennsylvania-left-on-red",
     "heading": "Pennsylvania: when two one-way streets meet at a red light",
