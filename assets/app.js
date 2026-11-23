@@ -1693,6 +1693,12 @@ function initModeTools() {
       }
     });
 
+    const controls = tool.querySelector("[data-practice-controls]");
+    if (controls?.querySelector("[data-quiz-filter] option")) {
+      controls.hidden = false;
+      tool.querySelector("[data-practice-fallback]").hidden = true;
+    }
+
     let params;
     try {
       params = new URLSearchParams(window.location.search);

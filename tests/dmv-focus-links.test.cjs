@@ -50,6 +50,50 @@ const urlFor = (file, params = {}) => {
 const mode = page => page.locator("[data-mode-panel].is-active");
 const filter = page => mode(page).locator("[data-quiz-filter]");
 
+for (const [width, scripts] of [[390, "off"], [1280, "failed"], [390, "ready"]]) {
+  test(`${width}px: core sign practice keeps a usable route with scripts ${scripts}`, async () => {
+    const origin = "http://testdaytools.test";
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: scripts !== "off" });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      await context.route(origin + "/**", route => {
+        const filename = new URL(route.request().url()).pathname.slice(1);
+        return scripts === "failed" && filename === "assets/app.js"
+          ? route.abort()
+          : route.fulfill({ path: path.join(root, filename) });
+      });
+      const page = await context.newPage();
+      page.setDefaultTimeout(5000);
+      for (const [file, selected, total] of [
+        ["road-signs-practice-test.html", "road-signs-core", 40],
+        ["regulatory-traffic-signs-practice-test.html", "regulatory-signs-core", 16],
+      ]) {
+        await page.goto(`${origin}/${file}?mode=${selected}#practice`);
+        const practice = page.locator("#practice");
+        const alternate = practice.getByRole("heading", { name: "Review signs without the interactive quiz", exact: true });
+        if (scripts === "ready") {
+          assert.equal(await alternate.count(), 0);
+          assert.equal(await mode(page).getAttribute("data-mode-panel"), selected);
+          assert.equal(await mode(page).locator(".question").count(), total);
+          assert.ok(await mode(page).locator(".question.is-active").isVisible());
+          continue;
+        }
+        assert.equal(await practice.locator("[role=tablist]:visible").count(), 0, "no inactive quiz controls");
+        assert.ok(await alternate.isVisible());
+        assert.equal(await practice.getByRole("link", { name: "Compare STOP and YIELD with pictures" }).getAttribute("href"),
+          "road-sign-learning-loop.html#lesson-stop-yield");
+        await practice.getByRole("link", { name: "Open the road signs worksheet", exact: true }).press("Enter");
+        await page.waitForURL("**/dmv-road-signs-cheat-sheet.html#online-worksheet");
+        const part = page.locator("#online-worksheet .worksheet-part").first();
+        await part.locator(":scope > summary").press("Enter");
+        await part.getByText("Check sign 1", { exact: true }).press("Enter");
+        assert.match(await part.innerText(), /Come to a complete stop/);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      }
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [320, 1280]) {
   test(`${width}px: Florida opens the named sign round and removes editorial search copy`, () =>
     open(width, async page => {

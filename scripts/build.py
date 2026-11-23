@@ -3003,8 +3003,7 @@ def render_dmv_mode_tool(tool):
         if any(mode["id"] == "mock" for mode in modes)
         else "Use a short picture round to find slow signs, or choose the full sign set to check more categories. Neither replaces a mixed permit test."
     )
-    return f"""<section class="dmv-mode-tool" id="practice" data-mode-tool>
-  <div class="tool-section-head">
+    mode_content = f"""  <div class="tool-section-head">
     <span class="eyebrow">DMV practice engine</span>
     <h2>Choose a practice mode</h2>
     <p class="section-intro">{esc(mode_intro)}</p>
@@ -3017,7 +3016,24 @@ def render_dmv_mode_tool(tool):
   </div>
   <div class="mode-tabs" role="tablist" aria-label="Practice modes">{"".join(tabs)}</div>
   <ul class="mode-overview">{overview_items}</ul>
-  <div class="mode-panels">{"".join(panels)}</div>
+  <div class="mode-panels">{"".join(panels)}</div>"""
+    if tool.get("slug") in {ROAD_SIGN_PICTURE_SLUG, "regulatory-traffic-signs-practice-test"}:
+        mode_content = f"""  <div data-practice-fallback>
+    <div class="tool-section-head">
+      <h2>Review signs without the interactive quiz</h2>
+      <p class="section-intro">The quiz has not loaded. These study materials work without JavaScript.</p>
+    </div>
+    <ul class="material-links">
+      <li><a href="dmv-road-signs-cheat-sheet.html#online-worksheet">Open the road signs worksheet</a></li>
+      <li><a href="dmv-road-signs-cheat-sheet.html#printable-sheet">Read the sign pictures and meanings</a></li>
+      <li><a href="road-sign-learning-loop.html#lesson-stop-yield">Compare STOP and YIELD with pictures</a></li>
+    </ul>
+  </div>
+  <div data-practice-controls hidden>
+{mode_content}
+  </div>"""
+    return f"""<section class="dmv-mode-tool" id="practice" data-mode-tool>
+{mode_content}
 </section>"""
 
 
