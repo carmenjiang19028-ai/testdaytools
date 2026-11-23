@@ -529,7 +529,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
 """
 
 
-def schema(title, description, canonical, page_type="WebPage"):
+def schema(title, description, canonical, page_type="WebPage", *, resource_type=None, educational_use=None):
     base = {
         "@context": "https://schema.org",
         "@type": page_type,
@@ -540,8 +540,10 @@ def schema(title, description, canonical, page_type="WebPage"):
         "isAccessibleForFree": True
     }
     if page_type == "LearningResource":
-        base["learningResourceType"] = "Practice test"
-        base["educationalUse"] = "Practice"
+        if resource_type:
+            base["learningResourceType"] = resource_type
+        if educational_use:
+            base["educationalUse"] = educational_use
         base["audience"] = {"@type": "EducationalAudience", "educationalRole": "student"}
     if page_type == "WebApplication":
         base["applicationCategory"] = "EducationalApplication"
@@ -561,8 +563,12 @@ def breadcrumb_schema(title, canonical):
     }
 
 
-def page_schema(title, description, canonical, page_type="WebPage"):
-    return [schema(title, description, canonical, page_type), breadcrumb_schema(title, canonical)]
+def page_schema(title, description, canonical, page_type="WebPage", *, resource_type=None, educational_use=None):
+    return [
+        schema(title, description, canonical, page_type,
+               resource_type=resource_type, educational_use=educational_use),
+        breadcrumb_schema(title, canonical),
+    ]
 
 
 def render_last_updated(value=None):
@@ -3249,10 +3255,16 @@ def render_tool(tool):
 {render_trust_strip(tool)}
 {practice_console}{render_contrast_practice_links(f'{ROAD_SIGN_PICTURE_SLUG}.html') if tool['slug'] == ROAD_SIGN_PICTURE_SLUG else ''}{test_day_bridge}{state_rule_practice}{sign_recall}
 {page_sections}"""
-    page_type = "LearningResource" if tool.get("category") in ("DMV", "SAT", "AP") else "WebPage"
     canonical = url_for(f'/{tool["slug"]}.html')
-    resource_schema = schema(tool["title"], tool["description"], canonical, page_type)
-    resource_schema.update(tool.get("schema", {}))
+    metadata = tool.get("schema", {})
+    resource_type = metadata.get("learningResourceType", "Practice test" if quiz else None)
+    educational_use = metadata.get("educationalUse", "Practice" if quiz else None)
+    resource_schema = schema(
+        tool["title"], tool["description"], canonical,
+        "LearningResource" if resource_type else "WebPage",
+        resource_type=resource_type, educational_use=educational_use,
+    )
+    resource_schema.update(metadata)
     social_image = None
     if tool["slug"] == ROAD_SIGN_PICTURE_SLUG:
         social_image = ROAD_SIGN_PICTURE_PREVIEW
@@ -3942,7 +3954,9 @@ def render_road_sign_shapes_page():
         f"/{ROAD_SIGN_SHAPES_SLUG}.html",
         body,
         "tool-page shape-page",
-        page_schema(ROAD_SIGN_SHAPES_PAGE["title"], ROAD_SIGN_SHAPES_PAGE["description"], url_for(f"/{ROAD_SIGN_SHAPES_SLUG}.html"), "LearningResource"),
+        page_schema(ROAD_SIGN_SHAPES_PAGE["title"], ROAD_SIGN_SHAPES_PAGE["description"],
+                    url_for(f"/{ROAD_SIGN_SHAPES_SLUG}.html"), "LearningResource",
+                    resource_type="Reference guide", educational_use="Study"),
         extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">',
     )
 
@@ -4167,9 +4181,9 @@ def render_road_sign_cheat_sheet_page():
         ROAD_SIGN_CHEAT_SHEET_PAGE["description"],
         canonical,
         "LearningResource",
+        resource_type=["Cheat sheet", "Worksheet", "Answer key"],
+        educational_use=["Study", "Classroom review", "Instruction"],
     )
-    resource_schema["learningResourceType"] = ["Cheat sheet", "Worksheet", "Answer key"]
-    resource_schema["educationalUse"] = ["Study", "Classroom review", "Instruction"]
     resource_schema["license"] = f"{canonical}#educational-use-license"
     resource_schema["usageInfo"] = f"{canonical}#educational-use-license"
     resource_schema["isAccessibleForFree"] = True
@@ -4343,7 +4357,9 @@ def render_road_sign_flashcards_page():
         f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html",
         body,
         "tool-page flashcard-page",
-        page_schema(ROAD_SIGN_FLASHCARDS_PAGE["title"], ROAD_SIGN_FLASHCARDS_PAGE["description"], url_for(f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html"), "LearningResource"),
+        page_schema(ROAD_SIGN_FLASHCARDS_PAGE["title"], ROAD_SIGN_FLASHCARDS_PAGE["description"],
+                    url_for(f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html"), "LearningResource",
+                    resource_type="Flashcards", educational_use="Study"),
     )
 
 
@@ -4457,7 +4473,9 @@ def render_dmv_daily_question_page():
         f"/{DMV_DAILY_SLUG}.html",
         body,
         "tool-page daily-question-page",
-        page_schema(DMV_DAILY_PAGE["title"], DMV_DAILY_PAGE["description"], url_for(f"/{DMV_DAILY_SLUG}.html"), "LearningResource"),
+        page_schema(DMV_DAILY_PAGE["title"], DMV_DAILY_PAGE["description"],
+                    url_for(f"/{DMV_DAILY_SLUG}.html"), "LearningResource",
+                    resource_type="Practice questions", educational_use="Practice"),
     )
 
 
@@ -4620,7 +4638,9 @@ def render_dmv_mistake_log_page():
         f"/{DMV_MISTAKE_LOG_SLUG}.html",
         body,
         "tool-page mistake-log-page",
-        page_schema(DMV_MISTAKE_LOG_PAGE["title"], DMV_MISTAKE_LOG_PAGE["description"], url_for(f"/{DMV_MISTAKE_LOG_SLUG}.html"), "LearningResource"),
+        page_schema(DMV_MISTAKE_LOG_PAGE["title"], DMV_MISTAKE_LOG_PAGE["description"],
+                    url_for(f"/{DMV_MISTAKE_LOG_SLUG}.html"), "LearningResource",
+                    resource_type="Mistake log", educational_use="Review"),
     )
 
 
@@ -4784,7 +4804,9 @@ def render_dmv_study_plan_page():
         f"/{DMV_STUDY_PLAN_SLUG}.html",
         body,
         "tool-page study-plan-page",
-        page_schema(DMV_STUDY_PLAN_PAGE["title"], DMV_STUDY_PLAN_PAGE["description"], url_for(f"/{DMV_STUDY_PLAN_SLUG}.html"), "LearningResource"),
+        page_schema(DMV_STUDY_PLAN_PAGE["title"], DMV_STUDY_PLAN_PAGE["description"],
+                    url_for(f"/{DMV_STUDY_PLAN_SLUG}.html"), "LearningResource",
+                    resource_type="Study plan", educational_use="Test preparation"),
     )
 
 

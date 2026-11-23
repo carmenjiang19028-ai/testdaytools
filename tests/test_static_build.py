@@ -1,3 +1,4 @@
+import json
 import unittest
 from functools import lru_cache
 from html.parser import HTMLParser
@@ -17,6 +18,9 @@ class PageMetadata(HTMLParser):
         super().__init__()
         self.ids = set()
         self.links = []
+        self.json_ld = []
+        self.has_scored_quiz = False
+        self.json_script = None
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -28,6 +32,19 @@ class PageMetadata(HTMLParser):
             self.ids.add(attrs["id"])
         if tag == "a" and attrs.get("href"):
             self.links.append(attrs["href"])
+        if "data-quiz" in attrs:
+            self.has_scored_quiz = True
+        if tag == "script" and attrs.get("type") == "application/ld+json":
+            self.json_script = []
+
+    def handle_data(self, data):
+        if self.json_script is not None:
+            self.json_script.append(data)
+
+    def handle_endtag(self, tag):
+        if tag == "script" and self.json_script is not None:
+            self.json_ld.append(json.loads("".join(self.json_script)))
+            self.json_script = None
 
 
 class StaticBuildTest(unittest.TestCase):
@@ -100,6 +117,51 @@ class StaticBuildTest(unittest.TestCase):
                 if not file.is_file() or (anchor and file.suffix == ".html" and anchor not in inspect(file).ids):
                     broken.add((source.name, link))
         self.assertEqual(broken, set())
+
+    def test_only_indexable_quiz_pages_describe_themselves_as_practice_tests(self):
+        sitemap = ElementTree.parse(build.ROOT / "sitemap.xml")
+        comparisons = []
+        for loc in sitemap.findall("./{*}url/{*}loc"):
+            name = urlsplit(loc.text).path.lstrip("/") or "index.html"
+            page = PageMetadata()
+            page.feed((build.ROOT / name).read_text())
+            claims_test = any(item.get("learningResourceType") == "Practice test"
+                              for item in page.json_ld)
+            comparisons.append(page.has_scored_quiz)
+            with self.subTest(page=name):
+                self.assertEqual(claims_test, page.has_scored_quiz)
+        self.assertIn(True, comparisons)
+        self.assertIn(False, comparisons)
+
+    def test_accurately_labeled_resources_keep_their_existing_breadcrumb(self):
+        cases = {
+            "ap-exam-day-checklist": "Checklist",
+            "digital-sat-checklist": "Checklist",
+            "digital-sat-bluebook-checklist": "Checklist",
+            "dmv-test-day-checklist": "Checklist",
+            "florida-dmv-permit-documents-checklist": "Checklist",
+            "sat-test-dates-2026-2027": "Planning tool",
+            "sat-august-22-2026-planning": "Planning tool",
+            "sat-practice-test-review-template": "Worksheet",
+            "road-sign-shapes-and-colors-finder": "Reference guide",
+            "dmv-road-sign-flashcards": "Flashcards",
+            "dmv-permit-test-question-of-the-day": "Practice questions",
+            "dmv-permit-test-mistake-log": "Mistake log",
+            "dmv-permit-test-study-plan": "Study plan",
+            "dmv-road-signs-cheat-sheet": ["Cheat sheet", "Worksheet", "Answer key"],
+            "digital-sat-score-calculator": None,
+            "2026-ap-exam-schedule": None,
+        }
+        for slug, kind in cases.items():
+            with self.subTest(page=slug):
+                page = PageMetadata()
+                page.feed((build.ROOT / f"{slug}.html").read_text())
+                resource, breadcrumbs = page.json_ld[:2]
+                self.assertEqual(resource["url"], page.canonical)
+                self.assertEqual(resource["@type"], "LearningResource" if kind else "WebPage")
+                self.assertEqual(resource.get("learningResourceType"), kind)
+                self.assertEqual(breadcrumbs["@type"], "BreadcrumbList")
+                self.assertEqual(breadcrumbs["itemListElement"][-1]["item"], page.canonical)
 
     def test_retired_snapshots_are_not_generated(self):
         outputs = {}
