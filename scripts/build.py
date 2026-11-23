@@ -785,11 +785,16 @@ def dmv_score_records(include_supplemental=False):
         },
         "illinois": {
             "questions": 35,
+            "minimumLength": True,
             "correct": 28,
             "percent": 80,
             "rule": "80% correct; at least 35 questions",
             "miss": "7 if the test has 35 questions",
-            "note": "Illinois describes a minimum of 35 questions, so use this as a minimum-length estimate.",
+            "note": "Enter the actual question count to calculate the 80% target. Round the number needed up to the next whole answer when necessary.",
+            "answer": "Illinois Class D requires at least 35 questions and at least 80% correct. If your test has 35 questions, you need 28 correct and can miss 7. For a longer test, use the actual question count.",
+            "ruleUrl": "https://www.ilga.gov/commission/jcar/admincode/092/092010300000800R.html",
+            "ruleLabel": "Illinois Administrative Code, Section 1030.80",
+            "officialPracticeUrl": "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf#page=39",
         },
         "pennsylvania": {
             "questions": 18,
@@ -921,12 +926,15 @@ def dmv_score_records(include_supplemental=False):
             "testDayLabel": f'{requirement["label"]} permit steps' if permit_steps else "Test-day checklist",
             "testDayIsPermitGuide": bool(permit_steps),
             "questions": questions,
+            "minimumQuestions": questions if fact.get("minimumLength") else "",
             "correct": correct,
             "percent": percent,
             "rule": fact.get("rule", requirement["passRule"]),
             "miss": fact.get("miss", str(can_miss) if can_miss != "" else "Confirm with official source"),
             "canMiss": can_miss,
             "scoreNote": fact.get("note", requirement["passText"]),
+            "scoreRuleUrl": fact.get("ruleUrl", requirement["manualUrl"]),
+            "scoreRuleLabel": fact.get("ruleLabel", requirement["manualLabel"]),
             "answer": fact.get("answer", ""),
             "sectionQuestions": fact.get("sectionQuestions", ""),
             "sectionCorrect": fact.get("sectionCorrect", ""),
@@ -4615,6 +4623,7 @@ def render_dmv_score_calculator():
         f'data-state="{esc(item["label"])}" '
         f'data-agency="{esc(item["agency"])}" '
         f'data-questions="{esc(item["questions"])}" '
+        f'data-minimum-questions="{esc(item["minimumQuestions"])}" '
         f'data-correct="{esc(item["correct"])}" '
         f'data-percent="{esc(item["percent"])}" '
         f'data-section-questions="{esc(item["sectionQuestions"])}" '
@@ -4625,8 +4634,8 @@ def render_dmv_score_calculator():
         f'data-rule="{esc(item["rule"])}" '
         f'data-miss="{esc(item["miss"])}" '
         f'data-note="{esc(item["scoreNote"])}" '
-        f'data-source-url="{esc(item["manualUrl"])}" '
-        f'data-source-label="{esc(item["manualLabel"])}" '
+        f'data-source-url="{esc(item["scoreRuleUrl"])}" '
+        f'data-source-label="{esc(item["scoreRuleLabel"])}" '
         f'data-sign-url="{esc(item["signUrl"])}" '
         f'data-primary-topic="{esc(item["primaryTopic"])}" '
         f'data-official-practice-url="{esc(item["officialPracticeUrl"])}" '
@@ -4647,6 +4656,9 @@ def render_dmv_score_calculator():
             primary_part = "rules" if item["value"] == "georgia" else "general"
             official_format = f'{item["questions"]} {primary_part} + {item["sectionQuestions"]} signs'
         required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
+        if item["minimumQuestions"]:
+            official_format = f'At least {item["minimumQuestions"]} questions'
+            required = f'{item["percent"]}% correct'
         next_links = ""
         if item.get("mixedPracticeUrl"):
             next_links = f'<a href="{esc(item["mixedPracticeUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Mixed practice</a> '
@@ -4657,7 +4669,7 @@ def render_dmv_score_calculator():
   <td><strong>{esc(required)}</strong><span>{esc(item["rule"])}</span></td>
   <td>{esc(item["miss"])}</td>
   <td>{next_links}</td>
-  <td><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["manualLabel"])}</a></td>
+  <td><a href="{esc(item["scoreRuleUrl"])}" target="_blank" rel="noopener">{esc(item["scoreRuleLabel"])}</a></td>
 </tr>""")
     return f"""<section class="score-calculator tool-block" id="score-calculator" data-dmv-score-calculator>
   <div class="tool-section-head">
@@ -4762,7 +4774,7 @@ def render_dmv_score_answers(records):
   <p><strong>{esc(answer)}</strong></p>
   <p>{esc(item["scoreNote"])}</p>
   <div class="score-answer-actions">
-    <a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">Verify official rule</a>
+    <a href="{esc(item["scoreRuleUrl"])}" target="_blank" rel="noopener">Verify official rule</a>
     <a href="{esc(item["permitUrl"])}">Open practice</a>
     <a href="{esc(item["testDayUrl"])}">{esc(item["testDayLabel"])}</a>
   </div>
@@ -4778,7 +4790,7 @@ def render_dmv_score_answers(records):
 def render_dmv_score_page():
     records = dmv_score_records(include_supplemental=True)
     source_links = "".join(
-        f'<li><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["manualLabel"])}</a></li>'
+        f'<li><a href="{esc(item["scoreRuleUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["scoreRuleLabel"])}</a></li>'
         for item in records
     )
     faq = render_faq([

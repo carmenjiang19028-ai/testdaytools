@@ -2868,7 +2868,12 @@ function initDmvScoreCalculators() {
       const separateRule = sectionQuestions > 0;
       const signsIncluded = option.dataset.sectionIncluded === "true";
       const primaryTopic = option.dataset.primaryTopic;
-      const officialLength = validTotal && total === Number(option.dataset.questions);
+      const minimum = Number(option.dataset.minimumQuestions) || 0;
+      const belowMinimum = validTotal && total < minimum;
+      const minimumNote = belowMinimum
+        ? `This is below the ${minimum}-question minimum and is practice math only.`
+        : `${minimum} is the minimum, not a fixed length. Use the count shown for your actual exam.`;
+      const officialLength = validTotal && !minimum && total === Number(option.dataset.questions);
       const needed = validTotal ? thresholdFor(option, total) : 0;
       if (countAnswer) {
         const missed = total - needed;
@@ -2876,7 +2881,8 @@ function initDmvScoreCalculators() {
         const scope = separateRule
           ? " The road-sign requirement still applies; this only calculates the main score."
           : "";
-        const estimate = !officialLength && option.dataset.questions
+        const estimate = minimum ? ` ${minimumNote}`
+          : !officialLength && option.dataset.questions
           ? " This is scaled practice math, not the official test format."
           : !option.dataset.questions ? " Confirm your current test length with the state." : "";
         countAnswer.hidden = !validTotal;
@@ -2947,6 +2953,7 @@ function initDmvScoreCalculators() {
             ? "Road-sign target met; one section not checked"
             : incomplete
               ? "Score target met; road-sign rule not checked"
+              : belowMinimum ? "Meets the scaled practice target"
               : cushion > 0
                 ? "Above the selected state target"
                 : "Meets the selected state target";
@@ -2969,6 +2976,8 @@ function initDmvScoreCalculators() {
           const primary = signOnly ? `No ${primaryTopic} score entered.` :
             `${primaryTopic ? primaryTopic[0].toUpperCase() + primaryTopic.slice(1) : "Overall"}: ${correct} of ${total} correct; ${needed} needed.`;
           message.textContent = `${stateName}. ${primary} ${sectionMessage}`;
+        } else if (minimum) {
+          message.textContent += ` ${minimumNote}`;
         } else if (!officialLength && option.dataset.questions) {
           message.textContent += " This is scaled to your practice length, not an official-format score.";
         }
@@ -2986,7 +2995,7 @@ function initDmvScoreCalculators() {
       if (nextStep) nextStep.hidden = !scoreChecked;
       if (nextTitle && nextCopy && nextLink) {
         const stateName = option.dataset.state || option.textContent.trim();
-        const needsPractice = outcome !== "target_met";
+        const needsPractice = belowMinimum || outcome !== "target_met";
         const hasMixed = Boolean(option.dataset.mixedPracticeUrl);
         const hasPermitGuide = option.dataset.testDayIsPermitGuide === "true";
         let nextPath = needsPractice ? "practice" : "checklist";
@@ -3005,7 +3014,16 @@ function initDmvScoreCalculators() {
         nextLink.textContent = needsPractice
           ? (hasMixed ? `Open ${stateName} mixed practice` : "Open road-sign practice")
           : hasPermitGuide && option.dataset.testDayLabel ? option.dataset.testDayLabel : "Open test-day checklist";
-        if (needsPractice && matchingMixedLength && mixedGap <= 0) {
+        if (belowMinimum) {
+          nextTitle.textContent = `Try a longer ${stateName} practice round`;
+          nextCopy.textContent = `A round below ${minimum} questions is not a full knowledge test. Use a longer set before comparing your preparation with the written test.`;
+          if (!hasMixed && option.dataset.officialPracticeUrl) {
+            nextCopy.textContent = `A round below ${minimum} questions is not a full knowledge test. Use the official study questions to cover road rules and signs.`;
+            nextLink.href = option.dataset.officialPracticeUrl;
+            nextLink.textContent = `Open ${stateName} study questions`;
+          }
+        }
+        if (needsPractice && !belowMinimum && matchingMixedLength && mixedGap <= 0) {
           nextTitle.textContent = "Review the official rule before your next round";
           nextCopy.textContent = "If this was our mixed set, you already met its practice goal. Check the official test format first; you can use another mixed round to work on missed topics.";
         }
@@ -3049,19 +3067,23 @@ function initDmvScoreCalculators() {
       if (!option) return;
       const officialQuestions = option.dataset.questions || "";
       const officialCorrect = option.dataset.correct || "";
+      const minimum = option.dataset.minimumQuestions;
       if (correctLabel) correctLabel.textContent = option.dataset.primaryScoreLabel || "Practice correct";
       if (totalLabel) totalLabel.textContent = option.dataset.primaryTotalLabel || "Practice total";
       const separateSections = Number(option.dataset.sectionQuestions) > 0 && option.dataset.sectionIncluded !== "true";
-      if (lengthLabel) lengthLabel.textContent = separateSections ? option.dataset.primaryTotalLabel : "Official length";
+      if (lengthLabel) lengthLabel.textContent = minimum ? "Minimum written-test length"
+        : separateSections ? option.dataset.primaryTotalLabel : "Official length";
       if (lengthNote) lengthNote.textContent = separateSections
         ? "Length of this section only. The road-sign section has its own passing requirement."
-        : "Questions on the state knowledge test when the source gives a fixed number.";
+        : minimum ? "The actual test length may be longer."
+          : "Questions on the state knowledge test when the source gives a fixed number.";
       if (sectionInput) sectionInput.value = "";
       if (agency) agency.textContent = option.dataset.agency || "State agency";
       if (rule) rule.textContent = option.dataset.rule || "Confirm with official source";
       if (note) note.textContent = option.dataset.note || "Use the official source for the final passing rule.";
-      if (questions) questions.textContent = officialQuestions || "Use source";
-      if (correctNeeded) correctNeeded.textContent = officialCorrect || (option.dataset.rule || "Use source");
+      if (questions) questions.textContent = minimum ? `${minimum}+` : officialQuestions || "Use source";
+      if (correctNeeded) correctNeeded.textContent = minimum ? `${option.dataset.percent}%`
+        : officialCorrect || (option.dataset.rule || "Use source");
       if (miss) miss.textContent = option.dataset.miss || "Confirm with official source";
       if (source) {
         source.href = option.dataset.sourceUrl || "#";
@@ -3081,7 +3103,8 @@ function initDmvScoreCalculators() {
       if (correctInput) correctInput.value = "";
       if (useOfficial) {
         useOfficial.disabled = !officialQuestions;
-        useOfficial.textContent = officialQuestions ? `Fill ${officialQuestions} questions` : "Enter your own total";
+        useOfficial.textContent = minimum ? `Example: ${minimum} questions`
+          : officialQuestions ? `Fill ${officialQuestions} questions` : "Enter your own total";
       }
       renderScore();
     };

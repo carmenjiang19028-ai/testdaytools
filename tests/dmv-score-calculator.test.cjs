@@ -30,6 +30,47 @@ const tracked = (page) => page.evaluate(() => (window.dataLayer || [])
   .map((entry) => entry[2]));
 
 for (const width of [320, 1280]) {
+  test(`${width}px: Illinois distinguishes a minimum exam length from a fixed example`, async () => {
+    const { context, page } = await openScore({ width, height: 844 });
+    try {
+      const state = page.locator("[data-score-state]");
+      await state.selectOption("illinois");
+      const count = page.locator("[data-score-count-answer]");
+      assert.equal(await page.locator("[data-score-length-label]").textContent(), "Minimum written-test length");
+      assert.equal(await page.locator("[data-score-questions]").textContent(), "35+");
+      assert.match(await page.locator("[data-score-source]").getAttribute("href"), /092010300000800R\.html$/);
+      assert.equal(await useLength(page).textContent(), "Example: 35 questions");
+      const card = page.locator("#illinois-permit-test-passing-score");
+      assert.match(await card.innerText(), /at least 35.*80%.*28 correct.*miss 7/s);
+      assert.match(await page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: "Illinois", exact: true }) }).innerText(), /At least 35 questions/);
+
+      await totalInput(page).fill("34");
+      assert.match(await count.innerText(), /need 28 correct; can miss up to 6.*below the 35-question minimum/);
+      await correctInput(page).fill("30");
+      await check(page);
+      assert.match(await score(page), /scaled practice target/);
+      assert.equal(await nextLink(page).getAttribute("href"), "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf#page=39");
+      assert.equal(await nextLink(page).textContent(), "Open Illinois study questions");
+      assert.match(await page.locator("[data-score-next-title]").textContent(), /longer Illinois practice/);
+      await useLength(page).click();
+      assert.equal(await totalInput(page).inputValue(), "35");
+      assert.match(await count.innerText(), /need 28 correct; can miss up to 7.*35 is the minimum/);
+
+      await totalInput(page).fill("41");
+      assert.match(await count.innerText(), /need 33 correct; can miss up to 8.*35 is the minimum/);
+      assert.doesNotMatch(await count.innerText(), /not the official test format/);
+      await correctInput(page).fill("32");
+      await check(page);
+      assert.match(await score(page), /1 more correct answer needed/);
+      await correctInput(page).fill("33");
+      await check(page);
+      assert.match(await score(page), /^Meets/);
+      assert.match(await resultMessage(page).innerText(), /35 is the minimum, not a fixed length/);
+      assert.match(await nextLink(page).getAttribute("href"), /dmv-test-day-checklist\.html\?state=illinois/);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: four state score paths never borrow another state's checklist`, async () => {
     const { context, page } = await openScore({ width, height: 900 });
     try {

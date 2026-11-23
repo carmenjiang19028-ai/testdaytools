@@ -452,7 +452,13 @@ for (const width of [390, 1280]) {
         await page.locator("[data-score-input-total]").fill("20");
         await page.locator("[data-score-check]").click();
         assert.match(await page.locator("[data-score-next-copy]").textContent(), /not a full knowledge test/);
-        assert.equal(await page.locator("[data-score-next-link]").getAttribute("href"), signs);
+        const followup = page.locator("[data-score-next-link]");
+        if (state === "illinois") {
+          assert.equal(await followup.getAttribute("href"), "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf#page=39");
+          assert.equal(await followup.textContent(), "Open Illinois study questions");
+        } else {
+          assert.equal(await followup.getAttribute("href"), signs);
+        }
       }
 
       await page.goto(`${origin}/dmv-test-day-checklist.html?state=new-york`);
