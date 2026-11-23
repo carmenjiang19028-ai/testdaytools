@@ -3036,6 +3036,7 @@ function initDmvRequirementsFinders() {
 }
 
 function initDmvScoreCalculators() {
+  const formatPercent = new Intl.NumberFormat("en-US", { style: "percent", maximumFractionDigits: 2 });
   document.querySelectorAll("[data-dmv-score-calculator]").forEach((widget) => {
     const stateSelect = widget.querySelector("[data-score-state]");
     const agency = widget.querySelector("[data-score-agency]");
@@ -3058,7 +3059,7 @@ function initDmvScoreCalculators() {
     const sectionLabel = widget.querySelector("[data-score-section-label]");
     const sectionNote = widget.querySelector("[data-score-section-note]");
     const useOfficial = widget.querySelector("[data-score-use-official]");
-    const checkScore = widget.querySelector("[data-score-check]");
+    const scoreForm = widget.querySelector("form.score-panel");
     const countAnswer = widget.querySelector("[data-score-count-answer]");
     const percent = widget.querySelector("[data-score-percent]");
     const status = widget.querySelector("[data-score-status]");
@@ -3182,13 +3183,13 @@ function initDmvScoreCalculators() {
         return invalidScore("The road-sign score and overall score do not match. Include the sign answers in the total correct count.");
       }
 
-      const pct = signOnly ? Math.round((sectionCorrect / sectionQuestions) * 100) : Math.round((correct / total) * 100);
+      const pct = formatPercent.format(signOnly ? sectionCorrect / sectionQuestions : correct / total);
       const gap = signOnly ? 0 : Math.max(0, needed - correct);
       const sectionGap = sectionKnown ? Math.max(0, sectionNeeded - sectionCorrect) : 0;
       const incomplete = separateRule && (!checkSection || !sectionKnown);
       const outcome = gap || sectionGap ? "below_target" : incomplete ? "section_unverified" : "target_met";
       const scoreLabel = signOnly ? " on signs" : primaryTopic ? ` on ${primaryTopic}` : separateRule ? " overall" : "";
-      if (percent) percent.textContent = `${pct}%${scoreLabel}`;
+      if (percent) percent.textContent = `${pct}${scoreLabel}`;
       if (status) {
         const cushion = correct - needed;
         status.textContent = gap
@@ -3376,7 +3377,8 @@ function initDmvScoreCalculators() {
       if (officialQuestions && totalInput) totalInput.value = String(officialQuestions);
       editScore();
     });
-    checkScore?.addEventListener("click", () => {
+    scoreForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
       scoreChecked = true;
       const result = renderScore();
       if (!result) return;

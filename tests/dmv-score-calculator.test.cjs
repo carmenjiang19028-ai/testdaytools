@@ -152,6 +152,46 @@ for (const width of [320, 1280]) {
       assert.equal((await tracked(page)).length, 0);
     } finally { await context.close(); }
   });
+
+  test(`${width}px: a near miss does not round to the passing mark and Enter checks the result`, async () => {
+    const { context, page } = await openScore({ width, height: 844 });
+    try {
+      const url = page.url();
+      const displayed = page.locator("[data-score-percent]");
+      await page.locator("[data-score-state]").selectOption("california");
+      await totalInput(page).fill("83");
+      await correctInput(page).fill("66");
+      assert.equal(await displayed.innerText(), "79.52%");
+      assert.equal(await nextLink(page).isVisible(), false);
+      await correctInput(page).press("Enter");
+      assert.equal(page.url(), url);
+      assert.match(await score(page), /1 more correct answer needed/);
+      assert.ok(await nextLink(page).isVisible());
+      assert.deepEqual((await tracked(page)).map(event => event.result), ["below_target"]);
+
+      await correctInput(page).fill("67");
+      assert.equal(await displayed.innerText(), "80.72%");
+      assert.equal(await nextLink(page).isVisible(), false);
+      await totalInput(page).press("Enter");
+      assert.match(await score(page), /^Meets/);
+      assert.ok(await nextLink(page).isVisible());
+      assert.deepEqual((await tracked(page)).map(event => event.result), ["below_target", "target_met"]);
+
+      await totalInput(page).fill("10.5");
+      await totalInput(page).press("Enter");
+      assert.equal(await score(page), "Check the question counts");
+      assert.equal(await nextLink(page).isVisible(), false);
+      assert.equal((await tracked(page)).length, 2);
+
+      await page.locator("[data-score-state]").selectOption("florida");
+      await useLength(page).click();
+      await correctInput(page).fill("40");
+      await check(page);
+      assert.equal(await displayed.innerText(), "80%");
+      assert.match(await score(page), /^Meets/);
+      assert.equal((await tracked(page)).length, 3);
+    } finally { await context.close(); }
+  });
 }
 
 test("miss counts retain separate sign requirements and distinguish scaled practice", async () => {

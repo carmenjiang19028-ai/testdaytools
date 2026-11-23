@@ -47,7 +47,7 @@ DMV_SCORE_PAGE = {
     "category": "DMV",
     "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
     "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
-    "lastUpdated": "November 23, 2026",
+    "lastUpdated": "November 24, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
@@ -5028,7 +5028,7 @@ def render_dmv_score_calculator():
         <a href="{esc(default["testDayUrl"])}" data-score-checklist>{esc(default["testDayLabel"])}</a>
       </div>
     </aside>
-    <div class="score-panel">
+    <form class="score-panel" novalidate>
       <div class="score-stat-row">
         <article><span data-score-length-label>Official length</span><strong data-score-questions>{esc(default["questions"] or "Use source")}</strong><p data-score-length-note>Questions on the state knowledge test when the source gives a fixed number.</p></article>
         <article><span>Need correct</span><strong data-score-correct>{esc(default["correct"] or default["rule"])}</strong><p>Minimum correct answers or percentage rule.</p></article>
@@ -5053,7 +5053,7 @@ def render_dmv_score_calculator():
         </div>
         <p id="score-section-note" data-score-section-note></p>
       </div>
-      <button class="score-check-submit" type="button" data-score-check>Check practice score</button>
+      <button class="score-check-submit" type="submit" data-score-check>Check practice score</button>
       <div class="score-result" aria-live="polite">
         <p><b>State-rule comparison</b></p>
         <span data-score-percent>--</span>
@@ -5066,7 +5066,7 @@ def render_dmv_score_calculator():
           <a href="{esc(default.get("mixedPracticeUrl") or default["signUrl"])}" data-score-next-link data-dmv-state-link data-dmv-state="{esc(default["label"])}" data-dmv-path="practice">{'Open mixed practice' if default.get("mixedPracticeUrl") else 'Open road-sign practice'}</a>
         </div>
       </div>
-    </div>
+    </form>
   </div>
   <div class="source-matrix requirements-table" id="score-table" data-state-filter-scope>
     <div class="section-head-row">
