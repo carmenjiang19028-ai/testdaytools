@@ -30,6 +30,36 @@ const tracked = (page) => page.evaluate(() => (window.dataLayer || [])
   .map((entry) => entry[2]));
 
 for (const width of [320, 1280]) {
+  test(`${width}px: custom practice scores lead to the right preparation, not final readiness`, async () => {
+    const { context, page } = await openScore({ width, height: 844 });
+    try {
+      const state = page.locator("[data-score-state]");
+      const nextTitle = page.locator("[data-score-next-title]");
+      for (const [name, total, correct, destination, expectedStatus] of [
+        ["florida", "10", "8", "florida-dmv-permit-practice-test.html?mode=mock#practice", "Meets the scaled practice target"],
+        ["florida", "40", "32", "https://www.flhsmv.gov/resources/handbooks-manuals/", "Meets the scaled practice target"],
+        ["ohio", "10", "8", "https://www.bmv.ohio.gov/dl-gdl.aspx", "Meets the scaled practice target"],
+        ["georgia", "10", "7", "https://dds.georgia.gov/testing-and-training/practice-test", "1 more correct answer needed"],
+        ["georgia", "10", "9", "https://dds.georgia.gov/testing-and-training/practice-test", "Scaled practice target met; road-sign rule not checked"],
+      ]) {
+        await state.selectOption(name);
+        await totalInput(page).fill(total);
+        await correctInput(page).fill(correct);
+        await check(page);
+        assert.equal(await score(page), expectedStatus, name);
+        assert.equal(await nextLink(page).getAttribute("href"), destination, name);
+        assert.doesNotMatch(await nextTitle.textContent(), /final readiness|permit steps/i);
+      }
+      await state.selectOption("florida");
+      await useLength(page).click();
+      await correctInput(page).fill("40");
+      await check(page);
+      assert.equal(await score(page), "Meets the selected state target");
+      assert.match(await nextLink(page).getAttribute("href"), /dmv-test-day-checklist\.html\?state=florida/);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: Illinois distinguishes a minimum exam length from a fixed example`, async () => {
     const { context, page } = await openScore({ width, height: 844 });
     try {

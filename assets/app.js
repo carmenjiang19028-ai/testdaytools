@@ -3168,7 +3168,9 @@ function initDmvScoreCalculators() {
       const minimumNote = belowMinimum
         ? `This is below the ${minimum}-question minimum and is practice math only.`
         : `${minimum} is the minimum, not a fixed length. Use the count shown for your actual exam.`;
-      const officialLength = validTotal && !minimum && total === Number(option.dataset.questions);
+      const fixedLength = minimum ? 0 : Number(option.dataset.questions);
+      const officialLength = validTotal && fixedLength > 0 && total === fixedLength;
+      const scaledLength = validTotal && fixedLength > 0 && !officialLength;
       const needed = validTotal ? thresholdFor(option, total) : 0;
       if (countAnswer) {
         const missed = total - needed;
@@ -3177,7 +3179,7 @@ function initDmvScoreCalculators() {
           ? " The road-sign requirement still applies; this only calculates the main score."
           : "";
         const estimate = minimum ? ` ${minimumNote}`
-          : !officialLength && option.dataset.questions
+          : scaledLength
           ? " This is scaled practice math, not the official test format."
           : !option.dataset.questions ? " Confirm your current test length with the state." : "";
         countAnswer.hidden = !validTotal;
@@ -3240,6 +3242,7 @@ function initDmvScoreCalculators() {
       if (percent) percent.textContent = `${pct}${scoreLabel}`;
       if (status) {
         const cushion = correct - needed;
+        const target = belowMinimum || scaledLength ? "the scaled practice target" : "the selected state target";
         status.textContent = gap
           ? `${gap} more correct answer${gap === 1 ? "" : "s"} needed`
           : sectionGap
@@ -3247,11 +3250,10 @@ function initDmvScoreCalculators() {
           : signOnly
             ? "Road-sign target met; one section not checked"
             : incomplete
-              ? "Score target met; road-sign rule not checked"
-              : belowMinimum ? "Meets the scaled practice target"
+              ? scaledLength ? "Scaled practice target met; road-sign rule not checked" : "Score target met; road-sign rule not checked"
               : cushion > 0
-                ? "Above the selected state target"
-                : "Meets the selected state target";
+                ? `Above ${target}`
+                : `Meets ${target}`;
       }
       if (message) {
         const stateName = option.dataset.state || option.textContent.trim();
@@ -3280,6 +3282,7 @@ function initDmvScoreCalculators() {
       const mixedNeeded = Number(option.dataset.mixedCorrect);
       const matchingMixedLength = mixedNeeded > 0 && total === Number(option.dataset.mixedQuestions);
       const mixedGap = mixedNeeded - correct;
+      const metMixedGoal = matchingMixedLength && mixedGap <= 0;
       if (mixedResult && mixedMessage && scoreChecked && matchingMixedLength && !signOnly) {
         const result = mixedGap > 0
           ? `${mixedGap} more correct answer${mixedGap === 1 ? "" : "s"} to reach it`
@@ -3317,10 +3320,25 @@ function initDmvScoreCalculators() {
             nextLink.href = option.dataset.officialPracticeUrl;
             nextLink.textContent = `Open ${stateName} study questions`;
           }
+        } else if (scaledLength) {
+          nextTitle.textContent = primaryTopic ? `Practice ${primaryTopic} in the state format` : "Compare with the state test format";
+          if (hasMixed && !metMixedGoal) {
+            nextCopy.textContent = `This round does not match the ${fixedLength}-question format. Use mixed practice to cover both rules and signs; keep its score separate from the official rule.`;
+            nextLink.href = option.dataset.mixedPracticeUrl;
+            nextLink.textContent = `Open ${stateName} mixed practice`;
+          } else {
+            const sample = option.dataset.officialPracticeUrl;
+            nextCopy.textContent = primaryTopic
+              ? `Review ${primaryTopic} with the state material. This round cannot check the separate road-sign requirement.`
+              : `This round does not match the ${fixedLength}-question format. Check the state guidance before treating it as evidence of readiness.`;
+            nextLink.href = sample || option.dataset.sourceUrl;
+            nextLink.textContent = sample ? `Open ${option.dataset.agency} sample practice` : `Check ${stateName} test information`;
+          }
+          nextPath = "practice";
         }
-        if (needsPractice && !belowMinimum && matchingMixedLength && mixedGap <= 0) {
+        if ((needsPractice || scaledLength) && !belowMinimum && metMixedGoal) {
           nextTitle.textContent = "Review the official rule before your next round";
-          nextCopy.textContent = "If this was our mixed set, you already met its practice goal. Check the official test format first; you can use another mixed round to work on missed topics.";
+          nextCopy.textContent = "If this was our mixed set, you already met its practice goal. Check the official test format and passing requirements separately.";
         }
         if (checkSection && sectionGap > 0) {
           nextTitle.textContent = "Review the road signs you missed";
