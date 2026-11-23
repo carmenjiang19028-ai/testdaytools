@@ -2256,7 +2256,7 @@ def render_dmv_checklist_widget(widget):
         <p data-dmv-next-step>First unchecked item will appear here.</p>
         <div class="dmv-checklist-buttons">
           <button type="button" data-dmv-copy-checklist>Copy plan</button>
-          <button type="button" data-dmv-print-checklist>Print</button>
+          <button type="button" data-dmv-print-checklist>Print plan</button>
           <button type="button" data-dmv-checklist-reset>Reset</button>
         </div>
       </div>
@@ -2264,6 +2264,36 @@ def render_dmv_checklist_widget(widget):
   </div>
   {document_pack}
   {document_map}
+</section>
+<section class="dmv-print-plan" data-dmv-print-plan aria-labelledby="dmv-print-title">
+  <p class="dmv-print-brand">TestDayTools | Independent practice resource</p>
+  <h2 id="dmv-print-title" data-dmv-print-title>DMV test-day plan</h2>
+  <p data-dmv-print-format></p>
+  <p class="dmv-print-source"><strong>Official source:</strong> <a data-dmv-print-source></a></p>
+  <div class="dmv-print-visit">
+    <p><strong>Appointment date and time:</strong> _______________________</p>
+    <p><strong>Office or testing location:</strong> _______________________</p>
+  </div>
+  <div class="dmv-print-columns">
+    <div>
+      <h3>Permit test-day checks</h3>
+      <p data-dmv-print-check-count></p>
+      <ul data-dmv-print-checks></ul>
+    </div>
+    <div data-dmv-print-pack hidden>
+      <h3 data-dmv-print-pack-title>Document pack</h3>
+      <p data-dmv-print-pack-detail></p>
+      <p data-dmv-print-pack-count></p>
+      <ul data-dmv-print-pack-items></ul>
+    </div>
+  </div>
+  <div class="dmv-print-notes" data-dmv-print-notes>
+    <h3>Check with the state before you go</h3>
+    <p><strong>Documents:</strong> <span data-dmv-print-documents></span></p>
+    <p><strong>Appointment and fees:</strong> <span data-dmv-print-appointment></span></p>
+    <p><strong>Retake:</strong> <span data-dmv-print-retake></span></p>
+  </div>
+  <p class="dmv-print-foot">Marks are your preparation notes, not proof of eligibility. Verify accepted documents for your applicant path.</p>
 </section>"""
 
 

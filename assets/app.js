@@ -3304,6 +3304,7 @@ function initDmvChecklists() {
     const resetButton = widget.querySelector("[data-dmv-checklist-reset]");
     const copyButton = widget.querySelector("[data-dmv-copy-checklist]");
     const printButton = widget.querySelector("[data-dmv-print-checklist]");
+    const printPlan = widget.nextElementSibling?.matches("[data-dmv-print-plan]") ? widget.nextElementSibling : null;
     const checks = Array.from(widget.querySelectorAll("[data-dmv-check]"));
     const packType = widget.querySelector("[data-dmv-pack-type]");
     const packAgency = widget.querySelector("[data-dmv-pack-agency]");
@@ -3323,6 +3324,54 @@ function initDmvChecklists() {
     const selectedOption = () => stateSelect?.selectedOptions?.[0];
     const selectedPackType = () => packType?.selectedOptions?.[0];
     const visiblePackItems = () => packItems.filter((item) => !item.closest("[data-dmv-pack-row]")?.hidden);
+
+    const preparePrintPlan = () => {
+      const option = selectedOption();
+      if (!printPlan || !option) return;
+      const field = (name) => printPlan.querySelector(`[data-dmv-print-${name}]`);
+      const setText = (name, value) => {
+        const target = field(name);
+        if (target) target.textContent = value || "";
+      };
+      const setItems = (name, countName, items) => {
+        const list = field(name);
+        if (!list) return;
+        list.replaceChildren(...items.map((item) => {
+          const row = document.createElement("li");
+          const box = document.createElement("span");
+          box.className = "dmv-print-box";
+          box.setAttribute("aria-hidden", "true");
+          box.textContent = item.checked ? "X" : "";
+          row.append(box, item.closest("label")?.querySelector("strong")?.textContent || item.value);
+          return row;
+        }));
+        const ready = items.filter((item) => item.checked).length;
+        setText(countName, `${ready} of ${items.length} marked ready`);
+      };
+      const applicant = selectedPackType();
+      const permitPath = !applicant || ["first-permit", "minor"].includes(applicant.value);
+      setText("title", `${option.textContent.trim()} DMV test-day plan`);
+      setText("format", permitPath ? option.dataset.format
+        : "Use the permit-test checks only if your state requires a knowledge test for this visit.");
+      const official = field("source");
+      if (official) {
+        official.href = option.dataset.manualUrl || "#";
+        official.textContent = option.dataset.manualUrl || option.dataset.manualLabel || "Check the state agency";
+      }
+      setItems("checks", "check-count", checks);
+      const documents = visiblePackItems();
+      const pack = field("pack");
+      if (pack) pack.hidden = !documents.length;
+      setText("pack-title", applicant?.textContent.trim() || "Document pack");
+      setText("pack-detail", applicant?.dataset.packDetail);
+      setItems("pack-items", "pack-count", documents);
+      const notes = field("notes");
+      if (notes) notes.hidden = !permitPath;
+      setText("documents", option.dataset.documents);
+      setText("appointment", option.dataset.appointment);
+      setText("retake", option.dataset.retake);
+      document.body.classList.add("dmv-checklist-print-ready");
+    };
 
     const setStateIfAvailable = (rawValue) => {
       if (!stateSelect || !rawValue) return false;
@@ -3534,8 +3583,10 @@ function initDmvChecklists() {
       }
     });
     printButton?.addEventListener("click", () => {
+      preparePrintPlan();
       window.print();
     });
+    if (printPlan) window.addEventListener("beforeprint", preparePrintPlan);
     packType?.addEventListener("change", () => {
       loadDocumentPack();
       renderDocumentPack();

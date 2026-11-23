@@ -6331,11 +6331,63 @@ button:disabled {
 .learning-review-card p { margin:8px 0 4px; }
 .learning-review-card small { color:#65758b; }
 @media (max-width: 700px) { .learning-card { grid-template-columns:1fr; padding:16px; } .learning-card-visual { min-height:140px; } .learning-review-grid { grid-template-columns:1fr; } .learning-loop-progress { align-items:flex-start; flex-direction:column; gap:4px; } }
+.dmv-print-plan { display: none; }
+
 @media print {
   @page {
     size: Letter;
     margin: 0.3in;
   }
+
+  body.dmv-checklist-print-ready {
+    color: #111;
+    background: #fff;
+  }
+
+  body.dmv-checklist-print-ready > .skip-link,
+  body.dmv-checklist-print-ready .site-header,
+  body.dmv-checklist-print-ready .site-footer,
+  body.dmv-checklist-print-ready main > :not(.dmv-print-plan) {
+    display: none !important;
+  }
+
+  body.dmv-checklist-print-ready .dmv-print-plan {
+    display: block;
+    padding: 0 0.18in;
+    font: 11pt/1.34 Arial, sans-serif;
+  }
+
+  .dmv-print-plan h2 { font-size: 21pt; margin: 0.05in 0; }
+  .dmv-print-plan h3 { font-size: 12pt; margin: 0 0 0.03in; }
+  .dmv-print-plan p { margin: 0 0 0.08in; }
+  .dmv-print-brand, .dmv-print-foot { font-size: 9.5pt; }
+  .dmv-print-plan a { color: #111; overflow-wrap: anywhere; }
+  .dmv-print-source { padding-bottom: 0.08in; border-bottom: 1px solid #555; }
+  .dmv-print-visit,
+  .dmv-print-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.22in;
+  }
+  .dmv-print-columns { margin: 0.14in 0; }
+  .dmv-print-columns > div, .dmv-print-notes { break-inside: avoid; }
+  .dmv-print-plan ul { list-style: none; margin: 0; padding: 0; }
+  .dmv-print-plan li {
+    display: grid;
+    grid-template-columns: 0.14in 1fr;
+    gap: 0.08in;
+    margin-bottom: 0.032in;
+  }
+  .dmv-print-box {
+    width: 0.14in;
+    height: 0.14in;
+    margin-top: 0.03in;
+    border: 1px solid #111;
+    font: bold 8pt/0.12in Arial, sans-serif;
+    text-align: center;
+  }
+  .dmv-print-notes { border-block: 1px solid #555; padding: 0.1in 0 0.02in; }
+  .dmv-print-plan .dmv-print-foot { margin-top: 0.09in; }
 
   body.road-sign-cheat-sheet-page {
     background: #fff;
