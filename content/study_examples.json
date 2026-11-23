@@ -1,4 +1,59 @@
 {
+  "digital-sat-scoring-explained": {
+    "id": "sat-scoring-cases",
+    "heading": "Three SAT scoring cases: what can you conclude?",
+    "intro": "These original scenarios use invented practice results. They show what you can learn from each number without estimating an SAT score.",
+    "examples": [
+      {
+        "title": "Same correct count, different section scores",
+        "question": "Two students count 31 correct Math answers each after full-length digital practice. One report shows the higher Math score. Is that enough to call it a scoring error?",
+        "steps": [
+          "No. An equal count does not tell you that the students answered the same questions correctly.",
+          "College Board's scoring model uses the pattern of responses and properties of the questions, including difficulty. It does not simply multiply every correct answer by the same point value.",
+          "Use each test's reported Math score for the comparison. Use the missed questions to decide what each student should practice."
+        ],
+        "mistake": "Do not take someone else's correct-count-to-score pair and use it as a conversion for your own test.",
+        "check": "Your report from one practice sitting shows 650 in Reading and Writing and 680 in Math. Can you combine those?",
+        "answer": "Yes. These are two reported section scores from the same sitting, not raw counts. Add them for a 1,330 total.",
+        "source": {
+          "label": "College Board: How Are Scores Calculated?",
+          "url": "https://satsuite.collegeboard.org/scores/what-scores-mean/how-scores-calculated"
+        }
+      },
+      {
+        "title": "The second module feels easier",
+        "question": "The first three questions in Math Module 2 feel easier than the last few in Module 1. Does that tell you which route you got or what score you will receive?",
+        "steps": [
+          "No. Both second-module routes contain a mix of difficulty levels. The first few questions and your impression of them do not establish your route.",
+          "Even knowing the route would not tell you your section score. The score uses responses to scored questions in both modules; each route covers a range of scores.",
+          "Work through the questions in front of you. Flag a time-consuming item for review within the current module rather than spending time trying to infer the route."
+        ],
+        "mistake": "An easier-looking start is not a score report. It is not a reason to give up on the remaining questions.",
+        "check": "On a Bluebook practice test your second module felt hard, but the score report is now available. Which evidence should you use for your score gap?",
+        "answer": "Use the reported section scores. For your next study block, look at the particular questions you missed and why, not how the whole module felt.",
+        "source": {
+          "label": "College Board: Adaptive Testing and Module Scoring",
+          "url": "https://satsuite.collegeboard.org/scores/what-scores-mean/how-scores-calculated"
+        }
+      },
+      {
+        "title": "You cannot spot the unscored questions",
+        "question": "The digital SAT Math section shows 44 questions, including four pretest questions. A question near the middle looks unfamiliar. Can you skip it as one of the four?",
+        "steps": [
+          "No. Knowing there are two pretest questions in each module does not tell you where they are.",
+          "The unfamiliar question may count. Decide how much time to spend based on the clock and your progress, not a guess about whether it is scored.",
+          "Flag it if needed, then return within that module if time permits. College Board recommends an informed guess over a blank for most test takers."
+        ],
+        "mistake": "Unfamiliar wording does not identify a pretest question.",
+        "check": "Reading and Writing shows 54 questions in two modules. How many are used for scoring, and does that number identify any questions you can ignore?",
+        "answer": "50 are used for scoring: 54 shown minus two unscored questions in each module. That tells you the count, not the positions. Try all 54.",
+        "source": {
+          "label": "College Board: Assessment Framework for the Digital SAT Suite",
+          "url": "https://satsuite.collegeboard.org/media/pdf/assessment-framework-for-digital-sat-suite.pdf"
+        }
+      }
+    ]
+  },
   "california-dmv-road-signs-practice": {
     "id": "california-curb-decisions",
     "heading": "California: choose a curb for the stop you need",

@@ -3165,7 +3165,12 @@
       "title": "How Digital SAT Scoring Works",
       "description": "A clear explanation of Digital SAT scoring, adaptive modules, scaled scores, section scores, and why raw correct counts do not map perfectly to official results.",
       "heroKicker": "SAT scoring guide",
-      "summary": "Digital SAT scoring can feel confusing because the test is shorter, adaptive, and scale-based. This guide explains the useful parts without pretending to reverse-engineer College Board scoring.",
+      "summary": "Equal correct counts can lead to different section scores. Find out what counts, what the second module tells you, and how to turn a Bluebook result into a review plan.",
+      "lastUpdated": "November 24, 2026",
+      "heroActions": [
+        {"label": "Try three scoring cases", "href": "#sat-scoring-cases"},
+        {"label": "Open the practice-test review record", "href": "sat-practice-test-review-template.html#sat-review-record"}
+      ],
       "quickFacts": [
         {
           "label": "Total range",
@@ -3186,135 +3191,29 @@
       ],
       "body": [
         {
-          "heading": "Scaled scores are not raw scores",
-          "text": "The SAT reports scaled scores so results from different forms can be compared. That means the number of correct answers is only part of the story."
-        },
-        {
-          "heading": "Adaptive modules change the meaning of performance",
-          "text": "The digital SAT uses module-level adaptation. Your performance in an earlier module can affect the later module you see, which is one reason raw conversion tables are limited."
-        },
-        {
-          "heading": "Section scores matter more than guesses",
-          "text": "Reading and Writing and Math each report a 200-800 score. Study decisions should start with the weaker section and then move to question type patterns."
-        },
-        {
-          "heading": "Use official practice for final checks",
-          "text": "Unofficial calculators can help planning, but official Bluebook practice gives the most relevant score experience before test day."
-        },
-        {
-          "heading": "Why raw-score charts can mislead digital SAT students",
-          "text": "Older paper-test habits make students search for a single conversion chart. The digital test is different because section performance interacts with scaled scoring and adaptive modules. A raw count can still be useful for practice review, but it should not be treated as a public official score table."
-        },
-        {
-          "heading": "What to track instead of only the final number",
-          "text": "Track section score, missed question type, timing pressure, and whether the miss came from knowledge, reading, or execution. These fields explain what to do next. A final score tells you where you are; the error pattern tells you how to move."
-        },
-        {
-          "heading": "How score release should change your plan",
-          "text": "When official scores arrive, compare them with your college list, scholarship goals, and upcoming registration deadlines. If the score is usable, the next step may be sending scores or building a superscore plan. If it is not usable, the next step is a narrower practice plan before choosing another date."
-        },
-        {
-          "heading": "How this guide connects to planning tools",
-          "text": "Use the score calculator to compare your reported Bluebook practice scores with your target, and the goal planner to check your timeline. Neither tool replaces official score reports or predicts test-day performance."
+          "heading": "Use the score to compare attempts; use the misses to pick practice",
+          "text": "After a full Bluebook practice test, copy both reported section scores from My Practice. In Score Details, revisit wrong or rushed answers. If you repeatedly run out of time on questions you can solve untimed, try a fresh timed set. If you still cannot explain the rule or solution, review the skill without the clock first."
         }
       ],
       "tables": [
         {
-          "caption": "Digital SAT scoring concepts",
+          "caption": "Questions shown versus questions scored on the digital SAT",
           "headers": [
-            "Question",
-            "Practical answer",
-            "Why it matters"
+            "Section",
+            "Questions shown",
+            "Questions used for section scoring"
           ],
           "rows": [
             [
-              "What is a scaled score?",
-              "A reported score adjusted onto the SAT scale.",
-              "It lets scores from different forms remain comparable."
+              "Reading and Writing",
+              "54 (27 per module)",
+              "50 (25 per module)"
             ],
             [
-              "Does every correct answer count the same?",
-              "Not in a way students can convert perfectly at home.",
-              "Adaptive testing and scaling make exact raw-score math unavailable."
-            ],
-            [
-              "What is the total score?",
-              "The two section scores added together.",
-              "A 650 Reading and Writing plus 680 Math becomes 1330."
-            ],
-            [
-              "What should students review first?",
-              "The weaker section and repeated missed question types.",
-              "A score without error analysis does not create a study plan."
-            ],
-            [
-              "How often should students take full tests?",
-              "Often enough to check timing, but not so often that review gets skipped.",
-              "Full tests are diagnostic tools, not the whole study plan."
+              "Math",
+              "44 (22 per module)",
+              "40 (20 per module)"
             ]
-          ]
-        }
-      ],
-      "cardGroups": [
-        {
-          "heading": "Common mistakes to avoid",
-          "items": [
-            {
-              "label": "Conversion",
-              "title": "Trusting random exact charts",
-              "text": "A chart that claims exact digital scoring may oversimplify adaptive scoring."
-            },
-            {
-              "label": "Study",
-              "title": "Taking tests without review",
-              "text": "A full practice test only helps if you study the missed questions afterward."
-            },
-            {
-              "label": "Strategy",
-              "title": "Ignoring section imbalance",
-              "text": "A 60-point gap in one section may be easier to improve than a broad total-score target."
-            }
-          ]
-        },
-        {
-          "heading": "Scoring terms students confuse",
-          "intro": "Understanding these terms prevents bad study decisions.",
-          "items": [
-            {
-              "label": "Raw",
-              "title": "Correct-count data",
-              "text": "Useful for review, but incomplete for official digital scoring decisions."
-            },
-            {
-              "label": "Scaled",
-              "title": "The reported score",
-              "text": "The 400-1600 total and 200-800 section scores are scaled, not simple percentages."
-            },
-            {
-              "label": "Adaptive",
-              "title": "Module difficulty matters",
-              "text": "Performance in one module can affect the difficulty path and the meaning of later questions."
-            }
-          ]
-        },
-        {
-          "heading": "Healthy score-review routine",
-          "items": [
-            {
-              "label": "Step 1",
-              "title": "Record official section scores",
-              "text": "Keep Reading and Writing separate from Math so the stronger section does not hide the weaker one."
-            },
-            {
-              "label": "Step 2",
-              "title": "Tag misses by cause",
-              "text": "Use causes such as rule gap, evidence miss, setup error, pacing, or careless execution."
-            },
-            {
-              "label": "Step 3",
-              "title": "Choose one repair block",
-              "text": "A repair block should be small enough to complete before the next full timed practice."
-            }
           ]
         }
       ],
@@ -3322,27 +3221,27 @@
       "faq": [
         {
           "q": "Is the Digital SAT scored out of 1600?",
-          "a": "Yes. The total score is reported on the 400-1600 scale from two section scores."
+          "a": "Yes. Add the two reported section scores. For example, 650 in Reading and Writing plus 680 in Math is 1,330."
         },
         {
           "q": "Can I calculate my official score from correct answers?",
           "a": "No, not exactly. Raw correct counts do not fully determine the official scaled score."
         },
         {
-          "q": "Do adaptive modules make the test unfair?",
-          "a": "Adaptive testing is part of the test design. Students should focus on accuracy, pacing, and official practice."
+          "q": "Does the second module tell me my section score?",
+          "a": "No. Your section score draws on scored answers across both modules. Each route supports a range of results; the route is not a score."
         },
         {
           "q": "Should I study the section with the lower score first?",
-          "a": "Usually yes, especially if that section has a clear pattern of missed question types."
+          "a": "Check missed questions before committing your time. If you can solve the missed questions without the clock, practice pacing. If you still cannot explain them, work on the underlying skill first."
         },
         {
           "q": "Is a 75 percent correct rate always the same SAT score?",
           "a": "No. Percent correct alone does not capture scaled scoring, adaptive modules, or the difficulty of questions answered."
         },
         {
-          "q": "Should I compare my digital score to old paper SAT raw charts?",
-          "a": "Use old charts only as rough historical context. They are not official Digital SAT scoring tables."
+          "q": "Which questions do not count on the digital SAT?",
+          "a": "There are two unscored pretest questions per module. You will not be told which ones they are, so do your best on every question."
         },
         {
           "q": "Can a study site know the exact adaptive scoring formula?",
@@ -3351,16 +3250,16 @@
       ],
       "sources": [
         {
-          "label": "College Board SAT: Scores",
-          "url": "https://satsuite.collegeboard.org/sat/scores"
+          "label": "College Board: How Are Scores Calculated?",
+          "url": "https://satsuite.collegeboard.org/scores/what-scores-mean/how-scores-calculated"
         },
         {
-          "label": "Bluebook",
-          "url": "https://bluebook.collegeboard.org/"
+          "label": "College Board: How the SAT Is Structured",
+          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
         },
         {
-          "label": "College Board SAT: What is on the test",
-          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test"
+          "label": "College Board: How to Use Bluebook Practice Tests",
+          "url": "https://satsuite.collegeboard.org/practice/bluebook"
         },
         {
           "label": "College Board SAT practice tests",

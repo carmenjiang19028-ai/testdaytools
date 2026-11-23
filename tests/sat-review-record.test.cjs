@@ -5,6 +5,7 @@ const { pathToFileURL } = require("node:url");
 const { chromium } = require("playwright");
 
 const url = pathToFileURL(path.resolve(__dirname, "../sat-practice-test-review-template.html")).href;
+const scoringGuide = pathToFileURL(path.resolve(__dirname, "../digital-sat-scoring-explained.html")).href;
 const template = [
   "Test / module / question:",
   "Section / domain / skill:",
@@ -87,3 +88,51 @@ test("shows the worksheet, both examples, and official next steps without JavaSc
   assert.equal(await page.getByRole("link", { name: "Student Question Bank", exact: true }).getAttribute("href"), "https://satsuite.collegeboard.org/practice/student-question-bank");
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
 }));
+
+for (const width of [320, 1280]) {
+  test(`${width}px: scoring cases separate counts, routes and reported scores, then reach the review record`, () =>
+    withPage({ viewport: { width, height: 850 }, javaScriptEnabled: false }, null, async page => {
+      await page.goto(scoringGuide);
+      const section = page.locator(".tool-block").filter({
+        has: page.getByRole("heading", { name: /Questions shown versus questions scored/ }),
+      });
+      const counts = section.getByRole("table");
+      assert.match(await counts.getByRole("row", { name: /Reading and Writing/ }).innerText(),
+        /54 \(27 per module\).*50 \(25 per module\)/s);
+      assert.match(await counts.getByRole("row", { name: /Math/ }).innerText(),
+        /44 \(22 per module\).*40 \(20 per module\)/s);
+
+      await page.getByRole("link", { name: "Try three scoring cases", exact: true }).press("Enter");
+      await page.waitForURL(scoringGuide + "#sat-scoring-cases");
+      const cases = page.locator("#sat-scoring-cases");
+      const heading = await cases.locator("h2").boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      assert.equal(await cases.locator("article").count(), 3);
+      const scoringSource = "https://satsuite.collegeboard.org/scores/what-scores-mean/how-scores-calculated";
+      const expectations = [
+        [/same questions correctly.*pattern of responses/is, /same sitting.*1,330 total/is, scoringSource],
+        [/both second-module routes.*score uses responses.*both modules/is, /Use the reported section scores/is, scoringSource],
+        [/two pretest questions in each module.*does not tell you where/is, /50 are used.*count, not the positions/is,
+          "https://satsuite.collegeboard.org/media/pdf/assessment-framework-for-digital-sat-suite.pdf"],
+      ];
+      for (const [index, [reason, answer, source]] of expectations.entries()) {
+        const card = cases.locator("article").nth(index);
+        const reasoning = card.locator("details").first();
+        const check = card.locator("details").last();
+        assert.equal(await reasoning.locator("li").first().isVisible(), false);
+        assert.equal(await check.locator("p").isVisible(), false);
+        await reasoning.locator("summary").press("Enter");
+        assert.match(await reasoning.innerText(), reason);
+        assert.equal(await check.locator("p").isVisible(), false);
+        await check.locator("summary").press("Enter");
+        assert.match(await check.innerText(), answer);
+        assert.equal(await card.getByRole("link").getAttribute("href"), source);
+      }
+      await page.getByRole("link", { name: "Open the practice-test review record", exact: true }).press("Enter");
+      await page.waitForURL(url + "#sat-review-record");
+      assert.equal(await record(page).inputValue(), template);
+      assert.equal(await record(page).isVisible(), true);
+    }));
+}
