@@ -2743,9 +2743,9 @@ def render_quiz(quiz_key, options=None):
         '\n    <a href="dmv-road-sign-flashcards.html#missed-sign-cards" data-quiz-missed-cards hidden>Review missed sign cards</a>'
         if flashcard_keys else ""
     )
-    summary = f"""<aside class="quiz-summary" aria-live="polite">
+    summary = f"""<aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -2767,7 +2767,8 @@ def render_quiz(quiz_key, options=None):
       <button type="button" data-quiz-review-mistakes>{review_button_label}</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">
@@ -2849,8 +2850,14 @@ def render_dmv_mode_tool(tool):
         active = index == 0
         selected = "true" if active else "false"
         active_class = " is-active" if active else ""
-        hidden = "false" if active else "true"
-        tabs.append(f'<button type="button" class="mode-tab{active_class}" data-mode-button="{esc(mode["id"])}" aria-selected="{selected}"><span>{esc(mode["label"])}</span><strong>{esc(mode.get("short", mode["title"]))}</strong></button>')
+        hidden = "" if active else " hidden"
+        tab_id = f'practice-tab-{mode["id"]}'
+        panel_id = f'practice-panel-{mode["id"]}'
+        tabs.append(
+            f'<button type="button" role="tab" id="{esc(tab_id)}" class="mode-tab{active_class}" data-mode-button="{esc(mode["id"])}" '
+            f'aria-controls="{esc(panel_id)}" aria-selected="{selected}" tabindex="{0 if active else -1}">'
+            f'<span>{esc(mode["label"])}</span><strong>{esc(mode.get("short", mode["title"]))}</strong></button>'
+        )
         quiz_options = dict(mode)
         quiz_options["state"] = state_value
         quiz_options["domain"] = "dmv"
@@ -2861,15 +2868,18 @@ def render_dmv_mode_tool(tool):
                 if group["practice"]["mode"] == mode["id"] and group["practice"].get("focus")
             ]
         quiz = render_quiz(mode["quiz"], quiz_options)
-        panels.append(f'<div class="mode-panel{active_class}" data-mode-panel="{esc(mode["id"])}" aria-hidden="{hidden}">{quiz}</div>')
+        panels.append(
+            f'<div class="mode-panel{active_class}" id="{esc(panel_id)}" role="tabpanel" aria-labelledby="{esc(tab_id)}" '
+            f'data-mode-panel="{esc(mode["id"])}" tabindex="0"{hidden}>{quiz}</div>'
+        )
     overview_items = "".join(
         f'<li><strong>{esc(mode["label"])}</strong><span>{esc(mode.get("description", ""))}</span></li>'
         for mode in modes
     )
     mode_intro = (
-        "Choose a round, answer one picture at a time, and use saved misses to decide what to review next."
-        if tool.get("slug") == "road-signs-practice-test"
-        else "Start with a short diagnostic, switch to image-based signs, or run a longer mock exam when you want a realistic score check. Missed questions are saved on this device so the next step is obvious."
+        "Use a mixed round to practice signs and driving rules, or use the signs round to work on recognition alone."
+        if any(mode["id"] == "mock" for mode in modes)
+        else "Use a short picture round to find slow signs, or choose the full sign set to check more categories. Neither replaces a mixed permit test."
     )
     return f"""<section class="dmv-mode-tool" id="practice" data-mode-tool>
   <div class="tool-section-head">

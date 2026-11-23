@@ -2286,7 +2286,8 @@ h3 {
   text-decoration: underline;
 }
 
-.flashcard-announcement {
+.flashcard-announcement,
+.quiz-timer-announcement {
   position: absolute;
   width: 1px;
   height: 1px;

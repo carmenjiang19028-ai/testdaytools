@@ -318,7 +318,7 @@
   <div class="tool-section-head">
     <span class="eyebrow">DMV practice engine</span>
     <h2>Choose a practice mode</h2>
-    <p class="section-intro">Start with a short diagnostic, switch to image-based signs, or run a longer mock exam when you want a realistic score check. Missed questions are saved on this device so the next step is obvious.</p>
+    <p class="section-intro">Use a short picture round to find slow signs, or choose the full sign set to check more categories. Neither replaces a mixed permit test.</p>
   </div>
   <div class="practice-flow">
     <span>1. Answer</span>
@@ -326,9 +326,9 @@
     <span>3. Review saved mistakes</span>
     <span>4. Retake weak topics</span>
   </div>
-  <div class="mode-tabs" role="tablist" aria-label="Practice modes"><button type="button" class="mode-tab is-active" data-mode-button="ny-four-sign-checkpoint" aria-selected="true"><span>4-sign checkpoint</span><strong>4 questions</strong></button><button type="button" class="mode-tab" data-mode-button="ny-signs-starter" aria-selected="false"><span>NY starter</span><strong>8 questions</strong></button><button type="button" class="mode-tab" data-mode-button="signs" aria-selected="false"><span>Full NY signs</span><strong>25 questions</strong></button></div>
+  <div class="mode-tabs" role="tablist" aria-label="Practice modes"><button type="button" role="tab" id="practice-tab-ny-four-sign-checkpoint" class="mode-tab is-active" data-mode-button="ny-four-sign-checkpoint" aria-controls="practice-panel-ny-four-sign-checkpoint" aria-selected="true" tabindex="0"><span>4-sign checkpoint</span><strong>4 questions</strong></button><button type="button" role="tab" id="practice-tab-ny-signs-starter" class="mode-tab" data-mode-button="ny-signs-starter" aria-controls="practice-panel-ny-signs-starter" aria-selected="false" tabindex="-1"><span>NY starter</span><strong>8 questions</strong></button><button type="button" role="tab" id="practice-tab-signs" class="mode-tab" data-mode-button="signs" aria-controls="practice-panel-signs" aria-selected="false" tabindex="-1"><span>Full NY signs</span><strong>25 questions</strong></button></div>
   <ul class="mode-overview"><li><strong>4-sign checkpoint</strong><span>Use a four-question road-sign check that mirrors the sign-question count in the official New York permit test. Two correct is the minimum checkpoint; this does not replace the full 20-question permit test.</span></li><li><strong>NY starter</strong><span>Start with 8 New York sign-and-signal questions before the full picture round. Use this when you want a quick permit-test check.</span></li><li><strong>Full NY signs</strong><span>Practice all signs on New York DMV&#x27;s must-know chart plus common entry, speed, crossing, work-zone, and service signs with original images.</span></li></ul>
-  <div class="mode-panels"><div class="mode-panel is-active" data-mode-panel="ny-four-sign-checkpoint" aria-hidden="false"><section class="quiz tool-block" data-quiz data-total="4" data-pass-score="2" data-quiz-label="4-sign checkpoint" data-mode-id="ny-four-sign-checkpoint" data-state="new-york" data-domain="dmv">
+  <div class="mode-panels"><div class="mode-panel is-active" id="practice-panel-ny-four-sign-checkpoint" role="tabpanel" aria-labelledby="practice-tab-ny-four-sign-checkpoint" data-mode-panel="ny-four-sign-checkpoint" tabindex="0"><section class="quiz tool-block" data-quiz data-total="4" data-pass-score="2" data-quiz-label="4-sign checkpoint" data-mode-id="ny-four-sign-checkpoint" data-state="new-york" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Official-format sign check</span>
     <h2>New York four-sign checkpoint</h2>
@@ -383,9 +383,9 @@
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>
     </div>
-    <aside class="quiz-summary" aria-live="polite">
+    <aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -412,7 +412,8 @@
       <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">
@@ -431,7 +432,7 @@
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>
   </div>
-</section></div><div class="mode-panel" data-mode-panel="ny-signs-starter" aria-hidden="true"><section class="quiz tool-block" data-quiz data-total="8" data-pass-score="6" data-quiz-label="NY starter" data-mode-id="ny-signs-starter" data-state="new-york" data-domain="dmv">
+</section></div><div class="mode-panel" id="practice-panel-ny-signs-starter" role="tabpanel" aria-labelledby="practice-tab-ny-signs-starter" data-mode-panel="ny-signs-starter" tabindex="0" hidden><section class="quiz tool-block" data-quiz data-total="8" data-pass-score="6" data-quiz-label="NY starter" data-mode-id="ny-signs-starter" data-state="new-york" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Short New York round</span>
     <h2>New York signs and signals starter</h2>
@@ -522,9 +523,9 @@
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>
     </div>
-    <aside class="quiz-summary" aria-live="polite">
+    <aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -551,7 +552,8 @@
       <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">
@@ -570,7 +572,7 @@
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>
   </div>
-</section></div><div class="mode-panel" data-mode-panel="signs" aria-hidden="true"><section class="quiz tool-block" data-quiz data-total="25" data-pass-score="20" data-quiz-label="Full NY signs" data-mode-id="signs" data-state="new-york" data-domain="dmv">
+</section></div><div class="mode-panel" id="practice-panel-signs" role="tabpanel" aria-labelledby="practice-tab-signs" data-mode-panel="signs" tabindex="0" hidden><section class="quiz tool-block" data-quiz data-total="25" data-pass-score="20" data-quiz-label="Full NY signs" data-mode-id="signs" data-state="new-york" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Interactive practice</span>
     <h2>New York road signs image test</h2>
@@ -814,9 +816,9 @@
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>
     </div>
-    <aside class="quiz-summary" aria-live="polite">
+    <aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -843,7 +845,8 @@
       <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">

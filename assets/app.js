@@ -579,6 +579,7 @@ function initQuizzes() {
     const reviewMistakesButton = quiz.querySelector("[data-quiz-review-mistakes]");
     const timerButton = quiz.querySelector("[data-quiz-timer]");
     const timerLabel = quiz.querySelector("[data-quiz-timer-label]");
+    const timerAnnouncement = quiz.querySelector("[data-quiz-timer-announcement]");
     const jumpList = quiz.querySelector("[data-quiz-jump-list]");
     const nextPlanTitle = quiz.querySelector("[data-quiz-next-title]");
     const nextPlanCopy = quiz.querySelector("[data-quiz-next-copy]");
@@ -606,8 +607,10 @@ function initQuizzes() {
     let activeSequence = questions.map((_, index) => index);
     let activePosition = 0;
     let toolMessage = "";
+    const timerLength = 10 * 60 * 1000;
     let timerId = 0;
-    let timerRemaining = 10 * 60;
+    let timerRemaining = timerLength;
+    let timerDeadline = 0;
     let timerComplete = false;
     let quizStartedTracked = false;
     let quizHalfwayTracked = false;
@@ -1314,40 +1317,59 @@ function initQuizzes() {
         timerLabel.textContent = "Time is up. Finish the current question, then review.";
         return;
       }
-      if (!timerId && timerRemaining === 10 * 60) {
+      if (!timerDeadline) {
         timerLabel.textContent = "Untimed practice";
         return;
       }
-      const minutes = Math.floor(timerRemaining / 60);
-      const seconds = String(timerRemaining % 60).padStart(2, "0");
-      timerLabel.textContent = `${minutes}:${seconds} left in this round`;
+      const remainingSeconds = Math.ceil(timerRemaining / 1000);
+      const minutes = Math.floor(remainingSeconds / 60);
+      const seconds = String(remainingSeconds % 60).padStart(2, "0");
+      const time = `${minutes}:${seconds}`;
+      timerLabel.textContent = timerId ? `${time} left in this round` : `Paused at ${time}`;
+    };
+
+    const announceTimer = (message) => {
+      if (timerAnnouncement) timerAnnouncement.textContent = message;
+    };
+
+    const stopTimer = () => {
+      window.clearInterval(timerId);
+      timerId = 0;
+    };
+
+    const tickTimer = () => {
+      timerRemaining = Math.max(timerDeadline - Date.now(), 0);
+      if (!timerRemaining) {
+        stopTimer();
+        timerComplete = true;
+        timerButton.textContent = "Restart timer";
+        announceTimer("Time is up. Finish the current question, then review.");
+      }
+      renderTimer();
     };
 
     const toggleTimer = () => {
       if (!timerButton) return;
-      if (timerComplete) {
-        timerComplete = false;
-        timerRemaining = 10 * 60;
-      }
       if (timerId) {
-        window.clearInterval(timerId);
-        timerId = 0;
-        timerButton.textContent = "Resume timer";
-        renderTimer();
+        tickTimer();
+        if (!timerComplete) {
+          stopTimer();
+          timerButton.textContent = "Resume timer";
+          renderTimer();
+          announceTimer("Timer paused.");
+        }
         return;
       }
+      const resuming = timerDeadline && !timerComplete;
+      if (timerComplete) {
+        timerComplete = false;
+        timerRemaining = timerLength;
+      }
       timerButton.textContent = "Pause timer";
-      timerId = window.setInterval(() => {
-        timerRemaining = Math.max(timerRemaining - 1, 0);
-        if (timerRemaining === 0) {
-          window.clearInterval(timerId);
-          timerId = 0;
-          timerComplete = true;
-          timerButton.textContent = "Restart timer";
-        }
-        renderTimer();
-      }, 1000);
+      timerDeadline = Date.now() + timerRemaining;
+      timerId = window.setInterval(tickTimer, 1000);
       renderTimer();
+      announceTimer(resuming ? "Timer resumed." : "10-minute timer started.");
     };
 
     if (questions.length) {
@@ -1526,6 +1548,12 @@ function initModeTools() {
   document.querySelectorAll("[data-mode-tool]").forEach((tool) => {
     const buttons = Array.from(tool.querySelectorAll("[data-mode-button]"));
     const panels = Array.from(tool.querySelectorAll("[data-mode-panel]"));
+    const tabList = tool.querySelector('[role="tablist"]');
+    const setTabStop = (chosen) => {
+      buttons.forEach((button) => {
+        if (button.getAttribute("role") === "tab") button.tabIndex = button === chosen ? 0 : -1;
+      });
+    };
     const activate = (mode) => {
       buttons.forEach((button) => {
         const active = button.dataset.modeButton === mode;
@@ -1535,8 +1563,10 @@ function initModeTools() {
       panels.forEach((panel) => {
         const active = panel.dataset.modePanel === mode;
         panel.classList.toggle("is-active", active);
-        panel.setAttribute("aria-hidden", active ? "false" : "true");
+        if (panel.getAttribute("role") === "tabpanel") panel.hidden = !active;
+        else panel.setAttribute("aria-hidden", active ? "false" : "true");
       });
+      setTabStop(buttons.find((button) => button.dataset.modeButton === mode));
     };
 
     buttons.forEach((button) => {
@@ -1547,6 +1577,25 @@ function initModeTools() {
           label: button.textContent,
         });
       });
+    });
+
+    tabList?.addEventListener("keydown", (event) => {
+      const index = buttons.indexOf(event.target);
+      if (index < 0 || event.target.getAttribute("role") !== "tab" || event.altKey || event.metaKey || event.ctrlKey) return;
+      let target;
+      if (event.key === "ArrowLeft") target = buttons[(index - 1 + buttons.length) % buttons.length];
+      if (event.key === "ArrowRight") target = buttons[(index + 1) % buttons.length];
+      if (event.key === "Home") target = buttons[0];
+      if (event.key === "End") target = buttons[buttons.length - 1];
+      if (!target) return;
+      event.preventDefault();
+      setTabStop(target);
+      target.focus();
+    });
+    tabList?.addEventListener("focusout", (event) => {
+      if (!tabList.contains(event.relatedTarget)) {
+        setTabStop(buttons.find((button) => button.getAttribute("aria-selected") === "true"));
+      }
     });
 
     let params;

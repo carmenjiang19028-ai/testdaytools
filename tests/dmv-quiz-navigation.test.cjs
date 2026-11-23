@@ -39,6 +39,75 @@ async function accessibleFocus(page) {
 }
 
 for (const width of [390, 1280]) {
+  test(`${width}px: practice tabs permit keyboard navigation without changing the round until activation`, async () => {
+    const { context, page, quiz } = await openQuiz(width, "road-signs-practice-test", "road-signs-core");
+    try {
+      const list = page.getByRole("tablist", { name: "Practice modes" });
+      const starter = list.getByRole("tab", { name: /Permit starter/ });
+      const full = list.getByRole("tab", { name: /Full signs test/ });
+      assert.equal(await full.count(), 1);
+      assert.equal(await full.getAttribute("aria-selected"), "true");
+      assert.equal(await full.getAttribute("tabindex"), "0");
+      assert.equal(await starter.getAttribute("tabindex"), "-1");
+      const fullPanel = page.getByRole("tabpanel", { name: /Full signs test/ });
+      assert.equal(await fullPanel.getAttribute("id"), await full.getAttribute("aria-controls"));
+      await quiz.locator(".question.is-active [data-choice]").first().click();
+      await full.press("ArrowRight");
+      const focused = await accessibleFocus(page);
+      assert.equal(focused.role.value, "tab");
+      assert.match(focused.name.value, /Permit starter/);
+      assert.equal(await starter.getAttribute("aria-selected"), "false");
+      await page.keyboard.press("Tab");
+      assert.ok(await fullPanel.evaluate(el => document.activeElement === el));
+      await page.keyboard.press("Shift+Tab");
+      assert.ok(await full.evaluate(el => document.activeElement === el));
+      await page.keyboard.press("Home");
+      await page.keyboard.press("Space");
+      assert.equal(await starter.getAttribute("aria-selected"), "true");
+      assert.equal(await fullPanel.isVisible(), false);
+      assert.ok(await page.getByRole("tabpanel", { name: /Permit starter/ }).isVisible());
+      await page.keyboard.press("End");
+      await page.keyboard.press("Enter");
+      assert.match(await quiz.locator("[data-quiz-answered]").textContent(), /^1 of 40 answered$/);
+      await page.keyboard.press("ArrowLeft");
+      assert.ok(await starter.evaluate(el => document.activeElement === el));
+    } finally { await context.close(); }
+  });
+}
+
+test("the optional timer follows elapsed time and keeps its ticks out of announcements", async () => {
+  const { context, page, quiz } = await openQuiz(390, "road-signs-practice-test", "road-signs-core");
+  try {
+    await page.clock.install();
+    const timer = quiz.getByRole("timer");
+    const announce = quiz.locator("[data-quiz-timer-announcement]");
+    const start = quiz.getByRole("button", { name: "Start 10-min timer" });
+    assert.equal(await timer.count(), 1);
+    assert.equal(await timer.getAttribute("aria-live"), "off");
+    assert.ok(await timer.evaluate(el => !el.parentElement.closest('[aria-live="polite"], [role="status"]')));
+    await start.press("Enter");
+    assert.match(await announce.textContent(), /10-minute timer started/);
+    await page.clock.fastForward(61_000);
+    assert.match(await timer.textContent(), /8:59 left/);
+    assert.match(await announce.textContent(), /10-minute timer started/);
+    await quiz.getByRole("button", { name: "Pause timer" }).press("Enter");
+    assert.match(await timer.textContent(), /Paused at 8:59/);
+    assert.match(await announce.textContent(), /Timer paused/);
+    await page.clock.fastForward(120_000);
+    assert.match(await timer.textContent(), /Paused at 8:59/);
+    await quiz.getByRole("button", { name: "Resume timer" }).press("Enter");
+    assert.match(await announce.textContent(), /Timer resumed/);
+    await page.clock.fastForward(541_000);
+    assert.match(await timer.textContent(), /Time is up/);
+    assert.match(await announce.textContent(), /Time is up/);
+    await quiz.locator(".question.is-active [data-choice]").first().press("Enter");
+    assert.match(await quiz.locator(".question.is-active .feedback").innerText(), /Correct\.|Not quite\./);
+    await quiz.getByRole("button", { name: "Restart timer" }).press("Enter");
+    assert.match(await timer.textContent(), /10:00 left/);
+  } finally { await context.close(); }
+});
+
+for (const width of [390, 1280]) {
   test(`${width}px: answer feedback, next, previous, and jump keep the active picture question in view`, async () => {
     const { context, page, quiz } = await openQuiz(width, "road-signs-practice-test", "road-signs-core");
     try {

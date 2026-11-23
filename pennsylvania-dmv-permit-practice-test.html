@@ -79,7 +79,7 @@
   <div class="tool-section-head">
     <span class="eyebrow">DMV practice engine</span>
     <h2>Choose a practice mode</h2>
-    <p class="section-intro">Start with a short diagnostic, switch to image-based signs, or run a longer mock exam when you want a realistic score check. Missed questions are saved on this device so the next step is obvious.</p>
+    <p class="section-intro">Use a mixed round to practice signs and driving rules, or use the signs round to work on recognition alone.</p>
   </div>
   <div class="practice-flow">
     <span>1. Answer</span>
@@ -87,9 +87,9 @@
     <span>3. Review saved mistakes</span>
     <span>4. Retake weak topics</span>
   </div>
-  <div class="mode-tabs" role="tablist" aria-label="Practice modes"><button type="button" class="mode-tab is-active" data-mode-button="quick" aria-selected="true"><span>Quick Practice</span><strong>Quick</strong></button><button type="button" class="mode-tab" data-mode-button="signs" aria-selected="false"><span>Road Signs</span><strong>Signs</strong></button><button type="button" class="mode-tab" data-mode-button="mock" aria-selected="false"><span>Mock Exam</span><strong>Mock</strong></button></div>
+  <div class="mode-tabs" role="tablist" aria-label="Practice modes"><button type="button" role="tab" id="practice-tab-quick" class="mode-tab is-active" data-mode-button="quick" aria-controls="practice-panel-quick" aria-selected="true" tabindex="0"><span>Quick Practice</span><strong>Quick</strong></button><button type="button" role="tab" id="practice-tab-signs" class="mode-tab" data-mode-button="signs" aria-controls="practice-panel-signs" aria-selected="false" tabindex="-1"><span>Road Signs</span><strong>Signs</strong></button><button type="button" role="tab" id="practice-tab-mock" class="mode-tab" data-mode-button="mock" aria-controls="practice-panel-mock" aria-selected="false" tabindex="-1"><span>Mock Exam</span><strong>Mock</strong></button></div>
   <ul class="mode-overview"><li><strong>Quick Practice</strong><span>15 mixed questions for a fast diagnostic.</span></li><li><strong>Road Signs</strong><span>20 image-based sign questions with explanations.</span></li><li><strong>Mock Exam</strong><span>A longer mixed round for score confidence and weak-area review.</span></li></ul>
-  <div class="mode-panels"><div class="mode-panel is-active" data-mode-panel="quick" aria-hidden="false"><section class="quiz tool-block" data-quiz data-total="15" data-pass-score="12" data-quiz-label="Quick Practice" data-mode-id="quick" data-state="pennsylvania" data-domain="dmv">
+  <div class="mode-panels"><div class="mode-panel is-active" id="practice-panel-quick" role="tabpanel" aria-labelledby="practice-tab-quick" data-mode-panel="quick" tabindex="0"><section class="quiz tool-block" data-quiz data-total="15" data-pass-score="12" data-quiz-label="Quick Practice" data-mode-id="quick" data-state="pennsylvania" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Interactive practice</span>
     <h2>Pennsylvania quick practice</h2>
@@ -183,9 +183,9 @@
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>
     </div>
-    <aside class="quiz-summary" aria-live="polite">
+    <aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -212,7 +212,8 @@
       <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">
@@ -231,7 +232,7 @@
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>
   </div>
-</section></div><div class="mode-panel" data-mode-panel="signs" aria-hidden="true"><section class="quiz tool-block" data-quiz data-total="20" data-pass-score="16" data-quiz-label="Road Signs" data-mode-id="signs" data-state="pennsylvania" data-domain="dmv">
+</section></div><div class="mode-panel" id="practice-panel-signs" role="tabpanel" aria-labelledby="practice-tab-signs" data-mode-panel="signs" tabindex="0" hidden><section class="quiz tool-block" data-quiz data-total="20" data-pass-score="16" data-quiz-label="Road Signs" data-mode-id="signs" data-state="pennsylvania" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Interactive practice</span>
     <h2>Pennsylvania road signs image test</h2>
@@ -430,9 +431,9 @@
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>
     </div>
-    <aside class="quiz-summary" aria-live="polite">
+    <aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -459,7 +460,8 @@
       <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">
@@ -478,7 +480,7 @@
   <button type="button" class="quiz-reset" data-quiz-reset>Restart this mode</button>
 </aside>
   </div>
-</section></div><div class="mode-panel" data-mode-panel="mock" aria-hidden="true"><section class="quiz tool-block" data-quiz data-total="40" data-pass-score="32" data-quiz-label="Mock Exam" data-mode-id="mock" data-state="pennsylvania" data-domain="dmv">
+</section></div><div class="mode-panel" id="practice-panel-mock" role="tabpanel" aria-labelledby="practice-tab-mock" data-mode-panel="mock" tabindex="0" hidden><section class="quiz tool-block" data-quiz data-total="40" data-pass-score="32" data-quiz-label="Mock Exam" data-mode-id="mock" data-state="pennsylvania" data-domain="dmv">
   <div class="tool-section-head">
     <span class="eyebrow">Interactive practice</span>
     <h2>Pennsylvania 40-question mock exam</h2>
@@ -728,9 +730,9 @@
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>
     </div>
-    <aside class="quiz-summary" aria-live="polite">
+    <aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -757,7 +759,8 @@
       <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">

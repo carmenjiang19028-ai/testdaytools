@@ -477,9 +477,9 @@
   <button type="button" class="quiz-nav-button primary" data-quiz-forward>Next question</button>
 </div>
     </div>
-    <aside class="quiz-summary" aria-live="polite">
+    <aside class="quiz-summary" aria-label="Practice status">
   <p class="quiz-kicker">Practice status</p>
-  <div>
+  <div role="status">
     <strong data-quiz-result>Score: 0 of 0 answered</strong>
     <span data-quiz-next>Answer the questions first, then review the categories you missed.</span>
   </div>
@@ -506,7 +506,8 @@
       <button type="button" data-quiz-review-mistakes>Review due</button>
       <button type="button" data-quiz-timer>Start 10-min timer</button>
     </div>
-    <div class="quiz-session-timer" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-session-timer" role="timer" aria-live="off" data-quiz-timer-label>Untimed practice</div>
+    <div class="quiz-timer-announcement" role="status" data-quiz-timer-announcement></div>
     <div class="question-jump-list" data-quiz-jump-list aria-label="Question navigator"></div>
   </div>
   <div class="mistake-bank">
