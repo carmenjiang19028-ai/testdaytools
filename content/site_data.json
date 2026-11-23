@@ -12915,9 +12915,20 @@
       "category": "DMV",
       "title": "Pennsylvania DMV Road Signs Practice",
       "description": "Pennsylvania road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "Pennsylvania road signs",
       "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the Pennsylvania exam details below to plan the rest of your study.",
+      "heroActions": [
+        {"label": "Start image quiz", "href": "#practice"},
+        {"label": "PA school bus cases", "href": "#pennsylvania-school-bus"},
+        {"label": "PA turns on red", "href": "#pennsylvania-left-on-red"},
+        {"label": "Focus paths", "href": "#sign-focus"},
+        {"label": "Sign finder", "href": "#sign-meaning-finder"},
+        {"label": "Shape and color guide", "href": "#sign-study"},
+        {"label": "Sign library", "href": "#sign-library"},
+        {"label": "Passing score", "href": "dmv-permit-test-passing-score-calculator.html?state=pennsylvania#score-calculator"},
+        {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=pennsylvania#dmv-checklist"}
+      ],
       "stateRulePractice": {
         "id": "pennsylvania-school-bus",
         "linkLabel": "PA school bus cases",
@@ -13195,35 +13206,16 @@
           ]
         }
       ],
-      "body": [
-        {
-          "heading": "How to use the Pennsylvania road signs page",
-          "text": "Start with the visual quiz without looking at the library. After you miss a sign, review the matching category below and retake the round later."
-        },
-        {
-          "heading": "Why visual practice matters",
-          "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice trains that faster recognition."
-        }
-      ],
       "cardGroups": [
         {
-          "heading": "Pennsylvania study moves that save time",
-          "intro": "The goal is not to click practice questions forever. Use each result to decide the next handbook section.",
+          "heading": "Across the state line",
           "items": [
             {
-              "label": "First pass",
-              "title": "Do not chase a perfect score early",
-              "text": "A low first score is useful if it shows exactly which categories need reading."
-            },
-            {
-              "label": "Signs",
-              "title": "Review signs by shape and color",
-              "text": "Shape and color often reveal the action before you read the words."
-            },
-            {
-              "label": "Retake",
-              "title": "Explain the driver action",
-              "text": "On your next round, say what you would do before reading the answer choices."
+              "label": "Compare the same layout",
+              "title": "What if the intersection is in New Jersey?",
+              "text": "Keep the two one-way streets and the round red light. Try the same left turn in New Jersey before relying on the Pennsylvania exception.",
+              "href": "new-jersey-mvc-road-signs-practice.html#new-jersey-turns-on-red",
+              "cta": "Try the New Jersey example"
             }
           ]
         }
@@ -13863,9 +13855,20 @@
       "category": "DMV",
       "title": "New Jersey MVC Road Signs Practice",
       "description": "New Jersey road signs practice with 20 original image-based sign questions, instant explanations, and a categorized sign library for permit test prep.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "New Jersey road signs",
       "summary": "Aim for 16 of 20 in this shared, unofficial 20-question U.S. road sign drill. Use the New Jersey exam details below to plan the rest of your study.",
+      "heroActions": [
+        {"label": "Start image quiz", "href": "#practice"},
+        {"label": "NJ Move Over cases", "href": "#new-jersey-move-over"},
+        {"label": "NJ turns on red", "href": "#new-jersey-turns-on-red"},
+        {"label": "Focus paths", "href": "#sign-focus"},
+        {"label": "Sign finder", "href": "#sign-meaning-finder"},
+        {"label": "Shape and color guide", "href": "#sign-study"},
+        {"label": "Sign library", "href": "#sign-library"},
+        {"label": "Passing score", "href": "dmv-permit-test-passing-score-calculator.html?state=new-jersey#score-calculator"},
+        {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=new-jersey#dmv-checklist"}
+      ],
       "stateRulePractice": {
         "id": "new-jersey-move-over",
         "linkLabel": "NJ Move Over cases",
@@ -14139,35 +14142,16 @@
           ]
         }
       ],
-      "body": [
-        {
-          "heading": "How to use the New Jersey road signs page",
-          "text": "Start with the visual quiz without looking at the library. After you miss a sign, review the matching category below and retake the round later."
-        },
-        {
-          "heading": "Why visual practice matters",
-          "text": "Many test-takers recognize a written rule but hesitate when shown a sign shape or color. Image practice trains that faster recognition."
-        }
-      ],
       "cardGroups": [
         {
-          "heading": "New Jersey study moves that save time",
-          "intro": "The goal is not to click practice questions forever. Use each result to decide the next handbook section.",
+          "heading": "Across the state line",
           "items": [
             {
-              "label": "First pass",
-              "title": "Do not chase a perfect score early",
-              "text": "A low first score is useful if it shows exactly which categories need reading."
-            },
-            {
-              "label": "Signs",
-              "title": "Review signs by shape and color",
-              "text": "Shape and color often reveal the action before you read the words."
-            },
-            {
-              "label": "Retake",
-              "title": "Explain the driver action",
-              "text": "On your next round, say what you would do before reading the answer choices."
+              "label": "Compare the same layout",
+              "title": "What if the intersection is in Pennsylvania?",
+              "text": "Keep the same turn and signal. Check which conditions Pennsylvania adds before the one-way-to-one-way exception can apply.",
+              "href": "pennsylvania-dmv-road-signs-practice.html#pennsylvania-left-on-red",
+              "cta": "Try the Pennsylvania example"
             }
           ]
         }

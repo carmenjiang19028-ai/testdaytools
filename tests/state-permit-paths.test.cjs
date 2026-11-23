@@ -34,6 +34,66 @@ const guideDestinations = [
 ];
 
 for (const width of [320, 1280]) {
+  test(`${width}px: Pennsylvania and New Jersey give different decisions for the same left turn on red`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const pa = file("pennsylvania-dmv-road-signs-practice");
+      const nj = file("new-jersey-mvc-road-signs-practice");
+      await page.goto(pa);
+      await page.getByRole("link", { name: "PA turns on red", exact: true }).press("Enter");
+      await page.waitForURL(pa + "#pennsylvania-left-on-red");
+      const cases = [
+        {
+          anchor: "#pennsylvania-left-on-red", existing: "#pennsylvania-school-bus",
+          reason: /Stop completely.*Both are one-way.*allows that left turn on red unless signed otherwise.*Yield to pedestrians and other traffic/is,
+          transfer: /Both streets must be one-way/,
+          second: /posted sign blocks the red-light turn/,
+          secondTransfer: /does not remove your duty to yield/,
+          source: "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/75/00.031.012.000..HTM",
+          other: "Try the New Jersey example", nextUrl: nj + "#new-jersey-turns-on-red",
+        },
+        {
+          anchor: "#new-jersey-turns-on-red", existing: "#new-jersey-move-over",
+          reason: /does not create a left-on-red exception.*Stay stopped until the signal permits.*right turn, not this left turn/is,
+          transfer: /without crossing the pedestrian's path/,
+          second: /Remain stopped for the crossing pedestrian/,
+          secondTransfer: /clear crosswalk does not override a posted restriction/,
+          source: "https://pub.njleg.gov/bills/2008/PL09/319_.HTM",
+          other: "Try the Pennsylvania example", nextUrl: pa + "#pennsylvania-left-on-red",
+        },
+      ];
+      for (const [index, entry] of cases.entries()) {
+        assert.equal(await page.locator(entry.existing).count(), 1);
+        assert.equal(await page.locator("[data-quiz]").getAttribute("data-pass-score"), "16");
+        const section = page.locator(entry.anchor);
+        const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+        const header = await page.locator(".site-header").boundingBox();
+        assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+        const cards = section.locator("article");
+        assert.equal(await cards.count(), 2);
+        for (const [i, [reason, transfer]] of [[entry.reason, entry.transfer], [entry.second, entry.secondTransfer]].entries()) {
+          const card = cards.nth(i);
+          const explanation = card.getByText("Show reasoning", { exact: true });
+          assert.equal(await card.locator("details").first().locator("li").first().isVisible(), false);
+          await explanation.press("Enter");
+          assert.match(await card.locator("details").first().innerText(), reason);
+          await card.getByText("Check", { exact: true }).press("Enter");
+          assert.match(await card.locator("details").last().innerText(), transfer);
+        }
+        assert.equal(await cards.first().getByRole("link").getAttribute("href"), entry.source);
+        const compare = page.getByRole("link", { name: entry.other, exact: true });
+        await compare.press("Enter");
+        await page.waitForURL(entry.nextUrl);
+        if (index === 1) assert.equal(new URL(page.url()).hash, "#pennsylvania-left-on-red");
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: home and DMV state cards open all six real lessons without scripts`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

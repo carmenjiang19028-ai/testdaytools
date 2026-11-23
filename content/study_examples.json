@@ -1,4 +1,82 @@
 {
+  "pennsylvania-dmv-road-signs-practice": {
+    "id": "pennsylvania-left-on-red",
+    "heading": "Pennsylvania: when two one-way streets meet at a red light",
+    "intro": "Practice deciding when a turn is permitted, not just reading the arrow on a sign. These examples use a steady circular red light and do not affect your quiz score.",
+    "examples": [
+      {
+        "title": "One-way street to one-way street",
+        "question": "You are in the left lane of a one-way street in Pennsylvania, facing a round red light. The crossing street is one-way to your left and no sign forbids the turn. May you turn left?",
+        "steps": [
+          "Stop completely at the marked line, or before the crosswalk or intersection if there is no line.",
+          "Check both streets. Both are one-way and the turn follows the posted direction. Pennsylvania allows that left turn on red unless signed otherwise.",
+          "Yield to pedestrians and other traffic. Turn only when you have a safe opening."
+        ],
+        "mistake": "A ONE WAY sign tells you where traffic moves. It does not cancel the red light or give you priority over someone already crossing.",
+        "check": "Only the street you want to enter is one-way. Does the same left-turn exception apply?",
+        "answer": "No. Both streets must be one-way for this exception. Stay stopped until a signal allows the turn.",
+        "source": {
+          "label": "Pennsylvania vehicle law, section 3112(a)(3)",
+          "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/75/00.031.012.000..HTM"
+        }
+      },
+      {
+        "title": "A posted turn restriction settles it",
+        "question": "In the same Pennsylvania layout you see a NO TURN ON RED sign above the signal. The crosswalk and intersection look empty. Can you turn left after stopping?",
+        "steps": [
+          "No. The posted sign blocks the red-light turn even though both streets are one-way.",
+          "Wait until the signal permits the turn.",
+          "Check for pedestrians and conflicting traffic before you move."
+        ],
+        "mistake": "An empty intersection is not an exception to a posted turn restriction.",
+        "check": "The sign is absent, but a cyclist is approaching on the crossing street with the right of way. Can you turn in front of them?",
+        "answer": "Not if the turn would conflict. The absence of a sign does not remove your duty to yield; wait for a safe gap.",
+        "source": {
+          "label": "PennDOT Driver's Manual: Signals",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signals"
+        }
+      }
+    ]
+  },
+  "new-jersey-mvc-road-signs-practice": {
+    "id": "new-jersey-turns-on-red",
+    "heading": "New Jersey: a one-way arrow does not give you a left on red",
+    "intro": "Use these practice cases to separate the signal, permitted direction and right of way. They cover an ordinary steady circular red light, with no officer, sign or special signal giving different instructions.",
+    "examples": [
+      {
+        "title": "The intersection looks just like one across the state line",
+        "question": "You are in the left lane of a one-way street in New Jersey, facing a round red light. The crossing street is one-way to your left and the intersection looks clear. May you turn left after stopping?",
+        "steps": [
+          "No. The one-way layout does not create a left-on-red exception in this New Jersey example.",
+          "Stay stopped until the signal permits the turn.",
+          "The ordinary exception after a stop applies to a right turn, not this left turn."
+        ],
+        "mistake": "Do not import a rule from Pennsylvania just because the ONE WAY arrows and the street layout look the same.",
+        "check": "The signal now permits the left turn, but someone is crossing the street you would enter. Does the change mean you can turn through the crosswalk?",
+        "answer": "No. Wait until you can complete the turn safely without crossing the pedestrian's path.",
+        "source": {
+          "label": "New Jersey P.L. 2009, c.319, section 3 (N.J.S.A. 39:4-115)",
+          "url": "https://pub.njleg.gov/bills/2008/PL09/319_.HTM"
+        }
+      },
+      {
+        "title": "The right turn is available, but the crosswalk is occupied",
+        "question": "You now intend to turn right on a round red light in New Jersey. There is no turn restriction, but a person is crossing the road you would enter. What should you do?",
+        "steps": [
+          "Come to a full stop before beginning the turn.",
+          "Remain stopped for the crossing pedestrian.",
+          "Only make the right turn when you have yielded to traffic, can turn safely, and no sign prohibits it."
+        ],
+        "mistake": "A permitted right turn is not a right of way. A stop is necessary; it is not enough when someone is still crossing.",
+        "check": "The crosswalk clears, but now you notice a NO TURN ON RED sign. Can you make the right turn?",
+        "answer": "No. Stay stopped until the signal permits the turn. A clear crosswalk does not override a posted restriction.",
+        "source": {
+          "label": "New Jersey Driver Manual: Turning Regulations (PDF)",
+          "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
+        }
+      }
+    ]
+  },
   "florida-class-e-knowledge-exam-tlsae": {
     "id": "florida-read-test-questions",
     "heading": "Read the words that change a Florida test answer",
