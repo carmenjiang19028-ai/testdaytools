@@ -57,24 +57,31 @@ class DirectionSignTest(unittest.TestCase):
                     ("69", "39", "151", "121"),
                 )
 
-    def test_divided_highway_island_noses_are_on_opposite_ends(self):
-        for name, island, arrows in (
+    def test_divided_highway_medians_and_arrow_directions_match_the_two_cases(self):
+        for name, island, outward in (
             (
                 "divided-highway",
-                "M101 43 H119 V76 L110 91 L101 76 Z",
-                "M65 98 L84 118 L98 98 Z M122 59 L136 38 L154 56 Z",
+                "M99 43 H121 C121 63 117 76 110 76 C103 76 99 63 99 43 Z",
+                True,
             ),
             (
                 "divided-highway-ends",
-                "M110 69 L119 84 V121 H101 V84 Z",
-                "M65 98 L84 118 L98 98 Z M122 59 L136 38 L154 56 Z",
+                "M99 117 H121 C121 97 117 84 110 84 C103 84 99 97 99 117 Z",
+                False,
             ),
         ):
             with self.subTest(name=name):
                 root = ElementTree.fromstring(SIGN_SVGS[name])
-                paths = root.findall("path")
-                self.assertEqual(paths[-1].attrib["d"], island)
-                self.assertEqual(paths[1].attrib["d"], arrows)
+                self.assertEqual(root.find("path").attrib["d"], island)
+                left, right = root.findall("g")
+                for arrow, upward in ((left, False), (right, True)):
+                    tail_x = int(arrow.find("path").attrib["d"].split()[0][1:])
+                    tip_x, tip_y, _, base_y, _, _ = map(int, arrow.find("polygon").attrib["points"].replace(",", " ").split())
+                    self.assertNotEqual(tip_x, tail_x)
+                    self.assertEqual(tip_y < base_y, upward)
+                    self.assertEqual(tip_x < 110, not upward)
+                    upper_x, lower_x = (tip_x, tail_x) if upward else (tail_x, tip_x)
+                    self.assertEqual(abs(upper_x - 110) > abs(lower_x - 110), outward)
 
 
 if __name__ == "__main__":

@@ -44,12 +44,17 @@ for (const file of pages) {
     test(`${file}: ${viewport.width}px images load without changing their aspect ratio or overflowing`, async () => {
       const { context, page } = await openPage(file, viewport);
       try {
+        if (file === pages[1]) {
+          const worksheet = page.locator('#online-worksheet');
+          await worksheet.getByText("1. Name eight road signs", { exact: true }).click();
+          assert.equal(await worksheet.locator('.worksheet-pictures img:visible').count(), 8);
+        }
         await decodeImages(page);
         const images = await page.locator('img[src^="assets/road-signs/"]').evaluateAll((images) => images.map((image) => {
           const box = image.getBoundingClientRect();
-          return { loaded: image.complete && image.naturalWidth > 0, alt: image.alt, width: box.width, height: box.height, right: box.right };
+          return { src: image.getAttribute("src"), loaded: image.complete && image.naturalWidth > 0, alt: image.alt, width: box.width, height: box.height, right: box.right };
         }));
-        assert.equal(images.length, 34);
+        assert.equal(new Set(images.map(image => image.src)).size, 31);
         for (const image of images) {
           assert.equal(image.loaded, true);
           assert.ok(image.alt.length > 0);

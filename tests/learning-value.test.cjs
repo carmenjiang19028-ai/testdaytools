@@ -14,14 +14,28 @@ for (const [file, nextAnchor] of [['road-signs-practice-test.html', '#practice']
       await context.route(/^https?:/, route => route.abort());
       try {
         const page = await context.newPage();
-        await page.goto(pathToFileURL(path.resolve(file)).href);
+        const sourceUrl = pathToFileURL(path.resolve(file)).href;
+        await page.goto(sourceUrl);
         const choices = page.getByRole('region', { name: 'Practice a confusing sign pair' });
-        const links = choices.getByRole('link');
-        assert.deepEqual(await links.allTextContents(), ['Stop vs. Yield', 'Do Not Enter vs. Wrong Way', 'Merge vs. Lane Ends']);
-        for (const [i, concept] of ['stop-yield', 'do-not-enter-wrong-way', 'merge-lane-ends'].entries()) {
-          const url = new URL(await links.nth(i).getAttribute('href'), page.url());
+        for (const [label, concept] of [
+          ['Stop vs. Yield', 'stop-yield'],
+          ['Do Not Enter vs. Wrong Way', 'do-not-enter-wrong-way'],
+          ['Merge vs. Lane Ends', 'merge-lane-ends'],
+        ]) {
+          const link = choices.getByRole('link', { name: label, exact: true });
+          const url = new URL(await link.getAttribute('href'), sourceUrl);
+          assert.ok(url.pathname.endsWith('/road-sign-learning-loop.html'));
           assert.equal(url.searchParams.get('concept'), concept);
           assert.equal(url.searchParams.get('return'), file);
+        }
+        for (const [label, destination, fragment] of [
+          ['Compare posted and advisory speeds with pictures', 'road-sign-learning-loop.html', 'speed-sign-comparison'],
+          ['Compare school crossing plaques with pictures', 'road-sign-shapes-and-colors-finder.html', 'school-crossing-location'],
+        ]) {
+          await choices.getByRole('link', { name: label, exact: true }).click();
+          await page.waitForURL(url => url.pathname.endsWith(`/${destination}`) && url.hash === `#${fragment}`);
+          assert.ok(await page.locator(`#${fragment}`).isVisible());
+          await page.goto(sourceUrl);
         }
         if (!nextAnchor) {
           assert.equal(await choices.evaluate(el => !!(el.compareDocumentPosition(document.querySelector('#printable-sheet')) & Node.DOCUMENT_POSITION_FOLLOWING)), true);
@@ -39,7 +53,7 @@ for (const [file, nextAnchor] of [['road-signs-practice-test.html', '#practice']
           });
           await page.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `${file}-${width}-contrast-entry.png`) });
         }
-        await links.nth(1).click();
+        await choices.getByRole('link', { name: 'Do Not Enter vs. Wrong Way', exact: true }).click();
         await page.waitForURL(/road-sign-learning-loop\.html\?/);
         assert.equal(await page.locator('[data-loop-question]').getAttribute('data-loop-question'), 'entry-direction-distinction');
         assert.match(await page.locator('[data-loop-progress]').textContent(), /0 of 3 questions/);
@@ -120,14 +134,25 @@ test('curriculum covers each sign with a separate application and reason for eac
     assert.ok(q.options.every(choice => choice.text.trim() && choice.why.trim()));
   }
 });
-test('examples retain solvable changed problems and explicit reasoning', () => {
+test('examples retain distinct worked and transfer problems on their published pages', async () => {
   const data = JSON.parse(fs.readFileSync('content/study_examples.json', 'utf8'));
-  for (const page of Object.values(data)) {
-    assert.equal(page.examples.length, 2);
-    for (const example of page.examples) {
-      for (const key of ['title', 'question', 'mistake', 'check', 'answer']) assert.ok(example[key].trim());
-      assert.ok(example.steps.length >= 3);
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    for (const [slug, { examples }] of Object.entries(data)) {
+      assert.ok(examples.length >= 2, slug);
+      assert.equal(new Set(examples.map(example => example.title)).size, examples.length, slug);
+      await page.goto(pathToFileURL(path.resolve(`${slug}.html`)).href);
+      for (const example of examples) {
+        for (const key of ['title', 'question', 'mistake', 'check', 'answer']) assert.ok(example[key].trim(), slug);
+        assert.ok(example.steps.length >= 2 && example.steps.every(step => step.trim()), slug);
+        assert.notEqual(example.check, example.question, slug);
+        assert.ok(await page.getByRole('heading', { name: example.title, exact: true }).isVisible(), `${slug}: ${example.title}`);
+      }
     }
+  } finally {
+    await context.close();
   }
   assert.equal(4 * (2 * 4 - 3), 20);
   assert.equal(3 * (2 * 6 - 5), 21);

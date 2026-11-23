@@ -556,8 +556,16 @@ test("published practice pages omit the generic editorial console without losing
     ]) {
       await page.goto(file(slug));
       assert.equal(await page.locator("main .task-console").count(), 0, slug);
-      assert.ok(await page.getByRole("heading", { name: "Choose a practice mode" }).isVisible(), slug);
-      assert.ok(await page.locator("#practice").count(), slug);
+      const practice = page.locator("#practice");
+      assert.equal(await practice.count(), 1, slug);
+      assert.ok(await practice.locator("[data-mode-button]").count(), slug);
+      if (slug === "regulatory-traffic-signs-practice-test") {
+        assert.ok(await practice.getByRole("heading", { name: "Review signs without the interactive quiz" }).isVisible());
+        assert.ok(await practice.getByRole("link", { name: "Open the road signs worksheet" }).isVisible());
+        assert.equal(await practice.locator("[data-practice-controls]").isVisible(), false);
+      } else {
+        assert.ok(await practice.getByRole("heading", { name: "Choose a practice mode" }).isVisible(), slug);
+      }
     }
     await page.goto(file("road-signs-practice-test"));
     assert.ok(await page.getByRole("heading", { name: "Review the reason behind a missed sign" }).isVisible());

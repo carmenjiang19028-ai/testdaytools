@@ -13,13 +13,24 @@ class PageImages(HTMLParser):
         super().__init__()
         self.images = []
         self.meta = {}
+        self.sections = []
+        self.section_images = {}
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if tag == "section":
+            self.sections.append(attrs.get("id"))
         if tag == "img":
             self.images.append(attrs)
+            for section in self.sections:
+                if section:
+                    self.section_images.setdefault(section, []).append(attrs)
         if tag == "meta":
             self.meta[attrs.get("property", attrs.get("name"))] = attrs.get("content")
+
+    def handle_endtag(self, tag):
+        if tag == "section":
+            self.sections.pop()
 
 
 def artwork(element):
@@ -79,7 +90,6 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
                 parser = PageImages()
                 parser.feed((build.ROOT / f"{name}.html").read_text())
                 sign_images = [image for image in parser.images if image["src"].startswith("assets/road-signs/")]
-                self.assertEqual(len(sign_images), 34)
                 self.assertEqual({image["src"] for image in sign_images}, paths)
                 for image in parser.images:
                     self.assertTrue((build.ROOT / image["src"]).is_file())
@@ -88,7 +98,12 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
                 self.assertEqual(parser.meta["twitter:image"], parser.meta["og:image"])
                 self.assertNotIn("robots", parser.meta)
                 if name == build.ROAD_SIGN_CHEAT_SHEET_SLUG:
-                    self.assertTrue(all("loading" not in image for image in parser.images))
+                    print_images = parser.section_images["printable-sheet"]
+                    worksheet_images = parser.section_images["online-worksheet"]
+                    self.assertEqual({image["src"] for image in print_images}, paths | {"assets/road-sign-practice-qr.svg"})
+                    self.assertTrue(all("loading" not in image for image in print_images))
+                    self.assertEqual(len(worksheet_images), 8)
+                    self.assertTrue(all(image.get("loading") == "lazy" for image in worksheet_images))
 
     def test_existing_sitemap_keeps_63_pages_with_images_only_on_the_pilot(self):
         root = ElementTree.parse(build.ROOT / "sitemap.xml").getroot()
@@ -113,8 +128,9 @@ class RoadSignImageDiscoveryTest(unittest.TestCase):
 
     def test_quiz_art_and_other_hero_previews_stay_inline(self):
         question = {"image": "stop", "imageAlt": "Stop sign"}
-        self.assertIn("<svg", build.render_sign_visual(question))
-        self.assertNotIn("<img", build.render_sign_visual(question))
+        visual = build.render_sign_visual(question, "quiz-art-test-1")
+        self.assertIn("<svg", visual)
+        self.assertNotIn("<img", visual)
         self.assertIn("<svg", build.render_sign_preview_strip())
 
 

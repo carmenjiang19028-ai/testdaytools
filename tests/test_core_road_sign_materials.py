@@ -2,6 +2,7 @@ import html
 import json
 import unittest
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlsplit
 from xml.etree import ElementTree as ET
 
 from pypdf import PdfReader
@@ -279,6 +280,10 @@ class CoreMaterialTests(unittest.TestCase):
                     self.assertIn(f"<li>{choice}</li>", online)
                 self.assertIn(f"{number}. {'ABC'[answer]} - {reason}", teacher)
                 self.assertIn(f"<strong>{'ABC'[answer]}. {choices[answer]}</strong> {reason}", online)
+                destination = urlsplit(review_href)
+                if destination.path == "road-sign-learning-loop.html":
+                    params = parse_qsl(destination.query) + [("return", f"worksheet-decision-{number}")]
+                    review_href = destination._replace(query=urlencode(params)).geturl()
                 self.assertIn(f'<a href="{review_href}">{review_label}</a>', online)
                 self.assertNotIn(reason, student)
         self.assertIn(TRANSFER_PROMPT, student)

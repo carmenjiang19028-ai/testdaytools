@@ -167,28 +167,32 @@ for (const width of [390, 1280]) {
   });
 }
 
-test("each quiz mode describes an image in its own question and leaves text-only prompts alone", async () => {
+test("each quiz question describes its own artwork and conditions without leaking descriptions across modes", async () => {
   const { context, page } = await openQuiz(1280, "california-dmv-permit-practice-test", "quick");
   try {
     const associations = await page.locator("[data-quiz] .question").evaluateAll(questions => {
       const ids = new Set();
-      let picture = 0, text = 0, mismatches = 0;
+      let picture = 0, text = 0, conditioned = 0;
+      const mismatches = [];
       for (const question of questions) {
-        const ref = question.querySelector("h3").getAttribute("aria-describedby");
+        const refs = question.querySelector("h3").getAttribute("aria-describedby")?.split(/\s+/) || [];
         const image = question.querySelector(".question-visual [role='img']");
-        if (image) {
-          picture++;
-          if (!ref || ids.has(ref) || document.getElementById(ref) !== image || !image.getAttribute("aria-label")) mismatches++;
-          ids.add(ref);
-        } else {
-          text++;
-          if (ref) mismatches++;
-        }
+        const condition = question.querySelector("[data-quiz-condition]");
+        const descriptions = [image, condition].filter(Boolean);
+        if (image) picture++;
+        if (condition) conditioned++;
+        if (!descriptions.length) text++;
+        const valid = refs.length === descriptions.length && descriptions.every((node, index) =>
+          node.id && !ids.has(node.id) && node.id === refs[index] &&
+          document.getElementById(node.id) === node &&
+          (node === image ? node.getAttribute("aria-label")?.trim() : node.textContent.trim()));
+        descriptions.forEach(node => ids.add(node.id));
+        if (!valid) mismatches.push({ prompt: question.dataset.prompt, refs });
       }
-      return { picture, text, mismatches };
+      return { picture, text, conditioned, mismatches };
     });
-    assert.ok(associations.picture > 0 && associations.text > 0);
-    assert.equal(associations.mismatches, 0);
+    assert.ok(associations.picture > 0 && associations.text > 0 && associations.conditioned > 0);
+    assert.deepEqual(associations.mismatches, []);
   } finally { await context.close(); }
 });
 

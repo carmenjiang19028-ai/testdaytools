@@ -85,9 +85,27 @@ After changing the artwork, rebuild the picture-test preview with Playwright:
 
 ```bash
 node scripts/build_road_sign_preview.cjs
-python3 -m unittest discover -s tests -p 'test_*.py'
 node --test tests/road-sign-image-discovery.test.cjs
 ```
+
+### Check the learner release
+
+Run these from the repository root. Use a local Python environment with
+`pytest`, `pypdf`, `Pillow`, and `reportlab`; make that same `python3`
+available on `PATH` for the browser PDF checks. The browser suite uses
+`playwright`, `sharp`, and installed Google Chrome.
+
+```bash
+python3 scripts/build.py --check
+PYTHONPATH=scripts python3 -m pytest -q
+node --test --test-concurrency=4 tests/*.test.cjs
+```
+
+Use the `*.test.cjs` glob for this local pass. The separate `*.browser.cjs`
+scripts exercise production and are not required to verify a release.
+The legacy all-page AdSense marker assertion still checks four independently
+maintained pages against an older requirement. A marker assertion is not an
+account review result.
 
 ## Local preview
 

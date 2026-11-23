@@ -135,6 +135,7 @@ for (const width of [320, 1280]) {
         Object.fromEntries(keys.map(key => [key, localStorage.getItem(key)])), Object.keys(other)), other);
       assert.equal(await marked(page), 0);
       await page.reload();
+      await page.locator("[data-flashcard-reset]:disabled").waitFor();
       assert.equal(await reset.isDisabled(), true);
     }, { known: ["stop"], review: ["lane-ends"], updatedAt: 1 }));
 }
