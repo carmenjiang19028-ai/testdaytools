@@ -87,6 +87,87 @@ for (const file of pages) {
   });
 }
 
+const satPlanStorage = "tdt-sat-date-plan:v1";
+const storedPlan = (page) => page.evaluate(key => localStorage.getItem(key), satPlanStorage);
+const planOutputEvents = (page) => page.evaluate(() => (window.dataLayer || []).filter(event =>
+  event[0] === "event" && ["sat_plan_saved", "sat_date_selected", "resource_download"].includes(event[1])));
+
+for (const [file, action, width, timezone] of [
+  [pages[0], "save", 320, "Pacific/Auckland"],
+  [pages[1], "calendar", 1280, "America/Los_Angeles"],
+]) {
+  test(`${file}: ${action} rechecks the Eastern late deadline in an already-open tab`, async () => {
+    const { context, page } = await openPage(file, "2026-11-20T16:00:00Z", { width, height: 900 }, timezone);
+    try {
+      const save = page.locator("[data-sat-plan-save]");
+      const calendar = page.locator("[data-sat-date-calendar]");
+      const build = page.locator("[data-sat-plan-button]");
+      const headline = page.locator("[data-sat-plan-headline]");
+      await page.locator("[data-sat-stage]").selectOption("senior");
+      await page.locator("[data-sat-readiness]").selectOption("ready");
+      await build.click();
+      await save.click();
+      assert.equal(JSON.parse(await storedPlan(page)).primary.date, "2026-12-05");
+      const control = action === "save" ? save : calendar;
+      await page.clock.setSystemTime(new Date("2026-11-25T04:59:00Z"));
+      if (action === "calendar") {
+        const next = page.waitForEvent("download");
+        await control.click();
+        assert.equal((await next).suggestedFilename(), "sat-2026-12-05.ics");
+      } else {
+        await control.click();
+      }
+      assert.match(await page.locator("[data-sat-primary-deadline]").innerText(), /Regular deadline passed.*November 24, 2026/);
+      const saved = await storedPlan(page);
+      const before = await planOutputEvents(page);
+      const unexpected = [];
+      page.on("download", download => unexpected.push(download.suggestedFilename()));
+      await page.clock.setSystemTime(new Date("2026-11-25T05:00:00Z"));
+      await control.click();
+      assert.match(await headline.textContent(), /December 5, 2026 no longer fits/);
+      assert.match(await page.locator("[data-sat-plan-reason]").textContent(),
+        /late registration deadline on November 24, 2026 has passed.*Build a new plan/);
+      assert.equal(await headline.evaluate(el => document.activeElement === el), true);
+      assert.equal(await page.locator("[data-sat-plan-picks]").isVisible(), false);
+      assert.equal(await save.isDisabled(), true);
+      assert.equal(await calendar.isDisabled(), true);
+      assert.equal(await storedPlan(page), saved);
+      assert.deepEqual(await planOutputEvents(page), before);
+      assert.deepEqual(unexpected, []);
+      await build.click();
+      assert.equal(await page.locator("[data-sat-primary-date]").textContent(), "March 6, 2027");
+      assert.equal(await calendar.isDisabled(), false);
+      assert.equal(await storedPlan(page), saved);
+    } finally { await context.close(); }
+  });
+}
+
+test("an open planner rejects an expired loaner cutoff even while regular registration is open", async () => {
+  const { context, page } = await openPage(pages[0], "2026-11-04T16:00:00Z");
+  try {
+    const save = page.locator("[data-sat-plan-save]");
+    await page.locator("[data-sat-stage]").selectOption("senior");
+    await page.locator("[data-sat-readiness]").selectOption("ready");
+    await page.locator("[data-sat-device-loan]").check();
+    await page.locator("[data-sat-plan-button]").click();
+    assert.equal(await page.locator("[data-sat-primary-date]").textContent(), "December 5, 2026");
+    assert.match(await page.locator("[data-sat-primary-device]").textContent(), /November 5, 2026/);
+    await page.clock.setSystemTime(new Date("2026-11-06T04:59:00Z"));
+    await save.click();
+    const valid = await storedPlan(page);
+    assert.equal(JSON.parse(valid).needsDevice, true);
+    const before = await planOutputEvents(page);
+    await page.clock.setSystemTime(new Date("2026-11-06T05:00:00Z"));
+    await save.click();
+    assert.match(await page.locator("[data-sat-plan-reason]").textContent(),
+      /device request cutoff on November 5, 2026 has passed/);
+    assert.equal(await save.isDisabled(), true);
+    assert.equal(await page.locator("[data-sat-date-calendar]").isDisabled(), true);
+    assert.equal(await storedPlan(page), valid);
+    assert.deepEqual(await planOutputEvents(page), before);
+  } finally { await context.close(); }
+});
+
 for (const [width, timezone] of [[320, "Pacific/Auckland"], [1280, "America/New_York"]]) {
   test(`${width}: May score cannot be used to wait for the June loaner cutoff`, async () => {
     const { context, page } = await openPage(pages[0], "2026-11-23T12:00:00Z", { width, height: 900 }, timezone);

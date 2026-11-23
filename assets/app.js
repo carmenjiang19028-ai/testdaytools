@@ -4310,6 +4310,32 @@ function initSatDatePlanners() {
     const updateRetakePreference = () => {
       if (waitForScoreInput) waitForScoreInput.disabled = !retakeInput?.checked;
     };
+    const focusPlanResult = () => {
+      headline?.focus({ preventScroll: true });
+      headline?.scrollIntoView({ block: "start", behavior: "instant" });
+    };
+    const checkPlanBeforeAction = () => {
+      if (!currentPlan) return false;
+      const now = new Date();
+      const today = satEasternDate(now);
+      const { primary, backup, needsDevice } = currentPlan;
+      for (const event of [primary, backup].filter(Boolean)) {
+        const lateClosed = satRegistrationStatus(event, now) === "closed";
+        const loanClosed = needsDevice && today > deviceDeadline(event);
+        if (lateClosed || loanClosed) {
+          const cutoff = lateClosed
+            ? `The late registration deadline on ${dateLabel(event.lateDate)} has passed.`
+            : `The College Board device request cutoff on ${dateLabel(deviceDeadline(event))} has passed.`;
+          clearPlan(`${event.label} no longer fits this plan`,
+            `${cutoff} Build a new plan for current dates. Any previously saved plan is unchanged.`);
+          focusPlanResult();
+          return false;
+        }
+      }
+      if (primaryDeadline) primaryDeadline.textContent = registrationText(primary, now);
+      if (backup && backupDeadline) backupDeadline.textContent = registrationText(backup, now);
+      return true;
+    };
     [stageSelect, deadlineSelect, readinessSelect, retakeInput, waitForScoreInput, deviceLoanInput].forEach((input) => {
       input?.addEventListener("change", () => {
         updateRetakePreference();
@@ -4318,11 +4344,10 @@ function initSatDatePlanners() {
     });
     buildButton?.addEventListener("click", () => {
       buildPlan();
-      headline?.focus({ preventScroll: true });
-      headline?.scrollIntoView({ block: "start", behavior: "instant" });
+      focusPlanResult();
     });
     saveButton?.addEventListener("click", () => {
-      if (!currentPlan) return;
+      if (!checkPlanBeforeAction()) return;
       try {
         window.localStorage.setItem(storageKey, JSON.stringify(currentPlan));
         if (savedStatus) {
@@ -4346,7 +4371,7 @@ function initSatDatePlanners() {
       }
     });
     calendarButton?.addEventListener("click", () => {
-      if (!currentPlan) return;
+      if (!checkPlanBeforeAction()) return;
       const event = currentPlan.primary;
       const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
       const nextDay = new Date(calendarDay(event.date) + DAY_MS).toISOString().slice(0, 10).replace(/-/g, "");
