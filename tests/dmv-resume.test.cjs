@@ -11,6 +11,7 @@ const quizUrl = origin + "/road-signs-practice-test.html";
 const resumeLink = "[data-recent-practice-link]";
 const recentKey = "tdt-recent-practice";
 const masteryKey = "tdt-dmv-mastery:v1";
+const starter = quizUrl + "?mode=road-signs-starter";
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -56,6 +57,69 @@ async function serveRevisedFirstQuestion(page, revision) {
   await page.route(url => url.origin === origin && url.pathname === pathName && url.searchParams.get("resume") === "1",
     route => route.fulfill({ contentType: "text/html", body: revised }));
 }
+
+test("a fresh page cannot reset an unfinished round from another tab", async () =>
+  withSite(390, async owner => {
+    await owner.goto(starter + "#practice");
+    await answer(active(owner), false);
+    const original = await read(owner, recentKey);
+    assert.equal(original.draft.picks.length, 1);
+    const mastery = await read(owner, masteryKey);
+    const fresh = await owner.context().newPage();
+    await fresh.goto(starter + "#practice");
+    assert.equal(await progress(active(fresh)), "0 of 10 answered");
+    await active(fresh).locator("[data-quiz-reset]").click();
+    assert.deepEqual(await read(fresh, recentKey), original);
+    await active(owner).locator("[data-quiz-reset]").click();
+    assert.equal(await progress(active(owner)), "0 of 10 answered");
+    assert.equal((await read(owner, recentKey)).draft, undefined);
+    assert.deepEqual(await read(owner, masteryKey), mastery);
+    await owner.goto(study);
+    assert.equal(await owner.locator(resumeLink).textContent(), "Open practice set");
+    assert.doesNotMatch(await owner.locator(resumeLink).getAttribute("href"), /resume/);
+  }));
+
+test("a stale tab cannot discard a newer save of the same resumed round", async () =>
+  withSite(1280, async stale => {
+    await stale.goto(starter + "#practice");
+    await answer(active(stale), false);
+    const original = await read(stale, recentKey);
+    const latest = await stale.context().newPage();
+    await latest.goto(starter + "&resume=1#practice");
+    assert.equal(await progress(active(latest)), "1 of 10 answered");
+    await active(latest).locator("[data-quiz-forward]").click();
+    await answer(active(latest), true);
+    const current = await read(latest, recentKey);
+    assert.equal(current.draft.picks.length, 2);
+    assert.notEqual(current.draft.revision, original.draft.revision);
+    const analytics = await latest.evaluate(() => JSON.stringify(window.dataLayer));
+    assert(!analytics.includes(current.draft.revision));
+    await active(stale).locator("[data-quiz-reset]").click();
+    assert.deepEqual(await read(latest, recentKey), current);
+    await latest.goto(study);
+    await resume(latest);
+    assert.equal(await progress(active(latest)), "2 of 10 answered");
+    assert.deepEqual(await milestones(latest), []);
+  }));
+
+test("an explicitly restored pre-revision draft can still be reset by its tab", async () =>
+  withSite(390, async page => {
+    await page.goto(starter + "#practice");
+    await answer(active(page), false);
+    await page.evaluate(key => {
+      const previous = JSON.parse(localStorage.getItem(key));
+      delete previous.draft.revision;
+      localStorage.setItem(key, JSON.stringify(previous));
+    }, recentKey);
+    await page.goto(study);
+    await resume(page);
+    assert.equal(await progress(active(page)), "1 of 10 answered");
+    assert.deepEqual(await milestones(page), []);
+    await active(page).locator("[data-quiz-reset]").click();
+    assert.equal(await progress(active(page)), "0 of 10 answered");
+    assert.equal((await read(page, recentKey)).draft, undefined);
+    assert.deepEqual(await milestones(page), []);
+  }));
 
 for (const width of [390, 1280]) {
   test(`${width}px: resume preserves results, feedback and cursor without replaying activity`, async () =>

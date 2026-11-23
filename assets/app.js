@@ -196,6 +196,11 @@ const DMV_BASELINE_SIZE = 10;
 const DAY_MS = 86400000;
 const RECENT_PRACTICE_KEY = "tdt-recent-practice";
 
+function createLocalPracticeId() {
+  return Array.from(window.crypto.getRandomValues(new Uint32Array(4)),
+    (part) => part.toString(16).padStart(8, "0")).join("");
+}
+
 function readRecentPractice() {
   try {
     return JSON.parse(window.localStorage.getItem(RECENT_PRACTICE_KEY) || "null");
@@ -633,6 +638,7 @@ function initQuizzes() {
     let quizHalfwayTracked = false;
     let quizCompletedTracked = false;
     let savedRound = null;
+    let ownedDraftSnapshot = "";
     let tenQuestionsTracked = false;
     let nextRoundFocus = "";
     let missedCardIds = [];
@@ -1017,8 +1023,7 @@ function initQuizzes() {
 
       if (isDmvQuiz && complete && (!savedRound || (!focusedDmv && !savedRound.fullRound))) {
         // Keep one local record if a learner expands a finished focus set to the full round.
-        const id = savedRound?.id || Array.from(window.crypto.getRandomValues(new Uint32Array(4)),
-          (part) => part.toString(16).padStart(8, "0")).join("");
+        const id = savedRound?.id || createLocalPracticeId();
         savedRound = { id, fullRound: !focusedDmv };
         recordDmvSession({
           roundId: id,
@@ -1171,6 +1176,7 @@ function initQuizzes() {
         const label = selectedFocus === "all" ? quizLabel : `${quizLabel} · ${filterSelect.selectedOptions[0].textContent}`;
         const draft = isDmvQuiz && answeredCount > 0 && answeredCount < activeTotal ? {
           version: 2,
+          revision: createLocalPracticeId(),
           scope: roundHref(),
           signature: roundSignature(),
           sequence: activeSequence,
@@ -1182,7 +1188,7 @@ function initQuizzes() {
           focusedRoundId: savedRound?.fullRound === false ? savedRound.id : undefined,
         } : undefined;
 
-        window.localStorage.setItem(RECENT_PRACTICE_KEY, JSON.stringify({
+        const snapshot = JSON.stringify({
           label,
           href: roundHref(selectedFocus),
           state: quiz.dataset.state || "",
@@ -1192,7 +1198,9 @@ function initQuizzes() {
           missed: missedCount,
           draft,
           updatedAt: Date.now(),
-        }));
+        });
+        window.localStorage.setItem(RECENT_PRACTICE_KEY, snapshot);
+        ownedDraftSnapshot = draft ? snapshot : "";
       } catch (error) {
         // Practice still works when browser storage is blocked.
       }
@@ -1227,6 +1235,7 @@ function initQuizzes() {
             picks.set(index, button);
           }
           if (picks.size === draft.picks.length) {
+            ownedDraftSnapshot = JSON.stringify(progress);
             activeSequence = draft.sequence;
             activePosition = draft.position;
             // Restore the saved display without replaying answered-question side effects.
@@ -1260,6 +1269,7 @@ function initQuizzes() {
       quizHalfwayTracked = false;
       quizCompletedTracked = false;
       savedRound = null;
+      ownedDraftSnapshot = "";
       tenQuestionsTracked = false;
       questions.forEach((question) => {
         question.querySelectorAll("button").forEach((button) => {
@@ -1465,14 +1475,15 @@ function initQuizzes() {
 
     if (resetButton) {
       resetButton.addEventListener("click", () => {
-        const draft = readRecentPractice()?.draft;
+        const draftToDiscard = ownedDraftSnapshot;
         if (isDmvQuiz) shuffleChoices();
         if (supportsBaseline && filterSelect?.value === "baseline") {
           applyFocusFilter("baseline");
         } else {
           resetQuiz();
         }
-        if (draft?.scope === roundHref()) saveRecentPractice();
+        // A fresh or stale tab must not discard a draft another tab last saved.
+        if (draftToDiscard && draftToDiscard === JSON.stringify(readRecentPractice())) saveRecentPractice();
       });
     }
 
