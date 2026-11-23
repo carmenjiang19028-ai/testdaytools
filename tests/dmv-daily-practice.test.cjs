@@ -14,8 +14,8 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
 
-async function withSite(width, run) {
-  const context = await browser.newContext({ viewport: { width, height: 800 }, timezoneId: "America/Los_Angeles" });
+async function withSite(width, run, javaScriptEnabled = true) {
+  const context = await browser.newContext({ viewport: { width, height: 800 }, timezoneId: "America/Los_Angeles", javaScriptEnabled });
   try {
     await context.route(/^https?:/, route => route.abort());
     await context.route(origin + "/**", route => {
@@ -125,6 +125,50 @@ test("national visitors get only common signs and the daily prompt changes at lo
     await page.reload();
     assert.match(await page.locator("[data-daily-date]").textContent(), /Nov 21.*Today's question/);
     assert.notEqual(await current(page).locator("h3").textContent(), previous);
+  }));
+
+for (const [width, blocking] of [[320, "disabled"], [1280, "failed"]]) {
+  test(`${width}px: the initial warm-up can be answered without scripts (${blocking})`, () =>
+    withSite(width, async page => {
+      if (blocking === "failed") await page.route(origin + "/assets/app.js", route => route.abort());
+      await page.goto(daily);
+      const card = current(page);
+      assert.equal(await card.getAttribute("data-state"), "all");
+      assert.equal(await stateSelect(page).isVisible(), false);
+      assert.equal(await card.locator("[data-daily-choice]:visible").count(), 0);
+      const fallback = card.locator("[data-daily-self-check]");
+      assert.ok(await fallback.isVisible());
+      assert.equal(await fallback.getByRole("listitem").count(), 4);
+      assert.ok(await card.getByRole("img", { name: /Red octagon.*STOP/ }).isVisible());
+      assert.equal(await fallback.locator("details p").isVisible(), false);
+      await fallback.getByText("Check the answer", { exact: true }).press("Enter");
+      assert.match(await fallback.locator("details p").innerText(), /Come to a complete stop/);
+      assert.ok(await card.locator("[data-daily-practice]").isVisible());
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    }, blocking !== "disabled"));
+}
+
+test("the focused image prompt exposes its graphic clue before the answer choices", () =>
+  withSite(390, async page => {
+    await page.goto(daily + "?state=all");
+    assert.ok(await stateSelect(page).isVisible());
+    assert.equal(await page.locator("[data-daily-self-check]:visible").count(), 0);
+    await page.locator("[data-daily-next]").press("Enter");
+    const question = current(page);
+    const heading = question.getByRole("heading");
+    const clue = question.getByRole("img");
+    assert.equal(await heading.getAttribute("aria-describedby"), await clue.getAttribute("id"));
+    assert.ok(await heading.evaluate(el => el === document.activeElement));
+    const inspector = await page.context().newCDPSession(page);
+    try {
+      const { root } = await inspector.send("DOM.getDocument");
+      const { nodeId } = await inspector.send("DOM.querySelector", { nodeId: root.nodeId, selector: ":focus" });
+      const { nodes } = await inspector.send("Accessibility.getPartialAXTree", { nodeId, fetchRelatives: false });
+      assert.ok(nodes[0].description?.value);
+      assert.equal(nodes[0].description.value, await clue.getAttribute("aria-label"));
+    } finally { await inspector.detach(); }
+    await page.keyboard.press("Tab");
+    assert.ok(await question.locator("[data-daily-choice]").first().evaluate(el => el === document.activeElement));
   }));
 
 test("all daily practice destinations honor their authored topic or state", () =>

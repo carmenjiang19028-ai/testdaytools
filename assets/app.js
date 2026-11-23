@@ -2618,7 +2618,11 @@ function initDmvDailyQuestions() {
         heading.focus();
       }
     });
-    render();
+    if (render()) {
+      widget.querySelectorAll("[data-daily-interactive]").forEach(element => { element.hidden = false; });
+      const selfCheck = widget.querySelector("[data-daily-self-check]");
+      if (selfCheck) selfCheck.hidden = true;
+    }
   });
 }
 

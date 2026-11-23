@@ -98,7 +98,7 @@ DMV_DAILY_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Question of the Day",
     "description": "Answer a free daily DMV permit test question with state filters, instant explanation, road-sign images, and links to full practice tools.",
-    "lastUpdated": "November 23, 2026",
+    "lastUpdated": "November 24, 2026",
 }
 TOOL_BY_SLUG[DMV_DAILY_SLUG] = DMV_DAILY_PAGE
 DMV_MISTAKE_LOG_SLUG = "dmv-permit-test-mistake-log"
@@ -4377,15 +4377,29 @@ def render_dmv_daily_question_page():
     cards = []
     for index, record in enumerate(records):
         visual = ""
+        prompt_description = ""
         if record.get("image") in SIGN_SVGS:
+            art_id = f'{record["id"]}-art'
+            prompt_description = f' aria-describedby="{esc(art_id)}"'
             visual = f"""<figure class="daily-question-visual">
-  <div class="sign-art" role="img" aria-label="{esc(record["imageAlt"])}">{SIGN_SVGS[record["image"]]}</div>
+  <div class="sign-art" id="{esc(art_id)}" role="img" aria-label="{esc(record["imageAlt"])}">{SIGN_SVGS[record["image"]]}</div>
   <figcaption>Read the image first, then choose the safest meaning or driver action.</figcaption>
 </figure>"""
         choices = "".join(
             f'<button type="button" data-daily-choice="{choice_index}">{esc(choice)}</button>'
             for choice_index, choice in enumerate(record.get("choices", []))
         )
+        self_check = ""
+        if index == 0:
+            static_choices = "".join(f"<li>{esc(choice)}</li>" for choice in record["choices"])
+            self_check = f"""
+  <div data-daily-self-check>
+    <ol>{static_choices}</ol>
+    <details>
+      <summary>Check the answer</summary>
+      <p><strong>Answer: {esc(record["choices"][record["answer"]])}</strong><br>{esc(record["explanation"])}</p>
+    </details>
+  </div>"""
         visual_html = f"  {visual}\n" if visual else ""
         source = record["source"]
         source_link = (
@@ -4398,8 +4412,8 @@ def render_dmv_daily_question_page():
     <span>{esc(record["stateLabel"])}</span>
     <strong>{esc(record["category"])}</strong>
   </div>
-{visual_html}  <h3>{esc(record["q"])}</h3>
-  <div class="daily-choice-grid">{choices}</div>
+{visual_html}  <h3{prompt_description}>{esc(record["q"])}</h3>
+  <div data-daily-interactive hidden><div class="daily-choice-grid">{choices}</div></div>{self_check}
   <p class="daily-question-feedback" data-daily-feedback aria-live="polite"></p>
   <p class="daily-question-explanation" data-daily-explanation hidden>{esc(record["explanation"])}</p>{source_link}
   <a href="{esc(record["practice"])}" data-daily-practice{external}>{esc(record["practiceLabel"])}</a>
@@ -4432,9 +4446,9 @@ def render_dmv_daily_question_page():
     <p class="eyebrow">DMV question of the day</p>
     <h1>DMV permit test question of the day.</h1>
       <p class="lede">Answer one DMV practice question, then use the explanation to open a matching drill or check the rule that applies.</p>
-    {render_last_updated()}
+    {render_last_updated(DMV_DAILY_PAGE["lastUpdated"])}
     <div class="hero-actions">
-      <a href="#daily-question">Answer today</a>
+      <a href="#daily-question">Answer a question</a>
       <a href="dmv-permit-test-study-plan.html">Study plan</a>
       <a href="road-signs-practice-test.html">Road signs</a>
       <a href="dmv-permit-test-passing-score-calculator.html">Passing score</a>
@@ -4447,14 +4461,15 @@ def render_dmv_daily_question_page():
   <div><span>Daily use</span><strong>One quick question</strong></div>
   <div><span>Question bank</span><strong>{len(records)} rotating prompts</strong></div>
   <div><span>Includes</span><strong>Rules and road signs</strong></div>
-  <div><span>Updated</span><strong>{esc(SITE["lastUpdated"])}</strong></div>
+  <div><span>Updated</span><strong>{esc(DMV_DAILY_PAGE["lastUpdated"])}</strong></div>
 </section>
 <section class="daily-question-tool tool-block" id="daily-question" data-dmv-daily-question>
   <div class="tool-section-head">
     <span class="eyebrow">Daily warm-up</span>
-    <h2>Answer today&apos;s DMV permit-test question</h2>
-    <p class="section-intro">Use the national mix for common road signs, or choose your state for local rules and practice.</p>
+    <h2>DMV permit-test warm-up</h2>
+    <p class="section-intro" data-daily-interactive hidden>Use the national mix for common road signs, or choose your state for local rules and practice.</p>
   </div>
+  <div data-daily-interactive hidden>
   <div class="daily-question-controls">
     <label>State focus <select data-daily-state>{state_options}</select></label>
     <div>
@@ -4463,6 +4478,7 @@ def render_dmv_daily_question_page():
       <p data-daily-note>One fast check before a full practice round.</p>
     </div>
     <button type="button" data-daily-next>Show another</button>
+  </div>
   </div>
   <div class="daily-question-stage">{cards_html}</div>
 </section>
