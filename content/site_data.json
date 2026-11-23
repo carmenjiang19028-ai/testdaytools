@@ -753,7 +753,7 @@
       "category": "AP",
       "title": "AP Scores 2026: Release Date, Score Meaning, and Next Steps",
       "description": "AP scores 2026 started July 6. See how to view scores, understand 3/4/5 results, send score reports, compare AP credit, and handle missing scores.",
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroKicker": "2026 release archive",
       "summary": "2026 AP scores started releasing Monday, July 6, 2026. That release has passed. If a 2026 score is still missing, check your original College Board account and contact AP Services for Students. For a future exam year, check the official AP calendar.",
       "heroActions": [
@@ -885,8 +885,8 @@
               "label": "Seniors",
               "title": "Check orientation deadlines",
               "text": "Some colleges use AP scores for placement before classes begin, so timing can matter after admission.",
-              "href": "ap-credit-after-scores-guide.html",
-              "cta": "AP credit guide"
+              "href": "ap-credit-after-scores-guide.html#ap-score-send-cases",
+              "cta": "Compare your score-send options"
             }
           ]
         }
@@ -912,7 +912,7 @@
         },
         {
           "q": "Should I send scores before seeing them?",
-          "a": "Many students wait until they understand college credit policies. If a deadline applies, confirm it directly with the college."
+          "a": "The 2026 free-send window has closed. For a future AP exam year, check the free-send deadline before deciding to wait: it can fall before scores are released. If you wait to see your results, check the paid reporting options and your college's receiving deadline."
         },
         {
           "q": "What should I do if one AP score is missing?",
@@ -1116,11 +1116,15 @@
       "description": "Use this unofficial guide after AP scores arrive to compare college credit policies, placement rules, and score-sending decisions.",
       "heroKicker": "AP credit",
       "summary": "Before changing your first-term schedule, check what your AP score adds to your transcript, which requirement it actually satisfies, and whether your department recommends skipping the course.",
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroActions": [
         {
           "label": "See how to read a credit policy",
           "href": "#ap-credit-cases"
+        },
+        {
+          "label": "Compare score-send options",
+          "href": "#ap-score-send-cases"
         },
         {
           "label": "Open the advising note",
@@ -1191,6 +1195,34 @@
       ],
       "cardGroups": [
         {
+          "id": "ap-score-send-cases",
+          "heading": "Three AP score-send decisions for 2027",
+          "intro": "The free-send choice closes June 20, 2027 at 11:59 p.m. Eastern, before the scheduled July 2027 score release. Separately check when your college needs its official report for credit or placement.",
+          "items": [
+            {
+              "label": "You know the recipient",
+              "title": "Use the free send when the full report is right",
+              "text": "Your college confirms it wants an official report and you are comfortable sending scores from this year and earlier years. Choose that one recipient in your College Board account by the free-send deadline. The college still decides which scores earn credit.",
+              "href": "https://apstudents.collegeboard.org/sending-scores/free-score-send",
+              "cta": "Check the official free send"
+            },
+            {
+              "label": "You want to see the results first",
+              "title": "Decide after release with a paid report",
+              "text": "If you want to see the result or leave one score off a report, check your college's timeline and plan for a paid order after scores come out. College Board lists $15 per report plus $10 per score per recipient if you request a withhold. Withholding keeps the score on your record and is not available on the free send.",
+              "href": "https://apstudents.collegeboard.org/score-reporting-services/withhold-scores",
+              "cta": "Check paid orders and withholding"
+            },
+            {
+              "label": "You are thinking of canceling a score",
+              "title": "Do not confuse cancellation with withholding",
+              "text": "Cancellation is permanent: the score cannot be restored. To prevent a canceled 2027 score from going to the free-send recipient, AP Services must receive the request by June 15, 2027 at 11:59 p.m. Eastern. If you only want to limit what one recipient sees, compare paid reporting and ask AP Services before taking an irreversible step.",
+              "href": "https://apstudents.collegeboard.org/score-reporting-services/cancel-scores",
+              "cta": "Read the official cancellation rules"
+            }
+          ]
+        },
+        {
           "id": "ap-credit-cases",
           "heading": "Three ways to read the AP credit table",
           "intro": "Worked examples from Berkeley Engineering's published policy, checked November 21, 2026. Use the policy for your own college, major and entry term before changing a class.",
@@ -1253,6 +1285,14 @@
         {
           "label": "College Board AP Students: Sending scores",
           "url": "https://apstudents.collegeboard.org/sending-scores"
+        },
+        {
+          "label": "College Board AP Students: Paid score reports and fees",
+          "url": "https://apstudents.collegeboard.org/sending-scores/online"
+        },
+        {
+          "label": "College Board AP Calendar: 2027 dates",
+          "url": "https://apstudents.collegeboard.org/calendar"
         },
         {
           "label": "Berkeley Engineering AP examination credit table and footnotes",
