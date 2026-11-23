@@ -14283,13 +14283,54 @@
       "title": "North Carolina Road Signs Study Guide and Test Context",
       "description": "Use official North Carolina driver sources, state-specific knowledge-test context, and a shared interactive picture quiz for road-sign study.",
       "heroKicker": "North Carolina road signs",
-      "summary": "Practice explaining a road sign from its color and shape before you see the answer. Then review North Carolina's official test details or try the shared nationwide picture quiz.",
+      "summary": "Explain each sign before revealing the answer, then compare two North Carolina roads where the same school bus signal calls for different decisions.",
       "heroActions": [
         {"label": "Try the no-choice sign drill", "href": "#north-carolina-sign-recall"},
+        {"label": "Compare NC school bus rules", "href": "#north-carolina-school-bus"},
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
         {"label": "State test details", "href": "#official-details"},
         {"label": "Official sources", "href": "#sources"}
       ],
+      "stateRulePractice": {
+        "id": "north-carolina-school-bus",
+        "linkLabel": "Compare NC school bus rules",
+        "heading": "When does a center turn lane change the school bus stop rule?",
+        "imageAsset": {
+          "src": "assets/road-sign-materials/north-carolina-school-bus-lanes.svg",
+          "width": 360,
+          "height": 328
+        },
+        "imageLabel": "Road A has one travel lane in each direction and a center turn lane. Road B has two travel lanes in each direction and a center turn lane. In both drawings you are approaching a stopped school bus from the opposite direction.",
+        "caption": "In both North Carolina scenes, a marked school bus is stopped to load or unload passengers with its red lights flashing and stop arm out. Count only the travel lanes, not the center left-turn lane.",
+        "scenarios": [
+          {
+            "question": "Road A: one travel lane each way and a center turn lane. You are opposite the bus. Must you stop?",
+            "answer": "Yes. Two travel lanes plus a center turn lane do not qualify for North Carolina's opposite-direction exception. Both directions stop before reaching the bus."
+          },
+          {
+            "question": "Road B: two travel lanes each way and a center turn lane. You are still opposite the bus. Does your answer change?",
+            "answer": "Yes. This is four travel lanes plus a center turn lane. As an opposite-direction driver, you are not required to stop for the bus on the other side. Stay alert and continue only when it is safe. Drivers behind the bus still stop."
+          },
+          {
+            "question": "Road B still has four travel lanes, but the center turn lane is gone. Now the directions are separated only by painted center lines. Must you stop?",
+            "answer": "Yes. Four lanes by themselves do not create the exception. On this undivided road without a center turn lane, both directions stop."
+          },
+          {
+            "question": "You are following the bus on either road. The stop arm folds and the red lights go out, but the bus has not moved. May you go?",
+            "answer": "No. Wait until the stop arm is withdrawn, the red lights are off, and the bus starts moving. Look for children before moving."
+          }
+        ],
+        "sources": [
+          {
+            "label": "North Carolina General Statutes 20-217(a), (c)",
+            "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_20/GS_20-217.html"
+          },
+          {
+            "label": "NCDMV: School Bus Stop Law diagrams",
+            "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/school-bus/Documents/school-bus-stop-law-card.pdf"
+          }
+        ]
+      },
       "toolWidget": {
         "type": "signRecall",
         "id": "north-carolina-sign-recall",
@@ -14468,7 +14509,7 @@
           }
         ]
       },
-      "lastUpdated": "November 20, 2026",
+      "lastUpdated": "November 24, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Scored practice is separate.",
       "replacementText": "This guide has a no-choice sign drill for the North Carolina study task. The nationwide quiz uses a shared question bank and is not a North Carolina exam simulation."

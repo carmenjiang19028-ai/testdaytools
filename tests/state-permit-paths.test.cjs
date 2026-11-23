@@ -34,6 +34,54 @@ const guideDestinations = [
 ];
 
 for (const width of [320, 1280]) {
+  test(`${width}px: North Carolina compares travel lanes and the school-bus stop exception without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("north-carolina-dmv-road-signs-practice");
+      await page.goto(guide);
+      await page.getByRole("link", { name: "Compare NC school bus rules", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#north-carolina-school-bus");
+      const lesson = page.getByRole("region", { name: /center turn lane change the school bus stop rule/ });
+      const heading = await lesson.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      const diagram = lesson.getByRole("img", { name: /Road A has one travel lane.*Road B has two travel lanes.*opposite direction/i });
+      assert.ok(await diagram.evaluate(image => image.complete && image.naturalWidth === 360 && image.naturalHeight === 328));
+      assert.match(await lesson.locator("figcaption").innerText(), /Count only the travel lanes/);
+      assert.equal(await page.locator("[data-quiz]").count(), 0);
+      const cases = lesson.locator("details");
+      const expected = [
+        /Two travel lanes plus a center turn lane do not qualify.*Both directions stop/is,
+        /four travel lanes plus a center turn lane.*opposite-direction driver.*not required to stop.*Drivers behind the bus still stop/is,
+        /Four lanes by themselves do not create the exception.*both directions stop/is,
+        /Wait until the stop arm is withdrawn, the red lights are off, and the bus starts moving/i,
+      ];
+      assert.equal(await cases.count(), expected.length);
+      for (const [index, answer] of expected.entries()) {
+        const example = cases.nth(index);
+        assert.equal(await example.locator("p").isVisible(), false);
+        await example.locator("summary").press("Enter");
+        assert.match(await example.locator("p").innerText(), answer);
+      }
+      assert.equal(await lesson.getByRole("link", { name: /20-217/ }).getAttribute("href"),
+        "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_20/GS_20-217.html");
+      assert.equal(await lesson.getByRole("link", { name: /Stop Law diagrams/ }).getAttribute("href"),
+        "https://www.ncdot.gov/dmv/license-id/driver-licenses/school-bus/Documents/school-bus-stop-law-card.pdf");
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `school-bus-lanes-${width}.png`) });
+      }
+      await page.getByRole("link", { name: "Try the no-choice sign drill", exact: true }).press("Enter");
+      await page.waitForURL(guide + "#north-carolina-sign-recall");
+      assert.equal(await page.locator("#north-carolina-sign-recall article").count(), 4);
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: Illinois keeps the posted work-zone limit separate from school-zone conditions`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {
