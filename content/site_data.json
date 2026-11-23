@@ -14229,9 +14229,35 @@
       "summary": "Check Georgia's two separate pass requirements, the latest DDS language list, and what to do if one part needs a retake. Picture practice uses the shared nationwide quiz.",
       "heroActions": [
         {"label": "Georgia exam and retake cases", "href": "#georgia-knowledge-cases"},
+        {"label": "Practice left-turn signals", "href": "#georgia-left-turn-signals"},
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
         {"label": "Official sources", "href": "#sources"}
       ],
+      "stateRulePractice": {
+        "id": "georgia-left-turn-signals",
+        "heading": "Which left-turn arrow lets you go after yielding?",
+        "imageAsset": {"src": "assets/road-sign-materials/georgia-left-turn-signals.svg", "width": 384, "height": 230},
+        "imageLabel": "Three snapshots of a four-lens left-turn signal. A shows the third lens flashing yellow. B shows the second lens steady yellow. C shows the top lens steady red.",
+        "caption": "Three snapshots of a four-lens left-turn signal. In A, the marks around the yellow arrow show that it is flashing. These are study scenarios, not official DDS questions.",
+        "scenarios": [
+          {
+            "question": "A: The yellow arrow is flashing. An oncoming car is close and someone is crossing the street you want to enter. Can you turn?",
+            "answer": "Not yet. A flashing yellow arrow allows an unprotected left turn. Yield to oncoming traffic and pedestrians. Turn only when there is a safe gap and the crosswalk is clear."
+          },
+          {
+            "question": "B: The arrow changes to steady yellow while you are still behind the line and can stop safely. Should you start the turn?",
+            "answer": "No. Stop before the line when you can do so safely. A steady yellow arrow warns that the turn phase is ending; it does not mean the same thing as a flashing yellow arrow. If you are already in the intersection, clear it safely."
+          },
+          {
+            "question": "C: Your left arrow is steady red, but the lane beside you has a round green light. Can you turn left?",
+            "answer": "No. The round green is for the through lane. Stay stopped for the steady red arrow and wait for your left-turn signal to allow the turn."
+          }
+        ],
+        "sources": [
+          {"label": "Georgia DDS: Traffic Signals and Signs", "url": "https://dds.georgia.gov/section-7-continued-traffic-signals-and-signs"},
+          {"label": "Georgia DOT: Flashing Yellow Arrows", "url": "https://www.dot.ga.gov/GDOT/Pages/TrafficSignals.aspx"}
+        ]
+      },
       "quickFacts": [
         {
           "label": "Official source",
@@ -14422,7 +14448,7 @@
           }
         ]
       },
-      "lastUpdated": "November 21, 2026",
+      "lastUpdated": "November 24, 2026",
       "replacementSlug": "road-signs-practice-test",
       "replacementLabel": "Practice with the shared nationwide quiz.",
       "replacementText": "This page summarizes Georgia-specific exam context and official sources; all picture rounds use the shared question bank on the nationwide quiz."

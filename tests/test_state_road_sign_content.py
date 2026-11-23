@@ -86,6 +86,28 @@ class StateRoadSignContentTest(unittest.TestCase):
         self.assertIn('href="#north-carolina-sign-recall"', page)
         self.assertIn('href="road-signs-practice-test.html?mode=road-signs-core#practice"', page)
 
+    def test_georgia_separates_the_three_left_turn_indications(self):
+        slug = "georgia-dds-road-signs-practice"
+        tool = self.tools[slug]
+        page = (ROOT / f"{slug}.html").read_text()
+        lesson = tool["stateRulePractice"]
+        flashing, yellow, red = lesson["scenarios"]
+        self.assertIn("oncoming traffic and pedestrians", flashing["answer"])
+        self.assertIn("Stop before the line when you can do so safely", yellow["answer"])
+        self.assertIn("already in the intersection, clear it safely", yellow["answer"])
+        self.assertIn("Stay stopped for the steady red arrow", red["answer"])
+        self.assertIn("lane beside you has a round green", red["question"])
+        self.assertEqual([urlsplit(source["url"]).netloc for source in lesson["sources"]],
+                         ["dds.georgia.gov", "www.dot.ga.gov"])
+        asset = lesson["imageAsset"]
+        svg = ElementTree.parse(ROOT / asset["src"]).getroot()
+        self.assertEqual(svg.get("viewBox"), f'0 0 {asset["width"]} {asset["height"]}')
+        self.assertIn(render_state_rule_practice(lesson), page)
+        self.assertIn('href="#georgia-left-turn-signals"', page)
+        self.assertIn('href="#georgia-knowledge-cases"', page)
+        self.assertIn('href="road-signs-practice-test.html?mode=road-signs-core#practice"', page)
+        self.assertNotIn("data-quiz=", page)
+
     def test_virginia_left_on_red_lesson_keeps_round_and_arrow_rules_distinct(self):
         slug = "virginia-dmv-road-signs-practice"
         lesson = self.tools[slug]["stateRulePractice"]

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="230" viewBox="0 0 384 230">
+  <defs>
+    <g id="face">
+      <rect x="-24" y="8" width="48" height="150" rx="9" fill="#20282f"/>
+      <g fill="#363f48" stroke="#6f7b85" stroke-width="1.5">
+        <circle cy="29" r="15"/>
+        <circle cy="65" r="15"/>
+        <circle cy="101" r="15"/>
+        <circle cy="137" r="15"/>
+      </g>
+    </g>
+    <path id="arrow" d="M-10 0l8-8v5h12v6H-2v5z"/>
+  </defs>
+  <g transform="translate(64)">
+    <use href="#face"/>
+    <use href="#arrow" y="101" fill="#ffd64a"/>
+    <path d="M-29 92l-7-3m7 12h-8m8 9l-7 3m65-21l7-3m-7 12h8m-8 9l7 3"
+          fill="none" stroke="#9a640b" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(192)">
+    <use href="#face"/>
+    <use href="#arrow" y="65" fill="#ffd64a"/>
+  </g>
+  <g transform="translate(320)">
+    <use href="#face"/>
+    <use href="#arrow" y="29" fill="#ff5862"/>
+  </g>
+  <g fill="#17232c" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">
+    <text x="64" y="179">A</text>
+    <text x="192" y="179">B</text>
+    <text x="320" y="179">C</text>
+  </g>
+  <g fill="#344b58" font-family="Arial, sans-serif" font-size="21" text-anchor="middle">
+    <text x="64" y="202">Flashing<tspan x="64" y="224">yellow</tspan></text>
+    <text x="192" y="202">Steady<tspan x="192" y="224">yellow</tspan></text>
+    <text x="320" y="202">Steady<tspan x="320" y="224">red</tspan></text>
+  </g>
+</svg>
