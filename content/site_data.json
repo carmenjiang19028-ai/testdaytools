@@ -11136,7 +11136,7 @@
       "description": "A Florida DMV learner-permit confusion map that separates TLSAE or DETS course requirements, the Class E Knowledge Exam, online testing, documents, and permit issuance steps.",
       "heroKicker": "Florida Class E confusion map",
       "summary": "Check which driver education course applies before enrolling. Then handle the separate Class E Knowledge Exam and learner-permit documents.",
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroActions": [
         {
           "label": "Choose a course",
@@ -11155,10 +11155,6 @@
           "href": "florida-dmv-permit-documents-checklist.html"
         },
         {
-          "label": "Road signs",
-          "href": "florida-dmv-road-signs-practice.html"
-        },
-        {
           "label": "Official exam source",
           "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
         },
@@ -11171,14 +11167,6 @@
         {
           "label": "Official source",
           "value": "FLHSMV Class E Knowledge Exam"
-        },
-        {
-          "label": "Exam format",
-          "value": "50 multiple-choice questions"
-        },
-        {
-          "label": "Passing score",
-          "value": "40 correct / 80%"
         },
         {
           "label": "Main confusion",
@@ -11340,10 +11328,6 @@
         {
           "q": "Is TLSAE or DETS the same as the Florida Class E Knowledge Exam?",
           "a": "No. TLSAE or DETS is a course requirement in many first-time driver paths. The Class E Knowledge Exam is the separate knowledge test on traffic laws, safe driving practices, and traffic controls."
-        },
-        {
-          "q": "How many questions are on the Florida Class E Knowledge Exam?",
-          "a": "FLHSMV says the Class E Knowledge Exam has 50 multiple-choice questions, and 40 correct answers, or 80 percent, are needed to pass."
         },
         {
           "q": "If I pass the Florida Class E Knowledge Exam online, am I done?",
@@ -23218,53 +23202,61 @@
   },
   "trustPages": [
     {
-      "slug": "about",
-      "title": "About TestDayTools",
-      "description": "Learn what TestDayTools is, how the site is maintained, and why all tools are unofficial.",
-      "lastUpdated": "October 12, 2026",
+      "slug": "terms",
+      "title": "Terms of Use",
+      "description": "How to use TestDayTools DMV study materials and what the site does not provide.",
+      "lastUpdated": "November 24, 2026",
       "content": [
         {
-          "heading": "What we make",
-          "text": "TestDayTools is a small, independent website that turns test logistics into quick tools: dates, checklists, score guides, and practice pages."
+          "heading": "Scope",
+          "text": "TestDayTools, operated by jiangxianxian, provides study material for DMV permit exams. It does not take applications, book appointments, or issue permits or licenses."
         },
         {
-          "heading": "How we work",
-          "text": "Pages are built from simple data files so dates, FAQs, checklists, and practice questions can be updated without redesigning the site."
+          "heading": "Using the materials",
+          "text": "Practice questions and calculations are for study. They are not actual exam questions, an official score, professional driving instruction, or a promise of passing. Use the licensing agency's current instructions for your application, eligibility, testing, and rules."
         },
         {
-          "heading": "AI-assisted production",
-          "text": "TestDayTools uses AI-assisted tools to help draft text, develop code, and create simplified study illustrations. The tools and questions are unofficial study material, not government test questions or professional instruction. Linked official sources remain the authority for rules and deadlines."
+          "heading": "Printing and sharing",
+          "text": "You may print the site's provided worksheets for personal study or classroom use. Follow any license stated on a resource. Linked agency material and third-party marks are subject to their own terms."
         },
         {
-          "heading": "Editorial approach",
-          "text": "The site favors practical planning details: what to check, what to bring, what to verify, and which official source should make the final call."
-        },
-        {
-          "heading": "How DMV pages are built",
-          "text": "DMV facts are checked against official agency pages where possible. Public learner discussions and search demand are used only to identify confusing language and real planning gaps, not as authority for rules."
-        },
-        {
-          "heading": "What makes the tools original",
-          "text": "Practice questions, checklists, mistake-log categories, road-sign illustrations, and study paths are written for TestDayTools. They are designed to turn a missed answer or document problem into a next step."
-        },
-        {
-          "heading": "What we do not publish",
-          "text": "The site does not publish official test questions, copied forum posts, scraped competitor quizzes, hidden redirects, or claims that a practice score guarantees a permit or license outcome."
-        },
-        {
-          "heading": "Corrections and updates",
-          "text": "Dates and policies can change. When a page depends on official timing, the source link is included so readers can verify the latest rule before acting."
-        },
-        {
-          "heading": "Funding and editorial independence",
-          "text": "TestDayTools is currently self-funded. If advertising is added, ads will be separated from quiz controls and will not determine practice answers, source selection, rankings, or editorial conclusions."
-        },
-        {
-          "heading": "Affiliation",
-          "text": "We are not affiliated with College Board, AP, SAT, any DMV, or any government agency. Names are used only to describe the exams and public services students are researching."
+          "heading": "Privacy and corrections",
+          "text": "Do not submit identity or application data to this site. To report a mistake or ask about these terms, email carmen@cmpanda.com."
         }
       ],
       "links": [
+        {"label": "Privacy Policy", "url": "privacy.html"},
+        {"label": "Contact", "url": "contact.html"}
+      ]
+    },
+    {
+      "slug": "about",
+      "title": "About TestDayTools",
+      "description": "Who operates TestDayTools, how DMV practice material is checked, and how to report a correction.",
+      "lastUpdated": "November 24, 2026",
+      "content": [
+        {
+          "heading": "Who operates TestDayTools",
+          "text": "TestDayTools is operated by jiangxianxian. The site provides DMV permit test practice, state handbook guides, road-sign study materials, and application checklists. Contact: carmen@cmpanda.com."
+        },
+        {
+          "heading": "AI-assisted production",
+          "text": "AI-assisted tools help draft material and build illustrations and tools. Facts and practice explanations are checked manually against official state driver handbooks and agency resources. Questions are original study scenarios, not official test items."
+        },
+        {
+          "heading": "Sources for state guides",
+          "text": "The guides use official handbooks from California DMV, Florida FLHSMV, Illinois Secretary of State, Michigan Secretary of State, New Jersey MVC, New York DMV, PennDOT, and Texas DPS. Each guide names the handbook and links to its sources."
+        },
+        {
+          "heading": "Corrections and updates",
+          "text": "The page shows when its content was last updated. We revisit the affected material when a cited agency changes its guidance or a reader flags a possible error. Email the page URL, the statement or question at issue, and the official source if available."
+        }
+      ],
+      "links": [
+        {
+          "label": "Email TestDayTools",
+          "url": "mailto:carmen@cmpanda.com"
+        },
         {
           "label": "Editorial Policy",
           "url": "editorial-policy.html"
@@ -23278,7 +23270,7 @@
     {
       "slug": "editorial-policy",
       "title": "Editorial Policy",
-      "description": "How TestDayTools writes, checks, updates, and labels unofficial DMV, AP, and SAT tools.",
+      "description": "How TestDayTools writes, checks, and updates DMV practice material.",
       "lastUpdated": "November 24, 2026",
       "content": [
         {
@@ -23349,7 +23341,7 @@
       "slug": "privacy",
       "title": "Privacy Policy",
       "description": "Privacy policy for TestDayTools, including browser storage, Google Analytics, hosting logs, and future advertising disclosures.",
-      "lastUpdated": "November 23, 2026",
+      "lastUpdated": "November 24, 2026",
       "content": [
         {
           "heading": "Personal information",
@@ -23369,7 +23361,7 @@
         },
         {
           "heading": "External official-source links",
-          "text": "Many pages link to official DMV, College Board, or other agency resources. Those sites have their own privacy practices and may ask for account or application information."
+          "text": "Many pages link to official driver licensing agency resources. Those sites have their own privacy practices and may ask for account or application information."
         },
         {
           "heading": "Server logs",
@@ -23377,7 +23369,7 @@
         },
         {
           "heading": "Google Analytics",
-          "text": "The site uses Google Analytics 4 to understand how visitors find and use its study tools. Google Analytics may process page views, traffic sources, device and browser information, approximate region, scrolling, downloads, and outbound clicks. Google Analytics may use cookies or similar identifiers. Google processes this information under its own privacy practices. Some tool events include whether a response was correct, practice totals and correct or incorrect counts, or counts entered in the DMV passing-score checker. Planning events may include selected options and calculated values, such as the SAT score gap and weekly study targets. TestDayTools uses these measurements to improve the tools. These tool events do not include your selected answer text or the original SAT scores you enter."
+          "text": "The site uses Google Analytics 4 to understand how visitors find and use its study tools. Google Analytics may process page views, traffic sources, device and browser information, approximate region, scrolling, downloads, and outbound clicks. Google Analytics may use cookies or similar identifiers. Google processes this information under its own privacy practices. Some tool events include whether a response was correct, practice totals and correct or incorrect counts, or counts entered in the DMV passing-score checker. TestDayTools uses these measurements to improve the tools. These tool events do not include your selected answer text."
         },
         {
           "heading": "Flashcard use and analytics choices",
@@ -23465,27 +23457,23 @@
       "slug": "contact",
       "title": "Contact",
       "description": "Contact information and correction requests for TestDayTools.",
-      "lastUpdated": "July 31, 2026",
+      "lastUpdated": "November 24, 2026",
       "content": [
         {
           "heading": "Corrections",
-          "text": "If you find an outdated date, broken source link, unclear explanation, accessibility problem, or DMV-source mismatch, open a correction report through the public GitHub issue link below. This creates a visible record that can be checked and closed after the page is corrected."
+          "text": "Email carmen@cmpanda.com about an outdated rule, broken source link, unclear explanation, or accessibility problem. You can also use the public correction link below."
         },
         {
           "heading": "Best correction reports",
           "text": "The most useful reports include the page URL, the exact heading or question that seems wrong, the official source link, and a short note about why the page should change."
         },
         {
-          "heading": "DMV and exam account issues",
-          "text": "TestDayTools cannot access DMV, DPS, MVC, FLHSMV, College Board, SAT, AP, testing-provider, appointment, payment, or score accounts. Use official support channels for personal records."
+          "heading": "DMV account issues",
+          "text": "TestDayTools cannot access anyone's licensing application, appointment, payment, or test result. For those records contact the licensing agency directly."
         },
         {
           "heading": "Correction reports are public",
           "text": "GitHub issue reports are public. Do not include names, email addresses, account details, test scores, driver's license information, school records, appointment details, or other personal information."
-        },
-        {
-          "heading": "No official support",
-          "text": "For official AP, SAT, score, registration, permit, or license questions, contact College Board or the relevant DMV directly."
         },
         {
           "heading": "Advertising and privacy",
@@ -23493,6 +23481,10 @@
         }
       ],
       "links": [
+        {
+          "label": "Email TestDayTools",
+          "url": "mailto:carmen@cmpanda.com"
+        },
         {
           "label": "Open a public correction report",
           "url": "https://github.com/carmenjiang19028-ai/testdaytools/issues/new"
@@ -23514,12 +23506,9 @@
     {
       "slug": "disclaimer",
       "title": "Disclaimer",
-      "description": "Important unofficial-site disclaimer for TestDayTools AP, SAT, and DMV study pages.",
+      "description": "Limitations of TestDayTools DMV study material and practice scores.",
+      "lastUpdated": "November 24, 2026",
       "content": [
-        {
-          "heading": "Unofficial site",
-          "text": "TestDayTools provides independent practice for DMV permit tests. For the exact requirements of your application, consult your state licensing agency."
-        },
         {
           "heading": "No guarantees",
           "text": "Dates, policies, and rules can change. Use official sources for final decisions about exam registration, score sending, credit, permits, and licensing."
@@ -23537,7 +23526,7 @@
           "text": "DMV practice questions on this site are original study questions. They are not copied from official permit tests and cannot guarantee a passing score."
         },
         {
-          "heading": "Not legal or academic advice",
+          "heading": "Not legal advice",
           "text": "The site provides general planning information only. A school, college, testing organization, or DMV should make the final decision for your situation."
         },
         {

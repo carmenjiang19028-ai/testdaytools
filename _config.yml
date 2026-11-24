@@ -1,6 +1,9 @@
 # Keep build inputs and project records in Git, outside the published site.
 exclude:
   - _archive
+  - illinois-dmv-permit-practice-test.html
+  - texas-dmv-permit-practice-test.html
+  - REVIEW_NOTES_2026-10-18.md
   - content
   - project-memory
   - scripts

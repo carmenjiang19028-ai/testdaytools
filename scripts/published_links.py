@@ -1,7 +1,7 @@
 from html import escape, unescape
 from html.parser import HTMLParser
 import re
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 
 ATTRIBUTE = re.compile(r'(?<![\w:-])([\w:-]+)(\s*=\s*)(["\'])(.*?)\3', re.S)
@@ -20,6 +20,7 @@ def clean_links(page, source, *, origin, redirects, unavailable, canonical=False
             start_tag = self.get_starttag_text()
             line, column = self.getpos()
             offset = line_offsets[line - 1] + column
+            route = {}
 
             def replace(match):
                 name, equals, quote, value = match.groups()
@@ -34,12 +35,19 @@ def clean_links(page, source, *, origin, redirects, unavailable, canonical=False
                     return f'{name}={quote}{quote}' if name != "href" else ""
                 if slug in redirects:
                     parts = urlsplit(redirects[slug] + ".html")
-                if canonical and tag == "a" and name == "href" and parts.path.endswith(".html"):
+                if canonical and tag == "a" and name == "href" and (parts.path.endswith(".html") or (not parts.path and parts.query)):
                     path = parts.path.lstrip("/")
-                    if path == source and parts.fragment and not parts.query:
+                    query = dict(parse_qsl(parts.query))
+                    if entry := query.pop("source", ""):
+                        route["data-entry-source"] = entry
+                    if query:
+                        route["data-route-query"] = urlencode(query)
+                    if (not path or path == source) and parts.fragment:
                         dest = f"#{parts.fragment}"
                     else:
                         dest = f'{origin}/{"" if path == "index.html" else path}'
+                        if parts.fragment:
+                            route["data-route-fragment"] = parts.fragment
                 else:
                     dest = urlunsplit(parts)
                 if original == dest:
@@ -47,6 +55,13 @@ def clean_links(page, source, *, origin, redirects, unavailable, canonical=False
                 return f'{name}{equals}{quote}{escape(dest, quote=True)}{quote}'
 
             new = ATTRIBUTE.sub(replace, start_tag)
+            if route:
+                attr_names = {name for name, _ in attrs}
+                addition = "".join(
+                    f' {name}="{escape(value, quote=True)}"'
+                    for name, value in route.items() if name not in attr_names
+                )
+                new = new[:-1] + addition + ">"
             if new != start_tag:
                 edits.append((offset, offset + len(start_tag), new))
 

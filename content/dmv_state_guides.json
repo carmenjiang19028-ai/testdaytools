@@ -163,6 +163,7 @@
     "url": "https://www.flhsmv.gov/pdf/handbooks/englishdriverhandbook.pdf",
     "signs": "Traffic Controls",
     "signQuiz": "floridaSigns",
+    "scoreUrl": "https://www.hillstaxfl.gov/faq/",
     "score": [
       50,
       40,
@@ -173,7 +174,7 @@
       [
         "Format",
         "Multiple-choice Class E exam on traffic laws, safe driving, and traffic controls.",
-        "https://www.flhsmv.gov/pdf/handbooks/englishdriverhandbook.pdf"
+        "https://www.hillstaxfl.gov/faq/"
       ],
       [
         "Minimum learner age",
@@ -224,22 +225,24 @@
         "No, but continue cautiously and watch for children."
       ],
       [
-        "Getting Your License: Class E Knowledge Exam",
-        "Account for the full Class E exam",
-        "Road signs are only one part of the Class E knowledge exam. A sign-only practice score does not include traffic laws or safe driving.",
-        "You recognize all your flashcards. What should you study next before booking the Class E test?",
-        "Traffic laws and safe-driving decisions as well as sign recognition.",
-        "You missed 11 questions on a 50-question practice set. Have you reached Florida's 40-correct mark?",
-        "No. That is 39 correct."
+        "Sharing the Road: Move Over Law",
+        "Make room for a disabled vehicle",
+        "Florida's Move Over law covers a disabled vehicle stopped with hazard lights. On a multilane highway, move out of the nearest lane when safe. If you cannot move over safely, follow the reduced-speed rule.",
+        "A disabled car has its hazard lights on beside your lane. There is a safe gap in the adjacent lane. What should you do?",
+        "Move to the lane farther from the stopped vehicle.",
+        "The same shoulder is beside a single lane in your direction. What do you do instead of trying to change lanes?",
+        "Slow to the speed required by the Move Over rule and pass cautiously.",
+        "https://www.flsenate.gov/Laws/Statutes/2026/316.126"
       ],
       [
-        "Traffic Controls: Traffic Signals",
-        "Right turns at a steady red signal",
-        "Where a sign does not prohibit it, stop completely and yield to pedestrians and conflicting traffic before turning right on a steady red.",
-        "You've stopped at a red light, but a pedestrian has begun crossing your intended path. What do you do?",
-        "Wait until the crossing is clear and the turn is safe.",
-        "The street is empty, but a sign prohibits turns on red. Can you turn after stopping?",
-        "No. Wait for a signal that permits the turn."
+        "Safe Driving: Driving in Rain or Fog",
+        "Lights are required in rain, smoke, or fog",
+        "The Florida rule applies during any of these conditions, even in daytime. Use the required lights so drivers behind you can also see you.",
+        "It's late morning and light rain begins. There is no fog and you can still see the road. Should you turn on your lights?",
+        "Yes, daylight does not remove the rain requirement.",
+        "Dense smoke from a brush fire crosses the road at midday. Does the rule apply only after sunset?",
+        "No. It also applies in smoke.",
+        "https://www.flsenate.gov/Laws/Statutes/2026/316.217"
       ]
     ]
   },
@@ -508,6 +511,16 @@
         "Permit documents",
         "Bring the completed DL-180 including a medical examination, identification and applicable residency evidence. Minor applicants also need DL-180TD.",
         "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/applying-for-a-learners-permit"
+      ],
+      [
+        "Minimum permit age",
+        "16 for a Pennsylvania noncommercial learner's permit.",
+        "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/applying-for-a-learners-permit"
+      ],
+      [
+        "Knowledge retest",
+        "If you fail the knowledge test, retesting is available the following business day.",
+        "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/testing"
       ]
     ],
     "next": [

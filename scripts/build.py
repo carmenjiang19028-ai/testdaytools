@@ -58,6 +58,7 @@ ARCHIVED_STATES = frozenset("""
     north-carolina-dmv-road-signs-practice ohio-bmv-road-signs-practice
     virginia-dmv-road-signs-practice
 """.split())
+UNPUBLISHED_SNAPSHOTS = frozenset({"illinois-dmv-permit-practice-test", "texas-dmv-permit-practice-test"})
 MERGED_SLUGS = {
     f"{state}-permit-practice-test": f"{state}-road-signs-practice"
     for state in (
@@ -715,7 +716,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   </main>
   <footer class="site-footer">
     <p>{esc(SITE["disclaimer"])}</p>
-    <p><a href="about.html">About</a> <a href="editorial-policy.html">Editorial Policy</a> <a href="privacy.html">Privacy</a> <a href="accessibility.html">Accessibility</a> <a href="contact.html">Contact</a> <a href="disclaimer.html">Disclaimer</a></p>
+    <p><a href="about.html">About</a> <a href="editorial-policy.html">Editorial Policy</a> <a href="privacy.html">Privacy</a> <a href="accessibility.html">Accessibility</a> <a href="contact.html">Contact</a> <a href="disclaimer.html">Disclaimer</a> <a href="terms.html">Terms</a></p>
   </footer>
 </body>
 </html>
@@ -3781,7 +3782,6 @@ def render_tool(tool):
     </div>{hero_panel_block}
   </div>
 </section>
-<section class="notice"><strong>Unofficial tool.</strong> {esc(SITE["disclaimer"])}</section>
 {replacement_notice_block}\
 {render_trust_strip(tool)}
 {practice_console}{render_contrast_practice_links(f'{ROAD_SIGN_PICTURE_SLUG}.html') if tool['slug'] == ROAD_SIGN_PICTURE_SLUG else ''}{test_day_bridge}{state_rule_practice}{sign_recall}
@@ -3844,7 +3844,6 @@ def render_hub(hub):
     {render_last_updated(hub.get("lastUpdated"))}
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
 {primary_section}
 {''.join(collections)}
 {body_sections}
@@ -4523,7 +4522,6 @@ def render_road_sign_shapes_page():
     </aside>
   </div>
 </section>
-<section class="notice"><strong>Unofficial guide.</strong> {esc(SITE["disclaimer"])}</section>
 <section class="task-console" aria-label="Road sign reading sequence">
   <div class="tool-section-head">
     <span class="eyebrow">Permit-test method</span>
@@ -4755,7 +4753,6 @@ def render_road_sign_cheat_sheet_page():
     </aside>
   </div>
 </section>
-<section class="notice"><strong>Unofficial study resource.</strong> {esc(SITE["disclaimer"])}</section>
 {render_contrast_practice_links(f'{ROAD_SIGN_CHEAT_SHEET_SLUG}.html')}
 {render_curve_warning_check()}
 <section class="printable-road-sign-sheet" id="printable-sheet">
@@ -4957,7 +4954,6 @@ def render_road_sign_flashcards_page():
     </aside>
   </div>
 </section>
-<section class="notice"><strong>Unofficial study deck.</strong> {esc(SITE["disclaimer"])}</section>
 <section class="task-console" aria-label="Flashcard study loop">
   <div class="tool-section-head">
     <span class="eyebrow">Study loop</span>
@@ -5137,7 +5133,6 @@ def render_dmv_daily_question_page():
     </div>
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
 <section class="trust-strip">
   <div><span>Daily use</span><strong>One quick question</strong></div>
   <div><span>Question bank</span><strong>{len(records)} rotating prompts</strong></div>
@@ -5278,7 +5273,6 @@ def render_dmv_mistake_log_page():
     </div>
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
 <section class="trust-strip">
   <div><span>Storage</span><strong>Saved in this browser</strong></div>
   <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
@@ -5457,7 +5451,6 @@ def render_dmv_study_plan_page():
     </div>
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
 <section class="trust-strip">
   <div><span>Planner</span><strong>3 to 21 days</strong></div>
   <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
@@ -5697,7 +5690,6 @@ def render_dmv_requirements_page():
     </div>
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
 <section class="trust-strip">
   <div><span>Coverage</span><strong>{len(records)} state paths</strong></div>
   <div><span>Source priority</span><strong>Official agency links</strong></div>
@@ -6028,7 +6020,6 @@ def render_dmv_hub(hub):
     {render_home_practice_panel()}
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
 {render_dmv_journey_dashboard()}
 {render_florida_dmv_cluster()}
 {render_dmv_launcher("Start with your state")}
@@ -6069,7 +6060,6 @@ def render_home():
     {render_home_road_sign_panel()}
   </div>
 </section>
-<section class="notice pocket-notice"><strong>Independent resource.</strong> {esc(SITE["disclaimer"])} <a href="disclaimer.html">Read more</a></section>
 {render_dmv_journey_dashboard()}
 {render_home_state_preview()}
 {render_dmv_launcher("Choose your state DMV path")}
@@ -6138,8 +6128,9 @@ def render_state_guide(guide):
             f'<p>{esc(explanation)}</p><p><strong>Manual:</strong> {esc(section)}</p></details>'
         )
 
-    for section, label, explanation, prompt1, answer1, prompt2, answer2 in guide["rules"]:
-        rules.append(f'<li><strong>{esc(label)}</strong> {esc(explanation)} <small>({esc(section)})</small></li>')
+    for section, label, explanation, prompt1, answer1, prompt2, answer2, *support in guide["rules"]:
+        citation = f'<a href="{esc(support[0])}">{esc(section)}</a>' if support else esc(section)
+        rules.append(f'<li><strong>{esc(label)}</strong> {esc(explanation)} <small>({citation})</small></li>')
         for prompt, answer in ((prompt1, answer1), (prompt2, answer2)):
             questions.append(question("state", prompt, answer, explanation, section))
     state_questions = "".join(questions)
@@ -6184,11 +6175,16 @@ def render_state_guide(guide):
   {sign_questions}
   <p><a href="road-signs-practice-test.html">Take the picture quiz</a> to practice answering without seeing the solution first.</p>
 </section>
+{render_state_rule_practice(tool.get("stateRulePractice"))}
+{render_examples(tool)}
 <section class="sources" id="sources">
   <h2>Official next steps</h2>
   <ul>{next_steps}</ul>
 </section>"""
-    return page_shell(tool["title"], tool["description"], f"/{slug}.html", body, "tool-page state-guide")
+    return page_shell(
+        tool["title"], tool["description"], f"/{slug}.html", body, "tool-page state-guide",
+        extra_head='<link rel="stylesheet" href="assets/road-sign-materials.css">',
+    )
 
 
 def render_merge_redirect(destination):
@@ -6220,7 +6216,8 @@ def build(output=None):
         if path.endswith(".html"):
             content = clean_links(
                 content, path, origin=SITE["url"], redirects=MERGED_SLUGS,
-                unavailable=ARCHIVED_SLUGS | ARCHIVED_STATES,
+                unavailable=ARCHIVED_SLUGS | ARCHIVED_STATES | UNPUBLISHED_SNAPSHOTS,
+                canonical=True,
             )
         write_output(path, content)
     write_road_sign_images(output)

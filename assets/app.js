@@ -169,7 +169,7 @@ function initScoreEntryTracking() {
     link.addEventListener("click", () => {
       let source = "internal_link";
       try {
-        source = new URL(link.href, window.location.href).searchParams.get("source") || source;
+        source = link.dataset.entrySource || new URL(link.href, window.location.href).searchParams.get("source") || source;
       } catch (error) {
         // The destination still works when URL parsing is unavailable.
       }
@@ -189,6 +189,38 @@ function initScoreEntryTracking() {
     });
   });
 }
+
+function studyLinkTarget(link) {
+  const target = new URL(link.href);
+  if (link.dataset.routeQuery) target.search = link.dataset.routeQuery;
+  if (link.dataset.routeFragment) target.hash = link.dataset.routeFragment;
+  return target;
+}
+
+function setStudyLink(link, href) {
+  if (!href) return;
+  const target = new URL(href, window.location.href);
+  delete link.dataset.routeQuery;
+  delete link.dataset.routeFragment;
+  if (target.origin === window.location.origin && target.pathname.endsWith(".html")) {
+    if (target.search) link.dataset.routeQuery = target.search.slice(1);
+    if (target.hash && target.pathname !== window.location.pathname) {
+      link.dataset.routeFragment = target.hash.slice(1);
+      target.hash = "";
+    }
+    target.search = "";
+  }
+  link.href = target.href;
+}
+
+document.addEventListener("click", (event) => {
+  const link = event.target instanceof Element && event.target.closest("a[data-route-query], a[data-route-fragment]");
+  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey
+    || event.altKey || link.target || !link.hasAttribute("href")) return;
+  const route = studyLinkTarget(link);
+  event.preventDefault();
+  window.location.assign(route.href);
+});
 
 const DMV_JOURNEY_STORAGE_KEY = "tdt-dmv-journey:v1";
 const DMV_MASTERY_STORAGE_KEY = "tdt-dmv-mastery:v1";
@@ -2675,7 +2707,7 @@ function initWorksheetReturns() {
     if (!link) return;
     const destination = new URL(link.href);
     destination.hash = answer;
-    link.setAttribute("href", destination.pathname.split("/").pop() + destination.hash);
+    setStudyLink(link, destination.href);
     container.hidden = false;
   });
 }
@@ -2697,7 +2729,7 @@ function initPictureReviewReturn() {
     return;
   }
   const params = new URLSearchParams({ mode, focus: "saved" });
-  link.setAttribute("href", `${PICTURE_PRACTICE_PAGE}?${params}#practice`);
+  setStudyLink(link, `${PICTURE_PRACTICE_PAGE}?${params}#practice`);
   container.hidden = false;
 }
 
@@ -2760,7 +2792,7 @@ function initDmvJourneyDashboards() {
     const reviewCopy = dashboard.querySelector("[data-journey-review-copy]");
     const reviewLink = dashboard.querySelector("[data-journey-review-link]");
     const homeShortcuts = Array.from(document.querySelectorAll("[data-home-state-shortcut]"), (link) => ({
-      link, destination: link.getAttribute("href"), label: link.textContent,
+      link, destination: studyLinkTarget(link).href, label: link.textContent,
     }));
     const readyTitle = dashboard.querySelector("[data-journey-ready-title]");
     const mixedTitle = dashboard.querySelector("[data-journey-mixed-title]");
@@ -2823,7 +2855,7 @@ function initDmvJourneyDashboards() {
       homeShortcuts.forEach(({ link, destination, label }) => {
         link.hidden = false;
         if (!selectedHere && journey.state !== state) {
-          link.setAttribute("href", destination);
+          setStudyLink(link, destination);
           link.textContent = label;
           return;
         }
@@ -2831,16 +2863,16 @@ function initDmvJourneyDashboards() {
         const isScore = target.hash === "#score-calculator";
         if (isScore && !scoreAvailable) {
           link.hidden = true;
-          link.setAttribute("href", option.dataset.checklistUrl);
+          setStudyLink(link, option.dataset.checklistUrl);
           return;
         }
         if (!isScore && !checklistAvailable) {
-          link.setAttribute("href", option.dataset.checklistUrl);
+          setStudyLink(link, option.dataset.checklistUrl);
           link.textContent = label === "Checklist" ? "Permit steps" : "Permit";
           return;
         }
         target.searchParams.set("state", state);
-        link.setAttribute("href", destination.split(/[?#]/, 1)[0] + target.search + target.hash);
+        setStudyLink(link, target.href);
         link.textContent = label;
       });
       const today = journey.days[localDayStamp()] || { answered: 0, correct: 0, sessions: 0 };
@@ -2926,13 +2958,13 @@ function initDmvJourneyDashboards() {
         kicker.textContent = "Review queue ready";
         title.textContent = `Review ${mastery.due} due ${mastery.due === 1 ? "question" : "questions"}`;
         copy.textContent = "Retry misses now. For a question you answered correctly, return when its next check is due rather than repeating it immediately.";
-        primary.href = recentPracticeHref(dueDraft?.progress) || dueHref;
+        setStudyLink(primary, recentPracticeHref(dueDraft?.progress) || dueHref);
         primary.textContent = dueDraft ? "Resume due review" : "Start due review";
       } else if (!mastery.attempted) {
         kicker.textContent = `Start ${stateLabel} prep today`;
         title.textContent = "Take the 10-question road-sign diagnostic";
         copy.textContent = "A short first round creates a baseline and reveals which sign family or rule deserves the next ten minutes.";
-        primary.href = "road-signs-practice-test.html?mode=road-signs-starter#practice";
+        setStudyLink(primary, "road-signs-practice-test.html?mode=road-signs-starter#practice");
         primary.textContent = "Start 10 questions";
       } else if (!baselineComplete) {
         const baselineHref = "road-signs-practice-test.html?mode=road-signs-core&focus=baseline#practice";
@@ -2940,31 +2972,31 @@ function initDmvJourneyDashboards() {
         kicker.textContent = "Finish the baseline";
         title.textContent = `${DMV_BASELINE_SIZE - baselineCount} new ${baselineCount === DMV_BASELINE_SIZE - 1 ? "question" : "questions"} to finish your baseline`;
         copy.textContent = "Repeating a question you have already answered does not advance the baseline.";
-        primary.href = recentPracticeHref(baselineDraft?.progress) || baselineHref;
+        setStudyLink(primary, recentPracticeHref(baselineDraft?.progress) || baselineHref);
         primary.textContent = baselineDraft ? "Resume unfinished round" : "Practice new questions";
       } else if (missedToday && weak) {
         kicker.textContent = "Best next study block";
         title.textContent = `Repair ${weak}`;
         copy.textContent = `Use the ${stateLabel} practice path and official source to fix the rule, then retake a focused round.`;
-        primary.href = option.dataset.practiceUrl || "dmv-practice.html";
+        setStudyLink(primary, option.dataset.practiceUrl || "dmv-practice.html");
         primary.textContent = `Review ${stateLabel} rules`;
       } else if (!permitPage && !checklistMarked) {
         kicker.textContent = "Use your state handbook";
         title.textContent = `Confirm ${stateLabel} exam requirements`;
         copy.textContent = "This path includes sign practice but not a full state mixed round. Check the official handbook and confirm the documents, appointment, and rules for your test.";
-        primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
+        setStudyLink(primary, option.dataset.checklistUrl || "dmv-test-day-checklist.html");
         primary.textContent = checklistAvailable ? "Open test-day checklist" : "Open permit steps";
       } else if (permitPage && targetRounds < 2) {
         kicker.textContent = "Check the full practice set";
         title.textContent = targetRounds ? "Meet the practice target once more" : "Meet the full practice target";
         copy.textContent = "Use the full mixed practice for your state. Focused, signs-only and warm-up rounds do not count here. This is a study benchmark, not an official exam result.";
-        primary.href = `${permitPage}?mode=mock#practice`;
+        setStudyLink(primary, `${permitPage}?mode=mock#practice`);
         primary.textContent = `Start ${stateLabel} mixed practice`;
       } else if (!checklistMarked) {
         kicker.textContent = "Move from score to test day";
         title.textContent = `Finish the ${stateLabel} readiness checklist`;
         copy.textContent = "You met both practice targets. Confirm the official exam rules, documents, appointment details, and arrival logistics before test day.";
-        primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
+        setStudyLink(primary, option.dataset.checklistUrl || "dmv-test-day-checklist.html");
         primary.textContent = "Continue checklist";
       } else {
         kicker.textContent = "Checklist marked";
@@ -2972,7 +3004,7 @@ function initDmvJourneyDashboards() {
         copy.textContent = permitPage
           ? "You marked the visit checklist and met the site's practice targets. Check the official source for changes; neither is an official result."
           : "You marked the visit checklist. Use the official handbook for rules; reviewing signs alone does not establish full exam readiness.";
-        primary.href = (permitPage ? option.dataset.practiceUrl : option.dataset.signUrl) || "dmv-practice.html";
+        setStudyLink(primary, (permitPage ? option.dataset.practiceUrl : option.dataset.signUrl) || "dmv-practice.html");
         primary.textContent = permitPage ? "Run final review" : "Review road signs";
       }
     };

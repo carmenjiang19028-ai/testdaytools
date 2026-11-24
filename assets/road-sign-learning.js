@@ -311,7 +311,10 @@
   render();
   root.hidden = false;
   for (const link of document.querySelectorAll('[data-loop-start]')) {
-    if (link.dataset.loopStart === requested) link.setAttribute('href', '#learning-loop');
+    if (link.dataset.loopStart === requested) {
+      delete link.dataset.routeQuery;
+      link.setAttribute('href', '#learning-loop');
+    }
     link.hidden = false;
   }
 })();
