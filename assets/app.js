@@ -228,6 +228,23 @@ const RETIRED_DMV_ITEMS = [
     name: "New York passing",
     choices: ["Pull over safely and rest", "Drink water and keep going no matter what", "Follow another car closely"],
   },
+  ...[
+    [
+      "New York red arrow", "Signals",
+      "If a traffic light turns yellow as you approach, the safest general choice is to:",
+      "Outside New York City, you want to turn right. The signal for your turn shows a steady red right arrow while through traffic has a green light. The crosswalk is clear and no sign separately prohibits a turn on red. What should you do?",
+      ["Stop if you can do so safely", "Accelerate no matter the distance", "Close your eyes through the intersection"],
+    ],
+    [
+      "New York bike-lane door", "Vulnerable road users",
+      "When passing a bicyclist, you should:",
+      "You are parked at the curb on a New York street. A marked bike lane runs beside your driver's door, and a bicyclist is coming up from behind in that lane. What should you do before getting out?",
+      ["Leave safe space and pass only when legal and safe", "Pass as closely as possible", "Drive on the sidewalk"],
+    ],
+  ].map(([name, category, prompt, replacementPrompt, choices]) => ({
+    page: "new-york-dmv-permit-practice-test.html", mode: "mock", state: "new-york",
+    name, category, prompt, replacementPrompt, choices, answer: 0, replacementCategory: category,
+  })),
   {
     page: "road-signs-practice-test.html", mode: "road-signs-core", name: "highway merge",
     prompt: "When traffic is merging, what creates the safest gap?",

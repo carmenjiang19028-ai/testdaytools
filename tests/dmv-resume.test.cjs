@@ -559,6 +559,79 @@ for (const width of [320, 1280]) {
   }));
 }
 
+for (const width of [320, 1280]) {
+  test(`${width}px: New York red-arrow and bike-lane cases preserve the other mock answers`, () =>
+    withSite(width, async page => {
+      const route = origin + "/new-york-dmv-permit-practice-test.html?mode=mock";
+      const replacements = [
+        {
+          slot: 18,
+          old: [
+            "If a traffic light turns yellow as you approach, the safest general choice is to:",
+            "0", "Yellow warns that red is coming. Stop if it is safe to do so.", "Signals", null, null,
+            "Stop if you can do so safely", "Accelerate no matter the distance", "Close your eyes through the intersection",
+          ],
+          correct: "Wait for the signal to permit the right turn",
+          wrong: "Stop, then turn if you can yield",
+          explanation: /A red arrow is different/,
+          source: "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-4-traffic-control",
+        },
+        {
+          slot: 19,
+          old: [
+            "When passing a bicyclist, you should:",
+            "0", "Bicyclists can move around hazards, so drivers should leave space.", "Vulnerable road users", null, null,
+            "Leave safe space and pass only when legal and safe", "Pass as closely as possible", "Drive on the sidewalk",
+          ],
+          correct: "Wait for the bicyclist to pass, then check again before opening the door",
+          wrong: "Open the door now if it will not extend into the car lane",
+          explanation: /A bike lane carries moving traffic/,
+          source: "https://www.nysenate.gov/legislation/laws/VAT/1214",
+        },
+      ];
+      await page.goto(route + "#practice");
+      const quiz = active(page);
+      assert.equal(await quiz.getAttribute("data-pass-score"), "32");
+      assert.equal(await quiz.locator(".question").count(), 40);
+      assert.equal(await quiz.locator('.question[data-prompt^="A steady yellow traffic light"]').count(), 1);
+      assert.equal(await quiz.locator('.question[data-prompt^="If you see a bicyclist ahead"]').count(), 1);
+      const unchanged = Number(await cursor(quiz));
+      await answer(quiz, false);
+      await page.evaluate(({ recentKey, replacements }) => {
+        const saved = JSON.parse(localStorage.getItem(recentKey));
+        const rows = JSON.parse(saved.draft.signature);
+        for (const { slot, old } of replacements) {
+          rows[slot] = old;
+          saved.draft.picks.push([slot, 0]);
+        }
+        saved.draft.signature = JSON.stringify(rows);
+        saved.draft.position = saved.draft.sequence.indexOf(replacements[0].slot);
+        saved.answered += replacements.length;
+        saved.correct += replacements.length;
+        localStorage.setItem(recentKey, JSON.stringify(saved));
+      }, { recentKey, replacements });
+      const before = await read(page, recentKey);
+      await page.goto(route + "&resume=1#practice");
+      assert.equal(await progress(quiz), "1 of 40 answered");
+      assert.equal(await cursor(quiz), String(replacements[0].slot));
+      assert.equal(await quiz.locator(`[data-question-index="${unchanged}"] [data-choice]:disabled`).count(), 3);
+      assert.deepEqual(await read(page, recentKey), before);
+      assert.deepEqual(await milestones(page), []);
+      for (const { slot, old, correct, wrong, explanation, source } of replacements) {
+        assert.equal(await quiz.getByRole("heading", { name: old[0], exact: true }).count(), 0);
+        await quiz.locator(`[data-quiz-jump="${slot}"]`).click();
+        const item = question(quiz);
+        assert.equal(await item.locator("[data-choice]:enabled").count(), 3);
+        assert.equal(await item.getByRole("button", { name: correct, exact: true }).getAttribute("data-choice"), "0");
+        await item.getByRole("button", { name: wrong, exact: true }).click();
+        assert.match(await item.locator(".feedback").innerText(), /^Not quite\./);
+        assert.match(await item.locator(".feedback").innerText(), explanation);
+        assert.equal(await item.locator(`a[href="${source}"]`).isVisible(), true);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      }
+    }));
+}
+
 test("a regulatory draft and its misses still read the former ONE WAY and KEEP RIGHT cues", () =>
   withSite(390, async page => {
     const mode = "regulatory-signs-core";

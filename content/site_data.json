@@ -17476,26 +17476,34 @@
         "explanation": "Drivers entering a roadway must yield to traffic and people already using it."
       },
       {
-        "q": "If a traffic light turns yellow as you approach, the safest general choice is to:",
+        "q": "Outside New York City, you want to turn right. The signal for your turn shows a steady red right arrow while through traffic has a green light. The crosswalk is clear and no sign separately prohibits a turn on red. What should you do?",
         "choices": [
-          "Stop if you can do so safely",
-          "Accelerate no matter the distance",
-          "Close your eyes through the intersection"
+          "Wait for the signal to permit the right turn",
+          "Stop, then turn if you can yield",
+          "Turn now because the through signal is green"
         ],
         "answer": 0,
         "category": "Signals",
-        "explanation": "Yellow warns that red is coming. Stop if it is safe to do so."
+        "explanation": "A steady red arrow prohibits a turn in its direction. The green for through traffic does not apply to your turn. Outside New York City, a circular red can allow a right turn after a full stop and yielding, if no control prohibits it. A red arrow is different: stop and wait for a signal permitting the turn.",
+        "source": {
+          "label": "New York DMV Driver's Manual, Chapter 4: Traffic Signals",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-4-traffic-control"
+        }
       },
       {
-        "q": "When passing a bicyclist, you should:",
+        "q": "You are parked at the curb on a New York street. A marked bike lane runs beside your driver's door, and a bicyclist is coming up from behind in that lane. What should you do before getting out?",
         "choices": [
-          "Leave safe space and pass only when legal and safe",
-          "Pass as closely as possible",
-          "Drive on the sidewalk"
+          "Wait for the bicyclist to pass, then check again before opening the door",
+          "Open the door partway now so the bicyclist can see it and go around",
+          "Open the door now if it will not extend into the car lane"
         ],
         "answer": 0,
         "category": "Vulnerable road users",
-        "explanation": "Bicyclists can move around hazards, so drivers should leave space."
+        "explanation": "A bike lane carries moving traffic. Keep the door closed until you can open it safely without interfering with anyone. Check the mirror and look over your shoulder again after the bicyclist passes; another rider may be following.",
+        "source": {
+          "label": "New York Vehicle and Traffic Law section 1214: Opening and closing vehicle doors",
+          "url": "https://www.nysenate.gov/legislation/laws/VAT/1214"
+        }
       },
       {
         "q": "If your vehicle starts to skid on ice, you should:",
