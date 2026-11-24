@@ -19512,15 +19512,19 @@
         "explanation": "Dooring can injure bicyclists and other road users. Check before opening the door. Confirm exact wording in the Official Florida Driver License Handbook."
       },
       {
-        "q": "If a vehicle behind you wants to pass on a two-lane road, you should:",
+        "q": "You are behind a slow-moving car on a two-way Florida road. The yellow center line is broken, the oncoming lane looks clear, and a railroad crossing is 60 feet ahead. May you cross the center line to pass now?",
         "choices": [
-          "Keep right and do not increase speed",
-          "Move toward the center line",
-          "Brake suddenly"
+          "Yes, the broken line allows an immediate pass",
+          "No, wait until you are clear of the crossing and passing is otherwise legal and safe",
+          "Yes, as long as the crossing gates are raised"
         ],
-        "answer": 0,
+        "answer": 1,
         "category": "Passing",
-        "explanation": "Stay predictable and give the passing driver room when a pass is legal and safe. Confirm exact wording in the Official Florida Driver License Handbook."
+        "explanation": "Florida prohibits using the left side of the roadway to pass within 100 feet of a railroad crossing on the approach, or while crossing it. The broken line and raised gates do not cancel that restriction.",
+        "source": {
+          "label": "Florida Statutes section 316.087(1)(d)",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.087"
+        }
       },
       {
         "q": "A blind spot is:",
@@ -21196,15 +21200,19 @@
         "explanation": "Dooring can injure bicyclists and other road users. Check before opening the door. Confirm exact wording in the Pennsylvania Driver's Manual."
       },
       {
-        "q": "If a vehicle behind you wants to pass on a two-lane road, you should:",
+        "q": "On a Pennsylvania highway posted at 55 mph, a police car with flashing lights is stopped on the right shoulder at a traffic stop. The lane to your left is occupied, so you cannot safely move over. How should you pass?",
         "choices": [
-          "Keep right and do not increase speed",
-          "Move toward the center line",
-          "Brake suddenly"
+          "Proceed at 55 mph because the police car is on the shoulder",
+          "Slow to 45 mph and pass in your lane",
+          "Slow to no more than 35 mph and go slower if conditions require"
         ],
-        "answer": 0,
-        "category": "Passing",
-        "explanation": "Stay predictable and give the passing driver room when a pass is legal and safe. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "answer": 2,
+        "category": "Move Over",
+        "explanation": "If you cannot safely move away from the emergency response area, Pennsylvania requires a speed at least 20 mph below the posted limit and safe for the conditions. With a 55 mph limit, 35 mph is the ceiling here, not a target.",
+        "source": {
+          "label": "PennDOT: Move Over, Slow Down",
+          "url": "https://www.pa.gov/agencies/penndot/traveling-in-pa/safety/traffic-safety-driver-topics/pa-move-over-law"
+        }
       },
       {
         "q": "A blind spot is:",
@@ -22052,15 +22060,19 @@
         "explanation": "Dooring can injure bicyclists and other road users. Check before opening the door. Confirm exact wording in the New Jersey Driver Manual."
       },
       {
-        "q": "If a vehicle behind you wants to pass on a two-lane road, you should:",
+        "q": "In New Jersey you are turning left from a one-way street onto another one-way street with two open lanes. The light is green, the intersection is clear, and no signs or markings direct a different path. Which lane should you enter?",
         "choices": [
-          "Keep right and do not increase speed",
-          "Move toward the center line",
-          "Brake suddenly"
+          "The left lane of the street you enter",
+          "The right lane so the left lane stays open",
+          "Either lane, regardless of the turn path"
         ],
         "answer": 0,
-        "category": "Passing",
-        "explanation": "Stay predictable and give the passing driver room when a pass is legal and safe. Confirm exact wording in the New Jersey Driver Manual."
+        "category": "Turns",
+        "explanation": "Start the turn from the left lane and finish in the left lane of the street you enter. If you need the other lane, change lanes after finishing the turn and checking that it is safe.",
+        "source": {
+          "label": "New Jersey MVC Driver Manual, left turns, p. 73",
+          "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
+        }
       },
       {
         "q": "A blind spot is:",

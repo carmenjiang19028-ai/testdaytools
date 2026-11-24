@@ -259,6 +259,16 @@ const RETIRED_DMV_ITEMS = [
     category: "Parking signs", replacementCategory: "Parking", legacyFocus: true,
     choices: ["Loading zone for passengers only", "Parking allowed for a short time", "No stopping, standing, or parking"],
   })),
+  ...[
+    ["florida-dmv", "florida", "Passing", "You are behind a slow-moving car on a two-way Florida road. The yellow center line is broken, the oncoming lane looks clear, and a railroad crossing is 60 feet ahead. May you cross the center line to pass now?"],
+    ["pennsylvania-dmv", "pennsylvania", "Move Over", "On a Pennsylvania highway posted at 55 mph, a police car with flashing lights is stopped on the right shoulder at a traffic stop. The lane to your left is occupied, so you cannot safely move over. How should you pass?"],
+    ["new-jersey-mvc", "new-jersey", "Turns", "In New Jersey you are turning left from a one-way street onto another one-way street with two open lanes. The light is green, the intersection is clear, and no signs or markings direct a different path. Which lane should you enter?"],
+  ].map(([slug, state, replacementCategory, replacementPrompt]) => ({
+    page: `${slug}-permit-practice-test.html`, state, mode: "mock", replacementPrompt, name: "passing duplicate",
+    prompt: "If a vehicle behind you wants to pass on a two-lane road, you should:", answer: 0,
+    category: "Passing", replacementCategory,
+    choices: ["Keep right and do not increase speed", "Move toward the center line", "Brake suddenly"],
+  })),
 ];
 const retiredDmvMasteryIds = new Set(RETIRED_DMV_ITEMS.map(item =>
   `${item.state || "general"}|${masteryToken(item.prompt)}|${masteryToken(item.choices[item.answer])}`));

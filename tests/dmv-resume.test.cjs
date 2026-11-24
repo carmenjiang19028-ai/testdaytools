@@ -310,13 +310,22 @@ const retiredRedCurb = [
   "What does a red curb usually mean?", "2", "Old red curb explanation", "Parking signs", null, null,
   "Loading zone for passengers only", "Parking allowed for a short time", "No stopping, standing, or parking",
 ];
+const retiredPassingDuplicate = [
+  "If a vehicle behind you wants to pass on a two-lane road, you should:", "0", "Old passing explanation", "Passing", null, null,
+  "Keep right and do not increase speed", "Move toward the center line", "Brake suddenly",
+];
 
-for (const [slug, state, mode, index, total, pass, topic, explanation, source] of [
-  ["florida-dmv", "florida", "quick", 4, 15, 12, /outside a Florida municipality/, /off the traveled part/, /Florida Statutes/],
-  ["pennsylvania-dmv", "pennsylvania", "mock", 34, 40, 32, /17 inches from the right curb/, /within 12 inches/, /PennDOT/],
-  ["new-jersey-mvc", "new-jersey", "mock", 29, 40, 32, /closest point of your car to a fire hydrant/, /within 10 feet/, /New Jersey MVC/],
+for (const [retired, slug, state, mode, index, total, pass, topic, explanation, source] of [
+  [retiredRedCurb, "florida-dmv", "florida", "quick", 4, 15, 12, /outside a Florida municipality/, /off the traveled part/, /Florida Statutes/],
+  [retiredRedCurb, "pennsylvania-dmv", "pennsylvania", "mock", 34, 40, 32, /17 inches from the right curb/, /within 12 inches/, /PennDOT/],
+  [retiredRedCurb, "new-jersey-mvc", "new-jersey", "mock", 29, 40, 32, /closest point of your car to a fire hydrant/, /within 10 feet/, /New Jersey MVC/],
+  [retiredPassingDuplicate, "florida-dmv", "florida", "mock", 29, 40, 32, /60 feet ahead/, /100 feet of a railroad crossing/, /Florida Statutes/],
+  [retiredPassingDuplicate, "pennsylvania-dmv", "pennsylvania", "mock", 19, 40, 32, /police car with flashing lights/, /at least 20 mph below/, /PennDOT/],
+  [retiredPassingDuplicate, "new-jersey-mvc", "new-jersey", "mock", 14, 40, 32, /onto another one-way street/, /left lane of the street you enter/, /New Jersey MVC/],
 ]) {
-  test(`${state} ${mode}: replaces the generic curb item without losing other saved answers`, () =>
+  const replacingParking = retired === retiredRedCurb;
+  const item = replacingParking ? "generic curb" : "duplicate passing";
+  test(`${state} ${mode}: replaces the ${item} item without losing other saved answers`, () =>
     withSite(mode === "quick" ? 390 : 1280, async page => {
       const url = `${origin}/${slug}-permit-practice-test.html?mode=${mode}`;
       const quiz = active(page);
@@ -325,13 +334,17 @@ for (const [slug, state, mode, index, total, pass, topic, explanation, source] o
       assert.match(await replacement.locator("h3").textContent(), topic);
       assert.equal(await quiz.locator("[data-question-index]").count(), total);
       assert.equal(await quiz.getAttribute("data-pass-score"), String(pass));
+      if (!replacingParking) {
+        assert.equal(await quiz.locator("h3").filter({ hasText: "If you are being passed, you should:" }).count(), 1);
+        assert.equal(await quiz.locator("h3").filter({ hasText: retired[0] }).count(), 0);
+      }
       await quiz.locator('[data-quiz-jump="0"]').click();
       await answer(quiz, true);
       const saved = await read(page, recentKey);
       const rows = JSON.parse(saved.draft.signature);
-      rows[index] = retiredRedCurb;
+      rows[index] = retired;
       saved.draft.signature = JSON.stringify(rows);
-      saved.draft.picks.push([index, 2]);
+      saved.draft.picks.push([index, Number(retired[1])]);
       saved.draft.position = saved.draft.sequence.indexOf(index);
       saved.answered = 2;
       saved.correct = 2;
@@ -351,15 +364,17 @@ for (const [slug, state, mode, index, total, pass, topic, explanation, source] o
       assert.equal(await replacement.getByRole("link", { name: source }).isVisible(), true);
       assert.equal(await progress(quiz), `2 of ${total} answered`);
 
-      await page.goto(url + "&focus=Parking+signs#practice");
-      assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "Parking");
-      const jumps = await quiz.locator("[data-quiz-jump]").all();
-      const focusedIndexes = [];
-      for (const jump of jumps) {
-        await jump.click();
-        focusedIndexes.push(await cursor(quiz));
+      if (replacingParking) {
+        await page.goto(url + "&focus=Parking+signs#practice");
+        assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "Parking");
+        const jumps = await quiz.locator("[data-quiz-jump]").all();
+        const focusedIndexes = [];
+        for (const jump of jumps) {
+          await jump.click();
+          focusedIndexes.push(await cursor(quiz));
+        }
+        assert.ok(focusedIndexes.includes(String(index)));
       }
-      assert.ok(focusedIndexes.includes(String(index)));
     }));
 }
 
