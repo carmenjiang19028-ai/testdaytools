@@ -106,6 +106,28 @@ for (const width of [390, 1280]) {
     }));
 }
 
+test("the daily New Jersey Move Over item uses the same current source and answer as the mock", () =>
+  withSite(390, async page => {
+    await page.goto(daily + "?state=new-jersey");
+    const card = current(page);
+    for (let i = 0; i < 5 && await card.getAttribute("data-category") !== "Move Over"; i++) await next(page);
+    assert.equal(await card.getAttribute("data-category"), "Move Over");
+    const label = "Reduce to a safe speed below the posted limit and be ready to stop";
+    await card.getByRole("button", { name: label, exact: true }).press("Enter");
+    assert.match(await card.locator("[data-daily-feedback]").textContent(), /^Correct/);
+    const answer = await card.locator("[data-daily-explanation]").innerText();
+    assert.match(answer, /does not set one fixed reduction/);
+    const source = await card.locator("[data-daily-source] a").getAttribute("href");
+    assert.equal(source, "https://pub.njleg.state.nj.us/Bills/2024/AL25/248_.PDF");
+    await card.locator("[data-daily-practice]").press("Enter");
+    await page.waitForURL(url => url.pathname.endsWith("/new-jersey-mvc-permit-practice-test.html") && url.searchParams.get("focus") === "Move Over");
+    const quiz = activeQuiz(page);
+    assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "Move Over");
+    const question = quiz.locator(".question.is-active");
+    assert.equal(await question.getAttribute("data-explanation"), answer);
+    assert.equal(await question.locator("[data-quiz-source] a").getAttribute("href"), source);
+  }));
+
 test("national visitors get only common signs and the daily prompt changes at local midnight", () =>
   withSite(390, async page => {
     await page.clock.setFixedTime(new Date("2026-11-21T07:59:00Z"));

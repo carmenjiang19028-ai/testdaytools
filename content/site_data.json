@@ -9858,10 +9858,54 @@
           "href": "florida-dmv-permit-documents-checklist.html"
         },
         {
+          "label": "Florida Move Over cases",
+          "href": "#florida-move-over"
+        },
+        {
           "label": "FLHSMV exam source",
           "href": "https://www.flhsmv.gov/driver-licenses-id-cards/licensing-requirements-teens-graduated-driver-license-laws-driving-curfews/class-e-knowledge-exam-driving-skills-test/"
         }
       ],
+      "stateRulePractice": {
+        "id": "florida-move-over",
+        "linkLabel": "Florida Move Over cases",
+        "heading": "Florida: move over, slow down, or pull over?",
+        "imageAsset": {
+          "src": "assets/road-sign-materials/new-jersey-move-over.svg",
+          "width": 360,
+          "height": 294
+        },
+        "imageLabel": "In both drawings your car is in the right lane approaching a disabled car on the right shoulder with its flashers on. In A the left lane is clear. In B a vehicle is alongside you in the left lane.",
+        "caption": "In A and B the disabled car is stopped, the posted limit is 45 mph, and no officer is directing traffic. These cases do not affect your practice score.",
+        "scenarios": [
+          {
+            "question": "A: A disabled car has its hazard lights on, and the lane to your left is clear. Does the rule apply to an ordinary car?",
+            "answer": "Yes. A stopped disabled car with flashers qualifies. Signal, check the lane, and move one lane away when it is safe. For a disabled car in Florida, visible people, warning lights, or emergency flares or signs can also trigger the rule; you do not need to see a tow truck."
+          },
+          {
+            "question": "B: You cannot change lanes safely on this 45 mph road. Does slowing to 40 mph satisfy the rule?",
+            "answer": "No. In Florida at this posted limit, subtract 20 mph from 45 mph: slow to 25 mph. Do not squeeze into the occupied lane. On a two-lane road posted at 20 mph or less, use the separate 5 mph rule rather than subtracting 20."
+          },
+          {
+            "question": "Now an ambulance is moving up behind you with its siren on. Do you use the same passing-speed rule?",
+            "answer": "No. The ambulance is approaching, not parked at the roadside. Yield, pull as reasonably close as possible to the nearest curb or edge, stop clear of an intersection, and wait for it to pass. Follow an officer's directions if given."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Florida Statutes, section 316.126: approaching emergency and stopped vehicles",
+            "url": "https://www.flsenate.gov/Laws/Statutes/2026/316.126"
+          },
+          {
+            "label": "Official Florida Driver License Handbook: Move Over Law",
+            "url": "https://www.flhsmv.gov/pdf/handbooks/englishdriverhandbook.pdf"
+          }
+        ],
+        "comparisonLink": {
+          "label": "Try the same blocked-lane case in New Jersey",
+          "href": "new-jersey-mvc-road-signs-practice.html#new-jersey-move-over"
+        }
+      },
       "quickFacts": [
         {
           "label": "Official source",
@@ -13853,7 +13897,7 @@
             "answer": "No. Approach cautiously and change to the lane that is not next to the stopped car. New Jersey's January 2026 update applies to stationary vehicles displaying flashing or blinking lights, not just emergency or service vehicles."
           },
           {
-            "question": "In B, another driver is alongside you. Can you stay at the posted speed limit until you are past the stopped car?",
+          "question": "In B, another driver is alongside you. The limit is 45 mph. Can you stay at the posted speed until you are past the stopped car?",
             "answer": "No. Do not force an unsafe lane change. When moving over is impossible, illegal, or unsafe, slow to a speed below the posted limit that fits conditions and be ready to stop. The rule does not give one fixed reduced speed."
           },
           {
@@ -13870,7 +13914,11 @@
             "label": "New Jersey Division of Highway Traffic Safety: Move Over",
             "url": "https://www.nj.gov/oag/hts/downloads/MoveOver_poster-2026.pdf"
           }
-        ]
+        ],
+        "comparisonLink": {
+          "label": "Try the same blocked-lane case in Florida",
+          "href": "florida-dmv-permit-practice-test.html#florida-move-over"
+        }
       },
       "mixedPractice": {
         "href": "new-jersey-mvc-permit-practice-test.html?mode=mock#practice",
@@ -22124,8 +22172,8 @@
         ],
         "answer": 0,
         "category": "Move Over",
-        "explanation": "A disabled vehicle with hazard lights is covered by New Jersey's Move Over law. A safe, legal move to a nonadjacent lane is the first option. When that is unavailable, slow below the limit to a speed appropriate for the conditions and prepare to stop.",
-        "source": {"label": "New Jersey Move Over law for disabled vehicles", "url": "https://pub.njleg.state.nj.us/Bills/2022/PL23/325_.HTM"}
+        "explanation": "New Jersey's rule applies to stationary vehicles displaying flashing or blinking lights, including this disabled car. When moving over is unsafe, slow below the limit to a speed appropriate for conditions and be ready to stop. New Jersey does not set one fixed reduction. Follow an officer's directions if given.",
+        "source": {"label": "New Jersey Move Over law: P.L. 2025, chapter 248", "url": "https://pub.njleg.state.nj.us/Bills/2024/AL25/248_.PDF"}
       },
       {
         "q": "Before entering a roundabout, you should:",

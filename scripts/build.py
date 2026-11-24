@@ -3386,6 +3386,10 @@ def render_state_rule_practice(lesson):
     sources = " &middot; ".join(
         f'<a href="{esc(source["url"])}">{esc(source["label"])}</a>' for source in lesson["sources"]
     )
+    comparison = lesson.get("comparisonLink")
+    comparison_link = (
+        f'<p><a href="{esc(comparison["href"])}">{esc(comparison["label"])}</a></p>' if comparison else ""
+    )
     asset = lesson.get("imageAsset")
     image = (
         f'<img src="{esc(asset["src"])}" alt="{esc(lesson["imageLabel"])}" width="{int(asset["width"])}" height="{int(asset["height"])}">'
@@ -3401,7 +3405,7 @@ def render_state_rule_practice(lesson):
     </figure>
     <div>
       {scenarios}
-      <p class="contrast-source">{sources}</p>{worksheet_return}
+      <p class="contrast-source">{sources}</p>{comparison_link}{worksheet_return}
     </div>
   </div>
 </section>"""

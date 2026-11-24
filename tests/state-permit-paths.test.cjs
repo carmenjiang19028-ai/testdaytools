@@ -21,6 +21,8 @@ const ohTrainingLaw = "https://codes.ohio.gov/ohio-revised-code/section-4507.21"
 const floridaDocuments = "florida-dmv-permit-documents-checklist";
 const hillsboroughAddress = "https://www.hillstaxfl.gov/drivers-license-id/document-requirements/";
 const hillsboroughForms = "https://www.hillstaxfl.gov/forms/";
+const floridaMoveOver = "https://www.flsenate.gov/Laws/Statutes/2026/316.126";
+const newJerseyMoveOver = "https://pub.njleg.state.nj.us/Bills/2024/AL25/248_.PDF";
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -35,6 +37,55 @@ const guideDestinations = [
 ];
 
 for (const width of [320, 1280]) {
+  test(`${width}px: the same roadside scene teaches separate Florida and New Jersey decisions`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const florida = file("florida-dmv-permit-practice-test");
+      const newJersey = file("new-jersey-mvc-road-signs-practice");
+      await page.goto(florida);
+      await page.getByRole("link", { name: "Florida Move Over cases", exact: true }).press("Enter");
+      await page.waitForURL(florida + "#florida-move-over");
+      const lesson = page.locator("#florida-move-over");
+      const heading = await lesson.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      const diagram = lesson.getByRole("img");
+      assert.match(await diagram.getAttribute("alt"), /left lane is clear.*alongside you in the left lane/);
+      assert.ok(await diagram.evaluate(img => img.complete && img.naturalWidth === 360));
+      const diagramPath = await diagram.getAttribute("src");
+      const cases = lesson.locator("details");
+      assert.equal(await cases.count(), 3);
+      for (const [index, answer] of [
+        /disabled car with flashers qualifies.*move one lane away when it is safe/,
+        /subtract 20 mph from 45 mph: slow to 25 mph.*20 mph or less.*5 mph/,
+        /ambulance is approaching, not parked.*Yield.*stop clear of an intersection.*wait for it to pass/,
+      ].entries()) {
+        await cases.nth(index).locator("summary").press("Enter");
+        assert.match(await cases.nth(index).locator("p").innerText(), answer);
+      }
+      assert.equal(await lesson.getByRole("link", { name: /Florida Statutes/ }).getAttribute("href"), floridaMoveOver);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const screenshots = process.env.MOVE_OVER_SCREENSHOTS_DIR;
+      if (screenshots) {
+        fs.mkdirSync(screenshots, { recursive: true });
+        await lesson.screenshot({ path: path.join(screenshots, `florida-move-over-${width}.png`) });
+      }
+      await lesson.getByRole("link", { name: "Try the same blocked-lane case in New Jersey" }).press("Enter");
+      await page.waitForURL(newJersey + "#new-jersey-move-over");
+      const njLesson = page.locator("#new-jersey-move-over");
+      assert.equal(await njLesson.getByRole("img").getAttribute("src"), diagramPath);
+      const blocked = njLesson.locator("details").filter({ hasText: "The limit is 45 mph." });
+      await blocked.locator("summary").press("Enter");
+      assert.match(await blocked.locator("p").innerText(), /slow to a speed below the posted limit that fits conditions.*ready to stop.*not give one fixed/);
+      assert.equal(await njLesson.getByRole("link", { name: /New Jersey enacted law/ }).getAttribute("href"), newJerseyMoveOver);
+      await njLesson.getByRole("link", { name: "Try the same blocked-lane case in Florida" }).press("Enter");
+      await page.waitForURL(florida + "#florida-move-over");
+      assert.ok(await lesson.getByRole("heading").isVisible());
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: California bicycle passing cases separate changing lanes, waiting, and leaving room`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {
@@ -324,6 +375,28 @@ test("state filter can find the state by its local lesson as well as by name", a
     await search.clear();
     assert.equal(await scope.locator("[data-state-card]:visible").count(), 13);
     assert.equal(await scope.locator("[data-state-empty]").isVisible(), false);
+  } finally { await context.close(); }
+});
+
+test("New Jersey mock retains the correct Move Over response and cites the current law", async () => {
+  const context = await browser.newContext();
+  try {
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    await page.goto(file("new-jersey-mvc-permit-practice-test") + "?mode=mock#practice");
+    const quiz = page.locator('[data-mode-panel="mock"].is-active [data-quiz]');
+    assert.equal(await quiz.getAttribute("data-total"), "40");
+    assert.equal(await quiz.getAttribute("data-pass-score"), "32");
+    const question = quiz.locator('[data-category="Move Over"]');
+    const n = Number(await question.getAttribute("data-question-index")) + 1;
+    await quiz.getByRole("button", { name: `Go to question ${n}`, exact: true }).press("Enter");
+    assert.equal(await question.getAttribute("data-answer"), "0");
+    await question.getByRole("button", { name: "Reduce to a safe speed below the posted limit and be ready to stop", exact: true }).press("Enter");
+    assert.match(await question.locator(".feedback").innerText(), /stationary vehicles displaying flashing or blinking lights.*does not set one fixed reduction/);
+    const source = question.getByRole("link", { name: /P\.L\. 2025, chapter 248/ });
+    assert.ok(await source.isVisible());
+    assert.equal(await source.getAttribute("href"), newJerseyMoveOver);
+    assert.match(await quiz.locator("[data-quiz-result]").innerText(), /^Score: 1 of 1 answered/);
   } finally { await context.close(); }
 });
 

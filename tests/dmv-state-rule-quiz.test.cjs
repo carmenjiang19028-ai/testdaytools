@@ -18,7 +18,7 @@ const cases = {
   "new-jersey-mvc": [
     [19, /posted at 20 mph/, /no more than 20 mph/, /25 mph or the lower posted limit/, "pub.njleg.state.nj.us"],
     [33, /raised median/, /10 mph until completely past/, /at least 25 feet away/, "www.nj.gov"],
-    [36, /disabled car on the shoulder/, /below the posted limit/, /with hazard lights is covered/, "pub.njleg.state.nj.us"],
+    [36, /disabled car on the shoulder/, /below the posted limit/, /stationary vehicles displaying flashing or blinking lights.*ready to stop/, "pub.njleg.state.nj.us"],
   ],
 };
 const brakingCases = [
