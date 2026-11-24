@@ -375,6 +375,163 @@ test("the only answered question and shuffled order survive a completed category
     assert.equal(await cursor(quiz), "6");
   }));
 
+for (const width of [390, 1280]) {
+  test(`${width}px: reviewing saved mistakes preserves the unfinished picture round`, () =>
+    withSite(width, async page => {
+      await page.goto(starter + "#practice");
+      const quiz = active(page);
+      const filter = quiz.locator("[data-quiz-filter]");
+      const result = quiz.locator("[data-quiz-result]");
+      await answer(quiz, false);
+      await quiz.locator("[data-quiz-forward]").click();
+      await answer(quiz, false);
+      await quiz.locator("[data-quiz-forward]").click();
+      const saved = await read(page, recentKey);
+      const originalCursor = await cursor(quiz);
+      const originalScore = await result.textContent();
+
+      await filter.selectOption("saved");
+      assert.equal(await progress(quiz), "0 of 2 answered");
+      await answer(quiz, true);
+      assert.equal(await progress(quiz), "1 of 2 answered");
+      assert.deepEqual(await read(page, recentKey), saved, "a review answer must not replace the unfinished round");
+      const returnLink = quiz.getByRole("link", { name: "Return to original round" });
+      assert.equal(await returnLink.getAttribute("href"), "road-signs-practice-test.html?mode=road-signs-starter#practice");
+      const shots = process.env.RESUME_SCREENSHOTS_DIR;
+      if (shots) {
+        fs.mkdirSync(shots, { recursive: true });
+        await returnLink.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: path.join(shots, `review-return-${width}.png`) });
+      }
+      const practiceEvents = await milestones(page);
+      if (width === 390) await returnLink.press("Enter");
+      else await filter.selectOption("all");
+      assert.equal(await progress(quiz), "2 of 10 answered");
+      assert.equal(await cursor(quiz), originalCursor);
+      assert.equal(await result.textContent(), originalScore);
+      assert.deepEqual(await milestones(page), practiceEvents, "restoring answers must not replay attempts");
+      const first = quiz.locator('[data-question-index="0"]');
+      assert.match(await first.locator(".feedback").textContent(), /^Not quite\./, "the original round is still scored as answered");
+      assert.ok(!(await quiz.locator("[data-quiz-mistakes]").textContent()).includes(await first.getAttribute("data-prompt")),
+        "the correct review answer still clears that question from the mistake list");
+      await page.goto(study);
+      await resume(page);
+      assert.equal(await progress(quiz), "2 of 10 answered");
+      assert.equal(await cursor(quiz), originalCursor);
+      assert.deepEqual(await milestones(page), []);
+    }));
+}
+
+test("a deep link to saved mistakes in another tab leaves the original resume intact", () =>
+  withSite(390, async page => {
+    await page.goto(starter + "#practice");
+    const quiz = active(page);
+    await answer(quiz, false);
+    await quiz.locator("[data-quiz-forward]").click();
+    const saved = await read(page, recentKey);
+    const peer = await page.context().newPage();
+    try {
+      await peer.goto(starter + "&focus=saved#practice");
+      assert.equal(await progress(active(peer)), "0 of 1 answered");
+      await answer(active(peer), true);
+      assert.equal(await progress(active(peer)), "1 of 1 answered");
+      assert.deepEqual(await read(peer, recentKey), saved);
+      await peer.goto(study);
+      await resume(peer);
+      assert.equal(await progress(active(peer)), "1 of 10 answered");
+      assert.equal(await cursor(active(peer)), "1");
+      assert.deepEqual(await milestones(peer), []);
+    } finally { await peer.close(); }
+  }));
+
+test("due review pauses the original round's clock and does not use its remaining time", () =>
+  withSite(1280, async page => {
+    await page.goto(starter + "#practice");
+    const quiz = active(page);
+    const timer = quiz.getByRole("timer");
+    await page.clock.install();
+    await quiz.getByRole("button", { name: "Start 10-min timer" }).click();
+    await answer(quiz, false);
+    await quiz.locator("[data-quiz-forward]").click();
+    await page.clock.fastForward(61_000);
+    await quiz.locator("[data-quiz-review-mistakes]").click();
+    assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "due");
+    assert.equal(await timer.textContent(), "Untimed practice");
+    assert.equal(await progress(quiz), "0 of 1 answered");
+    await quiz.getByRole("button", { name: "Start 10-min timer" }).click();
+    await page.clock.fastForward(61_000);
+    await answer(quiz, true);
+    await quiz.getByRole("link", { name: "Return to original round" }).click();
+    assert.equal(await progress(quiz), "1 of 10 answered");
+    assert.equal(await cursor(quiz), "1");
+    assert.match(await timer.textContent(), /^Paused at 8:(57|58|59)$/);
+    await quiz.getByRole("button", { name: "Resume timer" }).click();
+    await page.clock.fastForward(60_000);
+    assert.match(await timer.textContent(), /^7:(57|58|59) left/);
+  }));
+
+test("an unseen baseline exercise cannot replace an unfinished full round", () =>
+  withSite(390, async page => {
+    await page.goto(quizUrl + "?mode=road-signs-core#practice");
+    const quiz = active(page);
+    await answer(quiz, true);
+    await quiz.locator("[data-quiz-forward]").click();
+    const saved = await read(page, recentKey);
+    await quiz.locator("[data-quiz-filter]").selectOption("baseline");
+    assert.notEqual(await cursor(quiz), "0");
+    await answer(quiz, false);
+    assert.deepEqual(await read(page, recentKey), saved);
+    await quiz.getByRole("link", { name: "Return to original round" }).click();
+    assert.equal(await progress(quiz), "1 of 40 answered");
+    assert.equal(await cursor(quiz), "1");
+  }));
+
+test("returning from review to a completed category does not record a new completed round", () =>
+  withSite(390, async page => {
+    await page.goto(starter + "#practice");
+    const quiz = active(page);
+    await answer(quiz, false);
+    await quiz.locator('[data-quiz-jump="6"]').click();
+    await answer(quiz, true);
+    const filter = quiz.locator("[data-quiz-filter]");
+    await filter.selectOption("saved");
+    assert.equal(await progress(quiz), "0 of 1 answered");
+    const events = await milestones(page);
+    const localState = await page.evaluate(() => JSON.stringify(localStorage));
+    await filter.selectOption("Speed signs");
+    assert.equal(await progress(quiz), "1 of 1 answered");
+    assert.deepEqual(await milestones(page), events);
+    assert.equal(await page.evaluate(() => JSON.stringify(localStorage)), localState);
+  }));
+
+test("a saved-mistakes draft made before review records were separated can still resume and reset", () =>
+  withSite(390, async page => {
+    await page.goto(starter + "#practice");
+    const quiz = active(page);
+    await answer(quiz, false);
+    await quiz.locator("[data-quiz-forward]").click();
+    await answer(quiz, false);
+    await quiz.locator("[data-quiz-filter]").selectOption("saved");
+    await answer(quiz, true);
+    await quiz.locator("[data-quiz-forward]").click();
+    await page.evaluate(key => {
+      const savedKey = `${key}:saved`;
+      const draft = localStorage.getItem(savedKey);
+      if (!JSON.parse(draft)?.draft) throw new Error("No incomplete saved-mistakes practice");
+      localStorage.setItem(key, draft);
+      localStorage.removeItem(savedKey);
+    }, recentKey);
+    await page.goto(study);
+    assert.match(await page.locator(resumeLink).getAttribute("href"), /focus=saved&resume=1/);
+    await resume(page);
+    assert.equal(await progress(quiz), "1 of 2 answered");
+    assert.deepEqual(await milestones(page), []);
+    await quiz.locator("[data-quiz-reset]").click();
+    assert.equal(await progress(quiz), "0 of 2 answered");
+    assert.equal((await read(page, recentKey)).draft, undefined);
+    assert.deepEqual(await milestones(page), []);
+  }));
+
 test("legacy results and incompatible drafts never claim to restore answers", async () =>
   withSite(1280, async page => {
     await page.goto(study);

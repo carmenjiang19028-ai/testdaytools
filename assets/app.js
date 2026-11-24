@@ -195,18 +195,31 @@ const DMV_MASTERY_STORAGE_KEY = "tdt-dmv-mastery:v1";
 const DMV_BASELINE_SIZE = 10;
 const DAY_MS = 86400000;
 const RECENT_PRACTICE_KEY = "tdt-recent-practice";
+const INDEPENDENT_DMV_FOCUSES = ["saved", "due", "baseline"];
+
+const recentPracticeStorageKey = (focus) => INDEPENDENT_DMV_FOCUSES.includes(focus)
+  ? `${RECENT_PRACTICE_KEY}:${focus}` : RECENT_PRACTICE_KEY;
 
 function createLocalPracticeId() {
   return Array.from(window.crypto.getRandomValues(new Uint32Array(4)),
     (part) => part.toString(16).padStart(8, "0")).join("");
 }
 
-function readRecentPractice() {
+function readRecentPractice(key = RECENT_PRACTICE_KEY) {
   try {
-    return JSON.parse(window.localStorage.getItem(RECENT_PRACTICE_KEY) || "null");
+    return JSON.parse(window.localStorage.getItem(key) || "null");
   } catch (error) {
     return null;
   }
+}
+
+function readUnfinishedPractice(href, key) {
+  // Older drafts of review exercises used the original, unsuffixed key.
+  for (const candidate of new Set([key, RECENT_PRACTICE_KEY])) {
+    const progress = readRecentPractice(candidate);
+    if (progress?.href === href && progress.draft) return { key: candidate, progress };
+  }
+  return null;
 }
 
 function recentPracticeHref(progress) {
@@ -640,10 +653,14 @@ function initQuizzes() {
     let quizCompletedTracked = false;
     let savedRound = null;
     let ownedDraftSnapshot = "";
+    let ownedDraftKey = RECENT_PRACTICE_KEY;
     let keepFullProgress = false;
     let tenQuestionsTracked = false;
     let nextRoundFocus = "";
     let missedCardIds = [];
+    let activePracticeFocus = "all";
+    let suspendedRound = null;
+    const independentDmvRound = (focus) => isDmvQuiz && INDEPENDENT_DMV_FOCUSES.includes(focus);
 
     const escapeHtml = (value) =>
       String(value).replace(/[&<>"']/g, (char) => ({
@@ -953,7 +970,7 @@ function initQuizzes() {
       renderQuestionNavigator();
     };
 
-    const renderScore = () => {
+    const renderScore = ({ restoring = false } = {}) => {
       const activeTotal = activeSequence.length;
       const answeredCount = activeSequence.filter((index) => answered.has(index)).length;
       const correctCount = activeSequence.filter((index) => correctAnswers.has(index)).length;
@@ -977,7 +994,8 @@ function initQuizzes() {
       const baseline = supportsBaseline && focus === "baseline";
       const effectivePassScore = isDmvQuiz ? passScore : Math.min(passScore, Math.max(activeTotal - 1, 1));
       const practiceTargetMet = !focusedDmv && correctCount >= effectivePassScore;
-      nextRoundFocus = complete && focusedDmv && !baseline && !missedCount ? "all" : "";
+      nextRoundFocus = complete && focusedDmv && !baseline && !missedCount
+        ? suspendedRound?.focus || "all" : "";
       const resultText = !activeTotal
         ? "No questions selected"
         : complete
@@ -986,7 +1004,7 @@ function initQuizzes() {
         ? `Score: ${correctCount} of ${answeredCount} answered · ${percent}% correct`
         : "Score: 0 of 0 answered";
 
-      if (answeredCount >= 10 && !tenQuestionsTracked) {
+      if (!restoring && answeredCount >= 10 && !tenQuestionsTracked) {
         tenQuestionsTracked = true;
         const milestoneParams = {
           milestone: "ten_questions_attempted",
@@ -999,7 +1017,7 @@ function initQuizzes() {
         trackToolEvent("study_ten_questions_attempted", milestoneParams);
       }
 
-      if (halfwayReached && !quizHalfwayTracked) {
+      if (!restoring && halfwayReached && !quizHalfwayTracked) {
         quizHalfwayTracked = true;
         trackToolEvent("quiz_halfway", {
           tool: quizLabel,
@@ -1012,7 +1030,7 @@ function initQuizzes() {
         });
       }
 
-      const justCompleted = complete && !quizCompletedTracked;
+      const justCompleted = !restoring && complete && !quizCompletedTracked;
       if (justCompleted) {
         quizCompletedTracked = true;
         trackToolEvent("quiz_complete", {
@@ -1052,7 +1070,7 @@ function initQuizzes() {
         .map(([category]) => category)
         .slice(0, 3);
 
-      if (isDmvQuiz && complete && (!savedRound || (!focusedDmv && !savedRound.fullRound))) {
+      if (!restoring && isDmvQuiz && complete && (!savedRound || (!focusedDmv && !savedRound.fullRound))) {
         // Keep one local record if a learner expands a finished focus set to the full round.
         const id = savedRound?.id || createLocalPracticeId();
         savedRound = { id, fullRound: !focusedDmv };
@@ -1118,7 +1136,13 @@ function initQuizzes() {
         const state = normalizeDmvState(quiz.dataset.state || readDmvJourney().state);
         const missedQuestions = missedIndexes.map(index => questions[index]);
         const imageMisses = missedQuestions.filter(questionSign);
-        if (baseline && (!activeTotal || (complete && !missedCount))) {
+        if (suspendedRound && (!complete || nextRoundFocus)) {
+          nextRoundFocus = suspendedRound.focus;
+          nextPlanTitle.textContent = "Original round on hold";
+          nextPlanCopy.textContent = "Your original answers and score are unchanged.";
+          nextPlanAction.href = roundHref(nextRoundFocus);
+          nextPlanAction.textContent = "Return to original round";
+        } else if (baseline && (!activeTotal || (complete && !missedCount))) {
           nextPlanTitle.textContent = "Continue your study path";
           nextPlanCopy.textContent = "Use your baseline to choose your next practice step.";
           nextPlanAction.href = "dmv-practice.html#dmv-journey-title";
@@ -1158,10 +1182,10 @@ function initQuizzes() {
           nextPlanCopy.textContent = "Turn the missed category into a short state-aware plan before taking another full round.";
           nextPlanAction.href = `dmv-permit-test-study-plan.html?${new URLSearchParams(state ? { state, focus: "rules" } : { focus: "rules" })}#study-plan`;
           nextPlanAction.textContent = "Build a focused plan";
-        } else if (nextRoundFocus === "all") {
+        } else if (nextRoundFocus) {
           nextPlanTitle.textContent = "Practice all questions";
           nextPlanCopy.textContent = "A clean focus set is useful, but it does not cover all of the topics in this practice round.";
-          nextPlanAction.href = roundHref();
+          nextPlanAction.href = roundHref(nextRoundFocus);
           nextPlanAction.textContent = "Start full practice round";
         } else if (state) {
           nextPlanTitle.textContent = "Move from score to test-day readiness";
@@ -1196,9 +1220,13 @@ function initQuizzes() {
       }
     };
 
-    const saveRecentPractice = () => {
+    const saveRecentPractice = (keyOverride) => {
       try {
         const selectedFocus = filterSelect?.value || "all";
+        const defaultKey = recentPracticeStorageKey(independentDmvRound(selectedFocus) ? selectedFocus : "");
+        const ownsLegacyDraft = defaultKey !== RECENT_PRACTICE_KEY && ownedDraftKey === RECENT_PRACTICE_KEY &&
+          ownedDraftSnapshot && ownedDraftSnapshot === JSON.stringify(readRecentPractice());
+        const storeKey = keyOverride || (ownsLegacyDraft ? RECENT_PRACTICE_KEY : defaultKey);
         const visiblePicks = activeSequence.filter(index => pickedAnswers.has(index));
         // A category view must not replace a full-round draft or drop answers in other categories.
         if (isDmvQuiz && pickedAnswers.size && (selectedFocus === "all" || visiblePicks.length < pickedAnswers.size)) {
@@ -1237,8 +1265,9 @@ function initQuizzes() {
           draft,
           updatedAt: Date.now(),
         });
-        window.localStorage.setItem(RECENT_PRACTICE_KEY, snapshot);
+        window.localStorage.setItem(storeKey, snapshot);
         ownedDraftSnapshot = draft ? snapshot : "";
+        ownedDraftKey = storeKey;
       } catch (error) {
         // Practice still works when browser storage is blocked.
       }
@@ -1253,9 +1282,9 @@ function initQuizzes() {
       const requested = new URLSearchParams(window.location.search);
       const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel || null;
       if (requested.get("resume") !== "1" || requested.get("mode") !== mode) return;
-      const progress = readRecentPractice();
       const focus = filterSelect?.value || "all";
-      const draft = progress?.href === roundHref(focus) ? progress.draft : null;
+      const stored = readUnfinishedPractice(roundHref(focus), recentPracticeStorageKey(focus));
+      const draft = stored?.progress.draft;
       const canUseDraft = [1, 2].includes(draft?.version) && draft.scope === roundHref() &&
         matchesRoundSignature(draft.signature, draft.version) && Array.isArray(draft.sequence) && Array.isArray(draft.picks);
       if (canUseDraft) {
@@ -1273,7 +1302,8 @@ function initQuizzes() {
             picks.set(index, button);
           }
           if (picks.size === draft.picks.length) {
-            ownedDraftSnapshot = JSON.stringify(progress);
+            ownedDraftSnapshot = JSON.stringify(stored.progress);
+            ownedDraftKey = stored.key;
             activeSequence = draft.sequence;
             if (activeSequence.length === questions.length) fullSequence = activeSequence;
             activePosition = draft.position;
@@ -1346,8 +1376,54 @@ function initQuizzes() {
       });
     };
 
+    const ordinaryIndexes = (value) => value === "all"
+      ? allQuestionIndexes()
+      : sheetFocuses.has(value)
+      ? allQuestionIndexes().filter((index) => questions[index].dataset.sheetFocus === value)
+      : allQuestionIndexes().filter((index) => (questions[index].dataset.category || "Permit basics") === value);
+
     const applyFocusFilter = (value) => {
       toolMessage = "";
+      const previous = activePracticeFocus;
+      const wasIndependent = independentDmvRound(previous);
+      const isIndependent = independentDmvRound(value);
+      activePracticeFocus = value;
+      if (isIndependent && !wasIndependent && pickedAnswers.size && pickedAnswers.size < questions.length) {
+        const clock = readRoundTimer();
+        suspendedRound = {
+          focus: previous, activeSequence, fullSequence, activePosition, picks: [...pickedAnswers], clock,
+          savedRound, ownedDraftSnapshot, ownedDraftKey, keepFullProgress, quizStartedTracked, quizHalfwayTracked,
+          quizCompletedTracked, tenQuestionsTracked,
+        };
+      }
+      if (isIndependent && value !== previous) showRoundTimer();
+      if (wasIndependent && !isIndependent) {
+        resetQuiz();
+        const round = suspendedRound;
+        suspendedRound = null;
+        showRoundTimer(round?.clock);
+        if (round) {
+          fullSequence = round.fullSequence;
+          activeSequence = value === round.focus ? round.activeSequence
+            : value === "all" ? fullSequence : ordinaryIndexes(value);
+          activePosition = Math.max(0, activeSequence.indexOf(round.activeSequence[round.activePosition]));
+          savedRound = round.savedRound;
+          ownedDraftSnapshot = round.ownedDraftSnapshot;
+          ownedDraftKey = round.ownedDraftKey;
+          keepFullProgress = round.keepFullProgress;
+          quizStartedTracked = round.quizStartedTracked;
+          quizHalfwayTracked = round.quizHalfwayTracked;
+          quizCompletedTracked = round.quizCompletedTracked;
+          tenQuestionsTracked = round.tenQuestionsTracked;
+          round.picks.forEach(([index, choice]) => {
+            showCheckedAnswer(index, questions[index].querySelector(`[data-choice="${choice}"]`));
+          });
+          toolMessage = "Original round restored.";
+          renderScore({ restoring: true });
+          renderActiveQuestion();
+          return true;
+        }
+      }
       if (value === "baseline" && supportsBaseline) {
         const mastery = readDmvMastery();
         const state = readDmvJourney().state;
@@ -1390,12 +1466,7 @@ function initQuizzes() {
         );
         return;
       }
-      const nextSequence = value === "all"
-        ? allQuestionIndexes()
-        : sheetFocuses.has(value)
-        ? allQuestionIndexes().filter((index) => questions[index].dataset.sheetFocus === value)
-        : allQuestionIndexes().filter((index) => (questions[index].dataset.category || "Permit basics") === value);
-      setActiveSequence(nextSequence);
+      setActiveSequence(ordinaryIndexes(value));
     };
 
     const applyInitialFocus = () => {
@@ -1449,6 +1520,22 @@ function initQuizzes() {
     const stopTimer = () => {
       window.clearInterval(timerId);
       timerId = 0;
+    };
+
+    const readRoundTimer = () => {
+      const remaining = timerId ? Math.max(timerDeadline - Date.now(), 0) : timerRemaining;
+      return { remaining, started: Boolean(timerDeadline), complete: remaining === 0 };
+    };
+
+    const showRoundTimer = (clock) => {
+      if (!timerButton) return;
+      stopTimer();
+      timerRemaining = clock?.remaining ?? timerLength;
+      timerDeadline = clock?.started ? Date.now() : 0;
+      timerComplete = clock?.complete ?? false;
+      timerButton.textContent = timerComplete ? "Restart timer" : timerDeadline ? "Resume timer" : "Start 10-min timer";
+      renderTimer();
+      announceTimer("");
     };
 
     const tickTimer = () => {
@@ -1517,6 +1604,7 @@ function initQuizzes() {
     if (resetButton) {
       resetButton.addEventListener("click", () => {
         const draftToDiscard = ownedDraftSnapshot;
+        const draftKey = ownedDraftKey;
         if (isDmvQuiz) shuffleChoices();
         if (supportsBaseline && filterSelect?.value === "baseline") {
           applyFocusFilter("baseline");
@@ -1524,7 +1612,7 @@ function initQuizzes() {
           resetQuiz();
         }
         // A fresh or stale tab must not discard a draft another tab last saved.
-        if (draftToDiscard && draftToDiscard === JSON.stringify(readRecentPractice())) saveRecentPractice();
+        if (draftToDiscard && draftToDiscard === JSON.stringify(readRecentPractice(draftKey))) saveRecentPractice(draftKey);
       });
     }
 
@@ -1560,8 +1648,7 @@ function initQuizzes() {
           loadMistakes();
           renderMistakes();
         }
-        applyFocusFilter(filterSelect.value);
-        saveMovedCursor();
+        if (!applyFocusFilter(filterSelect.value)) saveMovedCursor();
       });
     }
 
@@ -1602,7 +1689,7 @@ function initQuizzes() {
           event.preventDefault();
           const focus = nextRoundFocus;
           filterSelect.value = focus;
-          if (focus === "all") resetQuiz();
+          if (focus === "all" && !independentDmvRound(activePracticeFocus)) resetQuiz();
           applyFocusFilter(focus);
           focusActiveQuestion();
         }
@@ -2293,7 +2380,15 @@ function initRecentPracticeCards() {
     const title = card.querySelector("[data-recent-practice-title]");
     const meta = card.querySelector("[data-recent-practice-meta]");
     const link = card.querySelector("[data-recent-practice-link]");
-    const progress = readRecentPractice();
+    const original = readRecentPractice();
+    const hrefFocus = recentPracticeHref(original) &&
+      new URL(original.href, window.location.href).searchParams.get("focus");
+    const newest = () => [original, ...INDEPENDENT_DMV_FOCUSES.map((focus) =>
+      readRecentPractice(recentPracticeStorageKey(focus)))]
+      .filter(recentPracticeHref)
+      .sort((a, b) => (Number(b.updatedAt) || 0) - (Number(a.updatedAt) || 0))[0];
+    const progress = original?.draft && hrefFocus !== "" && !INDEPENDENT_DMV_FOCUSES.includes(hrefFocus)
+      ? original : newest();
     const href = recentPracticeHref(progress);
     if (!href) return;
 
@@ -2408,11 +2503,6 @@ function initDmvJourneyDashboards() {
       const accuracyToday = answeredToday ? Math.round((correctToday / answeredToday) * 100) : 0;
       const stateSessions = journey.sessions.filter((session) => !session.state || session.state === state);
       const recent = stateSessions[0] || null;
-      const recentPractice = readRecentPractice();
-      const draftState = normalizeDmvState(recentPractice?.state);
-      const resumeHref = recentPractice?.draft && (!draftState || draftState === "general" || draftState === state)
-        ? recentPracticeHref(recentPractice)
-        : "";
       const mastery = getDmvMasterySummary(state);
       const baselineCount = Math.min(mastery.attempted, DMV_BASELINE_SIZE);
       const baselineComplete = baselineCount === DMV_BASELINE_SIZE;
@@ -2476,11 +2566,13 @@ function initDmvJourneyDashboards() {
       }
 
       if (mastery.due && mastery.dueItem) {
+        const dueHref = mastery.dueItem.href || option.dataset.practiceUrl || "dmv-practice.html";
+        const dueDraft = readUnfinishedPractice(dueHref, recentPracticeStorageKey("due"));
         kicker.textContent = "Review queue ready";
         title.textContent = `Review ${mastery.due} due ${mastery.due === 1 ? "question" : "questions"}`;
         copy.textContent = "Retry misses now. For a question you answered correctly, return when its next check is due rather than repeating it immediately.";
-        primary.href = mastery.dueItem.href || option.dataset.practiceUrl || "dmv-practice.html";
-        primary.textContent = "Start due review";
+        primary.href = recentPracticeHref(dueDraft?.progress) || dueHref;
+        primary.textContent = dueDraft ? "Resume due review" : "Start due review";
       } else if (!mastery.attempted) {
         kicker.textContent = `Start ${stateLabel} prep today`;
         title.textContent = "Take the 10-question road-sign diagnostic";
@@ -2488,11 +2580,13 @@ function initDmvJourneyDashboards() {
         primary.href = "road-signs-practice-test.html?mode=road-signs-starter#practice";
         primary.textContent = "Start 10 questions";
       } else if (!baselineComplete) {
+        const baselineHref = "road-signs-practice-test.html?mode=road-signs-core&focus=baseline#practice";
+        const baselineDraft = readUnfinishedPractice(baselineHref, recentPracticeStorageKey("baseline"));
         kicker.textContent = "Finish the baseline";
         title.textContent = `${DMV_BASELINE_SIZE - baselineCount} new ${baselineCount === DMV_BASELINE_SIZE - 1 ? "question" : "questions"} to finish your baseline`;
         copy.textContent = "Repeating a question you have already answered does not advance the baseline.";
-        primary.href = resumeHref || "road-signs-practice-test.html?mode=road-signs-core&focus=baseline#practice";
-        primary.textContent = resumeHref ? "Resume unfinished round" : "Practice new questions";
+        primary.href = recentPracticeHref(baselineDraft?.progress) || baselineHref;
+        primary.textContent = baselineDraft ? "Resume unfinished round" : "Practice new questions";
       } else if (missedToday && weak) {
         kicker.textContent = "Best next study block";
         title.textContent = `Repair ${weak}`;

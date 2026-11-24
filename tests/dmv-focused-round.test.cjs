@@ -100,5 +100,7 @@ test("re-answering one saved mistake is focused review, not a pass", () =>
     assert.match(await round.locator("[data-quiz-result]").textContent(), /^1 of 1 correct/);
     assert.match(await round.locator("[data-quiz-next]").textContent(), /Focused review/);
     assert.equal((await completions(page)).at(-1).passed, false);
-    assert.match(await round.locator("[data-quiz-next-action]").textContent(), /Start full practice round/);
+    await round.getByRole("link", { name: "Return to original round" }).click();
+    assert.equal(await round.locator("[data-quiz-answered]").textContent(), "1 of 10 answered");
+    assert.match(await round.locator(".question.is-active .feedback").textContent(), /^Not quite\./);
   }));
