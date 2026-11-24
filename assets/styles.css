@@ -3286,6 +3286,26 @@ h3 {
     linear-gradient(180deg, #ffffff 0%, #f4f8fb 100%);
 }
 
+[data-dmv-checklist-controls][hidden],
+[data-dmv-checklist-fallback][hidden] {
+  display: none;
+}
+
+.dmv-checklist-fallback h3 {
+  margin: 0 0 8px;
+  color: var(--blue-deep);
+}
+
+.dmv-checklist-fallback li + li {
+  margin-top: 6px;
+}
+
+.dmv-checklist-fallback summary {
+  color: var(--blue-deep);
+  font-weight: 750;
+  cursor: pointer;
+}
+
 .dmv-checklist-grid {
   display: grid;
   grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1fr);

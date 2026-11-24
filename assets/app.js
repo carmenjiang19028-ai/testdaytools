@@ -3885,7 +3885,10 @@ function initDmvChecklists() {
       // Ignore storage issues and use the default state.
     }
 
+    if (!selectedOption() || !checks.length) return;
     updateState();
+    widget.querySelectorAll("[data-dmv-checklist-controls]").forEach((controls) => { controls.hidden = false; });
+    widget.querySelectorAll("[data-dmv-checklist-fallback]").forEach((fallback) => { fallback.hidden = true; });
   });
 }
 

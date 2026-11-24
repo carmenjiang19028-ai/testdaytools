@@ -2316,10 +2316,21 @@ def render_dmv_checklist_widget(widget):
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "Interactive checklist"))}</span>
     <h2>{esc(widget.get("heading", "DMV test-day readiness checklist"))}</h2>
-    <p class="section-intro">{esc(widget.get("intro", "Choose your state, check the official source, and save your readiness progress in this browser."))}</p>
+    <p class="section-intro">{esc(widget.get("intro", "Check the official state source and prepare for your visit."))}</p>
   </div>
-  <div class="dmv-checklist-grid">
-    <aside class="dmv-source-panel" id="manual-finder">
+  <div id="manual-finder">
+  <div class="dmv-checklist-fallback" data-dmv-checklist-fallback>
+    <h3>Before your permit visit</h3>
+    <ol>
+      <li>Confirm whether the appointment is for the knowledge test, permit issuance after a pass, or renewal or transfer.</li>
+      <li>Check your state's accepted identity, residence and application documents. Confirm any school, course or consent forms for your age.</li>
+      <li>If you already passed, confirm how the agency gets the official test result. A practice score is not proof of passing.</li>
+      <li>Check the location, payment and vision instructions before you leave. Ask the agency how to reschedule or retest if needed.</li>
+    </ol>
+    <p><a href="#document-pack-builder">Official permit sources by state</a></p>
+  </div>
+  <div class="dmv-checklist-grid" data-dmv-checklist-controls hidden>
+    <aside class="dmv-source-panel">
       <label>Choose state <select data-dmv-checklist-state>{options}</select></label>
       <div class="dmv-source-card">
         <span>Official source</span>
@@ -2354,6 +2365,7 @@ def render_dmv_checklist_widget(widget):
         </div>
       </div>
     </div>
+  </div>
   </div>
   {document_pack}
   {document_map}
@@ -2390,6 +2402,43 @@ def render_dmv_checklist_widget(widget):
 </section>"""
 
 
+def render_dmv_document_fallback(planner, states):
+    rows = []
+    for state in states:
+        label = state["label"]
+        permit = state.get("firstPermitSourceUrl")
+        if not permit:
+            rows.append(f'<li><strong>{esc(label)}:</strong> <a data-dmv-static-source href="{esc(state["manualUrl"])}">{esc(state["manualLabel"])}</a></li>')
+            continue
+
+        checks = []
+        for item in planner.get("items", []):
+            local = item if item.get("state") == state["value"] else item.get("stateOverrides", {}).get(state["value"])
+            if not local:
+                continue
+            scopes = local.get("scopes", ["all"])
+            if not {"first-permit", "minor", "all"}.intersection(scopes):
+                continue
+            age = "Under 18: " if scopes == ["minor"] else ""
+            checks.append(f'<li><strong>{age}{esc(local["label"])}:</strong> {esc(local["text"])}</li>')
+
+        heading = state.get("firstPermitHeading", f"{label} learner permit")
+        source_label = state.get("firstPermitSourceLabel", f"{label} permit instructions")
+        adult = state.get("adultLicenseSource")
+        adult_link = f'\n  <p><a href="{esc(adult["url"])}">{esc(adult["label"])}</a></p>' if adult else ""
+        rows.append(f"""<li><details>
+  <summary>{esc(heading)}</summary>
+  <p><a data-dmv-static-source href="{esc(permit)}">{esc(source_label)}</a></p>
+  <ul>{"".join(checks)}</ul>{adult_link}
+</details></li>""")
+
+    return f"""<div class="dmv-checklist-fallback" data-dmv-checklist-fallback>
+    <h3>Official permit sources by state</h3>
+    <p>Use your state's source to confirm the accepted documents, not another state's checklist.</p>
+    <ul>{"".join(rows)}</ul>
+  </div>"""
+
+
 def render_dmv_document_pack(planner, states):
     if not planner:
         return ""
@@ -2419,6 +2468,8 @@ def render_dmv_document_pack(planner, states):
     default_source = default_state.get("manualUrl", "#")
     default_agency = default_state.get("agency", "State agency")
     return f"""<div class="dmv-document-pack" id="document-pack-builder">
+  {render_dmv_document_fallback(planner, states)}
+  <div data-dmv-checklist-controls hidden>
   <div class="tool-section-head compact">
     <span class="eyebrow">{esc(planner.get("kicker", "Document pack"))}</span>
     <h3>{esc(planner.get("heading", "Build a DMV document pack"))}</h3>
@@ -2444,6 +2495,7 @@ def render_dmv_document_pack(planner, states):
         </div>
       </div>
     </div>
+  </div>
   </div>
 </div>"""
 

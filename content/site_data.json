@@ -5074,9 +5074,9 @@
       ],
       "toolWidget": {
         "type": "dmvTestDayChecklist",
-        "kicker": "Interactive checklist",
+        "kicker": "Permit visit checklist",
         "heading": "DMV test-day checklist: what to bring and what to verify",
-        "intro": "Choose your state, check the official source, then mark the practical items that reduce test-day surprises: documents, ID, appointment, fees, practice score, signs, mistakes, and logistics. Progress is saved only in this browser.",
+        "intro": "Confirm the accepted documents, appointment, fees and vision requirements for your state before test day. A practice score cannot replace the official test result.",
         "states": [
           {
             "label": "California",
@@ -5116,6 +5116,12 @@
             "realIdUrl": "https://www.dps.texas.gov/apps/DriverLicense/RealID",
             "firstPermitSourceUrl": "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen",
             "firstPermitDetail": "The Texas teen learner license is for ages 15-17. If you are 18 or older, see the DPS original driver license instructions under Sources.",
+            "firstPermitHeading": "Texas learner license, ages 15-17",
+            "firstPermitSourceLabel": "Texas teen permit instructions",
+            "adultLicenseSource": {
+              "label": "Texas original driver license, 18 or older",
+              "url": "https://www.dps.texas.gov/section/driver-license/apply-texas-driver-license"
+            },
             "permitUrl": "texas-dmv-permit-practice-test.html",
             "signUrl": "texas-dmv-road-signs-practice.html",
             "format": "Use Texas DPS sources for the current knowledge-exam format and testing details.",

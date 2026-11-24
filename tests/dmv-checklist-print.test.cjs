@@ -43,8 +43,8 @@ print(json.dumps([{
   }
 }
 
-async function localContext(width) {
-  const context = await browser.newContext({ viewport: { width, height: 850 } });
+async function localContext(width, options = {}) {
+  const context = await browser.newContext({ viewport: { width, height: 850 }, ...options });
   await context.route(/^https?:/, route => route.abort());
   await context.route(origin + "/**", route => route.fulfill({
     path: path.join(root, new URL(route.request().url()).pathname.slice(1)),
@@ -109,6 +109,50 @@ for (const [width, state, label, applicant, hasConsent, source] of [
       if (process.env.CHECKLIST_PRINT_DIR) {
         fs.mkdirSync(process.env.CHECKLIST_PRINT_DIR, { recursive: true });
         fs.writeFileSync(path.join(process.env.CHECKLIST_PRINT_DIR, `${state}-${width}.pdf`), bytes);
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const [width, skipScripts] of [[320, true], [1280, false]]) {
+  test(`${width}px: checklist has usable state sources when ${skipScripts ? "JavaScript is off" : "its script is blocked"}`, async () => {
+    const context = await localContext(width, { javaScriptEnabled: !skipScripts });
+    try {
+      const page = await context.newPage();
+      if (!skipScripts) await page.route("**/assets/app.js*", route => route.abort());
+      await page.goto(`${origin}/dmv-test-day-checklist.html?state=texas#document-pack-builder`);
+      const widget = page.locator("#dmv-checklist");
+      const pack = widget.locator("#document-pack-builder");
+      assert.equal(await widget.locator("[data-dmv-checklist-state]").isVisible(), false);
+      assert.equal(await widget.locator("[data-dmv-copy-checklist]").isVisible(), false);
+      assert.equal(await widget.locator("[data-dmv-print-checklist]").isVisible(), false);
+      assert.equal(await pack.locator("[data-dmv-pack-type]").isVisible(), false);
+      assert.equal(await pack.locator("[data-dmv-copy-pack]").isVisible(), false);
+      const manual = widget.locator("#manual-finder [data-dmv-checklist-fallback]");
+      assert.equal(await manual.isVisible(), true);
+      assert.match(await manual.innerText(), /official test result.*practice score is not proof/is);
+      const sources = pack.locator("[data-dmv-checklist-fallback]");
+      assert.equal(await sources.isVisible(), true);
+      assert.equal(await sources.locator("a[data-dmv-static-source]").count(), 7);
+      const texas = sources.getByText("Texas learner license, ages 15-17", { exact: true });
+      await texas.press("Space");
+      const tx = texas.locator("xpath=..");
+      assert.match(await tx.innerText(), /6 hours.*24 hours.*DEE-964/s);
+      assert.match(await tx.innerText(), /90 days if issued June through August/);
+      assert.equal(await tx.getByRole("link", { name: "Texas teen permit instructions", exact: true }).getAttribute("href"), TX_LEARNER_SOURCE);
+      assert.equal(await tx.getByRole("link", { name: "Texas original driver license, 18 or older" }).getAttribute("href"),
+        "https://www.dps.texas.gov/section/driver-license/apply-texas-driver-license");
+      const pa = sources.getByText("Pennsylvania learner permit", { exact: true });
+      await pa.press("Enter");
+      const penn = pa.locator("xpath=..");
+      assert.match(await penn.innerText(), /DL-180 physical exam.*one year/s);
+      assert.match(await penn.innerText(), /Under 18: DL-180TD/);
+      assert.equal(await penn.getByRole("link", { name: "Pennsylvania permit instructions", exact: true }).getAttribute("href"), PA_PERMIT_SOURCE);
+      const dest = await pack.boundingBox();
+      assert.ok(dest.width <= width);
+      if (process.env.CHECKLIST_PRINT_DIR) {
+        await texas.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: path.join(process.env.CHECKLIST_PRINT_DIR, `checklist-fallback-${width}.png`) });
       }
     } finally { await context.close(); }
   });
@@ -264,6 +308,7 @@ for (const width of [320, 1280]) {
       const pack = page.locator("#document-pack-builder");
       const type = pack.locator("[data-dmv-pack-type]");
       const state = page.locator("[data-dmv-checklist-state]");
+      assert.equal(await page.locator("[data-dmv-checklist-fallback]:visible").count(), 0);
       const check = id => pack.locator(`input[value="${id}"]`);
       const text = id => check(id).locator("xpath=..").innerText();
       const source = pack.locator("[data-dmv-pack-official]");
