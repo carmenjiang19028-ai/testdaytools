@@ -13,10 +13,12 @@ const cases = {
   "pennsylvania-dmv": [
     [22, /stopped at a red light/, /stopping where you can safely remain/, /still counts as driving/, "www.pa.gov"],
     [24, /double yellow line/, /at least four feet/, /permits crossing/, "www.pa.gov"],
+    [35, /17 inches from the right curb/, /right wheels within 12 inches/, /17 inches close enough/, "www.pa.gov"],
     [38, /November 2026/, /^10 feet$/, /15 feet on October 22, 2027/, "www.pa.gov"],
   ],
   "new-jersey-mvc": [
     [19, /posted at 20 mph/, /no more than 20 mph/, /25 mph or the lower posted limit/, "pub.njleg.state.nj.us"],
+    [30, /to a fire hydrant/, /^12 feet$/, /within 10 feet/, "www.nj.gov"],
     [33, /raised median/, /10 mph until completely past/, /at least 25 feet away/, "www.nj.gov"],
     [36, /disabled car on the shoulder/, /below the posted limit/, /stationary vehicles displaying flashing or blinking lights.*ready to stop/, "pub.njleg.state.nj.us"],
   ],
@@ -253,7 +255,7 @@ for (const width of [390, 1280]) {
         const quiz = page.locator("[data-mode-panel=mock].is-active [data-quiz]");
         assert.equal(await quiz.getAttribute("data-pass-score"), "32");
         assert.equal(await quiz.locator(".question").count(), 40);
-        assert.equal(await quiz.locator("[data-quiz-source]").count(), state === "pennsylvania-dmv" ? 6 : 5);
+        assert.equal(await quiz.locator("[data-quiz-source]").count(), state === "pennsylvania-dmv" ? 7 : state === "new-jersey-mvc" ? 6 : 5);
         for (const [question, prompt, answer, explanation, sourceHost] of questions) {
           await quiz.getByRole("button", { name: `Go to question ${question}`, exact: true }).click();
           const active = quiz.locator(".question.is-active");

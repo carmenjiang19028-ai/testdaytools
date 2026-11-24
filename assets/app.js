@@ -249,6 +249,16 @@ const RETIRED_DMV_ITEMS = [
       "Ignore the sign when the center line is visible",
     ],
   },
+  ...[
+    ["florida-dmv", "florida", "quick", "On a highway outside a Florida municipality, you need to check directions. Your car works normally and a legal pull-off is available. Where should you stop?"],
+    ["pennsylvania-dmv", "pennsylvania", "mock", "You parallel park facing the same way as traffic on a two-way Pennsylvania street. The space allows parking, but your right wheels are 17 inches from the right curb. What should you change?"],
+    ["new-jersey-mvc", "new-jersey", "mock", "You are choosing a parallel parking space in New Jersey. Measuring from the closest point of your car to a fire hydrant, which distance meets the hydrant rule if the space is otherwise legal?"],
+  ].map(([slug, state, mode, replacementPrompt]) => ({
+    page: `${slug}-permit-practice-test.html`, state, mode, replacementPrompt, name: "red curb",
+    prompt: "What does a red curb usually mean?", answer: 2,
+    category: "Parking signs", replacementCategory: "Parking", legacyFocus: true,
+    choices: ["Loading zone for passengers only", "Parking allowed for a short time", "No stopping, standing, or parking"],
+  })),
 ];
 const retiredDmvMasteryIds = new Set(RETIRED_DMV_ITEMS.map(item =>
   `${item.state || "general"}|${masteryToken(item.prompt)}|${masteryToken(item.choices[item.answer])}`));

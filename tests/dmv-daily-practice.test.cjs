@@ -109,12 +109,12 @@ for (const width of [390, 1280]) {
 
   test(`${width}px: the three sourced decks rotate without erasing feedback and reach the exact practice topic`, () =>
     withSite(width, async page => {
-      for (const state of ["florida", "pennsylvania", "new-jersey"]) {
+      for (const [state, total] of [["florida", 5], ["pennsylvania", 6], ["new-jersey", 6]]) {
         await page.goto(daily + "?state=" + state);
         const question = current(page);
         const prompts = new Set();
         let focusedCase;
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < total; i++) {
           const prompt = await question.locator("h3").textContent();
           prompts.add(prompt);
           if (await question.locator("[data-daily-source]").count()) {
@@ -131,14 +131,17 @@ for (const width of [390, 1280]) {
             assert.equal(await source.isVisible(), true);
             await feedback.press("Tab");
             assert.equal(await source.evaluate(link => link === document.activeElement), true);
-            focusedCase = { prompt, target };
+            if (!focusedCase || target.searchParams.get("focus") === "Parking") {
+              focusedCase = { prompt, target, correct, source: await source.getAttribute("href") };
+            }
           }
           await next(page);
         }
-        assert.equal(prompts.size, 5);
-        assert.match(await page.locator("[data-daily-note]").textContent(), /Prompt 1 of 5/);
+        assert.equal(prompts.size, total);
+        assert.equal(await page.locator("[data-daily-note]").textContent(), `Prompt 1 of ${total}`);
         assert.ok(focusedCase);
-        for (let i = 0; i < 5 && await question.locator("h3").textContent() !== focusedCase.prompt; i++) await next(page);
+        if (state !== "florida") assert.equal(focusedCase.target.searchParams.get("focus"), "Parking");
+        for (let i = 0; i < total && await question.locator("h3").textContent() !== focusedCase.prompt; i++) await next(page);
         assert.equal(await question.locator("h3").textContent(), focusedCase.prompt);
         assert.match(await question.locator("[data-daily-feedback]").textContent(), /^Not quite\./);
         assert.equal(await question.locator("[data-daily-choice]:enabled").count(), 0);
@@ -146,7 +149,10 @@ for (const width of [390, 1280]) {
         await question.locator("[data-daily-practice]").click();
         const quiz = page.locator("[data-mode-panel=mock].is-active [data-quiz]");
         assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), focusedCase.target.searchParams.get("focus"));
-        assert.equal(await quiz.locator(".question h3").filter({ hasText: focusedCase.prompt }).count(), 1);
+        const same = quiz.locator(".question").filter({ has: page.locator("h3").filter({ hasText: focusedCase.prompt }) });
+        assert.equal(await same.count(), 1);
+        assert.equal(await same.getAttribute("data-answer"), focusedCase.correct);
+        assert.equal(await same.locator("[data-quiz-source] a").getAttribute("href"), focusedCase.source);
       }
     }));
 }
@@ -155,7 +161,7 @@ test("the daily New Jersey Move Over item uses the same current source and answe
   withSite(390, async page => {
     await page.goto(daily + "?state=new-jersey");
     const card = current(page);
-    for (let i = 0; i < 5 && await card.getAttribute("data-category") !== "Move Over"; i++) await next(page);
+    for (let i = 0; i < 6 && await card.getAttribute("data-category") !== "Move Over"; i++) await next(page);
     assert.equal(await card.getAttribute("data-category"), "Move Over");
     const label = "Reduce to a safe speed below the posted limit and be ready to stop";
     await card.getByRole("button", { name: label, exact: true }).press("Enter");
@@ -178,7 +184,7 @@ test("national visitors get only common signs and the daily prompt changes at lo
     await page.clock.setFixedTime(new Date("2026-11-21T07:59:00Z"));
     await page.goto(daily);
     assert.equal(await stateSelect(page).inputValue(), "all");
-    assert.equal(await page.locator("[data-daily-card]").count(), 29);
+    assert.equal(await page.locator("[data-daily-card]").count(), 31);
     const prompts = new Set();
     for (let i = 0; i < 4; i++) {
       assert.equal(await current(page).getAttribute("data-state"), "all");

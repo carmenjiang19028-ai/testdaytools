@@ -18718,15 +18718,19 @@
         }
       },
       {
-        "q": "What does a red curb usually mean?",
+        "q": "On a highway outside a Florida municipality, you need to check directions. Your car works normally and a legal pull-off is available. Where should you stop?",
         "choices": [
-          "Loading zone for passengers only",
-          "Parking allowed for a short time",
-          "No stopping, standing, or parking"
+          "Partway into the travel lane so other drivers can see you",
+          "On the traveled part of the highway while you stay in the car",
+          "In the pull-off, fully clear of the traveled roadway"
         ],
         "answer": 2,
-        "category": "Parking signs",
-        "explanation": "Red curb markings usually identify a no stopping, standing, or parking area. Confirm exact wording in the Official Florida Driver License Handbook."
+        "category": "Parking",
+        "explanation": "Outside a municipality, Florida requires you to get off the traveled part of the highway when it is practical to do so. Staying in the vehicle does not make stopping in the travel lane acceptable here.",
+        "source": {
+          "label": "Florida Statutes section 316.194(1)",
+          "url": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0300-0399/0316/Sections/0316.194.html"
+        }
       },
       {
         "q": "If your vehicle begins to hydroplane, what should you do first?",
@@ -21369,15 +21373,19 @@
         }
       },
       {
-        "q": "What does a red curb usually mean?",
+        "q": "You parallel park facing the same way as traffic on a two-way Pennsylvania street. The space allows parking, but your right wheels are 17 inches from the right curb. What should you change?",
         "choices": [
-          "Loading zone for passengers only",
-          "Parking allowed for a short time",
-          "No stopping, standing, or parking"
+          "Bring both right wheels within 12 inches of the curb while staying parallel",
+          "Leave the car where it is because 17 inches is close enough",
+          "Turn the car around so the left wheels sit next to the curb"
         ],
-        "answer": 2,
-        "category": "Parking signs",
-        "explanation": "Red curb markings usually identify a no stopping, standing, or parking area. Confirm exact wording in the Pennsylvania Driver's Manual."
+        "answer": 0,
+        "category": "Parking",
+        "explanation": "On a two-way street with an ordinary parallel space, keep the right wheels within 12 inches of the right curb. Facing the right way does not make 17 inches close enough.",
+        "source": {
+          "label": "PennDOT Driver's Manual: Parking",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/everyday-driving-skills/parking"
+        }
       },
       {
         "q": "If your vehicle begins to hydroplane, what should you do first?",
@@ -22220,15 +22228,19 @@
         }
       },
       {
-        "q": "What does a red curb usually mean?",
+        "q": "You are choosing a parallel parking space in New Jersey. Measuring from the closest point of your car to a fire hydrant, which distance meets the hydrant rule if the space is otherwise legal?",
         "choices": [
-          "Loading zone for passengers only",
-          "Parking allowed for a short time",
-          "No stopping, standing, or parking"
+          "4 feet",
+          "12 feet",
+          "8 feet"
         ],
-        "answer": 2,
-        "category": "Parking signs",
-        "explanation": "Red curb markings usually identify a no stopping, standing, or parking area. Confirm exact wording in the New Jersey Driver Manual."
+        "answer": 1,
+        "category": "Parking",
+        "explanation": "New Jersey prohibits parking within 10 feet of a fire hydrant. Of the choices, only 12 feet clears that restriction. Still check for posted rules and other reasons the space might be closed.",
+        "source": {
+          "label": "New Jersey MVC Driver Manual, Chapter 4, p. 85",
+          "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf"
+        }
       },
       {
         "q": "If your vehicle begins to hydroplane, what should you do first?",

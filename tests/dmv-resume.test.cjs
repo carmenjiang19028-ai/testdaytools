@@ -306,6 +306,63 @@ test("a retired strategy item no longer leaves a stale due count or review quest
     assert.deepEqual(await read(page, masteryKey), oldMastery);
   }));
 
+const retiredRedCurb = [
+  "What does a red curb usually mean?", "2", "Old red curb explanation", "Parking signs", null, null,
+  "Loading zone for passengers only", "Parking allowed for a short time", "No stopping, standing, or parking",
+];
+
+for (const [slug, state, mode, index, total, pass, topic, explanation, source] of [
+  ["florida-dmv", "florida", "quick", 4, 15, 12, /outside a Florida municipality/, /off the traveled part/, /Florida Statutes/],
+  ["pennsylvania-dmv", "pennsylvania", "mock", 34, 40, 32, /17 inches from the right curb/, /within 12 inches/, /PennDOT/],
+  ["new-jersey-mvc", "new-jersey", "mock", 29, 40, 32, /closest point of your car to a fire hydrant/, /within 10 feet/, /New Jersey MVC/],
+]) {
+  test(`${state} ${mode}: replaces the generic curb item without losing other saved answers`, () =>
+    withSite(mode === "quick" ? 390 : 1280, async page => {
+      const url = `${origin}/${slug}-permit-practice-test.html?mode=${mode}`;
+      const quiz = active(page);
+      await page.goto(url + "#practice");
+      const replacement = quiz.locator(`[data-question-index="${index}"]`);
+      assert.match(await replacement.locator("h3").textContent(), topic);
+      assert.equal(await quiz.locator("[data-question-index]").count(), total);
+      assert.equal(await quiz.getAttribute("data-pass-score"), String(pass));
+      await quiz.locator('[data-quiz-jump="0"]').click();
+      await answer(quiz, true);
+      const saved = await read(page, recentKey);
+      const rows = JSON.parse(saved.draft.signature);
+      rows[index] = retiredRedCurb;
+      saved.draft.signature = JSON.stringify(rows);
+      saved.draft.picks.push([index, 2]);
+      saved.draft.position = saved.draft.sequence.indexOf(index);
+      saved.answered = 2;
+      saved.correct = 2;
+      await page.evaluate(({ recentKey, saved }) => localStorage.setItem(recentKey, JSON.stringify(saved)), { recentKey, saved });
+      const mastery = await read(page, masteryKey);
+      await page.goto(url + "&resume=1#practice");
+      assert.equal(await progress(quiz), `1 of ${total} answered`);
+      assert.equal(await cursor(quiz), String(index));
+      assert.equal(await quiz.locator('[data-question-index="0"] [data-choice]:disabled').count(), 3);
+      assert.equal(await replacement.locator("[data-choice]:enabled").count(), 3);
+      assert.deepEqual(await read(page, recentKey), saved);
+      assert.deepEqual(await read(page, masteryKey), mastery);
+      assert.deepEqual(await milestones(page), []);
+      await answer(quiz, true);
+      assert.match(await replacement.locator(".feedback").innerText(), /^Correct\./);
+      assert.match(await replacement.locator(".feedback").innerText(), explanation);
+      assert.equal(await replacement.getByRole("link", { name: source }).isVisible(), true);
+      assert.equal(await progress(quiz), `2 of ${total} answered`);
+
+      await page.goto(url + "&focus=Parking+signs#practice");
+      assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "Parking");
+      const jumps = await quiz.locator("[data-quiz-jump]").all();
+      const focusedIndexes = [];
+      for (const jump of jumps) {
+        await jump.click();
+        focusedIndexes.push(await cursor(quiz));
+      }
+      assert.ok(focusedIndexes.includes(String(index)));
+    }));
+}
+
 for (const width of [390, 1280]) {
   test(`${width}px: three retired picture answers do not discard the rest of the saved round`, () =>
     withSite(width, async page => {
