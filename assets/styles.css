@@ -1322,6 +1322,7 @@ h3 {
 
 [data-requirements-practice][hidden],
 [data-study-practice][hidden],
+[data-study-score][hidden],
 [data-dmv-permit-link][hidden] {
   display: none;
 }
@@ -2589,9 +2590,13 @@ h3 {
   box-shadow: var(--shadow-soft);
 }
 
-.mistake-log-form {
+.mistake-log-form,
+.mistake-log-form > [data-dmv-state-details]:not([hidden]) {
   display: grid;
   gap: 12px;
+}
+
+.mistake-log-form {
   padding: 16px;
 }
 

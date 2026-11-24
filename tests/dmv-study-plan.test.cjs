@@ -206,17 +206,87 @@ test("a reported rule miss leads to the right state and assignment", () =>
     assert.match(await rows(page).nth(1).textContent(), /missed rule/);
   }));
 
-test("invalid plan preferences neither replace defaults nor appear in a return link", () =>
-  openPlan(390, "?state=not-a-state&days=400&focus=not-a-topic#study-plan", async page => {
-    assert.equal(await page.locator("[data-study-state]").inputValue(), "florida");
+test("unlisted state leaves the plan and log blank until a listed state is chosen", () =>
+  openPlan(390, "?state=colorado&days=400&focus=not-a-topic#study-plan", async page => {
+    assert.equal(await page.locator("[data-study-state]").inputValue(), "");
+    assert.equal(await page.locator("[data-study-rule]").isVisible(), false);
+    assert.equal(await page.locator("[data-study-plan-list]").isVisible(), false);
+    assert.equal(await page.getByRole("link", { name: "Browse state permit guides" }).getAttribute("href"), "dmv-practice.html#state-paths");
     assert.equal(await page.locator("[data-study-days]").inputValue(), "7");
     assert.equal(await page.locator("[data-study-weak]").inputValue(), "mixed");
     await page.goto(pathToFileURL(path.resolve(__dirname, "../dmv-permit-test-mistake-log.html")).href +
-      "?state=not-a-state&days=400&focus=not-a-topic#mistake-log");
-    assert.equal(await page.locator("[data-mistake-state]").inputValue(), "florida");
+      "?state=colorado&days=400&focus=not-a-topic#mistake-log");
+    assert.equal(await page.locator("[data-mistake-state]").inputValue(), "");
+    assert.equal(await page.locator("[data-mistake-rule]").isVisible(), false);
+    const save = page.getByRole("button", { name: "Save mistake", includeHidden: true });
+    assert.equal(await save.isVisible(), false);
+    await page.locator("[data-mistake-state]").selectOption("florida");
+    assert.equal(await save.isVisible(), true);
     assert.equal(await page.locator("[data-mistake-plan]").getAttribute("href"),
       "dmv-permit-test-study-plan.html?state=florida#study-plan");
   }));
+
+for (const width of [390, 1280]) {
+  test(`${width}px: all six guide-only states keep their own steps, official source and practice limits`, () =>
+    openPlan(width, "?state=florida", async page => {
+      const states = [
+        ["georgia", /15 correct out of 20 on each part/, /dds\.georgia\.gov/, /learners-permit$/],
+        ["north-carolina", /80%/, /oah\.state\.nc\.us/, /#north-carolina-first-permit$/],
+        ["ohio", /30 correct out of 40/, /bmv\.ohio\.gov/, /dl-identity-documents\.aspx$/],
+        ["virginia", /sign/i, /dmv\.virginia\.gov/, /learners\/apply$/],
+        ["arizona", /24 correct out of 30/, /azdot\.gov/, /#arizona-permit-path$/],
+        ["michigan", /applicant path/, /michigan\.gov\/sos/, /#michigan-test-path$/],
+      ];
+      const origin = "http://testdaytools.test";
+      await page.route(origin + "/**", route => {
+        const file = new URL(route.request().url()).pathname.slice(1);
+        return route.fulfill({ path: path.resolve(__dirname, "..", file) });
+      });
+      const log = origin + "/dmv-permit-test-mistake-log.html";
+      const planner = origin + "/dmv-permit-test-study-plan.html";
+      for (const [state, rule, source, steps] of states) {
+        await page.goto(planner + "?state=florida&days=14&focus=documents");
+        await page.evaluate(() => localStorage.setItem("tdt-dmv-test-day:last-state", "new-york"));
+        await page.locator("[data-study-state]").selectOption(state);
+        assert.match(await page.locator("[data-study-rule]").innerText(), rule);
+        assert.match(await page.locator("[data-study-source]").getAttribute("href"), source);
+        assert.equal(await page.locator("[data-study-practice]").isVisible(), false);
+        assert.equal(await score(page).isVisible(), state !== "michigan");
+        assert.match(await rows(page).nth(1).getByRole("link", { name: "Open permit steps" }).getAttribute("href"), steps);
+        assert.match(await rows(page).last().getByRole("link", { name: "Open permit steps" }).getAttribute("href"), steps);
+        const material = rows(page).getByRole("link", { name: "Find the official study material" });
+        const guideUrl = await material.getAttribute("href");
+        assert.match(guideUrl, new RegExp(`^${state}-.+#sources$`));
+        assert.equal(await page.locator("[data-study-checkpoint]").innerText(), "Day 14: permit steps");
+        assert.equal(await page.evaluate(() => localStorage.getItem("tdt-dmv-test-day:last-state")), "new-york");
+        await page.goto(planner);
+        assert.equal(await page.locator("[data-study-state]").inputValue(), state);
+        await page.goto(log);
+        assert.equal(await page.locator("[data-mistake-state]").inputValue(), state);
+        await page.goto(log + `?state=${state}&days=14&focus=documents#mistake-log`);
+        assert.equal(await page.locator("[data-mistake-state]").inputValue(), state);
+        assert.match(await page.locator("[data-mistake-rule]").innerText(), rule);
+        assert.match(await page.locator("[data-mistake-source]").getAttribute("href"), source);
+        assert.equal(await page.locator("[data-mistake-checklist]").innerText(), "Permit steps");
+        assert.match(await page.locator("[data-mistake-checklist]").getAttribute("href"), steps);
+        const note = `Synthetic ${state} permit note`;
+        await page.locator("[data-mistake-topic]").selectOption(state === "michigan" ? "score" : "documents-appointment");
+        await page.locator("[data-mistake-prompt]").fill(note);
+        await page.getByRole("button", { name: "Save mistake" }).click();
+        const row = page.locator("[data-mistake-list] article").filter({ hasText: note });
+        assert.match(await row.getByRole("link").getAttribute("href"), steps);
+        await page.locator("[data-mistake-plan]").click();
+        await page.waitForURL(new RegExp(`state=${state}&days=14&focus=documents#study-plan$`));
+        await page.waitForFunction(value => document.querySelector("[data-study-state]")?.value === value, state);
+        assert.equal(await page.locator("[data-study-state]").inputValue(), state);
+        assert.equal(await page.locator("[data-study-days]").inputValue(), "14");
+        assert.equal(await page.locator("[data-study-weak]").inputValue(), "documents");
+        assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+        await page.goto(new URL(guideUrl, planner).href);
+        assert.equal(await page.locator("#sources").count(), 1);
+      }
+    }));
+}
 
 test("the example plan uses the same baseline and repeat links without JavaScript", async () => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 900 } });

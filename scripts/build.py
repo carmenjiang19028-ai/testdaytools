@@ -5138,10 +5138,39 @@ def render_dmv_daily_question_page():
     )
 
 
+def dmv_study_records():
+    scores = {item["value"]: item for item in dmv_score_records(include_supplemental=True)}
+    records = []
+    for route in dmv_workbench_routes():
+        state = route["state"]
+        score = scores.get(state, {})
+        records.append({
+            **score,
+            "value": state,
+            "label": route["label"],
+            "agency": route["agency"],
+            "rule": score.get("rule") or "Check the requirements for your applicant path.",
+            "manualUrl": score.get("manualUrl") or route["source-url"],
+            "manualLabel": score.get("manualLabel") or f'{route["agency"]} driver manual',
+            "mixedPracticeUrl": score.get("mixedPracticeUrl") or "",
+            "signUrl": score.get("signUrl") or route["state-sign-url"],
+            "permitUrl": score.get("permitUrl") or route["practice-url"],
+            "studySourcesUrl": f'{route["practice-url"]}#sources' if route["checklist-available"] == "false" else "",
+            "checklistUrl": route["checklist-url"],
+            "checklistAvailable": route["checklist-available"],
+            "checklistLabel": route["checklist-label"],
+            "scoreUrl": f"{DMV_SCORE_SLUG}.html?state={state}#score-calculator" if score else "",
+        })
+    return records
+
+
+DMV_STUDY_STATE_PLACEHOLDER = '<option value="" disabled hidden>Choose a listed state</option>'
+
+
 def render_dmv_mistake_log_page():
-    records = dmv_score_records()
+    records = dmv_study_records()
     default = next((item for item in records if item["value"] == "florida"), records[0] if records else {})
-    options = []
+    options = [DMV_STUDY_STATE_PLACEHOLDER]
     for item in records:
         mixed = item["mixedPracticeUrl"]
         permit = find_dmv_permit_tool_for_state(item) if mixed else None
@@ -5153,9 +5182,11 @@ def render_dmv_mistake_log_page():
         options.append(
             f'<option value="{esc(item["value"])}" data-state-label="{esc(item["label"])}" '
             f'data-source-url="{esc(item["manualUrl"])}" data-right-of-way-case="{esc(local_case)}" '
+            f'data-study-sources-url="{esc(item["studySourcesUrl"])}" '
             f'data-practice-url="{esc(item["permitUrl"])}" data-mixed-url="{esc(mixed)}" '
             f'data-right-of-way-url="{esc(right_of_way)}" data-score-url="{esc(item["scoreUrl"])}" '
             f'data-signs-url="{esc(item["signUrl"])}" data-checklist-url="{esc(item["checklistUrl"])}" '
+            f'data-checklist-label="{esc(item["checklistLabel"])}" data-checklist-available="{esc(item["checklistAvailable"])}" '
             f'data-rule="{esc(item["rule"])}" {"selected" if item["value"] == default.get("value") else ""}>{esc(item["label"])}</option>'
         )
     sign_drills = {
@@ -5216,16 +5247,19 @@ def render_dmv_mistake_log_page():
   <div class="mistake-log-grid">
     <form class="mistake-log-form" data-mistake-form>
       <label>State <select data-mistake-state>{''.join(options)}</select></label>
-      <label>Weak area <select data-mistake-topic>{topics}</select></label>
-      <label>Missed question or cue <input type="text" data-mistake-prompt placeholder="Example: Wrong Way sign, one-way arrow, advisory speed, permit appointment..."></label>
-      <label>Correct rule or fix <textarea data-mistake-fix rows="4" placeholder="Write the rule, sign meaning, or habit to remember next time."></textarea></label>
-      <div class="mistake-log-buttons">
-        <button type="submit">Save mistake</button>
-        <button type="button" data-mistake-copy>Copy review plan</button>
+      {render_dmv_comparison_alternative(records)}
+      <div data-dmv-state-details>
+        <label>Weak area <select data-mistake-topic>{topics}</select></label>
+        <label>Missed question or cue <input type="text" data-mistake-prompt placeholder="Example: Wrong Way sign, one-way arrow, advisory speed, permit appointment..."></label>
+        <label>Correct rule or fix <textarea data-mistake-fix rows="4" placeholder="Write the rule, sign meaning, or habit to remember next time."></textarea></label>
+        <div class="mistake-log-buttons">
+          <button type="submit">Save mistake</button>
+          <button type="button" data-mistake-copy>Copy review plan</button>
+        </div>
+        <p data-mistake-save-status role="status" hidden>Browser storage is unavailable. Copy your review plan before leaving this page.</p>
       </div>
-      <p data-mistake-save-status role="status" hidden>Browser storage is unavailable. Copy your review plan before leaving this page.</p>
     </form>
-    <aside class="mistake-log-summary">
+    <aside class="mistake-log-summary" data-dmv-state-details>
       <article><span data-mistake-total-label>Total saved</span><strong data-mistake-total>0</strong><p>Keep the list short and current.</p></article>
       <article><span data-mistake-top-label>Top {esc(default.get("label", "Florida"))} weak area</span><strong data-mistake-top-topic>None yet</strong><p data-mistake-next>Save a mistake to get a next action.</p></article>
       <article><span>Selected state</span><strong data-mistake-state-label>{esc(default.get("label", "Florida"))}</strong><p data-mistake-rule>{esc(default.get("rule", "Confirm with official source"))}</p></article>
@@ -5304,7 +5338,7 @@ def render_dmv_mistake_log_page():
 
 
 def render_dmv_study_plan_page():
-    records = dmv_score_records()
+    records = dmv_study_records()
     if not records:
         return page_shell(
             DMV_STUDY_PLAN_PAGE["title"],
@@ -5315,22 +5349,21 @@ def render_dmv_study_plan_page():
         )
     default = next((item for item in records if item["value"] == "florida"), records[0])
     baseline_href = "road-signs-practice-test.html?mode=road-signs-starter#practice"
-    def score_href(item):
-        return f'{DMV_SCORE_SLUG}.html?state={item["value"]}#score-calculator'
-
-    options = "".join(
+    options = DMV_STUDY_STATE_PLACEHOLDER + "".join(
         f'<option value="{esc(item["value"])}" '
         f'data-state="{esc(item["label"])}" '
         f'data-agency="{esc(item["agency"])}" '
         f'data-rule="{esc(item["rule"])}" '
-        f'data-sign-total="{esc(item["sectionQuestions"])}" '
-        f'data-sign-correct="{esc(item["sectionCorrect"])}" '
-        f'data-sign-included="{str(item["sectionIncluded"]).lower()}" '
+        f'data-sign-total="{esc(item.get("sectionQuestions", ""))}" '
+        f'data-sign-correct="{esc(item.get("sectionCorrect", ""))}" '
+        f'data-sign-included="{str(item.get("sectionIncluded", False)).lower()}" '
         f'data-source-url="{esc(item["manualUrl"])}" '
+        f'data-study-sources-url="{esc(item["studySourcesUrl"])}" '
         f'data-mixed-practice-url="{esc(item["mixedPracticeUrl"])}" '
         f'data-signs-url="{esc(item["signUrl"])}" '
         f'data-checklist-url="{esc(item["checklistUrl"])}" '
-        f'data-score-url="{esc(score_href(item))}" '
+        f'data-checklist-label="{esc(item["checklistLabel"])}" data-checklist-available="{esc(item["checklistAvailable"])}" '
+        f'data-score-url="{esc(item["scoreUrl"])}" '
         f'{"selected" if item["value"] == default["value"] else ""}>{esc(item["label"])}</option>'
         for item in records
     )
@@ -5344,7 +5377,7 @@ def render_dmv_study_plan_page():
   <td>{esc(item["rule"])}</td>
   <td>{f'<a href="{esc(item["mixedPracticeUrl"])}">Open mixed set</a>' if item["mixedPracticeUrl"] else 'Not offered here'}</td>
   <td><a href="{esc(item["signUrl"])}">Signs</a></td>
-  <td><a href="{esc(item["checklistUrl"])}">Checklist</a></td>
+  <td><a href="{esc(item["checklistUrl"])}">{esc(item["checklistLabel"])}</a></td>
 </tr>"""
         for item in records
     )
@@ -5366,7 +5399,7 @@ def render_dmv_study_plan_page():
   <div>
     <p class="eyebrow">DMV study plan builder</p>
     <h1>DMV permit test study plan by state.</h1>
-    <p class="lede">Choose your state, days left, and weakest area to build a practical DMV permit-test plan with official-source, practice, road-sign, score, and checklist links.</p>
+    <p class="lede">Choose your state, days left, and weakest area to build a DMV permit-test plan. Use your state's official sources and permit steps alongside the practice available here.</p>
     {render_last_updated(DMV_STUDY_PLAN_PAGE["lastUpdated"])}
     <div class="hero-actions">
       <a href="#study-plan">Build plan</a>
@@ -5406,23 +5439,24 @@ def render_dmv_study_plan_page():
       <option value="documents">Documents and test-day logistics</option>
     </select></label>
   </div>
-  <div class="study-plan-summary">
+  {render_dmv_comparison_alternative(records)}
+  <div class="study-plan-summary" data-dmv-state-details>
     <article><span data-study-agency>{esc(default["agency"])}</span><strong data-study-rule>{esc(default["rule"])}</strong><p>Confirm exact wording with the official state source.</p></article>
     <article><span>Day-one baseline</span><strong>10 sign questions</strong><p>A short diagnostic, not a state exam score.</p></article>
     <article><span>Review focus</span><strong data-study-focus-label>Choose from your misses</strong><p>Work on one repeat mistake before adding more questions.</p></article>
     <article><span>Final checkpoint</span><strong data-study-checkpoint>Day 7: final checklist</strong><p>Recheck visit details on the last study day.</p></article>
   </div>
-  <div class="study-plan-actions">
+  <div class="study-plan-actions" data-dmv-state-details>
     <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-study-source>Official source</a>
     <a href="{esc(default["mixedPracticeUrl"])}" data-study-practice{' hidden' if not default["mixedPracticeUrl"] else ''}>Mixed practice</a>
     <a href="{esc(default["signUrl"])}" data-study-signs>Road signs</a>
     <a href="{esc(default["checklistUrl"])}" data-study-checklist>Checklist</a>
-    <a href="{esc(score_href(default))}" data-study-score>Passing score</a>
+    <a href="{esc(default["scoreUrl"])}" data-study-score>Passing score</a>
   </div>
-  <ol class="study-plan-list" data-study-plan-list>
+  <ol class="study-plan-list" data-study-plan-list data-dmv-state-details>
     <li><strong>Day 1: Check logistics and take a baseline.</strong><span>Confirm appointment and document requirements, then write down one mistake from a short sign round.</span><a href="{esc(baseline_href)}">Start 10 sign questions</a></li>
     <li><strong>Days 2-4: Repair one weak area.</strong><span>Explain what the sign or rule means, then re-answer the question without notes.</span></li>
-    <li><strong>Days 5-6: Recheck the score.</strong><span>Repeat the same 10 signs to check recall. Keep that score separate from any full exam.</span><div class="study-plan-actions"><a href="{esc(baseline_href)}">Repeat the 10-sign baseline</a><a href="{esc(score_href(default))}">Compare with state rule</a></div></li>
+    <li><strong>Days 5-6: Recheck the score.</strong><span>Repeat the same 10 signs to check recall. Keep that score separate from any full exam.</span><div class="study-plan-actions"><a href="{esc(baseline_href)}">Repeat the 10-sign baseline</a><a href="{esc(default["scoreUrl"])}">Compare with state rule</a></div></li>
     <li><strong>Day 7: Close the remaining gaps.</strong><span>Review remaining missed items and recheck documents, appointment and arrival details.</span></li>
   </ol>
 </section>
@@ -5445,7 +5479,7 @@ def render_dmv_study_plan_page():
   </div>
   <div class="source-matrix-scroll">
     <table>
-      <thead><tr><th>State</th><th>Passing rule</th><th>Mixed practice</th><th>Signs</th><th>Checklist</th></tr></thead>
+      <thead><tr><th>State</th><th>Passing rule</th><th>Mixed practice</th><th>Signs</th><th>Permit steps or checklist</th></tr></thead>
       <tbody>{state_rows}</tbody>
     </table>
   </div>
@@ -5476,11 +5510,11 @@ def render_dmv_comparison_alternative(records):
         f'data-label="{esc(route["label"])}" data-permit-steps-url="{esc(route["checklist-url"])}"></template>'
         for route in dmv_workbench_routes() if route["state"] not in available
     )
+    guides = f"\n    {guides}" if guides else ""
     return f'''<section class="dmv-source-card" data-dmv-state-alternative hidden>
     <h3>State not listed in this tool</h3>
     <p>Use your state's permit steps instead of applying another state's rules.</p>
-    <p><a href="dmv-practice.html#state-paths" data-dmv-state-guide-link>Browse state permit guides</a></p>
-    {guides}
+    <p><a href="dmv-practice.html#state-paths" data-dmv-state-guide-link>Browse state permit guides</a></p>{guides}
   </section>'''
 
 

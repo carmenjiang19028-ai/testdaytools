@@ -689,11 +689,11 @@ for (const width of [390, 1280]) {
         const recheck = page.locator("[data-study-plan-list] li").filter({ hasText: "Recheck rules and signs separately" });
         assert.equal(await recheck.getByRole("link", { name: "Repeat the 10-sign baseline" }).getAttribute("href"), baselineHref);
         assert.match(await recheck.innerText(), /as recall, not as readiness for a full exam/);
-        assert.match(await recheck.getByRole("link", { name: "Check the official manual" }).getAttribute("href"), /^https:\/\//);
+        assert.match(await recheck.getByRole("link", { name: "Check the official state source" }).getAttribute("href"), /^https:\/\//);
         await page.locator("[data-study-days]").selectOption("3");
         const finalDay = page.locator("[data-study-plan-list] li").last();
         assert.equal(await finalDay.getByRole("link", { name: "Repeat the 10-sign baseline" }).getAttribute("href"), baselineHref);
-        assert.equal(await finalDay.getByRole("link", { name: "Check the official manual" }).count(), 1);
+        assert.equal(await finalDay.getByRole("link", { name: "Check the official state source" }).count(), 1);
 
         await page.goto(pathFor("passing-score-calculator", state));
         assert.equal(await page.locator("[data-score-practice]").textContent(), "Road-sign practice");

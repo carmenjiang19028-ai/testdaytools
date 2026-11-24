@@ -3092,6 +3092,7 @@ function initDmvMistakeLogs() {
     const saveStatus = tool.querySelector("[data-mistake-save-status]");
     const storageKey = "tdt-dmv-mistake-log";
     const params = new URLSearchParams(window.location.search);
+    const stateAvailable = prepareDmvStateComparison(tool, stateSelect);
     let entries = [];
     let storageAvailable = true;
 
@@ -3104,7 +3105,7 @@ function initDmvMistakeLogs() {
         "'": "&#039;",
       })[char]);
 
-    const selectedState = () => stateSelect?.selectedOptions?.[0];
+    const selectedState = () => stateSelect?.value ? stateSelect.selectedOptions[0] : null;
     const selectedTopicLabel = () => topicSelect?.selectedOptions?.[0]?.textContent?.trim() || "Review topic";
 
     const load = () => {
@@ -3139,12 +3140,19 @@ function initDmvMistakeLogs() {
       const state = Array.from(stateSelect?.options || []).find(option => option.value === entry.state)?.dataset;
       if (!state) return ["dmv-practice.html", "Open DMV practice"];
       const label = state.stateLabel;
+      const reading = state.studySourcesUrl
+        ? [state.studySourcesUrl, `Find ${label} manuals and study sources`]
+        : [state.sourceUrl, `Read the ${label} handbook`];
       if (entry.topic === "right-of-way") {
         if (state.rightOfWayUrl) return [state.rightOfWayUrl, `Practice ${label} right-of-way rules`];
         if (state.rightOfWayCase) return [state.rightOfWayCase, `Review the ${label} right-of-way case`];
-        return [state.sourceUrl, `Read the ${label} handbook`];
+        return reading;
       }
-      if (entry.topic === "score") return [state.scoreUrl, `Check the ${label} score rule`];
+      if (entry.topic === "score") {
+        return state.scoreUrl
+          ? [state.scoreUrl, `Check the ${label} score rule`]
+          : [state.checklistUrl, `Check the ${label} applicant path`];
+      }
       if (entry.topic === "road-signs" || entry.topic === "regulatory-signs") {
         return [state.signsUrl, `Open ${label} sign practice`];
       }
@@ -3154,10 +3162,12 @@ function initDmvMistakeLogs() {
             ? ["florida-class-e-knowledge-exam-tlsae.html#florida-course-path", "Check Florida course steps"]
             : ["florida-dmv-permit-documents-checklist.html#florida-document-route", "Check Florida documents"];
         }
-        return [state.checklistUrl, `Open the ${label} checklist`];
+        return [state.checklistUrl, state.checklistAvailable === "true"
+          ? `Open the ${label} checklist`
+          : `Check ${label} permit steps`];
       }
       if (state.mixedUrl) return [state.mixedUrl, `Open ${label} mixed practice`];
-      return [state.sourceUrl, `Read the ${label} handbook`];
+      return reading;
     };
 
     const renderLinks = () => {
@@ -3178,11 +3188,14 @@ function initDmvMistakeLogs() {
         if (DMV_STUDY_FOCUS.has(focus)) planParams.set("focus", focus);
         plan.href = `dmv-permit-test-study-plan.html?${planParams}#study-plan`;
       }
-      if (checklist) checklist.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
+      if (checklist) {
+        checklist.href = option.dataset.checklistUrl;
+        checklist.textContent = option.dataset.checklistLabel;
+      }
     };
 
     const render = () => {
-      renderLinks();
+      if (stateAvailable()) renderLinks();
       if (saveStatus) saveStatus.hidden = storageAvailable;
       if (totalLabel) totalLabel.textContent = storageAvailable ? "Total saved" : "Notes in this tab";
       if (total) total.textContent = String(entries.length);
@@ -3196,7 +3209,7 @@ function initDmvMistakeLogs() {
       if (topTopic) topTopic.textContent = strongest ? strongest[0] : "None yet";
       if (next) {
         next.textContent = strongest
-          ? `Review ${strongest[0]} before the next full practice round.`
+          ? `Review ${strongest[0]} before your next practice session.`
           : "Save a mistake for this state to get a next action.";
       }
 
@@ -3285,11 +3298,10 @@ function initDmvMistakeLogs() {
       }
     });
 
-    const requestedState = normalizeDmvState(params.get("state"));
-    if (requestedState && Array.from(stateSelect?.options || []).some(option => option.value === requestedState)) {
-      stateSelect.value = requestedState;
-    }
-    stateSelect?.addEventListener("change", render);
+    stateSelect?.addEventListener("change", () => {
+      setDmvJourneyState(stateSelect.value, { checklistAvailable: selectedState()?.dataset.checklistAvailable === "true" });
+      render();
+    });
     window.addEventListener("storage", (event) => {
       if (event.key !== storageKey && event.key !== null) return;
       load();
@@ -3317,6 +3329,7 @@ function initDmvStudyPlanners() {
     const planList = planner.querySelector("[data-study-plan-list]");
 
     const baselineHref = planner.dataset.studyBaselineHref;
+    const stateAvailable = prepareDmvStateComparison(planner, stateSelect);
 
     const setLink = (element, href) => {
       if (element && href) element.href = href;
@@ -3326,8 +3339,14 @@ function initDmvStudyPlanners() {
       const logParams = new URLSearchParams({ state, days, focus: weak });
       const logHref = `dmv-permit-test-mistake-log.html?${logParams}#mistake-log`;
       const repeatLink = [baselineHref, "Repeat the 10-sign baseline"];
-      const checkLink = [data.scoreUrl, "Compare with state rule"];
-      const checklistLink = [data.checklistUrl, "Open test-day checklist"];
+      const checkLink = data.scoreUrl
+        ? [data.scoreUrl, "Compare with state rule"]
+        : [data.checklistUrl, "Check your applicant path"];
+      const checklistLink = [data.checklistUrl, data.checklistAvailable === "true"
+        ? "Open test-day checklist" : `Open ${data.checklistLabel.toLowerCase()}`];
+      const readingLink = data.studySourcesUrl
+        ? [data.studySourcesUrl, "Find the official study material"]
+        : [data.sourceUrl, "Check the official state source"];
       const recheckStart = days === 3 ? 3 : days - 2;
       const focusEnd = days >= 14 ? 5 : recheckStart - 1;
       const signCheck = data.signTotal
@@ -3338,7 +3357,7 @@ function initDmvStudyPlanners() {
         "road-signs": ["Recall signs before reading labels", "Name each slow sign and say the driver action before revealing the explanation. Group two similar signs, then explain the difference without looking.", data.signsUrl, "Practice road signs"],
         rules: ["Explain the rule you missed", "Write one missed rule as a situation and an action, then check it in the state source. Change one detail and decide whether your action stays the same.", logHref, "Record a missed rule"],
         score: ["Compare like with like", "Write down correct answers and question count. Compare only practice rounds of the same length and scope. A sign-only score is not a full knowledge-test result.", ...checkLink],
-        documents: ["Resolve one missing item", "For any missing ID, residency proof or other requirement, check which substitutes the agency accepts and who must attend. Resolve it before the last day.", data.sourceUrl, "Open official source"],
+        documents: ["Resolve one missing item", "For any missing ID, residency proof or other requirement, check which substitutes the agency accepts and who must attend. Resolve it before the last day.", ...(data.checklistAvailable === "true" ? [data.sourceUrl, "Open official source"] : checklistLink)],
       };
       const [title, body, href, cta] = assignments[weak] || assignments.mixed;
       const steps = [
@@ -3351,19 +3370,20 @@ function initDmvStudyPlanners() {
       if (days > 3) {
         steps.push(data.mixedPracticeUrl
           ? [recheckStart, days - 1, "Recheck the score before test day", `Repeat the same 10 signs to check recall. For broader practice, record the mixed score separately. Apply the official rule only when the length and sections match the official format.${signCheck}`, [repeatLink, [data.mixedPracticeUrl, "Open mixed practice"], checkLink]]
-          : [recheckStart, days - 1, "Recheck rules and signs separately", "This site has no full mixed practice set for this state. Explain one rule from the official manual, then repeat the same 10 signs from day one. Compare the two scores as recall, not as readiness for a full exam.", [repeatLink, [data.sourceUrl, "Check the official manual"]]]);
+          : [recheckStart, days - 1, "Recheck rules and signs separately", "This site has no full mixed practice set for this state. Explain one driving rule using the official study material, then repeat the same 10 signs from day one. Compare the two sign scores as recall, not as readiness for a full exam.", [repeatLink, readingLink]]);
       }
       const finalReview = days === 3
         ? `Repeat the same 10 signs from day one to check recall. Check the official rule separately.${signCheck} Then confirm documents, appointment and arrival details.`
         : "Review only the items you still miss. Confirm documents, appointment and arrival details instead of starting another long session.";
       const finalLinks = days === 3
-        ? [repeatLink, data.mixedPracticeUrl ? checkLink : [data.sourceUrl, "Check the official manual"], checklistLink]
+        ? [repeatLink, ...(data.mixedPracticeUrl ? [checkLink] : [[data.sourceUrl, "Check the official state source"]]), checklistLink]
         : [checklistLink];
       steps.push([days, days, "Close the remaining gaps", finalReview, finalLinks]);
       return steps;
     };
 
     const render = () => {
+      if (!stateAvailable()) return;
       const selected = stateSelect?.selectedOptions?.[0];
       if (!selected || !planList) return;
       const days = Math.max(Number(daysSelect?.value) || 7, 1);
@@ -3371,17 +3391,23 @@ function initDmvStudyPlanners() {
       if (agency) agency.textContent = selected.dataset.agency || "State agency";
       if (rule) rule.textContent = selected.dataset.rule || "Confirm with official source";
       if (focus) focus.textContent = DMV_STUDY_FOCUS.get(weak) || DMV_STUDY_FOCUS.get("mixed");
-      if (checkpoint) checkpoint.textContent = `Day ${days}: final checklist`;
+      if (checkpoint) checkpoint.textContent = `Day ${days}: ${selected.dataset.checklistAvailable === "true"
+        ? "final checklist" : selected.dataset.checklistLabel.toLowerCase()}`;
 
       setLink(source, selected.dataset.sourceUrl);
       setLink(practice, selected.dataset.mixedPracticeUrl);
       if (practice) practice.hidden = !selected.dataset.mixedPracticeUrl;
       setLink(signs, selected.dataset.signsUrl);
       setLink(checklist, selected.dataset.checklistUrl);
-      setLink(score, selected.dataset.scoreUrl);
+      if (checklist) checklist.textContent = selected.dataset.checklistLabel;
+      if (score) {
+        score.hidden = !selected.dataset.scoreUrl;
+        if (score.hidden) score.removeAttribute("href");
+        else setLink(score, selected.dataset.scoreUrl);
+      }
       annotateDmvStateLink(practice, selected, "practice");
       annotateDmvStateLink(signs, selected, "road_signs");
-      annotateDmvStateLink(checklist, selected, "checklist");
+      annotateDmvStateLink(checklist, selected, selected.dataset.checklistAvailable === "true" ? "checklist" : "permit_steps");
       annotateDmvStateLink(score, selected, "score");
 
       const steps = buildSteps(days, weak, selected.value, selected.dataset);
@@ -3411,12 +3437,6 @@ function initDmvStudyPlanners() {
 
     try {
       const params = new URLSearchParams(window.location.search);
-      const requestedState = normalizeDmvState(params.get("state"));
-      const savedState = requestedState || readDmvJourney().state;
-      const stateOption = Array.from(stateSelect?.options || []).find(
-        (option) => normalizeDmvState(option.value || option.dataset.state || option.textContent) === savedState,
-      );
-      if (stateOption) stateSelect.value = stateOption.value;
       const requestedDays = params.get("days");
       if (daysSelect && DMV_STUDY_DAYS.includes(requestedDays)) daysSelect.value = requestedDays;
       const requestedFocus = params.get("focus");
@@ -3427,7 +3447,9 @@ function initDmvStudyPlanners() {
       // Use the default planner state if URL parsing is unavailable.
     }
     stateSelect?.addEventListener("change", () => {
-      setDmvJourneyState(stateSelect.value);
+      setDmvJourneyState(stateSelect.value, {
+        checklistAvailable: stateSelect.selectedOptions[0]?.dataset.checklistAvailable === "true",
+      });
       render();
     });
     [daysSelect, weakSelect].forEach((input) => input?.addEventListener("change", render));
