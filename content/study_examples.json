@@ -2,7 +2,7 @@
   "road-signs-practice-test": {
     "id": "roundabout-entry-case",
     "heading": "Roundabout ahead: yield at the entry, then stay in the loop",
-    "intro": "This example uses a single-lane California roundabout. Read the yellow advance warning first, then follow the signs and markings at the entry. The case does not affect your practice score.",
+    "intro": "Use these single-lane California roundabout cases to check two different conflicts: circulating traffic and someone crossing on foot. Neither case affects your practice score.",
     "examples": [
       {
         "title": "You see an open entry but a car is already in the circle",
@@ -17,6 +17,22 @@
         "answer": "Neither. Stay in your lane and continue counterclockwise to your exit on the next circuit. Do not stop or reverse in the circulating lane to recover a missed turn.",
         "source": {
           "label": "California DMV Driver's Handbook: Roundabouts",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road/"
+        }
+      },
+      {
+        "title": "The circle is empty but someone is crossing the entry",
+        "question": "There is room in the roundabout. A person is already in the marked crosswalk across your approach, between you and the entry. Can you use the opening in traffic now?",
+        "steps": [
+          "Stop before the crosswalk and give the person space to finish crossing. Do not drive into the crosswalk to claim the gap.",
+          "Once the crossing is clear, look again for people crossing and vehicles already in the circle. Traffic may have changed while you waited.",
+          "Enter only when both the crossing and the traffic gap are clear."
+        ],
+        "mistake": "A clear circle does not mean your whole path is clear. The crossing and the entry gap require separate checks.",
+        "check": "You reach a crosswalk just beyond your intended exit. Someone is already crossing and a driver behind you honks. Does your exit signal give you priority?",
+        "answer": "No. Slow down and stop before the crosswalk if needed. Let the person finish crossing before continuing; signaling shows where you intend to go, not who goes first.",
+        "source": {
+          "label": "California DMV Driver's Handbook: Roundabouts and Pedestrians",
           "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road/"
         }
       }
@@ -41,6 +57,22 @@
         "source": {
           "label": "FHWA MUTCD Section 2B.10: YIELD on a separate turn lane",
           "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=13"
+        }
+      },
+      {
+        "title": "Your lane has a red right arrow while through traffic moves",
+        "question": "At a different California intersection, your right-turn lane has its own steady red right arrow. The through lanes have a green light. You have stopped at your line and can see a clear crossing and traffic gap. May you turn now?",
+        "steps": [
+          "Stay stopped. The steady red arrow controls your turn even when the through lanes are moving.",
+          "Wait for a signal that permits your turn. In California, a full stop does not let you turn against a steady red arrow.",
+          "Check the crossing and traffic again when your signal changes; the earlier gap might no longer be there."
+        ],
+        "mistake": "Do not treat an arrow like a round red light or assume a separate turn lane is always controlled by YIELD.",
+        "check": "At another California junction, the signal controlling your approach is a flashing circular red. Do you still wait for green after stopping?",
+        "answer": "No. Stop fully at the line, then proceed only when safe and after yielding to anyone who has the right of way. That is different from waiting at a steady red arrow.",
+        "source": {
+          "label": "California DMV Driver's Handbook: Red Arrow and Flashing Red Light",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road/"
         }
       }
     ]

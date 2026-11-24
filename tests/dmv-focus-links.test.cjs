@@ -379,11 +379,18 @@ for (const width of [320, 1280]) {
       await page.waitForURL("**/regulatory-traffic-signs-practice-test.html#yield-turn-lane");
       const lesson = page.locator("#yield-turn-lane");
       assert.equal(await lesson.locator("details[open]").count(), 0);
-      await lesson.getByText("Show reasoning", { exact: true }).press("Enter");
-      assert.match(await lesson.locator("details[open]").innerText(), /red light is for the through lanes.*YIELD alone does not require a complete stop/is);
-      await lesson.getByText("Check", { exact: true }).press("Enter");
-      assert.match(await lesson.locator("details[open]").last().innerText(), /Wait for the cyclist.*safe traffic gap/);
-      assert.match(await lesson.locator("a").getAttribute("href"), /\.gov\/.*Chapter2br1.pdf#page=13$/);
+      const yieldCase = lesson.getByRole("article").filter({ has: page.getByRole("heading", { name: "A red light next to a separate turn lane" }) });
+      await yieldCase.getByText("Show reasoning", { exact: true }).press("Enter");
+      assert.match(await yieldCase.locator("details[open]").innerText(), /red light is for the through lanes.*YIELD alone does not require a complete stop/is);
+      await yieldCase.getByText("Check", { exact: true }).press("Enter");
+      assert.match(await yieldCase.locator("details[open]").last().innerText(), /Wait for the cyclist.*safe traffic gap/);
+      assert.match(await yieldCase.locator("a").getAttribute("href"), /\.gov\/.*Chapter2br1.pdf#page=13$/);
+      const arrow = lesson.getByRole("article").filter({ has: page.getByRole("heading", { name: "Your lane has a red right arrow while through traffic moves" }) });
+      await arrow.getByText("Show reasoning", { exact: true }).press("Enter");
+      assert.match(await arrow.locator("details[open]").innerText(), /Stay stopped.*steady red arrow controls your turn/is);
+      await arrow.getByText("Check", { exact: true }).press("Enter");
+      assert.match(await arrow.locator("details[open]").last().innerText(), /Stop fully.*proceed only when safe.*different from waiting at a steady red arrow/is);
+      assert.match(await arrow.locator("a").getAttribute("href"), /www\.dmv\.ca\.gov\/portal\/handbook\//);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       if (process.env.VERIFY_SCREENSHOTS_DIR) {
         fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });

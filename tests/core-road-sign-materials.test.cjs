@@ -70,12 +70,18 @@ for (const width of [320, 1280]) {
       await page.waitForURL(practice + '#roundabout-entry-case');
       const lesson = page.locator('#roundabout-entry-case');
       assert.match(await lesson.getByRole('heading', { level: 2 }).innerText(), /Roundabout ahead/);
-      await lesson.getByText('Show reasoning', { exact: true }).press('Enter');
-      assert.match(await lesson.innerText(), /warning.*does not give you priority/i);
-      assert.match(await lesson.innerText(), /yield to the car already circulating/i);
-      await lesson.getByText('Check', { exact: true }).press('Enter');
-      assert.match(await lesson.innerText(), /continue counterclockwise to your exit/i);
-      assert.equal(await lesson.getByRole('link', { name: /California DMV/ }).count(), 1);
+      const entry = lesson.getByRole('article').filter({ has: page.getByRole('heading', { name: 'You see an open entry but a car is already in the circle' }) });
+      await entry.getByText('Show reasoning', { exact: true }).press('Enter');
+      assert.match(await entry.innerText(), /warning.*does not give you priority/i);
+      assert.match(await entry.innerText(), /yield to the car already circulating/i);
+      await entry.getByText('Check', { exact: true }).press('Enter');
+      assert.match(await entry.innerText(), /continue counterclockwise to your exit/i);
+      const crossing = lesson.getByRole('article').filter({ has: page.getByRole('heading', { name: 'The circle is empty but someone is crossing the entry' }) });
+      await crossing.getByText('Show reasoning', { exact: true }).press('Enter');
+      assert.match(await crossing.locator('details[open]').innerText(), /Stop before the crosswalk.*vehicles already in the circle/s);
+      await crossing.getByText('Check', { exact: true }).press('Enter');
+      assert.match(await crossing.locator('details[open]').last().innerText(), /signaling shows where you intend to go, not who goes first/);
+      assert.equal(await lesson.getByRole('link', { name: /California DMV/ }).count(), 2);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       if (process.env.VERIFY_SCREENSHOTS_DIR) {
         fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
