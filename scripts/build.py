@@ -1298,7 +1298,7 @@ def dmv_daily_question_records():
         ("california", "California", "californiaSigns", 2, "california-dmv-road-signs-practice.html#practice"),
         ("new-york", "New York", "newyork", 0, "new-york-dmv-permit-practice-test.html#practice"),
         ("new-york", "New York", "newyorkSigns", 3, "new-york-dmv-road-signs-practice.html#practice"),
-        ("texas", "Texas", "texas", 1, "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen"),
+        ("texas", "Texas", "texasDailyRules", 0, "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen"),
         ("texas", "Texas", "texasSigns", 4, "texas-dmv-road-signs-practice.html#practice"),
         ("florida", "Florida", "florida", 1, "florida-class-e-knowledge-exam-tlsae.html"),
         ("florida", "Florida", "floridaSigns", 5, "florida-dmv-road-signs-practice.html#practice"),
@@ -1323,8 +1323,12 @@ def dmv_daily_question_records():
             # Daily cards only render the prompt, not an extra scenario condition.
             if question.get("source") and not question.get("condition")
         )
+    plan.extend(
+        ("texas", "Texas", "texasDailyRules", index, "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf")
+        for index in range(1, len(DATA["quizzes"]["texasDailyRules"]))
+    )
     other_labels = {
-        "texas": "Check Texas learner-license rules",
+        "texasDailyRules": "Open the Texas driving guide",
         "illinois": "Check the Illinois passing score",
         "florida": "Review the Florida Class E steps",
         "pennsylvania": "Check the Pennsylvania passing score",

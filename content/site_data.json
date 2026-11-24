@@ -9694,7 +9694,9 @@
             {
               "label": "Next tool",
               "title": "Move to a Texas rules question after signs",
-              "text": "Once you reach 16 of 20 here, use the daily Texas question path instead of repeating familiar sign images."
+              "text": "Once you reach 16 of 20 here, try the Texas questions on who can supervise learner driving, when to dim high beams, and where to park on a one-way street.",
+              "href": "dmv-permit-test-question-of-the-day.html?state=texas#daily-question",
+              "cta": "Open Texas rules practice"
             },
             {
               "label": "Official check",
@@ -9731,7 +9733,7 @@
             {
               "label": "Signs are already strong",
               "title": "Move to Texas rules instead of repeating images",
-              "text": "Use the daily Texas question path for right-of-way, speed, parking, alcohol, and safe-driving decisions."
+              "text": "Use the Texas warm-up for learner-license, night-driving, and parking decisions. It is a short rotation, not a full knowledge exam."
             }
           ]
         }
@@ -17820,6 +17822,53 @@
         "answer": 0,
         "category": "Intersections",
         "explanation": "Drivers entering a roundabout generally yield to traffic already circulating. Confirm exact wording in the Texas Driver Handbook."
+      }
+    ],
+    "texasDailyRules": [
+      {
+        "q": "You have a Texas learner license. A licensed 22-year-old with six months of driving experience offers to sit beside you for highway practice. Can they supervise?",
+        "choices": [
+          "No. Wait for a supervisor who has at least one year of driving experience and meets the other requirements",
+          "Yes. Being at least 21 and sitting beside you is enough",
+          "Yes, if they have a license for the same type of vehicle"
+        ],
+        "answer": 0,
+        "category": "Learner license rules",
+        "explanation": "Age 21 is only one requirement. Carry your learner license. The person beside you must be licensed for that type of vehicle, be at least 21, and have at least one year of driving experience. They also need to be awake, sober, and able to observe and respond.",
+        "source": {
+          "label": "Texas Transportation Code: learner license, Sections 521.222(d) and (g)",
+          "url": "https://tcss.legis.texas.gov/resources/TN/htm/TN.521.htm"
+        }
+      },
+      {
+        "q": "At night in Texas, your high beams are on. A car ahead in your direction is 250 feet away, and there is no oncoming traffic. What should you do?",
+        "choices": [
+          "Keep high beams on until you are within 200 feet",
+          "Switch to low beams now",
+          "Keep high beams on until you see an oncoming car"
+        ],
+        "answer": 1,
+        "category": "Night driving",
+        "explanation": "The 250-foot gap is already inside the Texas 300-foot limit for using high beams when approaching a vehicle from behind. Low beams avoid glare in that driver's mirrors. For ordinary high and low beam settings, the oncoming-vehicle distance to remember is 500 feet.",
+        "source": {
+          "label": "Texas Transportation Code: high beams, Section 547.333(c)",
+          "url": "https://tcss.legis.texas.gov/resources/TN/htm/TN.547.htm"
+        }
+      },
+      {
+        "q": "On a one-way Texas street, the only open curb space is on the left. Parking is allowed and no local rule or sign changes the normal rule. How should you park?",
+        "choices": [
+          "Face against traffic with the right wheels near the left curb",
+          "Park at an angle with one wheel near the left curb",
+          "Face with traffic, parallel to the curb, with the left wheels within 18 inches"
+        ],
+        "answer": 2,
+        "category": "Parking",
+        "explanation": "The default Texas one-way rule allows either curb. Face the direction of travel and keep the wheels on the curb side within 18 inches. The usual two-way rule is to park at the right curb, and posted or local restrictions can change where parking is allowed.",
+        "source": {
+          "label": "Texas Transportation Code: one-way parking, Section 545.303(b)",
+          "url": "https://tcss.legis.texas.gov/resources/TN/htm/TN.545.htm"
+        }
       }
     ],
     "texasSigns": [

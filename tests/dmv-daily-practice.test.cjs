@@ -39,14 +39,20 @@ for (const width of [390, 1280]) {
         ["texas", "Learner license rules", /dps\.texas\.gov\/section\/driver-license\/texas-learners-license-teen/],
         ["illinois", "Exam readiness", /passing-score-calculator\.html\?state=illinois#score-calculator/],
       ]) {
-        await page.goto(daily + "?state=" + state);
+        if (state === "texas") {
+          await page.goto(origin + "/texas-dmv-road-signs-practice.html");
+          await page.getByRole("link", { name: "Open Texas rules practice", exact: true }).click();
+          await page.waitForURL(daily + "?state=texas#daily-question");
+        } else {
+          await page.goto(daily + "?state=" + state);
+        }
         assert.equal(await stateSelect(page).inputValue(), state);
         const cards = page.locator(`[data-daily-card][data-state="${state}"]`);
-        assert.equal(await cards.count(), 2);
+        assert.equal(await cards.count(), state === "texas" ? 4 : 2);
         assert.equal(await current(page).getAttribute("data-state"), state);
-        const factLink = cards.filter({ has: page.locator(`[data-daily-practice][href]:not([href*="#practice"])`) }).locator("[data-daily-practice]");
+        const factLink = cards.and(page.locator(`[data-category="${category}"]`)).locator("[data-daily-practice]");
         assert.match(await factLink.getAttribute("href"), rule, category);
-        if (await current(page).getAttribute("data-category") === category) await next(page);
+        for (let i = 0; i < await cards.count() && !await current(page).locator(".sign-art").count(); i++) await next(page);
         const signLink = current(page).locator("[data-daily-practice]");
         const focus = await current(page).getAttribute("data-category");
         assert.match(await signLink.getAttribute("href"), new RegExp(`^${state}-dmv-road-signs-practice\\.html\\?focus=`));
@@ -60,6 +66,45 @@ for (const width of [390, 1280]) {
       await page.goto(daily + "?state=unsupported");
       assert.equal(await stateSelect(page).inputValue(), "all");
       assert.equal(await current(page).getAttribute("data-state"), "all");
+    }));
+
+  test(`${width}px: Texas rotates through three distinct rule decisions and a sign`, () =>
+    withSite(width, async page => {
+      await page.goto(daily + "?state=texas");
+      const card = current(page);
+      const cases = new Map([
+        ["Learner license rules", [/at least one year of driving experience/, /licensed for that type of vehicle.*awake, sober/s, /TN\.521\.htm$/]],
+        ["Night driving", [/Switch to low beams now/, /300-foot.*500 feet/s, /TN\.547\.htm$/]],
+        ["Parking", [/left wheels within 18 inches/, /allows either curb.*local restrictions/s, /TN\.545\.htm$/]],
+      ]);
+      const start = await card.locator("h3").textContent();
+      const prompts = new Set();
+      for (let i = 0; i < 4; i++) {
+        prompts.add(await card.locator("h3").textContent());
+        const category = await card.getAttribute("data-category");
+        const lesson = cases.get(category);
+        if (lesson) {
+          const [answer, explanation, href] = lesson;
+          const source = card.locator("[data-daily-source] a");
+          assert.equal(await source.isVisible(), false);
+          await card.getByRole("button", { name: answer }).press("Enter");
+          const feedback = card.locator("[data-daily-feedback]");
+          assert.equal(await feedback.textContent(), "Correct.");
+          assert.match(await card.locator("[data-daily-explanation]").innerText(), explanation);
+          await feedback.press("Tab");
+          assert.equal(await source.evaluate(node => node === document.activeElement), true);
+          assert.match(await source.getAttribute("href"), href);
+          cases.delete(category);
+        } else {
+          assert.equal(await card.locator(".sign-art").count(), 1);
+        }
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+        await next(page);
+      }
+      assert.equal(cases.size, 0);
+      assert.equal(prompts.size, 4);
+      assert.equal(await card.locator("h3").textContent(), start);
+      assert.match(await page.locator("[data-daily-note]").textContent(), /Prompt 1 of 4/);
     }));
 
   test(`${width}px: the three sourced decks rotate without erasing feedback and reach the exact practice topic`, () =>
@@ -133,7 +178,7 @@ test("national visitors get only common signs and the daily prompt changes at lo
     await page.clock.setFixedTime(new Date("2026-11-21T07:59:00Z"));
     await page.goto(daily);
     assert.equal(await stateSelect(page).inputValue(), "all");
-    assert.equal(await page.locator("[data-daily-card]").count(), 27);
+    assert.equal(await page.locator("[data-daily-card]").count(), 29);
     const prompts = new Set();
     for (let i = 0; i < 4; i++) {
       assert.equal(await current(page).getAttribute("data-state"), "all");
