@@ -4899,7 +4899,8 @@ function initSatDatePlanners() {
         "VERSION:2.0",
         "PRODID:-//TestDayTools//SAT Date Planner//EN",
         "CALSCALE:GREGORIAN",
-        ...entry(`sat-${event.date}@testdaytools.com`, [`DTSTART;VALUE=DATE:${startDay}`, `DTEND;VALUE=DATE:${nextDay}`],
+        // Use the season calendar's existing UID for the same exam day.
+        ...entry(`sat-${startDay}@testdaytools.com`, [`DTSTART;VALUE=DATE:${startDay}`, `DTEND;VALUE=DATE:${nextDay}`],
           `SAT - ${event.label}`, event.description, scheduleUrl),
         ...(event.calendarDeadlines || []).flatMap(deadline => entry(
           deadline.uid, [`DTSTART:${deadline.utc}`],

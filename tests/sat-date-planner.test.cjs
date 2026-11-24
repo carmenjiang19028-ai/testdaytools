@@ -112,10 +112,11 @@ for (const file of pages) {
       assert.match(calendar, /DTSTART:20261024T035900Z/);
       assert.match(calendar, /DTSTART:20261028T035900Z/);
       assert.doesNotMatch(calendar, /device request cutoff/i);
-      const deadlineLines = (entry) => entry.match(/^(?:UID|DTSTART):[^\r\n]+/gm);
+      const entryIdentityAndTiming = (entry) => entry.match(/^(?:UID|DTSTART|DTEND)(?:;VALUE=DATE)?:[^\r\n]+/gm);
       const season = calendarEvents(fs.readFileSync(path.join(root, "sat-test-dates-2026-2027.ics"), "utf8"));
-      assert.deepEqual(calendarEvents(calendar).slice(1).map(deadlineLines),
-        season.filter(entry => entry.includes("UID:sat-20261107-")).map(deadlineLines));
+      const sameDate = season.filter(entry => /^UID:sat-20261107(?:@|-)/m.test(entry));
+      assert.equal(sameDate.length, 3);
+      assert.deepEqual(calendarEvents(calendar).map(entryIdentityAndTiming), sameDate.map(entryIdentityAndTiming));
       await page.locator("[data-sat-plan-save]").click();
       await page.reload();
       assert.match(await page.locator("[data-sat-saved-status]").textContent(), /^Saved in this browser: November 7, 2026/);
