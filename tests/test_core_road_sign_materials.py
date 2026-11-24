@@ -11,7 +11,7 @@ from xml.etree import ElementTree as ET
 from pypdf import PdfReader
 from reportlab.pdfgen import canvas
 from scripts.build import (
-    DATA, SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
+    DATA, ROAD_SIGN_RECALL_CUES, SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
     render_contrast_lessons, render_crossing_shape_drill, render_online_classroom_worksheet,
     render_passing_sign_drill, road_sign_group_practice_href, url_for,
 )
@@ -309,6 +309,21 @@ class CoreMaterialTests(unittest.TestCase):
     def test_classroom_embeds_all_eight_shared_pictures(self):
         pdf = PdfReader(ROOT / "dmv-road-signs-classroom-worksheet.pdf")
         self.assertEqual(len(list(pdf.pages[0].images)), 8)
+
+    def test_classroom_text_only_round_matches_online_cues_in_item_order(self):
+        pdf = PdfReader(ROOT / "dmv-road-signs-classroom-worksheet.pdf")
+        self.assertEqual(len(pdf.pages), 3)
+        first = " ".join(pdf.pages[0].extract_text().split())
+        self.assertIn("Optional text-only recognition round", first)
+        self.assertIn("Check your answers on page 3.", first)
+        clues = first.partition("Check your answers on page 3.")[2]
+        numbered_cues = " ".join(
+            f"{number}. {ROAD_SIGN_RECALL_CUES[image]}"
+            for number, (_, image, _, _) in enumerate(RECOGNITION_ITEMS, 1)
+        )
+        self.assertIn(numbered_cues, clues)
+        for _, _, _, action in RECOGNITION_ITEMS:
+            self.assertNotIn(action, clues)
 
     def test_classroom_student_and_teacher_pages_match_decision_cases(self):
         pdf = PdfReader(ROOT / "dmv-road-signs-classroom-worksheet.pdf")

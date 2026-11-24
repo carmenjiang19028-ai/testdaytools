@@ -5,6 +5,7 @@ import os
 import json
 import subprocess
 import tempfile
+from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -121,6 +122,7 @@ def recognition_card(number, kind, image_dir):
 
 def build_document(image_dir, output):
     material = json.loads((ROOT / "content/road_sign_lessons.json").read_text())
+    recall_cues = json.loads((ROOT / "content/road_sign_recall_cues.json").read_text())
     doc = SimpleDocTemplate(
         str(output), pagesize=letter, rightMargin=0.55 * inch, leftMargin=0.55 * inch,
         topMargin=0.46 * inch, bottomMargin=0.62 * inch,
@@ -170,6 +172,16 @@ def build_document(image_dir, output):
         ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
     ]))
     story.append(practice)
+
+    story.append(Spacer(1, 6))
+    story.append(Paragraph("Optional text-only recognition round", styles["H2x"]))
+    story.append(Paragraph(
+        "Name each sign and give its driver action from the clues alone. Check your answers on page 3.", styles["Bodyx"],
+    ))
+    story.append(Spacer(1, 4))
+    clues = [f"<b>{number}.</b> {escape(recall_cues[image])}"
+             for number, (_, image, _, _) in enumerate(classroom.RECOGNITION_ITEMS, 1)]
+    story.append(Paragraph("<br/>".join(clues), styles["Bodyx"]))
 
     story.append(PageBreak())
     story += title_block(
