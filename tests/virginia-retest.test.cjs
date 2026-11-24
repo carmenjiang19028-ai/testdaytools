@@ -91,6 +91,24 @@ test("Virginia retake rules and training link remain available without JavaScrip
       /dmv\.virginia\.gov\/licenses-ids\/training\/driver-training-schools$/);
   }));
 
+for (const width of [320, 1280]) {
+  test(`${width}px: Virginia first-license cases distinguish the effective date, age, and permit time`, () =>
+    withPage(width, false, async (_page, section) => {
+      assert.match(await section.locator(".section-intro").innerText(),
+        /first driver.s license.*no prior license.*date.*age.*receive/s);
+      const cases = section.getByRole("article");
+      assert.equal(await cases.count(), 3);
+      const [transition, adult, minor] = await cases.allTextContents();
+      assert.match(transition, /19.*November 20, 2026.*February 18, 2027/s);
+      assert.match(transition, /time before January 1 counts.*90 days.*and.*approved driver education/s);
+      assert.match(adult, /before January 1, 2027.*21 or older.*60 days.*or.*approved driver education/s);
+      assert.match(minor, /under 18.*nine months.*45 hours.*15 after sunset/is);
+      assert.match(await section.innerText(), /classroom training for a knowledge-test retake does not by itself/i);
+      assert.equal(await section.getByRole("link", {name:"Official Virginia DMV transition FAQ"}).getAttribute("href"),
+        "https://www.dmv.virginia.gov/licenses-ids/learners/revised-learners-permit-holding-period-and-driver-education-requirements-faqs");
+    }, "#virginia-first-license", "2027 first-license rules"));
+}
+
 for (const [width, javaScriptEnabled] of [[320, false], [1280, true]]) {
   test(`${width}px: Virginia signal cases reveal the right action from the keyboard`, () =>
     withPage(width, javaScriptEnabled, async (page, lesson) => {
