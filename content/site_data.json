@@ -17633,15 +17633,19 @@
         "explanation": "Right turns can conflict with pedestrians and bicyclists near the curb or crosswalk."
       },
       {
-        "q": "If you are drowsy while driving, the safest choice is to:",
+        "q": "On a New York road with one travel lane each way, a car ahead is waiting to turn left. There is a solid double yellow center line and a clear paved shoulder. No sign or officer directs you to use the shoulder. What should you do?",
         "choices": [
-          "Pull over safely and rest",
-          "Drink water and keep going no matter what",
-          "Follow another car closely"
+          "Wait behind the car in the travel lane",
+          "Pass on the shoulder if you slow down",
+          "Pass on the left across the double yellow line"
         ],
         "answer": 0,
-        "category": "Driver fitness",
-        "explanation": "Drowsiness slows reaction time. Resting is safer than forcing yourself to continue."
+        "category": "Passing",
+        "explanation": "Pass a left-turning vehicle on the right only if it is safe and you can stay on the traveled roadway. A paved shoulder is not a travel lane. Here you should wait, not go onto the shoulder or cross the double yellow line.",
+        "source": {
+          "label": "New York DMV Driver's Manual, Chapter 6: Passing",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-6-passing"
+        }
       }
     ],
     "texas": [

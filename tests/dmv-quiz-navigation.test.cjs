@@ -253,6 +253,9 @@ for (const width of [390, 1280]) {
       await assertFocusedAndVisible(page, feedback);
       assert.match(await feedback.textContent(), /Correct\.|Not quite\./);
       await page.keyboard.press("Tab");
+      const source = active.getByRole("link", { name: "PennDOT Driver Manual: STOP signs and stop lines" });
+      await assertFocusedAndVisible(page, source);
+      await page.keyboard.press("Tab");
       assert.equal(await forward.evaluate(el => document.activeElement === el), true);
       await page.keyboard.press("Enter");
       assert.match(await heading.textContent(), /^2\./);

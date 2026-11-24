@@ -196,11 +196,11 @@ const DMV_BASELINE_SIZE = 10;
 const DAY_MS = 86400000;
 const RECENT_PRACTICE_KEY = "tdt-recent-practice";
 const INDEPENDENT_DMV_FOCUSES = ["saved", "due", "baseline"];
-const RETIRED_YIELD_ITEMS = [
+const RETIRED_DMV_ITEMS = [
   {
     page: "road-signs-practice-test.html", mode: "road-signs-core",
     prompt: "Why should permit-test practice include both sign meaning and driver action?",
-    category: "Test strategy", replacementCategory: "Yielding in traffic", answer: 1,
+    category: "Test strategy", replacementCategory: "Yielding in traffic", replacementSign: "image:yield", answer: 1,
     choices: [
       "Because signs only matter on highways",
       "Because test questions often ask what to do, not just what the sign is called",
@@ -211,7 +211,7 @@ const RETIRED_YIELD_ITEMS = [
   {
     page: "regulatory-traffic-signs-practice-test.html", mode: "regulatory-signs-core",
     prompt: "What is the most useful way to study regulatory traffic signs for a permit test?",
-    category: "Permit-test strategy", replacementCategory: "Yield at a separate turn", answer: 1,
+    category: "Permit-test strategy", replacementCategory: "Yield at a separate turn", replacementSign: "image:yield", answer: 1,
     legacyFocus: true, legacyClue: "Yield sign used for permit-test strategy",
     choices: [
       "Memorize color only and ignore driver action",
@@ -220,13 +220,21 @@ const RETIRED_YIELD_ITEMS = [
       "Skip state handbook wording completely",
     ],
   },
+  {
+    page: "new-york-dmv-permit-practice-test.html", mode: "mock", state: "new-york",
+    prompt: "If you are drowsy while driving, the safest choice is to:",
+    category: "Driver fitness", replacementCategory: "Passing", answer: 0,
+    replacementPrompt: "On a New York road with one travel lane each way, a car ahead is waiting to turn left. There is a solid double yellow center line and a clear paved shoulder. No sign or officer directs you to use the shoulder. What should you do?",
+    name: "New York passing",
+    choices: ["Pull over safely and rest", "Drink water and keep going no matter what", "Follow another car closely"],
+  },
 ];
-const retiredYieldMasteryIds = new Set(RETIRED_YIELD_ITEMS.map(item =>
-  `general|${masteryToken(item.prompt)}|${masteryToken(item.choices[item.answer])}`));
+const retiredDmvMasteryIds = new Set(RETIRED_DMV_ITEMS.map(item =>
+  `${item.state || "general"}|${masteryToken(item.prompt)}|${masteryToken(item.choices[item.answer])}`));
 
 const currentDmvQuizFocus = (focus) => {
   const page = window.location.pathname.split("/").pop();
-  const former = RETIRED_YIELD_ITEMS.find(item =>
+  const former = RETIRED_DMV_ITEMS.find(item =>
     item.legacyFocus && item.page === page && item.category.toLowerCase() === focus.toLowerCase());
   return former?.replacementCategory || focus;
 };
@@ -338,7 +346,7 @@ function getDmvMasterySummary(state = "", mastery = readDmvMastery()) {
   const selectedState = normalizeDmvState(state);
   const now = Date.now();
   const records = Object.entries(mastery.items).filter(([id, item]) => {
-    if (retiredYieldMasteryIds.has(id)) return false;
+    if (retiredDmvMasteryIds.has(id)) return false;
     const itemState = normalizeDmvState(item?.state);
     return !selectedState || itemState === selectedState || itemState === "general";
   });
@@ -773,7 +781,7 @@ function initQuizzes() {
     const pageName = window.location.pathname.split("/").pop() || "index.html";
     const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
     const supportsBaseline = isDmvQuiz && pageName === PICTURE_PRACTICE_PAGE && mode === PICTURE_REVIEW_MODE;
-    const retiredItem = isDmvQuiz && RETIRED_YIELD_ITEMS.find(item => item.page === pageName && item.mode === mode);
+    const retiredItem = isDmvQuiz && RETIRED_DMV_ITEMS.find(item => item.page === pageName && item.mode === mode);
     const pictureLessonFor = (question) => supportsBaseline && mistakeStorageAvailable && question
       ? PICTURE_REVIEW_LESSONS.find(lesson => lesson.images.includes(question.dataset.flashcardKey))
       : undefined;
@@ -818,11 +826,13 @@ function initQuizzes() {
             || signIdentifiers(questions[index]).includes(row[5]);
           if (row.every((value, field) => field === 2 || (field === 5 ? sameSign : value === rows[index][field]))) continue;
           // Carry over only explicitly recognized retired items. Their old answers are never regraded.
-          const retiredYield = retiredItem && (sameSign || row[5] === retiredItem.legacyClue) && rows[index][5] === "image:yield"
+          const retiredMatches = retiredItem && (sameSign || row[5] === retiredItem.legacyClue)
+            && rows[index][5] === (retiredItem.replacementSign ?? null)
             && rows[index][3] === retiredItem.replacementCategory && row[4] === rows[index][4]
+            && (!retiredItem.replacementPrompt || rows[index][0] === retiredItem.replacementPrompt)
             && row[0] === retiredItem.prompt && row[1] === String(retiredItem.answer) && row[3] === retiredItem.category
             && retiredItem.choices.every((choice, i) => row[i + 6] === choice);
-          if (!retiredYield) return null;
+          if (!retiredMatches) return null;
           changed.add(index);
         }
         return changed;
@@ -1409,8 +1419,8 @@ function initQuizzes() {
               }
               toolMessage = recheck
                 ? ["due", "saved"].includes(focus)
-                  ? "Unfinished review restored. The retired YIELD item was left out."
-                  : "Unfinished round restored. The updated YIELD question needs a fresh answer."
+                  ? `Unfinished review restored. The retired ${retiredItem.name || "YIELD"} item was left out.`
+                  : `Unfinished round restored. The updated ${retiredItem.name || "YIELD"} question needs a fresh answer.`
                 : "Unfinished round restored from this browser.";
               renderScore({ restoring: true });
               renderActiveQuestion();

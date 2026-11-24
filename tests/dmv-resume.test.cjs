@@ -32,6 +32,12 @@ const retiredRegulatoryYield = [
   "Study only blue service signs",
   "Skip state handbook wording completely",
 ];
+const retiredNewYorkDrowsy = [
+  "If you are drowsy while driving, the safest choice is to:",
+  "0", "Drowsiness slows reaction time. Resting is safer than forcing yourself to continue.",
+  "Driver fitness", null, null,
+  "Pull over safely and rest", "Drink water and keep going no matter what", "Follow another car closely",
+];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -369,6 +375,59 @@ test("a due draft skips the retired item without completing or rewriting the old
     assert.deepEqual(await read(page, dueKey), saved);
     assert.deepEqual(await milestones(page), []);
   }));
+
+for (const width of [320, 1280]) {
+  test(`${width}px: the New York mock replaces only the duplicate and never reuses its saved answer`, () => withSite(width, async page => {
+    const url = origin + "/new-york-dmv-permit-practice-test.html?mode=mock";
+    const slot = 39;
+    await page.goto(url + "#practice");
+    const quiz = active(page);
+    assert.equal(await quiz.getAttribute("data-pass-score"), "32");
+    assert.equal(await quiz.locator(".question").count(), 40);
+    assert.equal(await quiz.locator('.question[data-prompt*="are tired while driving"]').count(), 1);
+    assert.equal(await quiz.locator('.question[data-prompt*="are drowsy while driving"]').count(), 0);
+    await answer(quiz, true);
+    const saved = await read(page, recentKey);
+    const firstIndex = saved.draft.picks[0][0];
+    await page.evaluate(({ saved, recentKey, masteryKey, old, slot }) => {
+      const rows = JSON.parse(saved.draft.signature);
+      rows[slot] = old;
+      saved.draft.signature = JSON.stringify(rows);
+      saved.draft.picks.push([slot, 0]);
+      saved.draft.position = saved.draft.sequence.indexOf(slot);
+      saved.answered = 2;
+      saved.correct = 2;
+      localStorage.setItem(recentKey, JSON.stringify(saved));
+      const mastery = JSON.parse(localStorage.getItem(masteryKey));
+      mastery.items[["new-york", old[0].toLowerCase(), old[6].toLowerCase()].join("|")] = {
+        state: "new-york", prompt: old[0], category: old[3], dueAt: Date.now() - 1, misses: 1, attempts: 1,
+      };
+      localStorage.setItem(masteryKey, JSON.stringify(mastery));
+    }, { saved, recentKey, masteryKey, old: retiredNewYorkDrowsy, slot });
+    const before = await read(page, recentKey);
+    const mastery = await read(page, masteryKey);
+    await page.goto(study);
+    assert.equal(await page.locator("[data-journey-due]").innerText(), "0 questions");
+    await resume(page);
+    assert.equal(await progress(quiz), "1 of 40 answered");
+    assert.equal(await cursor(quiz), String(slot));
+    assert.match(await question(quiz).getAttribute("data-prompt"), /paved shoulder/);
+    assert.equal(await quiz.locator(`[data-question-index="${firstIndex}"] [data-choice]:disabled`).count(), 3);
+    assert.equal(await question(quiz).locator("[data-choice]:enabled").count(), 3);
+    assert.match(await quiz.locator("[data-quiz-next]").innerText(), /updated New York passing question needs a fresh answer/);
+    assert.deepEqual(await read(page, recentKey), before);
+    assert.deepEqual(await read(page, masteryKey), mastery);
+    assert.deepEqual(await milestones(page), []);
+    await question(quiz).getByRole("button", { name: "Wait behind the car in the travel lane" }).press("Enter");
+    assert.equal(await progress(quiz), "2 of 40 answered");
+    assert.match(await question(quiz).locator(".feedback").innerText(), /^Correct\..*paved shoulder is not a travel lane/);
+    assert.equal(await question(quiz).getByRole("link", { name: /New York DMV.*Passing/ }).isVisible(), true);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    if (process.env.NY_PASSING_SCREENSHOTS_DIR) {
+      await question(quiz).screenshot({ path: path.join(process.env.NY_PASSING_SCREENSHOTS_DIR, `ny-passing-${width}.png`) });
+    }
+  }));
+}
 
 test("a regulatory draft and its misses still read the former ONE WAY and KEEP RIGHT cues", () =>
   withSite(390, async page => {
