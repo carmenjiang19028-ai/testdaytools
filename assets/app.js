@@ -3694,6 +3694,11 @@ function initDmvScoreCalculators() {
             nextLink.href = option.dataset.officialPracticeUrl;
             nextLink.textContent = `Open ${stateName} study questions`;
           }
+        } else if (gap && officialLength && !hasMixed && !separateRule && option.dataset.officialPracticeUrl) {
+          nextTitle.textContent = `Practice ${stateName} rules and signs next`;
+          nextCopy.textContent = "Use the agency's sample to review driving rules and road signs. This is study practice, not an official retake.";
+          nextLink.href = option.dataset.officialPracticeUrl;
+          nextLink.textContent = `Open ${option.dataset.agency} sample practice`;
         } else if (scaledLength) {
           nextTitle.textContent = primaryTopic ? `Practice ${primaryTopic} in the state format` : "Compare with the state test format";
           if (hasMixed && !metMixedGoal) {

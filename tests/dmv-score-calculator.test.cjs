@@ -34,6 +34,10 @@ const directSources = {
   "new-york": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-1-driver-licenses",
   "new-jersey": "https://www.nj.gov/mvc/license/sample_knowledge_test.htm",
 };
+const wholeKnowledgeSamples = {
+  ohio: "https://www.bmv.ohio.gov/dl-sample-test.aspx",
+  arizona: "https://azdot.gov/mvd/services/driver-services/tests-manuals-and-driving-schools/practice-tests",
+};
 
 test("California, New York and New Jersey verification links lead to the direct published rules", async () => {
   const { context, page } = await openScore();
@@ -88,6 +92,10 @@ for (const [width, scriptsOff] of [[320, true], [1280, false]]) {
       assert.match(await nc.getByText("Verify official rule").getAttribute("href"), /oah\.state\.nc\.us\/ncac\/.*\.0201\.pdf$/);
       const ncRow = page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: "North Carolina", exact: true }) });
       assert.match(await ncRow.innerText(), /actual knowledge count; 12 signs separately/);
+      for (const [state, url] of Object.entries(wholeKnowledgeSamples)) {
+        const card = page.locator(`#${state}-permit-test-passing-score`);
+        assert.equal(await card.getByRole("link", { name: /sample practice/ }).getAttribute("href"), url);
+      }
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
       if (screenshots) await example.screenshot({ path: path.join(screenshots, `manual-score-${width}.png`) });
@@ -104,7 +112,7 @@ for (const width of [320, 1280]) {
       for (const [name, total, correct, destination, expectedStatus] of [
         ["florida", "10", "8", "florida-dmv-permit-practice-test.html?mode=mock#practice", "Meets the scaled practice target"],
         ["florida", "40", "32", "https://www.flhsmv.gov/resources/handbooks-manuals/", "Meets the scaled practice target"],
-        ["ohio", "10", "8", "https://www.bmv.ohio.gov/dl-gdl.aspx", "Meets the scaled practice target"],
+        ["ohio", "10", "8", wholeKnowledgeSamples.ohio, "Meets the scaled practice target"],
         ["georgia", "10", "7", "https://dds.georgia.gov/testing-and-training/practice-test", "1 more correct answer needed"],
         ["georgia", "10", "9", "https://dds.georgia.gov/testing-and-training/practice-test", "Scaled practice target met; road-sign rule not checked"],
       ]) {
@@ -286,6 +294,37 @@ for (const width of [320, 1280]) {
       assert.equal(await displayed.innerText(), "80%");
       assert.match(await score(page), /^Meets/);
       assert.equal((await tracked(page)).length, 3);
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
+  test(`${width}px: low Ohio and Arizona knowledge scores lead to the official whole-subject samples`, async () => {
+    const { context, page } = await openScore({ width, height: 844 });
+    try {
+      for (const [state, total, needed, guide] of [
+        ["ohio", 40, 30, "ohio-bmv-road-signs-practice.html"],
+        ["arizona", 30, 24, "arizona-mvd-road-signs-practice.html"],
+      ]) {
+        await page.locator("[data-score-state]").selectOption(state);
+        await useLength(page).click();
+        assert.equal(await totalInput(page).inputValue(), String(total));
+        await correctInput(page).fill(String(needed - 1));
+        await check(page);
+        assert.equal(await score(page), "1 more correct answer needed");
+        assert.equal(await nextLink(page).getAttribute("href"), wholeKnowledgeSamples[state]);
+        assert.match(await page.locator("[data-score-next-copy]").innerText(), /driving rules and road signs.*not an official retake/);
+        assert.equal(await page.getByRole("link", { name: "Road-sign practice", exact: true }).getAttribute("href"), guide);
+        if (process.env.SAMPLE_ROUTE_SCREENSHOTS_DIR) {
+          await page.locator(".score-panel").screenshot({ path: path.join(process.env.SAMPLE_ROUTE_SCREENSHOTS_DIR, `${state}-score-${width}.png`) });
+        }
+        await correctInput(page).fill(String(needed));
+        await check(page);
+        assert.equal(await score(page), "Meets the selected state target");
+        assert.ok((await nextLink(page).getAttribute("href")).startsWith(guide + "#"));
+      }
+      assert.deepEqual((await tracked(page)).map(event => event.result), ["below_target", "target_met", "below_target", "target_met"]);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     } finally { await context.close(); }
   });
 }

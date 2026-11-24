@@ -1041,6 +1041,7 @@ def dmv_score_records(include_supplemental=False):
             "rule": "30 correct out of 40 questions",
             "miss": "10",
             "note": "Ohio BMV lists 40 multiple-choice questions and requires 75% correct, which means 30 correct answers.",
+            "officialPracticeUrl": "https://www.bmv.ohio.gov/dl-sample-test.aspx",
         },
         "virginia": {
             "questions": 30,
@@ -1064,6 +1065,7 @@ def dmv_score_records(include_supplemental=False):
             "rule": "24 correct out of 30 questions",
             "miss": "6",
             "note": "Arizona MVD lists a 30-question written permit test and requires a score of 80% or higher.",
+            "officialPracticeUrl": "https://azdot.gov/mvd/services/driver-services/tests-manuals-and-driving-schools/practice-tests",
         },
         "north-carolina": {
             "percent": 80,
@@ -5680,6 +5682,11 @@ def render_dmv_score_answers(records):
                 f'The published passing rule for {item["label"]} is {item["percent"]}% for this path. '
                 "Enter the current test length in the calculator to see the matching correct-answer target and miss limit."
             )
+        sample = item["officialPracticeUrl"] if (
+            item["questions"] and not item["sectionQuestions"] and not item["minimumQuestions"]
+            and not item.get("mixedPracticeUrl")
+        ) else ""
+        practice_label = f'Open {item["agency"]} sample practice' if sample else "Open practice"
         cards.append(f"""<article class="score-answer-card" id="{esc(item["value"])}-permit-test-passing-score">
   <span>State answer</span>
   <h3>How many questions can you miss on the {esc(item["label"])} permit test?</h3>
@@ -5687,7 +5694,7 @@ def render_dmv_score_answers(records):
   <p>{esc(item["scoreNote"])}</p>
   <div class="score-answer-actions">
     <a href="{esc(item["scoreRuleUrl"])}" target="_blank" rel="noopener">Verify official rule</a>
-    <a href="{esc(item["permitUrl"])}">Open practice</a>
+    <a href="{esc(sample or item["permitUrl"])}">{esc(practice_label)}</a>
     <a href="{esc(item["testDayUrl"])}">{esc(item["testDayLabel"])}</a>
   </div>
 </article>""")
