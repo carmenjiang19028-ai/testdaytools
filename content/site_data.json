@@ -7247,7 +7247,7 @@
         },
         {
           "label": "Privacy",
-          "value": "Answers stay in your browser"
+          "value": "Your selected answers stay in your browser"
         }
       ],
       "quiz": "californiaSigns",
@@ -7975,7 +7975,7 @@
           {
             "label": "No account needed",
             "value": "Browser-only scoring",
-            "note": "Answers stay in your browser and are not saved to a profile."
+            "note": "Your selected answers are not sent or saved to an account. Practice counts may be measured."
           }
         ],
         "path": [
@@ -8309,7 +8309,7 @@
         },
         {
           "label": "Privacy",
-          "value": "Answers stay in your browser"
+          "value": "Your selected answers stay in your browser"
         }
       ],
       "quiz": "newyorkSigns",
@@ -8602,7 +8602,7 @@
           {
             "label": "No account needed",
             "value": "Browser-only scoring",
-            "note": "Answers stay in your browser and are not saved to a profile."
+            "note": "Your selected answers are not sent or saved to an account. Practice counts may be measured."
           }
         ],
         "path": [

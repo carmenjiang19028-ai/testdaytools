@@ -2010,6 +2010,7 @@ def render_trust_strip(tool):
             official = fact.get("value", official)
             break
     updated = tool.get("lastUpdated", SITE["lastUpdated"])
+    privacy_details = ""
     if not (tool.get("quiz") or tool.get("quizModes")):
         if "road-signs" not in tool.get("slug", ""):
             return ""
@@ -2017,10 +2018,14 @@ def render_trust_strip(tool):
         privacy_note = "No answers collected on this guide"
     else:
         quality_note = "Original practice questions"
-        privacy_note = "Answers stay in this browser"
+        privacy_note = "Selected answers stay in this browser"
+        privacy_details = (
+            '<p class="panel-source">Google Analytics may receive totals, including correct and missed counts. '
+            '<a href="privacy.html">Privacy details</a></p>'
+        )
     return f"""<section class="trust-strip" aria-label="Practice trust notes">
   <div><span>Source context</span><strong>{esc(official)}</strong></div>
-  <div><span>Privacy</span><strong>{esc(privacy_note)}</strong></div>
+  <div><span>Privacy</span><strong>{esc(privacy_note)}</strong>{privacy_details}</div>
   <div><span>Quality check</span><strong>{esc(quality_note)}</strong></div>
   <div><span>Updated</span><strong>{esc(updated)}</strong></div>
 </section>"""

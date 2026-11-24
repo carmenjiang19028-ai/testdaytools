@@ -28,7 +28,7 @@ Educators and resource curators may link directly to the live practice test or p
 
 - Plain static HTML, CSS, and JavaScript
 - Python standard-library site build script; ReportLab is used only to regenerate the optional classroom PDF
-- No runtime dependencies and no collection of names, emails, license numbers, or test scores
+- Core practice does not need an account or a third-party script. Selected quiz answers stay in the browser; Google Analytics may receive practice counts. See the [privacy policy](https://testdaytools.com/privacy.html) for details.
 
 ## Update content
 

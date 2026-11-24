@@ -139,6 +139,19 @@ class StaticBuildTest(unittest.TestCase):
         self.assertIn(True, comparisons)
         self.assertIn(False, comparisons)
 
+    def test_dmv_practice_distinguishes_local_answers_from_analytics_totals(self):
+        for tool in build.TOOL_BY_SLUG.values():
+            if tool.get("category") != "DMV":
+                continue
+            notice = build.render_trust_strip(tool)
+            with self.subTest(page=tool["slug"]):
+                if tool.get("quiz") or tool.get("quizModes"):
+                    self.assertIn("Selected answers stay in this browser", notice)
+                    self.assertIn("Google Analytics may receive totals, including correct and missed counts.", notice)
+                    self.assertIn('href="privacy.html"', notice)
+                else:
+                    self.assertNotIn("Google Analytics may receive totals", notice)
+
     def test_accurately_labeled_resources_keep_their_existing_breadcrumb(self):
         cases = {
             "ap-exam-day-checklist": "Checklist",
