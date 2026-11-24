@@ -39,6 +39,58 @@ const wholeKnowledgeSamples = {
   arizona: "https://azdot.gov/mvd/services/driver-services/tests-manuals-and-driving-schools/practice-tests",
 };
 
+for (const width of [320, 1280]) {
+  test(`${width}px: score and requirements distinguish a supported visit from an unlisted state`, async () => {
+    const origin = "http://tdt-score.test";
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    await context.route(origin + "/**", route => route.fulfill({
+      path: path.join(root, new URL(route.request().url()).pathname.slice(1)),
+    }));
+    try {
+      const page = await context.newPage();
+      const hub = origin + "/dmv-practice.html";
+      await page.goto(hub);
+      await page.locator("[data-workbench-state]").selectOption("Arizona");
+      await page.locator(".site-header nav").getByRole("link", { name: "Can I miss?", exact: true }).click();
+      await page.waitForLoadState("load");
+      assert.equal(await page.locator("[data-score-state]").inputValue(), "arizona");
+      assert.match(await page.locator("[data-score-rule]").textContent(), /24 correct out of 30/);
+      const scoreUrl = origin + "/dmv-permit-test-passing-score-calculator.html";
+      const requirementsUrl = origin + "/dmv-permit-test-requirements-by-state.html";
+      await page.goto(requirementsUrl);
+      assert.equal(await page.locator("[data-requirements-state]").inputValue(), "arizona");
+      assert.match(await page.locator("[data-requirements-state-title]").textContent(), /Arizona/);
+      await page.goto(hub);
+      await page.locator("[data-workbench-state]").selectOption("Michigan");
+      for (const [url, type, details] of [
+        [scoreUrl, "score", "[data-score-check]"],
+        [requirementsUrl + "?state=michigan", "requirements", "[data-requirements-pass]"],
+      ]) {
+        await page.goto(url);
+        const state = page.locator(`[data-${type}-state]`);
+        const alternative = page.locator("[data-dmv-state-alternative]");
+        assert.equal(await state.inputValue(), "");
+        assert.equal(await alternative.getByRole("heading", { name: "Michigan permit steps" }).isVisible(), true);
+        assert.equal(await alternative.getByRole("link", { name: "Open Michigan permit steps" }).getAttribute("href"),
+          "michigan-sos-road-signs-practice.html#michigan-test-path");
+        assert.equal(await page.locator(details).isVisible(), false);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+        assert.deepEqual(await tracked(page), []);
+        await state.selectOption("new-york");
+        assert.equal(await alternative.isVisible(), false);
+        assert.equal(await page.locator(details).isVisible(), true);
+      }
+      await page.goto(scoreUrl + "?state=new-york");
+      assert.equal(await page.locator("[data-score-state]").inputValue(), "new-york");
+      await page.goto(scoreUrl + "?state=oregon");
+      assert.equal(await page.locator("[data-score-state]").inputValue(), "");
+      assert.equal(await page.locator("[data-dmv-state-alternative]").getByRole("link", { name: "Browse state permit guides" }).isVisible(), true);
+      assert.equal(await page.locator("[data-score-check]").isVisible(), false);
+    } finally { await context.close(); }
+  });
+}
+
 test("California, New York and New Jersey verification links lead to the direct published rules", async () => {
   const { context, page } = await openScore();
   try {
@@ -99,6 +151,12 @@ for (const [width, scriptsOff] of [[320, true], [1280, false]]) {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
       if (screenshots) await example.screenshot({ path: path.join(screenshots, `manual-score-${width}.png`) });
+      await page.goto(`${origin}/dmv-permit-test-requirements-by-state.html?state=michigan#requirements-finder`);
+      assert.equal(await page.locator("[data-requirements-state]").isVisible(), false);
+      assert.equal(await page.locator("[data-requirements-pass]").isVisible(), false);
+      await page.getByRole("link", { name: "Compare published state rules" }).press("Enter");
+      await page.waitForURL(url => url.hash === "#compare-states");
+      assert.ok(await page.locator("#compare-states").getByRole("rowheader", { name: "New York" }).isVisible());
     } finally { await context.close(); }
   });
 }

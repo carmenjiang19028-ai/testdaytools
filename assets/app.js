@@ -3435,6 +3435,35 @@ function initDmvStudyPlanners() {
   });
 }
 
+function prepareDmvStateComparison(widget, stateSelect) {
+  const alternative = widget.querySelector("[data-dmv-state-alternative]");
+  if (!stateSelect || !alternative) return () => true;
+  const details = widget.querySelectorAll("[data-dmv-state-details]");
+  const explicit = normalizeDmvState(new URLSearchParams(window.location.search).get("state"));
+  const requested = explicit || normalizeDmvState(readDmvJourney().state);
+  if (requested) {
+    const option = Array.from(stateSelect.options).find(item => item.value === requested);
+    stateSelect.value = option?.value || "";
+    if (!option) {
+      const guide = Array.from(alternative.querySelectorAll("[data-dmv-state-guide]"))
+        .find(item => item.dataset.dmvStateGuide === requested);
+      if (guide) {
+        const label = guide.dataset.label;
+        const link = alternative.querySelector("[data-dmv-state-guide-link]");
+        alternative.querySelector("h3").textContent = `${label} permit steps`;
+        link.href = guide.dataset.permitStepsUrl;
+        link.textContent = `Open ${label} permit steps`;
+      }
+    }
+  }
+  return () => {
+    const available = Boolean(stateSelect.value);
+    details.forEach(panel => { panel.hidden = !available; });
+    alternative.hidden = available;
+    return available;
+  };
+}
+
 function initDmvRequirementsFinders() {
   document.querySelectorAll("[data-dmv-requirements]").forEach((widget) => {
     const stateSelect = widget.querySelector("[data-requirements-state]");
@@ -3453,24 +3482,10 @@ function initDmvRequirementsFinders() {
     const checklist = widget.querySelector("[data-requirements-checklist]");
     const score = widget.querySelector("[data-requirements-score]");
 
-    const setStateFromQuery = () => {
-      if (!stateSelect) return;
-      let requested = "";
-      try {
-        requested = new URLSearchParams(window.location.search).get("state") || "";
-      } catch (error) {
-        requested = "";
-      }
-      if (!requested) return;
-      const normalized = requested.trim().toLowerCase().replace(/\s+/g, "-");
-      const match = Array.from(stateSelect.options).find((option) => {
-        const label = option.textContent.trim().toLowerCase().replace(/\s+/g, "-");
-        return option.value === normalized || label === normalized;
-      });
-      if (match) stateSelect.value = match.value;
-    };
+    const stateAvailable = prepareDmvStateComparison(widget, stateSelect);
 
     const render = () => {
+      if (!stateAvailable()) return;
       const option = stateSelect?.selectedOptions?.[0];
       if (!option) return;
       const stateName = option.textContent.trim();
@@ -3510,9 +3525,12 @@ function initDmvRequirementsFinders() {
       }
     };
 
-    setStateFromQuery();
     stateSelect?.addEventListener("change", render);
     render();
+    if (!stateSelect) return;
+    widget.querySelectorAll("[data-requirements-interactive]").forEach(panel => { panel.hidden = false; });
+    const fallback = widget.querySelector("[data-requirements-fallback]");
+    if (fallback) fallback.hidden = true;
   });
 }
 
@@ -3553,24 +3571,8 @@ function initDmvScoreCalculators() {
     const nextLink = widget.querySelector("[data-score-next-link]");
     let scoreChecked = false;
 
-    const currentOption = () => stateSelect?.selectedOptions?.[0];
-
-    const setStateFromQuery = () => {
-      if (!stateSelect) return;
-      let requested = "";
-      try {
-        requested = new URLSearchParams(window.location.search).get("state") || "";
-      } catch (error) {
-        requested = "";
-      }
-      if (!requested) return;
-      const normalized = requested.trim().toLowerCase().replace(/\s+/g, "-");
-      const match = Array.from(stateSelect.options).find((option) => {
-        const label = option.textContent.trim().toLowerCase().replace(/\s+/g, "-");
-        return option.value === normalized || label === normalized;
-      });
-      if (match) stateSelect.value = match.value;
-    };
+    const currentOption = () => stateSelect?.value ? stateSelect.selectedOptions[0] : undefined;
+    const stateAvailable = prepareDmvStateComparison(widget, stateSelect);
 
     const thresholdFor = (option, total) => {
       const officialQuestions = Number(option?.dataset.questions) || 0;
@@ -3821,6 +3823,7 @@ function initDmvScoreCalculators() {
     };
 
     const renderState = () => {
+      if (!stateAvailable()) return;
       const option = currentOption();
       if (!option) return;
       const officialQuestions = option.dataset.questions || "";
@@ -3910,9 +3913,8 @@ function initDmvScoreCalculators() {
         target: analyticsPathFromHref(nextLink.href),
       });
     });
-    setStateFromQuery();
     renderState();
-    if (!currentOption() || !scoreForm || !totalInput || !correctInput) return;
+    if (!stateSelect || !scoreForm || !totalInput || !correctInput) return;
     widget.querySelectorAll("[data-score-interactive]").forEach((controls) => { controls.hidden = false; });
     const fallback = widget.querySelector("[data-score-fallback]");
     if (fallback) fallback.hidden = true;

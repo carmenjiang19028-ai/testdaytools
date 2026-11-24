@@ -1373,6 +1373,9 @@ h3 {
   font-size: 1.15rem;
 }
 
+[data-dmv-state-alternative][hidden],
+[data-dmv-state-details][hidden],
+[data-requirements-interactive][hidden],
 [data-score-interactive][hidden],
 [data-score-fallback][hidden] {
   display: none;

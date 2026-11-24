@@ -744,7 +744,8 @@ for (const width of [390, 1280]) {
       for (const [state, label, format, passing, officialHost, signs, documents] of additionalRequirementPaths) {
         await page.goto(`${origin}${requirements}?state=${state}#requirements-finder`);
         assert.equal(await selector.inputValue(), state);
-        assert.equal(await selector.locator("option").count(), 12);
+        assert.equal(await selector.locator('option:not([value=""])').count(), 12);
+        assert.equal(await selector.locator('option[value=""][disabled]').count(), 1);
         assert.match(await page.locator("[data-requirements-format]").innerText(), format);
         assert.match(await page.locator("[data-requirements-pass]").innerText(), passing);
         assert.match(await page.locator("[data-requirements-documents]").innerText(), documents);

@@ -5469,6 +5469,21 @@ def render_dmv_study_plan_page():
     )
 
 
+def render_dmv_comparison_alternative(records):
+    available = {item["value"] for item in records}
+    guides = "".join(
+        f'<template data-dmv-state-guide="{esc(route["state"])}" '
+        f'data-label="{esc(route["label"])}" data-permit-steps-url="{esc(route["checklist-url"])}"></template>'
+        for route in dmv_workbench_routes() if route["state"] not in available
+    )
+    return f'''<section class="dmv-source-card" data-dmv-state-alternative hidden>
+    <h3>State not listed in this tool</h3>
+    <p>Use your state's permit steps instead of applying another state's rules.</p>
+    <p><a href="dmv-practice.html#state-paths" data-dmv-state-guide-link>Browse state permit guides</a></p>
+    {guides}
+  </section>'''
+
+
 def render_dmv_requirements_finder(records):
     if not records:
         return ""
@@ -5514,15 +5529,16 @@ def render_dmv_requirements_finder(records):
     <h2>Choose a state and see the permit-test path</h2>
     <p class="section-intro">Use this as a fast planning map: official source first, then test format, passing rule, documents, signs, and practice links. Final rules always come from the state agency.</p>
   </div>
-  <div class="requirements-grid">
+  <p data-requirements-fallback><a href="#compare-states">Compare published state rules</a></p>
+  <div class="requirements-grid" data-requirements-interactive hidden>
     <aside class="requirements-control">
-      <label>Choose state <select data-requirements-state>{options}</select></label>
-      <div class="dmv-source-card">
+      <label>Choose state <select data-requirements-state><option value="" disabled hidden>Choose a listed state</option>{options}</select></label>
+      <div class="dmv-source-card" data-dmv-state-details>
         <span data-requirements-agency>{esc(default["agency"])}</span>
         <strong data-requirements-state-title>{esc(default["label"])} permit-test requirements</strong>
         <p data-requirements-focus>{esc(default["focus"])}</p>
       </div>
-      <div class="requirements-actions">
+      <div class="requirements-actions" data-dmv-state-details>
         <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-requirements-source>Official source</a>
         <a href="{esc(default["mixedPracticeUrl"])}" data-requirements-practice{' hidden' if not default["mixedPracticeUrl"] else ''}>Mixed practice</a>
         <a href="{esc(default["signUrl"])}" data-requirements-signs>Road signs</a>
@@ -5530,12 +5546,13 @@ def render_dmv_requirements_finder(records):
         <a href="{esc(default["scoreUrl"])}" data-requirements-score>Score check</a>
       </div>
     </aside>
-    <div class="requirements-snapshot">
+    <div class="requirements-snapshot" data-dmv-state-details>
       <article><span>Test format</span><strong data-requirements-format>{esc(default["format"])}</strong><p data-requirements-format-note>{esc(default["formatText"])}</p></article>
       <article><span>Passing rule</span><strong data-requirements-pass>{esc(default["passRule"])}</strong><p data-requirements-pass-note>{esc(default["passText"])}</p></article>
       <article><span>Site practice benchmark</span><strong data-requirements-target>{esc(default["practiceTarget"])}</strong><p>Road-sign scores are separate from a full mixed set and do not establish an official passing result.</p></article>
       <article><span>Documents</span><strong>Verify before visiting</strong><p data-requirements-documents>{esc(default["documents"])}</p></article>
     </div>
+    {render_dmv_comparison_alternative(records)}
   </div>
   <div class="source-matrix requirements-table" id="compare-states" data-state-filter-scope>
     <div class="section-head-row">
@@ -5543,7 +5560,7 @@ def render_dmv_requirements_finder(records):
         <span class="eyebrow">Compare states</span>
         <h3>Permit test format, passing rule, and official source</h3>
       </div>
-      <div class="state-filter compact-filter">
+      <div class="state-filter compact-filter" data-requirements-interactive hidden>
         <label for="requirements-filter">Filter table</label>
         <input id="requirements-filter" type="search" placeholder="Type Florida, 50 questions, 80%..." data-requirements-filter data-state-filter>
       </div>
@@ -5706,19 +5723,19 @@ def render_dmv_score_calculator():
   </div>
   <div class="score-grid" data-score-interactive hidden>
     <aside class="score-control">
-      <label>Choose state <select data-score-state>{options}</select></label>
-      <div class="score-official">
+      <label>Choose state <select data-score-state><option value="" disabled hidden>Choose a listed state</option>{options}</select></label>
+      <div class="score-official" data-dmv-state-details>
         <span data-score-agency>{esc(default["agency"])}</span>
         <strong data-score-rule>{esc(default["rule"])}</strong>
         <p data-score-note>{esc(default["scoreNote"])}</p>
       </div>
-      <div class="score-actions">
+      <div class="score-actions" data-dmv-state-details>
         <a href="{esc(default["scoreRuleUrl"])}" target="_blank" rel="noopener" data-score-source>Official source</a>
         <a href="{esc(default.get("mixedPracticeUrl") or default["signUrl"])}" data-score-practice>{'Mixed practice' if default.get("mixedPracticeUrl") else 'Road-sign practice'}</a>
         <a href="{esc(default["testDayUrl"])}" data-score-checklist>{esc(default["testDayLabel"])}</a>
       </div>
     </aside>
-    <form class="score-panel" novalidate>
+    <form class="score-panel" data-dmv-state-details novalidate>
       <div class="score-stat-row">
         <article><span data-score-length-label>Official length</span><strong data-score-questions>{esc(default["questions"] or "Use source")}</strong><p data-score-length-note>Questions on the state knowledge test when the source gives a fixed number.</p></article>
         <article><span>Need correct</span><strong data-score-correct>{esc(default["correct"] or default["rule"])}</strong><p>Minimum correct answers or percentage rule.</p></article>
@@ -5757,6 +5774,7 @@ def render_dmv_score_calculator():
         </div>
       </div>
     </form>
+    {render_dmv_comparison_alternative(records)}
   </div>
   <div class="source-matrix requirements-table" id="score-table" data-state-filter-scope>
     <div class="section-head-row">
