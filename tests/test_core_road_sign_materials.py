@@ -1,11 +1,15 @@
 import html
 import json
+import os
+import shutil
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from urllib.parse import parse_qsl, urlencode, urlsplit
 from xml.etree import ElementTree as ET
 
 from pypdf import PdfReader
+from reportlab.pdfgen import canvas
 from scripts.build import (
     DATA, SIGN_SVGS, TOOL_BY_SLUG, road_sign_image_records, road_sign_materials, road_sign_shape_records,
     render_contrast_lessons, render_crossing_shape_drill, render_online_classroom_worksheet,
@@ -15,6 +19,7 @@ from scripts.build_road_sign_classroom_pack import (
     CLASSROOM_SIGNS, DECISION_CASES, DECISION_REVIEWED, FHWA_FLAGGER_URL,
     PENNDOT_SIGNS_URL, TRANSFER_KEY, TRANSFER_PROMPT,
 )
+from scripts.build_road_sign_pdf import reference_pdf_differences
 from scripts.road_sign_print_links import CLASSROOM_WORKSHEET_URL, PRACTICE_DISPLAY, PRACTICE_URL
 from scripts.road_sign_classroom_content import RECOGNITION_ITEMS
 
@@ -268,6 +273,29 @@ class CoreMaterialTests(unittest.TestCase):
             text = " ".join(p.extract_text() for p in pdf.pages)
             self.assertIn("2026-10-28", text)
             self.assertNotIn("qualified instructor approved", text.lower())
+
+    @unittest.skipUnless(shutil.which(os.environ.get("PDFTOPPM_BIN", "pdftoppm")), "Poppler not installed")
+    def test_reference_check_detects_visual_and_link_drift_but_ignores_metadata(self):
+        with TemporaryDirectory() as work:
+            directory = Path(work)
+
+            def render(name, *, mark_x=72, url="https://example.test/practice"):
+                target = directory / f"{name}.pdf"
+                pdf = canvas.Canvas(str(target), pagesize=(612, 792))
+                pdf.setTitle(name)
+                pdf.rect(mark_x, 600, 24, 24, fill=1)
+                pdf.linkURL(url, (72, 600, 96, 624))
+                pdf.save()
+                return target
+
+            current = render("current")
+            for name, args, expected in [
+                ("metadata-only", {}, []),
+                ("artwork", {"mark_x": 80}, ["Page 1: printed artwork or layout differs."]),
+                ("link-only", {"url": "https://example.test/other"}, ["Page 1: link destinations or click areas differ."]),
+            ]:
+                with self.subTest(case=name):
+                    self.assertEqual(reference_pdf_differences(current, render(name, **args), directory), expected)
 
     def test_print_reference_color_cues_are_textual_and_on_page_one(self):
         reference = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf")

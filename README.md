@@ -72,8 +72,17 @@ python3 scripts/build_road_sign_pdf.py
 python3 scripts/build_road_sign_classroom_pack.py
 ```
 
-The PDF builder uses an installed Chrome or Chromium binary and writes
-`dmv-road-signs-cheat-sheet.pdf` at the site root.
+The PDF builder uses Google Chrome via Playwright and writes
+`dmv-road-signs-cheat-sheet.pdf` at the site root. To catch stale artwork,
+layout, or click targets without rewriting the download, run:
+
+```bash
+python3 scripts/build_road_sign_pdf.py --check
+```
+
+This check also needs Poppler's `pdftoppm` (or set `PDFTOPPM_BIN`), Pillow,
+and pypdf. Run with the same Chrome and font setup as the PDF builder.
+If the comparison fails, review the difference before regenerating.
 
 The classroom-pack builder uses ReportLab and writes
 `dmv-road-signs-classroom-worksheet.pdf` at the site root.
