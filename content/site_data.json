@@ -6308,47 +6308,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "California signs by shape, color, and markings",
+        "heading": "California mixed-round review: parking and curbs",
         "intro": "If a parking question confused you, name the curb color and say what you may do there. Then check the posted signs: the color is only the first clue.",
         "reviewLink": {
           "label": "Practice the five curb colors",
           "href": "california-dmv-road-signs-practice.html?mode=ca-curb-checkpoint#practice"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": {
         "kicker": "Practice by topic",
@@ -7668,47 +7634,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "California signs by shape, color, and markings",
+        "heading": "California curb colors and posted restrictions",
         "intro": "A color can tell you what kind of restriction to look for, but it does not tell you its hours. When you review a curb, look for both the paint and the posted restriction.",
         "reviewLink": {
           "label": "Retake the curb-color check",
           "href": "?mode=ca-curb-checkpoint#practice"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": null,
       "checklist": [
@@ -8191,47 +8123,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "New York signs by shape, color, and markings",
+        "heading": "New York turning questions: signal, sign, and location",
         "intro": "If you missed a turning question, separate three details: what the light shows, what the sign says, and where the intersection is. An answer about a sign alone does not settle all three.",
         "reviewLink": {
           "label": "Compare New York right-on-red cases",
           "href": "new-york-dmv-road-signs-practice.html#new-york-right-on-red"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": {
         "kicker": "Practice by topic",
@@ -8870,47 +8768,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "New York signs by shape, color, and markings",
+        "heading": "New York four-sign checkpoint review",
         "intro": "Before opening the sign library, take the four-picture checkpoint. For every miss, say the action the driver should take, then find the shape, words, or symbol that tells you to take it.",
         "reviewLink": {
           "label": "Retake the four-sign checkpoint",
           "href": "?mode=ny-four-sign-checkpoint#practice"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": null,
       "checklist": [
@@ -9883,42 +9747,10 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "Texas signs by shape, color, and markings",
-        "intro": "After a missed sign, use its shape, color, or markings to explain the action before trying the picture again.",
+        "heading": "Texas work-zone signs and channelizing devices",
+        "intro": "After a work-zone miss, trace which side the stripes lead you toward. Then check whether a flagger changes your next action.",
+        "sharedReference": true,
         "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          },
           {
             "label": "Texas work zones",
             "title": "Barricade stripes show which side to pass",
@@ -9930,7 +9762,11 @@
               "Check traffic before returning to the normal lane after the work zone."
             ]
           }
-        ]
+        ],
+        "reviewLink": {
+          "label": "Try the Texas barricade and flagger cases",
+          "href": "#texas-work-zone-panels"
+        }
       },
       "practiceTopics": null,
       "checklist": [
@@ -10516,47 +10352,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "Florida signs by shape, color, and markings",
+        "heading": "Florida mixed-round review: warning or required action?",
         "intro": "If a mixed question came down to a sign, pull it out of the full round. Ask whether the sign warns of a hazard or tells you what you must do; then explain the action in your own words.",
         "reviewLink": {
           "label": "Open the Florida regulatory starter",
           "href": "florida-dmv-road-signs-practice.html?mode=florida-regulatory-starter#practice"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": {
         "kicker": "Practice by topic",
@@ -11232,48 +11034,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "Florida regulatory signs by shape, color, and markings",
+        "heading": "Florida entry signs: before the ramp or already facing traffic?",
         "intro": "If you confuse Do Not Enter and Wrong Way, picture where your car is: still before the entrance, or already facing the wrong direction. The signs call for different responses.",
         "reviewLink": {
           "label": "Compare Do Not Enter and Wrong Way",
           "href": "road-sign-learning-loop.html#lesson-do-not-enter-wrong-way"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you whether the sign is regulatory, warning, or school-related before you read the words.",
-            "items": [
-              "Octagon: stop completely; this is a regulatory command.",
-              "Triangle: yield and give right of way; this is also regulatory.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, wrong way, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "White with black text: regulatory rules such as speed limit or no U-turn.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": null,
       "checklist": [
@@ -12585,47 +12352,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "Illinois signs by shape, color, and markings",
+        "heading": "Illinois school signs and the posted limit",
         "intro": "A school warning tells you to look for children. To decide whether a lower limit applies in an Illinois school zone, also check the posted rule and the conditions in the scene.",
         "reviewLink": {
           "label": "Try the Illinois school-zone cases",
           "href": "#illinois-school-zone"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": null,
       "checklist": [
@@ -13063,47 +12796,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "Pennsylvania signs by shape, color, and markings",
+        "heading": "Pennsylvania mixed-round review: repair sign misses",
         "intro": "Sort misses from your mixed round into sign recognition and driving decisions. If it was a sign, name its clue and the action first, then retake just the picture questions.",
         "reviewLink": {
           "label": "Retake the Pennsylvania sign questions",
           "href": "?mode=signs#practice"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": {
         "kicker": "Practice by topic",
@@ -13536,47 +13235,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "Pennsylvania signs by shape, color, and markings",
+        "heading": "Pennsylvania sign review: merge or lane ends?",
         "intro": "If a lane diagram tripped you up, trace both lines before reading the choices. Check whether a second stream of traffic joins your lane or whether one lane actually disappears.",
         "reviewLink": {
           "label": "Compare Merge and Lane Ends",
           "href": "road-sign-learning-loop.html#lesson-merge-lane-ends"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": null,
       "checklist": [
@@ -14030,47 +13695,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "New Jersey signs by shape, color, and markings",
+        "heading": "New Jersey mixed-round review: retry missed signs",
         "intro": "If you missed a picture in the mixed round, redo the sign questions separately. Describe what the sign changes about a driver's next move, even if you cannot recall its exact name.",
         "reviewLink": {
           "label": "Retake the New Jersey sign questions",
           "href": "?mode=signs#practice"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": {
         "kicker": "Practice by topic",
@@ -14506,47 +14137,13 @@
       },
       "signStudy": {
         "kicker": "Road sign study guide",
-        "heading": "New Jersey signs by shape, color, and markings",
+        "heading": "New Jersey arrows: lane movement or road direction?",
         "intro": "When you miss an arrow sign, ask what it controls: traffic on the whole road, or only the movement from your lane. Use the words and the position of the arrow to check your answer.",
         "reviewLink": {
           "label": "Practice lane and direction signs",
           "href": "regulatory-traffic-signs-practice-test.html?focus=Lane%20and%20direction%20signs#practice"
         },
-        "groups": [
-          {
-            "label": "Shapes",
-            "title": "Shape gives the first clue",
-            "text": "Shape often tells you the urgency before you read the words.",
-            "items": [
-              "Octagon: stop completely.",
-              "Triangle: yield and give right of way.",
-              "Diamond: warning or changing road condition.",
-              "Pentagon: school zone or school crossing."
-            ]
-          },
-          {
-            "label": "Colors",
-            "title": "Color tells the type of action",
-            "text": "Color helps separate a rule, a warning, or a service sign quickly.",
-            "items": [
-              "Red: stop, yield, do not enter, or prohibited action.",
-              "Yellow: general warning or caution.",
-              "Orange: work zone or temporary traffic control.",
-              "Blue/green: services, routes, or guide information."
-            ]
-          },
-          {
-            "label": "Markings",
-            "title": "Lines and signals are test material too",
-            "text": "Permit questions often mix signs with lane markings and traffic signals.",
-            "items": [
-              "Solid yellow on your side usually means no passing.",
-              "Flashing red works like a stop sign.",
-              "Flashing yellow means proceed carefully.",
-              "Crosswalk markings require pedestrian awareness."
-            ]
-          }
-        ]
+        "sharedReference": true
       },
       "practiceTopics": null,
       "checklist": [

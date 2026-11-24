@@ -286,6 +286,48 @@ for (const width of [390, 1280]) {
     }));
 }
 
+for (const width of [320, 1280]) {
+  test(`${width}px: state sign guides keep local tasks and share one usable reference`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, javaScriptEnabled: false });
+    await context.route(/^https?:/, route => route.abort());
+    try {
+      const page = await context.newPage();
+      const states = [...reviewPaths.map(([from]) => from), "texas-dmv-road-signs-practice"];
+      for (const slug of states) {
+        await page.goto(urlFor(`${slug}.html`).href);
+        const study = page.locator("#sign-study");
+        const shared = study.getByRole("link", { name: "Compare common signs, markings, and signals", exact: true });
+        assert.equal(await shared.getAttribute("href"), "road-sign-shapes-and-colors-finder.html#shape-reference", slug);
+        assert.doesNotMatch(await study.innerText(), /Shape gives the first clue|Color tells the type of action|Solid yellow on your side usually means no passing/, slug);
+        assert.ok(await study.locator(".tool-section-head a").isVisible(), slug);
+        assert.equal(await study.locator(".sign-study-grid article").count(), slug === "texas-dmv-road-signs-practice" ? 1 : 0, slug);
+        if (slug === "texas-dmv-road-signs-practice") {
+          assert.match(await study.innerText(), /Barricade stripes show which side to pass/);
+          assert.equal(await study.locator(".tool-section-head a").getAttribute("href"), "#texas-work-zone-panels");
+        }
+      }
+      const shared = page.locator("#sign-study").getByRole("link", { name: "Compare common signs, markings, and signals" });
+      await shared.press("Enter");
+      await page.waitForURL(url => url.pathname.endsWith("/road-sign-shapes-and-colors-finder.html") && url.hash === "#shape-reference");
+      assert.ok(await page.locator("#shape-reference table").isVisible());
+      await page.locator("#shape-reference").getByRole("link", { name: "Compare lines and flashing signals" }).press("Enter");
+      await page.waitForURL(url => url.hash === "#marking-signal-reference");
+      const section = page.locator("#marking-signal-reference");
+      const flash = section.getByText("Compare flashing red and flashing yellow", { exact: true });
+      await flash.press("Space");
+      const decision = await flash.locator("xpath=..").innerText();
+      assert.match(decision, /flashing red.*complete stop.*flashing yellow.*caution/is);
+      assert.equal(await section.getByRole("link", { name: "FHWA: flashing signal meanings" }).getAttribute("href"),
+        "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part4r1.pdf#page=2");
+      assert.equal(await section.getByRole("link", { name: "Compare a solid line and a passing sign" }).getAttribute("href"), "#passing-sign-check");
+      assert.equal(await section.getByRole("link", { name: "Compare pedestrian and school crossing cues" }).getAttribute("href"), "#crossing-shape-check");
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (screenshots) await section.screenshot({ path: path.join(screenshots, `shared-reference-${width}.png`) });
+    } finally { await context.close(); }
+  });
+}
+
 test("the shape guide reaches school and pedestrian questions on mobile", () =>
   open(390, async page => {
     await page.goto(urlFor("road-sign-shapes-and-colors-finder.html").href);

@@ -60,7 +60,7 @@ ROAD_SIGN_SHAPES_PAGE = {
     "category": "DMV",
     "title": "Road Sign Shapes and Colors: DMV Meaning Finder",
     "description": "Search road sign shapes and colors by meaning, action, and category, including yellow warning signs, red regulatory signs, brown guide signs, and DMV examples.",
-    "lastUpdated": "November 23, 2026",
+    "lastUpdated": "November 24, 2026",
 }
 TOOL_BY_SLUG[ROAD_SIGN_SHAPES_SLUG] = ROAD_SIGN_SHAPES_PAGE
 ROAD_SIGN_FLASHCARDS_SLUG = "dmv-road-sign-flashcards"
@@ -2693,13 +2693,17 @@ def render_sign_study(tool):
   <p>{esc(group.get("text", ""))}</p>
   <ul>{items}</ul>
 </article>""")
+    group_grid = f'\n  <div class="sign-study-grid">{"".join(groups)}</div>' if groups else ""
+    shared_reference = (
+        f'\n  <p><a class="info-card-link" href="{ROAD_SIGN_SHAPES_SLUG}.html#shape-reference">Compare common signs, markings, and signals</a></p>'
+        if study.get("sharedReference") else ""
+    )
     return f"""<section class="sign-study" id="sign-study">
   <div class="tool-section-head">
     <span class="eyebrow">{esc(study.get("kicker", "Sign study guide"))}</span>
     <h2>{esc(study["heading"])}</h2>
     <p class="section-intro">{esc(study.get("intro", ""))}</p>{review_link}
-  </div>
-  <div class="sign-study-grid">{"".join(groups)}</div>
+  </div>{group_grid}{shared_reference}
 </section>"""
 
 
@@ -4115,7 +4119,7 @@ def render_road_sign_shapes_page():
   <div class="tool-section-head">
     <span class="eyebrow">Reference table</span>
     <h2 id="shape-reference-heading">Road sign shape and color meanings</h2>
-    <p class="section-intro">Filter the table when you only remember part of a sign, such as yellow diamond, red triangle, blue hospital, or orange work zone.</p>
+    <p class="section-intro">Look up a shape, color or symbol. If the clue is not a sign, <a href="#marking-signal-reference">compare lines and flashing signals</a>.</p>
   </div>
   <div class="state-filter">
     <label for="shape-reference-filter">Filter shapes</label>
@@ -4128,6 +4132,18 @@ def render_road_sign_shapes_page():
       <tbody>{table_rows}</tbody>
     </table>
   </div>
+</section>
+<section class="content-section shape-crossing-drill" id="marking-signal-reference">
+  <h2>When a line or a flashing light changes the answer</h2>
+  <p>First identify what controls your movement: a sign beside the road, a line on the road, or the signal facing your lane.</p>
+  <p>At two intersections on the same route, one round light flashes red and the other flashes yellow. Where is a complete stop required?</p>
+  <details class="contrast-transfer">
+    <summary>Compare flashing red and flashing yellow</summary>
+    <p><strong>Flashing red:</strong> Make a complete stop at the stop line. Without a line, stop before the crosswalk, or before the intersection if there is no crosswalk. Follow the right-of-way rules for a stop before moving. <strong>Flashing yellow:</strong> Slow down and proceed with caution; the light alone does not require a stop. Yield as required and obey any signs or lane markings.</p>
+  </details>
+  <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part4r1.pdf#page=2">FHWA: flashing signal meanings</a>. These examples use round intersection signals, not arrow signals or pedestrian beacons.</p>
+  <p>Do not rely on the absence of a sign to interpret a road marking. <a href="#passing-sign-check">Compare a solid line and a passing sign</a>.</p>
+  <p>Identify a crossing warning by its outline and symbol, not color alone. <a href="#crossing-shape-check">Compare pedestrian and school crossing cues</a>.</p>
 </section>
 <section class="hub-primary">
   <h2>Practice after the shape guide</h2>
