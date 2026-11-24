@@ -52,6 +52,132 @@ async function localContext(width, options = {}) {
   return context;
 }
 
+const checklistUrl = state => `${origin}/dmv-test-day-checklist.html?state=${state}#dmv-checklist`;
+const visitMark = (page, id) => page.locator(`[data-dmv-check][value="${id}"]`);
+const packMark = (page, id) => page.locator(`[data-dmv-pack-item][value="${id}"]:visible`);
+const checkedValues = (page, key) => page.evaluate(storageKey => JSON.parse(localStorage.getItem(storageKey)).checked.sort(), key);
+const preparedMarks = (page, field) => page.locator(`[data-dmv-print-${field}] .dmv-print-box`).evaluateAll(
+  boxes => boxes.filter(box => box.textContent === "X").map(box => box.parentElement.textContent.slice(1)));
+
+for (const width of [320, 1280]) {
+  test(`${width}px: two checklist tabs preserve distinct marks and print the latest plan and pack`, async () => {
+    const context = await localContext(width);
+    try {
+      const [first, second] = [await context.newPage(), await context.newPage()];
+      await second.addInitScript(() => {
+        // Simulate a background page that has not processed the other tab's change.
+        addEventListener("storage", event => event.stopImmediatePropagation(), true);
+        window.copiedPlans = [];
+        Object.defineProperty(navigator, "clipboard", {
+          value: { writeText: async text => window.copiedPlans.push(text) },
+        });
+      });
+      await first.goto(checklistUrl("pennsylvania"));
+      await second.goto(checklistUrl("pennsylvania"));
+      const visitKey = "tdt-dmv-test-day:pennsylvania";
+      const packKey = "tdt-dmv-document-pack:pennsylvania:first-permit";
+      const identity = "identity-date-birth";
+      const residency = "residency-address";
+      const social = "pa-signed-social-security-card";
+      await visitMark(first, "official-source").check();
+      await packMark(first, identity).check();
+      assert.equal(await visitMark(second, "official-source").isChecked(), false);
+      assert.equal(await packMark(second, identity).isChecked(), false);
+      await visitMark(second, "identity").check();
+      await packMark(second, residency).check();
+      assert.deepEqual(await checkedValues(first, visitKey), ["identity", "official-source"]);
+      assert.deepEqual(await checkedValues(first, packKey), [identity, residency].sort());
+      await first.waitForFunction(id =>
+        document.querySelector(`[data-dmv-pack-item][value="${id}"]`)?.checked, residency);
+      assert.equal(await first.locator("[data-dmv-ready-score]").innerText(), "17%");
+
+      await visitMark(first, "official-source").uncheck();
+      await packMark(first, identity).uncheck();
+      assert.equal(await visitMark(second, "official-source").isChecked(), true);
+      assert.equal(await packMark(second, identity).isChecked(), true);
+      await second.locator("[data-dmv-copy-checklist]").click();
+      const [copy] = await second.evaluate(() => window.copiedPlans);
+      assert.match(copy, /Ready:\n- Confirm identity and age documents\n/);
+      assert.doesNotMatch(copy, /Ready:\n- Open the official state source/);
+      assert.equal(await packMark(second, identity).isChecked(), false);
+
+      await packMark(first, social).check();
+      const [printed, ...extra] = inspectPdf(await second.pdf({ format: "Letter", preferCSSPageSize: true }));
+      assert.equal(extra.length, 0);
+      assert.match(printed.text, /1 of 12 marked ready/);
+      assert.match(printed.text, /X Signed Social Security card/);
+      assert.doesNotMatch(printed.text, /X Identity and date of birth|X Open the official state source/);
+      assert.deepEqual(await preparedMarks(second, "checks"), ["Confirm identity and age documents"]);
+      assert.deepEqual(await checkedValues(first, packKey), [residency, social].sort());
+
+      await first.locator("[data-dmv-pack-type]").selectOption("minor");
+      const consent = "pa-dl-180td-consent";
+      await packMark(first, consent).check();
+      await second.locator("[data-dmv-reset-pack]").click();
+      assert.deepEqual(await checkedValues(first, packKey), []);
+      assert.deepEqual(await checkedValues(first, "tdt-dmv-document-pack:pennsylvania:minor"), [consent]);
+      assert.equal(await packMark(first, consent).isChecked(), true);
+      assert.deepEqual(await checkedValues(first, visitKey), ["identity"]);
+      await first.locator("[data-dmv-checklist-state]").selectOption("florida");
+      await visitMark(first, "official-source").check();
+      await second.locator("[data-dmv-checklist-reset]").click();
+      assert.deepEqual(await checkedValues(first, visitKey), []);
+      assert.deepEqual(await checkedValues(first, "tdt-dmv-test-day:florida"), ["official-source"]);
+      assert.equal(await visitMark(first, "official-source").isChecked(), true);
+    } finally { await context.close(); }
+  });
+}
+
+test("with storage blocked, marks survive state switches for the current page and still print", async () => {
+  const context = await localContext(390);
+  try {
+    const page = await context.newPage();
+    await page.addInitScript(() => {
+      Object.defineProperty(window, "localStorage", {
+        get() { throw new Error("Storage blocked"); },
+      });
+    });
+    await page.goto(checklistUrl("pennsylvania"));
+    await visitMark(page, "official-source").check();
+    await packMark(page, "identity-date-birth").check();
+    const state = page.locator("[data-dmv-checklist-state]");
+    await state.selectOption("florida");
+    assert.equal(await visitMark(page, "official-source").isChecked(), false);
+    await state.selectOption("pennsylvania");
+    assert.equal(await visitMark(page, "official-source").isChecked(), true);
+    assert.equal(await packMark(page, "identity-date-birth").isChecked(), true);
+    const [printed, ...extra] = inspectPdf(await page.pdf({ format: "Letter", preferCSSPageSize: true }));
+    assert.equal(extra.length, 0);
+    assert.match(printed.text, /X Open the official state source/);
+    assert.match(printed.text, /X Identity and date of birth/);
+  } finally { await context.close(); }
+});
+
+test("a study hub that is already open updates only the selected state's checklist progress", async () => {
+  const context = await localContext(390);
+  try {
+    const [hub, checklist] = [await context.newPage(), await context.newPage()];
+    await hub.goto(origin + "/dmv-practice.html");
+    await hub.locator("[data-journey-state]").selectOption("pennsylvania");
+    const progressSelector = '[data-journey-step="ready"] [data-journey-step-status]';
+    const progress = hub.locator(progressSelector);
+    const waitForProgress = text => hub.waitForFunction(
+      ({ selector, text }) => document.querySelector(selector)?.textContent === text, { selector: progressSelector, text });
+    assert.equal(await progress.innerText(), "0 of 12");
+    await checklist.goto(checklistUrl("pennsylvania"));
+    await visitMark(checklist, "official-source").check();
+    await waitForProgress("1 of 12");
+    await checklist.locator("[data-dmv-checklist-state]").selectOption("florida");
+    await visitMark(checklist, "official-source").check();
+    await visitMark(checklist, "identity").check();
+    assert.equal(await progress.innerText(), "1 of 12");
+    assert.equal(await hub.locator("[data-journey-state]").inputValue(), "pennsylvania");
+    await checklist.locator("[data-dmv-checklist-state]").selectOption("pennsylvania");
+    await visitMark(checklist, "official-source").uncheck();
+    await waitForProgress("0 of 12");
+  } finally { await context.close(); }
+});
+
 for (const [width, state, label, applicant, hasConsent, source] of [
   [320, "new-york", "New York", "minor", true, "https://dmv.ny.gov/driver-license/drivers-manual-practice-tests"],
   [1280, "florida", "Florida", "renewal-transfer", false, "https://www.flhsmv.gov/resources/handbooks-manuals/"],

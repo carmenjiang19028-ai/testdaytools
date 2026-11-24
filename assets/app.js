@@ -2817,6 +2817,12 @@ function initDmvJourneyDashboards() {
       selectState(event.detail?.state);
       render();
     });
+    window.addEventListener("storage", event => {
+      if (event.key === null || event.key === `tdt-dmv-test-day:${stateSelect?.value}`) render();
+    });
+    window.addEventListener("pageshow", event => {
+      if (event.persisted) render();
+    });
     render();
   });
 }
@@ -3792,9 +3798,38 @@ function initDmvChecklists() {
     const packRows = Array.from(widget.querySelectorAll("[data-dmv-pack-row]"));
     const packItems = Array.from(widget.querySelectorAll("[data-dmv-pack-item]"));
     const lastStateKey = "tdt-dmv-test-day:last-state";
+    const unsavedMarks = new Map();
 
     const storageKey = () => `tdt-dmv-test-day:${stateSelect?.value || "default"}`;
     const documentPackStorageKey = () => `tdt-dmv-document-pack:${stateSelect?.value || "default"}:${packType?.value || "default"}`;
+
+    const readMarks = (key) => {
+      if (unsavedMarks.has(key)) return new Set(unsavedMarks.get(key));
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(key) || "null");
+        return new Set(Array.isArray(saved?.checked) ? saved.checked.filter(value => typeof value === "string") : []);
+      } catch {
+        return new Set();
+      }
+    };
+    const applyMarks = (items, marks) => {
+      items.forEach(item => { item.checked = marks.has(item.value); });
+    };
+    const writeMarks = (key, items, marks) => {
+      try {
+        window.localStorage.setItem(key, JSON.stringify({ checked: [...marks], updatedAt: Date.now() }));
+        unsavedMarks.delete(key);
+      } catch {
+        unsavedMarks.set(key, marks);
+      }
+      applyMarks(items, marks);
+    };
+    const changeMark = (key, items, item) => {
+      const marks = readMarks(key);
+      if (item.checked) marks.add(item.value);
+      else marks.delete(item.value);
+      writeMarks(key, items, marks);
+    };
 
     const selectedOption = () => stateSelect?.selectedOptions?.[0];
     const selectedPackType = () => packType?.selectedOptions?.[0];
@@ -3829,6 +3864,7 @@ function initDmvChecklists() {
     const preparePrintPlan = () => {
       const option = selectedOption();
       if (!printPlan || !option) return;
+      refreshMarks();
       const field = (name) => printPlan.querySelector(`[data-dmv-print-${name}]`);
       const setText = (name, value) => {
         const target = field(name);
@@ -3887,28 +3923,6 @@ function initDmvChecklists() {
       return true;
     };
 
-    const save = () => {
-      try {
-        const checked = checks.filter((check) => check.checked).map((check) => check.value);
-        window.localStorage.setItem(storageKey(), JSON.stringify({ checked, updatedAt: Date.now() }));
-      } catch (error) {
-        // The checklist remains usable when local storage is unavailable.
-      }
-    };
-
-    const load = () => {
-      let saved = null;
-      try {
-        saved = JSON.parse(window.localStorage.getItem(storageKey()) || "null");
-      } catch (error) {
-        saved = null;
-      }
-      const checked = new Set(Array.isArray(saved?.checked) ? saved.checked : []);
-      checks.forEach((check) => {
-        check.checked = checked.has(check.value);
-      });
-    };
-
     const render = () => {
       const checkedCount = checks.filter((check) => check.checked).length;
       const total = checks.length || 1;
@@ -3933,29 +3947,7 @@ function initDmvChecklists() {
       }
     };
 
-    const saveDocumentPack = () => {
-      if (!packItems.length) return;
-      try {
-        const checked = visiblePackItems().filter((item) => item.checked).map((item) => item.value);
-        window.localStorage.setItem(documentPackStorageKey(), JSON.stringify({ checked, updatedAt: Date.now() }));
-      } catch (error) {
-        // The document pack still works when local storage is blocked.
-      }
-    };
-
-    const loadDocumentPack = () => {
-      if (!packItems.length) return;
-      let saved = null;
-      try {
-        saved = JSON.parse(window.localStorage.getItem(documentPackStorageKey()) || "null");
-      } catch (error) {
-        saved = null;
-      }
-      const checked = new Set(Array.isArray(saved?.checked) ? saved.checked : []);
-      packItems.forEach((item) => {
-        item.checked = checked.has(item.value);
-      });
-    };
+    const loadDocumentPack = () => applyMarks(packItems, readMarks(documentPackStorageKey()));
 
     const renderDocumentPack = () => {
       if (!packItems.length) return;
@@ -4029,16 +4021,26 @@ function initDmvChecklists() {
         signLink.href = option.dataset.signUrl || signLink.href;
         annotateDmvStateLink(signLink, option, "road_signs");
       }
-      load();
+      refreshMarks();
+    };
+
+    const refreshMarks = () => {
+      applyMarks(checks, readMarks(storageKey()));
       render();
       loadDocumentPack();
       renderDocumentPack();
     };
+    window.addEventListener("storage", event => {
+      if (event.key === null || event.key === storageKey() || event.key === documentPackStorageKey()) refreshMarks();
+    });
+    window.addEventListener("pageshow", event => {
+      if (event.persisted) refreshMarks();
+    });
 
     stateSelect?.addEventListener("change", updateState);
     checks.forEach((check) => {
       check.addEventListener("change", () => {
-        save();
+        changeMark(storageKey(), checks, check);
         render();
         trackToolEvent("checklist_item_toggle", {
           tool: "dmv_test_day_checklist",
@@ -4050,13 +4052,11 @@ function initDmvChecklists() {
       });
     });
     resetButton?.addEventListener("click", () => {
-      checks.forEach((check) => {
-        check.checked = false;
-      });
-      save();
+      writeMarks(storageKey(), checks, new Set());
       render();
     });
     copyButton?.addEventListener("click", async () => {
+      refreshMarks();
       const option = selectedOption();
       const checked = checks.filter((check) => check.checked);
       const open = checks.filter((check) => !check.checked);
@@ -4097,7 +4097,7 @@ function initDmvChecklists() {
     });
     packItems.forEach((item) => {
       item.addEventListener("change", () => {
-        saveDocumentPack();
+        changeMark(documentPackStorageKey(), packItems, item);
         renderDocumentPack();
         trackToolEvent("checklist_item_toggle", {
           tool: "dmv_document_pack",
@@ -4110,13 +4110,11 @@ function initDmvChecklists() {
       });
     });
     resetPackButton?.addEventListener("click", () => {
-      visiblePackItems().forEach((item) => {
-        item.checked = false;
-      });
-      saveDocumentPack();
+      writeMarks(documentPackStorageKey(), packItems, new Set());
       renderDocumentPack();
     });
     copyPackButton?.addEventListener("click", async () => {
+      refreshMarks();
       const option = selectedOption();
       const typeLabel = selectedPackType()?.textContent?.trim() || "selected path";
       const lines = [
