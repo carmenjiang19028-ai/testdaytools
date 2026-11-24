@@ -382,6 +382,7 @@
           "permitHref": "",
           "signHref": "north-carolina-dmv-road-signs-practice.html",
           "guideLesson": {"label": "Recall drill", "fragment": "north-carolina-sign-recall"},
+          "permitStepsFragment": "north-carolina-first-permit",
           "cta": "Open North Carolina guide"
         },
         {
@@ -412,6 +413,8 @@
           "permitHref": "",
           "signHref": "michigan-sos-road-signs-practice.html",
           "guideLesson": {"label": "Michigan Left", "fragment": "michigan-left-practice"},
+          "permitStepsFragment": "michigan-test-path",
+          "agency": "Michigan SOS",
           "cta": "Open Michigan guide"
         },
         {
@@ -422,6 +425,7 @@
           "permitHref": "",
           "signHref": "arizona-mvd-road-signs-practice.html",
           "guideLesson": {"label": "HAWK signals", "fragment": "arizona-hawk"},
+          "permitStepsFragment": "arizona-permit-path",
           "cta": "Open Arizona guide"
         }
       ],

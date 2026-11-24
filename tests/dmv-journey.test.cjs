@@ -18,8 +18,8 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
 
-async function withSite(width, run) {
-  const context = await browser.newContext({ viewport: { width, height: 900 } });
+async function withSite(width, run, options = {}) {
+  const context = await browser.newContext({ viewport: { width, height: 900 }, ...options });
   try {
     await context.route(/^https?:/, (route) => route.abort());
     await context.route(`${origin}/**`, (route) => {
@@ -52,6 +52,65 @@ async function finishRound(page, correctCount) {
 
 const getJourney = (page) => page.evaluate((key) => JSON.parse(localStorage.getItem(key)), journeyKey);
 const passes = (page) => page.locator(`${dashboard} [data-journey-step="passes"] [data-journey-step-status]`);
+
+for (const width of [320, 1280]) {
+  test(`${width}px: DMV workbench changes the official destination and never promises a mixed practice set for a guide`, () =>
+    withSite(width, async (page) => {
+      await page.goto(`${origin}/dmv-practice.html`);
+      const picker = page.locator('[data-workbench-state]');
+      const source = page.locator('[data-workbench-source]');
+      const primary = page.locator('[data-workbench-primary]');
+      const next = page.locator('[data-workbench-checklist]');
+      const cases = [
+        ['Georgia', 'dds.georgia.gov', 'Permit steps', /\/how-do-i-learners-permit$/],
+        ['North Carolina', 'www.ncdot.gov', 'Permit steps', /north-carolina-dmv-road-signs-practice\.html#north-carolina-first-permit$/],
+        ['Ohio', 'www.bmv.ohio.gov', 'Permit steps', /dl-identity-documents\.aspx$/],
+        ['Virginia', 'www.dmv.virginia.gov', 'Permit steps', /\/learners\/apply$/],
+        ['Michigan', 'www.michigan.gov', 'Permit steps', /michigan-sos-road-signs-practice\.html#michigan-test-path$/],
+        ['Arizona', 'azdot.gov', 'Permit steps', /arizona-mvd-road-signs-practice\.html#arizona-permit-path$/],
+      ];
+      await picker.selectOption('New York');
+      for (const [label, host, stepLabel, stepPattern] of cases) {
+        await picker.selectOption(label);
+        assert.equal(new URL(await source.getAttribute('href')).hostname, host, label);
+        assert.equal(await primary.textContent(), 'Study guide', label);
+        assert.equal(await next.textContent(), stepLabel, label);
+        assert.match(await next.getAttribute('href'), stepPattern, label);
+      }
+      await page.reload();
+      assert.equal(await picker.inputValue(), 'Arizona');
+      assert.equal(new URL(await source.getAttribute('href')).hostname, 'azdot.gov');
+      await next.click();
+      await page.waitForURL(url => url.hash === '#arizona-permit-path');
+      assert.ok(await page.locator('#arizona-permit-path').isVisible());
+      await page.goBack();
+      await picker.selectOption('Illinois');
+      assert.equal(await primary.textContent(), 'Road sign practice');
+      await picker.selectOption('Florida');
+      assert.equal(await primary.textContent(), 'Permit practice');
+      assert.equal(await next.textContent(), 'Checklist');
+      assert.match(await next.getAttribute('href'), /dmv-test-day-checklist\.html\?state=florida#dmv-checklist$/);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    }));
+}
+
+for (const scripts of ['disabled', 'blocked']) {
+  test(`workbench uses the existing state list when scripts are ${scripts}`, () =>
+    withSite(320, async (page) => {
+      if (scripts === 'blocked') await page.route('**/assets/app.js', route => route.abort());
+      await page.goto(`${origin}/dmv-practice.html`);
+      assert.equal(await page.locator('[data-workbench-state]').isDisabled(), true);
+      const browse = page.getByRole('link', { name: 'Browse all state guides' });
+      assert.equal(await browse.getAttribute('href'), '#state-paths');
+      await browse.press('Enter');
+      await page.waitForURL(url => url.hash === '#state-paths');
+      const guide = page.locator('#state-paths a[href="michigan-sos-road-signs-practice.html"]');
+      assert.ok(await guide.isVisible());
+      await guide.press('Enter');
+      await page.waitForURL('**/michigan-sos-road-signs-practice.html');
+      assert.ok(await page.locator('#michigan-test-path').isVisible());
+    }, { javaScriptEnabled: scripts !== 'disabled' }));
+}
 
 for (const resume of [false, true]) {
   test(`a focused score becomes one full local round ${resume ? "after resuming the next day" : "without a reload"}`, () =>

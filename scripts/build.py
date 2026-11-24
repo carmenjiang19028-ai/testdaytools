@@ -1654,26 +1654,52 @@ def render_tool_actions(tool):
 def render_home_practice_panel():
     launch = DATA["home"].get("dmvLaunch", {})
     states = launch.get("states", [])
-    default_state = next((state for state in states if state["label"] == "Florida"), states[0] if states else {"label": "Florida", "href": "florida-dmv-permit-practice-test.html"})
-    state_options = []
+    if not states:
+        return ""
+    requirements = {record["label"]: record for record in dmv_requirements_page_records()}
+    routes = []
     for state in states:
-        checklist_state = find_dmv_state_by_label(state["label"]) or {}
-        checklist_url = checklist_href_for_state(checklist_state) if checklist_state else "dmv-test-day-checklist.html#dmv-checklist"
-        state_options.append(
-            f'<option value="{esc(state["label"])}" '
-            f'data-practice-url="{esc(state["href"])}" '
-            f'data-sign-url="{esc(find_state_sign_href(state["label"]))}" '
-            f'data-checklist-url="{esc(checklist_url)}" '
-            f'data-source-url="{esc(checklist_state.get("manualUrl", ""))}" '
-            f'data-source-label="{esc(checklist_state.get("manualLabel", "Official state source"))}" '
-            f'data-agency="{esc(checklist_state.get("agency", "State agency"))}" '
-            f'{"selected" if state["label"] == default_state["label"] else ""}>{esc(state["label"])}</option>'
+        label, href = state["label"], state["href"]
+        fact = requirements.get(label, {})
+        tool = TOOL_BY_SLUG.get(href.removesuffix(".html"), {})
+        guide = state.get("permitHref", href) == ""
+        mixed = bool(fact.get("mixedPracticeUrl"))
+        agency = fact.get("agency") or state.get("agency", f"{label} licensing agency")
+        first_source = next(iter(tool.get("sources", [])), {})
+        source_url = fact.get("manualUrl") or first_source.get("url") or "#official-sources"
+        steps_fragment = state.get("permitStepsFragment")
+        steps_url = f"{href}#{steps_fragment}" if steps_fragment else fact.get("checklistUrl")
+        steps_label = "Checklist" if (steps_url or "").startswith("dmv-test-day-checklist.html") else "Permit steps"
+        plan = "practice questions, drill signs, and finish the checklist" if mixed else "study road signs and review your next step"
+        if lesson := state.get("guideLesson"):
+            sign_url, sign_label = f'{href}#{lesson["fragment"]}', lesson["label"]
+        elif not mixed and tool.get("examDetails"):
+            sign_url, sign_label = f"{href}#official-details", "Test details"
+        else:
+            sign_url, sign_label = find_state_sign_href(label), "State signs"
+        routes.append({
+            "label": label,
+            "practice-url": href,
+            "practice-label": "Study guide" if guide else "Permit practice" if mixed else "Road sign practice",
+            "sign-url": sign_url,
+            "sign-label": sign_label,
+            "checklist-url": steps_url or f"{href}#sources",
+            "checklist-label": steps_label if steps_url else "State sources",
+            "source-url": source_url,
+            "source-label": "Official source" if not source_url.startswith("#") else "Source finder",
+            "agency": agency,
+            "plan-copy": f"Use {agency} for final rules, then {plan}.",
+        })
+    default_state = next((route for route in routes if route["label"] == "Florida"), routes[0])
+    state_options = []
+    for route in routes:
+        attributes = " ".join(
+            f'data-{key}="{esc(value)}"' for key, value in route.items() if key != "label"
         )
+        label = esc(route["label"])
+        selected = " selected" if route == default_state else ""
+        state_options.append(f'<option value="{label}" {attributes}{selected}>{label}</option>')
     state_options = "".join(state_options)
-    default_checklist_state = find_dmv_state_by_label(default_state["label"]) or {}
-    default_checklist_url = checklist_href_for_state(default_checklist_state) if default_checklist_state else "dmv-test-day-checklist.html#dmv-checklist"
-    default_source_url = default_checklist_state.get("manualUrl", "#")
-    default_agency = default_checklist_state.get("agency", "State agency")
     stats = "".join(
         f'<div><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span></div>'
         for item in launch.get("stats", [])[:3]
@@ -1689,17 +1715,18 @@ def render_home_practice_panel():
   {render_mini_sign_drill()}
   <div class="workbench-router">
     <label for="workbench-state">Choose state</label>
-    <select id="workbench-state" data-workbench-state>{state_options}</select>
+    <select id="workbench-state" data-workbench-state disabled>{state_options}</select>
+    <p class="workbench-state-fallback"><a href="#state-paths">Browse all state guides</a></p>
     <div class="workbench-route-note">
-      <span data-workbench-agency>{esc(default_agency)}</span>
+      <span data-workbench-agency>{esc(default_state["agency"])}</span>
       <strong data-workbench-plan-title>{esc(default_state["label"])} permit-test path</strong>
-      <p data-workbench-plan-copy>Open the official source, run a practice round, drill signs, then finish the checklist.</p>
+      <p data-workbench-plan-copy>{esc(default_state["plan-copy"])}</p>
     </div>
     <div class="workbench-route-actions">
-      <a href="{esc(default_source_url)}" target="_blank" rel="noopener" data-workbench-source>Official source</a>
-      <a href="{esc(default_state["href"])}" data-workbench-primary>Permit practice</a>
-      <a href="{esc(find_state_sign_href(default_state["label"]))}" data-workbench-secondary>State signs</a>
-      <a href="{esc(default_checklist_url)}" data-workbench-checklist>Checklist</a>
+      <a href="{esc(default_state["source-url"])}" target="_blank" rel="noopener" data-workbench-source>{esc(default_state["source-label"])}</a>
+      <a href="{esc(default_state["practice-url"])}" data-workbench-primary>{esc(default_state["practice-label"])}</a>
+      <a href="{esc(default_state["sign-url"])}" data-workbench-secondary>{esc(default_state["sign-label"])}</a>
+      <a href="{esc(default_state["checklist-url"])}" data-workbench-checklist>{esc(default_state["checklist-label"])}</a>
     </div>
   </div>
   <div class="workbench-mode-links">

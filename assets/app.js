@@ -2034,26 +2034,30 @@ function initPracticeWorkbenches() {
       if (!selected) return;
       const stateName = selected.textContent.trim();
       if (primary) {
-        primary.href = selected.dataset.practiceUrl || primary.href;
+        primary.href = selected.dataset.practiceUrl;
+        if (selected.dataset.practiceLabel) primary.textContent = selected.dataset.practiceLabel;
         annotateDmvStateLink(primary, selected, "practice");
       }
       if (secondary) {
-        secondary.href = selected.dataset.signUrl || secondary.href;
+        secondary.href = selected.dataset.signUrl;
+        if (selected.dataset.signLabel) secondary.textContent = selected.dataset.signLabel;
         annotateDmvStateLink(secondary, selected, "road_signs");
       }
       if (checklist) {
-        checklist.href = selected.dataset.checklistUrl || checklist.href;
+        checklist.href = selected.dataset.checklistUrl;
+        if (selected.dataset.checklistLabel) checklist.textContent = selected.dataset.checklistLabel;
         annotateDmvStateLink(checklist, selected, "checklist");
       }
       if (source) {
-        source.href = selected.dataset.sourceUrl || source.href;
-        source.textContent = selected.dataset.sourceLabel ? "Official source" : "Source finder";
+        const sourceUrl = selected.dataset.sourceUrl || "#official-sources";
+        const local = sourceUrl.startsWith("#");
+        source.href = sourceUrl;
+        source.textContent = local ? "Source finder" : "Official source";
+        source.target = local ? "_self" : "_blank";
       }
       if (agency) agency.textContent = selected.dataset.agency || "State agency";
       if (planTitle) planTitle.textContent = `${stateName} permit-test path`;
-      if (planCopy) {
-        planCopy.textContent = `Use ${selected.dataset.agency || "the state agency"} for final rules, then practice questions, signs, and checklist items in order.`;
-      }
+      if (planCopy && selected.dataset.planCopy) planCopy.textContent = selected.dataset.planCopy;
     };
 
     stateSelect?.addEventListener("change", () => {
@@ -2073,6 +2077,7 @@ function initPracticeWorkbenches() {
     });
     selectSavedState();
     updateStateLinks();
+    if (stateSelect) stateSelect.disabled = false;
   });
 }
 

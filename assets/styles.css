@@ -598,6 +598,10 @@ h3 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+[data-workbench-state]:not(:disabled) + .workbench-state-fallback {
+  display: none;
+}
+
 .mini-drill-actions button,
 .mini-drill-actions a,
 .workbench-route-actions a {
