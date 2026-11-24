@@ -14700,6 +14700,11 @@
           "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/driver-license-tests.aspx"
         },
         {
+          "id": "regular-class-c-exam-rule",
+          "label": "19A NCAC 03B .0201(a)(1)-(2): approved knowledge and sign rules",
+          "url": "https://www.oah.nc.gov/documents/rules/nc-register/volume-36-issue-11/open#page=101"
+        },
+        {
           "label": "NCDMV: Official Driver Handbook and separate signs pages",
           "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/handbooks.aspx"
         },

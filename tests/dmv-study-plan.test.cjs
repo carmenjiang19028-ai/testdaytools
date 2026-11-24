@@ -231,7 +231,7 @@ for (const width of [390, 1280]) {
     openPlan(width, "?state=florida", async page => {
       const states = [
         ["georgia", /15 correct out of 20 on each part/, /dds\.georgia\.gov/, /learners-permit$/],
-        ["north-carolina", /80%/, /oah\.state\.nc\.us/, /#north-carolina-first-permit$/],
+        ["north-carolina", /80%/, /www\.oah\.nc\.gov\/documents\/rules\/nc-register\/volume-36-issue-11\/open#page=101$/, /#north-carolina-first-permit$/],
         ["ohio", /30 correct out of 40/, /bmv\.ohio\.gov/, /dl-identity-documents\.aspx$/],
         ["virginia", /sign/i, /dmv\.virginia\.gov/, /learners\/apply$/],
         ["arizona", /24 correct out of 30/, /azdot\.gov/, /#arizona-permit-path$/],

@@ -948,6 +948,10 @@ def dmv_requirement_records():
 
 
 def dmv_score_records(include_supplemental=False):
+    nc_class_c_rule = next(
+        source for source in TOOL_BY_SLUG["north-carolina-dmv-road-signs-practice"]["sources"]
+        if source.get("id") == "regular-class-c-exam-rule"
+    )
     score_facts = {
         "california": {
             "questions": "",
@@ -1160,8 +1164,8 @@ def dmv_score_records(include_supplemental=False):
             "label": "North Carolina",
             "value": "north-carolina",
             "agency": "NCDMV",
-            "manualLabel": "19A NCAC 03B .0201: Knowledge and Road Sign Examinations",
-            "manualUrl": "https://reports.oah.state.nc.us/ncac/title%2019a%20-%20transportation/chapter%2003%20-%20division%20of%20motor%20vehicles/subchapter%20b/19a%20ncac%2003b%20.0201.pdf",
+            "manualLabel": nc_class_c_rule["label"],
+            "manualUrl": nc_class_c_rule["url"],
             "permitUrl": "north-carolina-dmv-road-signs-practice.html#north-carolina-sign-recall",
             "signUrl": "north-carolina-dmv-road-signs-practice.html#north-carolina-sign-recall",
             "permitStepsUrl": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/license-learner-permit.aspx",
@@ -1174,8 +1178,8 @@ def dmv_score_records(include_supplemental=False):
                 "focus": "Practice recognizing a sign by shape and color and explaining its meaning, not just selecting a matching label.",
                 "manualUrl": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/driver-license-tests.aspx",
                 "manualLabel": "NCDMV Driver License Tests",
-                "ruleReferenceUrl": "https://www.oah.nc.gov/documents/rules/rrc/42064-dot-dmv-technical-changes/download",
-                "ruleReferenceLabel": "19A NCAC 03B .0201: knowledge and signs rule text",
+                "ruleReferenceUrl": nc_class_c_rule["url"],
+                "ruleReferenceLabel": nc_class_c_rule["label"],
             },
         },
     ]

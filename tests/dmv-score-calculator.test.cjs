@@ -33,6 +33,7 @@ const directSources = {
   california: "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/",
   "new-york": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-1-driver-licenses",
   "new-jersey": "https://www.nj.gov/mvc/license/sample_knowledge_test.htm",
+  "north-carolina": "https://www.oah.nc.gov/documents/rules/nc-register/volume-36-issue-11/open#page=101",
 };
 const wholeKnowledgeSamples = {
   ohio: "https://www.bmv.ohio.gov/dl-sample-test.aspx",
@@ -141,7 +142,7 @@ for (const [width, scriptsOff] of [[320, true], [1280, false]]) {
       assert.equal(await ny.getByText("Verify official rule").getAttribute("href"), directSources["new-york"]);
       const nc = page.locator("#north-carolina-permit-test-passing-score");
       assert.match(await nc.innerText(), /3 of 12 road signs.*separate knowledge score must be at least 80%/is);
-      assert.match(await nc.getByText("Verify official rule").getAttribute("href"), /oah\.state\.nc\.us\/ncac\/.*\.0201\.pdf$/);
+      assert.equal(await nc.getByText("Verify official rule").getAttribute("href"), directSources["north-carolina"]);
       const ncRow = page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: "North Carolina", exact: true }) });
       assert.match(await ncRow.innerText(), /actual knowledge count; 12 signs separately/);
       for (const [state, url] of Object.entries(wholeKnowledgeSamples)) {
@@ -157,6 +158,12 @@ for (const [width, scriptsOff] of [[320, true], [1280, false]]) {
       await page.getByRole("link", { name: "Compare published state rules" }).press("Enter");
       await page.waitForURL(url => url.hash === "#compare-states");
       assert.ok(await page.locator("#compare-states").getByRole("rowheader", { name: "New York" }).isVisible());
+      assert.equal(await page.getByRole("link", { name: /approved knowledge and sign rules/ }).getAttribute("href"),
+        directSources["north-carolina"]);
+      await page.goto(`${origin}/north-carolina-dmv-road-signs-practice.html#sources`);
+      const official = page.locator("#sources").getByRole("link", { name: /approved knowledge and sign rules/ });
+      assert.equal(await official.getAttribute("href"), directSources["north-carolina"]);
+      assert.equal(await official.isVisible(), true);
     } finally { await context.close(); }
   });
 }
@@ -580,7 +587,7 @@ for (const width of [390, 1280]) {
       assert.equal(await page.locator("[data-score-state]").inputValue(), "north-carolina");
       assert.equal(await totalInput(page).inputValue(), "");
       assert.equal(await useLength(page).isEnabled(), false);
-      assert.match(await page.locator("[data-score-source]").getAttribute("href"), /oah\.state\.nc\.us\/ncac\/.*\.0201\.pdf$/);
+      assert.equal(await page.locator("[data-score-source]").getAttribute("href"), directSources["north-carolina"]);
       const signs = page.locator("[data-score-section-correct]");
       const signPractice = "north-carolina-dmv-road-signs-practice.html#north-carolina-sign-recall";
       assert.equal(await signs.isVisible(), true);
