@@ -37,6 +37,40 @@ test('legacy study sheet links keep their destination even with a return mode', 
 });
 
 for (const width of [320, 1280]) {
+  test(`${width}px: printed-reference users can compare road direction and obstacle side without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      await page.goto(pathToFileURL(path.resolve('dmv-road-signs-cheat-sheet.html')).href);
+      await page.getByRole('link', { name: 'Compare ONE WAY and KEEP RIGHT', exact: true }).press('Enter');
+      await page.waitForURL(url => url.hash === '#direction-sign-comparison');
+      const section = page.locator('#direction-sign-comparison');
+      const signs = section.locator('img');
+      assert.deepEqual(await signs.evaluateAll(images => images.map(img => [img.src.split('/').pop(), img.naturalWidth > 0])), [
+        ['one-way-road-sign.svg', true], ['keep-right-road-sign.svg', true],
+      ]);
+      assert.match(await signs.first().getAttribute('alt'), /ONE WAY letters inside/);
+      assert.match(await signs.last().getAttribute('alt'), /right side, then pointing up/);
+      const direction = section.locator('details').filter({ hasText: 'Check the street direction' });
+      const island = section.locator('details').filter({ hasText: 'Check which side to pass' });
+      await direction.locator('summary').press('Enter');
+      assert.match(await direction.locator('p').innerText(), /against the marked direction.*does not give you priority/);
+      assert.equal(await island.locator('p').isVisible(), false);
+      await island.locator('summary').press('Enter');
+      assert.match(await island.locator('p').innerText(), /right of the island.*lane ahead/);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      const practice = section.getByRole('link', { name: 'Practice the lane and direction signs' });
+      assert.match(await practice.getAttribute('href'), /mode=regulatory-signs-core&focus=Lane\+and\+direction\+signs/);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await section.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `direction-decision-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: STOP sight lines and a one-lane YIELD decision work without scripts`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

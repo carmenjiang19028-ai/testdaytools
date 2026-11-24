@@ -131,11 +131,16 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertIn("Color alone is not enough", pentagon["meaning"])
         self.assertNotIn("pentagon or fluorescent yellow-green", page)
 
-    def test_keep_right_wording_above_direction_diagram(self):
-        root = ET.fromstring(SIGN_SVGS["keep-right"])
-        self.assertEqual(root.find("text").text, "KEEP RIGHT")
-        self.assertEqual(root.find("text").attrib["y"], "43")
-        self.assertIn("l-14-22z", root.findall("path")[1].attrib["d"])
+    def test_direction_signs_in_print_use_the_symbol_only_keep_right(self):
+        keep_right = ET.fromstring(SIGN_SVGS["keep-right"])
+        one_way = ET.fromstring(SIGN_SVGS["one-way"])
+        self.assertIsNone(keep_right.find(".//text"))
+        self.assertEqual(one_way.find(".//text").text, "ONE WAY")
+        page = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf").pages[0]
+        printed = " ".join(page.extract_text().split())
+        self.assertNotIn("KEEP RIGHT Keep Right", printed)
+        self.assertIn("Keep Right Stay to the right of an island, divider, or obstruction.", printed)
+        self.assertIn("ONE WAY One Way Traffic moves only in the arrow direction.", printed)
 
     def test_all_way_plaque_uses_current_art_and_has_replaced_the_print_label(self):
         art = ET.fromstring(SIGN_SVGS["four-way-stop"])

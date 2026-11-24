@@ -131,8 +131,8 @@ SIGN_SVGS = {
     "no-right-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M88 112 V80 Q88 62 106 62 H140" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M134 46 L160 62 L134 78 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
     "no-left-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M132 112 V80 Q132 62 114 62 H80" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M86 46 L60 62 L86 78 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
     "no-turn-on-red": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="63" y="15" width="94" height="130" rx="4" fill="#fff" stroke="#222" stroke-width="4"/><g text-anchor="middle" fill="#111" font-weight="900" font-family="Arial, sans-serif"><text x="110" y="44" font-size="24">NO</text><text x="110" y="68" font-size="20">TURN</text><text x="110" y="91" font-size="17">ON RED</text></g><circle cx="110" cy="118" r="13" fill="#c7312f"/></svg>',
-    "keep-right": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="42" y="20" width="136" height="120" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="43" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">KEEP RIGHT</text><path d="M113 125 C144 113 150 95 146 76" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/><path d="M132 80 h28 l-14-22z" fill="#111"/><path d="M78 124 l14-55 14 55z" fill="#111"/></svg>',
-    "one-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="28" y="46" width="164" height="68" rx="6" fill="#111827"/><path d="M58 80 h78" stroke="#fff" stroke-width="12" stroke-linecap="round"/><path d="M126 50 170 80 126 110z" fill="#fff"/><text x="78" y="105" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ONE WAY</text></svg>',
+    "keep-right": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="58" y="14" width="104" height="132" rx="5" fill="#fff" stroke="#222" stroke-width="4"/><path d="M70 34 H104 C103 49 98 83 88 90 C78 95 71 59 70 34 Z" fill="#111"/><path d="M106 133 V125 C106 106 122 100 128 82 C131 73 132 63 132 52" fill="none" stroke="#111" stroke-width="17"/><path d="M132 26 L154 61 L140 56 H125 L110 61 Z" fill="#111" stroke-linejoin="round"/></svg>',
+    "one-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="12" y="47" width="196" height="66" rx="6" fill="#111"/><rect x="15" y="50" width="190" height="60" rx="4" fill="none" stroke="#fff" stroke-width="2"/><path d="M28 65 H150 V56 L194 80 L150 104 V95 H28 Z" fill="#fff"/><text x="89" y="87" text-anchor="middle" fill="#111" font-size="21" font-weight="900" font-family="Arial, sans-serif">ONE WAY</text></svg>',
     "right-turn-only": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="44" y="18" width="132" height="124" rx="6" fill="#fff" stroke="#222" stroke-width="4"/><path d="M89 104 V72 Q89 49 112 49 H143" fill="none" stroke="#111" stroke-width="13" stroke-linecap="round"/><path d="M136 32 L160 49 L136 66 Z" fill="#111"/><text x="110" y="130" text-anchor="middle" fill="#111" font-size="23" font-weight="900" font-family="Arial, sans-serif">ONLY</text></svg>',
     "speed-limit": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="66" y="16" width="88" height="128" rx="4" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="48" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">SPEED</text><text x="110" y="68" text-anchor="middle" fill="#111" font-size="17" font-weight="900" font-family="Arial, sans-serif">LIMIT</text><text x="110" y="118" text-anchor="middle" fill="#111" font-size="48" font-weight="900" font-family="Arial, sans-serif">35</text></svg>',
     "school-crossing": f'<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,12 190,54 172,142 48,142 30,54" fill="{SCHOOL_WARNING_GREEN}" stroke="#222" stroke-width="5"/><circle cx="84" cy="55" r="9" fill="#111"/><circle cx="130" cy="53" r="9" fill="#111"/><path d="M82 68 l-18 38 M82 68 l24 18 M130 66 l-18 42 M130 66 l26 18" stroke="#111" stroke-width="8" stroke-linecap="round"/><path d="M92 108 h56" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>',
@@ -236,17 +236,20 @@ def render_material_review():
     followup = material["artFollowup"]
     figures = " and ".join(f'<a href="{esc(figure["url"])}">{esc(figure["label"])}</a>' for figure in followup["figures"])
     control = material["controlArtCheck"]
+    direction = material["directionArtCheck"]
     return f'''<section class="material-review" id="material-review">
   <h2>Material check: {esc(material["checkedOn"])}</h2>
   <p>{esc(material["scope"])}</p><p>{esc(material["corrections"])}</p>
   <p>{esc(material["responsibility"])}</p><ul>{sources}</ul>
   <p><strong>{esc(followup["date"])}:</strong> {esc(followup["change"])} {figures}.</p>
   <p><strong>{esc(control["date"])}:</strong> {esc(control["change"])} <a href="{esc(control["url"])}">{esc(control["label"])}</a>.</p>
+  <p><strong>{esc(direction["date"])}:</strong> {esc(direction["change"])} <a href="{esc(direction["url"])}">{esc(direction["label"])}</a>.</p>
 </section>'''
 
 
 def render_material_links():
     links = "".join(f'<li><a href="road-sign-learning-loop.html#lesson-{esc(x["id"])}">{esc(x["title"])}</a></li>' for x in road_sign_materials()["lessons"])
+    links += '<li><a href="road-sign-learning-loop.html#direction-sign-comparison">Compare ONE WAY and KEEP RIGHT</a></li>'
     return f'<section class="content-section"><h2>Understand the distinctions behind a missed sign</h2><ul class="material-links">{links}</ul></section>'
 
 
@@ -345,6 +348,34 @@ def render_speed_sign_comparison():
 </section>'''
 
 
+def render_direction_sign_comparison():
+    one_way = road_sign_image_path("one-way")
+    keep_right = road_sign_image_path("keep-right")
+    return f'''<section class="contrast-lessons speed-sign-lesson" id="direction-sign-comparison" aria-labelledby="direction-sign-heading">
+  <h2 id="direction-sign-heading">ONE WAY vs. KEEP RIGHT: what is the arrow controlling?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair">
+        <img src="{esc(one_way)}" width="220" height="160" alt="{esc(ROAD_SIGN_RECALL_CUES['one-way'])}">
+        <span aria-hidden="true">vs.</span>
+        <img src="{esc(keep_right)}" width="220" height="160" alt="{esc(ROAD_SIGN_RECALL_CUES['keep-right'])}">
+      </div>
+      <figcaption>ONE WAY governs travel along the marked roadway. The KEEP RIGHT arrow bends around an island and then points forward.</figcaption>
+    </figure>
+    <div>
+      <h3>At the cross street</h3>
+      <p>You want to turn left onto a street marked with the ONE WAY arrow shown here. Is a left turn onto that street allowed?</p>
+      <details class="contrast-transfer"><summary>Check the street direction</summary><p>No. A left turn would put you against the marked direction. Choose a legal route. The arrow does not give you priority over other traffic or cancel a stop signal.</p></details>
+      <h3>At the island</h3>
+      <p>KEEP RIGHT sits on the nose of a traffic island. The marked lane bends right around it, then continues ahead. Does the sign require a right turn off the road?</p>
+      <details class="contrast-transfer"><summary>Check which side to pass</summary><p>No. Pass to the right of the island and follow the traffic lane ahead. The arrow describes the side of the obstruction to pass, not a turn into a different street.</p></details>
+      <p><a href="regulatory-traffic-signs-practice-test.html?mode=regulatory-signs-core&amp;focus=Lane+and+direction+signs#practice">Practice the lane and direction signs</a></p>
+    </div>
+  </div>
+  <p class="contrast-source">Source: FHWA MUTCD <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=39">Figure 2B-10 and Section 2B.39 (KEEP RIGHT)</a>, and <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=45">Figure 2B-13 and Section 2B.49 (ONE WAY)</a>. Original teaching situations, not official test questions.</p>
+</section>'''
+
+
 def render_contrast_lessons():
     material = road_sign_materials()
     sources = {s["id"]: s for s in material["sources"]}
@@ -380,7 +411,8 @@ def render_contrast_lessons():
 </article>''')
     return (
         '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>'
-        + "".join(lessons) + "</section>" + render_speed_sign_comparison() + render_material_review()
+        + "".join(lessons) + "</section>" + render_speed_sign_comparison()
+        + render_direction_sign_comparison() + render_material_review()
     )
 
 
@@ -3037,8 +3069,13 @@ def render_sign_visual(question, image_id):
         return ""
     label = ROAD_SIGN_RECALL_CUES[key]
     legacy_label = question.get("imageAlt", "Road sign illustration")
+    previous_cues = {
+        "keep-right": "White rectangle reading KEEP RIGHT, with a black arrow curving around the right of a black obstruction.",
+        "one-way": "Black rectangle with a white arrow pointing right and the words ONE WAY.",
+    }
+    previous = f' data-quiz-previous-cue="{esc(previous_cues[key])}"' if key in previous_cues else ""
     return f"""<figure class="question-visual">
-  <div class="sign-art" id="{esc(image_id)}" role="img" aria-label="{esc(label)}" data-quiz-image-key="{esc(key)}" data-quiz-legacy-label="{esc(legacy_label)}">{svg}</div>
+  <div class="sign-art" id="{esc(image_id)}" role="img" aria-label="{esc(label)}" data-quiz-image-key="{esc(key)}" data-quiz-legacy-label="{esc(legacy_label)}"{previous}>{svg}</div>
   <figcaption>Look at the sign, then choose the safest meaning or driver action.</figcaption>
 </figure>"""
 

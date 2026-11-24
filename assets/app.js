@@ -704,7 +704,7 @@ function initQuizzes() {
       const label = sign.getAttribute("aria-label");
       const key = sign.dataset.quizImageKey;
       // Older saves may contain either the original label or the revised reading cue.
-      return key ? [`image:${key}`, label, sign.dataset.quizLegacyLabel] : [label];
+      return key ? [`image:${key}`, label, sign.dataset.quizLegacyLabel, sign.dataset.quizPreviousCue] : [label];
     };
     const mistakeId = (question, sign = signIdentifiers(question)[0] || "") => JSON.stringify([
       questionMasteryId(question, quiz.dataset.state),

@@ -19,6 +19,12 @@
     "label": "FHWA MUTCD Figure 2B-1: STOP (R1-1) and YIELD (R1-2)",
     "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part2r1.pdf"
   },
+  "directionArtCheck": {
+    "date": "2026-11-24",
+    "change": "Placed the ONE WAY legend inside the white arrow (R6-1) and replaced the mixed KEEP RIGHT diagram with the symbol-only form (R4-7). Both updated drawings are used in the web reference, quizzes, flashcards, and the reference PDF. Neither appears in the classroom worksheet.",
+    "label": "FHWA MUTCD Chapter 2B, Figures 2B-10 and 2B-13",
+    "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf"
+  },
   "sources": [
     {"id": "pa", "label": "PennDOT Driver's Manual, Chapter 2: Signs", "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"},
     {"id": "ny", "label": "New York DMV: Road Signs You Must Know", "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"},

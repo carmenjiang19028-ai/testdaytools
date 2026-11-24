@@ -449,7 +449,7 @@ for (const width of [320, 1280]) {
   });
 }
 
-test('lettering stays inside its red field and above the Keep Right diagram', async () => {
+test('DO NOT ENTER lettering stays inside its red field', async () => {
   const context = await browser.newContext();
   await context.route(/^https?:/, route => route.abort());
   const page = await context.newPage();
@@ -465,10 +465,35 @@ test('lettering stays inside its red field and above the Keep Right diagram', as
       });
     });
     assert.equal(inside, true);
+  } finally { await context.close(); }
+});
+
+test('One Way has its legend inside the arrow and Keep Right is a forward bypass', async () => {
+  const context = await browser.newContext();
+  try {
+    const page = await context.newPage();
+    await page.setContent(fs.readFileSync(path.join(root, 'assets/road-signs/one-way-road-sign.svg'), 'utf8'));
+    assert.equal(await page.locator('svg').evaluate(svg => {
+      const arrow = svg.querySelector('path');
+      const legend = svg.querySelector('text');
+      const box = legend.getBBox();
+      const within = [[box.x, box.y], [box.x + box.width, box.y],
+        [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]];
+      return arrow.getAttribute('fill') === '#fff' && legend.getAttribute('fill') === '#111'
+        && legend.textContent === 'ONE WAY' && within.every(([x, y]) => arrow.isPointInFill(new DOMPoint(x, y)))
+        && arrow.getBBox().x + arrow.getBBox().width > box.x + box.width;
+    }), true);
     await page.setContent(fs.readFileSync(path.join(root, 'assets/road-signs/keep-right-road-sign.svg'), 'utf8'));
     assert.equal(await page.locator('svg').evaluate(svg => {
-      const text = svg.querySelector('text').getBBox();
-      return [...svg.querySelectorAll('path')].every(p => p.getBBox().y > text.y + text.height + 3);
+      const [island, stem, tip] = svg.querySelectorAll('path');
+      const islandBox = island.getBBox();
+      const start = stem.getPointAtLength(0);
+      const end = stem.getPointAtLength(stem.getTotalLength());
+      const head = tip.getBBox();
+      const frame = svg.querySelector('rect').getBBox();
+      return svg.querySelector('text') === null && frame.height > frame.width
+        && head.x > islandBox.x + islandBox.width && head.y < end.y
+        && end.x > start.x && end.y < start.y;
     }), true);
   } finally { await context.close(); }
 });

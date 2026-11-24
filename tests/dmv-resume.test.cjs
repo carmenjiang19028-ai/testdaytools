@@ -316,6 +316,50 @@ test("a due draft skips the retired item without completing or rewriting the old
     assert.deepEqual(await milestones(page), []);
   }));
 
+test("a regulatory draft and its misses still read the former ONE WAY and KEEP RIGHT cues", () =>
+  withSite(390, async page => {
+    const mode = "regulatory-signs-core";
+    const route = `${origin}/regulatory-traffic-signs-practice-test.html?mode=${mode}`;
+    const mistakeKey = `tdt-mistakes:/regulatory-traffic-signs-practice-test.html:${mode}`;
+    const quiz = active(page);
+    await page.goto(route + "#practice");
+    const labels = {};
+    for (const key of ["one-way", "keep-right"]) {
+      const visual = `[data-quiz-image-key="${key}"]`;
+      const item = quiz.locator("[data-question-index]").filter({ has: page.locator(visual) });
+      assert.equal(await item.count(), 1);
+      const index = await item.getAttribute("data-question-index");
+      const art = item.locator(visual);
+      labels[`image:${key}`] = await art.getAttribute("data-quiz-previous-cue");
+      assert.ok(labels[`image:${key}`]);
+      assert.notEqual(labels[`image:${key}`], await art.getAttribute("aria-label"));
+      await quiz.locator(`[data-quiz-jump="${index}"]`).click();
+      await answer(quiz, false);
+    }
+    await page.evaluate(({ labels, recentKey, mistakeKey }) => {
+      const draft = JSON.parse(localStorage.getItem(recentKey));
+      const signature = JSON.parse(draft.draft.signature);
+      for (const row of signature) if (labels[row[5]]) row[5] = labels[row[5]];
+      draft.draft.signature = JSON.stringify(signature);
+      localStorage.setItem(recentKey, JSON.stringify(draft));
+      const misses = JSON.parse(localStorage.getItem(mistakeKey));
+      for (const entry of misses) {
+        const id = JSON.parse(entry.questionId);
+        if (labels[id[2]]) id[2] = labels[id[2]];
+        entry.questionId = JSON.stringify(id);
+      }
+      localStorage.setItem(mistakeKey, JSON.stringify(misses));
+    }, { labels, recentKey, mistakeKey });
+    await page.goto(route + "&resume=1#practice");
+    assert.equal(await progress(quiz), "2 of 16 answered");
+    assert.equal(await quiz.locator("[data-quiz-mistakes] article").count(), 2);
+    assert.deepEqual(await milestones(page), []);
+    await quiz.locator("[data-quiz-filter]").selectOption("saved");
+    assert.equal(await quiz.locator("[data-quiz-jump]").count(), 2);
+    await answer(quiz, true);
+    assert.equal((await read(page, mistakeKey)).length, 1);
+  }));
+
 for (const [width, original] of [[390, true], [1280, false]]) {
   test(`${width}px: restores answers and saved mistakes from ${original ? "before" : "after"} the text clue release`, () =>
     withSite(width, async page => {

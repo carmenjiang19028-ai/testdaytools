@@ -265,7 +265,7 @@ for (const width of [390, 1280]) {
       assert.match(await mistakes(quiz).textContent(), /Directional signs/);
       await page.reload();
       assert.match(await quiz.locator("[data-quiz-position]").textContent(), /1 of 1/);
-      assert.match(await activeQuestion(quiz).locator(".sign-art").getAttribute("aria-label"), /keep right/i);
+      assert.equal(await activeQuestion(quiz).locator(".sign-art").getAttribute("data-quiz-image-key"), "keep-right");
     }));
 }
 
@@ -274,7 +274,7 @@ test("legacy prompt and category identify one sign rather than every identical p
     await seedSaved(page, california, "signs", [21]);
     await open(page, california, { mode: "signs", focus: "saved" });
     assert.match(await quiz.locator("[data-quiz-position]").textContent(), /1 of 1/);
-    assert.match(await activeQuestion(quiz).locator(".sign-art").getAttribute("aria-label"), /keep right/i);
+    assert.equal(await activeQuestion(quiz).locator(".sign-art").getAttribute("data-quiz-image-key"), "keep-right");
   }));
 
 test("slippery-road rule errors lead to a state rules plan instead of flashcards", () =>
