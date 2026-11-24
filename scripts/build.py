@@ -91,11 +91,12 @@ DMV_SCORE_SLUG = "dmv-permit-test-passing-score-calculator"
 DMV_SCORE_PAGE = {
     "slug": DMV_SCORE_SLUG,
     "category": "DMV",
-    "title": "Permit Test Passing Score Calculator: How Many Can You Miss?",
-    "description": "Choose a state to see how many permit test questions you can miss, compare passing scores, and check a practice result against the official target.",
+    "title": "How Many Questions Can You Miss on the Permit Test? (By State)",
+    "description": "See permit test question counts, passing scores, and how many you can miss by state, with official sources and a practice score calculator.",
     "lastUpdated": "November 24, 2026",
 }
 TOOL_BY_SLUG[DMV_SCORE_SLUG] = DMV_SCORE_PAGE
+MERGED_SLUGS[DMV_REQUIREMENTS_SLUG] = DMV_SCORE_SLUG
 ROAD_SIGN_SHAPES_SLUG = "road-sign-shapes-and-colors-finder"
 ROAD_SIGN_SHAPES_PAGE = {
     "slug": ROAD_SIGN_SHAPES_SLUG,
@@ -5731,8 +5732,7 @@ def render_dmv_requirements_page():
     )
 
 
-def render_dmv_score_calculator():
-    records = dmv_score_records(include_supplemental=True)
+def render_dmv_score_calculator(records):
     if not records:
         return ""
     options = "".join(
@@ -5766,31 +5766,6 @@ def render_dmv_score_calculator():
         for item in records
     )
     default = records[0]
-    rows = []
-    for item in records:
-        official_format = f'{item["questions"]} questions' if item["questions"] else "Use current test length"
-        if item["sectionQuestions"] and not item["sectionIncluded"]:
-            if item["questions"]:
-                primary_part = "rules" if item["value"] == "georgia" else "general"
-                official_format = f'{item["questions"]} {primary_part} + {item["sectionQuestions"]} signs'
-            else:
-                official_format = f'Use actual knowledge count; {item["sectionQuestions"]} signs separately'
-        required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
-        if item["minimumQuestions"]:
-            official_format = f'At least {item["minimumQuestions"]} questions'
-            required = f'{item["percent"]}% correct'
-        next_links = ""
-        if item.get("mixedPracticeUrl"):
-            next_links = f'<a href="{esc(item["mixedPracticeUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Mixed practice</a> '
-        next_links += f'<a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
-        rows.append(f"""<tr data-score-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["rule"] + " " + item["miss"]).lower())}">
-  <th scope="row">{esc(item["label"])}</th>
-  <td>{esc(official_format)}</td>
-  <td><strong>{esc(required)}</strong><span>{esc(item["rule"])}</span></td>
-  <td>{esc(item["miss"])}</td>
-  <td>{next_links}</td>
-  <td><a href="{esc(item["scoreRuleUrl"])}" target="_blank" rel="noopener">{esc(item["scoreRuleLabel"])}</a></td>
-</tr>""")
     return f"""<section class="score-calculator tool-block" id="score-calculator" data-dmv-score-calculator>
   <div class="tool-section-head">
     <span class="eyebrow">Score calculator</span>
@@ -5799,7 +5774,7 @@ def render_dmv_score_calculator():
   </div>
   <div class="score-manual" data-score-fallback>
     <h3>Find the pass rule without the calculator</h3>
-    <p>Use the <a href="#state-score-answers">direct state answers</a> or <a href="#score-table">compare the published rules</a>. If the state gives a percentage but no fixed count, <a href="#score-manual-math">see a worked miss-limit example</a>.</p>
+    <p>Use the <a href="#score-table">state table</a>. If the state gives a percentage but no fixed count, <a href="#score-manual-math">see a worked miss-limit example</a>.</p>
   </div>
   <div class="score-grid" data-score-interactive hidden>
     <aside class="score-control">
@@ -5856,25 +5831,6 @@ def render_dmv_score_calculator():
     </form>
     {render_dmv_comparison_alternative(records)}
   </div>
-  <div class="source-matrix requirements-table" id="score-table" data-state-filter-scope>
-    <div class="section-head-row">
-      <div>
-        <span class="eyebrow">Compare passing scores</span>
-        <h3>DMV permit test passing score by state</h3>
-      </div>
-      <div class="state-filter compact-filter" data-score-interactive hidden>
-        <label for="score-filter">Filter table</label>
-        <input id="score-filter" type="search" placeholder="Type Florida, 40 correct, 80%..." data-state-filter>
-      </div>
-    </div>
-    <div class="source-matrix-scroll">
-      <table>
-        <thead><tr><th>State</th><th>Format</th><th>Passing score</th><th>Can miss</th><th>Next practice</th><th>Source</th></tr></thead>
-        <tbody>{"".join(rows)}</tbody>
-      </table>
-    </div>
-    <p class="state-filter-empty" data-state-empty hidden>No matching score rule yet.</p>
-  </div>
 </section>"""
 
 
@@ -5917,8 +5873,47 @@ def render_dmv_score_answers(records):
 </section>"""
 
 
+def render_dmv_score_table():
+    rows = []
+    for guide in sorted(STATE_GUIDES.values(), key=lambda item: item["state"]):
+        if score := guide.get("score"):
+            total, correct, percent, extra = score
+            mark = f"{correct} ({percent}%)"
+            miss = str(total - correct)
+            rule = guide.get("scoreUrl", guide["url"])
+            if extra:
+                miss += " overall, plus the sign rule below"
+        elif percent := guide.get("percent"):
+            total = "At least 35" if guide.get("minimum") else "Use actual test length"
+            mark = f"{percent}%"
+            miss = "7 if given 35" if guide.get("minimum") else "Depends on length"
+            rule = guide["facts"][0][2]
+        else:
+            continue
+        rows.append(
+            f'<tr><th scope="row">{esc(guide["state"])}</th><td>{esc(total)}</td><td>{esc(mark)}</td>'
+            f'<td>{esc(miss)}</td><td><a href="{esc(rule)}">Official source</a></td></tr>'
+        )
+    return f"""<section class="content-section source-matrix" id="score-table" aria-label="Permit test miss limits by state">
+  <div class="source-matrix-scroll"><table><thead><tr>
+    <th scope="col">State</th><th scope="col">Questions</th><th scope="col">Correct to pass</th>
+    <th scope="col">Can miss</th><th scope="col">Source</th>
+  </tr></thead><tbody>{"".join(rows)}</tbody></table></div>
+  <p><strong>New York:</strong> At least 2 of the 4 road-sign questions must be correct, even if you meet the overall minimum.</p>
+  {render_last_updated(DMV_SCORE_PAGE["lastUpdated"])}
+</section>"""
+
+
 def render_dmv_score_page():
-    records = dmv_score_records(include_supplemental=True)
+    guides = {guide["state"]: guide for guide in STATE_GUIDES.values() if guide.get("score") or guide.get("percent")}
+    records = [record for record in dmv_score_records() if record["label"] in guides]
+    for record in records:
+        guide = guides[record["label"]]
+        record.update(signUrl=guide["slug"] + ".html", mixedPracticeUrl="", mixedQuestions="", mixedCorrect="")
+        if record["label"] == "Pennsylvania":
+            record["percent"] = ""
+        if guide.get("minimum"):
+            record.update(questions="", correct="", miss="7 if your test has 35 questions")
     source_links = "".join(
         f'<li><a href="{esc(item["scoreRuleUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["scoreRuleLabel"])}</a></li>'
         for item in records
@@ -5941,44 +5936,14 @@ def render_dmv_score_page():
             "a": "No. A practice score is a readiness signal, not an official result. Use the state source for final rules and retake one weak-area round before test day.",
         },
     ])
-    body = f"""<section class="hero tool-hero">
+    body = f"""<section class="hero slim-hero">
   <div>
-    <p class="eyebrow">DMV passing score calculator</p>
-    <h1>Permit test passing score calculator: how many can you miss?</h1>
-    <p class="lede">Choose a state, get the published passing rule, calculate the questions you can miss, and check whether a practice result has enough margin.</p>
-    {render_last_updated(DMV_SCORE_PAGE["lastUpdated"])}
-    <div class="hero-actions">
-      <a href="#score-calculator">Use calculator</a>
-      <a href="#state-score-answers">State answers</a>
-      <a href="#score-table">Compare scores</a>
-      <a href="dmv-permit-test-study-plan.html">Study plan</a>
-      <a href="dmv-permit-test-requirements-by-state.html">Requirements</a>
-      <a href="road-signs-practice-test.html">Road signs</a>
-    </div>
+    <h1>{esc(DMV_SCORE_PAGE["title"])}</h1>
+    <p class="lede">Compare official passing rules below. Use the calculator when you know the length of the test you are taking.</p>
   </div>
 </section>
-<section class="notice"><strong>Independent site.</strong> {esc(SITE["disclaimer"])}</section>
-<section class="trust-strip">
-  <div><span>States</span><strong>{len(records)} score paths</strong></div>
-  <div><span>Primary use</span><strong>Can-miss math</strong></div>
-  <div><span>Calculator</span><strong>Practice score check</strong></div>
-  <div><span>Updated</span><strong>{esc(DMV_SCORE_PAGE["lastUpdated"])}</strong></div>
-</section>
-<section class="score-entry-paths" aria-label="Start with a common permit-test score question">
-  <div>
-    <span class="eyebrow">Fast score answers</span>
-    <h2>Start with your state or enter the test length.</h2>
-    <p>Open a known state rule below. If your current test uses a different question count, choose the state in the calculator and enter the length shown for your test.</p>
-  </div>
-  <div class="score-entry-grid">
-    <a href="#florida-permit-test-passing-score"><span>Florida</span><strong>50 questions, 10 can be missed</strong><em>40 correct is the published passing mark.</em></a>
-    <a href="#new-york-permit-test-passing-score"><span>New York</span><strong>20 questions, 6 can be missed</strong><em>You also need at least 2 of 4 road-sign questions.</em></a>
-    <a href="#new-jersey-permit-test-passing-score"><span>New Jersey</span><strong>50 questions, 10 can be missed</strong><em>Use the current MVC source before test day.</em></a>
-    <a href="#pennsylvania-permit-test-passing-score"><span>Pennsylvania</span><strong>18 questions, 3 can be missed</strong><em>15 correct is the published passing mark.</em></a>
-    <a href="#score-calculator"><span>Other path</span><strong>Calculate from the current test length</strong><em>Use this when the state publishes a percentage rule.</em></a>
-  </div>
-</section>
-{render_dmv_score_calculator()}
+{render_dmv_score_table()}
+{render_dmv_score_calculator(records)}
 {render_dmv_score_answers(records)}
 <section class="content-section score-query-guide">
   <h2>Three practice scores that need different next steps</h2>
@@ -6001,7 +5966,7 @@ def render_dmv_score_page():
   <h2>Work out the miss limit by hand</h2>
   <p>If the state gives a percentage, multiply your actual test length by that percentage, round the required correct answers up to a whole number, then subtract that number from the test length.</p>
   <p><strong>Example: 37 questions at an 80% threshold.</strong> The threshold is 29.6, so you need at least 30 correct and can have up to 7 misses. This is a math example, not an official test length.</p>
-  <p>Use the published minimum correct answers for a fixed-length test. Check any separate sign condition for <a href="#new-york-permit-test-passing-score">New York</a>, <a href="#georgia-permit-test-passing-score">Georgia</a> or <a href="#virginia-permit-test-passing-score">Virginia</a> before relying on the overall number.</p>
+  <p>Use the published minimum correct answers for a fixed-length test. Check any separate sign condition before relying on the overall number.</p>
 </section>
 <section class="content-section">
   <h2>Why the miss count is not enough by itself</h2>
@@ -6282,7 +6247,6 @@ def build(output=None):
         (ROAD_SIGN_CHEAT_SHEET_SLUG, render_road_sign_cheat_sheet_page),
         (ROAD_SIGN_SHAPES_SLUG, render_road_sign_shapes_page),
         (DMV_SCORE_SLUG, render_dmv_score_page),
-        (DMV_REQUIREMENTS_SLUG, render_dmv_requirements_page),
     )
     for slug, render in renderers:
         emit_page(slug, render())
