@@ -599,6 +599,8 @@ const PICTURE_REVIEW_LESSONS = [
     images: ["railroad"], label: "Compare railroad warnings" },
   { page: "road-sign-shapes-and-colors-finder.html", anchor: "crossing-shape-check",
     images: ["school-crossing", "pedestrian-crossing"], label: "Compare school and pedestrian signs" },
+  { page: "road-sign-shapes-and-colors-finder.html", anchor: "intersection-warning-check",
+    images: ["crossroad", "side-road", "t-intersection"], label: "Compare intersection warnings" },
 ];
 const quizMistakesKey = (pathname, mode) => `tdt-mistakes:${pathname}:${mode}`;
 

@@ -454,6 +454,8 @@ for (const [width, mode, focus, image, target, label] of [
     "road-sign-shapes-and-colors-finder.html#railroad-crossing-check", "Compare railroad warnings"],
   [390, "road-signs-core", "School and pedestrian signs", "school-crossing",
     "road-sign-shapes-and-colors-finder.html#crossing-shape-check", "Compare school and pedestrian signs"],
+  [390, "road-signs-core", "Intersection warning signs", "t-intersection",
+    "road-sign-shapes-and-colors-finder.html#intersection-warning-check", "Compare intersection warnings"],
 ]) {
   test(`${width}px: a missed ${image} goes to its lesson and returns to saved questions in the same mode`, () =>
     withSite(width, async (page, quiz) => {

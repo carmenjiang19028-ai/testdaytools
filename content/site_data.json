@@ -22568,7 +22568,7 @@
           "The highway ends immediately"
         ],
         "answer": 2,
-        "explanation": "A Crossroad sign shows that another road intersects ahead. Scan both sides and be ready for entering or crossing traffic."
+        "explanation": "Your road continues beyond the crossroad, but traffic can enter from either side. Scan left and right and follow the controls at the junction. A warning symbol does not give you the right-of-way."
       },
       {
         "q": "Where should you expect traffic to enter after this sign?",
@@ -22582,7 +22582,7 @@
           "From the median only"
         ],
         "answer": 0,
-        "explanation": "A Side Road sign shows the direction from which another road joins. Watch that side for vehicles entering the main road."
+        "explanation": "The branch is on the right; your own road continues straight. Expect possible entering traffic from that side. The branch is not a turn arrow."
       },
       {
         "q": "What driving decision is coming at this T-intersection sign?",
@@ -22596,7 +22596,7 @@
           "Stop for a railroad crossing"
         ],
         "answer": 1,
-        "explanation": "A T-Intersection sign warns that your road ends at another road. Slow down and prepare for the required turn and right-of-way check."
+        "explanation": "Trace the stem into the horizontal bar: your road ends at the cross street. Slow down and check which turn is allowed, who must yield, and whether it is safe. The warning itself does not set priority."
       },
       {
         "q": "This two-way traffic sign means:",

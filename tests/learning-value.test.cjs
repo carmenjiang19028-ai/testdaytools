@@ -16,7 +16,7 @@ for (const [file, nextAnchor] of [['road-signs-practice-test.html', '#practice']
         const page = await context.newPage();
         const sourceUrl = pathToFileURL(path.resolve(file)).href;
         await page.goto(sourceUrl);
-        const choices = page.getByRole('region', { name: 'Practice a confusing sign pair' });
+        const choices = page.getByRole('region', { name: 'Compare signs that look alike' });
         for (const [label, concept] of [
           ['Stop vs. Yield', 'stop-yield'],
           ['Do Not Enter vs. Wrong Way', 'do-not-enter-wrong-way'],
@@ -30,6 +30,7 @@ for (const [file, nextAnchor] of [['road-signs-practice-test.html', '#practice']
         }
         for (const [label, destination, fragment] of [
           ['Compare posted and advisory speeds with pictures', 'road-sign-learning-loop.html', 'speed-sign-comparison'],
+          ['Compare intersection warnings', 'road-sign-shapes-and-colors-finder.html', 'intersection-warning-check'],
           ['Compare school crossing plaques with pictures', 'road-sign-shapes-and-colors-finder.html', 'school-crossing-location'],
         ]) {
           await choices.getByRole('link', { name: label, exact: true }).click();

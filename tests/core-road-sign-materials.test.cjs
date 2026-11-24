@@ -24,21 +24,32 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });
 after(async () => { await browser?.close(); });
 
-test('the single-curve symbol bends only one way and stays inside its warning diamond', async () => {
-  const svg = fs.readFileSync(path.join(root, 'assets/road-signs/curve-road-sign.svg'));
-  const { data, info } = await sharp(svg).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  let outside = 0;
-  for (let y = 0; y < info.height; y++) {
-    for (let x = 0; x < info.width; x++) {
-      const i = (y * info.width + x) * info.channels;
-      if (Math.abs(x - 110) / 80 + Math.abs(y - 80) / 66 > 1.09
-          && Math.max(...data.subarray(i, i + 3)) < 65 && data[i + 3] > 180) outside++;
+test('exported warning symbols stay inside the shared diamond outline', async () => {
+  const directory = path.join(root, 'assets/road-signs');
+  let checked = 0;
+  for (const file of fs.readdirSync(directory).filter(name => name.endsWith('.svg'))) {
+    const svg = fs.readFileSync(path.join(directory, file));
+    if (!svg.includes('110,14 190,80 110,146 30,80')) continue;
+    const { data, info } = await sharp(svg).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    let outside = 0;
+    for (let y = 0; y < info.height; y++) {
+      for (let x = 0; x < info.width; x++) {
+        const i = (y * info.width + x) * info.channels;
+        if (Math.abs(x - 110) / 80 + Math.abs(y - 80) / 66 > 1.09
+            && Math.max(data[i], data[i + 1], data[i + 2]) < 65 && data[i + 3] > 180) outside++;
+      }
     }
+    assert.equal(outside, 0, file);
+    checked++;
   }
-  assert.equal(outside, 0, 'the symbol must not break through the diamond border');
+  assert.ok(checked >= 16, 'expected the published family of standard diamond drawings');
+});
+
+test('the single-curve symbol bends only one way', async () => {
+  const svg = fs.readFileSync(path.join(root, 'assets/road-signs/curve-road-sign.svg'), 'utf8');
   const page = await browser.newPage();
   try {
-    await page.setContent(svg.toString());
+    await page.setContent(svg);
     const xs = await page.locator('path[fill="none"]').evaluate(stem => (
       Array.from({ length: 33 }, (_, i) => stem.getPointAtLength(stem.getTotalLength() * i / 32).x)
     ));
@@ -46,7 +57,73 @@ test('the single-curve symbol bends only one way and stays inside its warning di
   } finally { await page.close(); }
 });
 
+test('the three intersection diagrams leave yellow space between their branches and the border', async () => {
+  const page = await browser.newPage();
+  try {
+    for (const name of ['crossroad', 'side-road', 't-intersection']) {
+      await page.setContent(fs.readFileSync(path.join(root, `assets/road-signs/${name}-road-sign.svg`), 'utf8'));
+      const symbol = await page.locator('svg').evaluate(element => {
+        const copy = element.cloneNode(true);
+        copy.querySelector('polygon').remove();
+        return new XMLSerializer().serializeToString(copy);
+      });
+      const { data, info } = await sharp(Buffer.from(symbol)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+      let farthest = 0;
+      for (let y = 0; y < info.height; y++) {
+        for (let x = 0; x < info.width; x++) {
+          if (data[(y * info.width + x) * info.channels + 3] > 180) {
+            farthest = Math.max(farthest, Math.abs(x + 0.5 - 110) / 80 + Math.abs(y + 0.5 - 80) / 66);
+          }
+        }
+      }
+      assert.ok(farthest > 0.5 && farthest <= 0.9, `${name} symbol reached ${farthest.toFixed(3)} of the diamond radius`);
+    }
+  } finally { await page.close(); }
+});
+
 for (const width of [320, 1280]) {
+  test(`${width}px: intersection pictures teach a through road, an ending road and a separate yield decision`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const sheet = pathToFileURL(path.join(root, 'dmv-road-signs-cheat-sheet.html')).href;
+      const guide = pathToFileURL(path.join(root, 'road-sign-shapes-and-colors-finder.html')).href;
+      await page.goto(sheet);
+      const entry = page.getByRole('link', { name: 'Compare intersection warnings', exact: true });
+      assert.equal(await entry.count(), 1);
+      await entry.press('Enter');
+      await page.waitForURL(guide + '#intersection-warning-check');
+      const lesson = page.getByRole('region', { name: 'Which road continues at the intersection?' });
+      const images = lesson.getByRole('img');
+      assert.deepEqual(await images.evaluateAll(nodes => nodes.map(img => img.getAttribute('src'))), [
+        'assets/road-signs/crossroad-road-sign.svg',
+        'assets/road-signs/side-road-road-sign.svg',
+        'assets/road-signs/t-intersection-road-sign.svg',
+      ]);
+      assert.ok(await images.evaluateAll(nodes => nodes.every(img => img.complete && img.naturalWidth > 0)));
+      const cases = lesson.locator('details');
+      assert.equal(await cases.count(), 3);
+      for (const [i, expected] of [
+        [0, /B is the Side Road sign.*your road continues/i],
+        [1, /C is the T-Intersection sign.*your road ends.*warning.*not assign priority/i],
+        [2, /In this California example.*yield to the bicyclist.*through road/i],
+      ]) {
+        await cases.nth(i).locator('summary').press('Enter');
+        assert.match(await cases.nth(i).innerText(), expected);
+      }
+      const practice = lesson.getByRole('link', { name: 'Practice these intersection signs', exact: true });
+      assert.equal(await practice.getAttribute('href'),
+        'road-signs-practice-test.html?mode=road-signs-core&focus=Intersection+warning+signs#practice');
+      assert.equal(await lesson.getByRole('link', { name: 'Retry saved questions in this round', exact: true }).count(), 0);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `intersection-warning-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: printable route compares three curve signs and gives a way to practice without changing scoring`, async () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
     await context.route(/^https?:/, route => route.abort());

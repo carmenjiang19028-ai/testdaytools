@@ -162,8 +162,8 @@ SIGN_SVGS = {
     "curve": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M103 124 V103 Q103 76 127 65 L137 60" fill="none" stroke="#111" stroke-width="12"/><path d="M126 51 L149 54 L138 74 Z" fill="#111"/></svg>',
     "winding-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 128 C68 109 151 92 105 74 C67 59 132 48 112 34" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M97 43 l14-20 16 18z" fill="#111"/></svg>',
     "crossroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 125 V36 M68 80 H152" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
-    "side-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M96 126 V36 M96 78 H150" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
-    "t-intersection": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 126 V67 M66 58 H154" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
+    "side-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M104 121 V39 M104 80 H145" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
+    "t-intersection": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 125 V65 M73 65 H147" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
     "two-way-traffic": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M92 53 V105 M128 107 V55" fill="none" stroke="#111" stroke-width="10"/><path d="M92 122 L77 100 H107 Z M128 38 L143 60 H113 Z" fill="#111"/></svg>',
     "stop-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 25 L137 52 H118 V64 H102 V52 H83 Z" fill="#111"/><polygon points="98,74 122,74 137,89 137,111 122,126 98,126 83,111 83,89" fill="#c7312f" stroke="#fff" stroke-width="2"/></svg>',
     "bicycle-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><circle cx="82" cy="87" r="15" fill="none" stroke="#111" stroke-width="5"/><circle cx="138" cy="87" r="15" fill="none" stroke="#111" stroke-width="5"/><path d="M82 87 L97 63 L111 87 H138 L126 69 L111 87 M94 69 H126 L123 57 M119 57 H134 M97 63 L91 52 H101" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -260,11 +260,12 @@ def render_contrast_practice_links(return_page):
         links.append(f'<li><a href="road-sign-learning-loop.html?{esc(query)}">{esc(label)}</a></li>')
     curves_href = "#curve-warning-check" if return_page == f"{ROAD_SIGN_CHEAT_SHEET_SLUG}.html" else f"{ROAD_SIGN_CHEAT_SHEET_SLUG}.html#curve-warning-check"
     return f'''<section class="content-section" aria-labelledby="contrast-practice-heading">
-  <h2 id="contrast-practice-heading">Practice a confusing sign pair</h2>
-  <p>Choose the pair you mix up. Explain how the signs change the driver's decision, then try two short situations before returning to your study material.</p>
+  <h2 id="contrast-practice-heading">Compare signs that look alike</h2>
+  <p>Choose the signs you mix up and check how each picture changes the driver's decision.</p>
   <ul class="material-links">{"".join(links)}</ul>
   <p>{speed_sign_comparison_link()}</p>
   <p><a href="{esc(curves_href)}">Compare curve warnings</a></p>
+  <p><a href="{ROAD_SIGN_SHAPES_SLUG}.html#intersection-warning-check">Compare intersection warnings</a></p>
   <p><a href="road-sign-shapes-and-colors-finder.html#school-crossing-location">Compare school crossing plaques with pictures</a></p>
 </section>'''
 
@@ -286,7 +287,7 @@ def render_curve_warning_check():
   <h2 id="curve-warning-heading">One curve, reverse curves, or a winding road?</h2>
   <div class="contrast-lesson-grid">
     <figure class="contrast-scene">
-      <div class="contrast-curve-signs">
+      <div class="contrast-sign-trio">
         <div>{render_road_sign_image("curve", "A: yellow diamond with a single right-bending arrow", lazy=False)}<b>A</b></div>
         <div><span role="img" aria-label="B: yellow diamond with an arrow curving right, then left">{reverse}</span><b>B</b></div>
         <div>{render_road_sign_image("winding-road", "C: yellow diamond with an arrow showing several bends", lazy=False)}<b>C</b></div>
@@ -4099,6 +4100,45 @@ def render_railroad_stall_response():
 </section>"""
 
 
+def render_intersection_warning_drill():
+    examples = [
+        ("A", "crossroad", "yellow diamond with a black cross with four arms"),
+        ("B", "side-road", "yellow diamond with a vertical line that continues past one branch on the right"),
+        ("C", "t-intersection", "yellow diamond with a vertical stem that ends at a horizontal bar"),
+    ]
+    pictures = "".join(
+        f'<div>{render_road_sign_image(key, label + ": " + clue, lazy=False)}<b>{label}</b></div>'
+        for label, key, clue in examples
+    )
+    focus = urlencode({"mode": "road-signs-core", "focus": "Intersection warning signs"})
+    return f'''<section class="content-section shape-crossing-drill" id="intersection-warning-check" aria-labelledby="intersection-warning-heading">
+  <h2 id="intersection-warning-heading">Which road continues at the intersection?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-trio">{pictures}</div>
+      <figcaption>Trace your approach from the bottom of each symbol. Look for a line that continues straight, a branch that joins it, or a line that ends.</figcaption>
+    </figure>
+    <div>
+      <details class="contrast-transfer">
+        <summary>A street joins from your right, but you can keep going straight. Which picture fits?</summary>
+        <p><strong>B is the Side Road sign.</strong> The black branch comes in from the right, but your road continues. Watch for drivers entering from that street. It is not an instruction to turn right.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>Which picture means you cannot continue straight, and does that sign tell you who goes first?</summary>
+        <p><strong>C is the T-Intersection sign.</strong> Your road ends at the cross street, so prepare to turn where permitted. In A, a Crossroad sign, your road continues, but check both sides for traffic. These are advance warning signs and do not assign priority. Read the controls at the junction and apply your state's rules.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>In California, you approach from the stem of a T with no stop sign, yield sign, or signal. A bicyclist is riding straight on the through road. Who goes first?</summary>
+        <p><strong>In this California example, yield to the bicyclist on the through road.</strong> The yellow sign helps you predict the junction's shape; California's right-of-way rule determines who yields.</p>
+      </details>
+      <p><a class="info-card-link" href="road-signs-practice-test.html?{esc(focus)}#practice">Practice these intersection signs</a></p>
+      {render_picture_review_return()}
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">FHWA: Intersection Warning Signs, section 2C.41</a> &middot; <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs">PennDOT: intersection diagrams</a> &middot; <a href="https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road/">California DMV: uncontrolled T-intersections</a></p>
+    </div>
+  </div>
+</section>'''
+
+
 def render_hill_warning_drill():
     crest_sign = (
         '<svg viewBox="0 0 220 160" aria-hidden="true">'
@@ -4227,6 +4267,7 @@ def render_road_sign_shapes_page():
 {render_railroad_stall_response()}
 {render_passing_sign_drill()}
 {render_divided_highway_drill()}
+{render_intersection_warning_drill()}
 {render_hill_warning_drill()}
 <section class="content-section">
   <h2>Shape and color traps that slow learners down</h2>
