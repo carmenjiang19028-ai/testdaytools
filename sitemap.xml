@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://testdaytools.com/</loc>
-    <lastmod>2026-11-23</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -17,18 +17,6 @@
     <lastmod>2026-11-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/ap-tools.html</loc>
-    <lastmod>2026-05-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-tools.html</loc>
-    <lastmod>2026-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://testdaytools.com/dmv-permit-test-question-of-the-day.html</loc>
@@ -108,120 +96,6 @@
     <lastmod>2026-11-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/ap-score-release-date-2026.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/ap-scores-delayed-missing-2026.html</loc>
-    <lastmod>2026-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/ap-credit-after-scores-guide.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/2026-ap-exam-schedule.html</loc>
-    <lastmod>2026-05-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/ap-exam-day-checklist.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-test-dates-2026-2027.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-august-22-2026-planning.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/digital-sat-checklist.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/digital-sat-bluebook-checklist.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-score-release-guide.html</loc>
-    <lastmod>2026-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/digital-sat-score-calculator.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/digital-sat-scoring-explained.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-score-goal-planner.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-reading-writing-score-guide.html</loc>
-    <lastmod>2026-05-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-math-score-guide.html</loc>
-    <lastmod>2026-05-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-superscore-guide.html</loc>
-    <lastmod>2026-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-practice-test-review-template.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-test-day-timing-guide.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/sat-device-troubleshooting-guide.html</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://testdaytools.com/dmv-test-day-checklist.html</loc>
@@ -391,24 +265,6 @@
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/skills-practice.html</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/clerical-checking-practice.html</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://testdaytools.com/filing-practice.html</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://testdaytools.com/about.html</loc>

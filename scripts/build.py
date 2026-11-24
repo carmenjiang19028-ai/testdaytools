@@ -40,8 +40,19 @@ ROAD_SIGN_RECALL_CUES = json.loads(
     object_pairs_hook=reject_duplicate_json_keys,
 )
 SITE = DATA["site"]
+ARCHIVED_SLUGS = frozenset("""
+    ap-tools ap-score-release-date-2026 ap-scores-delayed-missing-2026
+    ap-credit-after-scores-guide 2026-ap-exam-schedule ap-exam-day-checklist
+    sat-tools sat-test-dates-2026-2027 sat-august-22-2026-planning
+    digital-sat-checklist digital-sat-bluebook-checklist sat-score-release-guide
+    digital-sat-score-calculator digital-sat-scoring-explained sat-score-goal-planner
+    sat-reading-writing-score-guide sat-math-score-guide sat-superscore-guide
+    sat-practice-test-review-template sat-test-day-timing-guide
+    sat-device-troubleshooting-guide sat-study-plan-by-score-gap
+    skills-practice clerical-checking-practice filing-practice
+""".split())
 TOOL_BY_SLUG = {tool["slug"]: tool for tool in DATA["tools"]}
-HUBS = DATA.get("hubs", [])
+HUBS = [hub for hub in DATA.get("hubs", []) if hub["slug"] not in ARCHIVED_SLUGS]
 DMV_REQUIREMENTS_SLUG = "dmv-permit-test-requirements-by-state"
 DMV_REQUIREMENTS_PAGE = {
     "slug": DMV_REQUIREMENTS_SLUG,
@@ -6056,7 +6067,9 @@ def render_home():
     cards = []
     for section in DATA["home"]["sections"]:
         if section.get("hubSlug"):
-            hub = next(hub for hub in HUBS if hub["slug"] == section["hubSlug"])
+            hub = next((hub for hub in HUBS if hub["slug"] == section["hubSlug"]), None)
+            if hub is None:
+                continue
             links = (
                 f'<a href="{esc(hub["slug"])}.html"><strong>{esc(hub["title"])}</strong>'
                 f'<span>{esc(hub["description"])}</span></a>'
@@ -6068,13 +6081,12 @@ def render_home():
   <div class="home-hero-grid">
     <div>
       <p class="eyebrow">DMV-first road sign practice</p>
-      <h1>DMV road signs practice by state, pictures, and permit tools.</h1>
+      <h1>DMV permit test practice and road signs</h1>
       <p class="lede">Start with road signs by state, then drill regulatory signs, flashcards, shape/color lookup, Florida source checks, and permit-test planning tools.</p>
       {render_last_updated(DATA["home"].get("lastUpdated"))}
       {render_home_pocket_tabs()}
       <div class="hero-actions home-quick-links">
         <a class="home-worksheet-link" href="dmv-road-signs-cheat-sheet.html#online-worksheet">Road signs worksheet</a>
-        <a href="skills-practice.html">Work skills practice preview</a>
         <a href="road-sign-learning-loop.html">Road sign contrast lab</a>
       </div>
     </div>
@@ -6122,11 +6134,6 @@ def write(path, content):
 
 
 def build(output=None):
-    if __package__:
-        from . import build_skill_tools
-    else:
-        import build_skill_tools
-
     output = output or write
     write_road_sign_images(output)
     write_contrast_lessons(output)
@@ -6158,22 +6165,17 @@ def build(output=None):
         emit_page(slug, render())
     for tool in DATA["tools"]:
         # Retired noindex pages are checked-in snapshots, not build outputs.
-        if not tool.get("indexable", True):
+        if not tool.get("indexable", True) or tool["slug"] in ARCHIVED_SLUGS:
             continue
         emit_page(tool["slug"], render_tool(tool))
         if tool.get("calendarDownload"):
             output(tool["calendarDownload"]["filename"], render_calendar_file(tool["calendarDownload"]))
 
-    skill_pages = build_skill_tools.render_pages()
-    skill_lastmod = format_lastmod(build_skill_tools.DATA["hub"]["updated"])
-    for filename, page in skill_pages.items():
-        output(filename, page)
-        urls[f"/{filename}"] = skill_lastmod
     for page in DATA["trustPages"]:
         emit_page(page["slug"], render_trust(page))
 
     sitemap_urls = "\n".join(
-        sitemap_entry(path, lastmod, priority="0.7" if path[1:] in skill_pages else None)
+        sitemap_entry(path, lastmod)
         for path, lastmod in urls.items()
     )
     output("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{sitemap_urls}\n</urlset>\n')

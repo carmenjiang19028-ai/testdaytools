@@ -4,7 +4,7 @@
     "url": "https://testdaytools.com",
     "description": "Free DMV practice tests, road signs practice, regulatory traffic sign quizzes, and test-day tools from an independent study site.",
     "lastUpdated": "May 13, 2026",
-    "disclaimer": "TestDayTools is fan-made and unofficial. We are not affiliated with College Board, any state DMV, or any government agency.",
+    "disclaimer": "TestDayTools is an independent study site. It is not affiliated with any DMV, MVC, BMV, SOS or other government agency.",
     "analytics": {
       "ga4MeasurementId": "G-ME9YY0NVEB",
       "notes": "Use only a TestDayTools GA4 Measurement ID. Do not reuse CMPanda GTM, Google Ads, or conversion tags."
@@ -41,9 +41,9 @@
     }
   ],
   "home": {
-    "title": "Free DMV Road Signs Practice, Flashcards, and Permit Tools | TestDayTools",
-    "description": "Choose 40-picture road sign practice, state road-sign pages, Florida regulatory signs, flashcards, shape lookup, permit practice, and test-day checklist tools from one DMV study hub.",
-    "lastUpdated": "November 23, 2026",
+    "title": "DMV Permit Test Practice and Road Signs | TestDayTools",
+    "description": "Prepare for your DMV permit test with state study guides, illustrated road-sign practice, flashcards, and test-day checklists.",
+    "lastUpdated": "November 24, 2026",
     "sections": [
       {
         "heading": "DMV and road signs practice",
@@ -23522,7 +23522,7 @@
       "content": [
         {
           "heading": "Unofficial site",
-          "text": "TestDayTools is fan-made and unofficial. It is not affiliated with College Board, AP, SAT, any DMV, or any government agency."
+          "text": "TestDayTools provides independent practice for DMV permit tests. For the exact requirements of your application, consult your state licensing agency."
         },
         {
           "heading": "No guarantees",

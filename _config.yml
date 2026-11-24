@@ -1,5 +1,6 @@
 # Keep build inputs and project records in Git, outside the published site.
 exclude:
+  - _archive
   - content
   - project-memory
   - scripts
