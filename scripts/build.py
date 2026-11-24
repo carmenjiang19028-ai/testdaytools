@@ -269,6 +269,11 @@ def render_contrast_practice_links(return_page):
 </section>'''
 
 
+def render_picture_review_return():
+    return ('<p data-picture-review-return hidden><a class="info-card-link" '
+            'href="road-signs-practice-test.html#practice">Retry saved questions in this round</a></p>')
+
+
 def render_curve_warning_check():
     reverse = (
         '<svg viewBox="0 0 220 160" aria-hidden="true">'
@@ -298,6 +303,7 @@ def render_curve_warning_check():
         <p><strong>Slow before the first bend and stay in your lane.</strong> Adjust for traction and visibility before the next bend too. Do not wait until you are already turning to find out whether your approach speed was safe.</p>
       </details>
       <p><a class="info-card-link" href="road-signs-practice-test.html?{esc(focus)}#practice">Practice curve warning signs</a></p>
+      {render_picture_review_return()}
       <p class="contrast-source">Sources: <a href="https://mutcd.fhwa.dot.gov/kno-shs_2024-release-status/index.htm">FHWA sign designations W1-2, W1-4 and W1-5</a>; <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs">PennDOT warning signs</a> and <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/everyday-driving-skills/negotiating-curves">PennDOT guidance on driving through curves</a>.</p>
     </div>
   </div>
@@ -3918,6 +3924,7 @@ def render_crossing_shape_drill():
       </details>
       <p><a class="info-card-link" href="#school-crossing-location">Compare the plaques below the school sign</a></p>
       <p><a class="info-card-link" href="road-signs-practice-test.html?focus=School%20and%20pedestrian%20signs#practice">Practice school and pedestrian signs</a></p>
+      {render_picture_review_return()}
       <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf">FHWA 2C.55: pedestrian warning</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part7r1.pdf">FHWA 7B.01&ndash;7B.03: school signs and plaques</a></p>{render_worksheet_return("crossing-shape-check", ROAD_SIGN_SHAPES_SLUG)}
     </div>
   </div>
@@ -4048,6 +4055,7 @@ def render_railroad_crossing_drill():
         <p><strong>Prepare to stop.</strong> The yellow circle tells you tracks are ahead; the white crossbuck identifies the crossing itself. Slow down, look both ways, and listen for a train. Follow the actual signs and signals at the tracks.</p>
       </details>
       <p><a class="info-card-link" href="road-signs-practice-test.html?focus=Warning%20signs#practice">Practice the round advance warning sign</a></p>
+      {render_picture_review_return()}
       <p><a href="#railroad-stall-response">What if a vehicle stalls on the tracks?</a></p>
       <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part8r1.pdf">FHWA: Sections 8B.03 and 8B.06</a> &middot; <a href="https://railroads.dot.gov/highway-rail-crossing-and-trespasser-programs/pedestrian-motorist">FRA: crossing safety</a> &middot; <a href="https://www.nhtsa.gov/campaign/railroad-crossing">NHTSA: lights and gates</a></p>{render_worksheet_return("railroad-crossing-check", ROAD_SIGN_SHAPES_SLUG)}
     </div>

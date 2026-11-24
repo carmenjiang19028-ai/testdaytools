@@ -590,6 +590,17 @@ function shuffleChoiceButtons(group) {
 
 const MISSED_SIGN_CARDS_KEY = "tdt-missed-sign-cards";
 const DMV_PERMIT_PROCESS_TOPICS = new Set(["Exam readiness", "Florida licensing", "MVC process", "Learner license rules"]);
+const PICTURE_PRACTICE_PAGE = "road-signs-practice-test.html";
+const PICTURE_REVIEW_MODE = "road-signs-core";
+const PICTURE_REVIEW_LESSONS = [
+  { page: "dmv-road-signs-cheat-sheet.html", anchor: "curve-warning-check",
+    images: ["curve", "winding-road"], label: "Compare curve warnings" },
+  { page: "road-sign-shapes-and-colors-finder.html", anchor: "railroad-crossing-check",
+    images: ["railroad"], label: "Compare railroad warnings" },
+  { page: "road-sign-shapes-and-colors-finder.html", anchor: "crossing-shape-check",
+    images: ["school-crossing", "pedestrian-crossing"], label: "Compare school and pedestrian signs" },
+];
+const quizMistakesKey = (pathname, mode) => `tdt-mistakes:${pathname}:${mode}`;
 
 function initQuizzes() {
   const siteHeader = document.querySelector(".site-header");
@@ -637,7 +648,7 @@ function initQuizzes() {
     const correctAnswers = new Set();
     const wrongAnswers = new Set();
     const pickedAnswers = new Map();
-    const storageKey = `tdt-mistakes:${window.location.pathname}:${quiz.dataset.modeId || quizLabel}`;
+    const storageKey = quizMistakesKey(window.location.pathname, quiz.dataset.modeId || quizLabel);
     let draftSignature;
     let savedMistakes = [];
     let mistakeStorageAvailable = true;
@@ -690,8 +701,10 @@ function initQuizzes() {
       sign,
     ]);
     const oldMistakeIds = new Map();
+    const questionsByMistakeId = new Map();
     questions.forEach(question => {
       const id = mistakeId(question);
+      questionsByMistakeId.set(id, question);
       for (const label of signIdentifiers(question).slice(1).filter(Boolean)) {
         const oldId = mistakeId(question, label);
         const previous = oldMistakeIds.get(oldId);
@@ -722,7 +735,11 @@ function initQuizzes() {
 
     const pageName = window.location.pathname.split("/").pop() || "index.html";
     const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
-    const supportsBaseline = isDmvQuiz && pageName === "road-signs-practice-test.html" && mode === "road-signs-core";
+    const supportsBaseline = isDmvQuiz && pageName === PICTURE_PRACTICE_PAGE && mode === PICTURE_REVIEW_MODE;
+    const pictureLessonFor = (question) => supportsBaseline && mistakeStorageAvailable && question
+      ? PICTURE_REVIEW_LESSONS.find(lesson => lesson.images.includes(question.dataset.flashcardKey))
+      : undefined;
+    const pictureLessonHref = (lesson) => `${lesson.page}?${new URLSearchParams({ review_mode: mode })}#${lesson.anchor}`;
 
     const roundHref = (focus = "all") => {
       const params = new URLSearchParams();
@@ -866,9 +883,10 @@ function initQuizzes() {
       const preview = savedMistakes
         .slice(0, previewCount)
         .map((item) => {
+          const lesson = !item.conceptId && pictureLessonFor(questionsByMistakeId.get(item.questionId));
           const compareLink = item.conceptId
             ? `<a href="${escapeHtml(comparisonHref(item.conceptId))}">Compare this distinction</a>`
-            : "";
+            : lesson ? `<a href="${escapeHtml(pictureLessonHref(lesson))}">${escapeHtml(lesson.label)}</a>` : "";
           return `<article><strong>${escapeHtml(item.category)}</strong><span>${escapeHtml(item.prompt)}</span>${compareLink}</article>`;
         })
         .join("");
@@ -1159,11 +1177,17 @@ function initQuizzes() {
         } else if (imageMisses.length) {
           const allVisual = imageMisses.length === missedCount;
           const concept = imageMisses[0].dataset.conceptId;
+          const lesson = allVisual && pictureLessonFor(imageMisses[0]);
           if (allVisual && concept && imageMisses.every(question => question.dataset.conceptId === concept)) {
             nextPlanTitle.textContent = "Compare the sign distinction you missed";
             nextPlanCopy.textContent = "Work through the sign comparison and its action questions, then come back to retry the saved mistakes from this round.";
             nextPlanAction.href = comparisonHref(concept);
             nextPlanAction.textContent = "Open targeted comparison";
+          } else if (lesson && imageMisses.every(question => !question.dataset.conceptId && pictureLessonFor(question) === lesson)) {
+            nextPlanTitle.textContent = "Study the warning you missed";
+            nextPlanCopy.textContent = "Compare the pictures and their driver actions, then retry your saved questions from this round.";
+            nextPlanAction.href = pictureLessonHref(lesson);
+            nextPlanAction.textContent = lesson.label;
           } else {
             nextRoundFocus = "saved";
             nextPlanTitle.textContent = allVisual ? "Retry the signs you missed" : "Review both sign and rule mistakes";
@@ -2393,6 +2417,27 @@ function initWorksheetReturns() {
     link.setAttribute("href", destination.pathname.split("/").pop() + destination.hash);
     container.hidden = false;
   });
+}
+
+function initPictureReviewReturn() {
+  const mode = new URLSearchParams(window.location.search).get("review_mode");
+  if (mode !== PICTURE_REVIEW_MODE) return;
+  const page = window.location.pathname.split("/").pop();
+  const lesson = PICTURE_REVIEW_LESSONS.find(item => item.page === page && `#${item.anchor}` === window.location.hash);
+  if (!lesson) return;
+  const container = document.getElementById(lesson.anchor)?.querySelector("[data-picture-review-return]");
+  const link = container?.querySelector("a");
+  if (!link) return;
+  try {
+    const practice = new URL(PICTURE_PRACTICE_PAGE, window.location.href);
+    const saved = JSON.parse(window.localStorage.getItem(quizMistakesKey(practice.pathname, mode)));
+    if (!Array.isArray(saved) || !saved.some(item => typeof item?.prompt === "string")) return;
+  } catch {
+    return;
+  }
+  const params = new URLSearchParams({ mode, focus: "saved" });
+  link.setAttribute("href", `${PICTURE_PRACTICE_PAGE}?${params}#practice`);
+  container.hidden = false;
 }
 
 function initRecentPracticeCards() {
@@ -4991,6 +5036,7 @@ initMiniSignDrills();
 initSignLookups();
 initRoadSignFlashcards();
 initWorksheetReturns();
+initPictureReviewReturn();
 initDmvDailyQuestions();
 initDmvMistakeLogs();
 initDmvStudyPlanners();

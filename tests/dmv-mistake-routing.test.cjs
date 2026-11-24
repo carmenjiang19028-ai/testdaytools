@@ -447,6 +447,68 @@ for (const width of [390, 1280]) {
     }));
 }
 
+for (const [width, mode, focus, image, target, label] of [
+  [390, "road-signs-core", "Alignment warning signs", "curve",
+    "dmv-road-signs-cheat-sheet.html#curve-warning-check", "Compare curve warnings"],
+  [1280, "road-signs-core", "Railroad signs", "railroad",
+    "road-sign-shapes-and-colors-finder.html#railroad-crossing-check", "Compare railroad warnings"],
+  [390, "road-signs-core", "School and pedestrian signs", "school-crossing",
+    "road-sign-shapes-and-colors-finder.html#crossing-shape-check", "Compare school and pedestrian signs"],
+]) {
+  test(`${width}px: a missed ${image} goes to its lesson and returns to saved questions in the same mode`, () =>
+    withSite(width, async (page, quiz) => {
+      await open(page, signs, { mode, focus });
+      await finish(quiz, q => q.getAttribute("data-flashcard-key").then(key => key === image));
+      const misses = Number(await quiz.locator("[data-quiz-missed]").first().innerText());
+      assert.ok(misses > 0);
+      const action = nextStudy(quiz);
+      assert.equal(await action.textContent(), label);
+      const [resource, anchor] = target.split("#");
+      const lessonUrl = origin + "/" + resource + "?review_mode=" + mode + "#" + anchor;
+      assert.equal(new URL(await action.getAttribute("href"), page.url()).href, lessonUrl);
+      const mistakeLink = mistakes(quiz).first().getByRole("link", { name: label, exact: true });
+      assert.equal(await mistakeLink.getAttribute("href"), await action.getAttribute("href"));
+      await action.click();
+      await page.waitForURL(lessonUrl);
+      const lesson = page.locator("#" + anchor);
+      assert.ok(await lesson.getByRole("heading").isVisible());
+      const retry = lesson.getByRole("link", { name: "Retry saved questions in this round" });
+      assert.equal(await retry.getAttribute("href"), signs + "?mode=" + mode + "&focus=saved#practice");
+      assert.ok(await retry.isVisible());
+      const dir = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (dir) {
+        fs.mkdirSync(dir, { recursive: true });
+        await retry.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: path.join(dir, `review-return-${image}-${width}.png`) });
+      }
+      await retry.click();
+      await page.waitForURL("**/" + signs + "?mode=" + mode + "&focus=saved#practice");
+      assert.equal(await quiz.locator("[data-quiz-filter]").inputValue(), "saved");
+      assert.match(await quiz.locator("[data-quiz-position]").innerText(), new RegExp(`1 of ${misses}\\b`));
+      assert.equal(await activeQuestion(quiz).getAttribute("data-flashcard-key"), image);
+    }));
+}
+
+test("mixed lesson misses keep the generic retry and each saved mistake has its own lesson", () =>
+  withSite(1280, async (page, quiz) => {
+    await open(page, signs, { mode: "road-signs-core" });
+    await finish(quiz, async q => ["railroad", "school-crossing"].includes(await q.getAttribute("data-flashcard-key")));
+    assert.match(await nextStudy(quiz).getAttribute("href"), /mode=road-signs-core&focus=saved/);
+    assert.ok(await mistakes(quiz).getByRole("link", { name: "Compare railroad warnings", exact: true }).first().isVisible());
+    assert.ok(await mistakes(quiz).getByRole("link", { name: "Compare school and pedestrian signs", exact: true }).first().isVisible());
+  }));
+
+test("lesson return is hidden for direct study, invalid modes and valid modes without saved mistakes", () =>
+  withSite(390, async page => {
+    const lessonUrl = origin + "/dmv-road-signs-cheat-sheet.html";
+    for (const query of ["", "?review_mode=road-signs-core", "?review_mode=https://example.com"]) {
+      await page.goto(lessonUrl + query + "#curve-warning-check");
+      const lesson = page.locator("#curve-warning-check");
+      assert.equal(await lesson.getByRole("link", { name: "Retry saved questions in this round" }).count(), 0);
+      assert.ok(await lesson.getByRole("link", { name: "Practice curve warning signs" }).isVisible());
+    }
+  }));
+
 test("all forty misses survive refresh and the saved focus can revisit them", () =>
   withSite(1280, async (page, quiz) => {
     await open(page, signs, { mode: "road-signs-core" });
