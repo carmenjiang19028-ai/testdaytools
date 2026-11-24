@@ -16095,7 +16095,11 @@
         ],
         "answer": 0,
         "category": "Road condition signs",
-        "explanation": "Hill Ahead warns of a grade where drivers may need to adjust speed, spacing, or gear."
+        "explanation": "The truck points downhill: this sign warns of a steep downgrade, not a rise or a hill that blocks your view. Control your speed before descending, even in a passenger car.",
+        "source": {
+          "label": "FHWA: Hill sign and steep downgrades",
+          "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=23"
+        }
       },
       {
         "q": "This sign warns of:",
@@ -16632,7 +16636,11 @@
         ],
         "answer": 0,
         "category": "Road condition signs",
-        "explanation": "Hill Ahead warns of a steep downgrade. Reduce speed before descending and avoid riding the brakes."
+        "explanation": "The truck points downhill: this sign warns of a steep downgrade. Control your speed before descending, even in a passenger car. The truck symbol does not limit the warning to trucks.",
+        "source": {
+          "label": "FHWA: Hill sign and steep downgrades",
+          "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=23"
+        }
       }
     ],
     "californiaMock": [

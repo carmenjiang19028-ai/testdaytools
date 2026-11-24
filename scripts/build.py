@@ -145,7 +145,15 @@ SIGN_SVGS = {
     "signal-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><rect x="88" y="36" width="44" height="88" rx="8" fill="#222"/><circle cx="110" cy="58" r="11" fill="#e53935"/><circle cx="110" cy="82" r="11" fill="#f4c430"/><circle cx="110" cy="106" r="11" fill="#22a35a"/></svg>',
     "divided-highway": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M99 43 H121 C121 63 117 76 110 76 C103 76 99 63 99 43 Z" fill="#111"/><g><path d="M81 57 V65 C81 80 96 88 96 105 V114" stroke="#111" stroke-width="10" fill="none"/><polygon points="96,127 82,109 110,109" fill="#111"/></g><g><path d="M124 115 V105 C124 88 139 80 139 65 V57" stroke="#111" stroke-width="10" fill="none"/><polygon points="139,45 125,63 153,63" fill="#111"/></g></svg>',
     "divided-highway-ends": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M99 117 H121 C121 97 117 84 110 84 C103 84 99 97 99 117 Z" fill="#111"/><g><path d="M96 45 V55 C96 72 81 80 81 95 V103" stroke="#111" stroke-width="10" fill="none"/><polygon points="81,115 67,97 95,97" fill="#111"/></g><g><path d="M139 103 V95 C139 80 124 72 124 55 V46" stroke="#111" stroke-width="10" fill="none"/><polygon points="124,33 110,51 138,51" fill="#111"/></g></svg>',
-    "hill-ahead": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M58 52 L162 116" stroke="#111" stroke-width="10" stroke-linecap="round"/><rect x="82" y="63" width="54" height="31" rx="4" fill="#111" transform="rotate(31 109 79)"/><circle cx="89" cy="93" r="9" fill="#f6d54a" stroke="#111" stroke-width="5"/><circle cx="129" cy="117" r="9" fill="#f6d54a" stroke="#111" stroke-width="5"/></svg>',
+    "hill-ahead": (
+        '<svg viewBox="0 0 220 160" aria-hidden="true">'
+        '<polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>'
+        '<path d="M74 108 L147 70 V108 Z" fill="#111"/>'
+        '<g transform="translate(110 84) rotate(-27)" fill="#111">'
+        '<path d="M-12 -36 H32 V-11 H-12 Z M-40 -16 L-32 -30 H-16 V-14 H29 V-7 H-40 Z"/>'
+        '<circle cx="-30" cy="-8" r="6"/><circle cx="21" cy="-8" r="6"/>'
+        '</g></svg>'
+    ),
     "no-passing": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="69" y="13" width="82" height="134" rx="3" fill="#fff" stroke="#222" stroke-width="4"/><text x="110" y="51" text-anchor="middle" fill="#111" font-size="24" font-weight="900" font-family="Arial, sans-serif">DO</text><text x="110" y="91" text-anchor="middle" fill="#111" font-size="24" font-weight="900" font-family="Arial, sans-serif">NOT</text><text x="110" y="131" text-anchor="middle" fill="#111" font-size="24" font-weight="900" font-family="Arial, sans-serif">PASS</text></svg>',
     "roundabout": f'<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>{ROUNDABOUT_SYMBOL}</svg>',
     "hospital": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="48" y="26" width="124" height="108" rx="8" fill="#0f5fa8"/><text x="110" y="108" text-anchor="middle" fill="#fff" font-size="76" font-weight="900" font-family="Arial, sans-serif">H</text></svg>',
@@ -4009,6 +4017,41 @@ def render_railroad_crossing_drill():
 </section>"""
 
 
+def render_hill_warning_drill():
+    crest_sign = (
+        '<svg viewBox="0 0 220 160" aria-hidden="true">'
+        '<polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>'
+        '<g text-anchor="middle" fill="#111" font-family="Arial, sans-serif" font-size="18" font-weight="900">'
+        '<text x="110" y="63">HILL</text><text x="110" y="85">BLOCKS</text><text x="110" y="107">VIEW</text>'
+        '</g></svg>'
+    )
+    return f"""<section class="content-section shape-crossing-drill" id="hill-warning-check" aria-labelledby="hill-warning-heading">
+  <h2 id="hill-warning-heading">Steep descent or a hill that blocks your view?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-sign-pair">
+        <span role="img" aria-label="Sign A: yellow diamond showing a truck angled down to the left above a solid slope">{SIGN_SVGS["hill-ahead"]}</span>
+        <span aria-hidden="true">/</span>
+        <span role="img" aria-label="Sign B: yellow diamond reading Hill Blocks View">{crest_sign}</span>
+      </div>
+      <figcaption><strong>A:</strong> Hill (W7-1). <strong>B:</strong> Hill Blocks View (W7-6).</figcaption>
+    </figure>
+    <div>
+      <details class="contrast-transfer">
+        <summary>You are in a passenger car and the road drops away ahead. Does the truck symbol mean the warning is only for trucks?</summary>
+        <p><strong>No. A warns of a steep descent.</strong> Reduce speed before the downgrade. If you need a lower gear or a downhill mode, select the one appropriate for your vehicle before descending. Follow any additional signs on the grade.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>The crest hides the road ahead. Is the main problem controlling downhill speed or seeing far enough to stop?</summary>
+        <p><strong>B warns that the crest limits how far you can see.</strong> Slow before the crest so you have room to stop within the visible road. Do not pull out to pass when you cannot see oncoming traffic. A yellow advisory-speed plaque may give a recommended speed for that crest; it is not a guarantee that the speed is safe in every condition.</p>
+      </details>
+      <p><a class="info-card-link" href="new-york-dmv-road-signs-practice.html?mode=signs&amp;focus=Road%20condition%20signs#practice">Practice the descent sign in the New York set</a></p>
+      <p class="contrast-source"><a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=23">FHWA: Hill and Hill Blocks View, Figure 2C-5</a> &middot; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=24">FHWA: hills with limited sight distance</a> &middot; <a href="https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/navigating-the-roads/">California DMV: passing with limited visibility</a></p>
+    </div>
+  </div>
+</section>"""
+
+
 def render_road_sign_shapes_page():
     records = road_sign_shape_records()
     stats = "".join(
@@ -4101,6 +4144,7 @@ def render_road_sign_shapes_page():
 {render_railroad_crossing_drill()}
 {render_passing_sign_drill()}
 {render_divided_highway_drill()}
+{render_hill_warning_drill()}
 <section class="content-section">
   <h2>Shape and color traps that slow learners down</h2>
   <p>Color narrows the possibilities but cannot tell you the action by itself. Red panels can mark different entry controls, red slashes show prohibited movements, and a pennant is not an arrow telling you to move right.</p>
@@ -4119,7 +4163,7 @@ def render_road_sign_shapes_page():
   <div class="tool-section-head">
     <span class="eyebrow">Reference table</span>
     <h2 id="shape-reference-heading">Road sign shape and color meanings</h2>
-    <p class="section-intro">Look up a shape, color or symbol. If the clue is not a sign, <a href="#marking-signal-reference">compare lines and flashing signals</a>.</p>
+    <p class="section-intro">Look up a shape, color or symbol. <a href="#hill-warning-check">Compare two hill warnings</a> or <a href="#marking-signal-reference">compare lines and flashing signals</a>.</p>
   </div>
   <div class="state-filter">
     <label for="shape-reference-filter">Filter shapes</label>

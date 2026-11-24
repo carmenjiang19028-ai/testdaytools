@@ -80,6 +80,97 @@ for (const width of [390, 1280]) {
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: compare downhill and blind-crest warnings without scripts`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const finder = pathToFileURL(path.join(root, 'road-sign-shapes-and-colors-finder.html')).href;
+      await page.goto(finder + '#shape-reference');
+      await page.getByRole('link', { name: 'Compare two hill warnings' }).press('Enter');
+      assert.equal(new URL(page.url()).hash, '#hill-warning-check');
+      const lesson = page.locator('#hill-warning-check');
+      const hill = lesson.getByRole('img', { name: /truck angled down to the left above a solid slope/ });
+      const crest = lesson.getByRole('img', { name: /diamond reading Hill Blocks View/ });
+      assert.ok(await hill.isVisible());
+      assert.ok(await crest.isVisible());
+      const first = lesson.locator('details').nth(0);
+      const second = lesson.locator('details').nth(1);
+      assert.equal(await first.locator('p').isVisible(), false);
+      await first.locator('summary').press('Space');
+      assert.match(await first.locator('p').innerText(), /warns of a steep descent.*reduce speed before the downgrade/i);
+      assert.equal(await second.locator('p').isVisible(), false);
+      await second.locator('summary').press('Enter');
+      assert.match(await second.locator('p').innerText(), /crest limits how far you can see.*stop within the visible road.*do not pull out to pass/i);
+      assert.equal(await lesson.getByRole('link', { name: /Figure 2C-5/ }).getAttribute('href'),
+        'https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=23');
+      const onward = new URL(await lesson.getByRole('link', { name: /Practice the descent sign/ }).getAttribute('href'), page.url());
+      assert.match(onward.pathname, /new-york-dmv-road-signs-practice\.html$/);
+      assert.equal(onward.searchParams.get('focus'), 'Road condition signs');
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.HILL_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.HILL_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.HILL_SCREENSHOTS_DIR, `hill-lesson-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
+  test(`${width}px: the downhill sign is consistent and contained across all four state quiz surfaces`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'road-sign-shapes-and-colors-finder.html')).href + '#hill-warning-check');
+      const art = await page.locator('#hill-warning-check [role="img"]').first().locator('svg').evaluate(svg => svg.outerHTML);
+      const raster = art.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="220" height="160" ');
+      const { data, info } = await sharp(Buffer.from(raster)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+      let glyphPixels = 0;
+      let outside = 0;
+      for (let y = 0; y < info.height; y++) {
+        for (let x = 0; x < info.width; x++) {
+          const p = (y * info.width + x) * info.channels;
+          if (data[p] >= 26 || data[p + 1] >= 26 || data[p + 2] >= 26 || data[p + 3] < 236) continue;
+          glyphPixels++;
+          if (Math.abs(x - 110) / 80 + Math.abs(y - 80) / 66 > 0.94) outside++;
+        }
+      }
+      assert.ok(glyphPixels > 900, 'the truck and slope are visible');
+      assert.equal(outside, 0, 'the black glyph never crosses the diamond edge');
+      for (const state of ['california', 'new-york']) {
+        for (const entry of ['permit-practice-test', 'road-signs-practice']) {
+          const guideEntry = state === 'new-york' && entry === 'road-signs-practice';
+          if (guideEntry) {
+            await page.goto(pathToFileURL(path.join(root, 'road-sign-shapes-and-colors-finder.html')).href + '#hill-warning-check');
+            await page.locator('#hill-warning-check').getByRole('link', { name: /Practice the descent sign/ }).press('Enter');
+            await page.waitForURL('**/new-york-dmv-road-signs-practice.html?mode=signs&focus=Road%20condition%20signs#practice');
+          } else {
+            await page.goto(pathToFileURL(path.join(root, `${state}-dmv-${entry}.html`)).href + '?mode=signs#practice');
+          }
+          const quiz = page.locator('[data-mode-panel="signs"].is-active [data-quiz]');
+          const question = quiz.locator('.question').filter({ has: page.locator('[data-quiz-image-key="hill-ahead"]') });
+          let index = await question.getAttribute('data-question-index');
+          if (guideEntry) {
+            assert.equal(await quiz.locator('[data-quiz-filter]').inputValue(), 'Road condition signs');
+            index = await question.evaluate(el => Array.from(el.parentElement.querySelectorAll('.question'))
+              .filter(q => q.dataset.category === 'Road condition signs').indexOf(el));
+            assert.ok(index >= 0);
+          }
+          await quiz.locator(`[data-quiz-jump="${index}"]`).press('Enter');
+          const picture = question.getByRole('img', { name: /truck angled down to the left above a solid slope/ });
+          assert.ok(await picture.isVisible(), `${state} ${entry}`);
+          assert.equal(await picture.locator('svg').evaluate(svg => svg.outerHTML), art);
+          assert.equal(await question.getAttribute('data-answer'), '0');
+          const source = question.getByRole('link', { name: /FHWA: Hill sign/ });
+          assert.equal(await source.isVisible(), false);
+          await question.locator('[data-choice="0"]').press('Enter');
+          assert.match(await question.locator('.feedback').innerText(), /^Correct\..*steep downgrade.*before descending.*passenger car/is);
+          assert.ok(await source.isVisible());
+          assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+        }
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: classroom worksheet is usable by keyboard without scripts or a download`, async () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
     await context.route(/^https?:/, route => route.abort());
