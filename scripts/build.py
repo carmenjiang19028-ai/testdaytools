@@ -993,6 +993,19 @@ def dmv_score_records(include_supplemental=False):
             "miss": "6",
             "note": "Arizona MVD lists a 30-question written permit test and requires a score of 80% or higher.",
         },
+        "north-carolina": {
+            "percent": 80,
+            "rule": "80% on knowledge and 9 of 12 signs for regular Class C",
+            "miss": "Depends on knowledge length; 3 signs",
+            "note": "The regular Class C rule sets separate results for knowledge and signs. The cited rule does not give a fixed knowledge question count. Use the count for the knowledge round you actually took.",
+            "answer": "For regular Class C, you can miss up to 3 of 12 road signs. The separate knowledge score must be at least 80%. To find the knowledge miss limit, multiply your question count by 0.8, round up, then subtract from the total.",
+            "sectionQuestions": 12,
+            "sectionCorrect": 9,
+            "primaryScoreLabel": "Knowledge questions correct",
+            "primaryTotalLabel": "Knowledge questions total",
+            "primaryTopic": "knowledge",
+            "officialPracticeUrl": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/test.aspx",
+        },
     }
     supplemental_requirements = [
         {
@@ -1042,6 +1055,18 @@ def dmv_score_records(include_supplemental=False):
             "permitStepsUrl": "arizona-mvd-road-signs-practice.html#arizona-permit-path",
             "passRule": "80% or better",
             "passText": "Confirm the current permit-test rule with Arizona MVD.",
+        },
+        {
+            "label": "North Carolina",
+            "value": "north-carolina",
+            "agency": "NCDMV",
+            "manualLabel": "19A NCAC 03B .0201: Knowledge and Road Sign Examinations",
+            "manualUrl": "https://reports.oah.state.nc.us/ncac/title%2019a%20-%20transportation/chapter%2003%20-%20division%20of%20motor%20vehicles/subchapter%20b/19a%20ncac%2003b%20.0201.pdf",
+            "permitUrl": "north-carolina-dmv-road-signs-practice.html#north-carolina-sign-recall",
+            "signUrl": "north-carolina-dmv-road-signs-practice.html#north-carolina-sign-recall",
+            "permitStepsUrl": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/license-learner-permit.aspx",
+            "passRule": "80% on knowledge and 9 of 12 road signs",
+            "passText": "Confirm the current regular Class C requirements with NCDMV.",
         },
     ]
     requirements = dmv_requirement_records()
@@ -5452,8 +5477,11 @@ def render_dmv_score_calculator():
     for item in records:
         official_format = f'{item["questions"]} questions' if item["questions"] else "Use current test length"
         if item["sectionQuestions"] and not item["sectionIncluded"]:
-            primary_part = "rules" if item["value"] == "georgia" else "general"
-            official_format = f'{item["questions"]} {primary_part} + {item["sectionQuestions"]} signs'
+            if item["questions"]:
+                primary_part = "rules" if item["value"] == "georgia" else "general"
+                official_format = f'{item["questions"]} {primary_part} + {item["sectionQuestions"]} signs'
+            else:
+                official_format = f'Use actual knowledge count; {item["sectionQuestions"]} signs separately'
         required = f'{item["correct"]} correct' if item["correct"] else item["rule"]
         if item["minimumQuestions"]:
             official_format = f'At least {item["minimumQuestions"]} questions'

@@ -83,6 +83,11 @@ for (const [width, scriptsOff] of [[320, true], [1280, false]]) {
       const ny = page.locator("#new-york-permit-test-passing-score");
       assert.match(await ny.innerText(), /at least 2 of the 4 sign questions/i);
       assert.equal(await ny.getByText("Verify official rule").getAttribute("href"), directSources["new-york"]);
+      const nc = page.locator("#north-carolina-permit-test-passing-score");
+      assert.match(await nc.innerText(), /3 of 12 road signs.*separate knowledge score must be at least 80%/is);
+      assert.match(await nc.getByText("Verify official rule").getAttribute("href"), /oah\.state\.nc\.us\/ncac\/.*\.0201\.pdf$/);
+      const ncRow = page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: "North Carolina", exact: true }) });
+      assert.match(await ncRow.innerText(), /actual knowledge count; 12 signs separately/);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
       if (screenshots) await example.screenshot({ path: path.join(screenshots, `manual-score-${width}.png`) });
@@ -467,6 +472,65 @@ test("custom-length rounds do not establish separate official section targets", 
     assert.equal((await tracked(page))[0].result, "section_unverified");
   } finally { await context.close(); }
 });
+
+for (const width of [390, 1280]) {
+  test(`${width}px: North Carolina keeps the 80% knowledge math and 9-of-12 sign check separate`, async () => {
+    const { context, page } = await openScore({ width, height: 870 });
+    try {
+      await page.goto(pathToFileURL(path.join(root, "north-carolina-dmv-road-signs-practice.html")).href);
+      await page.getByRole("link", { name: "Check knowledge and sign scores", exact: true }).press("Enter");
+      await page.waitForURL(url => url.searchParams.get("state") === "north-carolina" && url.hash === "#score-calculator");
+      assert.equal(await page.locator("[data-score-state]").inputValue(), "north-carolina");
+      assert.equal(await totalInput(page).inputValue(), "");
+      assert.equal(await useLength(page).isEnabled(), false);
+      assert.match(await page.locator("[data-score-source]").getAttribute("href"), /oah\.state\.nc\.us\/ncac\/.*\.0201\.pdf$/);
+      const signs = page.locator("[data-score-section-correct]");
+      const signPractice = "north-carolina-dmv-road-signs-practice.html#north-carolina-sign-recall";
+      assert.equal(await signs.isVisible(), true);
+      await signs.fill("8");
+      await check(page);
+      assert.equal(await score(page), "1 more road-sign answer needed");
+      assert.match(await resultMessage(page).innerText(), /No knowledge score entered/);
+      assert.equal(await totalInput(page).getAttribute("aria-invalid"), "false");
+      assert.equal(await nextLink(page).getAttribute("href"), signPractice);
+      await signs.fill("9");
+      await check(page);
+      assert.equal(await score(page), "Road-sign target met; one section not checked");
+      assert.deepEqual(await tracked(page), []);
+      await signs.fill("13");
+      await check(page);
+      assert.match(await resultMessage(page).innerText(), /whole-number road-sign score from 0 to 12/);
+      assert.deepEqual(await tracked(page), []);
+
+      await totalInput(page).fill("22");
+      await correctInput(page).fill("18");
+      await signs.fill("");
+      await check(page);
+      assert.match(await page.locator("[data-score-count-answer]").textContent(), /22 questions on knowledge: need 18 correct; can miss up to 4/);
+      assert.match(await score(page), /road-sign rule not checked/);
+      assert.equal(await nextLink(page).getAttribute("href"), "#score-section-correct");
+      await signs.fill("8");
+      await check(page);
+      assert.equal(await score(page), "1 more road-sign answer needed");
+      assert.equal(await nextLink(page).getAttribute("href"), signPractice);
+      await signs.fill("9");
+      await check(page);
+      assert.equal(await score(page), "Practice scores meet both thresholds");
+      assert.match(await resultMessage(page).innerText(), /not a verified official length/);
+      assert.match(await nextLink(page).getAttribute("href"), /license-learner-permit\.aspx$/);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      if (process.env.SCORE_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.SCORE_SCREENSHOTS_DIR, { recursive: true });
+        await page.locator(".score-panel").screenshot({ path: path.join(process.env.SCORE_SCREENSHOTS_DIR, `north-carolina-${width}.png`) });
+      }
+      await correctInput(page).fill("17");
+      await check(page);
+      assert.equal(await score(page), "1 more correct answer needed");
+      assert.match(await nextLink(page).getAttribute("href"), /\/test\.aspx$/);
+      assert.deepEqual((await tracked(page)).map(event => event.result), ["section_unverified", "below_target", "target_met", "below_target"]);
+    } finally { await context.close(); }
+  });
+}
 
 test("the New York result opens the four-sign checkpoint at mobile width", async () => {
   const { context, page } = await openScore({ width: 390, height: 844 });

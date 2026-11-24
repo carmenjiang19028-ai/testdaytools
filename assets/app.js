@@ -3485,6 +3485,7 @@ function initDmvScoreCalculators() {
       const sectionNeeded = Number(option.dataset.sectionCorrect) || 0;
       const separateRule = sectionQuestions > 0;
       const signsIncluded = option.dataset.sectionIncluded === "true";
+      const variableSections = separateRule && !signsIncluded && !option.dataset.questions;
       const primaryTopic = option.dataset.primaryTopic;
       const minimum = Number(option.dataset.minimumQuestions) || 0;
       const belowMinimum = validTotal && total < minimum;
@@ -3510,21 +3511,25 @@ function initDmvScoreCalculators() {
           ? `For ${total} ${total === 1 ? "question" : "questions"}${topic}: need ${needed} correct; can miss up to ${missed}.${scope}${estimate}`
           : "";
       }
-      const checkSection = separateRule && officialLength;
+      const checkSection = separateRule && (officialLength || variableSections);
       const sectionValue = sectionInput?.value.trim() || "";
       const sectionCorrect = Number(sectionValue);
       const sectionKnown = checkSection && sectionValue !== "";
-      const signOnly = sectionKnown && !signsIncluded && correctInput?.value.trim() === "" && !correctInput.validity.badInput;
+      const noTotal = totalInput?.value.trim() === "" && !totalInput.validity.badInput;
+      const signOnly = sectionKnown && !signsIncluded && correctInput?.value.trim() === ""
+        && !correctInput.validity.badInput && (validTotal || variableSections && noTotal);
       if (sectionBox) sectionBox.hidden = !checkSection;
       if (sectionInput) sectionInput.max = String(sectionQuestions);
       if (sectionLabel) sectionLabel.textContent = `Road signs correct (out of ${sectionQuestions})`;
       if (sectionNote) {
         sectionNote.textContent = signsIncluded
           ? `Need at least ${sectionNeeded} of ${sectionQuestions} signs correct, included in the total above.`
-          : `Need at least ${sectionNeeded} of ${sectionQuestions} signs correct in the separate section. Leave the ${primaryTopic} score blank if you only took signs.`;
+          : `Need at least ${sectionNeeded} of ${sectionQuestions} signs correct in the separate section. ${variableSections
+            ? "Leave both knowledge fields blank if you only took signs."
+            : `Leave the ${primaryTopic} score blank if you only took signs.`}`;
       }
 
-      totalInput?.setAttribute("aria-invalid", String(scoreChecked && !validTotal));
+      totalInput?.setAttribute("aria-invalid", String(scoreChecked && !validTotal && !signOnly));
       correctInput?.setAttribute("aria-invalid", String(scoreChecked && !validCorrect && !signOnly));
       sectionInput?.setAttribute("aria-invalid", "false");
       const invalidScore = (text) => {
@@ -3534,7 +3539,7 @@ function initDmvScoreCalculators() {
         if (nextStep) nextStep.hidden = true;
         return null;
       };
-      if (!validTotal || (!validCorrect && !signOnly)) {
+      if ((!validTotal || !validCorrect) && !signOnly) {
         if (scoreChecked) {
           return invalidScore("Enter a whole-number total from 1 to 100 and a correct-answer count from 0 to that total.");
         }
@@ -3574,9 +3579,8 @@ function initDmvScoreCalculators() {
             ? "Road-sign target met; one section not checked"
             : incomplete
               ? scaledLength ? "Scaled practice target met; road-sign rule not checked" : "Score target met; road-sign rule not checked"
-              : cushion > 0
-                ? `Above ${target}`
-                : `Meets ${target}`;
+              : variableSections ? "Practice scores meet both thresholds"
+                : cushion > 0 ? `Above ${target}` : `Meets ${target}`;
       }
       if (message) {
         const stateName = option.dataset.state || option.textContent.trim();
@@ -3595,7 +3599,10 @@ function initDmvScoreCalculators() {
               : `Road signs: ${sectionCorrect} of ${sectionQuestions} correct; at least ${sectionNeeded} required.`;
           const primary = signOnly ? `No ${primaryTopic} score entered.` :
             `${primaryTopic ? primaryTopic[0].toUpperCase() + primaryTopic.slice(1) : "Overall"}: ${correct} of ${total} correct; ${needed} needed.`;
-          message.textContent = `${stateName}. ${primary} ${sectionMessage}`;
+          const lengthContext = variableSections && !signOnly
+            ? " The knowledge comparison uses the count you entered, not a verified official length."
+            : "";
+          message.textContent = `${stateName}. ${primary} ${sectionMessage}${lengthContext}`;
         } else if (minimum) {
           message.textContent += ` ${minimumNote}`;
         } else if (!officialLength && option.dataset.questions) {
@@ -3710,7 +3717,8 @@ function initDmvScoreCalculators() {
       if (lengthLabel) lengthLabel.textContent = minimum ? "Minimum written-test length"
         : separateSections ? option.dataset.primaryTotalLabel : "Official length";
       if (lengthNote) lengthNote.textContent = separateSections
-        ? "Length of this section only. The road-sign section has its own passing requirement."
+        ? officialQuestions ? "Length of this section only. The road-sign section has its own passing requirement."
+          : "Enter your actual knowledge question count. Road signs have a separate requirement."
         : minimum ? "The actual test length may be longer."
           : "Questions on the state knowledge test when the source gives a fixed number.";
       if (sectionInput) sectionInput.value = "";

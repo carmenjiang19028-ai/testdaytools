@@ -14497,6 +14497,7 @@
       "heroActions": [
         {"label": "Try the no-choice sign drill", "href": "#north-carolina-sign-recall"},
         {"label": "Compare NC school bus rules", "href": "#north-carolina-school-bus"},
+        {"label": "Check knowledge and sign scores", "href": "dmv-permit-test-passing-score-calculator.html?state=north-carolina#score-calculator"},
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
         {"label": "State test details", "href": "#official-details"},
         {"label": "Official sources", "href": "#sources"}
@@ -14662,6 +14663,10 @@
         {
           "q": "How does North Carolina assess road signs?",
           "a": "NCDMV says applicants identify regulatory and warning signs by color and shape and provide an explanation of each."
+        },
+        {
+          "q": "Can a high knowledge score make up for missed signs?",
+          "a": "No. Regular Class C has a separate sign requirement: identify at least 9 of 12 signs, in addition to scoring at least 80% on the knowledge examination. Check the requirements for your application path."
         },
         {
           "q": "When can a regular Class C applicant retake a failed test?",
