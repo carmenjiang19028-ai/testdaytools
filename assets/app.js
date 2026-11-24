@@ -4421,10 +4421,12 @@ function initSatGoalPlanners() {
           : "Your entered score already meets your target. Use timed practice to check that it holds.";
       }
       if (plan) {
-        const weakBlock = scoreGap <= 80 ? "Review the two most repeated misses." : "Choose the weaker SAT section and one repeated question type.";
-        const practiceBlock = hours <= 3 ? "Protect two short focused sessions each week." : `Use about ${Math.max(2, Math.round(hours * 0.6))} hours for targeted repair before full-test work.`;
-        const checkBlock = weeks <= 2 ? "Use one timed check before test day and protect Bluebook setup." : "Run one timed checkpoint each week and update the inputs with new evidence.";
-        plan.innerHTML = `<li><strong>Focus</strong><span>${weakBlock}</span></li><li><strong>Weekly work</strong><span>${practiceBlock}</span></li><li><strong>Checkpoint</strong><span>${checkBlock}</span></li>`;
+        const review = "Use your last timed practice to find one repeatable error. Include correct guesses and slow answers, not just misses.";
+        const drill = scoreGap
+          ? "Practice that skill. Work untimed if the rule or setup is unclear; use a short timed set if you can already explain the method."
+          : "Maintain both sections with mixed questions. Use part of the block to practice any one weakness you actually find.";
+        const check = "Try new questions without notes. Record whether you could explain each answer and whether the same error returned.";
+        plan.innerHTML = `<li><strong>Review<br>${hours * 15} min</strong><span>${review}</span></li><li><strong>${scoreGap ? "Drill" : "Maintain"}<br>${hours * 30} min</strong><span>${drill}</span></li><li><strong>Recheck<br>${hours * 15} min</strong><span>${check}</span></li>`;
       }
       if (track) {
         trackToolEvent("sat_goal_generated", {
@@ -4478,6 +4480,8 @@ function initSatGoalPlanners() {
       // Ignore unavailable or malformed browser-local state.
     }
     render();
+    const controls = widget.querySelector("[data-goal-controls]");
+    if (controls) controls.hidden = false;
   });
 }
 

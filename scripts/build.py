@@ -2336,7 +2336,7 @@ def render_tool_widget(tool):
     <h2>{esc(widget.get("heading", "SAT score goal planner"))}</h2>
     <p class="section-intro">{esc(widget.get("intro", "Compare your current score, target score, and timeline to decide whether the goal needs a maintenance plan, focused sprint, or a longer runway."))}</p>
   </div>
-  <div class="sat-widget-grid">
+  <div hidden data-goal-controls><div class="sat-widget-grid">
     <div class="sat-input-panel">
       <label>Current total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1180" required data-goal-current></label>
       <label>Target total score <span>400 to 1600</span><input type="number" min="400" max="1600" step="10" value="1350" required data-goal-target></label>
@@ -2353,19 +2353,21 @@ def render_tool_widget(tool):
         <div><span>Weekly gap reference</span><strong data-goal-weekly>--</strong></div>
         <div><span>Total hours</span><strong data-goal-total-hours>--</strong></div>
       </div>
-      <ol class="sat-goal-plan" data-goal-plan>
-        <li><strong>Diagnose</strong><span>Use a recent timed practice score.</span></li>
-        <li><strong>Repair</strong><span>Choose one repeated weak area.</span></li>
-        <li><strong>Measure</strong><span>Retest after a focused study block.</span></li>
-      </ol>
+      <p>Suggested weekly study budget. Split each block as needed.</p>
+      <ol class="sat-goal-plan" data-goal-plan aria-label="Weekly study budget"></ol>
       <div class="sat-plan-actions">
         <button type="button" data-goal-save>Save this plan</button>
-        <a href="sat-practice-test-review-template.html">Open review template</a>
+        <a href="sat-practice-test-review-template.html#sat-review-record">Open review record</a>
+        <a href="https://satsuite.collegeboard.org/practice/student-question-bank">Find official practice by skill</a>
       </div>
       <p class="sat-saved-status" hidden data-goal-saved-status></p>
       <p class="sat-widget-note">This planner is a study workload tool, not a prediction or guarantee.</p>
     </aside>
-  </div>
+  </div></div>
+  <noscript>
+    <p>Example week with 1 hour: spend 15 minutes reviewing a repeated mistake, 30 minutes practicing that skill, and 15 minutes checking new questions without notes.</p>
+    <p><a href="sat-practice-test-review-template.html#sat-review-record">Open the review record</a> or <a href="https://satsuite.collegeboard.org/practice/student-question-bank">find official practice by skill</a>.</p>
+  </noscript>
 </section>"""
     return ""
 

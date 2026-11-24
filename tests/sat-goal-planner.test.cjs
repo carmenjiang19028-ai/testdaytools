@@ -1,4 +1,5 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
 const { before, after, test } = require("node:test");
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
@@ -11,8 +12,8 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
 
-async function withPlanner(run, viewport = { width: 1280, height: 900 }) {
-  const context = await browser.newContext({ viewport });
+async function withPlanner(run, viewport = { width: 1280, height: 900 }, javaScriptEnabled = true) {
+  const context = await browser.newContext({ viewport, javaScriptEnabled });
   try {
     await context.route(/^https?:/, (route) => route.abort());
     const page = await context.newPage();
@@ -113,3 +114,51 @@ test("weekly gap is rounded planning math, not a feasibility verdict", () => wit
   assert.equal(await field(page, "next-step").textContent(), guidance);
   assert.deepEqual(await read(page), ["170 points", "30 points", "24 hours"]);
 }));
+
+const budget = async (page) => (await field(page, "plan").locator("li > strong").allTextContents())
+  .map((text) => Number(text.match(/(\d+) min$/)[1]));
+
+for (const width of [320, 1280]) {
+  test(`${width}px: the weekly budget uses exactly the available time, not the score gap`, () => withPlanner(async (page) => {
+    await enter(page, { ...baseline, current: 1200, target: 1210, weeks: 1, hours: 1 });
+    assert.deepEqual(await budget(page), [15, 30, 15]);
+    const drills = field(page, "plan").locator("li");
+    assert.match(await drills.nth(0).innerText(), /correct guesses and slow answers/);
+    assert.match(await drills.nth(1).innerText(), /untimed if the rule or setup is unclear/);
+    assert.match(await drills.nth(2).innerText(), /new questions without notes/);
+    const before = await field(page, "plan").innerText();
+    await enter(page, { target: 1600 });
+    assert.equal(await field(page, "plan").innerText(), before);
+
+    for (const hours of [1, 2, 7, 30]) {
+      await enter(page, { hours });
+      const minutes = await budget(page);
+      assert.equal(minutes.reduce((a, b) => a + b), hours * 60);
+    }
+    await enter(page, { target: 1200, hours: 2 });
+    assert.deepEqual(await budget(page), [30, 60, 30]);
+    assert.match(await drills.nth(1).innerText(), /Maintain both sections/);
+    assert.match(await drills.nth(2).innerText(), /new questions without notes/);
+    assert.deepEqual(await goalEvents(page), []);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+    const bank = page.getByRole("link", { name: "Find official practice by skill", exact: true });
+    assert.equal(await bank.getAttribute("href"), "https://satsuite.collegeboard.org/practice/student-question-bank");
+    if (process.env.VERIFY_SCREENSHOTS_DIR) {
+      fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+      await page.locator(".sat-result-panel").screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `sat-weekly-budget-${width}.png`) });
+    }
+    await page.getByRole("link", { name: "Open review record", exact: true }).click();
+    await page.waitForURL("**/sat-practice-test-review-template.html#sat-review-record");
+    assert.equal(await page.locator("#sat-review-record").isVisible(), true);
+  }, { width, height: 900 }));
+}
+
+test("the equivalent one-hour example and review link work without JavaScript", () => withPlanner(async (page) => {
+  assert.equal(await field(page, "controls").isVisible(), false);
+  const planner = page.locator("#sat-goal-planner");
+  assert.match(await planner.innerText(), /15 minutes reviewing.*30 minutes practicing.*15 minutes checking/);
+  assert.equal(await planner.getByRole("button").count(), 0);
+  await planner.getByRole("link", { name: "Open the review record", exact: true }).press("Enter");
+  await page.waitForURL("**/sat-practice-test-review-template.html#sat-review-record");
+  assert.equal(await page.locator("#sat-review-record").isVisible(), true);
+}, { width: 320, height: 900 }, false));

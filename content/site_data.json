@@ -3495,7 +3495,7 @@
       "description": "Enter your current and target SAT scores, weeks until test day, and weekly study hours to calculate the score gap, points per week, and a focused study plan.",
       "heroKicker": "SAT planning tool",
       "summary": "Enter a current score, target score, weeks, and study hours to calculate the gap and organize your next study block. The weekly gap is a planning reference, not a score prediction.",
-      "lastUpdated": "August 13, 2026",
+      "lastUpdated": "November 24, 2026",
       "heroActions": [
         {
           "label": "Build my SAT goal plan",
@@ -3521,11 +3521,11 @@
         },
         {
           "label": "Main output",
-          "value": "Weekly gap reference"
+          "value": "Weekly study budget"
         },
         {
           "label": "Best next step",
-          "value": "Pick one weak section"
+          "value": "Find one repeatable error"
         }
       ],
       "body": [
@@ -3543,7 +3543,7 @@
         },
         {
           "heading": "Make the next action concrete",
-          "text": "After setting the goal, decide the next practice block: grammar, algebra, data analysis, pacing, vocabulary-in-context, or full test review."
+          "text": "For a two-hour week, try 30 minutes to review, 60 minutes to drill, and 30 minutes to recheck. For example, review a guessed transition, name why the tempting choice fails, and use two 30-minute practice blocks on that skill. In the final block, use different questions. A correct answer only counts as a successful recheck if you can explain the relationship."
         },
         {
           "heading": "How to choose a target that does not waste time",
@@ -3560,37 +3560,32 @@
       ],
       "tables": [
         {
-          "caption": "SAT score goal planning table",
+          "caption": "Choose the drill from your review, not the size of the score gap",
           "headers": [
-            "Question",
-            "Practical answer",
-            "Why it matters"
+            "What you found",
+            "Use your drill time for",
+            "Check on new questions"
           ],
           "rows": [
             [
-              "What is a realistic goal?",
-              "A goal connected to a baseline, deadline, and college list.",
-              "Unanchored goals can waste study time."
+              "You cannot explain why a transition fits.",
+              "Name the relationship between the two ideas before reading the choices. Start untimed.",
+              "Reject a tempting choice using the relationship, not how it sounds."
             ],
             [
-              "What if the gap is under 80 points?",
-              "Focus on accuracy, timing, and repeat mistakes.",
-              "Small gaps often come from avoidable errors."
+              "Your math model used the wrong rate.",
+              "Write what each number measures before setting up the equation.",
+              "Use units or substitute a simple value to check what your model predicts."
             ],
             [
-              "What if the gap is 150+ points?",
-              "Use a longer plan or narrow the target first.",
-              "Large jumps usually require skill rebuilding."
+              "You get the question right untimed but repeatedly run out of time.",
+              "Use a short timed set of questions you can explain without a clock.",
+              "Check accuracy and identify which step still costs time."
             ],
             [
-              "How many hours should I study?",
-              "Enough to review deeply, not just take tests.",
-              "Review quality matters more than raw hours."
-            ],
-            [
-              "When should I move the test date?",
-              "When the weekly gap is high and deadlines allow it.",
-              "A later date can improve both score and stress."
+              "You have no recent practice result.",
+              "Get a Bluebook baseline before choosing a weak skill. Schedule a full practice test separately if it will not fit into this week's budget.",
+              "Use both official practice section scores from that sitting to update the plan."
             ]
           ]
         }
@@ -3613,27 +3608,6 @@
               "label": "Deadline",
               "title": "Choosing a date colleges will not accept",
               "text": "A perfect retake is not useful if scores arrive after a hard deadline."
-            }
-          ]
-        },
-        {
-          "heading": "Goal-planning scenarios",
-          "intro": "Use the readout to choose a realistic plan, not to force motivation.",
-          "items": [
-            {
-              "label": "Small gap",
-              "title": "Maintenance plus targeted review",
-              "text": "Keep accuracy high and remove the one or two repeated errors that still cost points."
-            },
-            {
-              "label": "Medium gap",
-              "title": "One section becomes the priority",
-              "text": "Put most weekly hours into the section with the clearest path to improvement."
-            },
-            {
-              "label": "Large gap",
-              "title": "Date and target need adjustment",
-              "text": "A larger gap usually needs more weeks, more hours, or a staged target."
             }
           ]
         },
@@ -3662,8 +3636,8 @@
         "Use a recent timed practice score.",
         "Set a target tied to colleges or scholarships.",
         "Enter a realistic number of study hours.",
-        "Review the points-per-week pressure.",
-        "Adjust date, target, or study plan before registering."
+        "Choose one repeated error and write how you will recheck it.",
+        "Check registration deadlines and Bluebook setup separately from practice."
       ],
       "faq": [
         {
@@ -3671,8 +3645,8 @@
           "a": "Use your college list, scholarship goals, current score, and available weeks. A target should be ambitious but connected to time."
         },
         {
-          "q": "Is a 200-point improvement possible?",
-          "a": "Sometimes, but it usually needs a longer timeline and a clear weakness pattern. Do not assume it will happen in a short sprint."
+          "q": "Does the plan say how many points I will gain?",
+          "a": "No. The weekly gap is arithmetic. Run a fresh practice check and use what you can explain under timed conditions to update the plan."
         },
         {
           "q": "Should I retake if I am close to target?",
@@ -3705,8 +3679,12 @@
           "url": "https://satsuite.collegeboard.org/practice/practice-tests"
         },
         {
-          "label": "College Board SAT: What is on the test",
-          "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test"
+          "label": "College Board: Find score details and explanations in My Practice",
+          "url": "https://satsuite.collegeboard.org/practice/my-practice-101"
+        },
+        {
+          "label": "College Board: Student Question Bank skill filters",
+          "url": "https://satsuite.collegeboard.org/practice/student-question-bank"
         }
       ],
       "related": [
@@ -3718,7 +3696,7 @@
         "type": "satGoalPlanner",
         "kicker": "Interactive SAT planner",
         "heading": "Build your weekly SAT score goal plan",
-        "intro": "Enter your current and target scores, weeks until test day, and realistic weekly study hours. Get the score gap, points-per-week pace, total study time, and a concrete weekly plan."
+        "intro": "Turn the study time you have into a review block, a targeted practice block, and a fresh check. Use the score gap to compare goals, not to diagnose a weak skill."
       }
     },
     {
