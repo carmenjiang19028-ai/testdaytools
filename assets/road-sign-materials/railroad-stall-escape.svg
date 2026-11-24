@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="432" height="230" viewBox="0 0 432 230">
+  <rect x="3" y="3" width="426" height="224" rx="8" fill="#eff5ef"/>
+  <path d="M235 54h74v159h-74z" fill="#d0d6db"/>
+  <path d="M272 151v49" stroke="#fff" stroke-width="3" stroke-dasharray="8 7"/>
+  <path d="M17 108h398" stroke="#856c5a" stroke-width="47" stroke-dasharray="8 13"/>
+  <path d="M17 93h398m-398 30h398" stroke="#283940" stroke-width="5"/>
+  <rect x="43" y="83" width="113" height="50" rx="9" fill="#425d6f" stroke="#20313d" stroke-width="3"/>
+  <path d="M111 89h25q12 0 12 12v15h-37Z" fill="#d6e8ef"/>
+  <path d="M164 108h47m-13-12 13 12-13 12" fill="none" stroke="#8c2c16" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="254" y="72" width="36" height="71" rx="8" fill="#e89e42" stroke="#24313a" stroke-width="3"/>
+  <path d="M260 87h24l-3 12h-18Zm3 30h18l3 12h-24Z" fill="#344c59"/>
+  <path d="M252 151 166 185m5-14-14 18 24 1" fill="none" stroke="#126942" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#15262e" font-family="Arial, sans-serif" font-size="22" font-weight="700">
+    <text x="29" y="47">Train approaching</text>
+    <text x="253" y="61">Stalled car</text>
+    <text x="31" y="217" fill="#125634">Away from tracks</text>
+  </g>
+</svg>

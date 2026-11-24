@@ -17062,7 +17062,11 @@
         ],
         "answer": 0,
         "category": "Railroad safety",
-        "explanation": "Get away from the tracks and move in the direction the train is coming from to avoid debris."
+        "explanation": "Get everyone out immediately. Move diagonally away from the tracks, angling toward the direction the train is coming from. Do not run along the rails or in the train's direction of travel, where debris can be thrown. Then call 911 from a safe distance.",
+        "source": {
+          "label": "California DMV: Disabled Vehicles on Railroad Tracks",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/safe-driving-cont2/"
+        }
       },
       {
         "q": "When driving near large trucks, remember that trucks:",

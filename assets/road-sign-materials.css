@@ -55,6 +55,7 @@
 .shape-crossing-drill, .state-sign-lesson { border-top: 1px solid #cbd4d0; scroll-margin-top: 96px; }
 .shape-crossing-drill p { margin: 0 0 12px; }
 .shape-crossing-drill details p, .state-sign-lesson details p { margin: 12px 0 0; }
+.shape-crossing-drill .contrast-scene > img { display: block; max-width: 100%; height: auto; margin-inline: auto; }
 .state-sign-lesson figure img { display: block; width: 100%; max-width: 220px; height: auto; margin-inline: auto; }
 #michigan-left-practice figure img { max-width: 560px; }
 .sign-recall-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 820px; align-items: start; }

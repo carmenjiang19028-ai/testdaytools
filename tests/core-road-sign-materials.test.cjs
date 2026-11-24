@@ -80,6 +80,61 @@ for (const width of [390, 1280]) {
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: the railroad lesson separates escape, safe calling, and the missing-sign fallback`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const finder = pathToFileURL(path.join(root, 'road-sign-shapes-and-colors-finder.html')).href;
+      await page.goto(finder + '#railroad-crossing-check');
+      await page.getByRole('link', { name: 'What if a vehicle stalls on the tracks?' }).press('Enter');
+      await page.waitForURL(finder + '#railroad-stall-response');
+      const lesson = page.getByRole('region', { name: /get everyone out first/ });
+      const heading = await lesson.getByRole('heading').boundingBox();
+      const header = await page.locator('.site-header').boundingBox();
+      assert.ok(heading.y >= header.y + header.height);
+      assert.match(await lesson.locator(':scope > p').innerText(), /leave the vehicle.*move everyone away.*even if you do not see a train/i);
+      const picture = lesson.getByRole('img', { name: /train approaches from the left.*arrow points diagonally.*away from the rails/i });
+      assert.ok(await picture.evaluate(img => img.complete && img.naturalWidth === 432 && img.naturalHeight === 230));
+      const approaching = lesson.locator('details').nth(0);
+      const notVisible = lesson.locator('details').nth(1);
+      assert.equal(await approaching.locator('p').isVisible(), false);
+      assert.equal(await notVisible.locator('p').isVisible(), false);
+      await approaching.locator('summary').press('Space');
+      assert.match(await approaching.locator('p').innerText(), /diagonally away from the tracks.*down and left, not straight left along the rails.*safe distance, call 911/i);
+      await notVisible.locator('summary').press('Enter');
+      assert.match(await notVisible.locator('p').innerText(), /get out and move clear first.*safe place, call the railroad number.*posted crossing ID.*then directs you to call 911/i);
+      assert.match(await notVisible.locator('p').innerText(), /not safely visible, call 911.*do not go back onto the tracks/i);
+      assert.equal(await lesson.getByRole('link', { name: /FRA: blue-and-white/ }).getAttribute('href'),
+        'https://railroads.dot.gov/railroad-safety/divisions/crossing-safety-and-trespass-prevention/emergency-notification');
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.TRAIN_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.TRAIN_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.TRAIN_SCREENSHOTS_DIR, `railroad-stall-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
+  test(`${width}px: the scored California railroad answer keeps its grading and cites the full escape instruction`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      await page.goto(pathToFileURL(path.join(root, 'california-dmv-permit-practice-test.html')).href + '?mode=mock#practice');
+      const quiz = page.locator('[data-mode-panel="mock"].is-active [data-quiz]');
+      const question = quiz.locator('[data-prompt="If your vehicle stalls on railroad tracks and a train is coming, you should:"]');
+      await quiz.locator(`[data-quiz-jump="${await question.getAttribute('data-question-index')}"]`).press('Enter');
+      const source = question.getByRole('link', { name: /Disabled Vehicles on Railroad Tracks/ });
+      assert.equal(await source.isVisible(), false);
+      await question.getByRole('button', { name: 'Leave the vehicle and move away from the tracks at an angle' }).press('Enter');
+      assert.match(await question.locator('.feedback').innerText(), /^Correct\..*out immediately.*diagonally away.*do not run along the rails.*call 911 from a safe distance/i);
+      assert.equal(await source.getAttribute('href'), 'https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/safe-driving-cont2/');
+      assert.ok(await source.isVisible());
+      assert.equal(await quiz.getAttribute('data-pass-score'), '32');
+      assert.equal(await quiz.getAttribute('data-total'), '40');
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: compare downhill and blind-crest warnings without scripts`, async () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
     await context.route(/^https?:/, route => route.abort());
