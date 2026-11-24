@@ -4451,11 +4451,17 @@ def render_road_sign_cheat_sheet_page():
             sign_count += 1
             signs.append(f"""<article class="cheat-sign-card">
   <div class="cheat-sign-visual">{render_road_sign_image(sign["image"], sign["title"], lazy=False)}</div>
-  <div><strong>{esc(sign["title"])}</strong><p>{esc(sign["meaning"])}</p></div>
+  <div><strong>{esc(sign["title"])}</strong><p>{esc(sign["meaning"])}</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="{esc(sign["image"])}" data-sheet-sign aria-label="{esc(f'Select for review: {sign["title"]}')}">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article>""")
         rendered_groups.append(f"""<section class="cheat-group">
   <div class="cheat-group-head"><h2>{esc(group.get("label", "Road signs"))}</h2><div><p>{esc(group.get("text", ""))}</p>{render_cheat_group_link(group)}</div></div>
   <div class="cheat-sign-grid">{"".join(signs)}</div>
+  <p data-sheet-sign-picker hidden><a href="#sheet-selection">Go to selected signs</a></p>
 </section>""")
 
     body = f"""<section class="hero tool-hero printable-resource-hero">
@@ -4492,6 +4498,15 @@ def render_road_sign_cheat_sheet_page():
   <div class="print-practice-access">
     <img src="assets/road-sign-practice-qr.svg" alt="QR code for the online study sheet and practice groups" width="82" height="82">
     <p><strong>Practice only the signs you missed.</strong> Scan to find the same groups online, or go to <a href="{esc(practice_page)}#printable-sheet">{esc(practice_page.removeprefix("https://"))}</a>.</p>
+  </div>
+  <div class="sheet-selection" id="sheet-selection" data-sheet-selection hidden>
+    <h2 tabindex="-1">My signs to review</h2>
+    <p data-sheet-sign-count role="status">No signs selected</p>
+    <p data-sheet-sign-names hidden></p>
+    <div class="sheet-selection-actions">
+      <a href="dmv-road-sign-flashcards.html#sheet-selection-cards" data-sheet-flashcards hidden>Review selected flashcards</a>
+      <button type="button" data-sheet-clear hidden>Clear selection</button>
+    </div>
   </div>
   <div class="cheat-legend" role="group" aria-label="Six colors used in this study sheet">
     <div><span class="legend-swatch legend-red"></span><strong>Red</strong><p>Stop, yield, or a restriction.</p></div>
@@ -4720,6 +4735,10 @@ def render_road_sign_flashcards_page():
     <div class="flashcard-missed-summary" data-flashcard-missed-summary hidden>
       <p data-flashcard-missed-note role="status"></p>
       <div><a data-flashcard-missed-return hidden>Retry saved questions from this mode</a><a href="#flashcards">Change sign group</a></div>
+    </div>
+    <div class="flashcard-missed-summary" id="sheet-selection-cards" data-flashcard-sheet-summary hidden>
+      <p data-flashcard-sheet-note></p>
+      <a href="dmv-road-signs-cheat-sheet.html#sheet-selection">Back to selected signs on the sheet</a>
     </div>
     {"".join(cards)}
   </div>

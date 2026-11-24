@@ -23,8 +23,8 @@ async function render(mode, output, keys = []) {
       }
     } else if (mode === 'reference') {
       await page.goto(pathToFileURL(path.join(root, 'dmv-road-signs-cheat-sheet.html')).href);
-      await page.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())));
       await page.emulateMedia({ media: 'print' });
+      await page.locator('#printable-sheet img').evaluateAll(images => Promise.all(images.map(image => image.decode())));
       await page.pdf({ path: output, format: 'Letter', printBackground: true, preferCSSPageSize: true, displayHeaderFooter: false });
     } else { throw new Error('Expected art or reference rendering mode'); }
     await context.close();

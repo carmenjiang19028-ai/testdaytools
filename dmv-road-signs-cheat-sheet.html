@@ -112,6 +112,15 @@
     <img src="assets/road-sign-practice-qr.svg" alt="QR code for the online study sheet and practice groups" width="82" height="82">
     <p><strong>Practice only the signs you missed.</strong> Scan to find the same groups online, or go to <a href="https://testdaytools.com/dmv-road-signs-cheat-sheet.html#printable-sheet">testdaytools.com/dmv-road-signs-cheat-sheet.html</a>.</p>
   </div>
+  <div class="sheet-selection" id="sheet-selection" data-sheet-selection hidden>
+    <h2 tabindex="-1">My signs to review</h2>
+    <p data-sheet-sign-count role="status">No signs selected</p>
+    <p data-sheet-sign-names hidden></p>
+    <div class="sheet-selection-actions">
+      <a href="dmv-road-sign-flashcards.html#sheet-selection-cards" data-sheet-flashcards hidden>Review selected flashcards</a>
+      <button type="button" data-sheet-clear hidden>Clear selection</button>
+    </div>
+  </div>
   <div class="cheat-legend" role="group" aria-label="Six colors used in this study sheet">
     <div><span class="legend-swatch legend-red"></span><strong>Red</strong><p>Stop, yield, or a restriction.</p></div>
     <div><span class="legend-swatch legend-yellow"></span><strong>Yellow</strong><p>General warning. Read the symbol.</p></div>
@@ -125,104 +134,262 @@
   <div class="cheat-group-head"><h2>Regulatory traffic signs</h2><div><p>These signs state laws, restrictions, right-of-way rules, or required directions.</p><a class="cheat-group-practice-link info-card-link" href="regulatory-traffic-signs-practice-test.html?mode=regulatory-signs-core#practice" aria-label="Practice 16 questions: Regulatory traffic signs">Practice 16 questions</a><a class="cheat-print-group-link" href="https://testdaytools.com/regulatory-traffic-signs-practice-test.html?mode=regulatory-signs-core#practice" aria-label="Practice 16 questions: Regulatory traffic signs">Practice 16 questions online</a></div></div>
   <div class="cheat-sign-grid"><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/stop-road-sign.svg" alt="Stop road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Stop</strong><p>Come to a complete stop, yield, then proceed when safe.</p></div>
+  <div><strong>Stop</strong><p>Come to a complete stop, yield, then proceed when safe.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="stop" data-sheet-sign aria-label="Select for review: Stop">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/yield-road-sign.svg" alt="Yield road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Yield</strong><p>Slow and give the right of way when another road user has priority.</p></div>
+  <div><strong>Yield</strong><p>Slow and give the right of way when another road user has priority.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="yield" data-sheet-sign aria-label="Select for review: Yield">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/do-not-enter-road-sign.svg" alt="Do Not Enter road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Do Not Enter</strong><p>Do not enter that roadway, ramp, or restricted direction.</p></div>
+  <div><strong>Do Not Enter</strong><p>Do not enter that roadway, ramp, or restricted direction.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="do-not-enter" data-sheet-sign aria-label="Select for review: Do Not Enter">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/wrong-way-road-sign.svg" alt="Wrong Way road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Wrong Way</strong><p>You are facing traffic; correct your direction safely.</p></div>
+  <div><strong>Wrong Way</strong><p>You are facing traffic; correct your direction safely.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="wrong-way" data-sheet-sign aria-label="Select for review: Wrong Way">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/one-way-road-sign.svg" alt="One Way road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>One Way</strong><p>Traffic moves only in the arrow direction.</p></div>
+  <div><strong>One Way</strong><p>Traffic moves only in the arrow direction.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="one-way" data-sheet-sign aria-label="Select for review: One Way">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/no-u-turn-road-sign.svg" alt="No U-turn road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>No U-turn</strong><p>A U-turn is not allowed at that location.</p></div>
+  <div><strong>No U-turn</strong><p>A U-turn is not allowed at that location.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="no-u-turn" data-sheet-sign aria-label="Select for review: No U-turn">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/four-way-stop-road-sign.svg" alt="All-Way Stop road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>All-Way Stop</strong><p>Stop completely. ALL WAY means every approach stops; follow right-of-way rules.</p></div>
+  <div><strong>All-Way Stop</strong><p>Stop completely. ALL WAY means every approach stops; follow right-of-way rules.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="four-way-stop" data-sheet-sign aria-label="Select for review: All-Way Stop">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/no-right-turn-road-sign.svg" alt="No Right Turn road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>No Right Turn</strong><p>A right turn is not allowed from this approach.</p></div>
+  <div><strong>No Right Turn</strong><p>A right turn is not allowed from this approach.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="no-right-turn" data-sheet-sign aria-label="Select for review: No Right Turn">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/no-turn-on-red-road-sign.svg" alt="No Turn on Red road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>No Turn on Red</strong><p>Stopping first is not enough; wait until the signal allows the turn.</p></div>
+  <div><strong>No Turn on Red</strong><p>Stopping first is not enough; wait until the signal allows the turn.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="no-turn-on-red" data-sheet-sign aria-label="Select for review: No Turn on Red">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/keep-right-road-sign.svg" alt="Keep Right road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Keep Right</strong><p>Stay to the right of an island, divider, or obstruction.</p></div>
+  <div><strong>Keep Right</strong><p>Stay to the right of an island, divider, or obstruction.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="keep-right" data-sheet-sign aria-label="Select for review: Keep Right">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/speed-limit-road-sign.svg" alt="Speed Limit road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Speed Limit</strong><p>The posted number is the legal maximum under normal conditions.</p></div>
+  <div><strong>Speed Limit</strong><p>The posted number is the legal maximum under normal conditions.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="speed-limit" data-sheet-sign aria-label="Select for review: Speed Limit">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/no-passing-road-sign.svg" alt="Do Not Pass road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Do Not Pass</strong><p>Passing another vehicle is prohibited in this zone.</p></div>
+  <div><strong>Do Not Pass</strong><p>Passing another vehicle is prohibited in this zone.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="no-passing" data-sheet-sign aria-label="Select for review: Do Not Pass">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article></div>
+  <p data-sheet-sign-picker hidden><a href="#sheet-selection">Go to selected signs</a></p>
 </section><section class="cheat-group">
   <div class="cheat-group-head"><h2>Warning signs</h2><div><p>These signs warn about conditions that may require lower speed, more space, or extra scanning.</p><a class="cheat-group-practice-link info-card-link" href="road-signs-practice-test.html?mode=road-signs-core&amp;focus=sheet-warning#practice" aria-label="Practice 19 questions: Warning signs">Practice 19 questions</a><a class="cheat-print-group-link" href="https://testdaytools.com/road-signs-practice-test.html?mode=road-signs-core&amp;focus=sheet-warning#practice" aria-label="Practice 19 questions: Warning signs">Practice 19 questions online</a></div></div>
   <div class="cheat-sign-grid"><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/merge-road-sign.svg" alt="Merge road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Merge</strong><p>Traffic may join your lane; adjust speed and space.</p></div>
+  <div><strong>Merge</strong><p>Traffic may join your lane; adjust speed and space.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="merge" data-sheet-sign aria-label="Select for review: Merge">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/lane-ends-road-sign.svg" alt="Lane Ends road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Lane Ends</strong><p>A lane will end and traffic must merge.</p></div>
+  <div><strong>Lane Ends</strong><p>A lane will end and traffic must merge.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="lane-ends" data-sheet-sign aria-label="Select for review: Lane Ends">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/slippery-road-sign.svg" alt="Slippery When Wet road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Slippery When Wet</strong><p>Road traction may be reduced; avoid sudden maneuvers.</p></div>
+  <div><strong>Slippery When Wet</strong><p>Road traction may be reduced; avoid sudden maneuvers.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="slippery" data-sheet-sign aria-label="Select for review: Slippery When Wet">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/signal-ahead-road-sign.svg" alt="Signal Ahead road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Signal Ahead</strong><p>Prepare for a traffic light ahead.</p></div>
+  <div><strong>Signal Ahead</strong><p>Prepare for a traffic light ahead.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="signal-ahead" data-sheet-sign aria-label="Select for review: Signal Ahead">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/railroad-road-sign.svg" alt="Railroad Crossing Ahead road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Railroad Crossing Ahead</strong><p>Prepare for tracks and obey crossing controls.</p></div>
+  <div><strong>Railroad Crossing Ahead</strong><p>Prepare for tracks and obey crossing controls.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="railroad" data-sheet-sign aria-label="Select for review: Railroad Crossing Ahead">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/roundabout-road-sign.svg" alt="Roundabout road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Roundabout</strong><p>Slow and yield before entering a roundabout. Follow the arrows counterclockwise.</p></div>
+  <div><strong>Roundabout</strong><p>Slow and yield before entering a roundabout. Follow the arrows counterclockwise.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="roundabout" data-sheet-sign aria-label="Select for review: Roundabout">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/curve-road-sign.svg" alt="Curve road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Curve</strong><p>The next bend follows the arrow. Reduce speed before entering the curve.</p></div>
+  <div><strong>Curve</strong><p>The next bend follows the arrow. Reduce speed before entering the curve.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="curve" data-sheet-sign aria-label="Select for review: Curve">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/winding-road-road-sign.svg" alt="Winding Road road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Winding Road</strong><p>Several curves are ahead; slow down and keep steady lane position.</p></div>
+  <div><strong>Winding Road</strong><p>Several curves are ahead; slow down and keep steady lane position.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="winding-road" data-sheet-sign aria-label="Select for review: Winding Road">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/crossroad-road-sign.svg" alt="Crossroad road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Crossroad</strong><p>Another road crosses ahead; scan both sides for entering traffic.</p></div>
+  <div><strong>Crossroad</strong><p>Another road crosses ahead; scan both sides for entering traffic.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="crossroad" data-sheet-sign aria-label="Select for review: Crossroad">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/side-road-road-sign.svg" alt="Side Road road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Side Road</strong><p>A side road joins ahead; watch for traffic entering from that side.</p></div>
+  <div><strong>Side Road</strong><p>A side road joins ahead; watch for traffic entering from that side.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="side-road" data-sheet-sign aria-label="Select for review: Side Road">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/t-intersection-road-sign.svg" alt="T-Intersection road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>T-Intersection</strong><p>The road ends at another road; prepare to turn left or right.</p></div>
+  <div><strong>T-Intersection</strong><p>The road ends at another road; prepare to turn left or right.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="t-intersection" data-sheet-sign aria-label="Select for review: T-Intersection">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/two-way-traffic-road-sign.svg" alt="Two-Way Traffic road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Two-Way Traffic</strong><p>The left arrow points down and the right arrow up. Keep right and expect oncoming traffic.</p></div>
+  <div><strong>Two-Way Traffic</strong><p>The left arrow points down and the right arrow up. Keep right and expect oncoming traffic.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="two-way-traffic" data-sheet-sign aria-label="Select for review: Two-Way Traffic">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/stop-ahead-road-sign.svg" alt="Stop Ahead road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Stop Ahead</strong><p>The arrow above a red octagon warns of a separate stop sign ahead. Slow now; stop at the actual control.</p></div>
+  <div><strong>Stop Ahead</strong><p>The arrow above a red octagon warns of a separate stop sign ahead. Slow now; stop at the actual control.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="stop-ahead" data-sheet-sign aria-label="Select for review: Stop Ahead">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/bicycle-crossing-road-sign.svg" alt="Bicycle Crossing road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Bicycle Crossing</strong><p>Watch for bicycles entering or crossing. Yellow-green can carry the same warning.</p></div>
+  <div><strong>Bicycle Crossing</strong><p>Watch for bicycles entering or crossing. Yellow-green can carry the same warning.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="bicycle-crossing" data-sheet-sign aria-label="Select for review: Bicycle Crossing">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article></div>
+  <p data-sheet-sign-picker hidden><a href="#sheet-selection">Go to selected signs</a></p>
 </section><section class="cheat-group">
   <div class="cheat-group-head"><h2>School, work-zone, and service signs</h2><div><p>These signs flag special areas where driver attention, lower speed, or route information matters.</p><a class="cheat-group-practice-link info-card-link" href="road-signs-practice-test.html?mode=road-signs-core&amp;focus=sheet-school-work-service#practice" aria-label="Practice 7 questions: School, work-zone, and service signs">Practice 7 questions</a><a class="cheat-print-group-link" href="https://testdaytools.com/road-signs-practice-test.html?mode=road-signs-core&amp;focus=sheet-school-work-service#practice" aria-label="Practice 7 questions: School, work-zone, and service signs">Practice 7 questions online</a></div></div>
   <div class="cheat-sign-grid"><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/school-crossing-road-sign.svg" alt="School Crossing road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>School Crossing</strong><p>Watch for children and obey school-zone rules.</p></div>
+  <div><strong>School Crossing</strong><p>Watch for children and obey school-zone rules.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="school-crossing" data-sheet-sign aria-label="Select for review: School Crossing">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/pedestrian-crossing-road-sign.svg" alt="Pedestrian Crossing road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Pedestrian Crossing</strong><p>Watch for people crossing and be ready to yield.</p></div>
+  <div><strong>Pedestrian Crossing</strong><p>Watch for people crossing and be ready to yield.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="pedestrian-crossing" data-sheet-sign aria-label="Select for review: Pedestrian Crossing">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/work-zone-road-sign.svg" alt="Workers (Work Zone) road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Workers (Work Zone)</strong><p>The shovel warns of workers in or near the road. Slow down and watch for temporary directions.</p></div>
+  <div><strong>Workers (Work Zone)</strong><p>The shovel warns of workers in or near the road. Slow down and watch for temporary directions.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="work-zone" data-sheet-sign aria-label="Select for review: Workers (Work Zone)">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/hospital-road-sign.svg" alt="Hospital road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Hospital</strong><p>A hospital or medical service is nearby.</p></div>
+  <div><strong>Hospital</strong><p>A hospital or medical service is nearby.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="hospital" data-sheet-sign aria-label="Select for review: Hospital">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article><article class="cheat-sign-card">
   <div class="cheat-sign-visual"><img src="assets/road-signs/deer-crossing-road-sign.svg" alt="Animal Crossing road sign" width="220" height="160" decoding="async"></div>
-  <div><strong>Animal Crossing</strong><p>Animals may enter the road; slow and scan shoulders.</p></div>
+  <div><strong>Animal Crossing</strong><p>Animals may enter the road; slow and scan shoulders.</p>
+    <label class="sheet-sign-picker" data-sheet-sign-picker hidden>
+      <input type="checkbox" value="deer-crossing" data-sheet-sign aria-label="Select for review: Animal Crossing">
+      <span>Select for review</span>
+    </label>
+  </div>
 </article></div>
+  <p data-sheet-sign-picker hidden><a href="#sheet-selection">Go to selected signs</a></p>
 </section>
   <section class="cheat-review-panel" aria-label="Road sign review notes">
     <div>

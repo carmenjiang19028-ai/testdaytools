@@ -6245,6 +6245,53 @@ button:disabled {
   line-height: 1.35;
 }
 
+.sheet-selection {
+  margin-top: 16px;
+  padding: 10px 0;
+  border-block: 1px solid var(--line);
+  scroll-margin-top: 84px;
+}
+
+.sheet-selection h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.sheet-selection p {
+  margin: 4px 0;
+}
+
+.sheet-selection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+}
+
+.sheet-selection-actions a:not([hidden]),
+.sheet-sign-picker:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.sheet-sign-picker {
+  gap: 8px;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.sheet-sign-picker input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+#sheet-selection-cards {
+  scroll-margin-top: 84px;
+}
+
 .printable-sheet-foot {
   margin-top: 24px;
   padding-top: 16px;
@@ -6442,6 +6489,8 @@ button:disabled {
   body.road-sign-cheat-sheet-page .site-header,
   body.road-sign-cheat-sheet-page .site-footer,
   body.road-sign-cheat-sheet-page .cheat-group-practice-link,
+  body.road-sign-cheat-sheet-page [data-sheet-sign-picker],
+  body.road-sign-cheat-sheet-page [data-sheet-selection],
   body.road-sign-cheat-sheet-page main > :not(#printable-sheet) {
     display: none !important;
   }

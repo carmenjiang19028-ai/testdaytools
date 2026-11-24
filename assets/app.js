@@ -2169,6 +2169,77 @@ function initSignLookups() {
   });
 }
 
+const ROAD_SIGN_SHEET_KEY = "tdt-road-sign-sheet-selection:v1";
+
+function readRoadSignSheetSelection() {
+  let raw;
+  try {
+    raw = window.localStorage.getItem(ROAD_SIGN_SHEET_KEY);
+  } catch {
+    return null;
+  }
+  try {
+    const values = JSON.parse(raw);
+    return new Set(Array.isArray(values) ? values.filter(id => typeof id === "string") : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function initRoadSignSheetSelection() {
+  const panel = document.querySelector("[data-sheet-selection]");
+  if (!panel) return;
+  let selected = readRoadSignSheetSelection();
+  if (!selected) return;
+  const pickers = Array.from(document.querySelectorAll("[data-sheet-sign]"));
+  const names = new Map(pickers.map(input => [input.value, input.closest(".cheat-sign-card").querySelector("strong").textContent]));
+  const counter = panel.querySelector("[data-sheet-sign-count]");
+  const list = panel.querySelector("[data-sheet-sign-names]");
+  const openDeck = panel.querySelector("[data-sheet-flashcards]");
+  const clear = panel.querySelector("[data-sheet-clear]");
+  const render = (error = "") => {
+    selected = new Set([...selected].filter(id => names.has(id)));
+    pickers.forEach(input => { input.checked = selected.has(input.value); });
+    const count = selected.size;
+    counter.textContent = error || (count ? `${count} ${count === 1 ? "sign" : "signs"} selected` : "No signs selected");
+    list.textContent = pickers.filter(input => input.checked).map(input => names.get(input.value)).join(", ");
+    list.hidden = count === 0;
+    openDeck.hidden = clear.hidden = count === 0;
+  };
+  const save = next => {
+    try {
+      if (next.size) window.localStorage.setItem(ROAD_SIGN_SHEET_KEY, JSON.stringify([...next]));
+      else window.localStorage.removeItem(ROAD_SIGN_SHEET_KEY);
+      selected = next;
+      render();
+      return true;
+    } catch {
+      render("Could not save your selection in this browser.");
+      return false;
+    }
+  };
+  pickers.forEach(input => input.addEventListener("change", () => {
+    const next = readRoadSignSheetSelection() || new Set(selected);
+    if (input.checked) next.add(input.value);
+    else next.delete(input.value);
+    save(new Set([...next].filter(id => names.has(id))));
+  }));
+  clear.addEventListener("click", () => {
+    if (save(new Set())) panel.querySelector("h2").focus({ preventScroll: true });
+  });
+  const reload = () => {
+    selected = readRoadSignSheetSelection() || selected;
+    render();
+  };
+  window.addEventListener("storage", event => {
+    if (event.key === ROAD_SIGN_SHEET_KEY || event.key === null) reload();
+  });
+  window.addEventListener("pageshow", reload);
+  render();
+  panel.hidden = false;
+  document.querySelectorAll("[data-sheet-sign-picker]").forEach(control => { control.hidden = false; });
+}
+
 function initRoadSignFlashcards() {
   document.querySelectorAll("[data-road-sign-flashcards]").forEach((deck) => {
     const cards = Array.from(deck.querySelectorAll("[data-flashcard]"));
@@ -2190,6 +2261,8 @@ function initRoadSignFlashcards() {
     const missedSummary = deck.querySelector("[data-flashcard-missed-summary]");
     const missedNote = deck.querySelector("[data-flashcard-missed-note]");
     const missedReturn = deck.querySelector("[data-flashcard-missed-return]");
+    const sheetSummary = deck.querySelector("[data-flashcard-sheet-summary]");
+    const sheetNote = deck.querySelector("[data-flashcard-sheet-note]");
     const announcement = deck.querySelector("[data-flashcard-announcement]");
     const storageKey = "tdt-road-sign-flashcards";
     let known = new Set();
@@ -2225,13 +2298,13 @@ function initRoadSignFlashcards() {
     };
 
     const cardId = (card) => card?.dataset.cardId || "";
+    const supportedIds = new Set(cards.map(cardId));
     const fromMissedQuiz = window.location.hash === "#missed-sign-cards";
     const missedCardIds = new Set();
     if (fromMissedQuiz) {
       try {
         const selection = JSON.parse(window.sessionStorage.getItem(MISSED_SIGN_CARDS_KEY) || "null");
         if (["road-signs-starter", "road-signs-core"].includes(selection?.mode) && Array.isArray(selection.signIds)) {
-          const supportedIds = new Set(cards.map(cardId));
           selection.signIds.filter(id => supportedIds.has(id)).forEach(id => missedCardIds.add(id));
           if (missedCardIds.size && filterSelect) {
             const option = new Option("Missed in this round", "missed");
@@ -2247,6 +2320,17 @@ function initRoadSignFlashcards() {
         // An absent or invalid handoff must not stop regular flashcard practice.
       }
     }
+    const fromSheet = window.location.hash === "#sheet-selection-cards" && Boolean(sheetSummary && filterSelect);
+    const sheetOption = fromSheet ? new Option("Selected on the sheet", "sheet") : null;
+    let sheetCardIds = new Set();
+    const reloadSheet = () => {
+      if (!sheetOption) return;
+      sheetCardIds = new Set([...(readRoadSignSheetSelection() || [])].filter(id => supportedIds.has(id)));
+      if (sheetCardIds.size && !sheetOption.parentNode) filterSelect.append(sheetOption);
+      if (!sheetCardIds.size) sheetOption.remove();
+    };
+    reloadSheet();
+    if (sheetCardIds.size) filterSelect.value = "sheet";
     const activeCard = () => cards[activeIndexes[activePosition]];
     const answerToggle = (card) => card?.querySelector("[data-flashcard-flip]");
     const isRevealed = (card) => answerToggle(card)?.getAttribute("aria-expanded") === "true";
@@ -2292,6 +2376,13 @@ function initRoadSignFlashcards() {
         if (missedNote.textContent !== note) missedNote.textContent = note;
         if (missedReturn) missedReturn.hidden = !showMissed;
       }
+      if (fromSheet && sheetNote) {
+        const filtered = filterSelect.value === "sheet";
+        sheetSummary.hidden = sheetCardIds.size > 0 && !filtered;
+        sheetNote.textContent = filtered
+          ? `${sheetCardIds.size} ${sheetCardIds.size === 1 ? "sign" : "signs"} selected on the study sheet`
+          : "No signs are selected on the study sheet. The regular deck is shown.";
+      }
       if (empty) {
         empty.hidden = total !== 0;
         empty.textContent = filterSelect?.value === "review" && !review.size
@@ -2320,6 +2411,7 @@ function initRoadSignFlashcards() {
         .filter(({ card, index }) => {
           const matchesFilter = filter === "review" ? review.has(cardId(card))
             : filter === "missed" ? missedCardIds.has(cardId(card))
+            : filter === "sheet" ? sheetCardIds.has(cardId(card))
             : filter === "all" || card.dataset.cardFilter === filter;
           return matchesFilter && matchesSignSearch(searchable[index], terms);
         })
@@ -2401,18 +2493,22 @@ function initRoadSignFlashcards() {
     filterSelect?.addEventListener("change", () => applyFilters());
     searchInput?.addEventListener("input", () => applyFilters());
     window.addEventListener("storage", (event) => {
-      if (!useSavedMarks || (event.key !== storageKey && event.key !== null)) return;
+      const marksChanged = useSavedMarks && (event.key === storageKey || event.key === null);
+      const sheetChanged = fromSheet && (event.key === ROAD_SIGN_SHEET_KEY || event.key === null);
+      if (!marksChanged && !sheetChanged) return;
       const previous = activeCard();
       const focused = document.activeElement;
       const restoreFocus = previous?.contains(focused)
         || [knownButton, reviewButton, prevButton, nextButton, resetButton].includes(focused);
-      load();
+      if (marksChanged) load();
+      if (sheetChanged) reloadSheet();
       applyFilters(activePosition, true);
       if (restoreFocus && (previous !== activeCard() || focused.disabled)) focusCard();
     });
 
     load();
     applyFilters();
+    if (fromSheet) sheetSummary.scrollIntoView();
   });
 }
 
@@ -5045,6 +5141,7 @@ initStateFilters();
 initPracticeWorkbenches();
 initMiniSignDrills();
 initSignLookups();
+initRoadSignSheetSelection();
 initRoadSignFlashcards();
 initWorksheetReturns();
 initPictureReviewReturn();
