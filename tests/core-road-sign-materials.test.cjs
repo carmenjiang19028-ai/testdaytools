@@ -24,6 +24,91 @@ let browser;
 before(async () => { browser = await chromium.launch({ channel: 'chrome', headless: true }); });
 after(async () => { await browser?.close(); });
 
+test('the single-curve symbol bends only one way and stays inside its warning diamond', async () => {
+  const svg = fs.readFileSync(path.join(root, 'assets/road-signs/curve-road-sign.svg'));
+  const { data, info } = await sharp(svg).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  let outside = 0;
+  for (let y = 0; y < info.height; y++) {
+    for (let x = 0; x < info.width; x++) {
+      const i = (y * info.width + x) * info.channels;
+      if (Math.abs(x - 110) / 80 + Math.abs(y - 80) / 66 > 1.09
+          && Math.max(...data.subarray(i, i + 3)) < 65 && data[i + 3] > 180) outside++;
+    }
+  }
+  assert.equal(outside, 0, 'the symbol must not break through the diamond border');
+  const page = await browser.newPage();
+  try {
+    await page.setContent(svg.toString());
+    const xs = await page.locator('path[fill="none"]').evaluate(stem => (
+      Array.from({ length: 33 }, (_, i) => stem.getPointAtLength(stem.getTotalLength() * i / 32).x)
+    ));
+    assert.ok(xs.at(-1) > xs[0] + 25 && xs.every((x, i) => i === 0 || x >= xs[i - 1] - 0.01));
+  } finally { await page.close(); }
+});
+
+for (const width of [320, 1280]) {
+  test(`${width}px: printable route compares three curve signs and gives a way to practice without changing scoring`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const sheet = pathToFileURL(path.join(root, 'dmv-road-signs-cheat-sheet.html')).href;
+      await page.goto(sheet);
+      await page.getByRole('link', { name: 'Compare curve warnings' }).press('Enter');
+      await page.waitForURL(sheet + '#curve-warning-check');
+      const lesson = page.getByRole('region', { name: 'One curve, reverse curves, or a winding road?' });
+      const images = lesson.getByRole('img');
+      assert.equal(await images.count(), 3);
+      assert.match(await images.nth(0).getAttribute('alt'), /right-bending arrow/i);
+      assert.match(await images.nth(1).getAttribute('aria-label'), /right.*left/i);
+      assert.match(await images.nth(2).getAttribute('alt'), /several bends/i);
+      const details = lesson.locator('details');
+      assert.equal(await details.count(), 2);
+      await details.nth(0).locator('summary').press('Enter');
+      assert.match(await details.nth(0).innerText(), /right first.*then left/i);
+      await details.nth(1).locator('summary').press('Enter');
+      assert.match(await details.nth(1).innerText(), /slow before the first bend.*stay in your lane/i);
+      assert.equal(await lesson.getByRole('link', { name: 'Practice curve warning signs' }).getAttribute('href'),
+        'road-signs-practice-test.html?mode=road-signs-core&focus=Alignment+warning+signs#practice');
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `curve-check-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+}
+
+test('the curve lesson opens the existing alignment set with unchanged grading', { timeout: 15000 }, async () => {
+  const context = await browser.newContext();
+  await context.route(/^https?:/, route => route.abort());
+  const page = await context.newPage();
+  try {
+    await page.goto(pathToFileURL(path.join(root, 'dmv-road-signs-cheat-sheet.html')).href + '#curve-warning-check');
+    await page.getByRole('link', { name: 'Practice curve warning signs' }).click();
+    const quiz = page.locator('[data-mode-panel="road-signs-core"].is-active [data-quiz]');
+    assert.equal(await quiz.locator('[data-quiz-filter]').inputValue(), 'Alignment warning signs');
+    assert.equal(await quiz.locator('.question').count(), 40);
+    assert.equal(await quiz.getAttribute('data-pass-score'), '32');
+    const curve = quiz.locator('.question[data-flashcard-key="curve"]');
+    assert.ok(await curve.isVisible());
+    const quizArt = await curve.locator('svg path[fill="none"]').getAttribute('d');
+    await curve.getByRole('button', { name: 'Reduce speed before the road bends', exact: true }).press('Enter');
+    assert.match(await curve.locator('.feedback').innerText(), /^Correct\..*bends right once\./);
+    assert.ok(await curve.locator('[data-quiz-source] a').isVisible());
+    const libraryImage = page.locator('img[src$="curve-road-sign.svg"]').first();
+    assert.ok(await libraryImage.evaluate(async img => {
+      img.loading = 'eager';
+      await img.decode();
+      return img.naturalWidth === 220;
+    }));
+    const flashPage = pathToFileURL(path.join(root, 'dmv-road-sign-flashcards.html')).href;
+    await page.goto(flashPage);
+    const flashArt = page.locator('[data-flashcard][data-card-id="curve"] svg path[fill="none"]').first();
+    assert.equal(await flashArt.getAttribute('d'), quizArt);
+  } finally { await context.close(); }
+});
+
 for (const width of [390, 1280]) {
   test(`${width}px: entry control and wrong-way feedback teach different decisions`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 } });

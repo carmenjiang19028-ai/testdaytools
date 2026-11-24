@@ -6621,7 +6621,7 @@
               {
                 "image": "curve",
                 "title": "Curve",
-                "meaning": "The road bends ahead; reduce speed before entering the curve."
+                "meaning": "The next bend follows the arrow. Reduce speed before entering the curve."
               },
               {
                 "image": "winding-road",
@@ -22516,7 +22516,11 @@
           "Accelerate through the curve"
         ],
         "answer": 0,
-        "explanation": "A curve warning sign gives advance notice of a change in road alignment. Slow before the curve and keep a steady lane position."
+        "explanation": "This arrow bends right once. Slow before entering the curve and stay in your lane. A reverse-curve arrow changes direction; a winding-road arrow shows a series of bends.",
+        "source": {
+          "label": "PennDOT: negotiating curves",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/everyday-driving-skills/negotiating-curves"
+        }
       },
       {
         "q": "This winding-road sign warns drivers to expect:",

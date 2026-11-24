@@ -159,7 +159,7 @@ SIGN_SVGS = {
     "hospital": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="48" y="26" width="124" height="108" rx="8" fill="#0f5fa8"/><text x="110" y="108" text-anchor="middle" fill="#fff" font-size="76" font-weight="900" font-family="Arial, sans-serif">H</text></svg>',
     "hospital-right": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="24" width="144" height="112" rx="8" fill="#0f5fa8"/><text x="82" y="105" text-anchor="middle" fill="#fff" font-size="68" font-weight="900" font-family="Arial, sans-serif">H</text><path d="M116 80 h38" stroke="#fff" stroke-width="11" stroke-linecap="round"/><path d="M146 58 174 80 146 102z" fill="#fff"/></svg>',
     "deer-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M78 106 l22-42 25 14 22-18 M100 64 l-12-20 M107 66 l8-24 M125 78 l20 30 M112 82 l-4 34" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/><circle cx="143" cy="58" r="7" fill="#111"/></svg>',
-    "curve": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M82 126 C84 102 139 97 136 62 C135 48 126 42 114 35" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M99 43 l14-19 16 18z" fill="#111"/></svg>',
+    "curve": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M103 124 V103 Q103 76 127 65 L137 60" fill="none" stroke="#111" stroke-width="12"/><path d="M126 51 L149 54 L138 74 Z" fill="#111"/></svg>',
     "winding-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 128 C68 109 151 92 105 74 C67 59 132 48 112 34" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M97 43 l14-20 16 18z" fill="#111"/></svg>',
     "crossroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 125 V36 M68 80 H152" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
     "side-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M96 126 V36 M96 78 H150" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
@@ -258,12 +258,49 @@ def render_contrast_practice_links(return_page):
         query = urlencode({"concept": lesson["id"], "return": return_page})
         label = lesson["title"].split(":", 1)[0]
         links.append(f'<li><a href="road-sign-learning-loop.html?{esc(query)}">{esc(label)}</a></li>')
+    curves_href = "#curve-warning-check" if return_page == f"{ROAD_SIGN_CHEAT_SHEET_SLUG}.html" else f"{ROAD_SIGN_CHEAT_SHEET_SLUG}.html#curve-warning-check"
     return f'''<section class="content-section" aria-labelledby="contrast-practice-heading">
   <h2 id="contrast-practice-heading">Practice a confusing sign pair</h2>
   <p>Choose the pair you mix up. Explain how the signs change the driver's decision, then try two short situations before returning to your study material.</p>
   <ul class="material-links">{"".join(links)}</ul>
   <p>{speed_sign_comparison_link()}</p>
+  <p><a href="{esc(curves_href)}">Compare curve warnings</a></p>
   <p><a href="road-sign-shapes-and-colors-finder.html#school-crossing-location">Compare school crossing plaques with pictures</a></p>
+</section>'''
+
+
+def render_curve_warning_check():
+    reverse = (
+        '<svg viewBox="0 0 220 160" aria-hidden="true">'
+        '<polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>'
+        '<path d="M104 124 C104 108 128 99 128 81 C128 65 116 58 105 47" fill="none" stroke="#111" stroke-width="12"/>'
+        '<path d="M92 54 L99 35 L120 40 Z" fill="#111"/></svg>'
+    )
+    focus = urlencode({"mode": "road-signs-core", "focus": "Alignment warning signs"})
+    return f'''<section class="content-section shape-crossing-drill" id="curve-warning-check" aria-labelledby="curve-warning-heading">
+  <h2 id="curve-warning-heading">One curve, reverse curves, or a winding road?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      <div class="contrast-curve-signs">
+        <div>{render_road_sign_image("curve", "A: yellow diamond with a single right-bending arrow", lazy=False)}<b>A</b></div>
+        <div><span role="img" aria-label="B: yellow diamond with an arrow curving right, then left">{reverse}</span><b>B</b></div>
+        <div>{render_road_sign_image("winding-road", "C: yellow diamond with an arrow showing several bends", lazy=False)}<b>C</b></div>
+      </div>
+      <figcaption><strong>A:</strong> Curve (W1-2). <strong>B:</strong> Reverse Curve (W1-4). <strong>C:</strong> Winding Road (W1-5). Read the arrow from its tail toward its point.</figcaption>
+    </figure>
+    <div>
+      <details class="contrast-transfer">
+        <summary>On sign B, the arrow tip points left. Which way does the road bend first?</summary>
+        <p>It bends <strong>right first, then left</strong>. The tip shows the direction after the second bend. Sign A warns of one bend ahead; sign C warns of a series, so be ready for more bends after the first one.</p>
+      </details>
+      <details class="contrast-transfer">
+        <summary>The road is wet and you see a winding-road sign. When should you reduce speed?</summary>
+        <p><strong>Slow before the first bend and stay in your lane.</strong> Adjust for traction and visibility before the next bend too. Do not wait until you are already turning to find out whether your approach speed was safe.</p>
+      </details>
+      <p><a class="info-card-link" href="road-signs-practice-test.html?{esc(focus)}#practice">Practice curve warning signs</a></p>
+      <p class="contrast-source">Sources: <a href="https://mutcd.fhwa.dot.gov/kno-shs_2024-release-status/index.htm">FHWA sign designations W1-2, W1-4 and W1-5</a>; <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs">PennDOT warning signs</a> and <a href="https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/everyday-driving-skills/negotiating-curves">PennDOT guidance on driving through curves</a>.</p>
+    </div>
+  </div>
 </section>'''
 
 
@@ -4381,6 +4418,7 @@ def render_road_sign_cheat_sheet_page():
 </section>
 <section class="notice"><strong>Unofficial study resource.</strong> {esc(SITE["disclaimer"])}</section>
 {render_contrast_practice_links(f'{ROAD_SIGN_CHEAT_SHEET_SLUG}.html')}
+{render_curve_warning_check()}
 <section class="printable-road-sign-sheet" id="printable-sheet">
   <header class="printable-sheet-head">
     <div><p class="eyebrow">TestDayTools printable reference</p><h2>DMV road signs and meanings</h2></div>

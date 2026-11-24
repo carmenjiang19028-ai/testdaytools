@@ -52,6 +52,8 @@
 .contrast-scene { margin: 0; padding: 18px; background: #f4f7f5; border: 1px solid #d4dfd8; border-radius: 4px; }
 .contrast-sign-pair { display: grid; grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr); align-items: center; }
 .contrast-sign-pair img { width: 100%; height: auto; aspect-ratio: 220 / 160; object-fit: contain; }
+.contrast-curve-signs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; text-align: center; }
+.contrast-curve-signs img, .contrast-curve-signs svg { display: block; width: 100%; height: auto; aspect-ratio: 220 / 160; }
 .shape-crossing-drill, .state-sign-lesson { border-top: 1px solid #cbd4d0; scroll-margin-top: 96px; }
 .shape-crossing-drill p { margin: 0 0 12px; }
 .shape-crossing-drill details p, .state-sign-lesson details p { margin: 12px 0 0; }
