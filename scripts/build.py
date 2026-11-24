@@ -3,6 +3,7 @@ import argparse
 import html
 import json
 from datetime import datetime, timedelta, timezone
+from hashlib import sha256
 from pathlib import Path
 from urllib.parse import parse_qsl, quote, urlencode, urlsplit
 from xml.etree import ElementTree
@@ -14,6 +15,11 @@ else:
     import road_sign_classroom_content as classroom
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def versioned_script(path):
+    version = sha256((ROOT / path).read_bytes()).hexdigest()[:12]
+    return f"{path}?v={version}"
 
 
 def reject_duplicate_json_keys(pairs):
@@ -460,6 +466,11 @@ def write_contrast_lessons(output=None):
     output = output or write
     filename = f"{ROAD_SIGN_LEARNING_LOOP_SLUG}.html"
     text = (ROOT / filename).read_text()
+    start, end = "<!-- CONTRAST SCRIPT START -->", "<!-- CONTRAST SCRIPT END -->"
+    before, remainder = text.split(start)
+    _, after = remainder.split(end)
+    src = versioned_script("assets/road-sign-learning.js")
+    text = f'{before}{start}\n  <script src="{src}" defer></script>\n  {end}{after}'
     start, end = "<!-- CORE MATERIAL LESSONS START -->", "<!-- CORE MATERIAL LESSONS END -->"
     if text.count(start) != 1 or text.count(end) != 1:
         raise ValueError("Expected one bounded lesson region in the existing contrast lab")
@@ -601,7 +612,8 @@ def render_adsense_verification_tag():
     return f'  <meta name="google-adsense-account" content="{esc(publisher_id)}">\n'
 
 
-def page_shell(title, description, path, body, extra_class="", structured_data=None, social_image=None, indexable=True, extra_head=""):
+def page_shell(title, description, path, body, extra_class="", structured_data=None,
+               social_image=None, indexable=True, extra_head="", *, app_src="assets/app.js"):
     nav = "".join(
         f'<a href="{esc(href_for(item["href"]))}">{esc(item["label"])}</a>'
         for item in DATA["navigation"]
@@ -649,7 +661,7 @@ def page_shell(title, description, path, body, extra_class="", structured_data=N
   <link rel="stylesheet" href="assets/styles.css">
 {analytics_block}\
 {extra_head}\
-  <script src="assets/app.js" defer></script>
+  <script src="{esc(app_src)}" defer></script>
   {schema_scripts}
 </head>
 <body class="{esc(extra_class)}">
@@ -5014,6 +5026,7 @@ def render_road_sign_flashcards_page():
         page_schema(ROAD_SIGN_FLASHCARDS_PAGE["title"], ROAD_SIGN_FLASHCARDS_PAGE["description"],
                     url_for(f"/{ROAD_SIGN_FLASHCARDS_SLUG}.html"), "LearningResource",
                     resource_type="Flashcards", educational_use="Study"),
+        app_src=versioned_script("assets/app.js"),
     )
 
 

@@ -3,6 +3,7 @@ import json
 import os
 import shutil
 import unittest
+from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from urllib.parse import parse_qsl, urlencode, urlsplit
@@ -255,6 +256,19 @@ class CoreMaterialTests(unittest.TestCase):
         rendered = text.split("<!-- CORE MATERIAL LESSONS START -->")[1].split("<!-- CORE MATERIAL LESSONS END -->")[0].strip()
         self.assertEqual(rendered, render_contrast_lessons())
         self.assertEqual(text.count('class="contrast-lesson"'), 3)
+
+    def test_readiness_gated_script_urls_match_their_current_bytes(self):
+        for page, script in (
+            ("dmv-road-sign-flashcards.html", "assets/app.js"),
+            ("road-sign-learning-loop.html", "assets/road-sign-learning.js"),
+        ):
+            with self.subTest(page=page):
+                version = sha256((ROOT / script).read_bytes()).hexdigest()[:12]
+                text = (ROOT / page).read_text()
+                self.assertIn(f'<script src="{script}?v={version}" defer></script>', text)
+                self.assertNotIn(f'<script src="{script}" defer></script>', text)
+        for page in ("dmv-road-signs-cheat-sheet.html", "road-signs-practice-test.html"):
+            self.assertIn('<script src="assets/app.js" defer></script>', (ROOT / page).read_text())
 
     def test_core_pages_have_single_review_and_unchanged_canonical_destinations(self):
         for slug in ["road-signs-practice-test", "dmv-road-signs-cheat-sheet", "road-sign-learning-loop"]:
