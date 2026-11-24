@@ -288,6 +288,7 @@ def render_contrast_practice_links(return_page):
   <p>{speed_sign_comparison_link()}</p>
   <p><a href="{esc(curves_href)}">Compare curve warnings</a></p>
   <p><a href="{ROAD_SIGN_SHAPES_SLUG}.html#intersection-warning-check">Compare intersection warnings</a></p>
+  <p><a href="{ROAD_SIGN_PICTURE_SLUG}.html#roundabout-entry-case">Try the roundabout entry case</a></p>
   <p><a href="road-sign-shapes-and-colors-finder.html#school-crossing-location">Compare school crossing plaques with pictures</a></p>
 </section>'''
 

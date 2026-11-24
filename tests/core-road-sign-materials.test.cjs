@@ -57,6 +57,34 @@ test('the single-curve symbol bends only one way', async () => {
   } finally { await page.close(); }
 });
 
+for (const width of [320, 1280]) {
+  test(`${width}px: read the roundabout case and recover from a missed exit without scripts`, async () => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 850 } });
+    await context.route(/^https?:/, route => route.abort());
+    const page = await context.newPage();
+    try {
+      const practice = pathToFileURL(path.join(root, 'road-signs-practice-test.html')).href;
+      const sheet = pathToFileURL(path.join(root, 'dmv-road-signs-cheat-sheet.html')).href;
+      await page.goto(sheet);
+      await page.getByRole('link', { name: 'Try the roundabout entry case' }).press('Enter');
+      await page.waitForURL(practice + '#roundabout-entry-case');
+      const lesson = page.locator('#roundabout-entry-case');
+      assert.match(await lesson.getByRole('heading', { level: 2 }).innerText(), /Roundabout ahead/);
+      await lesson.getByText('Show reasoning', { exact: true }).press('Enter');
+      assert.match(await lesson.innerText(), /warning.*does not give you priority/i);
+      assert.match(await lesson.innerText(), /yield to the car already circulating/i);
+      await lesson.getByText('Check', { exact: true }).press('Enter');
+      assert.match(await lesson.innerText(), /continue counterclockwise to your exit/i);
+      assert.equal(await lesson.getByRole('link', { name: /California DMV/ }).count(), 1);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `roundabout-case-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+}
+
 test('the three intersection diagrams leave yellow space between their branches and the border', async () => {
   const page = await browser.newPage();
   try {

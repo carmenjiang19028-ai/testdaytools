@@ -1,4 +1,27 @@
 {
+  "road-signs-practice-test": {
+    "id": "roundabout-entry-case",
+    "heading": "Roundabout ahead: yield at the entry, then stay in the loop",
+    "intro": "This example uses a single-lane California roundabout. Read the yellow advance warning first, then follow the signs and markings at the entry. The case does not affect your practice score.",
+    "examples": [
+      {
+        "title": "You see an open entry but a car is already in the circle",
+        "question": "A yellow diamond with three curved arrows warns of a roundabout ahead. At the entry you see a YIELD sign. A car already in the circle is coming from the left, and entering now would make it brake. The crosswalk is clear. Which decision comes first?",
+        "steps": [
+          "Slow on the approach. The yellow warning tells you what is ahead; it does not give you priority.",
+          "At the entry, yield to the car already circulating. Stop if needed to let it pass, then check for a safe gap.",
+          "When the way is clear, enter to the right and travel counterclockwise. Check the exit for people crossing and signal as you leave."
+        ],
+        "mistake": "Do not use the fact that the entry is physically empty to judge the gap. A vehicle already in the roundabout can reach your path before you finish entering.",
+        "check": "You are in that same single-lane roundabout and just passed your intended exit. Should you brake in the circle or turn back?",
+        "answer": "Neither. Stay in your lane and continue counterclockwise to your exit on the next circuit. Do not stop or reverse in the circulating lane to recover a missed turn.",
+        "source": {
+          "label": "California DMV Driver's Handbook: Roundabouts",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road/"
+        }
+      }
+    ]
+  },
   "regulatory-traffic-signs-practice-test": {
     "id": "yield-turn-lane",
     "heading": "Follow the control for your own lane",
