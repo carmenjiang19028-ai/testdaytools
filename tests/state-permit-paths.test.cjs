@@ -198,6 +198,39 @@ for (const width of [320, 1280]) {
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: North Carolina first-permit applicants can distinguish the two certificates without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const guide = file("north-carolina-dmv-road-signs-practice");
+      await page.goto(guide);
+      const entry = page.getByRole("link", { name: "North Carolina first-permit visit", exact: true });
+      assert.equal(await entry.count(), 1);
+      await entry.press("Enter");
+      await page.waitForURL(guide + "#north-carolina-first-permit");
+      const section = page.locator("#north-carolina-first-permit");
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      const cards = section.getByRole("article");
+      assert.equal(await cards.count(), 3);
+      assert.match(await cards.nth(0).innerText(), /October 1, 2026.*no longer need.*Driving Eligibility Certificate.*still need.*Driver's Education Certificate/is);
+      assert.match(await cards.nth(1).innerText(), /written consent.*written, sign and vision tests/is);
+      assert.match(await cards.nth(2).innerText(), /18 or older.*in person.*learner's permit.*not required.*liability insurance/is);
+      for (const [i, pageName] of ["level1.aspx", "level1.aspx", "license-learner-permit.aspx"].entries()) {
+        const source = new URL(await cards.nth(i).getByRole("link").getAttribute("href"));
+        assert.equal(source.hostname, "www.ncdot.gov");
+        assert.ok(source.pathname.endsWith("/Pages/" + pageName));
+      }
+      assert.match(await page.getByRole("link", { name: /Session Law 2026-46/ }).getAttribute("href"), /ncleg\.gov\/.*\/SL2026-46\.html$/);
+      assert.equal(await section.locator("form, input").count(), 0);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: Illinois keeps the posted work-zone limit separate from school-zone conditions`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

@@ -14479,6 +14479,7 @@
       "heroActions": [
         {"label": "Try the no-choice sign drill", "href": "#north-carolina-sign-recall"},
         {"label": "Compare NC school bus rules", "href": "#north-carolina-school-bus"},
+        {"label": "North Carolina first-permit visit", "href": "#north-carolina-first-permit"},
         {"label": "Check knowledge and sign scores", "href": "dmv-permit-test-passing-score-calculator.html?state=north-carolina#score-calculator"},
         {"label": "Nationwide picture quiz", "href": "road-signs-practice-test.html?mode=road-signs-core#practice"},
         {"label": "State test details", "href": "#official-details"},
@@ -14625,7 +14626,7 @@
           {
             "step": "04",
             "title": "Check current retake guidance",
-            "text": "NCDMV currently lists a seven-calendar-day wait for regular Class C test failures."
+            "text": "NCDMV lists a seven-calendar-day wait after a failed regular Class C knowledge or driving test. Ask NCDMV about retaking only the sign test."
           }
         ]
       },
@@ -14639,6 +14640,36 @@
         {
           "heading": "Use the current handbook and sign pages",
           "text": "The official NCDMV Handbooks page links the current handbook plus separate Regulatory Signs and Warning Signs references. Check those official pages for updates and current test instructions."
+        }
+      ],
+      "cardGroups": [
+        {
+          "id": "north-carolina-first-permit",
+          "heading": "North Carolina first permit: which paperwork applies?",
+          "intro": "Choose the permit path for your age before planning an office visit. A practice score or a passed test is not itself a permit.",
+          "items": [
+            {
+              "label": "Ages 15-17",
+              "title": "Keep the driver education certificate",
+              "text": "If an older list asks for two school documents, check which one it means. Since October 1, 2026, teens no longer need a Driving Eligibility Certificate for a Level 1 limited learner permit. They still need the Driver's Education Certificate from the approved course. Use the current list for identity, Social Security number and North Carolina residency documents.",
+              "href": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/level1.aspx",
+              "cta": "NCDMV Level 1 certificate and document list"
+            },
+            {
+              "label": "Ages 15-17",
+              "title": "Arrange who goes with you",
+              "text": "A ride to the office is not the same as consent. If someone other than your parent or guardian is going with you, use the written consent NCDMV requires from a parent or guardian. Check the current office guidance before scheduling the written, sign and vision tests.",
+              "href": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/level1.aspx",
+              "cta": "NCDMV Level 1 office and consent steps"
+            },
+            {
+              "label": "Age 18 or older",
+              "title": "Use the adult learner permit path",
+              "text": "If you are 18 or older and seeking your first learner permit, apply in person using NCDMV's adult document list. For a learner's permit you are not required to show liability insurance; the instructions for a driver's license are different. Confirm your proof of identity and any other documents that apply to you before visiting.",
+              "href": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/license-learner-permit.aspx",
+              "cta": "NCDMV adult permit and license requirements"
+            }
+          ]
         }
       ],
       "faq": [
@@ -14667,6 +14698,10 @@
         {
           "label": "NCDMV: Official Driver Handbook and separate signs pages",
           "url": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/handbooks.aspx"
+        },
+        {
+          "label": "North Carolina Session Law 2026-46, section 9: driving eligibility certificate",
+          "url": "https://www.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2025-2026/SL2026-46.html"
         }
       ],
       "examDetails": {
@@ -14701,7 +14736,7 @@
           },
           {
             "label": "Retest timing",
-            "value": "7 calendar days for regular Class C",
+            "value": "7 calendar days: Class C knowledge or driving test",
             "text": "NCDMV says applicants who fail the regular Class C knowledge or driving test may retake after seven calendar days."
           }
         ]
