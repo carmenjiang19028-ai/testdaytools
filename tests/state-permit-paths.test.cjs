@@ -10,6 +10,7 @@ const file = (slug) => pathToFileURL(path.join(root, `${slug}.html`)).href;
 const caPermit = "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/";
 const caRenewal = "https://www.dmv.ca.gov/portal/driver-education-and-safety/online-learning-and-tests/";
 const caRetake = "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/the-testing-process/";
+const caBike = "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road-cont1/";
 const azTest = "https://azdot.gov/mvd/services/driver-license-ID/permit-test";
 const azTeen = "https://azdot.gov/mvd/services/driver-services/teen-drivers/permit-and-license-requirements";
 const gaExam = "https://dds.georgia.gov/testing-and-training/test-and-exams-information";
@@ -34,6 +35,67 @@ const guideDestinations = [
 ];
 
 for (const width of [320, 1280]) {
+  test(`${width}px: California bicycle passing cases separate changing lanes, waiting, and leaving room`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const tool = file("california-dmv-permit-practice-test");
+      await page.goto(tool);
+      await page.getByRole("link", { name: "Passing a bicyclist", exact: true }).press("Enter");
+      await page.waitForURL(tool + "#california-bicycle-passing");
+      const lesson = page.getByRole("region", { name: /change lanes, leave room, or wait/ });
+      const heading = await lesson.getByRole("heading", { level: 2 }).boundingBox();
+      const header = await page.locator(".site-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height && heading.y < 850);
+      const diagram = lesson.getByRole("img", { name: /both lanes go the same way.*vehicle is approaching in the opposite lane/ });
+      assert.ok(await diagram.evaluate(img => img.complete && img.naturalWidth === 384 && img.naturalHeight === 230));
+      const cases = lesson.locator("details");
+      const expected = [
+        /Change lanes before passing.*same-direction lane.*safe, practical and lawful.*3-foot gap does not replace that step/i,
+        /wait behind the bicyclist.*at least 3 feet.*recheck both clearance and whether the pass is legal and safe/i,
+        /three feet is not a guarantee.*including a mirror.*keep following at a safe distance/i,
+      ];
+      assert.equal(await cases.count(), expected.length);
+      for (const [index, answer] of expected.entries()) {
+        const example = cases.nth(index);
+        assert.equal(await example.locator("p").isVisible(), false);
+        await example.locator("summary").press(index === 0 ? "Space" : "Enter");
+        assert.match(await example.locator("p").innerText(), answer);
+      }
+      assert.equal(await lesson.getByRole("link", { name: /California DMV handbook/ }).getAttribute("href"), caBike);
+      assert.equal(await lesson.getByRole("link", { name: /Highway Patrol FAQ/ }).getAttribute("href"), "https://www.chp.ca.gov/faq/");
+      assert.equal(await lesson.locator("button, input").count(), 0);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.CA_BIKE_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.CA_BIKE_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.CA_BIKE_SCREENSHOTS_DIR, `california-bicycle-passing-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
+  test(`${width}px: the California mock retains its score and teaches the local bicycle passing rule`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      await page.goto(file("california-dmv-permit-practice-test") + "?mode=mock#practice");
+      const quiz = page.locator('[data-mode-panel="mock"].is-active [data-quiz]');
+      assert.equal(await quiz.getAttribute("data-pass-score"), "32");
+      assert.equal(await quiz.getAttribute("data-total"), "40");
+      const question = quiz.locator('[data-prompt="When passing a bicyclist, you should:"]');
+      await quiz.locator(`[data-quiz-jump="${await question.getAttribute("data-question-index")}"]`).press("Enter");
+      assert.ok(await question.isVisible());
+      const source = question.getByRole("link", { name: /California DMV handbook/ });
+      assert.equal(await source.isVisible(), false);
+      await question.getByRole("button", { name: "Leave safe space and pass only when conditions allow", exact: true }).press("Enter");
+      assert.match(await question.locator(".feedback").innerText(),
+        /^Correct\..*same-direction lane.*safe, practical and lawful.*at least 3 feet or waiting/i);
+      assert.equal(await source.getAttribute("href"), caBike);
+      assert.ok(await source.isVisible());
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: North Carolina compares travel lanes and the school-bus stop exception without scripts`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

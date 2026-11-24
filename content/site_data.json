@@ -5824,10 +5824,47 @@
         {"label": "Start practice", "href": "#practice"},
         {"label": "First permit or renewal?", "href": "#california-permit-path"},
         {"label": "After you get a teen permit", "href": "#california-after-permit"},
+        {"label": "Passing a bicyclist", "href": "#california-bicycle-passing"},
         {"label": "Official test facts", "href": "#official-details"},
         {"label": "Study by topic", "href": "#practice-topics"},
         {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=california#dmv-checklist"}
       ],
+      "stateRulePractice": {
+        "id": "california-bicycle-passing",
+        "linkLabel": "Passing a bicyclist",
+        "heading": "California: change lanes, leave room, or wait?",
+        "imageAsset": {
+          "src": "assets/road-sign-materials/california-bicycle-passing.svg",
+          "width": 384,
+          "height": 230
+        },
+        "imageLabel": "Two road layouts. In A a car follows a bicycle and both lanes go the same way; the lane on the left is open. In B a car follows a bicycle and a vehicle is approaching in the opposite lane.",
+        "caption": "A: An open lane goes the same way. B: The adjacent lane carries oncoming traffic. Original diagrams, not to scale.",
+        "scenarios": [
+          {
+            "question": "A: You are behind a bicyclist in your lane. Could you stay in this lane just because you can leave 3 feet, even though a safe, legal lane change is available?",
+            "answer": "Change lanes before passing. When changing into an open same-direction lane is safe, practical and lawful, use that lane. A 3-foot gap does not replace that step. Leave safe space and move back only after clearing the bicyclist."
+          },
+          {
+            "question": "B: Oncoming traffic is approaching and you could leave only about 2 feet. Does slowing down make this pass a good choice?",
+            "answer": "No. Wait behind the bicyclist. The California DMV handbook advises giving at least 3 feet when you cannot change lanes and waiting if you cannot give that much room. Once the oncoming car has passed, recheck both clearance and whether the pass is legal and safe."
+          },
+          {
+            "question": "Later you have 3 feet of room, but parked car doors and rough pavement could force the bicyclist sideways. Is the gap alone enough?",
+            "answer": "No. Three feet is not a guarantee that it is safe to pass. Judge from the closest part of your vehicle, including a mirror, and allow room for the bicyclist to avoid hazards. Keep following at a safe distance if you cannot provide enough room."
+          }
+        ],
+        "sources": [
+          {
+            "label": "California DMV handbook: Passing a Bicyclist",
+            "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road-cont1/"
+          },
+          {
+            "label": "California Highway Patrol FAQ: Bicycle passing and Vehicle Code 21760",
+            "url": "https://www.chp.ca.gov/faq/"
+          }
+        ]
+      },
       "quickFacts": [
         {
           "label": "Practice modes",
@@ -16878,7 +16915,11 @@
         ],
         "answer": 0,
         "category": "Vulnerable road users",
-        "explanation": "Bicyclists may need room to avoid hazards, so safe passing space matters."
+        "explanation": "In California, move into an available same-direction lane before passing a bicyclist in your lane when that move is safe, practical and lawful. If you cannot change lanes, the DMV handbook advises leaving at least 3 feet or waiting until you can. Bicyclists may need more room to avoid hazards.",
+        "source": {
+          "label": "California DMV handbook: Passing a Bicyclist",
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/laws-and-rules-of-the-road-cont1/"
+        }
       },
       {
         "q": "If a tire blows out, what should you do first?",
