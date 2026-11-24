@@ -25,6 +25,12 @@
     "label": "FHWA MUTCD Chapter 2B, Figures 2B-10 and 2B-13",
     "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf"
   },
+  "animalArtCheck": {
+    "date": "2026-11-24",
+    "change": "Redrew the W11-3 Deer Crossing picture as a leaping silhouette and moved it to Warning signs in the reference, flashcards, and picture drill. The reference PDF follows the same group. It is not a school, work-zone, or service sign.",
+    "label": "FHWA MUTCD Figure 2C-15: W11-3 Deer Crossing",
+    "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=49"
+  },
   "sources": [
     {"id": "pa", "label": "PennDOT Driver's Manual, Chapter 2: Signs", "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"},
     {"id": "ny", "label": "New York DMV: Road Signs You Must Know", "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"},

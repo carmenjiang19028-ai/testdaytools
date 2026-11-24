@@ -71,6 +71,39 @@ for (const width of [320, 1280]) {
 }
 
 for (const width of [320, 1280]) {
+  test(`${width}px: the printed reference leads to both Deer Crossing decisions without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      await page.goto(pathToFileURL(path.resolve('dmv-road-signs-cheat-sheet.html')).href);
+      await page.getByRole('link', { name: 'Decide what to do at a Deer Crossing sign', exact: true }).press('Enter');
+      await page.waitForURL(url => url.hash === '#deer-warning-decisions');
+      const lesson = page.locator('#deer-warning-decisions');
+      const picture = lesson.locator('img');
+      assert.match(await picture.getAttribute('src'), /deer-crossing-road-sign\.svg$/);
+      assert.match(await picture.getAttribute('alt'), /four-legged animal with antlers/);
+      assert.ok(await picture.evaluate(img => img.naturalWidth > 0));
+      const before = lesson.getByText('Check the response before a crossing', { exact: true });
+      const after = lesson.getByText('Check the response after a crossing', { exact: true });
+      assert.equal(await lesson.locator('details[open]').count(), 0);
+      await before.press('Enter');
+      assert.match(await lesson.locator('details[open]').innerText(), /Reduce speed.*scan both roadsides/);
+      await after.press('Enter');
+      assert.equal(await lesson.locator('details[open]').count(), 2);
+      assert.match(await lesson.locator('details[open]').last().innerText(), /another deer may follow the first/);
+      const drill = lesson.getByRole('link', { name: 'Practice warning signs', exact: true });
+      assert.equal(await drill.getAttribute('href'), 'road-signs-practice-test.html?mode=road-signs-core&focus=sheet-warning#practice');
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `deer-warning-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+}
+
+for (const width of [320, 1280]) {
   test(`${width}px: STOP sight lines and a one-lane YIELD decision work without scripts`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
     try {

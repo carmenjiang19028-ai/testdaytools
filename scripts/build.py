@@ -113,7 +113,10 @@ DMV_MISTAKE_LOG_PAGE = {
 TOOL_BY_SLUG[DMV_MISTAKE_LOG_SLUG] = DMV_MISTAKE_LOG_PAGE
 
 SCHOOL_WARNING_GREEN = "#c7e644"
-SIGN_SEARCH_ALIASES = {"four-way-stop": "all way stop four-way stop 4-way stop"}
+SIGN_SEARCH_ALIASES = {
+    "four-way-stop": "all way stop four-way stop 4-way stop",
+    "deer-crossing": "animal crossing wildlife",
+}
 ROUNDABOUT_ARROW = '<path d="M126 107 A31 31 0 0 0 136 65" fill="none" stroke="#111" stroke-width="8"/><polygon points="130,55 145,65 127,74" fill="#111"/>'
 ROUNDABOUT_SYMBOL = "".join(f'<g transform="rotate({angle} 110 80)">{ROUNDABOUT_ARROW}</g>' for angle in (0, 120, 240))
 SIGN_SVGS = {
@@ -158,7 +161,18 @@ SIGN_SVGS = {
     "roundabout": f'<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>{ROUNDABOUT_SYMBOL}</svg>',
     "hospital": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="48" y="26" width="124" height="108" rx="8" fill="#0f5fa8"/><text x="110" y="108" text-anchor="middle" fill="#fff" font-size="76" font-weight="900" font-family="Arial, sans-serif">H</text></svg>',
     "hospital-right": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="24" width="144" height="112" rx="8" fill="#0f5fa8"/><text x="82" y="105" text-anchor="middle" fill="#fff" font-size="68" font-weight="900" font-family="Arial, sans-serif">H</text><path d="M116 80 h38" stroke="#fff" stroke-width="11" stroke-linecap="round"/><path d="M146 58 174 80 146 102z" fill="#fff"/></svg>',
-    "deer-crossing": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M78 106 l22-42 25 14 22-18 M100 64 l-12-20 M107 66 l8-24 M125 78 l20 30 M112 82 l-4 34" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/><circle cx="143" cy="58" r="7" fill="#111"/></svg>',
+    "deer-crossing": (
+        '<svg viewBox="0 0 220 160" aria-hidden="true">'
+        '<polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/>'
+        '<g transform="translate(13 10) scale(.88)">'
+        '<path d="M80 56 L88 51 L94 51 L99 47 L98 55 C100 62 97 68 105 74 C114 80 122 79 132 81 '
+        'C136 81 138 84 140 84 L146 78 L143 88 C145 93 140 96 140 99 L146 109 L145 114 L140 113 '
+        'L140 109 L134 102 L128 97 L129 104 L135 110 L133 114 L128 110 L121 101 L118 94 C111 94 104 92 99 89 '
+        'L90 84 L84 88 L91 96 L88 100 L80 92 L78 85 L85 79 L79 79 L79 83 L83 89 L80 92 L74 83 L75 76 '
+        'L87 74 C92 68 88 63 89 59 L83 60 Z" fill="#111"/>'
+        '<path d="M93 53 Q90 46 92 37 M91 45 L86 42 M92 42 L96 39 M96 52 Q101 46 101 40 M100 46 L105 43" '
+        'fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></svg>'
+    ),
     "curve": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M103 124 V103 Q103 76 127 65 L137 60" fill="none" stroke="#111" stroke-width="12"/><path d="M126 51 L149 54 L138 74 Z" fill="#111"/></svg>',
     "winding-road": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 128 C68 109 151 92 105 74 C67 59 132 48 112 34" fill="none" stroke="#111" stroke-width="11" stroke-linecap="round"/><path d="M97 43 l14-20 16 18z" fill="#111"/></svg>',
     "crossroad": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,14 190,80 110,146 30,80" fill="#f6d54a" stroke="#222" stroke-width="5"/><path d="M110 125 V36 M68 80 H152" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/></svg>',
@@ -237,6 +251,7 @@ def render_material_review():
     figures = " and ".join(f'<a href="{esc(figure["url"])}">{esc(figure["label"])}</a>' for figure in followup["figures"])
     control = material["controlArtCheck"]
     direction = material["directionArtCheck"]
+    animal = material["animalArtCheck"]
     return f'''<section class="material-review" id="material-review">
   <h2>Material check: {esc(material["checkedOn"])}</h2>
   <p>{esc(material["scope"])}</p><p>{esc(material["corrections"])}</p>
@@ -244,12 +259,14 @@ def render_material_review():
   <p><strong>{esc(followup["date"])}:</strong> {esc(followup["change"])} {figures}.</p>
   <p><strong>{esc(control["date"])}:</strong> {esc(control["change"])} <a href="{esc(control["url"])}">{esc(control["label"])}</a>.</p>
   <p><strong>{esc(direction["date"])}:</strong> {esc(direction["change"])} <a href="{esc(direction["url"])}">{esc(direction["label"])}</a>.</p>
+  <p><strong>{esc(animal["date"])}:</strong> {esc(animal["change"])} <a href="{esc(animal["url"])}">{esc(animal["label"])}</a>.</p>
 </section>'''
 
 
 def render_material_links():
     links = "".join(f'<li><a href="road-sign-learning-loop.html#lesson-{esc(x["id"])}">{esc(x["title"])}</a></li>' for x in road_sign_materials()["lessons"])
     links += '<li><a href="road-sign-learning-loop.html#direction-sign-comparison">Compare ONE WAY and KEEP RIGHT</a></li>'
+    links += '<li><a href="road-sign-learning-loop.html#deer-warning-decisions">Decide what to do at a Deer Crossing sign</a></li>'
     return f'<section class="content-section"><h2>Understand the distinctions behind a missed sign</h2><ul class="material-links">{links}</ul></section>'
 
 
@@ -376,6 +393,28 @@ def render_direction_sign_comparison():
 </section>'''
 
 
+def render_deer_warning_decisions():
+    return f'''<section class="contrast-lessons speed-sign-lesson" id="deer-warning-decisions" aria-labelledby="deer-warning-heading">
+  <h2 id="deer-warning-heading">Deer Crossing: what changes before and after you see one?</h2>
+  <div class="contrast-lesson-grid">
+    <figure class="contrast-scene">
+      {render_road_sign_image("deer-crossing", ROAD_SIGN_RECALL_CUES["deer-crossing"], lazy=False)}
+      <figcaption>The yellow diamond warns that deer can enter unexpectedly. It can mark a stretch of road, not a particular marked crossing.</figcaption>
+    </figure>
+    <div>
+      <h3>At the sign</h3>
+      <p>At dusk, you pass this sign on a wooded road. Nothing is in your lane or on the shoulder yet. Do you need to wait until you see an animal to change how you drive?</p>
+      <details class="contrast-transfer"><summary>Check the response before a crossing</summary><p>No. Reduce speed for the limited visibility and scan both roadsides. Give yourself time to react without treating the sign as a required stop.</p></details>
+      <h3>After the first crossing</h3>
+      <p>One deer runs across and disappears into the trees. Your lane is clear again. Should you immediately return to your previous speed?</p>
+      <details class="contrast-transfer"><summary>Check the response after a crossing</summary><p>Stay slow and keep scanning: another deer may follow the first. One clear lane is not evidence that the crossing activity has ended.</p></details>
+      <p><a href="road-signs-practice-test.html?mode=road-signs-core&amp;focus=sheet-warning#practice">Practice warning signs</a></p>
+    </div>
+  </div>
+  <p class="contrast-source">Sources: <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=49">FHWA MUTCD Figure 2C-15 and Section 2C.55</a> for the warning sign; <a href="https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-10-special-driving-conditions">New York DMV: Special Driving Conditions</a> for the driving response. These are original practice situations, not official test questions.</p>
+</section>'''
+
+
 def render_contrast_lessons():
     material = road_sign_materials()
     sources = {s["id"]: s for s in material["sources"]}
@@ -412,7 +451,7 @@ def render_contrast_lessons():
     return (
         '<section class="contrast-lessons" aria-labelledby="contrast-lessons-title"><h2 id="contrast-lessons-title">Three distinctions, with the reason behind the action</h2>'
         + "".join(lessons) + "</section>" + render_speed_sign_comparison()
-        + render_direction_sign_comparison() + render_material_review()
+        + render_direction_sign_comparison() + render_deer_warning_decisions() + render_material_review()
     )
 
 

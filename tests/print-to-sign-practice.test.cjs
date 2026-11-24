@@ -27,8 +27,8 @@ async function withSheet(width, run) {
 
 const paths = [
   ["Regulatory traffic signs", "regulatory-traffic-signs-practice-test", "regulatory-signs-core", "all", 16],
-  ["Warning signs", "road-signs-practice-test", "road-signs-core", "sheet-warning", 19],
-  ["School, work-zone, and service signs", "road-signs-practice-test", "road-signs-core", "sheet-school-work-service", 7],
+  ["Warning signs", "road-signs-practice-test", "road-signs-core", "sheet-warning", 20],
+  ["School, work-zone, and service signs", "road-signs-practice-test", "road-signs-core", "sheet-school-work-service", 6],
 ];
 
 for (const [label, slug, mode, focus, count] of paths) {

@@ -43,6 +43,24 @@ class CoreMaterialTests(unittest.TestCase):
         self.assertEqual(len(polygon.attrib["points"].split()), 5)
         self.assertTrue(all(key in SIGN_SVGS for key in CLASSROOM_SIGNS.values()))
 
+    def test_deer_crossing_is_a_warning_in_the_reference_and_print(self):
+        groups = TOOL_BY_SLUG["road-signs-practice-test"]["signLibrary"]["groups"]
+        deer = [(group["label"], item["title"]) for group in groups for item in group["signs"]
+                if item["image"] == "deer-crossing"]
+        self.assertEqual(deer, [("Warning signs", "Deer Crossing")])
+        art = ET.fromstring(SIGN_SVGS["deer-crossing"])
+        self.assertEqual(art.find("polygon").get("fill"), "#f6d54a")
+        self.assertEqual(art.findall(".//path")[0].get("fill"), "#111")
+        self.assertIsNone(art.find(".//circle"))
+        self.assertNotIn("deer-crossing", CLASSROOM_SIGNS.values())
+        pages = PdfReader(ROOT / "dmv-road-signs-cheat-sheet.pdf").pages
+        self.assertEqual(len(pages), 3)
+        warning = " ".join(pages[1].extract_text().split())
+        special = " ".join(pages[2].extract_text().split())
+        self.assertIn("Warning signs", warning)
+        self.assertIn("Deer Crossing Slow and scan both roadsides.", warning)
+        self.assertNotIn("Deer Crossing", special)
+
     def test_school_warning_color_is_consistent_in_inline_art_and_recall_cue(self):
         school = ET.fromstring(SIGN_SVGS["school-crossing"]).find("polygon")
         # FHWA MUTCD 7B.01(05): fluorescent yellow-green, not general warning yellow.

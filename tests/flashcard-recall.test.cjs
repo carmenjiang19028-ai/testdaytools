@@ -209,7 +209,19 @@ test("a flashcard opens the same picture group as the printable reference", () =
     await page.getByRole("searchbox", { name: "Search cards" }).fill("hospital");
     await active(page).getByRole("link", { name: "Practice this group" }).click();
     await page.waitForURL(url => url.searchParams.get("focus") === "sheet-school-work-service");
-    assert.match(await page.locator("[data-mode-panel].is-active [data-quiz-position]").textContent(), /of 7/);
+    assert.match(await page.locator("[data-mode-panel].is-active [data-quiz-position]").textContent(), /of 6/);
+  }));
+
+test("the former Animal Crossing name still finds the Deer Crossing card in the warning group", () =>
+  withDeck(320, async page => {
+    await queue(page).selectOption("warning");
+    await page.getByRole("searchbox", { name: "Search cards" }).fill("animal crossing");
+    assert.equal(await active(page).getAttribute("data-card-id"), "deer-crossing");
+    await reveal(page).press("Enter");
+    assert.equal(await active(page).getByText("Deer Crossing", { exact: true }).isVisible(), true);
+    await active(page).getByRole("link", { name: "Practice this group", exact: true }).click();
+    await page.waitForURL(url => url.searchParams.get("focus") === "sheet-warning");
+    assert.match(await page.locator("[data-mode-panel].is-active [data-quiz-position]").textContent(), /of 20/);
   }));
 
 test("flashcard disclosures distinguish local card identity, measured marks and the analytics opt-out", () =>

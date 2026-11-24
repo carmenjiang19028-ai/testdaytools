@@ -6635,6 +6635,11 @@
                 "image": "bicycle-crossing",
                 "title": "Bicycle Crossing",
                 "meaning": "Watch for bicycles entering or crossing. Yellow-green can carry the same warning."
+              },
+              {
+                "image": "deer-crossing",
+                "title": "Deer Crossing",
+                "meaning": "Slow and scan both roadsides. When one deer crosses, others may follow."
               }
             ]
           },
@@ -6666,11 +6671,6 @@
                 "image": "hospital",
                 "title": "Hospital",
                 "meaning": "A hospital or medical service is nearby."
-              },
-              {
-                "image": "deer-crossing",
-                "title": "Animal Crossing",
-                "meaning": "Animals may enter the road; slow and scan shoulders."
               }
             ]
           }
