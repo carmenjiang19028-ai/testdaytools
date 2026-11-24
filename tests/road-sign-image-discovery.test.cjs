@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const { before, after, test } = require("node:test");
 const { execFileSync } = require("node:child_process");
 const fs = require("node:fs");
+const { createServer } = require("node:http");
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const { chromium } = require("playwright");
@@ -12,18 +13,46 @@ const root = path.resolve(__dirname, "..");
 const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
 const pages = ["road-signs-practice-test.html", "dmv-road-signs-cheat-sheet.html"];
 let browser;
+let printServer;
+let printOrigin;
+
+const printFixtures = new Map([
+  ["/dmv-road-signs-cheat-sheet.html", "text/html"],
+  ["/assets/styles.css", "text/css"],
+  ["/assets/app.js", "text/javascript"],
+  ["/dmv-road-signs-cheat-sheet.pdf", "application/pdf"],
+  ["/dmv-road-signs-classroom-worksheet.pdf", "application/pdf"],
+]);
 
 before(async () => {
   browser = await chromium.launch({ channel: "chrome", headless: true });
+  printServer = createServer((request, response) => {
+    const pathname = new URL(request.url, "http://localhost").pathname;
+    const contentType = printFixtures.get(pathname);
+    if (!contentType) return response.writeHead(404).end();
+    response.writeHead(200, { "Content-Type": contentType });
+    response.end(fs.readFileSync(path.join(root, pathname)));
+  });
+  await new Promise((resolve, reject) => {
+    printServer.once("error", reject).listen(0, "127.0.0.1", resolve);
+  });
+  printOrigin = `http://127.0.0.1:${printServer.address().port}`;
   if (screenshots) fs.mkdirSync(screenshots, { recursive: true });
 });
-after(async () => { await browser?.close(); });
+after(async () => {
+  await browser?.close();
+  printServer?.close();
+});
 
-async function openPage(file, viewport = { width: 1280, height: 900 }) {
-  const context = await browser.newContext({ viewport, deviceScaleFactor: 1 });
-  await context.route(/^https?:/, (route) => route.abort());
+async function openPage(file, viewport = { width: 1280, height: 900 }, options = {}) {
+  const { javaScriptEnabled, withoutPrint, served } = options;
+  const context = await browser.newContext({ viewport, deviceScaleFactor: 1, javaScriptEnabled });
+  await context.route(/^https?:/, (route) => (
+    served && new URL(route.request().url()).origin === printOrigin ? route.continue() : route.abort()
+  ));
   const page = await context.newPage();
-  await page.goto(pathToFileURL(path.join(root, file)).href);
+  if (withoutPrint) await page.addInitScript(() => { window.print = undefined; });
+  await page.goto(served ? `${printOrigin}/${file}` : pathToFileURL(path.join(root, file)).href);
   return { context, page };
 }
 
@@ -150,6 +179,26 @@ test("print resource retains printable images, PDF links and a functioning print
     await screenshot(page, "dmv-road-signs-cheat-sheet-print.png");
   } finally { await context.close(); }
 });
+
+for (const options of [
+  { width: 390, javaScriptEnabled: false, label: "without scripts" },
+  { width: 1280, withoutPrint: true, label: "without browser printing" },
+]) {
+  test(`print resource offers both PDF downloads ${options.label}`, async () => {
+    const { context, page } = await openPage(pages[1], { width: options.width, height: 844 }, { ...options, served: true });
+    try {
+      assert.equal(await page.locator("[data-print-page]").isVisible(), false);
+      for (const name of ["Download PDF", "Classroom worksheet + answer key"]) {
+        const link = page.getByRole("link", { name, exact: true });
+        assert.equal(await link.isVisible(), true);
+        const [download] = await Promise.all([page.waitForEvent("download", { timeout: 5000 }), link.click()]);
+        assert.equal(download.suggestedFilename(), await link.getAttribute("href"));
+        assert.equal(fs.readFileSync(await download.path()).subarray(0, 5).toString(), "%PDF-");
+      }
+      assert.equal(await page.locator("#printable-sheet .cheat-sign-card").count(), 31);
+    } finally { await context.close(); }
+  });
+}
 
 test("picture-test preview contains six real sign illustrations at the declared dimensions", async () => {
   const preview = path.join(root, "assets/road-signs-practice-test-preview.png");

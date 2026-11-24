@@ -544,6 +544,7 @@ function initAnalyticsEvents() {
 }
 
 function initPrintableResources() {
+  if (typeof window.print !== "function") return;
   document.querySelectorAll("[data-print-page]").forEach((button) => {
     button.addEventListener("click", () => {
       trackToolEvent("resource_print", {
@@ -551,6 +552,7 @@ function initPrintableResources() {
       });
       window.print();
     });
+    button.hidden = false;
   });
 }
 

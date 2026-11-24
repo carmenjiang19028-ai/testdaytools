@@ -6088,7 +6088,7 @@ button:disabled {
   }
 }
 
-.print-sheet-toolbar button {
+.print-sheet-toolbar button:not([hidden]) {
   min-height: 42px;
   display: inline-flex;
   align-items: center;

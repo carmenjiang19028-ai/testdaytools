@@ -4366,7 +4366,7 @@ def render_road_sign_cheat_sheet_page():
       <div class="hero-actions print-sheet-toolbar">
         <a href="dmv-road-signs-cheat-sheet.pdf" download data-resource-download="dmv_road_signs_cheat_sheet_pdf">Download PDF</a>
         <a href="dmv-road-signs-classroom-worksheet.pdf" download data-resource-download="dmv_road_signs_classroom_worksheet_pdf">Classroom worksheet + answer key</a>
-        <button type="button" data-print-page>Print cheat sheet</button>
+        <button type="button" data-print-page hidden>Print cheat sheet</button>
         <a href="road-signs-practice-test.html?mode=road-signs-starter#practice">Start 10 picture questions</a>
         <a href="dmv-road-sign-flashcards.html">Open flashcards</a>
       </div>
