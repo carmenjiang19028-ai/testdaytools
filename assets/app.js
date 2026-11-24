@@ -3951,6 +3951,9 @@ function initDmvChecklists() {
     const resetPackButton = widget.querySelector("[data-dmv-reset-pack]");
     const packRows = Array.from(widget.querySelectorAll("[data-dmv-pack-row]"));
     const packItems = Array.from(widget.querySelectorAll("[data-dmv-pack-item]"));
+    const controls = Array.from(widget.querySelectorAll("[data-dmv-checklist-controls]"));
+    const fallbacks = widget.querySelectorAll("[data-dmv-checklist-fallback]");
+    const alternative = widget.querySelector("[data-dmv-checklist-alternative]");
     const lastStateKey = "tdt-dmv-test-day:last-state";
     const unsavedMarks = new Map();
 
@@ -4017,7 +4020,7 @@ function initDmvChecklists() {
 
     const preparePrintPlan = () => {
       const option = selectedOption();
-      if (!printPlan || !option) return;
+      if (!printPlan || !option || !controls.some(panel => !panel.hidden)) return;
       refreshMarks();
       const field = (name) => printPlan.querySelector(`[data-dmv-print-${name}]`);
       const setText = (name, value) => {
@@ -4291,12 +4294,8 @@ function initDmvChecklists() {
       }
     });
 
-    let hasUrlState = false;
-    try {
-      hasUrlState = setStateIfAvailable(new URLSearchParams(window.location.search).get("state"));
-    } catch (error) {
-      hasUrlState = false;
-    }
+    const requested = normalizeDmvState(new URLSearchParams(window.location.search).get("state"));
+    const hasUrlState = setStateIfAvailable(requested);
 
     try {
       const lastState = window.localStorage.getItem(lastStateKey);
@@ -4308,9 +4307,32 @@ function initDmvChecklists() {
     }
 
     if (!selectedOption() || !checks.length) return;
-    updateState();
-    widget.querySelectorAll("[data-dmv-checklist-controls]").forEach((controls) => { controls.hidden = false; });
-    widget.querySelectorAll("[data-dmv-checklist-fallback]").forEach((fallback) => { fallback.hidden = true; });
+    const openSavedChecklist = () => {
+      if (alternative) alternative.hidden = true;
+      updateState();
+      controls.forEach(panel => { panel.hidden = false; });
+      fallbacks.forEach(panel => { panel.hidden = true; });
+    };
+    const guideState = requested || normalizeDmvState(readDmvJourney().state);
+    const guide = Array.from(alternative?.querySelectorAll("[data-dmv-checklist-guide-state]") || [])
+      .find(item => item.dataset.dmvChecklistGuideState === guideState);
+    if (alternative && !hasUrlState && (requested || guide)) {
+      if (guide) {
+        const label = guide.dataset.label;
+        alternative.querySelector("h3").textContent = `${label} permit steps`;
+        const link = alternative.querySelector("[data-dmv-checklist-guide-link]");
+        link.href = guide.dataset.permitStepsUrl;
+        link.textContent = `Open ${label} permit steps`;
+      }
+      fallbacks.forEach(panel => { panel.hidden = true; });
+      alternative.hidden = false;
+      alternative.querySelector("[data-dmv-checklist-open-saved]")?.addEventListener("click", () => {
+        openSavedChecklist();
+        stateSelect.focus();
+      }, { once: true });
+      return;
+    }
+    openSavedChecklist();
   });
 }
 

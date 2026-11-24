@@ -59,6 +59,64 @@ const checkedValues = (page, key) => page.evaluate(storageKey => JSON.parse(loca
 const preparedMarks = (page, field) => page.locator(`[data-dmv-print-${field}] .dmv-print-box`).evaluateAll(
   boxes => boxes.filter(box => box.textContent === "X").map(box => box.parentElement.textContent.slice(1)));
 
+for (const [width, requested, label, guide] of [
+  [320, null, "Arizona", "arizona-mvd-road-signs-practice.html#arizona-permit-path"],
+  [1280, "north-carolina", "North Carolina", "north-carolina-dmv-road-signs-practice.html#north-carolina-first-permit"],
+]) {
+  test(`${width}px: a guide-only state never silently opens or prints another state's checklist`, async () => {
+    const context = await localContext(width);
+    try {
+      const page = await context.newPage();
+      const lastStateKey = "tdt-dmv-test-day:last-state";
+      const oldList = "tdt-dmv-test-day:new-york";
+      await page.goto(checklistUrl("new-york"));
+      await visitMark(page, "identity").check();
+      await page.goto(origin + "/dmv-practice.html");
+      await page.locator("[data-workbench-state]").selectOption("Arizona");
+      if (requested) {
+        await page.goto(checklistUrl(requested));
+      } else {
+        await page.locator(".site-header nav").getByRole("link", { name: "Checklist", exact: true }).click();
+        await page.waitForLoadState("load");
+      }
+      const guidePanel = page.locator("[data-dmv-checklist-alternative]");
+      assert.equal(await guidePanel.isVisible(), true);
+      assert.equal(await guidePanel.getByRole("heading", { name: `${label} permit steps` }).isVisible(), true);
+      assert.equal(await guidePanel.getByRole("link", { name: `Open ${label} permit steps` }).getAttribute("href"), guide);
+      assert.equal(await page.locator("[data-dmv-checklist-state]").isVisible(), false);
+      assert.equal(await page.locator("[data-dmv-pack-type]").isVisible(), false);
+      assert.equal(await page.evaluate(key => localStorage.getItem(key), lastStateKey), "new-york");
+      assert.deepEqual(await checkedValues(page, oldList), ["identity"]);
+      const printed = inspectPdf(await page.pdf({ format: "Letter", preferCSSPageSize: true }));
+      assert.match(printed.map(sheet => sheet.text).join(" "), new RegExp(`${label} permit steps`));
+      assert.doesNotMatch(printed.map(sheet => sheet.text).join(" "), /New York DMV test-day plan/);
+
+      await guidePanel.getByRole("button", { name: "Choose a saved checklist" }).press("Enter");
+      assert.equal(await guidePanel.isVisible(), false);
+      const state = page.locator("[data-dmv-checklist-state]");
+      assert.equal(await state.inputValue(), "new-york");
+      assert.equal(await state.evaluate(el => el === document.activeElement), true);
+      assert.equal(await visitMark(page, "identity").isChecked(), true);
+      await page.goto(checklistUrl("florida"));
+      assert.equal(await state.inputValue(), "florida");
+      assert.equal(await guidePanel.isVisible(), false);
+    } finally { await context.close(); }
+  });
+}
+
+test("an unrecognized state parameter points to the state list without choosing a checklist", async () => {
+  const context = await localContext(390);
+  try {
+    const page = await context.newPage();
+    await page.goto(checklistUrl("oregon"));
+    const alternative = page.locator("[data-dmv-checklist-alternative]");
+    assert.equal(await alternative.getByRole("heading", { name: "No saved checklist for this state" }).isVisible(), true);
+    assert.equal(await alternative.getByRole("link", { name: "Browse state permit guides" }).getAttribute("href"), "dmv-practice.html#state-paths");
+    assert.equal(await page.locator("[data-dmv-copy-checklist]").isVisible(), false);
+    assert.equal(await page.evaluate(() => localStorage.getItem("tdt-dmv-test-day:last-state")), null);
+  } finally { await context.close(); }
+});
+
 for (const width of [320, 1280]) {
   test(`${width}px: two checklist tabs preserve distinct marks and print the latest plan and pack`, async () => {
     const context = await localContext(width);

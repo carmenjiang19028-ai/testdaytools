@@ -2577,12 +2577,24 @@ def render_dmv_checklist_widget(widget):
       <div class="dmv-document-grid">{document_cards}</div>
     </div>""" if document_cards else ""
     document_pack = render_dmv_document_pack(widget.get("documentPlanner"), states)
+    guide_only_routes = "".join(
+        f'<template data-dmv-checklist-guide-state="{esc(route["state"])}" '
+        f'data-label="{esc(route["label"])}" data-permit-steps-url="{esc(route["checklist-url"])}"></template>'
+        for route in dmv_workbench_routes() if route["checklist-available"] == "false"
+    )
     return f"""<section class="tool-block dmv-checklist-widget" id="dmv-checklist" data-dmv-checklist>
   <div class="tool-section-head">
     <span class="eyebrow">{esc(widget.get("kicker", "Interactive checklist"))}</span>
     <h2>{esc(widget.get("heading", "DMV test-day readiness checklist"))}</h2>
     <p class="section-intro">{esc(widget.get("intro", "Check the official state source and prepare for your visit."))}</p>
   </div>
+  <section class="dmv-checklist-fallback" data-dmv-checklist-alternative hidden aria-labelledby="dmv-checklist-alternative-title">
+    <h3 id="dmv-checklist-alternative-title">No saved checklist for this state</h3>
+    <p>Confirm your documents and visit details with your state's permit steps.</p>
+    <p><a href="dmv-practice.html#state-paths" data-dmv-checklist-guide-link>Browse state permit guides</a></p>
+    <div class="dmv-checklist-buttons"><button type="button" data-dmv-checklist-open-saved>Choose a saved checklist</button></div>
+    {guide_only_routes}
+  </section>
   <div id="manual-finder">
   <div class="dmv-checklist-fallback" data-dmv-checklist-fallback>
     <h3>Before your permit visit</h3>
