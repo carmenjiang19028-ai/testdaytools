@@ -5204,8 +5204,8 @@
           },
           {
             "id": "mock-score",
-            "label": "Reach the practice target",
-            "text": "Use a full mock round and avoid testing while guesses still drive the score."
+            "label": "Check knowledge-test practice, if needed",
+            "text": "If your visit includes a knowledge test, review the official exam topics and use a full mixed round where available. If only sign practice is available, review the other topics in your state handbook instead of counting a signs score as a full pass."
           },
           {
             "id": "road-signs",

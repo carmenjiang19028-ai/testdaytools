@@ -6,7 +6,8 @@ const fs = require("node:fs");
 
 const origin = "http://testdaytools.test";
 const root = path.resolve(__dirname, "..");
-const { home: homeContent } = require("../content/site_data.json");
+const { home: homeContent, tools } = require("../content/site_data.json");
+const visitChecks = tools.find(tool => tool.slug === "dmv-test-day-checklist").toolWidget.items.map(item => item.id);
 const now = Date.UTC(2026, 10, 20, 9);
 const day = 86400000;
 const journeyKey = "tdt-dmv-journey:v1";
@@ -504,6 +505,51 @@ test("Texas and Illinois do not substitute a signs-only page for mixed practice"
       assert.match(await page.locator("[data-journey-copy]").textContent(), /not a full state mixed round/);
     }
   }));
+
+for (const [width, entry, state] of [[320, "index.html", "illinois"], [1280, "dmv-practice.html", "texas"]]) {
+  test(`${width}px: the study dashboard counts only current, unique visit checks and stops reopening a completed list`, () =>
+    withSite(width, async (page) => {
+      const key = `tdt-dmv-test-day:${state}`;
+      await page.goto(`${origin}/${entry}`);
+      const items = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [
+        `baseline-${i}`, { state: "general", dueAt: now + day },
+      ]));
+      await page.evaluate(({ masteryKey, key, items, checks }) => {
+        localStorage.setItem(masteryKey, JSON.stringify({ items }));
+        localStorage.setItem(key, JSON.stringify({ checked: checks }));
+      }, { masteryKey, key, items, checks: ["documents", "official-source", ...visitChecks.filter(id => id !== "identity")] });
+      await page.locator("[data-journey-state]").selectOption(state);
+      const ready = page.locator('[data-journey-step="ready"]');
+      const progress = ready.locator("[data-journey-step-status]");
+      const next = page.locator("[data-journey-primary]");
+      assert.equal(await progress.textContent(), `${visitChecks.length - 1} of ${visitChecks.length}`);
+      assert.equal(await ready.evaluate(element => element.classList.contains("is-complete")), false);
+      assert.match(await next.getAttribute("href"), new RegExp(`dmv-test-day-checklist.html\\?state=${state}#dmv-checklist$`));
+
+      const checklist = await page.context().newPage();
+      await checklist.goto(`${origin}/dmv-test-day-checklist.html?state=${state}#dmv-checklist`);
+      assert.equal(await checklist.locator("[data-dmv-ready-score]").textContent(), `${Math.round((visitChecks.length - 1) * 100 / visitChecks.length)}%`);
+      assert.match(await checklist.locator('[data-dmv-check][value="mock-score"]').locator("xpath=..").innerText(), /If your visit includes a knowledge test.*If only sign practice is available/is);
+      await checklist.locator('[data-dmv-check][value="identity"]').check();
+      await page.waitForFunction(total => document.querySelector('[data-journey-step="ready"] [data-journey-step-status]')?.textContent === `${total} of ${total}`, visitChecks.length);
+      assert.equal(await ready.evaluate(element => element.classList.contains("is-complete")), true);
+      assert.equal(await checklist.locator("[data-dmv-ready-score]").textContent(), "100%");
+      assert.equal(await passes(page).textContent(), "Not available");
+      assert.match(await next.getAttribute("href"), new RegExp(`${state}-dmv-road-signs-practice.html$`));
+      assert.match(await page.locator("[data-journey-copy]").textContent(), /reviewing signs alone does not establish full exam readiness/i);
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await page.locator(".journey-priority").screenshot({
+          path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `visit-progress-${width}.png`),
+        });
+      }
+      await checklist.locator('[data-dmv-check][value="identity"]').uncheck();
+      await page.waitForFunction(total => document.querySelector('[data-journey-step="ready"] [data-journey-step-status]')?.textContent === `${total - 1} of ${total}`, visitChecks.length);
+      assert.equal(await ready.evaluate(element => element.classList.contains("is-complete")), false);
+      assert.match(await next.getAttribute("href"), /dmv-test-day-checklist/);
+      await checklist.close();
+    }));
+}
 
 for (const width of [390, 1280]) {
   test(`${width}px: DMV planning tools distinguish mixed practice from signs`, () =>

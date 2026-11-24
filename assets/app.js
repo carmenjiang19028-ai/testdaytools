@@ -2643,6 +2643,7 @@ function initDmvJourneyDashboards() {
     const steps = Object.fromEntries(
       Array.from(dashboard.querySelectorAll("[data-journey-step]")).map((step) => [step.dataset.journeyStep, step]),
     );
+    const checkIds = (dashboard.dataset.journeyCheckIds || "").split(" ").filter(Boolean);
 
     const setStep = (name, status, complete = false, active = false) => {
       const step = steps[name];
@@ -2656,7 +2657,8 @@ function initDmvJourneyDashboards() {
     const checklistCount = (state) => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(`tdt-dmv-test-day:${state}`) || "null");
-        return Array.isArray(saved?.checked) ? saved.checked.length : 0;
+        const checked = new Set(Array.isArray(saved?.checked) ? saved.checked : []);
+        return checkIds.filter(id => checked.has(id)).length;
       } catch (error) {
         return 0;
       }
@@ -2718,6 +2720,7 @@ function initDmvJourneyDashboards() {
         Number(session.completedAt) >= twoWeeksAgo
       )).length;
       const readyCount = checklistCount(state);
+      const checklistMarked = checkIds.length > 0 && readyCount === checkIds.length;
       const weak = recent
         ? recent.weak?.[0] || ""
         : Object.entries(journey.weak).sort((a, b) => Number(b[1]) - Number(a[1]))[0]?.[0] || "";
@@ -2743,7 +2746,8 @@ function initDmvJourneyDashboards() {
       }
       setStep("passes", permitPage ? `${Math.min(targetRounds, 2)} of 2` : "Not available", targetRounds >= 2, Boolean(permitPage) && baselineComplete && targetRounds < 2 && !mastery.due);
       const checklistNext = targetRounds >= 2 || (!permitPage && baselineComplete && !mastery.due);
-      setStep("ready", `${readyCount} of 12`, readyCount >= 12, checklistNext && readyCount < 12);
+      const readyStatus = checkIds.length ? `${readyCount} of ${checkIds.length}` : "Check visit list";
+      setStep("ready", readyStatus, checklistMarked, checklistNext && !checklistMarked);
 
       if (recent && recentBox) {
         recentBox.hidden = false;
@@ -2796,30 +2800,32 @@ function initDmvJourneyDashboards() {
         copy.textContent = `Use the ${stateLabel} practice path and official source to fix the rule, then retake a focused round.`;
         primary.href = option.dataset.practiceUrl || "dmv-practice.html";
         primary.textContent = `Review ${stateLabel} rules`;
-      } else if (!permitPage) {
+      } else if (!permitPage && !checklistMarked) {
         kicker.textContent = "Use your state handbook";
         title.textContent = `Confirm ${stateLabel} exam requirements`;
         copy.textContent = "This path includes sign practice but not a full state mixed round. Check the official handbook and confirm the documents, appointment, and rules for your test.";
         primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
         primary.textContent = "Open test-day checklist";
-      } else if (targetRounds < 2) {
+      } else if (permitPage && targetRounds < 2) {
         kicker.textContent = "Check the full practice set";
         title.textContent = targetRounds ? "Meet the practice target once more" : "Meet the full practice target";
         copy.textContent = "Use the full mixed practice for your state. Focused, signs-only and warm-up rounds do not count here. This is a study benchmark, not an official exam result.";
         primary.href = `${permitPage}?mode=mock#practice`;
         primary.textContent = `Start ${stateLabel} mixed practice`;
-      } else if (readyCount < 12) {
+      } else if (!checklistMarked) {
         kicker.textContent = "Move from score to test day";
         title.textContent = `Finish the ${stateLabel} readiness checklist`;
         copy.textContent = "You met both practice targets. Confirm the official exam rules, documents, appointment details, and arrival logistics before test day.";
         primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
         primary.textContent = "Continue checklist";
       } else {
-        kicker.textContent = "Readiness path complete";
-        title.textContent = "Protect the result with one calm final review";
-        copy.textContent = "Use the official source for changes, then stop cramming and keep the final practice short.";
-        primary.href = option.dataset.practiceUrl || "dmv-practice.html";
-        primary.textContent = "Run final review";
+        kicker.textContent = "Checklist marked";
+        title.textContent = "Use one short final review";
+        copy.textContent = permitPage
+          ? "You marked the visit checklist and met the site's practice targets. Check the official source for changes; neither is an official result."
+          : "You marked the visit checklist. Use the official handbook for rules; reviewing signs alone does not establish full exam readiness.";
+        primary.href = (permitPage ? option.dataset.practiceUrl : option.dataset.signUrl) || "dmv-practice.html";
+        primary.textContent = permitPage ? "Run final review" : "Review road signs";
       }
     };
 

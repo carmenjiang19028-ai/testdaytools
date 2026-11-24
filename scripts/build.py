@@ -3761,6 +3761,8 @@ def render_dmv_journey_dashboard():
     states = get_dmv_checklist_states()
     if not states:
         return ""
+    checklist = TOOL_BY_SLUG["dmv-test-day-checklist"]["toolWidget"]["items"]
+    check_ids = " ".join(item["id"] for item in checklist)
     default_state = next((state for state in states if state.get("value") == "florida"), states[0])
     options = []
     for state in states:
@@ -3776,12 +3778,12 @@ def render_dmv_journey_dashboard():
             f'data-source-url="{esc(state.get("manualUrl", "#"))}" '
             f'{"selected" if state is default_state else ""}>{esc(state.get("label", ""))}</option>'
         )
-    return f"""<section class="dmv-journey" data-dmv-journey aria-labelledby="dmv-journey-title">
+    return f"""<section class="dmv-journey" data-dmv-journey data-journey-check-ids="{esc(check_ids)}" aria-labelledby="dmv-journey-title">
   <div class="journey-header">
     <div>
       <p class="eyebrow">Saved on this device</p>
       <h2 id="dmv-journey-title">Your DMV study path</h2>
-      <p class="section-intro">Build a baseline, revisit weak areas, meet your state's mixed-practice targets, and confirm test-day logistics.</p>
+      <p class="section-intro">Build a baseline, revisit weak areas, use mixed practice where available, and confirm test-day logistics.</p>
     </div>
     <label class="journey-state-control">Your state
       <select data-journey-state>{"".join(options)}</select>
@@ -3811,7 +3813,7 @@ def render_dmv_journey_dashboard():
     <article data-journey-step="warmup"><span>1</span><div><strong>Build a 10-question baseline</strong><p>Attempt 10 different questions.</p></div><b data-journey-step-status>Not started</b></article>
     <article data-journey-step="review"><span>2</span><div><strong>Repair the weak area</strong><p>Use misses to choose signs or state rules.</p></div><b data-journey-step-status>Waiting</b></article>
     <article data-journey-step="passes"><span>3</span><div><strong>Meet two mixed-practice targets</strong><p>Two full sets for this state in 14 days. Older scores without a recorded round type stay in history but do not count here.</p></div><b data-journey-step-status>0 of 2</b></article>
-    <article data-journey-step="ready"><span>4</span><div><strong>Finish test-day readiness</strong><p>Confirm documents, source, and visit logistics.</p></div><b data-journey-step-status>0 items</b></article>
+    <article data-journey-step="ready"><span>4</span><div><strong>Mark the test-day checklist</strong><p>Confirm documents, source, and visit logistics.</p></div><b data-journey-step-status>0 of {len(checklist)}</b></article>
   </div>
   <div class="journey-recent" data-journey-recent hidden>
     <span>Latest completed round</span>
