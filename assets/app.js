@@ -196,13 +196,40 @@ const DMV_BASELINE_SIZE = 10;
 const DAY_MS = 86400000;
 const RECENT_PRACTICE_KEY = "tdt-recent-practice";
 const INDEPENDENT_DMV_FOCUSES = ["saved", "due", "baseline"];
-const RETIRED_YIELD_PROMPT = "Why should permit-test practice include both sign meaning and driver action?";
-const RETIRED_YIELD_CHOICES = [
-  "Because signs only matter on highways",
-  "Because test questions often ask what to do, not just what the sign is called",
-  "Because colors are never tested",
-  "Because state manuals do not explain signs",
+const RETIRED_YIELD_ITEMS = [
+  {
+    page: "road-signs-practice-test.html", mode: "road-signs-core",
+    prompt: "Why should permit-test practice include both sign meaning and driver action?",
+    category: "Test strategy", replacementCategory: "Yielding in traffic", answer: 1,
+    choices: [
+      "Because signs only matter on highways",
+      "Because test questions often ask what to do, not just what the sign is called",
+      "Because colors are never tested",
+      "Because state manuals do not explain signs",
+    ],
+  },
+  {
+    page: "regulatory-traffic-signs-practice-test.html", mode: "regulatory-signs-core",
+    prompt: "What is the most useful way to study regulatory traffic signs for a permit test?",
+    category: "Permit-test strategy", replacementCategory: "Yield at a separate turn", answer: 1,
+    legacyFocus: true, legacyClue: "Yield sign used for permit-test strategy",
+    choices: [
+      "Memorize color only and ignore driver action",
+      "Connect each sign to the action it requires or prohibits",
+      "Study only blue service signs",
+      "Skip state handbook wording completely",
+    ],
+  },
 ];
+const retiredYieldMasteryIds = new Set(RETIRED_YIELD_ITEMS.map(item =>
+  `general|${masteryToken(item.prompt)}|${masteryToken(item.choices[item.answer])}`));
+
+const currentDmvQuizFocus = (focus) => {
+  const page = window.location.pathname.split("/").pop();
+  const former = RETIRED_YIELD_ITEMS.find(item =>
+    item.legacyFocus && item.page === page && item.category.toLowerCase() === focus.toLowerCase());
+  return former?.replacementCategory || focus;
+};
 
 const recentPracticeStorageKey = (focus) => INDEPENDENT_DMV_FOCUSES.includes(focus)
   ? `${RECENT_PRACTICE_KEY}:${focus}` : RECENT_PRACTICE_KEY;
@@ -310,9 +337,8 @@ function isDmvReviewDue(record, now) {
 function getDmvMasterySummary(state = "", mastery = readDmvMastery()) {
   const selectedState = normalizeDmvState(state);
   const now = Date.now();
-  const retiredYield = `general|${masteryToken(RETIRED_YIELD_PROMPT)}|${masteryToken(RETIRED_YIELD_CHOICES[1])}`;
   const records = Object.entries(mastery.items).filter(([id, item]) => {
-    if (id === retiredYield) return false;
+    if (retiredYieldMasteryIds.has(id)) return false;
     const itemState = normalizeDmvState(item?.state);
     return !selectedState || itemState === selectedState || itemState === "general";
   });
@@ -747,6 +773,7 @@ function initQuizzes() {
     const pageName = window.location.pathname.split("/").pop() || "index.html";
     const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
     const supportsBaseline = isDmvQuiz && pageName === PICTURE_PRACTICE_PAGE && mode === PICTURE_REVIEW_MODE;
+    const retiredItem = isDmvQuiz && RETIRED_YIELD_ITEMS.find(item => item.page === pageName && item.mode === mode);
     const pictureLessonFor = (question) => supportsBaseline && mistakeStorageAvailable && question
       ? PICTURE_REVIEW_LESSONS.find(lesson => lesson.images.includes(question.dataset.flashcardKey))
       : undefined;
@@ -790,11 +817,11 @@ function initQuizzes() {
           const sameSign = row[5] === rows[index][5] || (version === 1 && row[5] === null)
             || signIdentifiers(questions[index]).includes(row[5]);
           if (row.every((value, field) => field === 2 || (field === 5 ? sameSign : value === rows[index][field]))) continue;
-          // Carry over only drafts with the exact retired YIELD item. Its old answer is never regraded.
-          const retiredYield = supportsBaseline && sameSign && rows[index][5] === "image:yield"
-            && rows[index][3] === "Yielding in traffic" && row[4] === rows[index][4]
-            && row[0] === RETIRED_YIELD_PROMPT && row[1] === "1" && row[3] === "Test strategy"
-            && RETIRED_YIELD_CHOICES.every((choice, i) => row[i + 6] === choice);
+          // Carry over only explicitly recognized retired items. Their old answers are never regraded.
+          const retiredYield = retiredItem && (sameSign || row[5] === retiredItem.legacyClue) && rows[index][5] === "image:yield"
+            && rows[index][3] === retiredItem.replacementCategory && row[4] === rows[index][4]
+            && row[0] === retiredItem.prompt && row[1] === String(retiredItem.answer) && row[3] === retiredItem.category
+            && retiredItem.choices.every((choice, i) => row[i + 6] === choice);
           if (!retiredYield) return null;
           changed.add(index);
         }
@@ -1547,6 +1574,7 @@ function initQuizzes() {
         initialFocus = "";
       }
       if (!initialFocus) return;
+      initialFocus = currentDmvQuizFocus(initialFocus);
       const match = Array.from(filterSelect.options).find(
         (option) => option.value.toLowerCase() === initialFocus.toLowerCase()
       );
@@ -1930,7 +1958,7 @@ function initModeTools() {
       activate(requestedMode);
       return;
     }
-    const focus = (params.get("focus") || "").trim().toLowerCase();
+    const focus = currentDmvQuizFocus((params.get("focus") || "").trim()).toLowerCase();
     if (!focus || ["all", "saved", "due"].includes(focus)) return;
     // Quiz filters are populated before modes initialize, including study-sheet groups.
     const matchingPanel = panels.find((panel) => !panel.hasAttribute("data-mode-explicit-only") &&

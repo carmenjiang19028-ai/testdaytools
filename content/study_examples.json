@@ -1,4 +1,27 @@
 {
+  "regulatory-traffic-signs-practice-test": {
+    "id": "yield-turn-lane",
+    "heading": "Follow the control for your own lane",
+    "intro": "First locate the sign or signal that governs your lane. Then check who is in your path. This is a practice situation, not an official exam question.",
+    "examples": [
+      {
+        "title": "A red light next to a separate turn lane",
+        "question": "A raised island separates your right-turn lane from the lanes that go straight. Those lanes have a red light. Your turn lane has only a YIELD sign; no one is crossing and you have a clear view of a safe gap. Does the red light for the other lanes require you to stop here?",
+        "steps": [
+          "The red light is for the through lanes in this example. Your own lane is controlled by YIELD.",
+          "Slow and check for people crossing, cyclists, and traffic on the road you will join. When the path is clear and the gap is safe, YIELD alone does not require a complete stop.",
+          "A lane separated by an island can have its own signal. Look at the controls in the actual lane, not just the shape of the intersection."
+        ],
+        "mistake": "Do not wait for or follow an adjacent light as if it applies to your lane. An apparent gap is not safe if you cannot see the crossing or incoming traffic.",
+        "check": "The through light turns green, but a cyclist enters the crossing in the separate turn lane. Is the turn now clear?",
+        "answer": "No. The YIELD sign still controls your lane. Wait for the cyclist to clear your path, then check for a safe traffic gap before turning.",
+        "source": {
+          "label": "FHWA MUTCD Section 2B.10: YIELD on a separate turn lane",
+          "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=13"
+        }
+      }
+    ]
+  },
   "new-york-dmv-permit-practice-test": {
     "id": "ny-headlight-cases",
     "heading": "New York headlight decisions: rain, fog and night driving",

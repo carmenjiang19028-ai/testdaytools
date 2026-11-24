@@ -6847,6 +6847,10 @@
       "description": "Practice regulatory signs that state traffic laws and driver actions: stop, yield, Do Not Enter, Wrong Way, speed limit, One Way, no-turn, keep-right, and no-passing signs.",
       "heroKicker": "Regulatory traffic signs",
       "summary": "Regulatory signs are traffic signs that state laws, limits, right-of-way rules, required directions, and prohibited movements. Practice 16 picture questions, then move into state-specific DMV practice when the sign action is clear.",
+      "heroActions": [
+        {"label": "Start 16-question practice", "href": "?mode=regulatory-signs-core#practice"},
+        {"label": "Compare controls at a separate turn lane", "href": "#yield-turn-lane"}
+      ],
       "quickFacts": [
         {
           "label": "Practice size",
@@ -23070,18 +23074,22 @@
         "explanation": "A red circle with a slash is a common prohibition symbol. The action shown by the symbol is not allowed."
       },
       {
-        "q": "What is the most useful way to study regulatory traffic signs for a permit test?",
+        "q": "An island separates your right-turn lane from the through lanes. This sign controls your lane; there is no signal for the turn. The through signal is green and a person is crossing your lane. What should you do?",
         "image": "yield",
-        "imageAlt": "Yield sign used for permit-test strategy",
-        "category": "Permit-test strategy",
+        "imageAlt": "Red and white YIELD sign",
+        "category": "Yield at a separate turn",
         "choices": [
-          "Memorize color only and ignore driver action",
-          "Connect each sign to the action it requires or prohibits",
-          "Study only blue service signs",
-          "Skip state handbook wording completely"
+          "Turn because the green light for through traffic also gives you priority",
+          "Yield to the person, then turn only when the path is clear and there is a safe gap",
+          "Stop briefly, then turn before the person finishes crossing",
+          "Wait for the through signal to turn red, then turn without checking for a gap"
         ],
         "answer": 1,
-        "explanation": "Permit-test questions often ask what a driver should do. Pair each regulatory sign with the required or prohibited action."
+        "explanation": "The green light in the through lanes does not control this separate turn. Slow down and stop if needed for the person crossing. After the path clears, check traffic on the road you are joining before you turn.",
+        "source": {
+          "label": "PennDOT Driver Manual: How to respond to YIELD",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"
+        }
       }
     ]
   },

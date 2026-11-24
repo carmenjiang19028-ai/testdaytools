@@ -23,6 +23,15 @@ const retiredYield = [
   "Because colors are never tested",
   "Because state manuals do not explain signs",
 ];
+const retiredRegulatoryYield = [
+  "What is the most useful way to study regulatory traffic signs for a permit test?",
+  "1", "Permit-test questions often ask what a driver should do. Pair each regulatory sign with the required or prohibited action.",
+  "Permit-test strategy", null, "Yield sign used for permit-test strategy",
+  "Memorize color only and ignore driver action",
+  "Connect each sign to the action it requires or prohibits",
+  "Study only blue service signs",
+  "Skip state handbook wording completely",
+];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -278,6 +287,51 @@ test("a retired strategy item no longer leaves a stale due count or review quest
     await page.goto(core + "&focus=due#practice");
     assert.equal(await active(page).locator("[data-quiz-jump]").count(), 0);
     assert.deepEqual(await read(page, masteryKey), oldMastery);
+  }));
+
+test("a full regulatory draft keeps the other answers and does not grade the retired strategy answer again", () =>
+  withSite(390, async page => {
+    const url = origin + "/regulatory-traffic-signs-practice-test.html?mode=regulatory-signs-core";
+    await page.goto(url + "#practice");
+    const quiz = active(page);
+    await answer(quiz, true);
+    const saved = await read(page, recentKey);
+    const replaced = 15;
+    await page.evaluate(({ saved, recentKey, masteryKey, old, index }) => {
+      const rows = JSON.parse(saved.draft.signature);
+      rows[index] = old;
+      saved.draft.signature = JSON.stringify(rows);
+      saved.draft.picks.push([index, 1]);
+      saved.draft.position = saved.draft.sequence.indexOf(index);
+      saved.answered = 2;
+      saved.correct = 2;
+      localStorage.setItem(recentKey, JSON.stringify(saved));
+
+      const mastery = JSON.parse(localStorage.getItem(masteryKey));
+      const id = ["general", old[0].toLowerCase(), old[7].toLowerCase()].join("|");
+      mastery.items[id] = {
+        state: "general", prompt: old[0], category: old[3], dueAt: Date.now() - 1, misses: 1, attempts: 1,
+      };
+      localStorage.setItem(masteryKey, JSON.stringify(mastery));
+    }, { saved, recentKey, masteryKey, old: retiredRegulatoryYield, index: replaced });
+    const before = await read(page, recentKey);
+    const mastery = await read(page, masteryKey);
+    await page.goto(study);
+    assert.equal(await page.locator("[data-journey-due]").innerText(), "0 questions");
+    await resume(page);
+    assert.equal(await progress(quiz), "1 of 16 answered");
+    assert.equal(await cursor(quiz), String(replaced));
+    assert.equal(await quiz.locator('[data-question-index="0"] [data-choice]:disabled').count(), 4);
+    assert.equal(await question(quiz).locator("[data-choice]:enabled").count(), 4);
+    assert.equal(await question(quiz).locator("[data-quiz-source]").isVisible(), false);
+    assert.deepEqual(await read(page, recentKey), before);
+    assert.deepEqual(await read(page, masteryKey), mastery);
+    assert.deepEqual(await milestones(page), []);
+    await question(quiz).getByRole("button", { name: /Yield to the person, then turn only/ }).press("Enter");
+    assert.equal(await progress(quiz), "2 of 16 answered");
+    assert.match(await question(quiz).locator(".feedback").innerText(), /^Correct\..*through lanes does not control this separate turn/);
+    assert.equal(await question(quiz).getByRole("link", { name: /PennDOT Driver Manual/ }).isVisible(), true);
+    assert.equal(await quiz.getAttribute("data-pass-score"), "13");
   }));
 
 test("a due draft skips the retired item without completing or rewriting the old round", () =>

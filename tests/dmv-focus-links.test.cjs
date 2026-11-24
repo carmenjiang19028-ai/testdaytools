@@ -11,7 +11,7 @@ const targets = [
   ["california-dmv-road-signs-practice.html", "Directional signs", "signs"],
   ["new-york-dmv-road-signs-practice.html", "Warning signs", "signs"],
   ["florida-dmv-road-signs-practice.html", "Work zone signs", "signs"],
-  ["regulatory-traffic-signs-practice-test.html", "Permit-test strategy", "regulatory-signs-core"],
+  ["regulatory-traffic-signs-practice-test.html", "Yield at a separate turn", "regulatory-signs-core"],
 ];
 const reviewPaths = [
   ["california-dmv-permit-practice-test", "california-dmv-road-signs-practice", "practice", "ca-curb-checkpoint"],
@@ -354,6 +354,43 @@ for (const [file, focus, expected] of targets) {
       assert.equal(await mode(page).locator(".question.is-active").getAttribute("data-category"), focus);
       assert.equal(await page.evaluate(() => window.dataLayer.filter(e => e[0] === "event" && e[1] === "practice_mode_select").length), 0);
     }));
+}
+
+test("old regulatory strategy links open the replacement one-question practice", () =>
+  open(390, async page => {
+    const file = "regulatory-traffic-signs-practice-test.html";
+    for (const params of [{ focus: "Permit-test strategy" }, { mode: "regulatory-signs-core", focus: "Permit-test strategy" }]) {
+      await page.goto(urlFor(file, params).href);
+      assert.equal(await mode(page).getAttribute("data-mode-panel"), "regulatory-signs-core");
+      assert.equal(await filter(page).inputValue(), "Yield at a separate turn");
+      assert.match(await mode(page).locator("[data-quiz-position]").textContent(), /Question 1 of 1/);
+      assert.match(await mode(page).locator(".question.is-active h3").textContent(), /person is crossing your lane/);
+    }
+  }));
+
+for (const width of [320, 1280]) {
+  test(`${width}px: a separate turn lane lesson explains red and green through signals without JavaScript`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      await page.goto(urlFor("regulatory-traffic-signs-practice-test.html").href);
+      await page.getByRole("link", { name: "Compare controls at a separate turn lane", exact: true }).press("Enter");
+      await page.waitForURL("**/regulatory-traffic-signs-practice-test.html#yield-turn-lane");
+      const lesson = page.locator("#yield-turn-lane");
+      assert.equal(await lesson.locator("details[open]").count(), 0);
+      await lesson.getByText("Show reasoning", { exact: true }).press("Enter");
+      assert.match(await lesson.locator("details[open]").innerText(), /red light is for the through lanes.*YIELD alone does not require a complete stop/is);
+      await lesson.getByText("Check", { exact: true }).press("Enter");
+      assert.match(await lesson.locator("details[open]").last().innerText(), /Wait for the cyclist.*safe traffic gap/);
+      assert.match(await lesson.locator("a").getAttribute("href"), /\.gov\/.*Chapter2br1.pdf#page=13$/);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.VERIFY_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `yield-turn-lane-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
 }
 
 test("explicit modes, compatible starter filters and unknown focus keep their original behavior", () =>
