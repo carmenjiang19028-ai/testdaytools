@@ -29,6 +29,67 @@ const tracked = (page) => page.evaluate(() => (window.dataLayer || [])
   .filter((entry) => entry[0] === "event" && entry[1] === "dmv_score_checked")
   .map((entry) => entry[2]));
 
+const directSources = {
+  california: "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/",
+  "new-york": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-1-driver-licenses",
+  "new-jersey": "https://www.nj.gov/mvc/license/sample_knowledge_test.htm",
+};
+
+test("California, New York and New Jersey verification links lead to the direct published rules", async () => {
+  const { context, page } = await openScore();
+  try {
+    const selector = page.locator("[data-score-state]");
+    assert.equal(await page.locator("[data-score-fallback]").isVisible(), false);
+    assert.equal(await selector.isVisible(), true);
+    assert.equal(await page.locator("#score-filter").isVisible(), true);
+    for (const [state, url] of Object.entries(directSources)) {
+      await selector.selectOption(state);
+      assert.equal(await page.locator("[data-score-source]").getAttribute("href"), url);
+      assert.equal(await page.locator(`#${state}-permit-test-passing-score`).getByText("Verify official rule").getAttribute("href"), url);
+      const label = await selector.locator(`option[value="${state}"]`).textContent();
+      const row = page.locator("#score-table tbody tr").filter({ has: page.getByRole("rowheader", { name: label, exact: true }) });
+      assert.equal(await row.locator("td:last-child a").getAttribute("href"), url);
+    }
+    await selector.selectOption("california");
+    await totalInput(page).fill("37");
+    assert.match(await page.locator("[data-score-count-answer]").innerText(), /37 questions: need 30 correct; can miss up to 7/);
+    assert.deepEqual(await tracked(page), []);
+  } finally { await context.close(); }
+});
+
+for (const [width, scriptsOff] of [[320, true], [1280, false]]) {
+  test(`${width}px: manual score math and direct state rules stay usable with ${scriptsOff ? "JavaScript disabled" : "script load failure"}`, async () => {
+    const origin = "http://tdt-score.test";
+    const context = await browser.newContext({ viewport: { width, height: 860 }, javaScriptEnabled: !scriptsOff });
+    await context.route(/^https?:/, route => route.abort());
+    await context.route(origin + "/**", route => {
+      const file = new URL(route.request().url()).pathname.slice(1);
+      if (!scriptsOff && file === "assets/app.js") return route.abort();
+      return route.fulfill({ path: path.join(root, file) });
+    });
+    try {
+      const page = await context.newPage();
+      await page.goto(`${origin}/dmv-permit-test-passing-score-calculator.html?state=new-york#score-calculator`);
+      assert.equal(await page.locator("[data-score-check]").isVisible(), false);
+      assert.equal(await page.locator("[data-score-state]").isVisible(), false);
+      assert.equal(await page.locator("#score-filter").isVisible(), false);
+      assert.equal(await page.locator("#score-table table").isVisible(), true);
+      const fallback = page.locator("[data-score-fallback]");
+      await fallback.getByRole("link", { name: "See a worked miss-limit example" }).press("Enter");
+      await page.waitForURL(url => url.hash === "#score-manual-math");
+      const example = page.locator("#score-manual-math");
+      assert.match(await example.innerText(), /multiply.*round.*up.*subtract/is);
+      assert.match(await example.innerText(), /37 questions.*80%.*29\.6.*30 correct.*7 misses.*example.*not an official test length/is);
+      const ny = page.locator("#new-york-permit-test-passing-score");
+      assert.match(await ny.innerText(), /at least 2 of the 4 sign questions/i);
+      assert.equal(await ny.getByText("Verify official rule").getAttribute("href"), directSources["new-york"]);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (screenshots) await example.screenshot({ path: path.join(screenshots, `manual-score-${width}.png`) });
+    } finally { await context.close(); }
+  });
+}
+
 for (const width of [320, 1280]) {
   test(`${width}px: custom practice scores lead to the right preparation, not final readiness`, async () => {
     const { context, page } = await openScore({ width, height: 844 });

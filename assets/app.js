@@ -3486,6 +3486,10 @@ function initDmvScoreCalculators() {
     });
     setStateFromQuery();
     renderState();
+    if (!currentOption() || !scoreForm || !totalInput || !correctInput) return;
+    widget.querySelectorAll("[data-score-interactive]").forEach((controls) => { controls.hidden = false; });
+    const fallback = widget.querySelector("[data-score-fallback]");
+    if (fallback) fallback.hidden = true;
   });
 }
 

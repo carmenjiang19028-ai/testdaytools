@@ -826,6 +826,8 @@ def dmv_score_records(include_supplemental=False):
             "rule": "80% or better",
             "miss": "Depends on current test length",
             "note": "California DMV currently publishes an 80% passing score. Enter the question count shown for your test path to calculate the miss limit.",
+            "ruleUrl": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/",
+            "ruleLabel": "California DMV instruction permit requirements",
         },
         "new-york": {
             "questions": 20,
@@ -837,6 +839,8 @@ def dmv_score_records(include_supplemental=False):
             "sectionQuestions": 4,
             "sectionCorrect": 2,
             "sectionIncluded": True,
+            "ruleUrl": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-1-driver-licenses",
+            "ruleLabel": "New York DMV Chapter 1: Vision and Knowledge Tests",
         },
         "texas": {
             "questions": "",
@@ -882,6 +886,8 @@ def dmv_score_records(include_supplemental=False):
             "rule": "40 correct out of 50 questions",
             "miss": "10",
             "note": "New Jersey MVC describes a 50-question knowledge test with an 80% passing standard.",
+            "ruleUrl": "https://www.nj.gov/mvc/license/sample_knowledge_test.htm",
+            "ruleLabel": "New Jersey MVC sample test and pass rule",
         },
         "georgia": {
             "questions": 20,
@@ -5250,9 +5256,13 @@ def render_dmv_score_calculator():
   <div class="tool-section-head">
     <span class="eyebrow">Score calculator</span>
     <h2>How many questions can you miss on the DMV permit test?</h2>
-    <p class="section-intro">Choose a state and enter the number of questions to see how many you can miss. Add your correct answers to compare a practice result with the state rule.</p>
+    <p class="section-intro">A state's passing percentage, test length and any extra sign requirement determine how many answers you can miss.</p>
   </div>
-  <div class="score-grid">
+  <div class="score-manual" data-score-fallback>
+    <h3>Find the pass rule without the calculator</h3>
+    <p>Use the <a href="#state-score-answers">direct state answers</a> or <a href="#score-table">compare the published rules</a>. If the state gives a percentage but no fixed count, <a href="#score-manual-math">see a worked miss-limit example</a>.</p>
+  </div>
+  <div class="score-grid" data-score-interactive hidden>
     <aside class="score-control">
       <label>Choose state <select data-score-state>{options}</select></label>
       <div class="score-official">
@@ -5261,7 +5271,7 @@ def render_dmv_score_calculator():
         <p data-score-note>{esc(default["scoreNote"])}</p>
       </div>
       <div class="score-actions">
-        <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-score-source>Official source</a>
+        <a href="{esc(default["scoreRuleUrl"])}" target="_blank" rel="noopener" data-score-source>Official source</a>
         <a href="{esc(default.get("mixedPracticeUrl") or default["signUrl"])}" data-score-practice>{'Mixed practice' if default.get("mixedPracticeUrl") else 'Road-sign practice'}</a>
         <a href="{esc(default["testDayUrl"])}" data-score-checklist>{esc(default["testDayLabel"])}</a>
       </div>
@@ -5312,7 +5322,7 @@ def render_dmv_score_calculator():
         <span class="eyebrow">Compare passing scores</span>
         <h3>DMV permit test passing score by state</h3>
       </div>
-      <div class="state-filter compact-filter">
+      <div class="state-filter compact-filter" data-score-interactive hidden>
         <label for="score-filter">Filter table</label>
         <input id="score-filter" type="search" placeholder="Type Florida, 40 correct, 80%..." data-state-filter>
       </div>
@@ -5442,9 +5452,11 @@ def render_dmv_score_page():
     </article>
   </div>
 </section>
-<section class="content-section">
-  <h2>Use the calculator before a full practice round</h2>
-  <p>Start with the official pass rule, then compare your latest practice result. If the calculator says you are barely above the target, review missed signs and right-of-way rules before taking another full round.</p>
+<section class="content-section" id="score-manual-math">
+  <h2>Work out the miss limit by hand</h2>
+  <p>If the state gives a percentage, multiply your actual test length by that percentage, round the required correct answers up to a whole number, then subtract that number from the test length.</p>
+  <p><strong>Example: 37 questions at an 80% threshold.</strong> The threshold is 29.6, so you need at least 30 correct and can have up to 7 misses. This is a math example, not an official test length.</p>
+  <p>Use the published minimum correct answers for a fixed-length test. Check any separate sign condition for <a href="#new-york-permit-test-passing-score">New York</a>, <a href="#georgia-permit-test-passing-score">Georgia</a> or <a href="#virginia-permit-test-passing-score">Virginia</a> before relying on the overall number.</p>
 </section>
 <section class="content-section">
   <h2>Why the miss count is not enough by itself</h2>

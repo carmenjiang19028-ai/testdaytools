@@ -1365,6 +1365,20 @@ h3 {
   font-size: 1.15rem;
 }
 
+[data-score-interactive][hidden],
+[data-score-fallback][hidden] {
+  display: none;
+}
+
+.score-manual {
+  margin-bottom: 18px;
+}
+
+.score-manual h3 {
+  margin: 0 0 8px;
+  color: var(--blue-deep);
+}
+
 .score-grid {
   display: grid;
   grid-template-columns: minmax(300px, 0.58fr) minmax(0, 1fr);
