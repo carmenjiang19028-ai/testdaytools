@@ -81,7 +81,8 @@ The classroom-pack builder uses ReportLab and writes
 The site build also exports the existing road-sign illustrations to
 `assets/road-signs/`. The picture-test and printable pages reuse these SVG files
 with image entries in the existing sitemap. Quiz artwork stays inline.
-After changing the artwork, rebuild the picture-test preview with Playwright:
+After changing the artwork, rebuild the picture-test and printable reference
+previews with Playwright:
 
 ```bash
 node scripts/build_road_sign_preview.cjs

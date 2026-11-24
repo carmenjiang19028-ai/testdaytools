@@ -22234,7 +22234,11 @@
           "Continue if the intersection looks clear"
         ],
         "answer": 1,
-        "explanation": "A stop sign requires a complete stop. After stopping, yield to traffic and pedestrians before proceeding."
+        "explanation": "Stop completely even if the road looks empty. If there is a marked stop line, stop before it rather than rolling into the crosswalk to see past an obstruction. Then yield and check that the path is clear before proceeding.",
+        "source": {
+          "label": "PennDOT Driver Manual: STOP signs and stop lines",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"
+        }
       },
       {
         "q": "This triangular sign means drivers should:",
@@ -22249,7 +22253,11 @@
           "Speed up to merge ahead of traffic"
         ],
         "answer": 0,
-        "explanation": "A yield sign tells you to slow down and give the right of way when another road user has priority."
+        "explanation": "Slow down and give way when another road user has priority. Stop if needed; for example, wait for a person crossing your path even when no car is visible. YIELD does not call for a full stop every time the path is clear.",
+        "source": {
+          "label": "PennDOT Driver Manual: YIELD signs",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"
+        }
       },
       {
         "q": "What does this red and white sign tell a driver?",

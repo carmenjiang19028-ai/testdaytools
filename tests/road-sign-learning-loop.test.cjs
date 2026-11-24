@@ -37,6 +37,36 @@ test('legacy study sheet links keep their destination even with a return mode', 
 });
 
 for (const width of [320, 1280]) {
+  test(`${width}px: STOP sight lines and a one-lane YIELD decision work without scripts`, async () => {
+    const context = await browser.newContext({ viewport: { width, height: 850 }, javaScriptEnabled: false });
+    try {
+      await context.route(/^https?:/, route => route.abort());
+      const page = await context.newPage();
+      const lessonUrl = pathToFileURL(path.resolve('road-sign-learning-loop.html'));
+      lessonUrl.hash = 'lesson-stop-yield';
+      await page.goto(lessonUrl.href);
+      const lesson = page.locator('#lesson-stop-yield');
+      const signs = lesson.locator('.contrast-sign-pair img');
+      assert.deepEqual(await signs.evaluateAll(images => images.map(img => [
+        img.src.split('/').pop(), img.complete && img.naturalWidth > 0,
+      ])), [['stop-road-sign.svg', true], ['yield-road-sign.svg', true]]);
+      const blocked = lesson.locator('details').filter({ hasText: 'A hedge blocks your view' });
+      const bridge = lesson.locator('details').filter({ hasText: 'TO ONCOMING TRAFFIC' });
+      assert.equal(await blocked.locator('p').isVisible(), false);
+      await blocked.locator('summary').press('Enter');
+      assert.match(await blocked.locator('p').innerText(), /Stop before your front bumper reaches the line.*Yield to anyone crossing.*edge forward carefully.*Check again/);
+      assert.equal(await bridge.locator('p').isVisible(), false);
+      await bridge.locator('summary').press('Space');
+      assert.match(await bridge.locator('p').innerText(), /Wait outside the narrow section until the approaching car clears it/);
+      assert.match(await lesson.locator('.contrast-source a').getAttribute('href'), /^https:\/\/www\.pa\.gov\//);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (process.env.STOP_YIELD_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.STOP_YIELD_SCREENSHOTS_DIR, { recursive: true });
+        await lesson.screenshot({ path: path.join(process.env.STOP_YIELD_SCREENSHOTS_DIR, `stop-yield-${width}.png`) });
+      }
+    } finally { await context.close(); }
+  });
+
   test(`${width}px: decision pictures describe symbols before grading and name them in feedback`, async () => {
     const { page, context, errors } = await open(width, 'merge-lane-ends');
     try {

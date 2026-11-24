@@ -122,8 +122,8 @@ SIGN_SVGS = {
     "curb-yellow": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect width="220" height="92" fill="#48515b"/><rect y="92" width="220" height="22" fill="#f3c64d"/><rect y="114" width="220" height="46" fill="#d9dde2"/><path d="M20 58 H82 M138 58 H200" stroke="#f3c64d" stroke-width="6" stroke-linecap="round"/></svg>',
     "curb-red": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect width="220" height="92" fill="#48515b"/><rect y="92" width="220" height="22" fill="#c7312f"/><rect y="114" width="220" height="46" fill="#d9dde2"/><path d="M20 58 H82 M138 58 H200" stroke="#f3c64d" stroke-width="6" stroke-linecap="round"/></svg>',
     "curb-blue": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect width="220" height="92" fill="#48515b"/><rect y="92" width="220" height="22" fill="#1469aa"/><rect y="114" width="220" height="46" fill="#d9dde2"/><path d="M20 58 H82 M138 58 H200" stroke="#f3c64d" stroke-width="6" stroke-linecap="round"/></svg>',
-    "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="82,12 138,12 184,46 202,100 174,145 46,145 18,100 36,46" fill="#c7312f" stroke="#981f1d" stroke-width="6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="38" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
-    "yield": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,148 202,18 18,18" fill="#fff" stroke="#c7312f" stroke-width="12"/><text x="110" y="76" text-anchor="middle" fill="#c7312f" font-size="28" font-weight="900" font-family="Arial, sans-serif">YIELD</text></svg>',
+    "stop": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="83,14 137,14 176,53 176,107 137,146 83,146 44,107 44,53" fill="#c7312f" stroke="#981f1d" stroke-width="2"/><polygon points="85,19 135,19 171,55 171,105 135,141 85,141 49,105 49,55" fill="none" stroke="#fff" stroke-width="3"/><text x="110" y="93" text-anchor="middle" fill="#fff" font-size="35" font-weight="900" font-family="Arial, sans-serif">STOP</text></svg>',
+    "yield": '<svg viewBox="0 0 220 160" aria-hidden="true"><polygon points="30,11 190,11 110,150" fill="#c7312f" stroke="#981f1d" stroke-width="2" stroke-linejoin="round"/><polygon points="37,15 183,15 110,142" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><polygon points="50,23 170,23 110,127" fill="#fff"/><text x="110" y="66" text-anchor="middle" fill="#c7312f" font-size="25" font-weight="900" font-family="Arial, sans-serif">YIELD</text></svg>',
     "do-not-enter": '<svg viewBox="0 0 220 160" aria-hidden="true"><circle cx="110" cy="80" r="62" fill="#c7312f"/><rect x="54" y="69" width="112" height="22" rx="3" fill="#fff"/><text x="110" y="57" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">DO NOT</text><text x="110" y="119" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Arial, sans-serif">ENTER</text></svg>',
     "wrong-way": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="40" y="42" width="140" height="76" rx="5" fill="#c7312f" stroke="#981f1d" stroke-width="5"/><text x="110" y="74" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WRONG</text><text x="110" y="104" text-anchor="middle" fill="#fff" font-size="26" font-weight="900" font-family="Arial, sans-serif">WAY</text></svg>',
     "no-u-turn": '<svg viewBox="0 0 220 160" aria-hidden="true"><rect x="38" y="20" width="144" height="120" rx="8" fill="#fff" stroke="#222" stroke-width="4"/><path d="M140 112 V76 C140 38 90 38 90 76 V89" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round"/><path d="M74 82 L90 108 L106 82 Z" fill="#111"/><circle cx="110" cy="80" r="58" fill="none" stroke="#c7312f" stroke-width="11"/><line x1="69" y1="39" x2="151" y2="121" stroke="#c7312f" stroke-width="11"/></svg>',
@@ -235,11 +235,13 @@ def render_material_review():
     sources = "".join(f'<li><a href="{esc(s["url"])}">{esc(s["label"])}</a></li>' for s in material["sources"])
     followup = material["artFollowup"]
     figures = " and ".join(f'<a href="{esc(figure["url"])}">{esc(figure["label"])}</a>' for figure in followup["figures"])
+    control = material["controlArtCheck"]
     return f'''<section class="material-review" id="material-review">
   <h2>Material check: {esc(material["checkedOn"])}</h2>
   <p>{esc(material["scope"])}</p><p>{esc(material["corrections"])}</p>
   <p>{esc(material["responsibility"])}</p><ul>{sources}</ul>
   <p><strong>{esc(followup["date"])}:</strong> {esc(followup["change"])} {figures}.</p>
+  <p><strong>{esc(control["date"])}:</strong> {esc(control["change"])} <a href="{esc(control["url"])}">{esc(control["label"])}</a>.</p>
 </section>'''
 
 
@@ -362,13 +364,17 @@ def render_contrast_lessons():
   </section>'''
         else:
             transfer_block = f'''<details class="contrast-transfer"><summary>Explain a changed situation</summary><p>{esc(lesson["transfer"])}</p><p>{esc(lesson["explanation"])}</p></details>'''
+        checks = "".join(
+            f'<details class="contrast-transfer"><summary>{esc(check["question"])}</summary><p>{esc(check["answer"])}</p></details>'
+            for check in lesson.get("checks", [])
+        )
         lessons.append(f'''<article class="contrast-lesson" id="lesson-{esc(lesson["id"])}">
   <h3>{esc(lesson["title"])}</h3><div class="contrast-lesson-grid">
     <figure class="contrast-scene"><div class="contrast-sign-pair">{pictures}</div><figcaption>{esc(lesson["scene"])}</figcaption></figure>
     <dl class="contrast-reasoning"><dt>The distinction</dt><dd>{esc(lesson["cue"])}</dd><dt>The decision</dt><dd>{esc(lesson["decision"])}</dd></dl>
   </div>
   <div class="contrast-trap"><h4>A tempting mistake</h4><p>{esc(lesson["mistake"])}</p><h4>Why that reasoning fails</h4><p>{esc(lesson["reason"])}</p></div>
-  {transfer_block}
+  {transfer_block}{checks}
   <p class="contrast-source">Source comparison: <a href="{esc(source["url"])}">{esc(source["label"])}</a> - {esc(lesson["sourceSections"])}. Checked {esc(material["checkedOn"])}.</p>
   <p><a hidden data-loop-start="{esc(lesson["id"])}" href="?{esc(urlencode({"concept": lesson["id"]}))}#learning-loop">Practice this distinction</a></p>
 </article>''')

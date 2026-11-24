@@ -1,3 +1,4 @@
+import math
 import unittest
 from xml.etree import ElementTree
 
@@ -5,6 +6,30 @@ from unittest.mock import patch
 
 from scripts.build import SIGN_SVGS
 from scripts.build_road_sign_classroom_pack import CLASSROOM_SIGNS, sign_drawing
+
+
+class StopAndYieldSignTest(unittest.TestCase):
+    def test_shared_stop_and_yield_are_regular_shapes_with_white_keylines(self):
+        for name, corners, text, legend in (
+            ("stop", 8, "STOP", "#fff"), ("yield", 3, "YIELD", "#c7312f"),
+        ):
+            with self.subTest(name=name):
+                root = ElementTree.fromstring(SIGN_SVGS[name])
+                frame, border, *interior = root.findall("polygon")
+                points = [tuple(map(int, pair.split(","))) for pair in frame.attrib["points"].split()]
+                sides = [math.dist(left, right) for left, right in zip(points, points[1:] + points[:1])]
+                self.assertEqual(len(points), corners)
+                self.assertLess(max(sides) / min(sides), 1.03)
+                self.assertEqual(frame.attrib["fill"], "#c7312f")
+                self.assertEqual(border.attrib["stroke"], "#fff")
+                self.assertEqual(root.find("text").text, text)
+                self.assertEqual(root.find("text").attrib["fill"], legend)
+                self.assertEqual(root.find("text").attrib["x"], "110")
+                self.assertEqual(CLASSROOM_SIGNS[name], name)
+                if name == "yield":
+                    self.assertEqual(len(interior), 1)
+                    self.assertEqual(interior[0].attrib["fill"], "#fff")
+                    self.assertGreater(points[-1][1], points[0][1])
 
 
 class RailroadAdvanceWarningSignTest(unittest.TestCase):

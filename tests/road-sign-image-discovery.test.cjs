@@ -7,7 +7,7 @@ const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const { chromium } = require("playwright");
 const sharp = require("sharp");
-const { renderPreview, signs } = require("../scripts/build_road_sign_preview.cjs");
+const { renderPreview, renderReferencePreview, signs } = require("../scripts/build_road_sign_preview.cjs");
 
 const root = path.resolve(__dirname, "..");
 const screenshots = process.env.VERIFY_SCREENSHOTS_DIR;
@@ -199,6 +199,20 @@ for (const options of [
     } finally { await context.close(); }
   });
 }
+
+test("printable preview matches an excerpt of the current reference and four real signs", async () => {
+  const filename = path.join(root, "assets/dmv-road-signs-cheat-sheet-preview.png");
+  const { data, info } = await sharp(filename).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  assert.equal(info.width, 1200);
+  assert.equal(info.height, 630);
+  const expected = await sharp(await renderReferencePreview(browser)).removeAlpha().raw().toBuffer();
+  assert.equal(data.length, expected.length);
+  let changed = 0;
+  for (let offset = 0; offset < data.length; offset += info.channels) {
+    if ([0, 1, 2].some(i => Math.abs(data[offset + i] - expected[offset + i]) > 80)) changed += 1;
+  }
+  assert.ok(changed < info.width * info.height * 0.02, `${changed} pixels differ from the current reference`);
+});
 
 test("picture-test preview contains six real sign illustrations at the declared dimensions", async () => {
   const preview = path.join(root, "assets/road-signs-practice-test-preview.png");

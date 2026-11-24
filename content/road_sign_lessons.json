@@ -13,6 +13,12 @@
       {"label": "Figure 2C-14, W11-1", "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=47"}
     ]
   },
+  "controlArtCheck": {
+    "date": "2026-11-24",
+    "change": "Replaced the uneven STOP outline with a symmetric eight-sided sign and a white border. The YIELD triangle now has equal-length sides in the simplified diagram. Both are shared by the web reference, quizzes, flashcards, and downloadable sheets.",
+    "label": "FHWA MUTCD Figure 2B-1: STOP (R1-1) and YIELD (R1-2)",
+    "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/part2r1.pdf"
+  },
   "sources": [
     {"id": "pa", "label": "PennDOT Driver's Manual, Chapter 2: Signs", "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/signs"},
     {"id": "ny", "label": "New York DMV: Road Signs You Must Know", "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/road-signs-you-must-know"},
@@ -30,6 +36,16 @@
       "reason": "An apparently empty junction does not cancel a STOP requirement. It also does not prove a YIELD entrance is clear: a pedestrian or a vehicle outside your first glance can still have priority. Neither sign grants permission to enter an unsafe gap.",
       "transfer": "Now a pedestrian appears as you approach the YIELD sign. Explain why stopping can be necessary even though YIELD does not require a fixed stop on every approach.",
       "explanation": "The decision changes with the conflict. You must give the pedestrian the right of way, which can require a stop. Do not memorize a number of seconds or the shortcut 'yield means never stop'.",
+      "checks": [
+        {
+          "question": "A hedge blocks your view of cross traffic. At STOP, do you roll past the marked line before stopping?",
+          "answer": "No. In this Pennsylvania example the white stop line is before the crosswalk. Stop before your front bumper reaches the line. Yield to anyone crossing; if the view stays blocked and it is safe, edge forward carefully to see. Check again for people and cross traffic before entering."
+        },
+        {
+          "question": "At a one-lane bridge, YIELD has a TO ONCOMING TRAFFIC plaque. A car is already on the bridge heading toward you. What now?",
+          "answer": "Wait outside the narrow section until the approaching car clears it, then enter only when it is safe. The plaque tells you which traffic stream has priority; it does not make this a four-way stop."
+        }
+      ],
       "sourceSections": "Regulatory Signs: STOP and YIELD",
       "source": "pa"
     },
