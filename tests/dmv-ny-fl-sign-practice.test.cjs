@@ -11,7 +11,7 @@ const states = [
   {
     name: "New York",
     slug: "new-york-dmv",
-    rounds: [["ny-four-sign-checkpoint", 4, 2], ["ny-signs-starter", 8, 6], ["signs", 25, 20]],
+    rounds: [["ny-four-sign-checkpoint", 4, 2], ["ny-four-sign-retest", 4, 2], ["ny-signs-starter", 8, 6], ["signs", 25, 20]],
     fullCount: 25,
   },
   {
@@ -84,6 +84,69 @@ for (const state of states) {
         assert.equal(await page.locator("[data-mode-button=mock]").getAttribute("aria-selected"), "true");
       }));
   }
+}
+
+for (const width of [390, 1280]) {
+  test(`New York ${width}px offers a different four-sign retest and keeps the whole-test threshold separate`, () =>
+    withSigns(states[0], width, async page => {
+      const a = "ny-four-sign-checkpoint";
+      const b = "ny-four-sign-retest";
+      const openRound = id => page.locator(`[data-mode-panel="${id}"].is-active [data-quiz]`);
+      const signsIn = quiz => quiz.locator("[data-quiz-image-key]").evaluateAll(images => images.map(img => img.dataset.quizImageKey));
+      const answer = async (quiz, index, correct = true) => {
+        await quiz.getByRole("button", { name: `Go to question ${index}`, exact: true }).press("Enter");
+        const q = quiz.locator(".question.is-active");
+        const key = Number(await q.getAttribute("data-answer"));
+        const choice = correct ? key : (key + 1) % await q.locator("[data-choice]").count();
+        await q.locator(`[data-choice="${choice}"]`).press("Enter");
+        return q;
+      };
+      const first = openRound(a);
+      const original = ["stop", "yield", "do-not-enter", "wrong-way"];
+      assert.deepEqual(await signsIn(first), original);
+      await answer(first, 1);
+      const activeUrl = new URL(page.url());
+      activeUrl.searchParams.set("mode", a);
+      activeUrl.searchParams.set("resume", "1");
+      activeUrl.hash = "practice";
+      await page.goto(activeUrl.href);
+      assert.match(await first.locator("[data-quiz-result]").innerText(), /^Score: 1 of 1 answered/);
+      for (let n = 2; n <= 4; n++) await answer(first, n);
+      const retest = first.getByRole("link", { name: "Try four different signs", exact: true });
+      await retest.press("Enter");
+      await page.waitForURL(url => url.searchParams.get("mode") === b && url.hash === "#practice");
+      const second = openRound(b);
+      const alternate = ["railroad", "signal-ahead", "keep-right", "hill-ahead"];
+      assert.deepEqual(await signsIn(second), alternate);
+      assert.equal(await second.getAttribute("data-pass-score"), "2");
+      assert.match(await second.locator(".section-intro").innerText(), /not an official permit.test score/i);
+      const rail = await answer(second, 1);
+      assert.match(await rail.locator(".feedback").innerText(), /round sign is advance warning.*crossbuck/i);
+      assert.match(await rail.locator("[data-quiz-source] a").getAttribute("href"), /dmv\.ny\.gov/);
+      for (let n = 2; n <= 4; n++) await answer(second, n, n === 2);
+      assert.match(await second.locator("[data-quiz-result]").innerText(), /^2 of 4 correct/);
+      assert.match(await second.locator("[data-quiz-next]").innerText(), /not an official exam result/i);
+      assert.equal(await second.locator("[data-quiz-next-action]").innerText(), "Retry saved questions");
+      await second.locator("[data-quiz-reset]").click();
+      for (let n = 1; n <= 4; n++) await answer(second, n);
+      const full = second.getByRole("link", { name: "Continue to all 25 signs", exact: true });
+      await full.press("Enter");
+      await page.waitForURL(url => url.searchParams.get("mode") === "signs");
+      const complete = openRound("signs");
+      assert.equal((await signsIn(complete)).length, 25);
+      assert.equal(await complete.getAttribute("data-pass-score"), "20");
+      assert.match(await page.locator("#official-details").innerText(), /14 correct overall and at least 2 of the 4 road-sign questions/);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const dir = process.env.VERIFY_SCREENSHOTS_DIR;
+      if (dir) {
+        fs.mkdirSync(dir, { recursive: true });
+        await page.getByRole("tablist", { name: "Practice modes" }).screenshot({path: path.join(dir, `ny-retest-tabs-${width}.png`)});
+      }
+      const legacy = new URL(page.url());
+      legacy.search = new URLSearchParams({ focus: "Railroad signs" }).toString();
+      await page.goto(legacy.href);
+      assert.equal(await complete.locator("[data-quiz-filter]").inputValue(), "Railroad signs");
+    }));
 }
 
 test("all shared full sign banks use the same practice target from both routes", () => {

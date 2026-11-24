@@ -12,7 +12,7 @@ const { render } = require('../scripts/render_road_sign_materials.cjs');
 const root = path.resolve(__dirname, '..');
 const localRules = [
   ['illinois-dmv-road-signs-practice', 'illinois-school-zone', 'Illinois school zones', 2, [[20, 16]]],
-  ['new-york-dmv-road-signs-practice', 'new-york-right-on-red', 'NY right on red', 3, [[4, 2], [8, 6], [25, 20]]],
+  ['new-york-dmv-road-signs-practice', 'new-york-right-on-red', 'NY right on red', 3, [[4, 2], [4, 2], [8, 6], [25, 20]]],
   ['texas-dmv-road-signs-practice', 'texas-work-zone-panels', 'Texas work-zone cases', 3, [[20, 16]]],
   ['pennsylvania-dmv-road-signs-practice', 'pennsylvania-school-bus', 'PA school bus cases', 3, [[20, 16]],
     ['pennsylvania-dmv-permit-practice-test', 'Try the school bus cases']],

@@ -8306,7 +8306,7 @@
       "quickFacts": [
         {
           "label": "Question count",
-          "value": "25-question image bank plus a 4-sign checkpoint"
+          "value": "25-question image bank with two 4-sign checks"
         },
         {
           "label": "Image source",
@@ -8436,7 +8436,7 @@
       "body": [
         {
           "heading": "Fast answer: New York DMV road signs practice",
-          "text": "Pick the four-sign checkpoint for a short diagnostic or the 25-question picture round for a broader review. After the full round, use the coverage table to match the signs you missed to the groups on New York DMV's must-know chart."
+          "text": "Start with the four-sign checkpoint. The second short check uses four different sign pictures. Use the 25-question round and the coverage table to review the rest of New York DMV's must-know chart."
         },
         {
           "heading": "Study the action, not only the image",
@@ -8447,14 +8447,14 @@
           "text": "This practice page uses original illustrations and explanations. The 25-question bank covers every sign on New York DMV's current Road Signs You Must Know chart, with separate questions where the official chart combines two controls. For exact wording and current permit rules, use the official chart and driver manual linked below."
         },
         {
-          "heading": "Use the four-sign checkpoint, then prove the result",
-          "text": "New York's written test includes four road-sign questions and requires at least two correct. The four-sign checkpoint mirrors that count, while the full image round tests a wider sign set. Retry a miss right away, then come back after 24 hours to check whether you still remember it before moving to weekly review."
+          "heading": "Check recall and recognition separately",
+          "text": "Revisit mistakes from the first check on your next study day, then try four different signs without looking at the chart. The first check tests entry and right of way; the second tests what to prepare for at tracks, a signal, a divider, or a downhill grade. Two of four is the sign minimum on the official test, not enough by itself: New York also requires fourteen of twenty overall."
         }
       ],
       "cardGroups": [
         {
           "heading": "New York road-sign study path",
-          "intro": "Use the four-sign checkpoint to practice the sign portion. Open the full picture round to find any sign categories you still confuse before moving to mixed practice.",
+          "intro": "Start with the four-sign checkpoint and use four different pictures to check whether you can recognize more than the first set. Then move to the full sign round before mixed permit practice.",
           "items": [
             {
               "label": "Full image round",
@@ -8560,6 +8560,18 @@
           "maxQuestions": 4
         },
         {
+          "id": "ny-four-sign-retest",
+          "label": "4-sign retest",
+          "short": "Different pictures",
+          "title": "New York four-sign retest: a different set",
+          "description": "Four different signs from New York DMV's must-know chart. Name the warning or required action before choosing an answer. Two of four is the practice target, not an official permit-test score.",
+          "kicker": "Second sign check",
+          "quiz": "newyorkSigns",
+          "passScore": 2,
+          "acceptImplicitFocus": false,
+          "questionImages": ["railroad", "signal-ahead", "keep-right", "hill-ahead"]
+        },
+        {
           "id": "ny-signs-starter",
           "label": "NY starter",
           "short": "8 questions",
@@ -8615,7 +8627,7 @@
           {
             "step": "2",
             "title": "Start with the short sign checks",
-            "text": "Use the four-sign checkpoint, then the 8-question NY starter to find signs and signals you need to review."
+            "text": "Try the four-sign checkpoint, then the four different pictures in the retest. Use the 8-question NY starter for more entry and sign recognition practice."
           },
           {
             "step": "3",
@@ -16513,7 +16525,11 @@
         ],
         "answer": 0,
         "category": "Railroad signs",
-        "explanation": "Railroad crossing signs warn drivers to look, listen, and never stop on tracks."
+        "explanation": "The round sign is advance warning: tracks are ahead. Slow, look and listen, and be ready to stop. The white crossbuck is at the tracks. Wait before the tracks if there is not enough room for your whole vehicle to clear them.",
+        "source": {
+          "label": "New York DMV: Railroad crossing warnings and signals",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-10-special-driving-conditions"
+        }
       },
       {
         "q": "What does this orange sign usually mean?",
@@ -16539,7 +16555,11 @@
         ],
         "answer": 0,
         "category": "Signal signs",
-        "explanation": "Signal Ahead signs warn drivers to prepare for a traffic light."
+        "explanation": "This is a warning sign, not the signal itself. Look ahead for the traffic light and any stopped vehicles. Leave time to slow and follow the actual signal at the intersection.",
+        "source": {
+          "label": "New York DMV: Traffic control and signals",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-4-traffic-control"
+        }
       },
       {
         "q": "What does this sign warn about?",

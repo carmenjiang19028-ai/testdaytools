@@ -4185,6 +4185,10 @@ tr:last-child td {
   margin-bottom: 12px;
 }
 
+@media (min-width: 761px) {
+  .mode-tabs-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
 .mode-tab {
   min-height: 78px;
   padding: 14px;

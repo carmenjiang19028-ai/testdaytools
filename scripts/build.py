@@ -3012,6 +3012,17 @@ def quiz_questions(quiz_key, options):
     append_quiz = options.get("appendQuiz")
     if append_quiz:
         questions.extend(DATA["quizzes"].get(append_quiz, []))
+    images = options.get("questionImages")
+    if images is not None:
+        if not images or len(images) != len(set(images)):
+            raise ValueError(f"{options['id']}: questionImages must contain distinct sign keys")
+        selected = []
+        for image in images:
+            matches = [question for question in questions if question.get("image") == image]
+            if len(matches) != 1:
+                raise ValueError(f"{options['id']}: expected one question for {image}, got {len(matches)}")
+            selected.append(matches[0])
+        questions = selected
     max_questions = int(options.get("maxQuestions") or 0)
     return questions[:max_questions] if max_questions > 0 else questions
 
@@ -3255,9 +3266,10 @@ def render_dmv_mode_tool(tool):
                 if group["practice"]["mode"] == mode["id"] and group["practice"].get("focus")
             ]
         quiz = render_quiz(mode["quiz"], quiz_options)
+        explicit_only = ' data-mode-explicit-only' if mode.get("acceptImplicitFocus") is False else ""
         panels.append(
             f'<div class="mode-panel{active_class}" id="{esc(panel_id)}" role="tabpanel" aria-labelledby="{esc(tab_id)}" '
-            f'data-mode-panel="{esc(mode["id"])}" tabindex="0"{hidden}>{quiz}</div>'
+            f'data-mode-panel="{esc(mode["id"])}"{explicit_only} tabindex="0"{hidden}>{quiz}</div>'
         )
     overview_items = "".join(
         f'<li><strong>{esc(mode["label"])}</strong><span>{esc(mode.get("description", ""))}</span></li>'
@@ -3279,7 +3291,7 @@ def render_dmv_mode_tool(tool):
     <span>3. Review saved mistakes</span>
     <span>4. Retake weak topics</span>
   </div>
-  <div class="mode-tabs" role="tablist" aria-label="Practice modes">{"".join(tabs)}</div>
+  <div class="mode-tabs{(" mode-tabs-four" if len(modes) == 4 else "")}" role="tablist" aria-label="Practice modes">{"".join(tabs)}</div>
   <ul class="mode-overview">{overview_items}</ul>
   <div class="mode-panels">{"".join(panels)}</div>"""
     return f"""<section class="dmv-mode-tool" id="practice" data-mode-tool>

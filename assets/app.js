@@ -1213,6 +1213,15 @@ function initQuizzes() {
           nextPlanCopy.textContent = "A clean focus set is useful, but it does not cover all of the topics in this practice round.";
           nextPlanAction.href = roundHref(nextRoundFocus);
           nextPlanAction.textContent = "Start full practice round";
+        } else if (pageName === "new-york-dmv-road-signs-practice.html" &&
+          ["ny-four-sign-checkpoint", "ny-four-sign-retest"].includes(mode)) {
+          const firstCheck = mode === "ny-four-sign-checkpoint";
+          nextPlanTitle.textContent = firstCheck ? "Check a different set of signs" : "Check the rest of the New York chart";
+          nextPlanCopy.textContent = firstCheck
+            ? "Try four different pictures on your next study session. Repeating these same four only checks recall of this set."
+            : "Two short sign checks still cover only part of the chart. Review the full sign set before mixed permit practice.";
+          nextPlanAction.href = `${pageName}?mode=${firstCheck ? "ny-four-sign-retest" : "signs"}#practice`;
+          nextPlanAction.textContent = firstCheck ? "Try four different signs" : "Continue to all 25 signs";
         } else if (state) {
           nextPlanTitle.textContent = "Move from score to test-day readiness";
           nextPlanCopy.textContent = "A clean round is useful evidence. Now confirm official rules, documents, and visit logistics for your state.";
@@ -1891,7 +1900,7 @@ function initModeTools() {
     const focus = (params.get("focus") || "").trim().toLowerCase();
     if (!focus || ["all", "saved", "due"].includes(focus)) return;
     // Quiz filters are populated before modes initialize, including study-sheet groups.
-    const matchingPanel = panels.find((panel) =>
+    const matchingPanel = panels.find((panel) => !panel.hasAttribute("data-mode-explicit-only") &&
       Array.from(panel.querySelectorAll("[data-quiz-filter] option")).some((option) => option.value.toLowerCase() === focus)
     );
     if (matchingPanel) {
