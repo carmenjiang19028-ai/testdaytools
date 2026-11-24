@@ -42,7 +42,7 @@ DMV_REQUIREMENTS_PAGE = {
     "category": "DMV",
     "title": "DMV Permit Test Requirements by State",
     "description": "Compare DMV permit test format, passing score, official source, documents, road signs, and practice links by state.",
-    "lastUpdated": "November 21, 2026",
+    "lastUpdated": "November 24, 2026",
 }
 TOOL_BY_SLUG[DMV_REQUIREMENTS_SLUG] = DMV_REQUIREMENTS_PAGE
 DMV_SCORE_SLUG = "dmv-permit-test-passing-score-calculator"
@@ -1093,6 +1093,12 @@ def dmv_score_records(include_supplemental=False):
             "permitStepsUrl": "https://dds.georgia.gov/georgia-licenses-ids-and-permits/new-license-id-or-permit/how-do-i-learners-permit",
             "passRule": "15 correct out of 20 on each part",
             "passText": "Confirm the current two-part knowledge exam rule with Georgia DDS.",
+            "requirementsDetails": {
+                "format": "Two 20-question tests",
+                "formatText": "The Road Rules and Road Signs tests are scored separately.",
+                "documents": "Under 18? Check which school, home-study, or completion record DDS accepts for your situation before visiting.",
+                "focus": "Keep separate scores when practicing. Study the lower-scoring part before taking both again.",
+            },
         },
         {
             "label": "Ohio",
@@ -1105,6 +1111,13 @@ def dmv_score_records(include_supplemental=False):
             "permitStepsUrl": "ohio-bmv-road-signs-practice.html#ohio-knowledge-cases",
             "passRule": "75% or better",
             "passText": "Confirm the current knowledge-test rule with Ohio BMV.",
+            "requirementsDetails": {
+                "format": "40 multiple-choice questions",
+                "formatText": "The knowledge exam covers motor vehicle regulations and traffic signs. Vision screening is separate.",
+                "documents": "Testing in person? Check Ohio's accepted proof of name, date of birth, and Social Security number if assigned. Online test takers complete the vision screening when getting the permit.",
+                "focus": "Use the BMV sample for rules as well as signs. A signs-only round leaves part of the exam untested.",
+                "checklistUrl": "https://www.bmv.ohio.gov/dl-identity-documents.aspx",
+            },
         },
         {
             "label": "Virginia",
@@ -1117,6 +1130,12 @@ def dmv_score_records(include_supplemental=False):
             "permitStepsUrl": "https://www.dmv.virginia.gov/licenses-ids/learners/apply",
             "passRule": "10 of 10 signs, then 24 of 30 general questions",
             "passText": "Confirm the current two-part knowledge exam rule with Virginia DMV.",
+            "requirementsDetails": {
+                "format": "10 sign questions, then 30 general questions",
+                "formatText": "You must clear the sign section before taking the general knowledge section.",
+                "documents": "Review the application and accepted originals. Virginia asks for two proofs of residency; minors need written consent or qualifying proof of emancipation.",
+                "focus": "Get the signs consistently right before moving on. General knowledge points cannot make up for a missed sign.",
+            },
         },
         {
             "label": "Arizona",
@@ -1129,6 +1148,13 @@ def dmv_score_records(include_supplemental=False):
             "permitStepsUrl": "arizona-mvd-road-signs-practice.html#arizona-permit-path",
             "passRule": "80% or better",
             "passText": "Confirm the current permit-test rule with Arizona MVD.",
+            "requirementsDetails": {
+                "format": "30 multiple-choice questions",
+                "formatText": "Applicants can test in an office. Eligible teens can also use the supervised at-home route.",
+                "documents": "A passing score does not issue the permit. Take the completed application and original supporting documents to MVD for vision screening and a photo; check the consent instructions for minors.",
+                "focus": "Use the official Arizona practice tests to check rules as well as sign recognition, then plan the permit issuance visit.",
+                "checklistUrl": "https://azdot.gov/mvd/services/driver-license-ID/permit-test",
+            },
         },
         {
             "label": "North Carolina",
@@ -1141,6 +1167,16 @@ def dmv_score_records(include_supplemental=False):
             "permitStepsUrl": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/license-learner-permit.aspx",
             "passRule": "80% on knowledge and 9 of 12 road signs",
             "passText": "Confirm the current regular Class C requirements with NCDMV.",
+            "requirementsDetails": {
+                "format": "Separate knowledge and sign tests",
+                "formatText": "NCDMV describes the two tests separately. The cited rule does not specify a fixed question count for the knowledge test.",
+                "documents": "Use the adult learner permit instructions at 18 or older. Ages 15 to 17 follow the limited learner permit path, including its driver education and document requirements.",
+                "focus": "Practice recognizing a sign by shape and color and explaining its meaning, not just selecting a matching label.",
+                "manualUrl": "https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Pages/driver-license-tests.aspx",
+                "manualLabel": "NCDMV Driver License Tests",
+                "ruleReferenceUrl": "https://www.oah.nc.gov/documents/rules/rrc/42064-dot-dmv-technical-changes/download",
+                "ruleReferenceLabel": "19A NCAC 03B .0201: knowledge and signs rule text",
+            },
         },
     ]
     requirements = dmv_requirement_records()
@@ -1177,6 +1213,27 @@ def dmv_score_records(include_supplemental=False):
             "primaryTotalLabel": fact.get("primaryTotalLabel", "Practice total"),
             "primaryTopic": fact.get("primaryTopic", ""),
             "officialPracticeUrl": fact.get("officialPracticeUrl", ""),
+        })
+    return records
+
+
+def dmv_requirements_page_records():
+    records = []
+    for record in dmv_score_records(include_supplemental=True):
+        details = record.get("requirementsDetails")
+        if not details:
+            records.append(record)
+            continue
+        records.append({
+            **record,
+            "checklistUrl": record["testDayUrl"],
+            "scoreUrl": f'{DMV_SCORE_SLUG}.html?state={record["value"]}#score-calculator',
+            "passRule": record["rule"],
+            "passText": record["scoreNote"],
+            "source": details.get("manualLabel", record["manualLabel"]),
+            "mixedPracticeUrl": "",
+            "practiceTarget": "No full mixed practice set here",
+            **details,
         })
     return records
 
@@ -5363,8 +5420,7 @@ def render_dmv_study_plan_page():
     )
 
 
-def render_dmv_requirements_finder():
-    records = dmv_requirement_records()
+def render_dmv_requirements_finder(records):
     if not records:
         return ""
     options = "".join(
@@ -5392,7 +5448,7 @@ def render_dmv_requirements_finder():
         if item["mixedPracticeUrl"]:
             next_links = f'<a href="{esc(item["mixedPracticeUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="practice">Mixed practice</a> '
         next_links += f'<a href="{esc(item["signUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="road_signs">Road signs</a>'
-        next_links += f' <a href="{esc(item["checklistUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="checklist">Checklist</a>'
+        next_links += f' <a href="{esc(item["checklistUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="checklist">Permit steps</a>'
         next_links += f' <a href="{esc(item["scoreUrl"])}" data-dmv-state-link data-dmv-state="{esc(item["label"])}" data-dmv-path="score">Score check</a>'
         rows.append(f"""<tr data-requirements-row data-state-name="{esc((item["label"] + " " + item["agency"] + " " + item["format"] + " " + item["passRule"]).lower())}">
   <th scope="row">{esc(item["label"])}</th>
@@ -5421,7 +5477,7 @@ def render_dmv_requirements_finder():
         <a href="{esc(default["manualUrl"])}" target="_blank" rel="noopener" data-requirements-source>Official source</a>
         <a href="{esc(default["mixedPracticeUrl"])}" data-requirements-practice{' hidden' if not default["mixedPracticeUrl"] else ''}>Mixed practice</a>
         <a href="{esc(default["signUrl"])}" data-requirements-signs>Road signs</a>
-        <a href="{esc(default["checklistUrl"])}" data-requirements-checklist>Checklist</a>
+        <a href="{esc(default["checklistUrl"])}" data-requirements-checklist>Permit steps</a>
         <a href="{esc(default["scoreUrl"])}" data-requirements-score>Score check</a>
       </div>
     </aside>
@@ -5455,9 +5511,13 @@ def render_dmv_requirements_finder():
 
 
 def render_dmv_requirements_page():
-    records = dmv_requirement_records()
+    records = dmv_requirements_page_records()
     source_links = "".join(
         f'<li><a href="{esc(item["manualUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["manualLabel"])}</a></li>'
+        + (
+            f'<li><a href="{esc(item["ruleReferenceUrl"])}" target="_blank" rel="noopener">{esc(item["label"])}: {esc(item["ruleReferenceLabel"])}</a></li>'
+            if item.get("ruleReferenceUrl") else ""
+        )
         for item in records
     )
     faq = render_faq([
@@ -5497,14 +5557,18 @@ def render_dmv_requirements_page():
   <div><span>Use case</span><strong>Format, pass rule, documents</strong></div>
   <div><span>Updated</span><strong>{esc(DMV_REQUIREMENTS_PAGE["lastUpdated"])}</strong></div>
 </section>
-{render_dmv_requirements_finder()}
+{render_dmv_requirements_finder(records)}
 <section class="content-section">
   <h2>How to use this before a DMV permit test</h2>
   <p>Start with the state selector, open the official source, then use the practice and checklist links as supporting tools. If the official source and this page ever differ, the official source wins.</p>
 </section>
 <section class="content-section">
-  <h2>Why requirements belong next to practice questions</h2>
-  <p>Many visitors are not only asking for questions. They need to know how long the test is, what score is enough, what documents to bring, and which official page controls the final answer.</p>
+  <h2>Which section should you study next?</h2>
+  <ul>
+    <li><strong>Georgia:</strong> A practice result of 16/20 in rules and 14/20 in signs is short on signs. Review signs rather than relying on the combined 30/40.</li>
+    <li><strong>Virginia:</strong> A practice result of 9/10 in signs is short even if you got all the general questions right in a separate drill. Review the missed sign before the general section.</li>
+    <li><strong>Arizona and Ohio:</strong> A 75% score meets the Ohio knowledge cutoff in a 40-question round but falls short of Arizona's 80% cutoff. Use the rule for the test you are actually taking.</li>
+  </ul>
 </section>
 <section class="sources">
   <h2>Official state sources</h2>

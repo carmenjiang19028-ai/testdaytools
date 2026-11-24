@@ -619,3 +619,56 @@ for (const width of [390, 1280]) {
       assert.equal(await quiz.getAttribute("data-pass-score"), "32");
     }));
 }
+
+const additionalRequirementPaths = [
+  ["georgia", "Georgia", /two 20-question tests/i, /15 correct out of 20 on each part/i, "dds.georgia.gov", "georgia-dds-road-signs-practice.html", /school/i],
+  ["ohio", "Ohio", /40 multiple-choice questions/i, /30 correct out of 40/i, "www.bmv.ohio.gov", "ohio-bmv-road-signs-practice.html", /in person/i],
+  ["virginia", "Virginia", /10 sign questions, then 30 general questions/i, /10 of 10 signs, then 24 of 30/i, "www.dmv.virginia.gov", "virginia-dmv-road-signs-practice.html", /two proofs/i],
+  ["arizona", "Arizona", /30 multiple-choice questions/i, /24 correct out of 30/i, "azdot.gov", "arizona-mvd-road-signs-practice.html", /original/i],
+  ["north-carolina", "North Carolina", /separate knowledge and sign tests/i, /80% on knowledge and 9 of 12 signs.*regular Class C/i, "www.ncdot.gov", "north-carolina-dmv-road-signs-practice.html#north-carolina-sign-recall", /limited learner permit/i],
+];
+
+for (const width of [390, 1280]) {
+  test(`${width}px: state requirements opens all five existing additional study routes`, () =>
+    withSite(width, async (page) => {
+      const requirements = "/dmv-permit-test-requirements-by-state.html";
+      const selector = page.locator("[data-requirements-state]");
+      for (const [state, label, format, passing, officialHost, signs, documents] of additionalRequirementPaths) {
+        await page.goto(`${origin}${requirements}?state=${state}#requirements-finder`);
+        assert.equal(await selector.inputValue(), state);
+        assert.equal(await selector.locator("option").count(), 12);
+        assert.match(await page.locator("[data-requirements-format]").innerText(), format);
+        assert.match(await page.locator("[data-requirements-pass]").innerText(), passing);
+        assert.match(await page.locator("[data-requirements-documents]").innerText(), documents);
+        for (const action of ["source", "checklist"]) {
+          const link = page.locator(`[data-requirements-${action}]`);
+          assert.equal(new URL(await link.getAttribute("href")).hostname, officialHost);
+        }
+        assert.equal(await page.locator("[data-requirements-checklist]").innerText(), "Permit steps");
+        assert.equal(await page.locator("[data-requirements-signs]").getAttribute("href"), signs);
+        assert.equal(await page.locator("[data-requirements-practice]").isVisible(), false);
+        assert.equal(await page.locator("[data-requirements-target]").innerText(), "No full mixed practice set here");
+        const score = page.locator("[data-requirements-score]");
+        const scoreUrl = new URL(await score.getAttribute("href"), page.url());
+        assert.equal(scoreUrl.searchParams.get("state"), state);
+        const row = page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: label, exact: true }) });
+        assert.match(await row.innerText(), passing);
+        assert.equal(await row.getByRole("link", { name: "Mixed practice", exact: true }).count(), 0);
+        assert.equal(await row.getByRole("link", { name: "Road signs", exact: true }).getAttribute("href"), signs);
+        await score.click();
+        await page.waitForURL(scoreUrl.href);
+        assert.equal(await page.locator("[data-score-state]").inputValue(), state);
+      }
+      await page.goto(origin + requirements);
+      const filter = page.getByRole("searchbox", { name: "Filter table" });
+      await filter.fill("North Carolina");
+      const shown = page.locator("[data-requirements-row]:visible");
+      assert.equal(await shown.count(), 1);
+      assert.equal(await shown.getByRole("rowheader").innerText(), "North Carolina");
+      await selector.selectOption("virginia");
+      assert.match(await page.locator("[data-requirements-pass]").innerText(), /10 of 10 signs/);
+      await selector.selectOption("new-york");
+      assert.equal(await page.locator("[data-requirements-practice]").isVisible(), true);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    }));
+}
