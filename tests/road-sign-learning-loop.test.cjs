@@ -20,6 +20,55 @@ async function open(width, concept = '', seed, returnParams = {}) {
   await page.goto(url.href);
   return { context, page, errors };
 }
+
+for (const [width, script] of [[320, 'delayed'], [1280, 'failed']]) {
+  test(`${width}px: the lesson remains usable while the practice script is ${script}`, async () => {
+    const origin = 'https://testdaytools.test';
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    let release;
+    const ready = new Promise(resolve => { release = resolve; });
+    try {
+      await context.route('**/*', async route => {
+        const url = new URL(route.request().url());
+        if (url.origin !== origin) return route.abort();
+        if (url.pathname === '/assets/road-sign-learning.js') {
+          if (script === 'failed') return route.abort();
+          await ready;
+        }
+        return route.fulfill({ path: path.join(__dirname, '..', url.pathname) });
+      });
+      const page = await context.newPage();
+      const url = origin + '/road-sign-learning-loop.html?concept=stop-yield#learning-loop';
+      await page.goto(url, { waitUntil: script === 'delayed' ? 'commit' : 'load' });
+      const study = page.locator('#learning-loop').getByRole('link', { name: 'Read the illustrated comparisons' });
+      await study.waitFor({ state: 'visible', timeout: 4000 });
+      assert.equal(await page.getByRole('button', { name: 'Restart session' }).count(), 0);
+      assert.equal(await page.locator('[data-loop-progress]').isVisible(), false);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      if (script === 'failed') {
+        await study.press('Enter');
+        await page.waitForURL(target => target.hash === '#lesson-stop-yield');
+        const lesson = page.locator('#lesson-stop-yield');
+        assert.equal(await lesson.locator('img').count(), 2);
+        const check = lesson.locator('details').first();
+        await check.locator('summary').press('Enter');
+        assert.equal(await check.getAttribute('open'), '');
+        assert.ok((await check.locator('p').last().innerText()).length > 0);
+        return;
+      }
+      release();
+      await page.waitForLoadState('load');
+      assert.equal(await study.isVisible(), true);
+      assert.match(await page.locator('[data-loop-progress]').innerText(), /0 of 3 questions/);
+      await answer(page);
+      assert.match(await page.locator('[data-loop-progress]').innerText(), /1 of 3 questions/);
+    } finally {
+      release();
+      await context.close();
+    }
+  });
+}
+
 test('targeted session contains only its three questions', async () => {
   const { page, context } = await open(1280, 'merge-lane-ends');
   for (let i = 0; i < 3; i++) { await answer(page); await page.locator('[data-loop-next]').click(); }
