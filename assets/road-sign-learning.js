@@ -29,7 +29,10 @@
   const next = get('next');
   const reset = get('reset');
   const resetDialog = get('reset-dialog');
+  const print = get('print');
   const report = document.querySelector('[data-loop-report]');
+  const copyStatus = report.querySelector('[data-loop-copy-status]');
+  const reportField = report.querySelector('[data-loop-report-text]');
   const steps = selectedLessons.flatMap(lesson => [
     { lesson, question: lesson.diagnosis, phase: 1 },
     { lesson, phase: 2 },
@@ -146,7 +149,8 @@
         return `<div class="learning-record-answer"><h4>${esc(question.prompt)}</h4><p><strong>${answer.correct ? 'Correct in this session' : 'Review needed'}</strong></p><p>Your answer: ${esc(question.options[answer.selected].text)}</p><p>${esc(question.options[answer.selected].why)}</p>${answer.correct ? '' : `<p>Keep this rule: ${esc(question.options[0].text)}</p>`}</div>`;
       }).join('')}<p class="contrast-source">${sourceLink(lesson)}</p></article>`;
     }).join('');
-    report.querySelector('[data-loop-report-text]').value = reportText();
+    reportField.value = reportText();
+    copyStatus.textContent = '';
   };
   const renderFeedback = (question, answer, lesson) => {
     if (!answer) return '<div class="learning-feedback" data-loop-feedback></div>';
@@ -163,23 +167,26 @@
     feedback?.focus({ preventScroll: true });
     feedback?.scrollIntoView({ block: 'start', behavior: 'instant' });
   };
-  const restoreLatestView = () => {
-    render(true);
+  const focusStatus = () => {
     const status = get('status');
     status.tabIndex = -1;
     status.focus({ preventScroll: true });
     status.scrollIntoView({ block: 'center', behavior: 'instant' });
+  };
+  const restoreLatestView = () => {
+    render('This session changed in another tab. The latest saved progress is shown here; your last action was not applied.');
+    focusStatus();
   };
   const recoverChangedSession = () => {
     if (!refreshSavedSession()) return false;
     restoreLatestView();
     return true;
   };
-  const render = (restored = false) => {
+  const render = (savedNotice = '') => {
     const step = steps[state.index];
     const q = step?.question;
     if (q && !state.optionOrders[q.id]) state.optionOrders[q.id] = shuffleOptions(q.options.length);
-    if (!restored && !persist()) {
+    if (!savedNotice && !persist()) {
       restoreLatestView();
       return false;
     }
@@ -187,12 +194,10 @@
     const complete = state.index === steps.length;
     stage.classList.toggle('is-complete', complete);
     get('progress').textContent = `${answeredCount()} of ${questions.length} questions`;
-    get('status').textContent = restored
-      ? 'This session changed in another tab. The latest saved progress is shown here; your last action was not applied.'
-      : storageAvailable
+    get('status').textContent = savedNotice || (storageAvailable
       ? 'Saved only in this browser. Repeated practice is not a pass prediction.'
-      : 'Browser storage is unavailable. This round still works, but may not survive a refresh.';
-    get('print').disabled = answeredCount() === 0;
+      : 'Browser storage is unavailable. This round still works, but may not survive a refresh.');
+    print.disabled = answeredCount() === 0;
     if (complete) {
       get('phase-label').textContent = 'Session complete';
       get('title').textContent = 'Review your decisions';
@@ -277,17 +282,30 @@
     resetDialog.close('restart');
     restartPractice();
   });
-  get('print').addEventListener('click', () => { if (answeredCount()) window.print(); });
+  const refreshStudyRecord = () => {
+    if (!refreshSavedSession()) return;
+    render(answeredCount()
+      ? 'Study record updated from the latest saved answers.'
+      : 'The saved session no longer has any answers to export.');
+  };
+  const canExportRecord = () => {
+    refreshStudyRecord();
+    if (answeredCount()) return true;
+    focusStatus();
+    return false;
+  };
+  window.addEventListener('beforeprint', refreshStudyRecord);
+  print.addEventListener('click', () => { if (canExportRecord()) window.print(); });
   report.querySelector('[data-loop-copy-record]').addEventListener('click', async () => {
-    const text = report.querySelector('[data-loop-report-text]');
+    if (!canExportRecord()) return;
     try {
-      await navigator.clipboard.writeText(text.value);
-      report.querySelector('[data-loop-copy-status]').textContent = 'Study record copied.';
+      await navigator.clipboard.writeText(reportField.value);
+      copyStatus.textContent = 'Study record copied.';
     } catch {
-      text.hidden = false;
-      text.focus();
-      text.select();
-      report.querySelector('[data-loop-copy-status]').textContent = 'The study record is selected.';
+      reportField.hidden = false;
+      reportField.focus();
+      reportField.select();
+      copyStatus.textContent = 'The study record is selected.';
     }
   });
   render();

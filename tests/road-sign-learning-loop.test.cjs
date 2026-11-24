@@ -384,6 +384,80 @@ test('clipboard copy contains the submitted choice and its reason', async () => 
   assert.match(await page.evaluate(() => window.copiedText), /This treats STOP as conditional/);
   await context.close();
 });
+for (const width of [390, 1280]) {
+  test(`${width}px: copying and printing use the latest answers in the same saved session`, async () => {
+    const concept = 'stop-yield';
+    const { page, context } = await open(width, concept);
+    try {
+      await answer(page);
+      const peer = await context.newPage();
+      await peer.goto(page.url());
+      await peer.locator('[data-loop-next]').click();
+      await answer(peer, 1);
+      const afterSecond = await state(peer, concept);
+      await page.evaluate(() => {
+        Object.defineProperty(navigator, 'clipboard', {
+          value: { writeText: async text => { window.copyFromRecord = text; } },
+        });
+        window.print = () => {
+          window.printedRecord = document.querySelector('[data-loop-report-list]').innerText;
+        };
+      });
+      await page.locator('[data-loop-copy-record]').click();
+      const copied = await page.evaluate(() => window.copyFromRecord);
+      assert.equal(copied, await peer.locator('[data-loop-report-text]').inputValue());
+      assert.equal((copied.match(/Your answer:/g) || []).length, 2);
+      assert.match(copied, /Review needed/);
+      assert.deepEqual(await state(page, concept), afterSecond);
+      assert.match(await page.locator('[data-loop-status]').innerText(), /updated from the latest saved answers/);
+
+      await peer.locator('[data-loop-next]').click();
+      await answer(peer);
+      const afterThird = await state(peer, concept);
+      await page.locator('[data-loop-print]').click();
+      assert.equal(await page.evaluate(() => window.printedRecord), await peer.locator('[data-loop-report-list]').innerText());
+      assert.equal(await page.locator('.learning-record-answer').count(), 3);
+      assert.deepEqual(await state(page, concept), afterThird);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    } finally { await context.close(); }
+  });
+}
+
+test('a cleared record cannot be exported from an older tab', async () => {
+  const concept = 'stop-yield';
+  const { page, context } = await open(390, concept);
+  try {
+    await answer(page);
+    const peers = [];
+    for (let index = 0; index < 3; index++) {
+      const peer = await context.newPage();
+      await peer.goto(page.url());
+      assert.equal(await peer.locator('.learning-record-answer').count(), 1);
+      peers.push(peer);
+    }
+    const [editor, oldPrint, nativePrint] = peers;
+    await restartPractice(editor);
+    const cleared = await state(editor, concept);
+    for (const stale of [page, oldPrint, nativePrint]) {
+      await stale.evaluate(() => {
+        Object.defineProperty(navigator, 'clipboard', { value: { writeText: async () => { window.exportedRecord = true; } } });
+        window.print = () => { window.exportedRecord = true; };
+      });
+    }
+    await page.locator('[data-loop-copy-record]').click();
+    assert.equal(await page.locator('[data-loop-status]').evaluate(el => el === document.activeElement), true);
+    await oldPrint.locator('[data-loop-print]').click();
+    await nativePrint.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+    for (const stale of [page, oldPrint, nativePrint]) {
+      assert.equal(await stale.evaluate(() => window.exportedRecord), undefined);
+      assert.equal(await stale.locator('[data-loop-report]').isVisible(), false);
+      assert.equal(await stale.locator('[data-loop-progress]').innerText(), '0 of 3 questions');
+      assert.match(await stale.locator('[data-loop-status]').innerText(), /no longer has any answers to export/);
+      assert.deepEqual(await state(stale, concept), cleared);
+    }
+  } finally { await context.close(); }
+});
+
 test('edited saved index cannot bypass unanswered questions', async () => {
   const { page, context } = await open(1280, '', () => localStorage.setItem('tdt-learning-loop:v2:all', JSON.stringify({ version: '2026-11-20', index: 12, answers: {} })));
   assert.equal(await page.locator('[data-loop-question]').getAttribute('data-loop-question'), 'stop-yield-distinction');
