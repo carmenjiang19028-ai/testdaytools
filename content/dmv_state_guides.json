@@ -1,0 +1,648 @@
+[
+  {
+    "slug": "new-york-dmv-road-signs-practice",
+    "state": "New York",
+    "agency": "DMV",
+    "manual": "New York State Driver's Manual (MV-21), online edition",
+    "url": "https://dmv.ny.gov/book/export/html/1551",
+    "signs": "Road Signs You Must Know",
+    "signQuiz": "newyorkSigns",
+    "score": [
+      20,
+      14,
+      70,
+      "At least 2 of 4 sign questions must also be correct."
+    ],
+    "facts": [
+      [
+        "Format",
+        "Class D written knowledge test; DMV offices offer touch-screen or paper tests.",
+        "https://dmv.ny.gov/book/export/html/1551"
+      ],
+      [
+        "Permit age and documents",
+        "Apply at age 16 or older. Check the ID-44 list for the identity, birth date and address documents you need.",
+        "https://dmv.ny.gov/forms/id44.pdf"
+      ]
+    ],
+    "next": [
+      "Get a New York learner permit",
+      "https://dmv.ny.gov/driver-license/get-learner-permit"
+    ],
+    "rules": [
+      [
+        "Chapter 4: Traffic Control",
+        "Right on red in New York City",
+        "Wait for green unless a sign allows the turn. Outside New York City, the default rule allows a right turn after stopping and yielding unless a sign prohibits it.",
+        "You're in Queens at a steady red with no turn-on-red sign. The crosswalk and traffic are clear. Can you turn right?",
+        "Wait for green.",
+        "You're outside New York City, stopped at a steady red without a turn restriction. Can you turn now if you have yielded and it is clear?",
+        "Yes, if it is safe."
+      ],
+      [
+        "Chapter 6: Passing, School Buses",
+        "School bus on a divided highway",
+        "Drivers on both sides must stop for a school bus with its red lights flashing, even on a divided highway. Stop at least 20 feet from the bus.",
+        "An approaching school bus stops with red lights flashing across a grassy median. Can you keep going?",
+        "No. Stop.",
+        "You follow a school bus that stops with its red lights on. Is stopping one car length away always enough?",
+        "No. Leave at least 20 feet."
+      ],
+      [
+        "Chapter 1: Driver Licenses",
+        "Permit supervision",
+        "A learner needs a licensed supervising driver at least 21 years old, qualified for the vehicle. Junior permit rules also vary by part of the state.",
+        "Your 20-year-old sibling has a full license. Can they be your only supervisor?",
+        "No. They are too young to supervise.",
+        "A 25-year-old has only a motorcycle license. Can they supervise your car practice?",
+        "No. They need a license valid for the vehicle."
+      ],
+      [
+        "Chapter 6: Passing",
+        "Passing cyclists and using the shoulder",
+        "Pass a bicyclist on the left at a safe distance. Do not use the shoulder as a passing lane unless directed by a traffic officer or allowed by a sign.",
+        "There is no clear gap to the left of a cyclist, but the paved shoulder is empty. Can you pass on the shoulder?",
+        "No. Wait for a safe pass on the left.",
+        "You've moved left around a cyclist, but your rear bumper is still next to the bicycle. Can you move right?",
+        "No. Clear the cyclist before returning."
+      ],
+      [
+        "Chapter 1: Driver Licenses, Regional Restrictions for a Junior Permit",
+        "Junior permit practice in New York City",
+        "In the five boroughs, junior permit practice requires dual brakes and a qualifying supervisor such as a licensed parent or instructor. Junior permit driving is not allowed there from 9 p.m. to 5 a.m.",
+        "A qualifying instructor meets you in Brooklyn at noon, but the car has no instructor's brake. Can you practice in it?",
+        "No. The vehicle must have dual controls.",
+        "Your licensed parent has arranged a dual-control car at 9:30 p.m. in Manhattan. Is it legal for you to practice with a junior permit?",
+        "No. The city nighttime restriction still applies."
+      ]
+    ]
+  },
+  {
+    "slug": "texas-dmv-road-signs-practice",
+    "state": "Texas",
+    "agency": "DPS",
+    "manual": "Texas Driver Handbook (DL-7), 2026 edition",
+    "url": "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf",
+    "signs": "Chapter 5: Signals, Signs, and Markers",
+    "signQuiz": "texasSigns",
+    "percent": 70,
+    "facts": [
+      [
+        "Knowledge test",
+        "The DPS handbook publishes a passing grade of 70%; some approved courses satisfy the requirement.",
+        "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf"
+      ],
+      [
+        "Retesting and application",
+        "After 90 days or three failed exams, the handbook says a new application and fee are required.",
+        "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf"
+      ],
+      [
+        "Learner license age and school documents",
+        "The teen path starts at 15. Bring proof of driver education and eligibility from school or proof of graduation or its equivalent.",
+        "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen"
+      ]
+    ],
+    "next": [
+      "Texas teen learner license and application steps",
+      "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen"
+    ],
+    "rules": [
+      [
+        "Chapter 1: Your License to Drive",
+        "Who rides with a Texas learner",
+        "The licensed supervising adult must be at least 21 and sit in the front passenger seat.",
+        "Your licensed 19-year-old cousin offers to supervise you. Can you drive with only them?",
+        "No. Find a licensed adult who is at least 21.",
+        "Your eligible supervisor sits in the back while a friend sits in front. What needs to change?",
+        "Move the supervising driver to the front passenger seat."
+      ],
+      [
+        "Chapter 1: Your License to Drive",
+        "No phone use on a learner license",
+        "Learner license holders cannot use a phone while driving, including hands-free calls, except in an emergency.",
+        "You want to confirm dinner plans using the car's hands-free system while you drive. Is that allowed?",
+        "No. Wait until you are safely stopped.",
+        "A friend says the learner phone restriction only applies if you touch the screen. Is that right?",
+        "No. Ordinary hands-free use is also restricted."
+      ],
+      [
+        "Chapter 4: Right-of-Way",
+        "Buses on separate roadways",
+        "If the opposite side is separated by a physical barrier or intervening space, the opposite-direction driver does not have to stop. Painted lines or a shared left-turn lane do not make two separate roadways.",
+        "A bus across a painted center turn lane flashes red. Does the painted lane let you continue?",
+        "No. Stop.",
+        "The bus is across a physical median on a separate roadway. You are going the other direction. Does the Texas bus stop rule require a stop?",
+        "Not on that separate roadway; stay alert for people crossing."
+      ],
+      [
+        "Chapter 6: Signaling, Passing, and Turning",
+        "Signal before the corner",
+        "Texas requires the turn signal continuously for at least the last 100 feet before turning.",
+        "You start your signal only when the front tires reach the corner. What was missed?",
+        "The advance signal before the turn.",
+        "The right lane bends; your signal has been on for 50 feet and you are about to turn into a side street. Is that enough?",
+        "No. Signal for at least the last 100 feet."
+      ],
+      [
+        "Chapter 6: Signaling, Passing, and Turning",
+        "No left-side pass near crossings",
+        "Do not drive left of center to pass within 100 feet of an intersection or railroad crossing.",
+        "A slow truck is 70 feet before a crossing and the opposing lane is empty. Can you pass left of center?",
+        "No. Wait until you are out of the restricted area and passing is safe.",
+        "You approach an intersection 80 feet away behind a slow car. Does a gap in oncoming traffic make a left-side pass legal there?",
+        "No. The intersection distance still applies."
+      ]
+    ]
+  },
+  {
+    "slug": "florida-dmv-road-signs-practice",
+    "state": "Florida",
+    "agency": "DMV",
+    "manual": "Official Florida Driver License Handbook, English edition (FLHSMV)",
+    "url": "https://www.flhsmv.gov/pdf/handbooks/englishdriverhandbook.pdf",
+    "signs": "Traffic Controls",
+    "signQuiz": "floridaSigns",
+    "score": [
+      50,
+      40,
+      80,
+      ""
+    ],
+    "facts": [
+      [
+        "Format",
+        "Multiple-choice Class E exam on traffic laws, safe driving, and traffic controls.",
+        "https://www.flhsmv.gov/pdf/handbooks/englishdriverhandbook.pdf"
+      ],
+      [
+        "Minimum learner age",
+        "15 for a learner's license.",
+        "https://www.flsenate.gov/Laws/Statutes/2026/322.1615"
+      ]
+    ],
+    "next": [
+      "Florida learner license law and supervision rules",
+      "https://www.flsenate.gov/Laws/Statutes/2026/322.1615"
+    ],
+    "links": [
+      [
+        "Class E and first-time driver education",
+        "florida-class-e-knowledge-exam-tlsae.html"
+      ],
+      [
+        "Florida permit documents checklist",
+        "florida-dmv-permit-documents-checklist.html"
+      ]
+    ],
+    "rules": [
+      [
+        "Getting Your License: Learner's License",
+        "Daylight first, then a later cutoff",
+        "For the first three months a Florida learner may drive only in daylight. After that, supervised driving can continue until 10 p.m.",
+        "You got your learner's license last month. Can you practice after sunset if a supervisor rides along?",
+        "No. The first three months are daylight only.",
+        "You've held the learner's license four months. With proper supervision, can you drive home at 9:30 p.m.?",
+        "Yes, if you finish before the 10 p.m. cutoff."
+      ],
+      [
+        "Getting Your License: Learner's License",
+        "Supervision in the front passenger seat",
+        "A driver with a valid license who is at least 21 must sit in the closest seat to the learner's right.",
+        "An adult with a license sits in the back while your sibling occupies the front passenger seat. May you start?",
+        "No. The qualified driver needs to sit beside you.",
+        "The person beside you is 20 and fully licensed. Can they be your learner supervisor?",
+        "No. Find a licensed driver who is at least 21."
+      ],
+      [
+        "Sharing the Road: School Buses",
+        "The median matters for an oncoming school bus",
+        "In the opposite direction you can continue with caution if a raised barrier or an unpaved median at least five feet wide separates traffic. A painted median does not count.",
+        "A school bus flashes red on the far side of a painted median. Can you proceed?",
+        "No. Stop.",
+        "An oncoming school bus is stopped across a raised concrete barrier. Must you stop for its signal?",
+        "No, but continue cautiously and watch for children."
+      ],
+      [
+        "Getting Your License: Class E Knowledge Exam",
+        "Account for the full Class E exam",
+        "Road signs are only one part of the Class E knowledge exam. A sign-only practice score does not include traffic laws or safe driving.",
+        "You recognize all your flashcards. What should you study next before booking the Class E test?",
+        "Traffic laws and safe-driving decisions as well as sign recognition.",
+        "You missed 11 questions on a 50-question practice set. Have you reached Florida's 40-correct mark?",
+        "No. That is 39 correct."
+      ],
+      [
+        "Traffic Controls: Traffic Signals",
+        "Right turns at a steady red signal",
+        "Where a sign does not prohibit it, stop completely and yield to pedestrians and conflicting traffic before turning right on a steady red.",
+        "You've stopped at a red light, but a pedestrian has begun crossing your intended path. What do you do?",
+        "Wait until the crossing is clear and the turn is safe.",
+        "The street is empty, but a sign prohibits turns on red. Can you turn after stopping?",
+        "No. Wait for a signal that permits the turn."
+      ]
+    ]
+  },
+  {
+    "slug": "new-jersey-mvc-road-signs-practice",
+    "state": "New Jersey",
+    "agency": "MVC",
+    "manual": "New Jersey Driver Manual, English, revised September 2025",
+    "url": "https://www.nj.gov/mvc/pdf/license/drivermanual.pdf",
+    "signs": "Driver Safety: Traffic Signs and Signals",
+    "signQuiz": "newjerseySigns",
+    "score": [
+      50,
+      40,
+      80,
+      ""
+    ],
+    "facts": [
+      [
+        "Format and languages",
+        "Schedule the written knowledge test after purchasing a permit. MVC lists written languages and English and Spanish oral tests.",
+        "https://www.nj.gov/mvc/license/knowledgetest.htm"
+      ],
+      [
+        "Retest wait",
+        "Wait seven days after failing the knowledge test.",
+        "https://www.nj.gov/mvc/license/firstlic.htm"
+      ],
+      [
+        "Minimum age and identification",
+        "A special learner's permit is available beginning at 16 with approved behind-the-wheel training. Bring the MVC's required 6 Points of ID.",
+        "https://www.nj.gov/mvc/license/firstlic.htm"
+      ]
+    ],
+    "next": [
+      "New Jersey MVC first license steps",
+      "https://www.nj.gov/mvc/license/firstlic.htm"
+    ],
+    "rules": [
+      [
+        "Chapter 1: The New Jersey Driver License System",
+        "Red GDL decals",
+        "GDL drivers under 21 must display the MVC red reflective decals on the front and rear plates.",
+        "You are 17 and your practice car has the decal only on the rear plate. Is it ready?",
+        "No. Display both decals.",
+        "You borrow a second car for the road test. Does the decal on your usual practice car count?",
+        "No. Display the required decals on the car you use."
+      ],
+      [
+        "Chapter 1: The New Jersey Driver License System",
+        "Supervising driver experience",
+        "Your front-seat supervisor must be at least 21, hold a valid New Jersey license, and have at least three years of driving experience.",
+        "Your 22-year-old neighbor has held their first license for two years. Can they supervise?",
+        "No. The experience requirement is at least three years.",
+        "A licensed driver from another state has decades of experience. Does their out-of-state license satisfy the MVC supervisor rule?",
+        "No. The required license is a valid New Jersey license."
+      ],
+      [
+        "Chapter 1: The New Jersey Driver License System",
+        "Nighttime hours for under-21 GDL drivers",
+        "The normal restricted period is 11:01 p.m. to 5 a.m. An applicable MVC exemption may change the rule; don't assume a late errand is exempt.",
+        "You're 17 and plan to begin an ordinary practice drive at midnight. Does having a supervisor make the trip allowable?",
+        "No. Midnight is inside the restricted period.",
+        "A 19-year-old probationary driver wants to leave at 4:45 a.m. for a social trip. May they drive?",
+        "No. The ordinary restriction runs until 5 a.m."
+      ],
+      [
+        "Chapter 1: The New Jersey Driver License System",
+        "Phone use under GDL",
+        "A special learner permit holder cannot use a handheld or hands-free phone while driving. Set up directions and calls before departure.",
+        "A learner connects a hands-free headset to answer a call on the road. Does that meet MVC rules?",
+        "No. Hands-free phone use is restricted too.",
+        "You want to call a friend to say you're running late. When should you make the call?",
+        "Before driving or after safely parking."
+      ],
+      [
+        "Chapter 1: The New Jersey Driver License System",
+        "Supervised practice for a permit issued under age 21",
+        "For permits issued on or after February 1, 2025 to drivers under 21, the MVC requires 50 supervised hours, including 10 in darkness, before a probationary license.",
+        "You logged 52 hours but only eight at night. Is the practice record complete?",
+        "No. Log at least two more hours in darkness.",
+        "You logged 40 daylight hours and 10 after dark. Have you met both counts?",
+        "Yes. This meets the hour requirements, not the other licensing requirements."
+      ]
+    ]
+  },
+  {
+    "slug": "california-dmv-road-signs-practice",
+    "state": "California",
+    "agency": "DMV",
+    "manual": "California Driver's Handbook, online edition",
+    "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/",
+    "signs": "Section 7: Laws and Rules of the Road",
+    "signQuiz": "californiaSigns",
+    "percent": 80,
+    "facts": [
+      [
+        "Format and passing score",
+        "Multiple-choice knowledge test. The DMV publishes an 80% passing score.",
+        "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/"
+      ],
+      [
+        "Applicant age and documents",
+        "The minor instruction-permit path begins at 15\u00bd. Bring education documents as applicable and check the DMV's identity and residency requirements.",
+        "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/"
+      ],
+      [
+        "Retest wait for minors",
+        "After a failed knowledge test, a minor must wait seven days, not counting the day of the failure.",
+        "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/the-testing-process/"
+      ]
+    ],
+    "next": [
+      "California DMV instruction permit application",
+      "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/learners-permits/"
+    ],
+    "rules": [
+      [
+        "Section 2: Getting an Instruction Permit and Driver's License",
+        "Permit holding period for minors",
+        "A driver under 18 generally must hold an instruction permit at least six months before scheduling the behind-the-wheel test, unless they turn 18 first.",
+        "You are 17 and have held your permit for five months. Does finishing your lessons let you schedule the drive test now?",
+        "No. Meet the holding-period requirement as well.",
+        "You turn 18 while still holding a permit issued four months ago. Does the minor holding period still apply?",
+        "No. Check the adult application path for the remaining requirements."
+      ],
+      [
+        "Section 2: Getting an Instruction Permit and Driver's License",
+        "Provisional nighttime restriction",
+        "During the first year of a minor's provisional license, ordinary driving between 11 p.m. and 5 a.m. is restricted. Exceptions require a qualifying purpose and supporting documentation.",
+        "You're 17, newly licensed, and want to drive to a friend's house at midnight. Is that ordinarily allowed?",
+        "No. That is during the restricted period.",
+        "A coach says a late school trip is automatically exempt. What should you check?",
+        "Whether the school exception applies and whether you have the required signed note."
+      ],
+      [
+        "Section 2: Getting an Instruction Permit and Driver's License",
+        "Young passengers on a provisional license",
+        "The minor provisional restrictions normally bar passengers under 20 in the first year without a qualifying accompanying driver or a documented exception.",
+        "At 17, can you drive two 18-year-old friends to the store with only your provisional license?",
+        "No, not without a qualifying supervisor or exception.",
+        "A California-licensed parent will ride with you and a 16-year-old passenger. Is the young-passenger restriction the same as if you drove alone?",
+        "No. A qualifying accompanying parent changes the result."
+      ],
+      [
+        "Section 7: Laws and Rules of the Road",
+        "Blue and red curbs",
+        "A blue curb is reserved for qualifying vehicles displaying a disabled-parking placard or plate. A red curb prohibits an ordinary driver from stopping, standing, or parking.",
+        "You do not have a disabled placard or plate. The blue curb is empty and your passenger needs only a minute. Can you park there?",
+        "No. The space is reserved.",
+        "A red curb is the shortest place to pick up your friend. May you stop there without parking?",
+        "No. Go to a lawful pickup location."
+      ],
+      [
+        "Section 7: Laws and Rules of the Road",
+        "Passing someone on a bicycle",
+        "Change lanes to pass a bicyclist when possible. If you cannot change lanes, leave at least three feet; if that gap is not safe, wait.",
+        "The road has a clear lane to your left and a cyclist ahead. What should you do when safe?",
+        "Change lanes to pass.",
+        "An oncoming car blocks the only space needed to leave three feet. What is the right choice?",
+        "Wait behind the bicycle until you can pass safely."
+      ]
+    ]
+  },
+  {
+    "slug": "illinois-dmv-road-signs-practice",
+    "state": "Illinois",
+    "agency": "Secretary of State",
+    "manual": "Illinois Rules of the Road, 2026 edition",
+    "url": "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf",
+    "signs": "Traffic Signs, Signals and Pavement Markings",
+    "signQuiz": "illinoisSigns",
+    "minimum": 35,
+    "percent": 80,
+    "facts": [
+      [
+        "Test size, mark and languages",
+        "At least 35 Class D questions; 80% correct. English is required to be available; the Secretary of State may offer additional languages.",
+        "https://www.ilga.gov/commission/jcar/admincode/092/092010300000800R.html"
+      ],
+      [
+        "Format",
+        "Study signs, signals, pavement markings, multiple-choice items and true-or-false items.",
+        "https://www.ilsos.gov/content/dam/publications/pdf_publications/dsd_a112.pdf"
+      ],
+      [
+        "Teen permit age",
+        "The graduated licensing permit phase starts at age 15.",
+        "https://www.ilsos.gov/departments/drivers/teen-driver-safety/gdl.html"
+      ]
+    ],
+    "next": [
+      "Illinois graduated driver licensing steps",
+      "https://www.ilsos.gov/departments/drivers/teen-driver-safety/gdl.html"
+    ],
+    "rules": [
+      [
+        "Chapter 4: Traffic Laws, Speed Limits",
+        "Signed school-zone speed limit",
+        "The 20 mph rule applies on school days between 6:30 a.m. and 4 p.m. when children are present and signs are posted.",
+        "Children are outside a signed school zone at 3 p.m. on a school day. Is the usual road speed the limit there?",
+        "No. The school-zone limit is 20 mph.",
+        "You see a posted school-zone sign after school hours. Can that time alone tell you every applicable limit?",
+        "No. Check posted instructions and conditions; the specific school-zone rule has several conditions."
+      ],
+      [
+        "Chapter 3: Drivers Under Age 21",
+        "Permit holding period",
+        "The Illinois teen permit generally must be held for at least nine months before moving to initial licensing, alongside other GDL requirements.",
+        "You got the permit at 15 and have held it seven months. Are you through the holding phase?",
+        "No. The minimum is nine months.",
+        "Nine months have passed, but you have not finished supervised practice. Are you ready simply because enough time elapsed?",
+        "No. The hours are a separate requirement."
+      ],
+      [
+        "Chapter 3: Drivers Under Age 21",
+        "Supervised practice hours",
+        "A teen needs at least 50 practice hours, including 10 at night, with a qualifying supervisor.",
+        "Your log has 51 hours, seven of them at night. What is missing?",
+        "Three nighttime hours.",
+        "Your log has 39 daylight hours and 10 nighttime hours. Does it satisfy both counts?",
+        "No. One more total hour is needed."
+      ],
+      [
+        "Chapter 3: Drivers Under Age 21",
+        "Hands-free phone restriction under 19",
+        "Drivers under age 19 cannot use a phone while driving, including hands-free, except for an eligible emergency contact.",
+        "You're 18 and want to dictate a routine text with voice controls. Is it allowed?",
+        "No. Hands-free use is also restricted.",
+        "A driver under 19 needs emergency services after seeing a crash. Is that the same as using a phone for a social call?",
+        "No. The rule includes an emergency exception."
+      ],
+      [
+        "Chapter 3: Drivers Under Age 21",
+        "Weeknight and weekend restrictions",
+        "The statewide GDL limit normally starts at 10 p.m. Sunday through Thursday and 11 p.m. Friday and Saturday. Local curfews can differ.",
+        "A teen with an initial license plans an ordinary Thursday drive at 10:30 p.m. Is it within ordinary hours?",
+        "No. The Thursday restriction starts at 10 p.m.",
+        "Does the same 10 p.m. statewide start automatically apply on Saturday?",
+        "No. Saturday's statewide start is 11 p.m.; local rules can be earlier."
+      ]
+    ]
+  },
+  {
+    "slug": "pennsylvania-dmv-road-signs-practice",
+    "state": "Pennsylvania",
+    "agency": "PennDOT",
+    "manual": "Pennsylvania Driver's Manual (PUB 95), online edition",
+    "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual",
+    "signs": "Chapter 2: Signs, Signals and Pavement Markings",
+    "signQuiz": "pennsylvaniaSigns",
+    "score": [
+      18,
+      15,
+      "83\u2153",
+      ""
+    ],
+    "scoreUrl": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/testing.html",
+    "facts": [
+      [
+        "Format and languages",
+        "Multiple-choice knowledge test. PennDOT lists written and audio options in its testing guide.",
+        "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/testing.html"
+      ],
+      [
+        "Permit documents",
+        "Bring the completed DL-180 including a medical examination, identification and applicable residency evidence. Minor applicants also need DL-180TD.",
+        "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/applying-for-a-learners-permit"
+      ]
+    ],
+    "next": [
+      "PennDOT learner's permit application",
+      "https://www.pa.gov/services/dmv/get-a-driver-license"
+    ],
+    "rules": [
+      [
+        "Chapter 3: Learning to Drive, School Buses",
+        "School bus stop distance and barriers",
+        "Stop at least 10 feet from a bus flashing red with its arm out. You do not need to stop on a separate roadway divided by a physical barrier when traveling in the opposite direction.",
+        "You follow a school bus and it activates red lights and extends its arm. Is stopping five feet behind it enough?",
+        "No. Stop at least 10 feet back.",
+        "The red lights are on and you are opposite the bus across a painted turn lane. Does the paint exempt you from stopping?",
+        "No. A painted lane is not a physical barrier."
+      ],
+      [
+        "Chapter 1: Non-Commercial Learner's Permit Information",
+        "Practice hours include night and poor weather",
+        "Applicants under 18 must complete 65 practice hours with at least 10 at night and five in poor weather.",
+        "You've logged 65 hours, including the nighttime minimum but no bad-weather practice. Is the log ready?",
+        "No. The poor-weather hours are a separate requirement.",
+        "There are 65 hours, five in poor weather, but only nine at night. What do you add?",
+        "At least one more nighttime hour."
+      ],
+      [
+        "Chapter 1: Non-Commercial Learner's Permit Information",
+        "Who can supervise a learner",
+        "A licensed supervisor ordinarily must be at least 21, but the listed parent, guardian, person in loco parentis or spouse exception starts at 18.",
+        "Your 20-year-old licensed cousin is not your guardian. Can they be your only supervisor?",
+        "No. They are under 21 and do not fit a listed exception.",
+        "Can your 20-year-old licensed spouse meet the supervisor age requirement?",
+        "Yes. A licensed spouse can qualify from age 18."
+      ],
+      [
+        "Chapter 3: Learning to Drive, Work Zones",
+        "Headlights in signed work zones",
+        "Use your headlights as required through posted work zones. Daytime running lights are not a substitute.",
+        "You enter a signed active work zone on a bright day. Are daytime running lights enough?",
+        "No. Use your headlights.",
+        "Cars around you have not switched their lights on in a signed work zone. Does that change your obligation?",
+        "No. Turn on your headlights."
+      ],
+      [
+        "Chapter 1: Non-Commercial Learner's Permit Information",
+        "Learner nighttime supervision",
+        "Between 11 p.m. and 5 a.m. a learner needs a parent, guardian, person in loco parentis or spouse who meets the licensing and age requirement.",
+        "Your 23-year-old friend usually supervises you. Can they be your only supervisor at midnight?",
+        "No. The learner nighttime rule is narrower.",
+        "At 4:30 a.m., can a qualifying licensed parent supervise instead?",
+        "Yes, if the parent meets the stated requirements."
+      ]
+    ]
+  },
+  {
+    "slug": "michigan-sos-road-signs-practice",
+    "state": "Michigan",
+    "agency": "SOS",
+    "manual": "What Every Driver Must Know (SOS-133), November 2026 edition",
+    "url": "https://www.michigan.gov/sos/Resources/Forms/what-every-driver-must-know",
+    "signs": "Part 2: Learn the rules of the road",
+    "signQuiz": "roadSignsCore",
+    "facts": [
+      [
+        "Teen course passing grade",
+        "The separate Segment 1 driver education exam requires at least 70%. Do not use that grade as the adult knowledge test passing rule.",
+        "https://www.michigan.gov/sos/license-id/new-drivers-under-18"
+      ],
+      [
+        "Adult format",
+        "First-time adults take the SOS knowledge test at an office or, for eligible customers, online.",
+        "https://www.michigan.gov/sos/license-id/new-drivers-18-older"
+      ],
+      [
+        "Teen learner's license age",
+        "Level 1 starts at 14 years and 9 months after Segment 1 and the other application steps.",
+        "https://www.michigan.gov/sos/license-id/new-drivers-under-18"
+      ]
+    ],
+    "next": [
+      "Michigan teen licensing steps",
+      "https://www.michigan.gov/sos/license-id/new-drivers-under-18"
+    ],
+    "links": [
+      [
+        "Adult Michigan test and Temporary Instruction Permit",
+        "https://www.michigan.gov/sos/license-id/new-drivers-18-older"
+      ]
+    ],
+    "rules": [
+      [
+        "Part 1: Before you drive, Teen licensing",
+        "Separate course and license ages",
+        "Segment 1 enrollment starts at 14 years and 8 months; a Level 1 license requires at least 14 years and 9 months plus the required steps.",
+        "You just turned 14 years and 8 months. Can you start driver education?",
+        "Yes, you meet the Segment 1 enrollment age.",
+        "Can you start private supervised practice with a Level 1 license before reaching 14 years and 9 months?",
+        "No. Course eligibility is not license eligibility."
+      ],
+      [
+        "Part 1: Before you drive, Teen licensing",
+        "Supervision requires authorization",
+        "With a Level 1 license, drive with a parent, guardian or designated licensed adult who meets the state's requirements. An otherwise qualified adult friend is not automatically designated.",
+        "Your parent has not designated the licensed adult who volunteered to supervise. Can you treat that volunteer as your supervisor?",
+        "No. Make sure your parent or guardian designates the qualified adult first.",
+        "A designated licensed adult is only 20. Is designation alone enough?",
+        "No. That adult must also be at least 21."
+      ],
+      [
+        "Part 1: Before you drive, Teen licensing",
+        "Segment 2 prerequisites",
+        "Before Segment 2, hold Level 1 for three consecutive months and log at least 30 practice hours, including two at night.",
+        "You completed 35 hours but have held Level 1 for only two months. Can you start Segment 2?",
+        "No. The license holding period is separate.",
+        "Your three months are up and you logged 30 daylight hours. Is your log ready?",
+        "No. It must include at least two hours at night."
+      ],
+      [
+        "Part 2: Learn the rules of the road, When a school bus stops",
+        "Michigan school bus clearance",
+        "Stop at least 20 feet away when the bus's overhead reds flash on an undivided road. Opposite traffic on a genuinely separated roadway can be exempt; take care near a crosswalk.",
+        "A stopped bus across a solid painted yellow line activates its overhead reds. When do you stop?",
+        "Stop at least 20 feet from the bus.",
+        "You are following directly behind the bus and it activates its overhead reds. Can you drive around it because the other lane is empty?",
+        "No. Stop and remain stopped while its red warning is active."
+      ],
+      [
+        "Part 2: Learn the rules of the road, Turns and intersections",
+        "How a Michigan Left works",
+        "Where a direct left is prohibited, follow the signs for the median crossover. A Michigan Left uses that designated opening, not any gap in the median.",
+        "You want to turn left at a junction but the approach has a No Left Turn sign and signed crossover arrows. What is your next step?",
+        "Follow the crossover route instead of turning directly left.",
+        "You missed the designated crossover and see an unsigned break in a raised median. Do you treat it as the same route?",
+        "No. Continue to a lawful, signed route."
+      ]
+    ]
+  }
+]

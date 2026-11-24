@@ -11,8 +11,10 @@ from zoneinfo import ZoneInfo
 
 if __package__:
     from . import road_sign_classroom_content as classroom
+    from .published_links import clean_links
 else:
     import road_sign_classroom_content as classroom
+    from published_links import clean_links
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -51,7 +53,30 @@ ARCHIVED_SLUGS = frozenset("""
     sat-device-troubleshooting-guide sat-study-plan-by-score-gap
     skills-practice clerical-checking-practice filing-practice
 """.split())
+ARCHIVED_STATES = frozenset("""
+    arizona-mvd-road-signs-practice georgia-dds-road-signs-practice
+    north-carolina-dmv-road-signs-practice ohio-bmv-road-signs-practice
+    virginia-dmv-road-signs-practice
+""".split())
+MERGED_SLUGS = {
+    f"{state}-permit-practice-test": f"{state}-road-signs-practice"
+    for state in (
+        "new-york-dmv", "florida-dmv", "new-jersey-mvc", "california-dmv", "pennsylvania-dmv",
+    )
+}
+STATE_GUIDES = {
+    guide["slug"]: guide
+    for guide in json.loads((ROOT / "content/dmv_state_guides.json").read_text())
+}
 TOOL_BY_SLUG = {tool["slug"]: tool for tool in DATA["tools"]}
+for slug, guide in STATE_GUIDES.items():
+    tool = TOOL_BY_SLUG[slug]
+    tool["title"] = f"{guide['state']} {guide['agency']} Permit Practice Test and Road Signs"
+    tool["description"] = (
+        f"Study {guide['state']} permit-test facts and local driving rules, then practice with original scenarios "
+        "and illustrated road signs."
+    )
+    tool["lastUpdated"] = "November 24, 2026"
 HUBS = [hub for hub in DATA.get("hubs", []) if hub["slug"] not in ARCHIVED_SLUGS]
 DMV_REQUIREMENTS_SLUG = "dmv-permit-test-requirements-by-state"
 DMV_REQUIREMENTS_PAGE = {
@@ -1679,46 +1704,29 @@ def render_tool_actions(tool):
 
 
 def dmv_workbench_routes():
-    states = DATA["home"].get("dmvLaunch", {}).get("states", [])
     requirements = {record["label"]: record for record in dmv_requirements_page_records()}
     routes = []
-    for state in states:
-        label, href = state["label"], state["href"]
+    for guide in STATE_GUIDES.values():
+        label, href = guide["state"], guide["slug"] + ".html"
         fact = requirements.get(label, {})
-        tool = TOOL_BY_SLUG.get(href.removesuffix(".html"), {})
-        guide = state.get("permitHref", href) == ""
-        mixed = bool(fact.get("mixedPracticeUrl"))
-        agency = fact.get("agency") or state.get("agency", f"{label} licensing agency")
-        first_source = next(iter(tool.get("sources", [])), {})
-        source_url = fact.get("manualUrl") or first_source.get("url") or "#official-sources"
-        steps_fragment = state.get("permitStepsFragment")
-        steps_url = f"{href}#{steps_fragment}" if steps_fragment else fact.get("checklistUrl")
-        steps_label = "Checklist" if (steps_url or "").startswith("dmv-test-day-checklist.html") else "Permit steps"
-        plan = "practice questions, drill signs, and finish the checklist" if mixed else "study road signs and review your next step"
-        state_sign_url = state.get("signHref") or fact.get("signUrl") or find_state_sign_href(label)
-        if lesson := state.get("guideLesson"):
-            sign_url, sign_label = f'{href}#{lesson["fragment"]}', lesson["label"]
-        elif not mixed and tool.get("examDetails"):
-            sign_url, sign_label = f"{href}#official-details", "Test details"
-        else:
-            sign_url, sign_label = state_sign_url, "State signs"
+        steps_url = fact.get("checklistUrl") or guide["next"][1]
         routes.append({
             "label": label,
             "state": fact.get("value", label.lower().replace(" ", "-")),
             "practice-url": href,
-            "practice-label": "Study guide" if guide else "Permit practice" if mixed else "Road sign practice",
-            "mixed-practice-url": urlsplit(fact.get("mixedPracticeUrl", "")).path,
-            "sign-url": sign_url,
-            "state-sign-url": state_sign_url,
-            "sign-label": sign_label,
-            "checklist-url": steps_url or f"{href}#sources",
-            "checklist-label": steps_label if steps_url else "State sources",
-            "checklist-available": "true" if steps_label == "Checklist" else "false",
-            "score-available": "true" if fact else "false",
-            "source-url": source_url,
-            "source-label": "Official source" if not source_url.startswith("#") else "Source finder",
-            "agency": agency,
-            "plan-copy": f"Use {agency} for final rules, then {plan}.",
+            "practice-label": "Permit practice",
+            "mixed-practice-url": "",
+            "sign-url": "road-signs-practice-test.html",
+            "state-sign-url": "road-signs-practice-test.html",
+            "sign-label": "Picture quiz",
+            "checklist-url": steps_url,
+            "checklist-label": "Checklist" if steps_url.startswith("dmv-test-day-checklist.html") else "Permit steps",
+            "checklist-available": "true" if steps_url.startswith("dmv-test-day-checklist.html") else "false",
+            "score-available": "true" if guide.get("score") or guide.get("percent") else "false",
+            "source-url": guide["url"],
+            "source-label": "Official source",
+            "agency": guide["agency"],
+            "plan-copy": "Check the permit rules, work through local driving scenarios, then review road signs.",
         })
     return routes
 
@@ -3073,6 +3081,8 @@ def render_card_groups(groups):
 def render_tool_links(slugs):
     links = []
     for slug in slugs:
+        if slug in ARCHIVED_SLUGS or slug in ARCHIVED_STATES or slug in MERGED_SLUGS:
+            continue
         tool = TOOL_BY_SLUG[slug]
         links.append(
             f'<a href="{esc(slug)}.html"><strong>{esc(tool["title"])}</strong><span>{esc(tool["description"])}</span></a>'
@@ -3843,14 +3853,15 @@ def render_hub(hub):
 
 def render_dmv_launcher(heading="Choose a DMV practice path"):
     launch = DATA["home"].get("dmvLaunch", {})
-    states = launch.get("states", [])
     stats = launch.get("stats", [])
     modes = launch.get("modes", [])
     state_cards = []
-    for state in states:
+    for guide in STATE_GUIDES.values():
+        state = {"label": guide["state"], "href": f'{guide["slug"]}.html',
+                 "title": f'{guide["state"]} permit practice', "text": guide["rules"][0][1]}
         checklist_state = find_dmv_state_by_label(state["label"])
         permit_href = state.get("permitHref", state["href"])
-        sign_href = state.get("signHref") or find_state_sign_href(state["label"])
+        sign_href = ""
         checklist_href = state.get("checklistHref") or (checklist_href_for_state(checklist_state) if checklist_state else "")
         guide_lesson = state.get("guideLesson")
         action_items = []
@@ -3885,7 +3896,7 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
     <div>
       <p class="eyebrow">DMV practice engine</p>
       <h2>{esc(heading)}</h2>
-      <p class="section-intro">{esc(launch.get("intro", "Pick a state, then practice road rules, image signs, and mock exam questions with instant feedback."))}</p>
+      <p class="section-intro">Choose a state to check its test requirements and work through local driving scenarios.</p>
     </div>
     <div class="launch-stats">{stat_cards}</div>
   </div>
@@ -6127,6 +6138,110 @@ def render_trust(page):
     return page_shell(page["title"], page["description"], f'/{page["slug"]}.html', body, "trust-page")
 
 
+def render_state_guide(guide):
+    slug = guide["slug"]
+    tool = TOOL_BY_SLUG[slug]
+    state, manual = guide["state"], guide["manual"]
+    source = guide["url"]
+    score = guide.get("score")
+    facts = list(guide["facts"])
+    if score:
+        total, correct, percent, extra = score
+        score_text = f"{state}'s exam has {total} questions. You need {correct} correct ({percent}%), so you can miss up to {total - correct}. {extra}".strip()
+        rule_url = guide.get("scoreUrl", source)
+        facts.insert(0, ("Questions and passing score", f"{correct} of {total} ({percent}%). {extra}".strip(), rule_url))
+    elif guide.get("minimum"):
+        score_text = "Illinois requires at least 35 questions and 80% correct. On a 35-question test, that means 28 correct and up to 7 missed; use the actual length if your test is longer."
+        rule_url = facts[0][2]
+    elif guide.get("percent"):
+        score_text = f"{state} publishes a {guide['percent']}% passing score. Check the length of your actual exam before calculating how many you can miss."
+        rule_url = facts[0][2]
+    else:
+        score_text = "Michigan has different routes for teens and adults. The 70% grade applies to teen Segment 1, not the adult written exam. Start with the rules for the route you are taking."
+        rule_url = facts[0][2]
+    fact_rows = "".join(
+        f'<tr><th scope="row">{esc(label)}</th><td>{esc(value)}</td>'
+        f'<td><a href="{esc(url)}">Official source</a></td></tr>'
+        for label, value, url in facts
+    )
+    rules, questions = [], []
+
+    def question(kind, prompt, answer, explanation, section):
+        return (
+            f'<details data-guide-question="{kind}"><summary>{len(questions) + 1}. {esc(prompt)}</summary>'
+            f'<p><strong>Answer:</strong> {esc(answer)}</p>'
+            f'<p>{esc(explanation)}</p><p><strong>Manual:</strong> {esc(section)}</p></details>'
+        )
+
+    for section, label, explanation, prompt1, answer1, prompt2, answer2 in guide["rules"]:
+        rules.append(f'<li><strong>{esc(label)}</strong> {esc(explanation)} <small>({esc(section)})</small></li>')
+        for prompt, answer in ((prompt1, answer1), (prompt2, answer2)):
+            questions.append(question("state", prompt, answer, explanation, section))
+    state_questions = "".join(questions)
+    for entry in [q for q in DATA["quizzes"][guide["signQuiz"]] if q.get("image")][:10]:
+        image = entry["image"]
+        art = render_road_sign_image(image, ROAD_SIGN_RECALL_CUES[image])
+        answer = question("sign", entry["q"], entry["choices"][entry["answer"]], entry["explanation"], guide["signs"])
+        questions.append(f'<article class="state-sign-question">{art}{answer}</article>')
+    sign_questions = "".join(questions[len(guide["rules"]) * 2:])
+    next_steps = "".join(
+        f'<li><a href="{esc(url)}">{esc(label)}</a></li>'
+        for label, url in (guide["next"], *guide.get("links", []))
+    )
+    body = f"""<section class="hero slim-hero">
+  <div>
+    <h1>{esc(tool["title"])}</h1>
+    <p class="lede">{esc(score_text)} <a href="{esc(rule_url)}">Check the official rule</a>.</p>
+  </div>
+</section>
+<section class="content-section" id="official-details">
+  <h2>{esc(state)} test facts</h2>
+  <div class="table-wrap"><table><thead><tr><th scope="col">Topic</th><th scope="col">What to know</th><th scope="col">Source</th></tr></thead>
+  <tbody>{fact_rows}</tbody></table></div>
+  {render_last_updated(tool["lastUpdated"])}
+  <p>Checked against: <a href="{esc(source)}">{esc(manual)}</a>.</p>
+</section>
+<section class="content-section">
+  <h2>Rules to know in {esc(state)}</h2>
+  <ul>{"".join(rules)}</ul>
+</section>
+<section class="content-section" id="practice">
+  <h2>Practice {esc(state)} rules</h2>
+  <p>Say what you would do before opening the answer. If you miss a scenario, review the named section in the handbook before trying the second example.</p>
+  {state_questions}
+  <h2>Road sign self-check</h2>
+  <div class="table-wrap"><table><thead><tr><th scope="col">Cue</th><th scope="col">First read</th></tr></thead><tbody>
+  <tr><th scope="row">Red octagon</th><td>Stop and check the intersection.</td></tr>
+  <tr><th scope="row">Yellow diamond</th><td>Look for the warning and prepare for the condition.</td></tr>
+  <tr><th scope="row">Orange diamond</th><td>Watch for temporary work-zone conditions.</td></tr>
+  </tbody></table></div>
+  <p><a href="dmv-road-signs-cheat-sheet.html">Full printable road sign reference</a></p>
+  {sign_questions}
+  <p><a href="road-signs-practice-test.html">Take the picture quiz</a> to practice answering without seeing the solution first.</p>
+</section>
+<section class="sources" id="sources">
+  <h2>Official next steps</h2>
+  <ul>{next_steps}</ul>
+</section>"""
+    return page_shell(tool["title"], tool["description"], f"/{slug}.html", body, "tool-page state-guide")
+
+
+def render_merge_redirect(destination):
+    canonical = esc(url_for(f"/{destination}.html"))
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page moved | TestDayTools</title>
+  <link rel="canonical" href="{canonical}">
+  <meta http-equiv="refresh" content="0; url={canonical}">
+</head>
+<body><p>This study guide has moved. <a href="{canonical}">Continue to the updated guide</a>.</p></body>
+</html>
+"""
+
+
 def write(path, content):
     target = ROOT / path
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -6134,7 +6249,15 @@ def write(path, content):
 
 
 def build(output=None):
-    output = output or write
+    write_output = output or write
+
+    def output(path, content):
+        if path.endswith(".html"):
+            content = clean_links(
+                content, path, origin=SITE["url"], redirects=MERGED_SLUGS,
+                unavailable=ARCHIVED_SLUGS | ARCHIVED_STATES,
+            )
+        write_output(path, content)
     write_road_sign_images(output)
     write_contrast_lessons(output)
     publisher_id = SITE.get("adsenseVerification", {}).get("publisherId", "").removeprefix("ca-")
@@ -6165,14 +6288,20 @@ def build(output=None):
         emit_page(slug, render())
     for tool in DATA["tools"]:
         # Retired noindex pages are checked-in snapshots, not build outputs.
-        if not tool.get("indexable", True) or tool["slug"] in ARCHIVED_SLUGS:
+        slug = tool["slug"]
+        if not tool.get("indexable", True) or slug in ARCHIVED_SLUGS | ARCHIVED_STATES or slug in MERGED_SLUGS:
             continue
-        emit_page(tool["slug"], render_tool(tool))
+        if slug in STATE_GUIDES:
+            emit_page(slug, render_state_guide(STATE_GUIDES[slug]))
+        else:
+            emit_page(slug, render_tool(tool))
         if tool.get("calendarDownload"):
             output(tool["calendarDownload"]["filename"], render_calendar_file(tool["calendarDownload"]))
 
     for page in DATA["trustPages"]:
         emit_page(page["slug"], render_trust(page))
+    for slug, destination in MERGED_SLUGS.items():
+        output(f"{slug}.html", render_merge_redirect(destination))
 
     sitemap_urls = "\n".join(
         sitemap_entry(path, lastmod)

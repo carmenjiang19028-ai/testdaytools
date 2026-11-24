@@ -6612,3 +6612,10 @@ button:disabled {
     break-inside: avoid;
   }
 }
+.state-guide .table-wrap { max-width: 100%; overflow-x: auto; }
+.state-guide .table-wrap table { width: 100%; }
+.state-guide li + li { margin-top: 12px; }
+.state-guide [data-guide-question] { border-top: 1px solid var(--line); padding: 4px 0; min-width: 0; }
+.state-guide summary { cursor: pointer; min-height: 44px; padding: 10px 2px; overflow-wrap: anywhere; }
+.state-guide .state-sign-question { display: grid; grid-template-columns: minmax(70px, 120px) minmax(0, 1fr); align-items: start; gap: 12px; }
+.state-guide .state-sign-question img { width: 100%; height: auto; }
