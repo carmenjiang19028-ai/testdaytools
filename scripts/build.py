@@ -1651,11 +1651,8 @@ def render_tool_actions(tool):
     return f'\n    <div class="hero-actions">{links}</div>'
 
 
-def render_home_practice_panel():
-    launch = DATA["home"].get("dmvLaunch", {})
-    states = launch.get("states", [])
-    if not states:
-        return ""
+def dmv_workbench_routes():
+    states = DATA["home"].get("dmvLaunch", {}).get("states", [])
     requirements = {record["label"]: record for record in dmv_requirements_page_records()}
     routes = []
     for state in states:
@@ -1671,30 +1668,45 @@ def render_home_practice_panel():
         steps_url = f"{href}#{steps_fragment}" if steps_fragment else fact.get("checklistUrl")
         steps_label = "Checklist" if (steps_url or "").startswith("dmv-test-day-checklist.html") else "Permit steps"
         plan = "practice questions, drill signs, and finish the checklist" if mixed else "study road signs and review your next step"
+        state_sign_url = state.get("signHref") or fact.get("signUrl") or find_state_sign_href(label)
         if lesson := state.get("guideLesson"):
             sign_url, sign_label = f'{href}#{lesson["fragment"]}', lesson["label"]
         elif not mixed and tool.get("examDetails"):
             sign_url, sign_label = f"{href}#official-details", "Test details"
         else:
-            sign_url, sign_label = find_state_sign_href(label), "State signs"
+            sign_url, sign_label = state_sign_url, "State signs"
         routes.append({
             "label": label,
+            "state": fact.get("value", label.lower().replace(" ", "-")),
             "practice-url": href,
             "practice-label": "Study guide" if guide else "Permit practice" if mixed else "Road sign practice",
+            "mixed-practice-url": urlsplit(fact.get("mixedPracticeUrl", "")).path,
             "sign-url": sign_url,
+            "state-sign-url": state_sign_url,
             "sign-label": sign_label,
             "checklist-url": steps_url or f"{href}#sources",
             "checklist-label": steps_label if steps_url else "State sources",
+            "checklist-available": "true" if steps_label == "Checklist" else "false",
+            "score-available": "true" if fact else "false",
             "source-url": source_url,
             "source-label": "Official source" if not source_url.startswith("#") else "Source finder",
             "agency": agency,
             "plan-copy": f"Use {agency} for final rules, then {plan}.",
         })
+    return routes
+
+
+def render_home_practice_panel():
+    launch = DATA["home"].get("dmvLaunch", {})
+    routes = dmv_workbench_routes()
+    if not routes:
+        return ""
     default_state = next((route for route in routes if route["label"] == "Florida"), routes[0])
     state_options = []
     for route in routes:
         attributes = " ".join(
-            f'data-{key}="{esc(value)}"' for key, value in route.items() if key != "label"
+            f'data-{key}="{esc(value)}"' for key, value in route.items()
+            if key not in {"label", "mixed-practice-url", "score-available", "state-sign-url"}
         )
         label = esc(route["label"])
         selected = " selected" if route == default_state else ""
@@ -3845,25 +3857,23 @@ def render_dmv_launcher(heading="Choose a DMV practice path"):
 
 
 def render_dmv_journey_dashboard():
-    states = get_dmv_checklist_states()
-    if not states:
+    routes = dmv_workbench_routes()
+    if not routes:
         return ""
     checklist = TOOL_BY_SLUG["dmv-test-day-checklist"]["toolWidget"]["items"]
     check_ids = " ".join(item["id"] for item in checklist)
-    default_state = next((state for state in states if state.get("value") == "florida"), states[0])
+    default_state = next((route for route in routes if route["state"] == "florida"), routes[0])
     options = []
-    for state in states:
-        mixed_page = dmv_mixed_practice(state).get("page", "")
+    route_attributes = (
+        "label", "practice-url", "mixed-practice-url", "checklist-url",
+        "checklist-available", "score-available", "source-url",
+    )
+    for route in routes:
+        attributes = " ".join(f'data-{key}="{esc(route[key])}"' for key in route_attributes)
+        attributes += f' data-sign-url="{esc(route["state-sign-url"])}"'
+        selected = " selected" if route is default_state else ""
         options.append(
-            f'<option value="{esc(state.get("value", ""))}" '
-            f'data-label="{esc(state.get("label", ""))}" '
-            f'data-agency="{esc(state.get("agency", "State agency"))}" '
-            f'data-practice-url="{esc(state.get("permitUrl", "dmv-practice.html"))}" '
-            f'data-mixed-practice-url="{esc(mixed_page)}" '
-            f'data-sign-url="{esc(state.get("signUrl", find_state_sign_href(state.get("label", ""))))}" '
-            f'data-checklist-url="{esc(checklist_href_for_state(state))}" '
-            f'data-source-url="{esc(state.get("manualUrl", "#"))}" '
-            f'{"selected" if state is default_state else ""}>{esc(state.get("label", ""))}</option>'
+            f'<option value="{esc(route["state"])}" {attributes}{selected}>{esc(route["label"])}</option>'
         )
     return f"""<section class="dmv-journey" data-dmv-journey data-journey-check-ids="{esc(check_ids)}" aria-labelledby="dmv-journey-title">
   <div class="journey-header">
@@ -3873,7 +3883,7 @@ def render_dmv_journey_dashboard():
       <p class="section-intro">Build a baseline, revisit weak areas, use mixed practice where available, and confirm test-day logistics.</p>
     </div>
     <label class="journey-state-control">Your state
-      <select data-journey-state>{"".join(options)}</select>
+      <select data-journey-state disabled>{"".join(options)}</select>
       <small>No account. Your progress stays in this browser.</small>
     </label>
   </div>
@@ -3884,7 +3894,7 @@ def render_dmv_journey_dashboard():
       <p data-journey-copy>One short round creates a real baseline and reveals the first category to review.</p>
       <div class="journey-actions">
         <a href="road-signs-practice-test.html?mode=road-signs-starter#practice" data-journey-primary>Start 10 questions</a>
-        <a href="{esc(default_state.get("manualUrl", "#"))}" target="_blank" rel="noopener" data-journey-source>Official state source</a>
+        <a href="{esc(default_state["source-url"])}" target="_blank" rel="noopener" data-journey-source>Official state source</a>
       </div>
     </div>
     <dl class="journey-stats">
@@ -3899,8 +3909,8 @@ def render_dmv_journey_dashboard():
   <div class="journey-steps" aria-label="DMV readiness milestones">
     <article data-journey-step="warmup"><span>1</span><div><strong>Build a 10-question baseline</strong><p>Attempt 10 different questions.</p></div><b data-journey-step-status>Not started</b></article>
     <article data-journey-step="review"><span>2</span><div><strong>Repair the weak area</strong><p>Use misses to choose signs or state rules.</p></div><b data-journey-step-status>Waiting</b></article>
-    <article data-journey-step="passes"><span>3</span><div><strong>Meet two mixed-practice targets</strong><p>Two full sets for this state in 14 days. Older scores without a recorded round type stay in history but do not count here.</p></div><b data-journey-step-status>0 of 2</b></article>
-    <article data-journey-step="ready"><span>4</span><div><strong>Mark the test-day checklist</strong><p>Confirm documents, source, and visit logistics.</p></div><b data-journey-step-status>0 of {len(checklist)}</b></article>
+    <article data-journey-step="passes"><span>3</span><div><strong data-journey-mixed-title>Meet two mixed-practice targets</strong><p data-journey-mixed-copy>Two full sets for this state in 14 days. Older scores without a recorded round type stay in history but do not count here.</p></div><b data-journey-step-status>0 of 2</b></article>
+    <article data-journey-step="ready"><span>4</span><div><strong data-journey-ready-title>Mark the test-day checklist</strong><p>Confirm documents, source, and visit logistics.</p></div><b data-journey-step-status>0 of {len(checklist)}</b></article>
   </div>
   <div class="journey-recent" data-journey-recent hidden>
     <span>Latest completed round</span>

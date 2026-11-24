@@ -112,6 +112,49 @@ for (const scripts of ['disabled', 'blocked']) {
     }, { javaScriptEnabled: scripts !== 'disabled' }));
 }
 
+for (const width of [390, 1280]) {
+  test(`${width}px: both DMV pickers and home shortcuts preserve a guide-only state`, () =>
+    withSite(width, async (page) => {
+      await page.goto(`${origin}/dmv-practice.html`);
+      const workbench = page.locator('[data-workbench-state]');
+      const journeyState = page.locator('[data-journey-state]');
+      await workbench.selectOption('New York');
+      await workbench.selectOption('Arizona');
+      assert.equal(await journeyState.inputValue(), 'arizona');
+      assert.match(await page.locator('[data-journey-source]').getAttribute('href'), /^https:\/\/azdot\.gov\//);
+      assert.equal(await passes(page).textContent(), 'Not available');
+      assert.equal(await page.locator('[data-journey-step="ready"] [data-journey-step-status]').textContent(), 'Not tracked here');
+      assert.equal(await page.evaluate(() => localStorage.getItem('tdt-dmv-test-day:last-state')), 'new-york');
+      await page.evaluate(({ masteryKey, now }) => {
+        const items = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [
+          `baseline-${i}`, { state: 'general', dueAt: now + 86400000 },
+        ]));
+        localStorage.setItem(masteryKey, JSON.stringify({ items }));
+      }, { masteryKey, now });
+      await page.reload();
+      const next = page.locator('[data-journey-primary]');
+      assert.equal(await next.textContent(), 'Open permit steps');
+      assert.equal(await next.getAttribute('href'), 'arizona-mvd-road-signs-practice.html#arizona-permit-path');
+      await page.goto(`${origin}/index.html`);
+      assert.equal(await journeyState.inputValue(), 'arizona');
+      const score = page.locator('.pocket-tabs [data-home-state-shortcut]').first();
+      const docs = page.locator('.pocket-tabs [data-home-state-shortcut]').last();
+      assert.match(await score.getAttribute('href'), /\?source=home_pocket_tab&state=arizona#score-calculator$/);
+      assert.equal(await docs.getAttribute('href'), 'arizona-mvd-road-signs-practice.html#arizona-permit-path');
+      await journeyState.selectOption('michigan');
+      const michiganSteps = 'michigan-sos-road-signs-practice.html#michigan-test-path';
+      assert.equal(await score.evaluate(link => link.hidden), true);
+      assert.equal(await docs.textContent(), 'Permit');
+      assert.equal(await docs.getAttribute('href'), michiganSteps);
+      await page.goto(`${origin}/dmv-practice.html`);
+      assert.equal(await workbench.inputValue(), 'Michigan');
+      assert.equal(await journeyState.inputValue(), 'michigan');
+      await journeyState.selectOption('florida');
+      assert.equal(await workbench.inputValue(), 'Florida');
+      assert.equal(await page.locator('[data-journey-step="ready"] [data-journey-step-status]').textContent(), `0 of ${visitChecks.length}`);
+    }));
+}
+
 for (const resume of [false, true]) {
   test(`a focused score becomes one full local round ${resume ? "after resuming the next day" : "without a reload"}`, () =>
     withSite(resume ? 1280 : 390, async (page) => {
@@ -549,6 +592,12 @@ test("Texas and Illinois do not substitute a signs-only page for mixed practice"
       illinois: "",
       pennsylvania: "pennsylvania-dmv-permit-practice-test.html",
       "new-jersey": "new-jersey-mvc-permit-practice-test.html",
+      georgia: "",
+      "north-carolina": "",
+      ohio: "",
+      virginia: "",
+      michigan: "",
+      arizona: "",
     });
     const items = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [
       `baseline-${i}`, { state: "general", dueAt: now + day },

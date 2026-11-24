@@ -602,6 +602,10 @@ h3 {
   display: none;
 }
 
+[data-home-state-shortcut][hidden] {
+  display: none;
+}
+
 .mini-drill-actions button,
 .mini-drill-actions a,
 .workbench-route-actions a {

@@ -431,16 +431,18 @@ function saveDmvJourney(journey) {
   document.dispatchEvent(new CustomEvent("tdt:dmv-progress", { detail: journey }));
 }
 
-function setDmvJourneyState(value) {
+function setDmvJourneyState(value, { checklistAvailable = true } = {}) {
   const state = normalizeDmvState(value);
   if (!state) return;
   const journey = readDmvJourney();
   if (journey.state === state) return;
   journey.state = state;
-  try {
-    window.localStorage.setItem("tdt-dmv-test-day:last-state", state);
-  } catch (error) {
-    // State still changes for this visit when storage is blocked.
+  if (checklistAvailable) {
+    try {
+      window.localStorage.setItem("tdt-dmv-test-day:last-state", state);
+    } catch (error) {
+      // State still changes for this visit when storage is blocked.
+    }
   }
   saveDmvJourney(journey);
   document.dispatchEvent(new CustomEvent("tdt:dmv-state", { detail: { state } }));
@@ -2062,7 +2064,9 @@ function initPracticeWorkbenches() {
 
     stateSelect?.addEventListener("change", () => {
       updateStateLinks();
-      setDmvJourneyState(stateSelect.value);
+      setDmvJourneyState(stateSelect.value, {
+        checklistAvailable: stateSelect.selectedOptions[0]?.dataset.checklistAvailable !== "false",
+      });
       trackToolEvent("study_state_change", { state: normalizeDmvState(stateSelect.value) });
     });
     document.addEventListener("tdt:dmv-state", (event) => {
@@ -2680,8 +2684,11 @@ function initDmvJourneyDashboards() {
     const reviewCopy = dashboard.querySelector("[data-journey-review-copy]");
     const reviewLink = dashboard.querySelector("[data-journey-review-link]");
     const homeShortcuts = Array.from(document.querySelectorAll("[data-home-state-shortcut]"), (link) => ({
-      link, destination: link.getAttribute("href"),
+      link, destination: link.getAttribute("href"), label: link.textContent,
     }));
+    const readyTitle = dashboard.querySelector("[data-journey-ready-title]");
+    const mixedTitle = dashboard.querySelector("[data-journey-mixed-title]");
+    const mixedCopy = dashboard.querySelector("[data-journey-mixed-copy]");
     let selectedHere = false;
     const steps = Object.fromEntries(
       Array.from(dashboard.querySelectorAll("[data-journey-step]")).map((step) => [step.dataset.journeyStep, step]),
@@ -2735,14 +2742,30 @@ function initDmvJourneyDashboards() {
       if (!option) return;
       const state = option.value;
       const stateLabel = option.dataset.label || option.textContent.trim();
-      homeShortcuts.forEach(({ link, destination }) => {
+      const checklistAvailable = option.dataset.checklistAvailable !== "false";
+      const scoreAvailable = option.dataset.scoreAvailable !== "false";
+      homeShortcuts.forEach(({ link, destination, label }) => {
+        link.hidden = false;
         if (!selectedHere && journey.state !== state) {
           link.setAttribute("href", destination);
+          link.textContent = label;
           return;
         }
         const target = new URL(destination, window.location.href);
+        const isScore = target.hash === "#score-calculator";
+        if (isScore && !scoreAvailable) {
+          link.hidden = true;
+          link.setAttribute("href", option.dataset.checklistUrl);
+          return;
+        }
+        if (!isScore && !checklistAvailable) {
+          link.setAttribute("href", option.dataset.checklistUrl);
+          link.textContent = label === "Checklist" ? "Permit steps" : "Permit";
+          return;
+        }
         target.searchParams.set("state", state);
         link.setAttribute("href", destination.split(/[?#]/, 1)[0] + target.search + target.hash);
+        link.textContent = label;
       });
       const today = journey.days[localDayStamp()] || { answered: 0, correct: 0, sessions: 0 };
       const answeredToday = Number(today.answered) || 0;
@@ -2762,8 +2785,8 @@ function initDmvJourneyDashboards() {
         String(session.href || "").split(/[?#]/, 1)[0] === permitPage &&
         Number(session.completedAt) >= twoWeeksAgo
       )).length;
-      const readyCount = checklistCount(state);
-      const checklistMarked = checkIds.length > 0 && readyCount === checkIds.length;
+      const readyCount = checklistAvailable ? checklistCount(state) : 0;
+      const checklistMarked = checklistAvailable && checkIds.length > 0 && readyCount === checkIds.length;
       const weak = recent
         ? recent.weak?.[0] || ""
         : Object.entries(journey.weak).sort((a, b) => Number(b[1]) - Number(a[1]))[0]?.[0] || "";
@@ -2787,9 +2810,15 @@ function initDmvJourneyDashboards() {
       } else {
         setStep("review", "Waiting", false, false);
       }
+      if (mixedTitle) mixedTitle.textContent = permitPage ? "Meet two mixed-practice targets" : "No full mixed practice here";
+      if (mixedCopy) mixedCopy.textContent = permitPage
+        ? "Two full sets for this state in 14 days. Older scores without a recorded round type stay in history but do not count here."
+        : "A road-sign round does not measure readiness for the full knowledge exam.";
       setStep("passes", permitPage ? `${Math.min(targetRounds, 2)} of 2` : "Not available", targetRounds >= 2, Boolean(permitPage) && baselineComplete && targetRounds < 2 && !mastery.due);
       const checklistNext = targetRounds >= 2 || (!permitPage && baselineComplete && !mastery.due);
-      const readyStatus = checkIds.length ? `${readyCount} of ${checkIds.length}` : "Check visit list";
+      if (readyTitle) readyTitle.textContent = checklistAvailable ? "Mark the test-day checklist" : "Confirm your permit steps";
+      const readyStatus = !checklistAvailable ? "Not tracked here"
+        : checkIds.length ? `${readyCount} of ${checkIds.length}` : "Check visit list";
       setStep("ready", readyStatus, checklistMarked, checklistNext && !checklistMarked);
 
       if (recent && recentBox) {
@@ -2848,7 +2877,7 @@ function initDmvJourneyDashboards() {
         title.textContent = `Confirm ${stateLabel} exam requirements`;
         copy.textContent = "This path includes sign practice but not a full state mixed round. Check the official handbook and confirm the documents, appointment, and rules for your test.";
         primary.href = option.dataset.checklistUrl || "dmv-test-day-checklist.html";
-        primary.textContent = "Open test-day checklist";
+        primary.textContent = checklistAvailable ? "Open test-day checklist" : "Open permit steps";
       } else if (permitPage && targetRounds < 2) {
         kicker.textContent = "Check the full practice set";
         title.textContent = targetRounds ? "Meet the practice target once more" : "Meet the full practice target";
@@ -2874,7 +2903,9 @@ function initDmvJourneyDashboards() {
 
     stateSelect?.addEventListener("change", () => {
       selectedHere = true;
-      setDmvJourneyState(stateSelect.value);
+      setDmvJourneyState(stateSelect.value, {
+        checklistAvailable: stateSelect.selectedOptions[0]?.dataset.checklistAvailable !== "false",
+      });
       render();
       trackToolEvent("study_state_change", { state: stateSelect.value, surface: "journey_dashboard" });
     });
@@ -2904,6 +2935,7 @@ function initDmvJourneyDashboards() {
       if (event.persisted) render();
     });
     render();
+    if (stateSelect) stateSelect.disabled = false;
   });
 }
 
