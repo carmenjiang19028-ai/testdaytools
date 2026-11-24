@@ -5114,6 +5114,8 @@
             "manualLabel": "Texas Driver Handbook",
             "manualUrl": "https://www.dps.texas.gov/Internetforms/Forms/DL-7.pdf",
             "realIdUrl": "https://www.dps.texas.gov/apps/DriverLicense/RealID",
+            "firstPermitSourceUrl": "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen",
+            "firstPermitDetail": "The Texas teen learner license is for ages 15-17. If you are 18 or older, see the DPS original driver license instructions under Sources.",
             "permitUrl": "texas-dmv-permit-practice-test.html",
             "signUrl": "texas-dmv-road-signs-practice.html",
             "format": "Use Texas DPS sources for the current knowledge-exam format and testing details.",
@@ -5337,6 +5339,12 @@
                   "label": "DL-180 physical exam completed",
                   "text": "Have your health care provider fill out the medical section before your visit. Bring the completed DL-180. The form is valid for one year from the exam date.",
                   "scopes": ["first-permit", "minor"]
+                },
+                "texas": {
+                  "id": "tx-teen-application",
+                  "label": "Teen learner application (ages 15-17)",
+                  "text": "Complete the driver license application for your DPS office visit.",
+                  "scopes": ["first-permit", "minor"]
                 }
               }
             },
@@ -5355,6 +5363,12 @@
                   "label": "Signed Social Security card",
                   "text": "PennDOT lists the signed card among the items to bring for a first permit.",
                   "scopes": ["first-permit", "minor"]
+                },
+                "texas": {
+                  "id": "tx-teen-ssn",
+                  "label": "Social Security number for DPS",
+                  "text": "DPS verifies the number electronically. Do not enter it in this checklist.",
+                  "scopes": ["first-permit", "minor"]
                 }
               }
             },
@@ -5371,6 +5385,12 @@
                   "label": "DL-180TD: examiner or notary",
                   "text": "Bring the consent form. If your parent comes, they can sign in front of the examiner. If they cannot attend, they must sign before a notary. See the PennDOT form for other eligible signers.",
                   "scopes": ["minor"]
+                },
+                "texas": {
+                  "id": "tx-teen-consent",
+                  "label": "Parent or guardian authorization",
+                  "text": "Have your parent or guardian come with you, bring the application they signed and had notarized, or confirm the waiver evidence DPS accepts.",
+                  "scopes": ["first-permit", "minor"]
                 }
               }
             },
@@ -5382,7 +5402,22 @@
               "scopes": [
                 "first-permit",
                 "minor"
-              ]
+              ],
+              "stateOverrides": {
+                "texas": {
+                  "id": "tx-teen-course-certificate",
+                  "label": "Texas teen course certificate: 6h concurrent / 24h block",
+                  "text": "Confirm 6 hours for concurrent or 24 hours for block classroom instruction. Bring the provider's certificate (DE-964, DEE-964 or DE-964E).",
+                  "scopes": ["first-permit", "minor"]
+                }
+              }
+            },
+            {
+              "id": "tx-teen-school-record",
+              "state": "texas",
+              "label": "School record: diploma, GED or VOE",
+              "text": "Bring a diploma, GED or signed VOE. DPS lists 30 days, or 90 days if issued June through August. Ask DPS if your form shows a different expiry.",
+              "scopes": ["first-permit", "minor"]
             },
             {
               "id": "online-provider-record",
@@ -5392,7 +5427,22 @@
               "scopes": [
                 "first-permit",
                 "minor"
-              ]
+              ],
+              "stateOverrides": {
+                "texas": {
+                  "id": "tx-teen-knowledge",
+                  "label": "Official knowledge test proof or plan",
+                  "text": "If you passed in your course, bring proof of the official result; otherwise plan to test at DPS. This site's practice score is not proof.",
+                  "scopes": ["first-permit", "minor"]
+                }
+              }
+            },
+            {
+              "id": "tx-teen-status-documents",
+              "state": "texas",
+              "label": "Citizenship or lawful presence proof",
+              "text": "Use the DPS instructions to find the accepted evidence for your situation.",
+              "scopes": ["first-permit", "minor"]
             },
             {
               "id": "name-change",
@@ -5567,6 +5617,14 @@
         {
           "label": "Texas DPS: Driver Handbook",
           "url": "https://www.dps.texas.gov/Internetforms/Forms/DL-7.pdf"
+        },
+        {
+          "label": "Texas DPS: Teen learner license",
+          "url": "https://www.dps.texas.gov/section/driver-license/texas-learners-license-teen"
+        },
+        {
+          "label": "Texas DPS: Original driver license (18+)",
+          "url": "https://www.dps.texas.gov/section/driver-license/apply-texas-driver-license"
         },
         {
           "label": "FLHSMV: Handbooks and Manuals",
@@ -9724,6 +9782,13 @@
               "text": "Confirm signs, traffic signals, pavement markers, railroad controls, and channelizing devices in the current Texas handbook.",
               "href": "https://www.dps.texas.gov/InternetForms/Forms/DL-7.pdf",
               "cta": "Open the Texas handbook"
+            },
+            {
+              "label": "Learner license visit",
+              "title": "Prepare the DPS visit if you are 15-17",
+              "text": "A practice score is not a test record. Confirm your course certificate, school record and parent or guardian authorization before going to DPS.",
+              "href": "dmv-test-day-checklist.html?state=texas#document-pack-builder",
+              "cta": "Open the Texas teen document pack"
             }
           ]
         },
@@ -9869,7 +9934,7 @@
         "Retake the road-sign round later instead of immediately guessing again.",
         "Confirm final wording in the Texas Driver Handbook."
       ],
-      "lastUpdated": "November 23, 2026"
+      "lastUpdated": "November 24, 2026"
     },
     {
       "slug": "florida-dmv-permit-practice-test",

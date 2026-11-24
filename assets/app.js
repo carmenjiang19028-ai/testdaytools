@@ -3531,7 +3531,7 @@ function initDmvChecklists() {
     const visiblePackItems = () => packItems.filter((item) => !item.closest("[data-dmv-pack-row]")?.hidden);
     const isFirstPermit = () => ["first-permit", "minor"].includes(packType?.value);
     const packDetail = (option, applicant) => isFirstPermit() && option?.dataset.firstPermitSourceUrl
-      ? "Use the official first-permit steps to confirm what to bring to the licensing center."
+      ? option.dataset.firstPermitDetail || "Use the official first-permit steps to confirm what to bring to the licensing center."
       : applicant?.dataset.packDetail;
     const documentSource = (option = selectedOption()) => {
       if (packType?.value === "real-id" && option?.dataset.realIdUrl) {
@@ -3695,11 +3695,11 @@ function initDmvChecklists() {
 
       const inScope = (row) => !(row.dataset.excludedStates || "").split(" ").includes(option?.value)
         && (row.dataset.scopes || "all").split(/\s+/).some((scope) => scope === "all" || scope === type);
-      const applicableOverrides = new Set(packRows.filter((row) =>
+      const applicableStateRows = new Set(packRows.filter((row) =>
         row.dataset.state && row.dataset.state === option?.value && inScope(row)));
-      const replaced = new Set(Array.from(applicableOverrides, (row) => row.dataset.replaces));
+      const replaced = new Set(Array.from(applicableStateRows, (row) => row.dataset.replaces).filter(Boolean));
       packRows.forEach((row) => {
-        row.hidden = row.dataset.state ? !applicableOverrides.has(row) : !inScope(row) || replaced.has(row.dataset.itemId);
+        row.hidden = row.dataset.state ? !applicableStateRows.has(row) : !inScope(row) || replaced.has(row.dataset.itemId);
       });
 
       const visible = visiblePackItems();

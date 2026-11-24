@@ -2291,8 +2291,12 @@ def render_virginia_knowledge_retest():
 def render_dmv_checklist_widget(widget):
     states = widget.get("states", [])
     items = widget.get("items", [])
+    def permit_detail_attr(state):
+        detail = state.get("firstPermitDetail")
+        return f' data-first-permit-detail="{esc(detail)}"' if detail else ""
+
     options = "".join(
-        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-real-id-url="{esc(state.get("realIdUrl", ""))}" data-first-permit-source-url="{esc(state.get("firstPermitSourceUrl", ""))}" data-mixed-practice-url="{esc(dmv_mixed_practice(state).get("href", ""))}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}" data-agency="{esc(state.get("agency", "State agency"))}" data-documents="{esc(state.get("documents", ""))}" data-appointment="{esc(state.get("appointment", ""))}" data-retake="{esc(state.get("retake", ""))}">{esc(state["label"])}</option>'
+        f'<option value="{esc(state["value"])}" data-manual-label="{esc(state["manualLabel"])}" data-manual-url="{esc(state["manualUrl"])}" data-real-id-url="{esc(state.get("realIdUrl", ""))}" data-first-permit-source-url="{esc(state.get("firstPermitSourceUrl", ""))}"{permit_detail_attr(state)} data-mixed-practice-url="{esc(dmv_mixed_practice(state).get("href", ""))}" data-sign-url="{esc(state["signUrl"])}" data-format="{esc(state["format"])}" data-focus="{esc(state["focus"])}" data-agency="{esc(state.get("agency", "State agency"))}" data-documents="{esc(state.get("documents", ""))}" data-appointment="{esc(state.get("appointment", ""))}" data-retake="{esc(state.get("retake", ""))}">{esc(state["label"])}</option>'
         for state in states
     )
     checklist_items = "".join(
@@ -2406,7 +2410,7 @@ def render_dmv_document_pack(planner, states):
 
     document_items = []
     for item in planner.get("items", []):
-        document_items.append(render_item(item))
+        document_items.append(render_item(item, item.get("state", "")))
         document_items.extend(
             render_item(override, state, item["id"])
             for state, override in item.get("stateOverrides", {}).items()
