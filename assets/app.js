@@ -228,6 +228,27 @@ const RETIRED_DMV_ITEMS = [
     name: "New York passing",
     choices: ["Pull over safely and rest", "Drink water and keep going no matter what", "Follow another car closely"],
   },
+  {
+    page: "road-signs-practice-test.html", mode: "road-signs-core", name: "highway merge",
+    prompt: "When traffic is merging, what creates the safest gap?",
+    category: "Traffic flow warning signs", replacementCategory: "Traffic flow warning signs", replacementSign: "image:merge", answer: 0,
+    replacementPrompt: "Your on-ramp is about to join the highway. A car is beside you in the lane you need to enter. What should you do?",
+    choices: [
+      "Matching traffic speed while adjusting space early", "Stopping in the through lane",
+      "Blocking the merging lane", "Driving beside another vehicle through the merge point",
+    ],
+  },
+  {
+    page: "road-signs-practice-test.html", mode: "road-signs-core", name: "no-passing",
+    prompt: "What should you do when a no-passing zone begins before a hill or curve?",
+    category: "Passing signs", replacementCategory: "Passing signs", replacementSign: "image:no-passing", answer: 0,
+    replacementPrompt: "You are behind a slower car on a two-lane road. The oncoming lane looks empty, but you have reached this sign. What should you do?",
+    choices: [
+      "Finish any pass only if you can do so without entering the prohibited zone",
+      "Start a pass because traffic is slower uphill", "Use the shoulder to pass",
+      "Ignore the sign when the center line is visible",
+    ],
+  },
 ];
 const retiredDmvMasteryIds = new Set(RETIRED_DMV_ITEMS.map(item =>
   `${item.state || "general"}|${masteryToken(item.prompt)}|${masteryToken(item.choices[item.answer])}`));
@@ -783,7 +804,7 @@ function initQuizzes() {
     const pageName = window.location.pathname.split("/").pop() || "index.html";
     const mode = quiz.closest("[data-mode-panel]")?.dataset.modePanel;
     const supportsBaseline = isDmvQuiz && pageName === PICTURE_PRACTICE_PAGE && mode === PICTURE_REVIEW_MODE;
-    const retiredItem = isDmvQuiz && RETIRED_DMV_ITEMS.find(item => item.page === pageName && item.mode === mode);
+    const retiredItems = isDmvQuiz ? RETIRED_DMV_ITEMS.filter(item => item.page === pageName && item.mode === mode) : [];
     const pictureLessonFor = (question) => supportsBaseline && mistakeStorageAvailable && question
       ? PICTURE_REVIEW_LESSONS.find(lesson => lesson.images.includes(question.dataset.flashcardKey))
       : undefined;
@@ -814,13 +835,13 @@ function initQuizzes() {
 
     const changedRoundQuestions = (saved, version) => {
       const current = roundSignature();
-      if (saved === current) return new Set();
+      if (saved === current) return new Map();
       if (typeof saved !== "string") return null;
       try {
         const previous = JSON.parse(saved);
         const rows = JSON.parse(current);
         if (!Array.isArray(previous) || previous.length !== rows.length) return null;
-        const changed = new Set();
+        const changed = new Map();
         for (const [index, row] of previous.entries()) {
           if (!Array.isArray(row) || row.length !== rows[index].length) return null;
           // v1 drafts may lack an image clue; explanations need not match to restore answers.
@@ -828,14 +849,14 @@ function initQuizzes() {
             || signIdentifiers(questions[index]).includes(row[5]);
           if (row.every((value, field) => field === 2 || (field === 5 ? sameSign : value === rows[index][field]))) continue;
           // Carry over only explicitly recognized retired items. Their old answers are never regraded.
-          const retiredMatches = retiredItem && (sameSign || row[5] === retiredItem.legacyClue)
-            && rows[index][5] === (retiredItem.replacementSign ?? null)
-            && rows[index][3] === retiredItem.replacementCategory && row[4] === rows[index][4]
-            && (!retiredItem.replacementPrompt || rows[index][0] === retiredItem.replacementPrompt)
-            && row[0] === retiredItem.prompt && row[1] === String(retiredItem.answer) && row[3] === retiredItem.category
-            && retiredItem.choices.every((choice, i) => row[i + 6] === choice);
-          if (!retiredMatches) return null;
-          changed.add(index);
+          const retired = retiredItems.find(item => (sameSign || row[5] === item.legacyClue)
+            && rows[index][5] === (item.replacementSign ?? null)
+            && rows[index][3] === item.replacementCategory && row[4] === rows[index][4]
+            && (!item.replacementPrompt || rows[index][0] === item.replacementPrompt)
+            && row[0] === item.prompt && row[1] === String(item.answer) && row[3] === item.category
+            && item.choices.every((choice, i) => row[i + 6] === choice));
+          if (!retired) return null;
+          changed.set(index, retired);
         }
         return changed;
       } catch (error) {
@@ -1397,8 +1418,8 @@ function initQuizzes() {
             picks.set(index, button);
           }
           if (picks.size === draft.picks.length) {
-            const recheck = draft.sequence.some(index => changed.has(index));
-            changed.forEach(index => picks.delete(index));
+            const recheck = draft.sequence.map(index => changed.get(index)).filter(Boolean);
+            changed.forEach((_, index) => picks.delete(index));
             // A retired item does not put its replacement into an existing due or missed-only set.
             const restoredSequence = ["due", "saved"].includes(focus)
               ? draft.sequence.filter(index => !changed.has(index)) : draft.sequence;
@@ -1419,11 +1440,19 @@ function initQuizzes() {
               if (typeof draft.focusedRoundId === "string" && /^[a-f0-9]{32}$/.test(draft.focusedRoundId)) {
                 savedRound = { id: draft.focusedRoundId, fullRound: false };
               }
-              toolMessage = recheck
-                ? ["due", "saved"].includes(focus)
-                  ? `Unfinished review restored. The retired ${retiredItem.name || "YIELD"} item was left out.`
-                  : `Unfinished round restored. The updated ${retiredItem.name || "YIELD"} question needs a fresh answer.`
-                : "Unfinished round restored from this browser.";
+              toolMessage = "Unfinished round restored from this browser.";
+              if (recheck.length) {
+                const label = recheck[0].name || "YIELD";
+                if (["due", "saved"].includes(focus)) {
+                  toolMessage = recheck.length === 1
+                    ? `Unfinished review restored. The retired ${label} item was left out.`
+                    : `Unfinished review restored. ${recheck.length} retired questions were left out.`;
+                } else {
+                  toolMessage = recheck.length === 1
+                    ? `Unfinished round restored. The updated ${label} question needs a fresh answer.`
+                    : `Unfinished round restored. ${recheck.length} updated questions need fresh answers.`;
+                }
+              }
               renderScore({ restoring: true });
               renderActiveQuestion();
               return;

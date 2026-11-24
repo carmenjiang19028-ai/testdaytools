@@ -38,6 +38,17 @@ const retiredNewYorkDrowsy = [
   "Driver fitness", null, null,
   "Pull over safely and rest", "Drink water and keep going no matter what", "Follow another car closely",
 ];
+const retiredPictureDecisions = [
+  [37, "When traffic is merging, what creates the safest gap?", "Traffic flow warning signs", [
+    "Matching traffic speed while adjusting space early", "Stopping in the through lane",
+    "Blocking the merging lane", "Driving beside another vehicle through the merge point",
+  ]],
+  [39, "What should you do when a no-passing zone begins before a hill or curve?", "Passing signs", [
+    "Finish any pass only if you can do so without entering the prohibited zone",
+    "Start a pass because traffic is slower uphill", "Use the shoulder to pass",
+    "Ignore the sign when the center line is visible",
+  ]],
+];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -294,6 +305,53 @@ test("a retired strategy item no longer leaves a stale due count or review quest
     assert.equal(await active(page).locator("[data-quiz-jump]").count(), 0);
     assert.deepEqual(await read(page, masteryKey), oldMastery);
   }));
+
+for (const width of [390, 1280]) {
+  test(`${width}px: three retired picture answers do not discard the rest of the saved round`, () =>
+    withSite(width, async page => {
+      await page.goto(core + "#practice");
+      const quiz = active(page);
+      await quiz.locator('[data-quiz-jump="0"]').click();
+      await answer(quiz, true);
+      const draft = await read(page, recentKey);
+      const rows = JSON.parse(draft.draft.signature);
+      rows[revisedYieldIndex] = retiredYield;
+      for (const [index, prompt, category, choices] of retiredPictureDecisions) {
+        const row = rows[index];
+        rows[index] = [prompt, "0", row[2], category, row[4], row[5], ...choices];
+      }
+      draft.draft.signature = JSON.stringify(rows);
+      draft.draft.picks.push([revisedYieldIndex, 1], [37, 0], [39, 0]);
+      draft.draft.position = draft.draft.sequence.indexOf(37);
+      draft.answered = 4;
+      draft.correct = 4;
+      await page.evaluate(({ recentKey, draft }) => localStorage.setItem(recentKey, JSON.stringify(draft)), { recentKey, draft });
+      const mastery = await read(page, masteryKey);
+      await page.goto(core + "&resume=1#practice");
+      assert.equal(await progress(quiz), "1 of 40 answered");
+      assert.equal(await cursor(quiz), "37");
+      assert.match(await quiz.locator("[data-quiz-next]").innerText(), /3 updated questions need fresh answers/);
+      assert.equal(await quiz.locator('[data-question-index="0"] [data-choice]:disabled').count(), 4);
+      for (const index of [revisedYieldIndex, 37, 39]) {
+        assert.equal(await quiz.locator(`[data-question-index="${index}"] [data-choice]:enabled`).count(), 4);
+      }
+      assert.deepEqual(await read(page, recentKey), draft);
+      assert.deepEqual(await read(page, masteryKey), mastery);
+      assert.deepEqual(await milestones(page), []);
+
+      const merge = question(quiz);
+      await merge.getByRole("button", { name: "Yield, adjust speed, and merge only when a safe gap opens" }).press("Enter");
+      assert.match(await merge.locator(".feedback").innerText(), /^Correct\..*Matching speed alone/s);
+      assert.equal(await merge.getByRole("link", { name: /California DMV: merging/ }).isVisible(), true);
+      await quiz.locator('[data-quiz-jump="39"]').click();
+      const passing = question(quiz);
+      await passing.getByRole("button", { name: "Stay behind the slower car until passing is permitted and safe" }).press("Enter");
+      assert.match(await passing.locator(".feedback").innerText(), /^Correct\..*does not cancel the posted restriction/s);
+      assert.equal(await passing.getByRole("link", { name: /FHWA: DO NOT PASS/ }).isVisible(), true);
+      assert.equal(await progress(quiz), "3 of 40 answered");
+      assert.equal(await quiz.getAttribute("data-pass-score"), "32");
+    }));
+}
 
 test("a full regulatory draft keeps the other answers and does not grade the retired strategy answer again", () =>
   withSite(390, async page => {

@@ -22894,18 +22894,22 @@
         "explanation": "Slippery When Wet warns that tire grip may be reduced. Lower speed and make steering, braking, and acceleration changes gradually."
       },
       {
-        "q": "When traffic is merging, what creates the safest gap?",
+        "q": "Your on-ramp is about to join the highway. A car is beside you in the lane you need to enter. What should you do?",
         "image": "merge",
         "imageAlt": "Yellow diamond with a straight upward arrow and a separate curved stem joining from the right",
         "category": "Traffic flow warning signs",
         "choices": [
-          "Matching traffic speed while adjusting space early",
-          "Stopping in the through lane",
-          "Blocking the merging lane",
-          "Driving beside another vehicle through the merge point"
+          "Yield, adjust speed, and merge only when a safe gap opens",
+          "Merge as soon as your speed matches the other car's",
+          "Move partly into the lane to make the other car give you space",
+          "Stay beside the other car all the way to the merge point"
         ],
         "answer": 0,
-        "explanation": "A merge warning calls for early speed and space management. Avoid staying beside another vehicle where the lanes join."
+        "explanation": "Matching speed alone does not make room in an occupied lane. Yield to traffic already on the highway. Signal, check mirrors and your blind spot, and adjust to a safe, legal speed before joining a gap that is large enough.",
+        "source": {
+          "url": "https://www.dmv.ca.gov/portal/handbook/california-driver-handbook/navigating-the-roads/",
+          "label": "California DMV: merging onto a highway"
+        }
       },
       {
         "q": "Can you always drive at the posted speed shown here?",
@@ -22922,18 +22926,22 @@
         "explanation": "A speed limit is the legal maximum under normal conditions. Rain, darkness, traffic, curves, or limited visibility can require a slower safe speed."
       },
       {
-        "q": "What should you do when a no-passing zone begins before a hill or curve?",
+        "q": "You are behind a slower car on a two-lane road. The oncoming lane looks empty, but you have reached this sign. What should you do?",
         "image": "no-passing",
         "imageAlt": "White rectangle reading DO NOT PASS in black",
         "category": "Passing signs",
         "choices": [
-          "Finish any pass only if you can do so without entering the prohibited zone",
-          "Start a pass because traffic is slower uphill",
-          "Use the shoulder to pass",
-          "Ignore the sign when the center line is visible"
+          "Stay behind the slower car until passing is permitted and safe",
+          "Pass now because no oncoming traffic is visible",
+          "Use the shoulder so you do not enter the opposite lane",
+          "Signal first so the pass is allowed"
         ],
         "answer": 0,
-        "explanation": "A no-passing zone marks limited sight distance or another unsafe condition. Do not begin a pass that would continue into the prohibited area."
+        "explanation": "A clear-looking lane does not cancel the posted restriction. Leave room behind the slower car and stay in your lane. Consider passing again only when it is allowed and you have enough visibility and space to complete it safely.",
+        "source": {
+          "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=38",
+          "label": "FHWA: DO NOT PASS (Section 2B.36)"
+        }
       }
     ],
     "regulatorySignsCore": [
