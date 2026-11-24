@@ -163,6 +163,84 @@ test("the optional timer follows elapsed time and keeps its ticks out of announc
   } finally { await context.close(); }
 });
 
+for (const width of [320, 1280]) {
+  test(`${width}px: the timer stops on the last answer and a restart starts untimed`, async () => {
+    const { context, page, quiz } = await openQuiz(width, "road-signs-practice-test", "road-signs-starter");
+    try {
+      await page.clock.install();
+      const timer = quiz.getByRole("timer");
+      const start = quiz.getByRole("button", { name: "Start 10-min timer" });
+      await quiz.locator("[data-quiz-filter]").selectOption("Speed signs");
+      await start.press("Enter");
+      await page.clock.fastForward(61_000);
+      if (width === 320) {
+        await quiz.getByRole("button", { name: "Pause timer" }).press("Enter");
+        await page.clock.fastForward(120_000);
+      }
+      const active = quiz.locator(".question.is-active");
+      await active.locator(`[data-choice="${await active.getAttribute("data-answer")}"]`).press("Enter");
+      const stopped = await timer.textContent();
+      assert.match(stopped, /^Timed set complete\. 1:0[1-3] of active time\.$/);
+      assert.match(await quiz.locator("[data-quiz-result]").textContent(), /^1 of 1 correct/);
+      await page.clock.fastForward(600_000);
+      assert.equal(await timer.textContent(), stopped);
+      assert.equal(await quiz.getByRole("button", { name: "Timer complete", exact: true }).isDisabled(), true);
+      assert.doesNotMatch(await quiz.locator("[data-quiz-timer-announcement]").textContent(), /time is up/i);
+      if (process.env.TIMER_SCREENSHOTS_DIR) {
+        fs.mkdirSync(process.env.TIMER_SCREENSHOTS_DIR, { recursive: true });
+        await timer.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: path.join(process.env.TIMER_SCREENSHOTS_DIR, `timed-set-complete-${width}.png`) });
+      }
+      if (width === 1280) {
+        await quiz.locator("[data-quiz-filter]").selectOption("all");
+        assert.equal(await quiz.locator("[data-quiz-answered]").textContent(), "1 of 10 answered");
+        await start.press("Enter");
+        assert.match(await timer.textContent(), /10:00 left/);
+      }
+      await quiz.locator("[data-quiz-reset]").press("Enter");
+      assert.equal(await timer.textContent(), "Untimed practice");
+      assert.equal(await start.isEnabled(), true);
+      await page.clock.fastForward(600_000);
+      assert.equal(await timer.textContent(), "Untimed practice");
+    } finally { await context.close(); }
+  });
+}
+
+test("a category view cannot finish the clock for a larger set or carry its clock into a restart", async () => {
+  const { context, page, quiz } = await openQuiz(390, "road-signs-practice-test", "road-signs-starter");
+  try {
+    await page.clock.install();
+    const timer = quiz.getByRole("timer");
+    const filters = quiz.locator("[data-quiz-filter]");
+    await quiz.getByRole("button", { name: "Start 10-min timer" }).press("Enter");
+    await filters.selectOption("Speed signs");
+    await quiz.locator(".question.is-active [data-choice]").first().press("Enter");
+    assert.match(await timer.textContent(), /left in this round/);
+    await filters.selectOption("all");
+    assert.equal(await quiz.locator("[data-quiz-answered]").textContent(), "1 of 10 answered");
+    assert.match(await timer.textContent(), /left in this round/);
+    await quiz.locator("[data-quiz-reset]").press("Enter");
+    await page.clock.fastForward(600_000);
+    assert.equal(await timer.textContent(), "Untimed practice");
+    assert.equal(await quiz.locator("[data-quiz-answered]").textContent(), "0 of 10 answered");
+  } finally { await context.close(); }
+});
+
+test("finishing after the timer expires still records the result without claiming it was in time", async () => {
+  const { context, page, quiz } = await openQuiz(390, "road-signs-practice-test", "road-signs-starter");
+  try {
+    await page.clock.install();
+    const timer = quiz.getByRole("timer");
+    await quiz.locator("[data-quiz-filter]").selectOption("Speed signs");
+    await quiz.getByRole("button", { name: "Start 10-min timer" }).press("Enter");
+    await page.clock.fastForward(610_000);
+    assert.match(await timer.textContent(), /Time is up/);
+    await quiz.locator(".question.is-active [data-choice]").first().press("Enter");
+    assert.equal(await timer.textContent(), "Timed set complete. The timer ran out.");
+    assert.match(await quiz.locator("[data-quiz-result]").textContent(), /^[01] of 1 correct/);
+  } finally { await context.close(); }
+});
+
 for (const width of [390, 1280]) {
   test(`${width}px: answer feedback, next, previous, and jump keep the active picture question in view`, async () => {
     const { context, page, quiz } = await openQuiz(width, "road-signs-practice-test", "road-signs-core");

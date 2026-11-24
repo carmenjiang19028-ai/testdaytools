@@ -645,9 +645,8 @@ function initQuizzes() {
     let toolMessage = "";
     const timerLength = 10 * 60 * 1000;
     let timerId = 0;
-    let timerRemaining = timerLength;
-    let timerDeadline = 0;
-    let timerComplete = false;
+    const untimedClock = () => ({ state: "idle", remaining: timerLength, deadline: 0, indexes: [] });
+    let roundClock = untimedClock();
     let quizStartedTracked = false;
     let quizHalfwayTracked = false;
     let quizCompletedTracked = false;
@@ -938,6 +937,7 @@ function initQuizzes() {
     };
 
     const renderActiveQuestion = () => {
+      renderTimer();
       const activeQuestionIndex = getActiveQuestionIndex();
       questions.forEach((question, index) => {
         const isActive = index === activeQuestionIndex;
@@ -1351,6 +1351,7 @@ function initQuizzes() {
         if (feedback) feedback.textContent = "";
         question.querySelector("[data-quiz-source]")?.setAttribute("hidden", "");
       });
+      showRoundTimer();
       renderScore();
       renderActiveQuestion();
     };
@@ -1388,7 +1389,8 @@ function initQuizzes() {
       const wasIndependent = independentDmvRound(previous);
       const isIndependent = independentDmvRound(value);
       activePracticeFocus = value;
-      if (isIndependent && !wasIndependent && pickedAnswers.size && pickedAnswers.size < questions.length) {
+      if (isIndependent && !wasIndependent && (pickedAnswers.size || roundClock.state !== "idle") &&
+          pickedAnswers.size < questions.length) {
         const clock = readRoundTimer();
         suspendedRound = {
           focus: previous, activeSequence, fullSequence, activePosition, picks: [...pickedAnswers], clock,
@@ -1396,7 +1398,6 @@ function initQuizzes() {
           quizCompletedTracked, tenQuestionsTracked,
         };
       }
-      if (isIndependent && value !== previous) showRoundTimer();
       if (wasIndependent && !isIndependent) {
         resetQuiz();
         const round = suspendedRound;
@@ -1496,21 +1497,28 @@ function initQuizzes() {
       saveMovedCursor();
     };
 
+    const formatTimer = (seconds) => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+    const timerTimeUp = "Time is up. You can keep practicing.";
+    const timedSetResult = () => roundClock.remaining
+      ? `Timed set complete. ${formatTimer(Math.floor((timerLength - roundClock.remaining) / 1000))} of active time.`
+      : "Timed set complete. The timer ran out.";
+
     const renderTimer = () => {
-      if (!timerLabel) return;
-      if (timerComplete) {
-        timerLabel.textContent = "Time is up. Finish the current question, then review.";
-        return;
-      }
-      if (!timerDeadline) {
-        timerLabel.textContent = "Untimed practice";
-        return;
-      }
-      const remainingSeconds = Math.ceil(timerRemaining / 1000);
-      const minutes = Math.floor(remainingSeconds / 60);
-      const seconds = String(remainingSeconds % 60).padStart(2, "0");
-      const time = `${minutes}:${seconds}`;
-      timerLabel.textContent = timerId ? `${time} left in this round` : `Paused at ${time}`;
+      if (!timerButton || !timerLabel) return;
+      const { state, remaining } = roundClock;
+      const isTracking = state === "running" || state === "paused";
+      const time = formatTimer(Math.ceil(remaining / 1000));
+      const unavailable = !isTracking && !activeSequence.some(index => !answered.has(index));
+      const buttonLabel = unavailable ? state === "finished" ? "Timer complete" : "Timer unavailable"
+        : state === "running" ? "Pause timer"
+        : state === "paused" ? "Resume timer" : state === "expired" ? "Restart timer" : "Start 10-min timer";
+      const status = state === "finished" ? timedSetResult()
+        : state === "expired" ? timerTimeUp
+        : state === "running" ? `${time} left in this round`
+        : state === "paused" ? `Paused at ${time}` : "Untimed practice";
+      timerButton.disabled = unavailable;
+      if (timerButton.textContent !== buttonLabel) timerButton.textContent = buttonLabel;
+      if (timerLabel.textContent !== status) timerLabel.textContent = status;
     };
 
     const announceTimer = (message) => {
@@ -1522,52 +1530,61 @@ function initQuizzes() {
       timerId = 0;
     };
 
+    const remainingTimerTime = () => roundClock.state === "running"
+      ? Math.max(roundClock.deadline - Date.now(), 0) : roundClock.remaining;
+
     const readRoundTimer = () => {
-      const remaining = timerId ? Math.max(timerDeadline - Date.now(), 0) : timerRemaining;
-      return { remaining, started: Boolean(timerDeadline), complete: remaining === 0 };
+      const remaining = remainingTimerTime();
+      const state = roundClock.state === "running" ? remaining > 0 ? "paused" : "expired" : roundClock.state;
+      return { ...roundClock, remaining, state, deadline: 0 };
     };
 
-    const showRoundTimer = (clock) => {
+    const showRoundTimer = (clock = untimedClock()) => {
       if (!timerButton) return;
       stopTimer();
-      timerRemaining = clock?.remaining ?? timerLength;
-      timerDeadline = clock?.started ? Date.now() : 0;
-      timerComplete = clock?.complete ?? false;
-      timerButton.textContent = timerComplete ? "Restart timer" : timerDeadline ? "Resume timer" : "Start 10-min timer";
+      roundClock = clock;
       renderTimer();
       announceTimer("");
     };
 
     const tickTimer = () => {
-      timerRemaining = Math.max(timerDeadline - Date.now(), 0);
-      if (!timerRemaining) {
+      roundClock.remaining = remainingTimerTime();
+      if (!roundClock.remaining) {
         stopTimer();
-        timerComplete = true;
-        timerButton.textContent = "Restart timer";
-        announceTimer("Time is up. Finish the current question, then review.");
+        roundClock.state = "expired";
+        announceTimer(timerTimeUp);
       }
       renderTimer();
     };
 
+    const finishTimedSet = (index) => {
+      // Changing a category is a view change, not an answer in the set the learner timed.
+      if (roundClock.state === "finished" || !roundClock.indexes.includes(index) ||
+          !roundClock.indexes.every(questionIndex => answered.has(questionIndex))) return;
+      roundClock.remaining = remainingTimerTime();
+      roundClock.state = "finished";
+      stopTimer();
+      renderTimer();
+      announceTimer(timedSetResult());
+    };
+
     const toggleTimer = () => {
-      if (!timerButton) return;
-      if (timerId) {
-        tickTimer();
-        if (!timerComplete) {
-          stopTimer();
-          timerButton.textContent = "Resume timer";
-          renderTimer();
-          announceTimer("Timer paused.");
-        }
+      if (!timerButton || timerButton.disabled) return;
+      if (roundClock.state === "running") {
+        roundClock = readRoundTimer();
+        stopTimer();
+        renderTimer();
+        announceTimer(roundClock.state === "expired" ? timerTimeUp : "Timer paused.");
         return;
       }
-      const resuming = timerDeadline && !timerComplete;
-      if (timerComplete) {
-        timerComplete = false;
-        timerRemaining = timerLength;
+      const resuming = roundClock.state === "paused";
+      if (!resuming) {
+        const indexes = activeSequence.filter(index => !answered.has(index));
+        if (!indexes.length) return;
+        roundClock = { ...untimedClock(), indexes };
       }
-      timerButton.textContent = "Pause timer";
-      timerDeadline = Date.now() + timerRemaining;
+      roundClock.state = "running";
+      roundClock.deadline = Date.now() + roundClock.remaining;
       timerId = window.setInterval(tickTimer, 1000);
       renderTimer();
       announceTimer(resuming ? "Timer resumed." : "10-minute timer started.");
@@ -1722,6 +1739,7 @@ function initQuizzes() {
           toolMessage = "";
 
           const { isCorrect, feedback } = showCheckedAnswer(index, button);
+          finishTimedSet(index);
           if (isCorrect) {
             resolveMistake(question);
           } else {
