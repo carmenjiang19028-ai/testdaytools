@@ -2491,7 +2491,16 @@ function initRoadSignFlashcards() {
         announcement.textContent = open ? back.innerText.trim() : "";
       }
     };
-    const focusCard = () => (answerToggle(activeCard()) || filterSelect)?.focus({ preventScroll: true });
+    const focusDeckControl = (control) => {
+      if (!control) return;
+      control.focus({ preventScroll: true });
+      const { top, bottom } = control.getBoundingClientRect();
+      const headerBottom = Math.max(0, document.querySelector(".site-header")?.getBoundingClientRect().bottom ?? 0);
+      if (top < headerBottom + 8 || bottom > window.innerHeight - 8) {
+        control.scrollIntoView({ block: "center", behavior: "instant" });
+      }
+    };
+    const focusCard = () => focusDeckControl(answerToggle(activeCard()) || filterSelect);
 
     const render = () => {
       cards.forEach((card, index) => {
@@ -2621,7 +2630,7 @@ function initRoadSignFlashcards() {
       applyFilters(activePosition, true);
       if (message) message.textContent = persisted ? "Saved marks cleared."
         : "Marks cleared for this session only. Browser storage could not be updated.";
-      filterSelect?.focus({ preventScroll: true });
+      focusDeckControl(filterSelect);
     };
     resetButton?.addEventListener("click", () => {
       if (typeof resetDialog?.showModal === "function") {

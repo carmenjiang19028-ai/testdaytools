@@ -18,6 +18,14 @@ const marked = page => page.evaluate(() => window.dataLayer.filter(event => even
 const deckUrl = pathToFileURL(path.resolve(__dirname, "../dmv-road-sign-flashcards.html")).href;
 const savedMarks = page => page.evaluate(() => JSON.parse(localStorage.getItem("tdt-road-sign-flashcards")));
 
+async function assertVisibleFocus(control) {
+  assert.equal(await control.evaluate(element => {
+    const { top, bottom } = element.getBoundingClientRect();
+    const headerBottom = Math.max(0, document.querySelector(".site-header").getBoundingClientRect().bottom);
+    return document.activeElement === element && top >= headerBottom && bottom <= innerHeight;
+  }), true);
+}
+
 async function withDeck(width, run, seed = null) {
   const context = await browser.newContext({ viewport: { width, height: 900 } });
   await context.route(/^https?:/, route => route.abort());
@@ -92,6 +100,30 @@ test("saved review cards can be revisited, and a known card leaves the saved que
     assert.equal(await known(page).isDisabled(), true);
   }, { known: ["stop"], review: ["merge", "lane-ends"], updatedAt: 1 }));
 
+for (const [width, height] of [[320, 568], [740, 280], [1280, 850]]) {
+  test(`${width} by ${height}: keyboard card changes keep the destination focus on screen`, () =>
+    withDeck(width, async page => {
+      await page.setViewportSize({ width, height });
+      await queue(page).selectOption("review");
+      for (const [control, expected] of [["next", "lane-ends"], ["prev", "merge"]]) {
+        const button = page.locator(`[data-flashcard-${control}]`);
+        await button.evaluate(element => element.scrollIntoView({ block: "start", behavior: "instant" }));
+        await button.press("Enter");
+        assert.equal(await active(page).getAttribute("data-card-id"), expected);
+        await assertVisibleFocus(reveal(page));
+      }
+      assert.equal(await marked(page), 0);
+      await page.keyboard.press("Enter");
+      await known(page).press("Enter");
+      assert.equal(await active(page).getAttribute("data-card-id"), "lane-ends");
+      await assertVisibleFocus(reveal(page));
+      await page.keyboard.press("Enter");
+      await known(page).press("Enter");
+      await assertVisibleFocus(queue(page));
+      assert.equal(await marked(page), 2);
+    }, { known: [], review: ["merge", "lane-ends"], updatedAt: 1 }));
+}
+
 for (const width of [320, 1280]) {
   test(`${width}px: clearing marks requires explicit confirmation and never resets another tool`, () =>
     withDeck(width, async page => {
@@ -125,6 +157,7 @@ for (const width of [320, 1280]) {
       await reset.click();
       await dlg.getByRole("button", { name: "Clear all marks" }).click();
       await page.getByText("Saved marks cleared.", { exact: true }).waitFor();
+      await assertVisibleFocus(queue(page));
       assert.deepEqual((await savedMarks(page)).known, []);
       assert.deepEqual((await savedMarks(page)).review, []);
       assert.equal(await queue(page).inputValue(), "warning");
