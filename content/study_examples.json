@@ -1,4 +1,43 @@
 {
+  "new-york-dmv-permit-practice-test": {
+    "id": "ny-headlight-cases",
+    "heading": "New York headlight decisions: rain, fog and night driving",
+    "intro": "Decide whether headlights are required first. Then choose a beam that lets you see without creating glare. These cases are separate from your practice score.",
+    "examples": [
+      {
+        "title": "Bright afternoon, but the wipers are running",
+        "question": "A shower starts near Albany. You can still see well down the highway, but you are using your wipers to clear rain. Your daytime running lights are on. What should change?",
+        "steps": [
+          "Switch on your headlights. Using the wipers because of weather triggers New York's headlight requirement even when you can see clearly.",
+          "Use low beams in the rain. Daytime running lights and parking lights do not replace headlights.",
+          "Slow down and give the vehicle ahead more room. The headlights address visibility, not the loss of grip on wet pavement."
+        ],
+        "mistake": "Don't wait for it to get dark or for visibility to fall before turning on your headlights when the wiper rule already applies.",
+        "check": "The rain stops and your wipers are off, but dense fog now hides the road beyond about 500 feet. Can you switch off the headlights?",
+        "answer": "No. Not having a clear view 1,000 feet ahead independently requires headlights. Keep them on low beam because high beams can reflect off the fog and make it harder to see.",
+        "source": {
+          "label": "NY DMV Driver Manual, Chapter 10: Special Driving Conditions",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-10-special-driving-conditions"
+        }
+      },
+      {
+        "title": "Two cars, two distances for dimming high beams",
+        "question": "It is an hour after sunset on a dry, clear road. You have high beams on. An oncoming car is about 450 feet away. A car you are following is about 300 feet ahead. Which car already requires you to dim?",
+        "steps": [
+          "Keep the headlights on: it is more than half an hour after sunset.",
+          "Dim for the approaching car. In New York, use low beams within 500 feet of an oncoming vehicle.",
+          "The car ahead is outside the 200-foot following limit in this example. That does not cancel the oncoming-car rule."
+        ],
+        "mistake": "Don't use the same distance for both directions, and don't wait for the oncoming driver to flash their lights.",
+        "check": "The oncoming car has passed, but you close to 150 feet behind the other car. Can you switch back to high beams?",
+        "answer": "No. Stay on low beam when following within 200 feet, even if the vehicle ahead is in another lane.",
+        "source": {
+          "label": "New York Vehicle and Traffic Law, section 375(2) and (3)",
+          "url": "https://www.nysenate.gov/legislation/laws/VAT/375"
+        }
+      }
+    ]
+  },
   "florida-dmv-road-signs-practice": {
     "id": "florida-right-turn-decisions",
     "heading": "Florida: does this sign require, prohibit, or delay a right turn?",

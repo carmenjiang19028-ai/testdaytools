@@ -7703,6 +7703,7 @@
         {"label": "Study by topic", "href": "#practice-topics"},
         {"label": "NY school bus cases", "href": "#new-york-school-bus"},
         {"label": "Junior permit driving", "href": "#ny-junior-practice"},
+        {"label": "When to use headlights", "href": "#ny-headlight-cases"},
         {"label": "Test-day checklist", "href": "dmv-test-day-checklist.html?state=new-york#dmv-checklist"}
       ],
       "stateRulePractice": {
@@ -17478,7 +17479,11 @@
         ],
         "answer": 0,
         "category": "Night driving",
-        "explanation": "High beams can blind other drivers through glare."
+        "explanation": "In New York, switch to low beams within 500 feet of an oncoming vehicle or within 200 feet of a vehicle ahead, even if it is in another lane. This reduces glare for the other driver. In fog, low beams also help you avoid glare reflected back at you.",
+        "source": {
+          "label": "NY DMV Driver Manual: Night Driving",
+          "url": "https://dmv.ny.gov/new-york-state-drivers-manual-and-practice-tests/chapter-10-special-driving-conditions"
+        }
       },
       {
         "q": "If a tire blows out, the safest first response is to:",
