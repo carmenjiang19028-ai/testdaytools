@@ -2661,6 +2661,7 @@ function initRoadSignFlashcards() {
 
     load();
     applyFilters();
+    deck.querySelector("[data-flashcard-controls]")?.removeAttribute("hidden");
     if (fromSheet) sheetSummary.scrollIntoView();
   });
 }

@@ -4944,7 +4944,9 @@ def render_road_sign_flashcards_page():
     <span class="eyebrow">Interactive deck</span>
     <h2>Study DMV road signs with saved review cards</h2>
     <p class="section-intro">Name the sign and say the driver action before checking the answer. Saved for review keeps the cards you want to revisit on this device.</p>
+    <p><a href="dmv-road-signs-cheat-sheet.html#printable-sheet">Open the printable signs and meanings</a></p>
   </div>
+  <div data-flashcard-controls hidden>
   <div class="flashcard-controls">
     <label>Sign group <select data-flashcard-filter>{filter_options}</select></label>
     <label>Search cards <input type="search" placeholder="Try stop, yield, merge, school, hospital..." data-flashcard-search></label>
@@ -4984,7 +4986,7 @@ def render_road_sign_flashcards_page():
     <button type="button" data-flashcard-next>Next</button>
   </div>
   <p class="flashcard-next-step" data-flashcard-message></p>
-  <noscript><p><a href="dmv-road-signs-cheat-sheet.html#printable-sheet">Open the printable reference with sign names and actions</a></p></noscript>
+  </div>
 </section>
 <section class="hub-primary">
   <h2>Move from flashcards into practice</h2>

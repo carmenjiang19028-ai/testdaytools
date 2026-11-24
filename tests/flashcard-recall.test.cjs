@@ -18,6 +18,51 @@ const marked = page => page.evaluate(() => window.dataLayer.filter(event => even
 const deckUrl = pathToFileURL(path.resolve(__dirname, "../dmv-road-sign-flashcards.html")).href;
 const savedMarks = page => page.evaluate(() => JSON.parse(localStorage.getItem("tdt-road-sign-flashcards")));
 
+for (const [width, outcome] of [[320, "delayed"], [1280, "failed"]]) {
+  test(`${width}px: a ${outcome} deck script never exposes unusable controls`, async () => {
+    const origin = "https://testdaytools.test";
+    const root = path.resolve(__dirname, "..");
+    const context = await browser.newContext({ viewport: { width, height: 850 } });
+    let releaseScript;
+    const gate = new Promise(resolve => { releaseScript = resolve; });
+    try {
+      await context.route("**/*", async route => {
+        const url = new URL(route.request().url());
+        if (url.origin !== origin) return route.abort();
+        if (url.pathname === "/assets/app.js") {
+          if (outcome === "failed") return route.abort();
+          await gate;
+        }
+        return route.fulfill({ path: path.join(root, url.pathname) });
+      });
+      const page = await context.newPage();
+      const url = origin + "/dmv-road-sign-flashcards.html#flashcards";
+      await page.goto(url, { waitUntil: outcome === "delayed" ? "commit" : "load" });
+      const fallback = page.getByRole("link", { name: "Open the printable signs and meanings" });
+      await fallback.waitFor({ state: "visible", timeout: 4000 });
+      assert.equal(await page.getByRole("button", { name: "Reveal answer" }).count(), 0);
+      assert.equal(await page.getByRole("searchbox", { name: "Search cards" }).count(), 0);
+      assert.equal(await page.getByRole("button", { name: "Next", exact: true }).count(), 0);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      if (outcome === "failed") {
+        await fallback.press("Enter");
+        await page.waitForURL(origin + "/dmv-road-signs-cheat-sheet.html#printable-sheet");
+        assert.equal(await page.locator("#printable-sheet .cheat-sign-card:visible").count(), 31);
+        return;
+      }
+      releaseScript();
+      await page.waitForLoadState("load");
+      assert.equal(await fallback.isVisible(), true);
+      await reveal(page).press("Enter");
+      assert.equal(await reveal(page).getAttribute("aria-expanded"), "true");
+      assert.equal(await marked(page), 0);
+    } finally {
+      releaseScript();
+      await context.close();
+    }
+  });
+}
+
 async function assertVisibleFocus(control) {
   assert.equal(await control.evaluate(element => {
     const { top, bottom } = element.getBoundingClientRect();
