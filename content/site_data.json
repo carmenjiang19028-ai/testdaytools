@@ -22570,18 +22570,22 @@
         "explanation": "A red circle and diagonal slash is a common prohibition symbol, telling drivers that the pictured action is not allowed."
       },
       {
-        "q": "Why should permit-test practice include both sign meaning and driver action?",
+        "q": "At this sign, a driver waves you across but their car hides the next lane. What should you do?",
         "image": "yield",
         "imageAlt": "Point-down white triangle with a red border reading YIELD",
-        "category": "Test strategy",
+        "category": "Yielding in traffic",
         "choices": [
-          "Because signs only matter on highways",
-          "Because test questions often ask what to do, not just what the sign is called",
-          "Because colors are never tested",
-          "Because state manuals do not explain signs"
+          "Enter because the driver who waved has given you priority",
+          "Wait until you can check all lanes that cross your path and there is a safe gap",
+          "Cross the lane you can see, then stop in that lane to look",
+          "Wait three seconds, then enter even if the next lane is still hidden"
         ],
         "answer": 1,
-        "explanation": "A useful practice round connects each sign to the safe action: stop, yield, merge, slow, watch, or avoid a prohibited movement."
+        "explanation": "The wave does not stop traffic in the next lane. A stopped car can hide a driver or a cyclist. Stay out of their path until you can check the lanes you need to cross and the gap is safe. Waiting a fixed number of seconds does not make a hidden lane clear.",
+        "source": {
+          "label": "PennDOT Driver Manual: looking to the sides at intersections",
+          "url": "https://www.pa.gov/agencies/dmv/driver-services/pennsylvania-drivers-manual/online-drivers-manual/everyday-driving-skills/managing-space"
+        }
       }
     ],
     "roadSignsChallenge": [

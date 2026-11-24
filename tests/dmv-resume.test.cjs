@@ -12,6 +12,17 @@ const resumeLink = "[data-recent-practice-link]";
 const recentKey = "tdt-recent-practice";
 const masteryKey = "tdt-dmv-mastery:v1";
 const starter = quizUrl + "?mode=road-signs-starter";
+const core = quizUrl + "?mode=road-signs-core";
+const revisedYieldIndex = 23;
+const retiredYield = [
+  "Why should permit-test practice include both sign meaning and driver action?",
+  "1", "A useful practice round connects each sign to the safe action: stop, yield, merge, slow, watch, or avoid a prohibited movement.",
+  "Test strategy", null, "image:yield",
+  "Because signs only matter on highways",
+  "Because test questions often ask what to do, not just what the sign is called",
+  "Because colors are never tested",
+  "Because state manuals do not explain signs",
+];
 let browser;
 before(async () => { browser = await chromium.launch({ channel: "chrome", headless: true }); });
 after(async () => { await browser?.close(); });
@@ -166,6 +177,53 @@ for (const width of [390, 1280]) {
 }
 
 for (const [width, version] of [[390, 1], [1280, 2]]) {
+  test(`${width}px: resume v${version} round but require a new answer to the original YIELD scenario`, () =>
+    withSite(width, async page => {
+      const quiz = active(page);
+      await page.goto(core + "#practice");
+      await answer(quiz, false);
+      const saved = await read(page, recentKey);
+      await page.evaluate(({ recentKey, saved, retiredYield, index, version }) => {
+        const previous = JSON.parse(saved.draft.signature);
+        previous[index] = retiredYield;
+        if (version === 1) previous.forEach(row => { row[5] = null; });
+        saved.draft.signature = JSON.stringify(previous);
+        saved.draft.version = version;
+        saved.draft.picks.push([index, 1]);
+        saved.draft.position = saved.draft.sequence.indexOf(index);
+        saved.answered = 2;
+        saved.correct = 1;
+        localStorage.setItem(recentKey, JSON.stringify(saved));
+      }, { recentKey, saved, retiredYield, version, index: revisedYieldIndex });
+      const stored = await read(page, recentKey);
+      const mastery = await read(page, masteryKey);
+      await page.goto(study);
+      await resume(page);
+      assert.equal(await progress(quiz), "1 of 40 answered");
+      assert.equal(await cursor(quiz), String(revisedYieldIndex));
+      assert.match(await quiz.locator("[data-quiz-next]").innerText(), /updated YIELD question needs a fresh answer/);
+      assert.match(await question(quiz).getByRole("heading").innerText(), /car hides the next lane/);
+      assert.equal(await question(quiz).locator("[data-choice]:enabled").count(), 4);
+      assert.equal(await question(quiz).locator("[data-quiz-source]").isVisible(), false);
+      assert.deepEqual(await read(page, recentKey), stored);
+      assert.deepEqual(await read(page, masteryKey), mastery);
+      assert.deepEqual(await milestones(page), []);
+      await question(quiz).getByRole("button", { name: /Wait until you can check all lanes/ }).press("Enter");
+      assert.equal(await progress(quiz), "2 of 40 answered");
+      assert.match(await question(quiz).locator(".feedback").innerText(), /^Correct\..*wave does not stop traffic/);
+      assert.match(await question(quiz).getByRole("link", { name: /PennDOT Driver Manual/ }).getAttribute("href"), /managing-space$/);
+      const shots = process.env.DMV_RESUME_SCREENSHOTS_DIR;
+      if (shots) {
+        fs.mkdirSync(shots, { recursive: true });
+        await question(quiz).screenshot({ path: path.join(shots, `yield-decision-${width}.png`) });
+      }
+      const current = await read(page, recentKey);
+      assert.equal(current.correct, 1);
+      assert.equal(current.missed, 1);
+      assert.notEqual(current.draft.signature, stored.draft.signature);
+      assert.deepEqual(await milestones(page), []);
+    }));
+
   test(`${width}px: editorial feedback changes preserve v${version} saved answers and show the revised reason`, async () =>
     withSite(width, async page => {
       const quiz = active(page);
@@ -200,6 +258,63 @@ for (const [width, version] of [[390, 1], [1280, 2]]) {
       assert.deepEqual(await read(page, masteryKey), mastery);
     }));
 }
+
+test("a retired strategy item no longer leaves a stale due count or review question", () =>
+  withSite(390, async page => {
+    await page.goto(core + "#practice");
+    await page.evaluate(({ masteryKey, retiredYield }) => {
+      const now = Date.now();
+      const id = ["general", retiredYield[0].toLowerCase(), retiredYield[7].toLowerCase()].join("|");
+      const record = {
+        state: "general", prompt: retiredYield[0], category: "Test strategy",
+        href: "road-signs-practice-test.html?mode=road-signs-core&focus=due#practice",
+        dueAt: now - 1, updatedAt: now - 100, misses: 1, attempts: 1,
+      };
+      localStorage.setItem(masteryKey, JSON.stringify({ items: { [id]: record } }));
+    }, { masteryKey, retiredYield });
+    const oldMastery = await read(page, masteryKey);
+    await page.goto(study);
+    assert.equal(await page.locator("[data-journey-due]").innerText(), "0 questions");
+    await page.goto(core + "&focus=due#practice");
+    assert.equal(await active(page).locator("[data-quiz-jump]").count(), 0);
+    assert.deepEqual(await read(page, masteryKey), oldMastery);
+  }));
+
+test("a due draft skips the retired item without completing or rewriting the old round", () =>
+  withSite(390, async page => {
+    const quiz = active(page);
+    await page.goto(core + "#practice");
+    await answer(quiz, false);
+    const dueKey = `${recentKey}:due`;
+    const duePath = "road-signs-practice-test.html?mode=road-signs-core&focus=due#practice";
+    const dueUrl = core + "&focus=due&resume=1#practice";
+    const saved = await read(page, recentKey);
+    const oldRows = JSON.parse(saved.draft.signature);
+    oldRows[revisedYieldIndex] = retiredYield;
+    saved.href = duePath;
+    saved.draft.signature = JSON.stringify(oldRows);
+    const firstPick = saved.draft.picks[0][0];
+    const another = [0, 1].find(index => index !== firstPick);
+    saved.draft.sequence = [firstPick, revisedYieldIndex, another];
+    saved.draft.position = 1;
+    saved.total = 3;
+    await page.evaluate(({ dueKey, saved }) => localStorage.setItem(dueKey, JSON.stringify(saved)), { dueKey, saved });
+    await page.goto(dueUrl);
+    assert.equal(await progress(quiz), "1 of 2 answered");
+    assert.equal(await cursor(quiz), String(another));
+    assert.match(await quiz.locator("[data-quiz-next]").innerText(), /retired YIELD item was left out/);
+    assert.deepEqual(await read(page, dueKey), saved);
+    assert.deepEqual(await milestones(page), []);
+
+    saved.draft.sequence.pop();
+    saved.total = 2;
+    await page.evaluate(({ dueKey, saved }) => localStorage.setItem(dueKey, JSON.stringify(saved)), { dueKey, saved });
+    await page.reload();
+    assert.equal(await quiz.locator(`[data-quiz-jump="${revisedYieldIndex}"]`).count(), 0);
+    await quiz.locator("[data-quiz-reset]").click();
+    assert.deepEqual(await read(page, dueKey), saved);
+    assert.deepEqual(await milestones(page), []);
+  }));
 
 for (const [width, original] of [[390, true], [1280, false]]) {
   test(`${width}px: restores answers and saved mistakes from ${original ? "before" : "after"} the text clue release`, () =>

@@ -196,6 +196,13 @@ const DMV_BASELINE_SIZE = 10;
 const DAY_MS = 86400000;
 const RECENT_PRACTICE_KEY = "tdt-recent-practice";
 const INDEPENDENT_DMV_FOCUSES = ["saved", "due", "baseline"];
+const RETIRED_YIELD_PROMPT = "Why should permit-test practice include both sign meaning and driver action?";
+const RETIRED_YIELD_CHOICES = [
+  "Because signs only matter on highways",
+  "Because test questions often ask what to do, not just what the sign is called",
+  "Because colors are never tested",
+  "Because state manuals do not explain signs",
+];
 
 const recentPracticeStorageKey = (focus) => INDEPENDENT_DMV_FOCUSES.includes(focus)
   ? `${RECENT_PRACTICE_KEY}:${focus}` : RECENT_PRACTICE_KEY;
@@ -303,7 +310,9 @@ function isDmvReviewDue(record, now) {
 function getDmvMasterySummary(state = "", mastery = readDmvMastery()) {
   const selectedState = normalizeDmvState(state);
   const now = Date.now();
-  const records = Object.entries(mastery.items).filter(([, item]) => {
+  const retiredYield = `general|${masteryToken(RETIRED_YIELD_PROMPT)}|${masteryToken(RETIRED_YIELD_CHOICES[1])}`;
+  const records = Object.entries(mastery.items).filter(([id, item]) => {
+    if (id === retiredYield) return false;
     const itemState = normalizeDmvState(item?.state);
     return !selectedState || itemState === selectedState || itemState === "general";
   });
@@ -766,22 +775,32 @@ function initQuizzes() {
         .map(button => button.textContent),
     ]));
 
-    const matchesRoundSignature = (saved, version) => {
+    const changedRoundQuestions = (saved, version) => {
       const current = roundSignature();
-      if (saved === current) return true;
-      if (typeof saved !== "string") return false;
+      if (saved === current) return new Set();
+      if (typeof saved !== "string") return null;
       try {
         const previous = JSON.parse(saved);
         const rows = JSON.parse(current);
-        // Feedback is rendered from the current question. Older v1 drafts may not record the image clue.
-        return Array.isArray(previous) && previous.length === rows.length && previous.every((row, index) =>
-          Array.isArray(row) && row.length === rows[index].length &&
-          row.every((value, field) => {
-            if (field === 2 || value === rows[index][field]) return true;
-            return field === 5 && ((version === 1 && value === null) || signIdentifiers(questions[index]).includes(value));
-          }));
+        if (!Array.isArray(previous) || previous.length !== rows.length) return null;
+        const changed = new Set();
+        for (const [index, row] of previous.entries()) {
+          if (!Array.isArray(row) || row.length !== rows[index].length) return null;
+          // v1 drafts may lack an image clue; explanations need not match to restore answers.
+          const sameSign = row[5] === rows[index][5] || (version === 1 && row[5] === null)
+            || signIdentifiers(questions[index]).includes(row[5]);
+          if (row.every((value, field) => field === 2 || (field === 5 ? sameSign : value === rows[index][field]))) continue;
+          // Carry over only drafts with the exact retired YIELD item. Its old answer is never regraded.
+          const retiredYield = supportsBaseline && sameSign && rows[index][5] === "image:yield"
+            && rows[index][3] === "Yielding in traffic" && row[4] === rows[index][4]
+            && row[0] === RETIRED_YIELD_PROMPT && row[1] === "1" && row[3] === "Test strategy"
+            && RETIRED_YIELD_CHOICES.every((choice, i) => row[i + 6] === choice);
+          if (!retiredYield) return null;
+          changed.add(index);
+        }
+        return changed;
       } catch (error) {
-        return false;
+        return null;
       }
     };
 
@@ -1322,9 +1341,9 @@ function initQuizzes() {
       const focus = filterSelect?.value || "all";
       const stored = readUnfinishedPractice(roundHref(focus), recentPracticeStorageKey(focus));
       const draft = stored?.progress.draft;
-      const canUseDraft = [1, 2].includes(draft?.version) && draft.scope === roundHref() &&
-        matchesRoundSignature(draft.signature, draft.version) && Array.isArray(draft.sequence) && Array.isArray(draft.picks);
-      if (canUseDraft) {
+      const changed = [1, 2].includes(draft?.version) && draft.scope === roundHref()
+        ? changedRoundQuestions(draft.signature, draft.version) : null;
+      if (changed && Array.isArray(draft.sequence) && Array.isArray(draft.picks)) {
         const sequence = new Set(draft.sequence);
         const picks = new Map();
         if (sequence.size === draft.sequence.length && draft.picks.length > 0 && draft.picks.length < sequence.size &&
@@ -1339,25 +1358,37 @@ function initQuizzes() {
             picks.set(index, button);
           }
           if (picks.size === draft.picks.length) {
-            ownedDraftSnapshot = JSON.stringify(stored.progress);
-            ownedDraftKey = stored.key;
-            activeSequence = draft.sequence;
-            if (activeSequence.length === questions.length) fullSequence = activeSequence;
-            activePosition = draft.position;
-            keepFullProgress = focus === "all";
-            // Restore the saved display without replaying answered-question side effects.
-            picks.forEach((button, index) => showCheckedAnswer(index, button));
-            quizStartedTracked = true;
-            quizHalfwayTracked = draft.halfway === true || picks.size >= Math.ceil(sequence.size / 2);
-            tenQuestionsTracked = draft.ten === true || picks.size >= 10;
-            quizCompletedTracked = draft.completed === true;
-            if (typeof draft.focusedRoundId === "string" && /^[a-f0-9]{32}$/.test(draft.focusedRoundId)) {
-              savedRound = { id: draft.focusedRoundId, fullRound: false };
+            const recheck = draft.sequence.some(index => changed.has(index));
+            changed.forEach(index => picks.delete(index));
+            // A retired item does not put its replacement into an existing due or missed-only set.
+            const restoredSequence = ["due", "saved"].includes(focus)
+              ? draft.sequence.filter(index => !changed.has(index)) : draft.sequence;
+            if (restoredSequence.length && picks.size < restoredSequence.length) {
+              ownedDraftSnapshot = JSON.stringify(stored.progress);
+              ownedDraftKey = stored.key;
+              activeSequence = restoredSequence;
+              if (activeSequence.length === questions.length) fullSequence = activeSequence;
+              const restoredPosition = activeSequence.indexOf(draft.sequence[draft.position]);
+              activePosition = restoredPosition < 0 ? activeSequence.findIndex(index => !picks.has(index)) : restoredPosition;
+              keepFullProgress = focus === "all";
+              // Restore the saved display without replaying answered-question side effects.
+              picks.forEach((button, index) => showCheckedAnswer(index, button));
+              quizStartedTracked = true;
+              quizHalfwayTracked = draft.halfway === true || picks.size >= Math.ceil(activeSequence.length / 2);
+              tenQuestionsTracked = draft.ten === true || picks.size >= 10;
+              quizCompletedTracked = draft.completed === true;
+              if (typeof draft.focusedRoundId === "string" && /^[a-f0-9]{32}$/.test(draft.focusedRoundId)) {
+                savedRound = { id: draft.focusedRoundId, fullRound: false };
+              }
+              toolMessage = recheck
+                ? ["due", "saved"].includes(focus)
+                  ? "Unfinished review restored. The retired YIELD item was left out."
+                  : "Unfinished round restored. The updated YIELD question needs a fresh answer."
+                : "Unfinished round restored from this browser.";
+              renderScore({ restoring: true });
+              renderActiveQuestion();
+              return;
             }
-            toolMessage = "Unfinished round restored from this browser.";
-            renderScore();
-            renderActiveQuestion();
-            return;
           }
         }
       }
