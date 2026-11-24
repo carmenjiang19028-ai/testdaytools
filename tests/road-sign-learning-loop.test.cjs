@@ -62,6 +62,15 @@ for (const width of [320, 1280]) {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
       const practice = section.getByRole('link', { name: 'Practice the lane and direction signs' });
       assert.match(await practice.getAttribute('href'), /mode=regulatory-signs-core&focus=Lane\+and\+direction\+signs/);
+      const sourceLinks = await section.locator('.contrast-source a').evaluateAll(links =>
+        links.map(link => [link.textContent, link.getAttribute('href')]));
+      const chapter = 'https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf';
+      assert.deepEqual(sourceLinks, [
+        ['KEEP RIGHT drawing (Figure 2B-10)', `${chapter}#page=39`],
+        ['KEEP RIGHT use (Section 2B.39)', `${chapter}#page=38`],
+        ['ONE WAY drawing (Figure 2B-13)', `${chapter}#page=45`],
+        ['ONE WAY use (Section 2B.49)', `${chapter}#page=50`],
+      ]);
       if (process.env.VERIFY_SCREENSHOTS_DIR) {
         fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
         await section.screenshot({ path: path.join(process.env.VERIFY_SCREENSHOTS_DIR, `direction-decision-${width}.png`) });

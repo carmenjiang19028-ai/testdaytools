@@ -390,7 +390,7 @@ def render_direction_sign_comparison():
       <p><a href="regulatory-traffic-signs-practice-test.html?mode=regulatory-signs-core&amp;focus=Lane+and+direction+signs#practice">Practice the lane and direction signs</a></p>
     </div>
   </div>
-  <p class="contrast-source">Source: FHWA MUTCD <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=39">Figure 2B-10 and Section 2B.39 (KEEP RIGHT)</a>, and <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=45">Figure 2B-13 and Section 2B.49 (ONE WAY)</a>. Original teaching situations, not official test questions.</p>
+  <p class="contrast-source">FHWA MUTCD: <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=39">KEEP RIGHT drawing (Figure 2B-10)</a> and <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=38">KEEP RIGHT use (Section 2B.39)</a>; <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=45">ONE WAY drawing (Figure 2B-13)</a> and <a href="https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2br1.pdf#page=50">ONE WAY use (Section 2B.49)</a>. Original teaching situations, not official test questions.</p>
 </section>'''
 
 

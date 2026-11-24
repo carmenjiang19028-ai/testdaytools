@@ -89,8 +89,8 @@
         "alt": "Yellow diamond: a straight upward arrow and an arrow bending in from the right stay separated by a line that becomes dashed.",
         "heading": "Does the ramp traffic get its own lane?",
         "answerLabel": "Check the sign and the decision",
-        "sourceLabel": "FHWA MUTCD Figure 2C-11 and Section 2C.46",
-        "sourceUrl": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=38"
+        "sourceLabel": "FHWA MUTCD Section 2C.46: Added Lane",
+        "sourceUrl": "https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=39"
       },
       "transfer": "You are in the right lane of the main road. A ramp approaches from the right. In this sign, do the two paths join into one arrow, or does each keep its own path? Does the sign call for an immediate lane change?",
       "explanation": "This is Added Lane. The two arrows stay separate, so ramp traffic gets its own lane where the roadways meet. No merge or lane change is needed at that point just because the ramp joins. Stay alert to nearby traffic and follow the actual markings. Compare Merge, where a branch joins one arrow, and Lane Ends, where the space between the lane boundaries narrows.",

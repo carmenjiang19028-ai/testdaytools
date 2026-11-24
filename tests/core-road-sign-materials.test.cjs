@@ -1118,7 +1118,9 @@ for (const width of [1280, 390]) {
       await transfer.locator('summary').press('Enter');
       assert.equal(await explanation.isVisible(), true);
       assert.match(await explanation.textContent(), /gets its own lane.*No merge or lane change.*Compare Merge.*Lane Ends/);
-      assert.equal(await transfer.getByRole('link').getAttribute('href'), 'https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=38');
+      const source = transfer.getByRole('link', { name: 'FHWA MUTCD Section 2C.46: Added Lane' });
+      assert.equal(await source.count(), 1);
+      assert.equal(await source.getAttribute('href'), 'https://mutcd.fhwa.dot.gov/pdfs/11th_Editionr1/Chapter2cr1.pdf#page=39');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       if (process.env.VERIFY_SCREENSHOTS_DIR) {
         fs.mkdirSync(process.env.VERIFY_SCREENSHOTS_DIR, { recursive: true });
